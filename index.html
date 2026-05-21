@@ -1,100 +1,389 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ぬるぬる.com</title>
-  <link rel="icon" href="favicon.png" type="image/png">
-  <style>
-    body {
-      font-family: 'Noto Sans JP', sans-serif;
-      background-color: #f5f7fa;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube クロン</title>
+    <style>
+        /* ==========================================
+           共通の基本設定（ダークモードベース）
+        ========================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Roboto", "Arial", sans-serif;
+        }
 
-    .card {
-      background: #fff;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      border-radius: 16px;
-      padding: 40px;
-      max-width: 420px;
-      text-align: center;
-      transition: 0.3s;
-    }
+        body {
+            background-color: #0f0f0f;
+            color: #ffffff;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 24px rgba(0,0,0,0.15);
-    }
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: currentColor;
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+            -webkit-mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+        }
 
-    img.avatar {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 20px;
-    }
+        /* ==========================================
+           ★ 再生リスト部分の共通スタイル
+           （ここを整理して増やしやすくしました）
+        ========================================== */
+        .playlist-card {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
 
-    h1 {
-      margin: 0;
-      font-size: 1.6rem;
-      color: #333;
-    }
+        /* サムネイル画像のコンテナ */
+        .thumbnail-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #272727;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
 
-    p.title {
-      color: #666;
-      margin-top: 6px;
-      font-size: 0.95rem;
-    }
+        /* 本物の画像が入る設定 */
+        .thumbnail-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 縦横比を崩さずに枠いっぱいに表示 */
+            display: block;
+        }
 
-    .social {
-      margin-top: 20px;
-    }
+        /* 動画本数バッジ */
+        .video-count-badge {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
-    .social a {
-      text-decoration: none;
-      color: #0078ff;
-      margin: 0 8px;
-      font-size: 1.2rem;
-      transition: color 0.3s;
-    }
+        /* テキスト・説明文エリア */
+        .playlist-info h3 {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.4;
+            margin-bottom: 4px;
+            color: #fff;
+        }
 
-    .social a:hover {
-      color: #0047b3;
-    }
+        .playlist-info p {
+            font-size: 12px;
+            color: #aaa;
+            line-height: 1.4;
+        }
 
-    footer {
-      font-size: 0.8rem;
-      color: #aaa;
-      margin-top: 25px;
-    }
-  </style>
+        .view-all-link {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 6px;
+            display: inline-block;
+        }
+        .view-all-link:hover {
+            color: #fff;
+        }
+
+        /* ==========================================
+           1. スマートフォン用レイアウト (デフォルト)
+        ========================================== */
+        @media (max-width: 767px) {
+            .pc-header, .pc-sidebar { display: none; }
+
+            .sp-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px 16px;
+                position: sticky;
+                top: 0;
+                background-color: #0f0f0f;
+                z-index: 100;
+            }
+            .sp-account-selector {
+                background: #212121;
+                padding: 6px 12px;
+                border-radius: 18px;
+                font-size: 14px;
+                font-weight: bold;
+            }
+            .sp-header-icons { display: flex; gap: 18px; align-items: center; }
+            .badge-icon { position: relative; }
+            .badge {
+                position: absolute; top: -4px; right: -4px; background: #cc0000;
+                color: white; font-size: 10px; padding: 2px 5px; border-radius: 10px;
+            }
+
+            .sp-profile-section { display: flex; align-items: center; padding: 16px; gap: 16px; }
+            .sp-avatar {
+                width: 64px; height: 64px; background: #5f8492; border-radius: 50%;
+                display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold;
+            }
+            .sp-profile-info h1 { font-size: 24px; margin-bottom: 4px; }
+            .sp-profile-info p { color: #aaa; font-size: 13px; }
+
+            .playlist-section { padding: 16px; }
+            .section-title-wrap { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+            .section-title { font-size: 18px; font-weight: bold; }
+
+            /* スマホ時は横スクロール */
+            .playlist-grid {
+                display: flex;
+                gap: 12px;
+                overflow-x: auto;
+                padding-bottom: 8px;
+            }
+            .playlist-grid::-webkit-scrollbar { display: none; }
+            .playlist-card { flex: 0 0 160px; }
+            .thumbnail-container { border-radius: 8px; }
+            .playlist-info h3 { font-size: 13px; font-weight: normal; }
+            .playlist-info p { font-size: 11px; }
+
+            .sp-menu-list { margin-top: 8px; border-top: 1px solid #272727; }
+            .sp-menu-item { display: flex; align-items: center; gap: 16px; padding: 14px 16px; font-size: 14px; }
+
+            .sp-bottom-nav {
+                position: fixed; bottom: 0; left: 0; width: 100%; background: #0f0f0f;
+                border-top: 1px solid #272727; display: flex; justify-content: space-around;
+                padding: 6px 0 calc(6px + env(safe-area-inset-bottom)); z-index: 100;
+            }
+            .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: #aaa; text-decoration: none; gap: 4px; }
+            .nav-item.active { color: #fff; }
+            .nav-item-center { font-size: 32px; color: #fff; display: flex; align-items: center; justify-content: center; }
+            body { padding-bottom: 70px; }
+        }
+
+        /* ==========================================
+           2. PC用レイアウト (デスクトップ版)
+        ========================================== */
+        @media (min-width: 768px) {
+            .sp-header, .sp-profile-section, .sp-bottom-nav, .sp-menu-list { display: none; }
+
+            .pc-container {
+                display: grid;
+                grid-template-columns: 240px 1fr;
+                grid-template-rows: 56px 1fr;
+                grid-template-areas: "header header" "sidebar main";
+                height: 100vh;
+            }
+
+            .pc-header {
+                grid-area: header; background: #0f0f0f; display: flex;
+                justify-content: space-between; align-items: center; padding: 0 16px;
+                position: sticky; top: 0; z-index: 100;
+            }
+            .pc-header-left { display: flex; align-items: center; gap: 16px; }
+            .pc-logo { font-size: 20px; font-weight: bold; display: flex; align-items: center; gap: 4px; }
+            .pc-logo span { font-size: 10px; color: #aaa; margin-top: 4px; }
+            .pc-header-center { display: flex; align-items: center; gap: 16px; flex: 0 1 600px; }
+            .search-box-wrap {
+                display: flex; width: 100%; background: #121212; border: 1px solid #303030;
+                border-radius: 40px 0 0 40px; padding: 0 16px; height: 40px; align-items: center;
+            }
+            .search-box-wrap input { background: transparent; border: none; color: #fff; width: 100%; font-size: 16px; outline: none; }
+            .search-btn { background: #222; border: 1px solid #303030; border-left: none; border-radius: 0 40px 40px 0; width: 64px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+            .mic-btn { background: #272727; border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; color: #fff; }
+            .pc-header-right { display: flex; align-items: center; gap: 16px; }
+            .pc-create-btn { background: #272727; padding: 8px 16px; border-radius: 18px; font-size: 14px; font-weight: bold; display: flex; align-items: center; gap: 6px; }
+            .pc-avatar-btn { width: 32px; height: 32px; background: #c0007a; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; }
+
+            .pc-sidebar { grid-area: sidebar; background: #0f0f0f; padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+            .sidebar-item { display: flex; align-items: center; gap: 24px; padding: 10px 12px; border-radius: 10px; text-decoration: none; color: #fff; font-size: 14px; }
+            .sidebar-item.active { background: #272727; font-weight: bold; }
+            .sidebar-item:hover { background: #212121; }
+
+            .pc-main { grid-area: main; overflow-y: auto; padding: 24px 48px; }
+
+            .pc-profile-header { display: flex; align-items: center; gap: 24px; margin-bottom: 32px; }
+            .pc-main-avatar { width: 128px; height: 128px; background: #c0007a; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 48px; font-weight: bold; }
+            .pc-main-profile-info h1 { font-size: 36px; font-weight: bold; margin-bottom: 8px; }
+            .pc-main-profile-info p { font-size: 14px; color: #aaa; margin-bottom: 16px; }
+            .pc-profile-buttons { display: flex; gap: 8px; }
+            .pc-btn { background: #272727; color: #fff; border: none; padding: 8px 16px; border-radius: 18px; font-size: 14px; font-weight: bold; cursor: pointer; }
+            .pc-btn:hover { background: #3f3f3f; }
+
+            .section-title-wrap { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; border-bottom: 1px solid #303030; padding-bottom: 16px; }
+            .section-title { font-size: 20px; font-weight: bold; }
+            .pc-controls { display: flex; gap: 4px; margin-left: auto; }
+            .control-btn { background: transparent; border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+            .control-btn:hover { background: #272727; }
+
+            /* PC時はタイル状に綺麗に並ぶ（何個増えても自動で折り返します） */
+            .playlist-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 24px 16px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <div class="card">
-    <img src="B2E09C0B-B521-477F-BCEA-BCD13FA40DBC.png" alt="avatar" class="avatar">
-    <h1>蒼井</h1>
-    <p class="title">ヤニカスサケカス<br>PGなり損ない</p>
+    <header class="sp-header">
+        <div class="sp-account-selector">アカウント <span>▼</span></div>
+        <div class="sp-header-icons">
+            <div class="badge-icon">
+                <span class="icon" style="background: #fff; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><path d=\'M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9\'/><path d=\'M13.73 21a2 2 0 0 1-3.46 0\'/></svg>');"></span>
+                <span class="badge">2</span>
+            </div>
+            <span class="icon" style="background: #fff; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><circle cx=\'11\' cy=\'11\' r=\'8\'/><line x1=\'21\' y1=\'21\' x2=\'16.65\' y2=\'16.65\'/></svg>');"></span>
+            <span class="icon" style="background: #fff; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><circle cx=\'12\' cy=\'12\' r=\'3\'/><path d=\'M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z\'/></svg>');"></span>
+        </div>
+    </header>
 
-    <div class="social">
-      <a href="https://github.com/aoi-r" target="_blank">GitHub</a>
-      <a href="mailto:testidx00.20@gmail.com">Mail</a>
+    <section class="sp-profile-section">
+        <div class="sp-avatar">蒼</div>
+        <div class="sp-profile-info">
+            <h1>蒼井</h1>
+            <p>@蒼井-l8d ・ チャンネルを表示 ＞</p>
+        </div>
+    </section>
+
+    <div class="pc-container">
+        <header class="pc-header">
+            <div class="pc-header-left">
+                <span class="icon" style="background: #fff; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><line x1=\'3\' y1=\'12\' x2=\'21\' y2=\'12\'/><line x1=\'3\' y1=\'6\' x2=\'21\' y2=\'6\'/><line x1=\'3\' y1=\'18\' x2=\'21\' y2=\'18\'/></svg>'); cursor:pointer;"></span>
+                <div class="pc-logo">RinTube <span>JP</span></div>
+            </div>
+            <div class="pc-header-center">
+                <div class="search-box-wrap">
+                    <input type="text" placeholder="検索" value="">
+                    <span style="color:#aaa; cursor:pointer;">✕</span>
+                </div>
+                <button class="search-btn">
+                    <span class="icon" style="background: #fff; width:18px; height:18px; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><circle cx=\'11\' cy=\'11\' r=\'8\'/><line x1=\'21\' y1=\'21\' x2=\'16.65\' y2=\'16.65\'/></svg>');"></span>
+                </button>
+                <button class="mic-btn">
+                    <span class="icon" style="background: #fff; width:18px; height:18px; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><path d=\'M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z\'/><path d=\'M19 10v1a7 7 0 0 1-14 0v-1\'/><line x1=\'12\' y1=\'19\' x2=\'12\' y2=\'22\'/></svg>');"></span>
+                </button>
+            </div>
+            <div class="pc-header-right">
+                <div class="pc-create-btn"><span>＋</span> 作成</div>
+                <span class="icon" style="background: #fff; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><path d=\'M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9\'/><path d=\'M13.73 21a2 2 0 0 1-3.46 0\'/></svg>');"></span>
+                <div class="pc-avatar-btn">蒼井</div>
+            </div>
+        </header>
+
+        <aside class="pc-sidebar">
+            <a href="#" class="sidebar-item"><span class="icon" style="background: #fff; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><path d=\'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\'/><polyline points=\'9 22 9 12 15 12 15 22\'/></svg>');"></span>ホーム</a>
+            <a href="#" class="sidebar-item"><span class="icon" style="background: #fff; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><polyline points=\'22 12 18 12 15 21 9 3 6 12 2 12\'/></svg>');"></span>ショート</a>
+            <a href="#" class="sidebar-item"><span class="icon" style="background: #fff; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><path d=\'M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z\'/><polygon points=\'9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02\'/></svg>');"></span>登録チャンネル</a>
+            <hr style="border: none; border-top: 1px solid #303030; margin: 8px 0;">
+            <a href="#" class="sidebar-item active"><span class="icon" style="background: #fff; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><path d=\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\'/><circle cx=\'12\' cy=\'7\' r=\'4\'/></svg>');"></span>マイページ</a>
+        </aside>
+
+        <main class="pc-main">
+            <div class="pc-profile-header">
+                <div class="pc-main-avatar">蒼井</div>
+                <div class="pc-main-profile-info">
+                    <h1>蒼井凛</h1>
+                    <p>チャンネルを作成</p>
+                    <div class="pc-profile-buttons">
+                        <button class="pc-btn">アカウントを切り替える</button>
+                        <button class="pc-btn">Google アカウント</button>
+                    </div>
+                </div>
+            </div>
+
+            <section class="playlist-section">
+                <div class="section-title-wrap">
+                    <h2 class="section-title">再生リスト <span class="sp-only">＞</span></h2>
+                    <div class="pc-controls">
+                        <button class="pc-btn" style="border-radius: 20px; padding: 0 16px; height: 36px;">すべて表示</button>
+                        <button class="control-btn">＜</button>
+                        <button class="control-btn">＞</button>
+                    </div>
+                    <span class="plus-icon sp-only">＋</span>
+                </div>
+
+                <div class="playlist-grid">
+                    
+                    <div class="playlist-card">
+                        <div class="thumbnail-container">
+                            <img class="thumbnail-img" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&q=80" alt="海">
+                            <div class="video-count-badge">
+                                <span class="icon" style="background: #fff; width:12px; height:12px; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><line x1=\'8\' y1=\'6\' x2=\'21\' y2=\'6\'/><line x1=\'8\' y1=\'12\' x2=\'21\' y2=\'12\'/><line x1=\'8\' y1=\'18\' x2=\'21\' y2=\'18\'/></svg>');"></span>
+                                <span>140</span>
+                            </div>
+                        </div>
+                        <div class="playlist-info">
+                            <h3>GitHub Page</h3>
+                            <p>大したものは入ってません</p>
+                        </div>
+                        <a href="https://github.com/aoi-r" class="view-all-link pc-only">再生リストの全体を見る</a>
+                    </div>
+                    <div class="playlist-card">
+                        <div class="thumbnail-container">
+                            <img class="thumbnail-img" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&q=80" alt="ライブ">
+                            <div class="video-count-badge">
+                                <span class="icon" style="background: #fff; width:12px; height:12px; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><path d=\'M14 9V5a3 3 0 0 0-3 3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3\'/></svg>');"></span>
+                                <span>34</span>
+                            </div>
+                        </div>
+                        <div class="playlist-info">
+                            <h3>Contact</h3>
+                            <p>あんまり気づきません</p>
+                        </div>
+                        <a href="mailto:github.com.aoi@gmail.com" class="view-all-link pc-only">再生リストの全体を見る</a>
+                    </div>
+                    <div class="playlist-card">
+                        <div class="thumbnail-container">
+                            <img class="thumbnail-img" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&q=80" alt="PC">
+                            <div class="video-count-badge">
+                                <span class="icon" style="background: #fff; width:12px; height:12px; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><circle cx=\'12\' cy=\'12\' r=\'10\'/><polyline points=\'12 6 12 12 16 14\'/></svg>');"></span>
+                                <span>4</span>
+                            </div>
+                        </div>
+                        <div class="playlist-info">
+                            <h3>後で見る</h3>
+                            <p>非公開 ・ あとでゆっくり見たい動画のリスト</p>
+                        </div>
+                        <a href="#" class="view-all-link pc-only">再生リストの全体を見る</a>
+                    </div>
+                    </div>
+            </section>
+
+            <div class="sp-menu-list">
+                <div class="sp-menu-item"><span class="icon" style="background: #fff; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><polygon points=\'23 7 16 12 23 17 23 7\'/><rect x=\'1\' y=\'5\' width=\'15\' height=\'14\' rx=\'2\' ry=\'2\'/></svg>');"></span>作成した動画</div>
+                <div class="sp-menu-item"><span class="icon" style="background: #fff; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><rect x=\'2\' y=\'2\' width=\'20\' height=\'20\' rx=\'2.18\' ry=\'2.18\'/><line x1=\'7\' y1=\'2\' x2=\'7\' y2=\'22\'/><line x1=\'17\' y1=\'2\' x2=\'17\' y2=\'22\'/><line x1=\'2\' y1=\'12\' x2=\'22\' y2=\'12\'/><line x1=\'2\' y1=\'7\' x2=\'7\' y2=\'7\'/><line x1=\'2\' y1=\'17\' x2=\'7\' y2=\'17\'/><line x1=\'17\' y1=\'17\' x2=\'22\' y2=\'17\'/><line x1=\'17\' y1=\'7\' x2=\'22\' y2=\'7\'/></svg>');"></span>映画とテレビ番組</div>
+            </div>
+        </main>
     </div>
 
-    <footer>hogehoge.com</footer>
-  </div>
+    <nav class="sp-bottom-nav">
+        <a href="#" class="nav-item"><span class="icon" style="background: #aaa; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><path d=\'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\'/></svg>');"></span>ホーム</a>
+        <a href="#" class="nav-item"><span class="icon" style="background: #aaa; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><polyline points=\'22 12 18 12 15 21 9 3 6 12 2 12\'/></svg>');"></span>ショート</a>
+        <a href="#" class="nav-item-center">＋</a>
+        <a href="#" class="nav-item"><span class="icon" style="background: #aaa; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><rect x=\'2\' y=\'2\' width=\'20\' height=\'20\' rx=\'2\' ry=\'2\'/></svg>');"></span>登録チャンネル</a>
+        <a href="#" class="nav-item active">
+            <div style="width:24px; height:24px; background:#5f8492; border-radius:50%; font-size:9px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold;">蒼</div>
+            マイページ
+        </a>
+    </nav>
 
-  <script>
-    const name = prompt();
-    if(name !== 'aaa'){
-      window.location.href = 'https://www.google.com/';
-    }
-  </script>
-  
+    <style>
+        @media (max-width: 767px) { .pc-only { display: none !important; } }
+        @media (min-width: 768px) { .sp-only { display: none !important; } }
+    </style>
 </body>
 </html>
