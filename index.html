@@ -36,12 +36,14 @@
 
         /* ==========================================
            ★ 再生リスト部分の共通スタイル
-           （ここを整理して増やしやすくしました）
         ========================================== */
+        /* カード全体をリンク(a)にしたため、テキスト装飾をリセット */
         .playlist-card {
             cursor: pointer;
             display: flex;
             flex-direction: column;
+            text-decoration: none;
+            color: inherit;
         }
 
         /* サムネイル画像のコンテナ */
@@ -59,7 +61,7 @@
         .thumbnail-img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* 縦横比を崩さずに枠いっぱいに表示 */
+            object-fit: cover;
             display: block;
         }
 
@@ -75,6 +77,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            color: #fff;
         }
 
         /* テキスト・説明文エリア */
@@ -100,7 +103,7 @@
             margin-top: 6px;
             display: inline-block;
         }
-        .view-all-link:hover {
+        .playlist-card:hover .view-all-link {
             color: #fff;
         }
 
@@ -228,7 +231,7 @@
             .control-btn { background: transparent; border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
             .control-btn:hover { background: #272727; }
 
-            /* PC時はタイル状に綺麗に並ぶ（何個増えても自動で折り返します） */
+            /* PC時はタイル状に綺麗に並ぶ */
             .playlist-grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -318,7 +321,7 @@
 
                 <div class="playlist-grid">
                     
-                    <div class="playlist-card">
+                    <a href="https://github.com/aoi-r" class="playlist-card">
                         <div class="thumbnail-container">
                             <img class="thumbnail-img" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&q=80" alt="海">
                             <div class="video-count-badge">
@@ -330,9 +333,10 @@
                             <h3>GitHub Page</h3>
                             <p>大したものは入ってません</p>
                         </div>
-                        <a href="https://github.com/aoi-r" class="view-all-link pc-only">再生リストの全体を見る</a>
-                    </div>
-                    <div class="playlist-card">
+                        <span class="view-all-link pc-only">再生リストの全体を見る</span>
+                    </a>
+
+                    <a href="mailto:github.com.aoi@gmail.com" class="playlist-card">
                         <div class="thumbnail-container">
                             <img class="thumbnail-img" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&q=80" alt="ライブ">
                             <div class="video-count-badge">
@@ -344,9 +348,10 @@
                             <h3>Contact</h3>
                             <p>あんまり気づきません</p>
                         </div>
-                        <a href="mailto:github.com.aoi@gmail.com" class="view-all-link pc-only">再生リストの全体を見る</a>
-                    </div>
-                    <div class="playlist-card">
+                        <span class="view-all-link pc-only">再生リストの全体を見る</span>
+                    </a>
+
+                    <a href="https://www.instagram.com/takiwaki_shoko_/?hl=ja" class="playlist-card">
                         <div class="thumbnail-container">
                             <img class="thumbnail-img" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&q=80" alt="PC">
                             <div class="video-count-badge">
@@ -355,12 +360,52 @@
                             </div>
                         </div>
                         <div class="playlist-info">
-                            <h3>後で見る</h3>
-                            <p>非公開 ・ あとでゆっくり見たい動画のリスト</p>
+                            <h3>推し</h3>
+                            <p>眺めるようリンク</p>
                         </div>
-                        <a href="#" class="view-all-link pc-only">再生リストの全体を見る</a>
-                    </div>
-                    </div>
+                        <span class="view-all-link pc-only">再生リストの全体を見る</span>
+                    </a>
+
+
+
+
+
+
+<!-----------------------------------------------------------------------------------------
+			<a href="★ここに飛ばしたいリンクURL" class="playlist-card">
+    <div class="thumbnail-container">
+        <img class="thumbnail-img" src="ここに画像URL" alt="画像名">
+        <div class="video-count-badge">
+            <span class="icon" style="..."></span>
+            <span>4</span>
+        </div>
+    </div>
+    <div class="playlist-info">
+        <h3>ここにタイトル</h3>
+        <p>ここに説明文</p>
+    </div>
+    <span class="view-all-link pc-only">再生リストの全体を見る</span>
+</a>
+
+
+
+
+
+----------------------------------------------------------------------------------------->
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
             </section>
 
             <div class="sp-menu-list">
@@ -373,7 +418,7 @@
     <nav class="sp-bottom-nav">
         <a href="#" class="nav-item"><span class="icon" style="background: #aaa; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><path d=\'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\'/></svg>');"></span>ホーム</a>
         <a href="#" class="nav-item"><span class="icon" style="background: #aaa; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><polyline points=\'22 12 18 12 15 21 9 3 6 12 2 12\'/></svg>');"></span>ショート</a>
-        <a href="#" class="nav-item-center"> 　＋</a>
+        <a href="#" class="nav-item-center">＋</a>
         <a href="#" class="nav-item"><span class="icon" style="background: #aaa; -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'white\' stroke-width=\'2\'><rect x=\'2\' y=\'2\' width=\'20\' height=\'20\' rx=\'2\' ry=\'2\'/></svg>');"></span>登録チャンネル</a>
         <a href="#" class="nav-item active">
             <div style="width:24px; height:24px; background:#5f8492; border-radius:50%; font-size:9px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold;">蒼</div>
