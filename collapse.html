@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>collapse</title>
+    <style>
+        :root {
+            --bg-color: #d29a5c;
+            --bubble-bg: rgba(255, 255, 255, 0.25);
+            --bubble-border: rgba(255, 255, 255, 0.6);
+            --text-gold: #f6e58d;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: white;
+            font-family: 'Arial Rounded MT Bold', 'Helvetica Neue', sans-serif;
+            overflow: hidden;
+            user-select: none;
+            touch-action: none;
+        }
+
+        /* --- 上部UIレイアウト（中央に綺麗に並ぶよう調整） --- */
+        #ui-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 20px;
+            width: 450px;
+        }
+        .bubble-box {
+            background: var(--bubble-bg);
+            border: 2px solid var(--bubble-border);
+            border-radius: 50%;
+            width: 86px;
+            height: 86px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 4px 8px rgba(255,255,255,0.4), 0 4px 10px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        .bubble-box .label {
+            font-size: 11px;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            margin-bottom: 2px;
+        }
+        .bubble-box .value {
+            font-size: 20px;
+            color: var(--text-gold);
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+        }
+        
+        /* ネクスト表示用の丸 */
+        #next-preview {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.5), 0 2px 4px rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
+
+        /* --- ゲームエリア設定 --- */
+        #game-container {
+            position: relative;
+            width: 450px;
+            height: 650px;
+        }
+
+        /* 追従するかわいい雲のキャラクター */
+        #cloud-character {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 42px;
+            background: #fffef0;
+            border-radius: 20px;
+            pointer-events: none;
+            z-index: 3;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #cloud-character::before, #cloud-character::after {
+            content: '';
+            position: absolute;
+            background: #fffef0;
+            border-radius: 50%;
+        }
+        #cloud-character::before { width: 35px; height: 35px; top: -15px; left: 12px; }
+        #cloud-character::after { width: 28px; height: 28px; top: -10px; right: 12px; }
+        #cloud-face {
+            position: relative;
+            font-size: 11px;
+            color: #ff9ff3;
+            font-weight: bold;
+            z-index: 4;
+            margin-top: -2px;
+        }
+
+        /* --- ゲームオーバー画面 --- */
+        #game-over-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(99, 64, 23, 0.85);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 10;
+        }
+        #game-over-screen.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #game-over-screen h2 {
+            font-size: 42px;
+            color: #fff;
+            margin: 0 0 10px 0;
+            text-shadow: 0px 4px 8px rgba(0,0,0,0.4);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #game-over-screen p {
+            font-size: 20px;
+            margin: 0 0 30px 0;
+            color: var(--text-gold);
+            font-weight: bold;
+        }
+        #restart-btn {
+            background: #ff7675;
+            color: white;
+            border: 3px solid #fff;
+            padding: 12px 36px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+        #restart-btn:hover {
+            transform: scale(1.05);
+        }
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+</head>
+<body>
+
+    <div id="ui-container">
+        <div class="bubble-box">
+            <div class="label">スコア</div>
+            <div class="value" id="score">0</div>
+        </div>
+        <div class="bubble-box">
+            <div class="label">ネクスト</div>
+            <div id="next-preview"></div>
+        </div>
+    </div>
+    
+    <div id="game-container">
+        <div id="cloud-character"><div id="cloud-face"></div></div>
+
+        <div id="game-over-screen">
+            <h2>GAME OVER</h2>
+            <p>SCORE: <span id="final-score">0</span></p>
+            <button id="restart-btn">つぎへ</button>
+        </div>
+    </div>
+
+<script>
+const { Engine, Render, Runner, Bodies, Composite, Body, Events } = Matter;
+
+const WIDTH = 450;
+const HEIGHT = 650;
+const DEAD_LINE_Y = 160; 
+
+let engine, render, runner;
+let score = 0;
+let currentFruit = null;
+let nextFruitIndex = 0;
+let isReady = false;
+let isGameOver = false;
+let fruitTimers = new Map();
+
+const FRUIT_TYPES = [
+    { level: 0, radius: 16, color: '#ff3838', score: 1 },  
+    { level: 1, radius: 24, color: '#ff7675', score: 2 },  
+    { level: 2, radius: 32, color: '#a55eea', score: 4 },  
+    { level: 3, radius: 40, color: '#ff9f43', score: 8 },  
+    { level: 4, radius: 52, color: '#ffa801', score: 16 }, 
+    { level: 5, radius: 64, color: '#ff4757', score: 32 }, 
+    { level: 6, radius: 76, color: '#fed330', score: 64 }, 
+    { level: 7, radius: 90, color: '#ff6b81', score: 128 },
+    { level: 8, radius: 105, color: '#26de81', score: 256 },
+    { level: 9, radius: 125, color: '#20bf6b', score: 512 },
+    { level: 10, radius: 145, color: '#05c46b', score: 1024 }
+];
+
+const container = document.getElementById('game-container');
+engine = Engine.create({ gravity: { y: 1.2 } });
+
+render = Render.create({
+    element: container,
+    engine: engine,
+    options: {
+        width: WIDTH,
+        height: HEIGHT,
+        wireframes: false,
+        background: 'transparent' 
+    }
+});
+Render.run(render);
+
+runner = Runner.create();
+Runner.run(runner, engine);
+
+// --- 背景・容器・ガイド線のカスタム描画 ---
+Events.on(render, 'afterRender', () => {
+    const context = render.context;
+
+    // 1. ガラス容器の背景描画
+    context.fillStyle = 'rgba(255, 243, 215, 0.35)';
+    context.fillRect(20, DEAD_LINE_Y, WIDTH - 40, HEIGHT - DEAD_LINE_Y - 20);
+
+    // 2. 容器の枠線
+    context.strokeStyle = 'rgba(24fd, 226, 179, 0.7)';
+    context.lineWidth = 12;
+    context.lineCap = 'round';
+    context.lineJoin = 'round';
+    context.beginPath();
+    context.moveTo(20, DEAD_LINE_Y);
+    context.lineTo(20, HEIGHT - 20);
+    context.lineTo(WIDTH - 20, HEIGHT - 20);
+    context.lineTo(WIDTH - 20, DEAD_LINE_Y);
+    context.stroke();
+
+    // 3. 案内用点線
+    if (currentFruit && currentFruit.isStatic && !isGameOver) {
+        context.beginPath();
+        context.setLineDash([4, 6]);
+        context.moveTo(currentFruit.position.x, currentFruit.position.y);
+        context.lineTo(currentFruit.position.x, HEIGHT - 20);
+        context.lineWidth = 2;
+        context.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+        context.stroke();
+        context.setLineDash([]);
+    }
+
+    // 4. デッドライン
+    context.beginPath();
+    context.moveTo(20, DEAD_LINE_Y);
+    context.lineTo(WIDTH - 20, DEAD_LINE_Y);
+    context.lineWidth = 3;
+    context.strokeStyle = isGameOver ? '#ff4d4d' : 'rgba(255, 255, 255, 0.2)';
+    context.stroke();
+});
+
+// --- ゲーム状態リセット ---
+function initGame() {
+    Composite.clear(engine.world, false);
+    fruitTimers.clear();
+    
+    score = 0;
+    document.getElementById('score').textContent = score;
+    isGameOver = false;
+    document.getElementById('game-over-screen').classList.remove('show');
+
+    const wallOptions = { isStatic: true, render: { visible: false }, plugin: { isWall: true } };
+    const ground = Bodies.rectangle(WIDTH / 2, HEIGHT - 10, WIDTH, 20, wallOptions);
+    const leftWall = Bodies.rectangle(10, HEIGHT / 2, 20, HEIGHT, wallOptions);
+    const rightWall = Bodies.rectangle(WIDTH - 10, HEIGHT / 2, 20, HEIGHT, wallOptions);
+    Composite.add(engine.world, [ground, leftWall, rightWall]);
+
+    nextFruitIndex = Math.floor(Math.random() * 4); 
+    updateNextDisplay();
+    
+    isReady = true;
+    spawnNextFruit();
+}
+
+function updateNextDisplay() {
+    const preview = document.getElementById('next-preview');
+    preview.style.backgroundColor = FRUIT_TYPES[nextFruitIndex].color;
+}
+
+function createFruit(x, y, typeIndex, isStatic = false) {
+    const type = FRUIT_TYPES[typeIndex];
+    return Bodies.circle(x, y, type.radius, {
+        isStatic: isStatic,
+        restitution: 0.2, 
+        friction: 0.05,
+        render: { fillStyle: type.color },
+        plugin: { level: type.level, combined: false }
+    });
+}
+
+function spawnNextFruit() {
+    if (!isReady || isGameOver) return;
+    
+    currentFruit = createFruit(WIDTH / 2, DEAD_LINE_Y - 50, nextFruitIndex, true);
+    Composite.add(engine.world, currentFruit);
+    
+    nextFruitIndex = Math.floor(Math.random() * 5);
+    updateNextDisplay();
+}
+
+// --- 操作・追従処理 ---
+function handleMove(clientX) {
+    if (!currentFruit || !currentFruit.isStatic || isGameOver) return;
+    
+    const rect = render.canvas.getBoundingClientRect();
+    let mouseX = clientX - rect.left;
+    
+    const radius = FRUIT_TYPES[currentFruit.plugin.level].radius;
+    const minX = 26 + radius;
+    const maxX = WIDTH - 26 - radius;
+    if (mouseX < minX) mouseX = minX;
+    if (mouseX > maxX) mouseX = maxX;
+    
+    Body.setPosition(currentFruit, { x: mouseX, y: currentFruit.position.y });
+
+    const cloud = document.getElementById('cloud-character');
+    cloud.style.left = `${mouseX}px`;
+}
+
+function handleDrop() {
+    if (!currentFruit || !isReady || isGameOver) return;
+    
+    isReady = false;
+    Body.setStatic(currentFruit, false);
+    currentFruit = null;
+    
+    setTimeout(() => {
+        if (!isGameOver) {
+            isReady = true;
+            spawnNextFruit();
+        }
+    }, 600);
+}
+
+window.addEventListener('mousemove', (e) => handleMove(e.clientX));
+window.addEventListener('click', handleDrop);
+
+window.addEventListener('touchmove', (e) => {
+    if(e.touches.length > 0) handleMove(e.touches[0].clientX);
+});
+window.addEventListener('touchend', handleDrop);
+
+// --- 合体ロジック ---
+Events.on(engine, 'collisionStart', (event) => {
+    event.pairs.forEach((pair) => {
+        const bodyA = pair.bodyA;
+        const bodyB = pair.bodyB;
+        
+        if (bodyA.plugin && bodyB.plugin && bodyA.plugin.level === bodyB.plugin.level) {
+            const currentLevel = bodyA.plugin.level;
+            if (bodyA.plugin.combined || bodyB.plugin.combined) return;
+            if (currentLevel >= FRUIT_TYPES.length - 1) return; 
+            
+            bodyA.plugin.combined = true;
+            bodyB.plugin.combined = true;
+            
+            const newX = (bodyA.position.x + bodyB.position.x) / 2;
+            const newY = (bodyA.position.y + bodyB.position.y) / 2;
+            
+            score += FRUIT_TYPES[currentLevel].score;
+            document.getElementById('score').textContent = score;
+            
+            fruitTimers.delete(bodyA.id);
+            fruitTimers.delete(bodyB.id);
+            
+            Composite.remove(engine.world, [bodyA, bodyB]);
+            
+            const upgradedFruit = createFruit(newX, newY, currentLevel + 1);
+            Composite.add(engine.world, upgradedFruit);
+        }
+    });
+});
+
+// --- ゲームオーバー監視 ---
+Events.on(engine, 'afterUpdate', () => {
+    if (isGameOver) return;
+
+    const allBodies = Composite.allBodies(engine.world);
+    const now = Date.now();
+
+    allBodies.forEach((body) => {
+        if (body.plugin.isWall || body === currentFruit) return;
+
+        const fruitTopY = body.position.y - (body.circleRadius || 0);
+        
+        if (fruitTopY < DEAD_LINE_Y) {
+            if (!fruitTimers.has(body.id)) {
+                fruitTimers.set(body.id, now);
+            } else {
+                if (now - fruitTimers.get(body.id) > 1500) {
+                    triggerGameOver();
+                }
+            }
+        } else {
+            fruitTimers.delete(body.id);
+        }
+    });
+});
+
+function triggerGameOver() {
+    isGameOver = true;
+    isReady = false;
+    document.getElementById('final-score').textContent = score;
+    document.getElementById('game-over-screen').classList.add('show');
+    if (currentFruit) {
+        Composite.remove(engine.world, currentFruit);
+        currentFruit = null;
+    }
+}
+
+document.getElementById('restart-btn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    initGame();
+});
+
+initGame();
+</script>
+
+</body>
+</html>
