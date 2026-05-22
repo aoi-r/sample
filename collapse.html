@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>collapse</title>
     <style>
         :root {
@@ -10,6 +10,9 @@
             --bubble-bg: rgba(255, 255, 255, 0.25);
             --bubble-border: rgba(255, 255, 255, 0.6);
             --text-gold: #f6e58d;
+        }
+        * {
+            box-sizing: border-box;
         }
         body {
             margin: 0;
@@ -19,21 +22,36 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            /* dvh（動的ビューポート高）を使い、スマホのバーを考慮した全画面に */
             height: 100vh;
+            height: 100dvh; 
             color: white;
             font-family: 'Arial Rounded MT Bold', 'Helvetica Neue', sans-serif;
             overflow: hidden;
             user-select: none;
+            webkit-user-select: none;
             touch-action: none;
+            padding: 10px;
         }
 
-        /* --- 上部UIレイアウト（中央に綺麗に並ぶよう調整） --- */
+        /* --- 全体を包むラッパー（画面サイズに合わせて等倍縮小させる） --- */
+        #main-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform-origin: center center;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        /* --- 上部UIレイアウト --- */
         #ui-container {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 24px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             width: 450px;
         }
         .bubble-box {
@@ -63,7 +81,6 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
         }
         
-        /* ネクスト表示用の丸 */
         #next-preview {
             width: 32px;
             height: 32px;
@@ -77,6 +94,11 @@
             position: relative;
             width: 450px;
             height: 650px;
+        }
+        /* Matter.jsのキャンバス要素を角丸にする */
+        #game-container canvas {
+            border-radius: 20px;
+            display: block;
         }
 
         /* 追従するかわいい雲のキャラクター */
@@ -125,7 +147,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border-radius: 24px;
+            border-radius: 20px;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.5s ease;
@@ -172,24 +194,26 @@
 </head>
 <body>
 
-    <div id="ui-container">
-        <div class="bubble-box">
-            <div class="label">スコア</div>
-            <div class="value" id="score">0</div>
+    <div id="main-wrapper">
+        <div id="ui-container">
+            <div class="bubble-box">
+                <div class="label">スコア</div>
+                <div class="value" id="score">0</div>
+            </div>
+            <div class="bubble-box">
+                <div class="label">ネクスト</div>
+                <div id="next-preview"></div>
+            </div>
         </div>
-        <div class="bubble-box">
-            <div class="label">ネクスト</div>
-            <div id="next-preview"></div>
-        </div>
-    </div>
-    
-    <div id="game-container">
-        <div id="cloud-character"><div id="cloud-face"></div></div>
+        
+        <div id="game-container">
+            <div id="cloud-character"><div id="cloud-face">😊</div></div>
 
-        <div id="game-over-screen">
-            <h2>GAME OVER</h2>
-            <p>SCORE: <span id="final-score">0</span></p>
-            <button id="restart-btn">つぎへ</button>
+            <div id="game-over-screen">
+                <h2>GAME OVER</h2>
+                <p>SCORE: <span id="final-score">0</span></p>
+                <button id="restart-btn">つぎへ</button>
+            </div>
         </div>
     </div>
 
@@ -208,6 +232,7 @@ let isReady = false;
 let isGameOver = false;
 let fruitTimers = new Map();
 
+// フルーツの種類（グラデーションを映えさせるビキッドカラー）
 const FRUIT_TYPES = [
     { level: 0, radius: 16, color: '#ff3838', score: 1 },  
     { level: 1, radius: 24, color: '#ff7675', score: 2 },  
@@ -249,7 +274,7 @@ Events.on(render, 'afterRender', () => {
     context.fillRect(20, DEAD_LINE_Y, WIDTH - 40, HEIGHT - DEAD_LINE_Y - 20);
 
     // 2. 容器の枠線
-    context.strokeStyle = 'rgba(24fd, 226, 179, 0.7)';
+    context.strokeStyle = 'rgba(255, 226, 179, 0.7)';
     context.lineWidth = 12;
     context.lineCap = 'round';
     context.lineJoin = 'round';
@@ -280,6 +305,26 @@ Events.on(render, 'afterRender', () => {
     context.strokeStyle = isGameOver ? '#ff4d4d' : 'rgba(255, 255, 255, 0.2)';
     context.stroke();
 });
+
+// --- スマートフォン向け：画面フィット（レスポンシブ）処理 ---
+function resizeGame() {
+    const wrapper = document.getElementById('main-wrapper');
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    
+    // UIコンテナ等を含めた設計上の基準サイズ
+    const baseWidth = 470; 
+    const baseHeight = 770; 
+
+    // 画面に収まるように最小倍率を計算
+    const scaleX = windowWidth / baseWidth;
+    const scaleY = windowHeight / baseHeight;
+    const scale = Math.min(scaleX, scaleY, 1); // 1倍以上には拡大させない（PCでボケるのを防ぐ）
+
+    wrapper.style.transform = `scale(${scale})`;
+}
+window.addEventListener('resize', resizeGame);
+resizeGame(); // 初回実行
 
 // --- ゲーム状態リセット ---
 function initGame() {
@@ -330,12 +375,13 @@ function spawnNextFruit() {
     updateNextDisplay();
 }
 
-// --- 操作・追従処理 ---
+// --- 操作・追従処理（縮小表示の座標ズレに対応） ---
 function handleMove(clientX) {
     if (!currentFruit || !currentFruit.isStatic || isGameOver) return;
     
     const rect = render.canvas.getBoundingClientRect();
-    let mouseX = clientX - rect.left;
+    // 縮小されたキャンバスの「実際の表示幅」をベースにマウス・タッチ位置を計算
+    let mouseX = ((clientX - rect.left) / rect.width) * WIDTH;
     
     const radius = FRUIT_TYPES[currentFruit.plugin.level].radius;
     const minX = 26 + radius;
@@ -364,13 +410,20 @@ function handleDrop() {
     }, 600);
 }
 
+// マウスイベント
 window.addEventListener('mousemove', (e) => handleMove(e.clientX));
 window.addEventListener('click', handleDrop);
 
+// タッチイベント（タッチ時にhandleMoveも走らせて操作感を向上）
+window.addEventListener('touchstart', (e) => {
+    if(e.touches.length > 0) handleMove(e.touches[0].clientX);
+});
 window.addEventListener('touchmove', (e) => {
     if(e.touches.length > 0) handleMove(e.touches[0].clientX);
 });
-window.addEventListener('touchend', handleDrop);
+window.addEventListener('touchend', (e) => {
+    handleDrop();
+});
 
 // --- 合体ロジック ---
 Events.on(engine, 'collisionStart', (event) => {
