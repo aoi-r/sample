@@ -6,14 +6,13 @@
 <title>Salaryman Runner</title>
 
 <style>
-
 html,body{
     margin:0;
     padding:0;
     overflow:hidden;
-    background:#87ceeb;
-    touch-action:none;
+    background: linear-gradient(#87ceeb,#e6f7ff);
     font-family:sans-serif;
+    touch-action:none;
 }
 
 canvas{
@@ -22,761 +21,476 @@ canvas{
     height:100vh;
 }
 
+.ui{
+    position:absolute;
+    top:10px;
+    left:10px;
+    padding:10px 14px;
+    background:rgba(0,0,0,0.35);
+    color:#fff;
+    border-radius:12px;
+    backdrop-filter: blur(6px);
+    font-size:15px;
+}
+
+#speedUp{
+    position:absolute;
+    top:40%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    font-size:48px;
+    font-weight:bold;
+    color:#fff;
+    display:none;
+}
+
+#gameOver{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    color:#fff;
+    display:none;
+    text-align:center;
+}
+#gameOver h1{font-size:48px;margin:0;}
 </style>
 </head>
+
 <body>
+
+<audio id="bgm" src="famipop3.mp3" loop></audio>
 
 <canvas id="game"></canvas>
 
+<div class="ui" id="ui"></div>
+<div id="speedUp">SPEED UP!</div>
+<div id="gameOver">
+<h1>GAME OVER</h1>
+<p>Tap / Space to Restart</p>
+</div>
+
 <script>
 
-// ======================================================
-// スマホ判定
-// ======================================================
+// =====================
+// 基本
+// =====================
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
 
-const isMobile = window.innerWidth < 768;
+const ui=document.getElementById("ui");
+const speedUpUI=document.getElementById("speedUp");
+const gameOverUI=document.getElementById("gameOver");
 
-// ======================================================
-// Canvas
-// ======================================================
+const bgm=document.getElementById("bgm");
+bgm.volume=0.35;
 
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
+const isMobile=innerWidth<768;
 
 function resize(){
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width=innerWidth;
+    canvas.height=innerHeight;
 }
-
 resize();
+addEventListener("resize",resize);
 
-window.addEventListener("resize", resize);
-
-// ======================================================
-// スプライト読み込み
-// sala/run1.png ～ run8.png
-// sala/jump1.png ～ jump6.png
-// sala/dead1.png ～ dead6.png
-// ======================================================
-
-function loadFrames(prefix,count){
-
-    const arr = [];
-
+// =====================
+// スプライト
+// =====================
+function load(prefix,count){
+    const arr=[];
     for(let i=1;i<=count;i++){
-
-        const img = new Image();
-        img.src = `sala_img/${prefix}${i}.png`;
-
+        const img=new Image();
+        img.src=`sala_img/${prefix}${i}.png`;
         arr.push(img);
     }
-
     return arr;
 }
 
-const runFrames = loadFrames("run",8);
-const jumpFrames = loadFrames("jump",6);
-const deadFrames = loadFrames("dead",6);
+const run=load("run",8);
+const jump=load("jump",6);
+const dead=load("dead",6);
 
-// ======================================================
+// =====================
 // プレイヤー
-// ======================================================
-
-const player = {
-
-    x:isMobile ? 70 : 120,
+// =====================
+const player={
+    x:isMobile?70:120,
     y:0,
-
-    width:isMobile ? 72 : 96,
-    height:isMobile ? 72 : 96,
-
+    w:isMobile?72:96,
+    h:isMobile?72:96,
     vy:0,
+    g:0.85,
+    jp:isMobile?-16:-18,
 
-    gravity:0.9,
-    jumpPower:isMobile ? -16 : -18,
+    onGround:false,
+    coyote:0,
+    buffer:0,
 
     jumpCount:0,
     maxJump:2,
 
-    dead:false
+    dead:false,
+    deadFrame:0 // 死亡アニメーション専用のカウンタ
 };
 
-const groundY = () => canvas.height - (isMobile ? 110 : 140);
+const ground=()=>canvas.height-(isMobile?110:140);
 
-// ======================================================
-// アニメーション
-// ======================================================
-
-let frameIndex = 0;
-let frameTimer = 0;
-
-const RUN_SPEED = 5;
-const JUMP_SPEED = 6;
-const DEAD_SPEED = 10;
-
-// ======================================================
-// スコア
-// ======================================================
-
-let score = 0;
-
-// ======================================================
-// ゲーム速度
-// ======================================================
-
-let gameSpeed = isMobile ? 6 : 8;
-
-// ======================================================
-// スピードアップ演出
-// ======================================================
-
-let speedLevel = 1;
-let speedEffectTimer = 0;
-
-// ======================================================
-// 背景スクロール
-// ======================================================
-
-let bgX = 0;
-
-// ======================================================
-// パーティクル
-// ======================================================
-
-const particles = [];
-
-function createSpeedParticles(){
-
-    for(let i=0;i<8;i++){
-
-        particles.push({
-
-            x:player.x + player.width / 2,
-            y:player.y + player.height / 2,
-
-            vx:-Math.random() * 8 - 2,
-            vy:(Math.random() - 0.5) * 6,
-
-            size:Math.random() * 4 + 2,
-            life:30
-        });
-    }
-}
-
-// ======================================================
-// 障害物
-// ======================================================
-
-const obstacles = [];
-
-function createObstacle(){
-
-    const rand = Math.random();
-
-    // ==================================================
-    // 単体ブロック
-    // ==================================================
-
-    if(rand < 0.45){
-
-        obstacles.push({
-
-            type:"block",
-
-            x:canvas.width + 100,
-
-            y:groundY() - (isMobile ? 45 : 60),
-
-            width:isMobile
-                ? 40 + Math.random() * 25
-                : 50 + Math.random() * 40,
-
-            height:isMobile ? 45 : 60
-        });
-    }
-
-    // ==================================================
-    // 2連ブロック
-    // ==================================================
-
-    else if(rand < 0.7){
-
-        for(let i=0;i<2;i++){
-
-            obstacles.push({
-
-                type:"block",
-
-                x:canvas.width + 100 + (i * 120),
-
-                y:groundY() - (isMobile ? 45 : 60),
-
-                width:isMobile ? 45 : 60,
-                height:isMobile ? 45 : 60
-            });
-        }
-    }
-
-    // ==================================================
-    // 穴
-    // ==================================================
-
-    else{
-
-        obstacles.push({
-
-            type:"hole",
-
-            x:canvas.width + 100,
-
-            width:isMobile
-                ? 90 + Math.random() * 40
-                : 120 + Math.random() * 80
-        });
-    }
-}
-
-setInterval(() => {
-
-    if(!player.dead){
-
-        createObstacle();
-    }
-
-}, isMobile ? 1800 : 1500);
-
-// ======================================================
+// =====================
 // 入力
-// ======================================================
+// =====================
+let audioStart=false;
+let tapLock=false;
 
-function jump(){
-
-    if(player.dead) return;
-
-    if(player.jumpCount < player.maxJump){
-
-        player.vy = player.jumpPower;
-        player.jumpCount++;
-    }
+function startBGM(){
+    if(audioStart) return;
+    audioStart=true;
+    bgm.play().catch(()=>{});
 }
 
-// ======================================================
-// キーボード
-// ======================================================
+function requestJump(){
+    player.buffer=8;
+}
 
-window.addEventListener("keydown", e => {
+function doJump(){
+    player.jumpCount++;
 
-    if(e.code === "Space"){
+    if(player.jumpCount===1) player.vy=player.jp;
+    if(player.jumpCount===2) player.vy=player.jp*1.15;
 
-        if(player.dead){
+    player.onGround=false;
+    player.coyote=0;
+}
 
-            restart();
-            return;
-        }
+function tap(){
+    startBGM();
 
-        jump();
+    if(tapLock) return;
+    tapLock=true;
+
+    if(player.dead){
+        restart();
+    }else{
+        requestJump();
     }
 
-    if(e.code === "KeyR"){
+    setTimeout(()=>tapLock=false,80);
+}
 
-        restart();
+addEventListener("mousedown",tap);
+addEventListener("touchstart",tap,{passive:true});
+
+addEventListener("keydown",e=>{
+    if(e.code==="Space"){
+        startBGM();
+        if(player.dead) restart();
+        else requestJump();
     }
 });
 
-// ======================================================
-// タッチ
-// ======================================================
+// =====================
+// 状態
+// =====================
+let score=0;
+let speed=6;
+let frame=0;
+let ft=0;
+let speedLv=1;
 
-function handleTouch(){
+// =====================
+// 障害物
+// =====================
+const obs=[];
 
-    if(player.dead){
+function spawn(){
+    const r=Math.random();
+    const gnd=ground();
 
-        restart();
-        return;
+    // 🟤 通常障害物 (25%)
+    if(r<0.25){
+        obs.push({
+            t:"brown",
+            x:canvas.width+100,
+            y:gnd-60,
+            w:60,
+            h:60
+        });
     }
-
-    jump();
+    // 🟢 緑：2段ジャンプ必須 (25%)
+    else if(r<0.50){
+        obs.push({
+            t:"green",
+            x:canvas.width+100,
+            y:gnd-140,
+            w:70,
+            h:140
+        });
+    }
+    // 🩷 ピンク：天井トラップ (25%)
+    else if(r<0.75){
+        obs.push({
+            t:"pink",
+            x:canvas.width+100,
+            y:0,
+            w:100,
+            h:gnd-110
+        });
+    }
+    // 🕳️ 空白：落とし穴 (25%)
+    else {
+        obs.push({
+            t:"pit",
+            x:canvas.width+100,
+            y:gnd,
+            w:isMobile?120:160,
+            h:300
+        });
+    }
 }
 
-window.addEventListener("mousedown", handleTouch);
-window.addEventListener("touchstart", handleTouch);
+setInterval(()=>{if(!player.dead)spawn();},1400);
 
-// ======================================================
-// リスタート
-// ======================================================
-
-function restart(){
-
-    player.dead = false;
-
-    player.y = 0;
-    player.vy = 0;
-
-    player.jumpCount = 0;
-
-    obstacles.length = 0;
-    particles.length = 0;
-
-    score = 0;
-
-    gameSpeed = isMobile ? 6 : 8;
-
-    speedLevel = 1;
-    speedEffectTimer = 0;
-
-    frameIndex = 0;
-    frameTimer = 0;
-}
-
-// ======================================================
-// 当たり判定
-// ======================================================
-
-function rectHit(a,b){
-
-    return (
-
-        a.x < b.x + b.width &&
-        a.x + a.width > b.x &&
-
-        a.y < b.y + b.height &&
-        a.y + a.height > b.y
-    );
-}
-
-// ======================================================
+// =====================
 // 死亡
-// ======================================================
-
-function killPlayer(){
-
+// =====================
+function kill(){
     if(player.dead) return;
-
-    player.dead = true;
-
-    frameIndex = 0;
-    frameTimer = 0;
+    player.dead=true;
+    player.deadFrame=0; // 死亡アニメーションを最初のコマから再生
+    bgm.volume=0.1;
+    gameOverUI.style.display="block";
 }
 
-// ======================================================
-// 更新
-// ======================================================
+// =====================
+// リスタート
+// =====================
+function restart(){
+    player.dead=false;
+    player.deadFrame=0;
+    player.vy=0;
+    player.y=ground()-player.h;
 
+    player.jumpCount=0;
+    player.buffer=0;
+    player.onGround=true;
+
+    obs.length=0;
+    score=0;
+
+    speed=6;
+    speedLv=1;
+
+    frame=0;
+    ft=0;
+
+    gameOverUI.style.display="none";
+    bgm.volume=0.35;
+}
+
+// =====================
+// 当たり判定
+// =====================
+function hit(a,b){
+    return a.x<b.x+b.w &&
+           a.x+a.w>b.x &&
+           a.y<b.y+b.h &&
+           a.y+a.h>b.y;
+}
+
+// =====================
+// 更新
+// =====================
 function update(){
 
-    // ==================================================
-    // 死亡アニメ
-    // ==================================================
-
-    if(player.dead){
-
-        frameTimer++;
-
-        if(frameTimer >= DEAD_SPEED){
-
-            frameTimer = 0;
-
-            if(frameIndex < deadFrames.length - 1){
-
-                frameIndex++;
+    // ゲームオーバー時でも、死亡アニメーションを進めるために処理を一部継続
+    if(player.dead) {
+        ft++;
+        if(ft>6){ // アニメーション速度の調整
+            ft=0;
+            // 最後のコマ（dead.length - 1）に達したらそこでストップ（ループさせない）
+            if(player.deadFrame < dead.length - 1){
+                player.deadFrame++;
             }
         }
-
         return;
     }
 
-    // ==================================================
-    // スコア
-    // ==================================================
+    score+=0.1;
 
-    score += 0.1;
-
-    // ==================================================
-    // スピードアップ
-    // ==================================================
-
-    const nextLevel = Math.floor(score / 100) + 1;
-
-    if(nextLevel > speedLevel){
-
-        speedLevel = nextLevel;
-
-        gameSpeed += 1;
-
-        speedEffectTimer = 120;
-
-        createSpeedParticles();
+    const next=Math.floor(score/100)+1;
+    if(next>speedLv){
+        speedLv=next;
+        speed++;
+        speedUpUI.style.display="block";
+        setTimeout(()=>speedUpUI.style.display="none",600);
     }
 
-    // 徐々に加速
-    gameSpeed += isMobile ? 0.0006 : 0.0009;
+    speed+=0.0008;
 
-    // ==================================================
-    // スピード演出タイマー
-    // ==================================================
+    player.vy+=player.g;
+    player.y+=player.vy;
 
-    if(speedEffectTimer > 0){
+    // プレイヤーの足元中央のX座標（落とし穴判定用）
+    const playerFootX = player.x + player.w / 2;
+    let overPit = false;
 
-        speedEffectTimer--;
-    }
+    // 障害物の移動と判定
+    for(let i=obs.length-1;i>=0;i--){
+        const o=obs[i];
+        o.x-=speed;
 
-    // ==================================================
-    // 背景
-    // ==================================================
-
-    bgX -= gameSpeed;
-
-    if(bgX <= -80){
-
-        bgX = 0;
-    }
-
-    // ==================================================
-    // 重力
-    // ==================================================
-
-    player.vy += player.gravity;
-    player.y += player.vy;
-
-    // ==================================================
-    // 地面
-    // ==================================================
-
-    if(player.y > groundY() - player.height){
-
-        player.y = groundY() - player.height;
-
-        player.vy = 0;
-        player.jumpCount = 0;
-    }
-
-    // ==================================================
-    // アニメーション
-    // ==================================================
-
-    frameTimer++;
-
-    let speed = RUN_SPEED;
-
-    if(player.jumpCount > 0){
-
-        speed = JUMP_SPEED;
-    }
-
-    if(frameTimer >= speed){
-
-        frameTimer = 0;
-
-        frameIndex++;
-    }
-
-    // run
-    if(player.jumpCount === 0){
-
-        if(frameIndex >= runFrames.length){
-
-            frameIndex = 0;
-        }
-    }
-
-    // jump
-    else{
-
-        if(frameIndex >= jumpFrames.length){
-
-            frameIndex = 0;
-        }
-    }
-
-    // ==================================================
-    // パーティクル
-    // ==================================================
-
-    for(let i=particles.length-1;i>=0;i--){
-
-        const p = particles[i];
-
-        p.x += p.vx;
-        p.y += p.vy;
-
-        p.life--;
-
-        if(p.life <= 0){
-
-            particles.splice(i,1);
-        }
-    }
-
-    // ==================================================
-    // 障害物
-    // ==================================================
-
-    for(let i=obstacles.length-1;i>=0;i--){
-
-        const o = obstacles[i];
-
-        o.x -= gameSpeed;
-
-        // 判定
-        const hitbox = {
-
-            x:player.x + (isMobile ? 10 : 18),
-            y:player.y + (isMobile ? 8 : 12),
-
-            width:player.width - (isMobile ? 20 : 36),
-            height:player.height - (isMobile ? 14 : 20)
+        const hb={
+            x:player.x+12,
+            y:player.y+10,
+            w:player.w-24,
+            h:player.h-20
         };
 
-        // block
-        if(o.type === "block"){
-
-            if(rectHit(hitbox,o)){
-
-                killPlayer();
+        // 🟤 通常障害物
+        if(o.t==="brown"){
+            if(hit(hb,o)) kill();
+        }
+        // 🟢 2段ジャンプ必須
+        else if(o.t==="green"){
+            if(hit(hb,o) && player.jumpCount < 2) kill();
+        }
+        // 🩷 天井トラップ
+        else if(o.t==="pink"){
+            const inAir = !player.onGround;
+            if(hit(hb,o) && inAir) kill();
+        }
+        // 🕳️ 落とし穴判定
+        else if(o.t==="pit"){
+            if(playerFootX > o.x && playerFootX < o.x + o.w){
+                overPit = true;
             }
         }
 
-        // hole
-        else{
+        if(o.x<-200) obs.splice(i,1);
+    }
 
-            const playerFront = player.x + player.width * 0.5;
+    // 着地・落下の処理
+    const gndY = ground();
+    
+    if(overPit){
+        player.onGround = false;
+        player.coyote = 0;
 
-            if(
-                playerFront > o.x &&
-                playerFront < o.x + o.width &&
-                player.y + player.height >= groundY()
-            ){
-
-                killPlayer();
-            }
+        if(player.y >= gndY - player.h / 2){
+            kill();
         }
+    } else {
+        // 通常の地面での着地処理
+        if(player.y >= gndY - player.h && player.y - player.vy <= gndY - player.h + 20){
+            player.y = gndY - player.h;
+            player.vy = 0;
 
-        // 削除
-        if(o.x + (o.width || 0) < -200){
-
-            obstacles.splice(i,1);
+            player.onGround = true;
+            player.coyote = 6;
+            player.jumpCount = 0;
         }
     }
+
+    if(player.buffer>0)player.buffer--;
+
+    if(player.buffer>0 && (player.coyote>0 || player.jumpCount<player.maxJump)){
+        doJump();
+        player.buffer=0;
+    }
+
+    // 通常時のフレームカウント
+    ft++;
+    if(ft>5){ // 走る・ジャンプのアニメーション速度（数字が小さいほど速い）
+        ft=0;
+        frame++;
+    }
+
+    ui.innerHTML=
+        `SCORE: ${Math.floor(score)}<br>`+
+        `SPEED: ${speedLv}`;
 }
 
-// ======================================================
+// =====================
 // 描画
-// ======================================================
-
+// =====================
 function draw(){
 
-    // ==================================================
-    // 空
-    // ==================================================
-
-    ctx.fillStyle = speedEffectTimer > 0
-        ? "#bfe9ff"
-        : "#87ceeb";
-
+    ctx.fillStyle="#87ceeb";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    // ==================================================
-    // スピードライン
-    // ==================================================
+    // --- 地面の切り抜き描画（落とし穴を表現） ---
+    const gndY = ground();
+    const gndH = canvas.height - gndY;
+    
+    const pits = obs.filter(o => o.t === "pit").sort((a, b) => a.x - b.x);
+    
+    let currentX = 0;
+    ctx.fillStyle="#66bb55";
 
-    ctx.fillStyle = "#ffffff55";
+    pits.forEach(pit => {
+        if(pit.x > currentX){
+            ctx.fillRect(currentX, gndY, pit.x - currentX, gndH);
+        }
+        currentX = Math.max(currentX, pit.x + pit.w);
+    });
 
-    for(let i=0;i<35;i++){
-
-        ctx.fillRect(
-            (i * 80) + bgX,
-            Math.sin(i) * 20 + 120,
-            50,
-            4
-        );
+    if(currentX < canvas.width){
+        ctx.fillRect(currentX, gndY, canvas.width - currentX, gndH);
     }
+    // ------------------------------------------
 
-    // ==================================================
-    // 地面
-    // ==================================================
+    // 障害物の描画
+    obs.forEach(o=>{
+        if(o.t==="brown") ctx.fillStyle="#8b4513";
+        if(o.t==="green") ctx.fillStyle="#3cb371";
 
-    ctx.fillStyle = "#66bb55";
+        if(o.t==="brown" || o.t==="green"){
+            ctx.fillRect(o.x,o.y,o.w,o.h);
+        }
 
-    ctx.fillRect(
-        0,
-        groundY(),
-        canvas.width,
-        200
-    );
+        // 🩷 ピンク（天井から垂れる物理判定）
+        if(o.t==="pink"){
+            ctx.fillStyle="#ff4fa3";
+            ctx.fillRect(o.x,o.y,o.w,o.h);
 
-    // ==================================================
-    // 穴
-    // ==================================================
-
-    obstacles.forEach(o => {
-
-        if(o.type === "hole"){
-
-            ctx.fillStyle = "#111";
-
-            ctx.fillRect(
-                o.x,
-                groundY(),
-                o.width,
-                200
-            );
+            // 天井接続
+            ctx.fillStyle="#ff7abf";
+            ctx.fillRect(o.x,0,o.w,10);
+        }
+        // 🕳️ 落とし穴
+        if(o.t==="pit"){
+            ctx.fillStyle="#87ceeb";
+            ctx.fillRect(o.x, o.y, o.w, o.h);
         }
     });
 
-    // ==================================================
-    // ブロック
-    // ==================================================
+    let img;
 
-    obstacles.forEach(o => {
-
-        if(o.type === "block"){
-
-            ctx.fillStyle = "#8b4513";
-
-            ctx.fillRect(
-                o.x,
-                o.y,
-                o.width,
-                o.height
-            );
-        }
-    });
-
-    // ==================================================
-    // パーティクル
-    // ==================================================
-
-    particles.forEach(p => {
-
-        ctx.fillStyle = "#ffffff";
-
-        ctx.fillRect(
-            p.x,
-            p.y,
-            p.size,
-            p.size
-        );
-    });
-
-    // ==================================================
-    // プレイヤー
-    // ==================================================
-
-    let currentFrame;
-
-    if(player.dead){
-
-        currentFrame = deadFrames[frameIndex];
-
-    }else if(player.jumpCount > 0){
-
-        currentFrame = jumpFrames[frameIndex];
-
-    }else{
-
-        currentFrame = runFrames[frameIndex];
+    if(player.dead) {
+        // 死亡時はループさせず、計算されたdeadFrameのコマをそのまま表示
+        img = dead[player.deadFrame];
+    } else if(!player.onGround) {
+        // ジャンプ中も一瞬で終わらないよう、ジャンプ画像の枚数（6枚）で適切にループ
+        img = jump[frame % jump.length];
+    } else {
+        // 通常走行（8枚）でループ
+        img = run[frame % run.length];
     }
 
-    ctx.drawImage(
-        currentFrame,
-        player.x,
-        player.y,
-        player.width,
-        player.height
-    );
-
-    // ==================================================
-    // UI
-    // ==================================================
-
-    ctx.fillStyle = "#fff";
-
-    ctx.font = isMobile
-        ? "20px sans-serif"
-        : "24px sans-serif";
-
-    ctx.fillText(
-        "SPACE / TAP : JUMP",
-        20,
-        40
-    );
-
-    ctx.fillText(
-        "SCORE : " + Math.floor(score),
-        20,
-        75
-    );
-
-    ctx.fillText(
-        "SPEED Lv." + speedLevel,
-        20,
-        110
-    );
-
-    // ==================================================
-    // SPEED UP
-    // ==================================================
-
-    if(speedEffectTimer > 0){
-
-        ctx.fillStyle = "#ffffff";
-
-        ctx.font = isMobile
-            ? "42px sans-serif"
-            : "64px sans-serif";
-
-        ctx.fillText(
-            "SPEED UP!",
-            canvas.width/2 - (isMobile ? 140 : 190),
-            canvas.height/3
-        );
-    }
-
-    // ==================================================
-    // GAME OVER
-    // ==================================================
-
-    if(player.dead){
-
-        ctx.fillStyle = "#fff";
-
-        ctx.font = isMobile
-            ? "42px sans-serif"
-            : "56px sans-serif";
-
-        ctx.fillText(
-            "GAME OVER",
-            canvas.width/2 - (isMobile ? 140 : 180),
-            canvas.height/2
-        );
-
-        ctx.font = isMobile
-            ? "22px sans-serif"
-            : "28px sans-serif";
-
-        ctx.fillText(
-            "TAP / SPACE TO RESTART",
-            canvas.width/2 - (isMobile ? 145 : 170),
-            canvas.height/2 + 45
-        );
-    }
+    ctx.drawImage(img,player.x,player.y,player.w,player.h);
 }
 
-// ======================================================
+// =====================
 // ループ
-// ======================================================
-
+// =====================
 function loop(){
-
     update();
     draw();
-
     requestAnimationFrame(loop);
 }
-
 loop();
 
 </script>
+
 </body>
 </html>
