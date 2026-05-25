@@ -1,73 +1,348 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Runner Game - iPhone Optimized</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Salaryman Runner</title>
+
 <style>
-    body { margin: 0; padding: 0; background: #0b1020; overflow: hidden; }
-    #game-container { width: 100vw; height: 100vh; overflow: hidden; }
+html,body{
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    background:#87ceeb;
+    touch-action:none;
+}
+
+canvas{
+    display:block;
+    width:100vw;
+    height:100vh;
+}
 </style>
 </head>
 <body>
-<div id="game-container"></div>
-<script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
+
+<canvas id="game"></canvas>
+
 <script>
-// iPhone Safari対策：画面サイズを固定
-const config = {
-    type: Phaser.WEBGL,
-    parent: 'game-container',
-    width: 800, // 内部の論理サイズを固定
-    height: 600,
-    physics: { default: 'arcade', arcade: { gravity: { y: 2000 }, debug: false } },
-    scale: {
-        mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
-    },
-    scene: { preload, create, update }
+// ======================================================
+// ★ GIFファイル名（ここだけ変更すればOK）
+// ======================================================
+
+const RUN_GIF = "sala/salarun.gif";
+const JUMP_GIF = "sala/jump.gif";
+const DEAD_GIF = "sala/death.gif";
+
+// ======================================================
+// Canvas
+// ======================================================
+
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
+
+// ======================================================
+// 画像
+// ======================================================
+
+const runImg = new Image();
+runImg.src = RUN_GIF;
+
+const jumpImg = new Image();
+jumpImg.src = JUMP_GIF;
+
+const deadImg = new Image();
+deadImg.src = DEAD_GIF;
+
+// ======================================================
+// プレイヤー
+// ======================================================
+
+const player = {
+    x:120,
+    y:0,
+    width:90,
+    height:90,
+
+    vy:0,
+    gravity:0.9,
+    jumpPower:-18,
+
+    jumpCount:0,
+    maxJump:2,
+
+    dead:false
 };
 
-const game = new Phaser.Game(config);
+const groundY = () => canvas.height - 140;
 
-let player, grounds, obstacles, score = 0, started = false, gameOver = false;
+// ======================================================
+// 障害物
+// ======================================================
 
-function preload() {
-    this.load.spritesheet('player', 'runa.png', { frameWidth: 256, frameHeight: 360 });
-    this.load.image('ground', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==');
-}
+const obstacles = [];
 
-function create() {
-    this.cameras.main.setBackgroundColor('#0b1020');
-    
-    // 地面生成
-    grounds = this.physics.add.staticGroup();
-    for(let i=0; i<10; i++) grounds.create(i*160, 550, 'ground').setScale(160, 100).refreshBody();
+function createObstacle(){
 
-    // プレイヤー：ここがポイント。表示サイズをPhysicsとは別に管理
-    player = this.physics.add.sprite(150, 300, 'player');
-    player.setScale(0.3); // 256x360を縮小
-    player.body.setSize(100, 280); // 当たり判定のみ指定
-    player.body.setOffset(78, 40);
-    player.setCollideWorldBounds(true);
+    const type = Math.random() < 0.7 ? "block" : "hole";
 
-    this.anims.create({ key: 'run', frames: this.anims.generateFrameNumbers('player', { start: 0, end: 3 }), frameRate: 10, repeat: -1 });
-    player.anims.play('run');
+    if(type === "block"){
 
-    this.input.on('pointerdown', jump, this);
-    this.input.keyboard.on('keydown-SPACE', jump, this);
-}
+        obstacles.push({
+            type:"block",
+            x:canvas.width + 100,
+            y:groundY() - 60,
+            width:50 + Math.random() * 40,
+            height:60
+        });
 
-function jump() {
-    if(!started) started = true;
-    if(player.body.touching.down) {
-        player.setVelocityY(-900);
-        player.setFrame(7); // ジャンプポーズへ切り替え
+    }else{
+
+        obstacles.push({
+            type:"hole",
+            x:canvas.width + 100,
+            width:120 + Math.random() * 80
+        });
+
     }
 }
 
-function update() {
-    if(started && player.body.touching.down) player.anims.play('run', true);
+setInterval(() => {
+
+    if(!player.dead){
+        createObstacle();
+    }
+
+}, 1600);
+
+// ======================================================
+// 入力
+// ======================================================
+
+function jump(){
+
+    if(player.dead) return;
+
+    if(player.jumpCount < player.maxJump){
+
+        player.vy = player.jumpPower;
+        player.jumpCount++;
+    }
 }
+
+window.addEventListener("keydown", e => {
+
+    if(e.code === "Space"){
+        jump();
+    }
+
+    if(e.code === "KeyR"){
+        restart();
+    }
+
+});
+
+window.addEventListener("mousedown", jump);
+window.addEventListener("touchstart", jump);
+
+// ======================================================
+// リスタート
+// ======================================================
+
+function restart(){
+
+    player.dead = false;
+    player.y = 0;
+    player.vy = 0;
+    player.jumpCount = 0;
+
+    obstacles.length = 0;
+}
+
+// ======================================================
+// 当たり判定
+// ======================================================
+
+function rectHit(a,b){
+
+    return (
+        a.x < b.x + b.width &&
+        a.x + a.width > b.x &&
+        a.y < b.y + b.height &&
+        a.y + a.height > b.y
+    );
+}
+
+// ======================================================
+// 更新
+// ======================================================
+
+function update(){
+
+    if(player.dead) return;
+
+    // 重力
+    player.vy += player.gravity;
+    player.y += player.vy;
+
+    // 地面
+    if(player.y > groundY() - player.height){
+
+        player.y = groundY() - player.height;
+        player.vy = 0;
+        player.jumpCount = 0;
+    }
+
+    // 障害物移動
+    for(let i=obstacles.length-1;i>=0;i--){
+
+        const o = obstacles[i];
+
+        o.x -= 8;
+
+        // ブロック
+        if(o.type === "block"){
+
+            if(rectHit(player,o)){
+                player.dead = true;
+            }
+
+        }
+
+        // 落とし穴
+        else{
+
+            const playerFront = player.x + player.width * 0.5;
+
+            if(
+                playerFront > o.x &&
+                playerFront < o.x + o.width &&
+                player.y + player.height >= groundY()
+            ){
+                player.dead = true;
+            }
+        }
+
+        // 削除
+        if(o.x + (o.width || 0) < -200){
+            obstacles.splice(i,1);
+        }
+    }
+}
+
+// ======================================================
+// 描画
+// ======================================================
+
+function draw(){
+
+    // 空
+    ctx.fillStyle = "#87ceeb";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    // 地面
+    ctx.fillStyle = "#66bb55";
+    ctx.fillRect(0,groundY(),canvas.width,200);
+
+    // 落とし穴
+    obstacles.forEach(o => {
+
+        if(o.type === "hole"){
+
+            ctx.fillStyle = "#111";
+
+            ctx.fillRect(
+                o.x,
+                groundY(),
+                o.width,
+                200
+            );
+        }
+    });
+
+    // 障害物
+    obstacles.forEach(o => {
+
+        if(o.type === "block"){
+
+            ctx.fillStyle = "#8b4513";
+
+            ctx.fillRect(
+                o.x,
+                o.y,
+                o.width,
+                o.height
+            );
+        }
+    });
+
+    // ==================================================
+    // プレイヤーGIF切り替え
+    // ==================================================
+
+    let currentImg = runImg;
+
+    if(player.dead){
+
+        currentImg = deadImg;
+
+    }else if(player.jumpCount > 0){
+
+        currentImg = jumpImg;
+    }
+
+    ctx.drawImage(
+        currentImg,
+        player.x,
+        player.y,
+        player.width,
+        player.height
+    );
+
+    // UI
+    ctx.fillStyle = "#fff";
+    ctx.font = "24px sans-serif";
+    ctx.fillText("SPACE / TAP : JUMP",20,40);
+
+    if(player.dead){
+
+        ctx.font = "48px sans-serif";
+        ctx.fillText(
+            "GAME OVER",
+            canvas.width/2 - 160,
+            canvas.height/2
+        );
+
+        ctx.font = "28px sans-serif";
+        ctx.fillText(
+            "Press R to Restart",
+            canvas.width/2 - 120,
+            canvas.height/2 + 50
+        );
+    }
+}
+
+// ======================================================
+// ループ
+// ======================================================
+
+function loop(){
+
+    update();
+    draw();
+
+    requestAnimationFrame(loop);
+}
+
+loop();
+
 </script>
 </body>
 </html>
