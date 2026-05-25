@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
-<title>Runner Game - Mobile Edition</title>
+<title>Runner Game - Safari Perfect Fix</title>
 <style>
-/* 画面全体のスクロールや引っ張りを完全に禁止するおまじない */
 html,body{ 
     margin:0; 
     padding:0; 
@@ -13,10 +12,11 @@ html,body{
     height: 100%;
     overflow:hidden; 
     background:#0b1020; 
-    position: fixed; /* iPhoneのバウンス（引っ張り）を強制ストップ */
-    touch-action: none; /* ブラウザ標準のズームやスクロールをすべて無効化 */
-    -webkit-text-size-adjust: 100%;
     font-family:sans-serif; 
+    /* Safariでの文字選択や長押しメニューを禁止 */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 canvas{ 
@@ -25,7 +25,6 @@ canvas{
     height: 100% !important;
 }
 
-/* スコア（文字サイズを少しスマホ向けに調整） */
 #score{ 
     position:fixed; 
     top: 20px; 
@@ -34,10 +33,9 @@ canvas{
     font-size:24px; 
     z-index:10; 
     text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-    pointer-events: none; /* タッチイベントがゲームに届くように透過 */
+    pointer-events: none; 
 }
 
-/* 速度表記 */
 #speed-display{
     position:fixed; 
     top: 20px; 
@@ -61,9 +59,7 @@ canvas{
     background:rgba(0,0,0,0.6); 
     z-index:20; 
     backdrop-filter: blur(4px); 
-    -webkit-backdrop-filter: blur(4px); /* Safari対応 */
-    user-select: none;
-    -webkit-user-select: none;
+    -webkit-backdrop-filter: blur(4px); 
 }
 #overlay h1{ font-size:48px; margin:0; color: #00e5ff; text-shadow: 0 0 10px #00e5ff; }
 #overlay p{ font-size:20px; }
@@ -86,7 +82,6 @@ const overlay = document.getElementById('overlay')
 const scoreText = document.getElementById('score')
 const speedText = document.getElementById('speed-display')
 
-// スマホの画面の向き（リサイズ）に追従させるためのリアルタイムサイズ取得
 let WIDTH = window.innerWidth
 let HEIGHT = window.innerHeight
 let GROUND_Y = HEIGHT - 100 
@@ -101,6 +96,9 @@ let jumpCount = 0
 let score = 0
 let speed = 400
 let currentSpeedLevel = 0 
+
+// ジャンプを外部からトリガーするための関数をシーン外に用意（Safari対策）
+let triggerJumpFunction = null;
 
 const SPEED_TABLE = [
     { threshold: 0,   speed: 400, display: 40,  minDelay: 1500, maxDelay: 3000 },
@@ -119,12 +117,10 @@ class MainScene extends Phaser.Scene {
 
     preload(){
         this.load.crossOrigin = 'anonymous';
-
         this.load.spritesheet('player_run', 'https://labs.phaser.io/assets/sprites/dude.png', {
             frameWidth: 32,
             frameHeight: 48
         });
-        
         this.load.image('spike', 'https://labs.phaser.io/assets/sprites/ufo.png')
         
         const g = this.make.graphics({x:0,y:0,add:false})
@@ -155,22 +151,17 @@ class MainScene extends Phaser.Scene {
 
         this.cameras.main.setBackgroundColor('#0b1020')
 
-        // 画面サイズを現在のブラウザサイズに再適応
-        WIDTH = this.sys.game.config.width
-        HEIGHT = this.sys.game.config.height
-        GROUND_Y = HEIGHT - 100
-
+        // 床グループの作成（画面サイズに合わせて配置）
         grounds = this.physics.add.group()
-        // 画面外まで床をしっかり敷き詰める（スマホの横長・縦長両対応のために多めに配置）
         for(let i=0; i<30; i++){
             const ground = grounds.create(i*120, GROUND_Y, 'ground').setOrigin(0,0)
             ground.body.allowGravity = false
             ground.body.setImmovable(true)
         }
 
-        player = this.physics.add.sprite(150, GROUND_Y - 100, 'player_run') // 少し左寄りに配置して見やすく
+        player = this.physics.add.sprite(150, GROUND_Y - 100, 'player_run')
         player.setDisplaySize(50, 70) 
-        player.setGravityY(2000) // スマホの狭い画面でも快適に遊べるよう重力を少し強めに微調整   
+        player.setGravityY(2000) 
 
         if (!this.anims.exists('run')) {
             this.anims.create({
@@ -192,18 +183,29 @@ class MainScene extends Phaser.Scene {
         obstacles = this.physics.add.group()
         this.physics.add.overlap(player, obstacles, ()=>{ this.dead() })
 
-        // ★スマホの「画面タッチ（pointerdown）」に完全最適化
-        this.input.off('pointerdown')
-        this.input.on('pointerdown',()=>{
-            if(gameOver) this.scene.restart()
-            else { this.startGame(); this.jump(); }
-        })
+        // ★【Safari対策の核心】外部のJavaScriptネイティブイベントから叩けるように関数を登録
+        triggerJumpFunction = () => {
+            if(gameOver) {
+                // ゲームオーバー時はシーンをリスタート
+                triggerJumpFunction = null;
+                this.scene.restart();
+            } else {
+                if(!started) {
+                    started = true;
+                    overlay.style.display = 'none';
+                }
+                if(jumpCount < 2){
+                    player.setVelocityY(-720);
+                    jumpCount++;
+                    player.anims.stop();
+                }
+            }
+        };
 
-        // PC用のキーボード操作も残しておく
+        // PC用のキーボード操作
         this.input.keyboard.off('keydown-SPACE')
         this.input.keyboard.on('keydown-SPACE',()=>{
-            if(gameOver) this.scene.restart()
-            else { this.startGame(); this.jump(); }
+            if(triggerJumpFunction) triggerJumpFunction();
         })
 
         this.obstacleTimer = this.time.addEvent({
@@ -229,7 +231,6 @@ class MainScene extends Phaser.Scene {
 
         this.checkSpeedUp()
 
-        // 落下判定（スマホの画面サイズに合わせて厳密に）
         if(player.y > GROUND_Y + 20){
             this.dead()
             return
@@ -261,27 +262,9 @@ class MainScene extends Phaser.Scene {
         }
     }
 
-    startGame(){
-        if(started) return
-        started = true
-        overlay.style.display = 'none'
-    }
-
-    jump(){
-        if(gameOver || !started) return
-
-        if(jumpCount < 2){
-            player.setVelocityY(-720) // 重力に合わせてジャンプ力も少しだけ強化
-            jumpCount++
-            player.anims.stop();
-        }
-    }
-
     spawnObstacleGenerator() {
         if(!started || gameOver) return
-
         const count = Phaser.Math.Between(1, 3)
-        // スマホの画面の右外（WIDTH）から正確に出現させる
         const baseOffset = this.sys.game.config.width + 100
 
         for(let i = 0; i < count; i++) {
@@ -298,7 +281,6 @@ class MainScene extends Phaser.Scene {
 
     makeHole(){
         if(!started || gameOver) return
-
         const screenWidth = this.sys.game.config.width
         const validGrounds = grounds.getChildren().filter(g => g.x > screenWidth + 100 && g.y === GROUND_Y)
         if(validGrounds.length < 3) return
@@ -327,7 +309,22 @@ class MainScene extends Phaser.Scene {
     }
 }
 
-new Phaser.Game({
+// ★【Safari用イベントリスナーの強制登録】
+// Phaserのシステムを通さず、HTML画面全体を触った瞬間に最速でジャンプ・スタート処理を実行させます。
+window.addEventListener('touchstart', (e) => {
+    // スクロールなどの標準動作をキャンセルしてゲーム入力を確定させる
+    if (e.touches.length > 1) e.preventDefault(); 
+    if(triggerJumpFunction) {
+        triggerJumpFunction();
+    }
+}, { passive: false });
+
+// PC用のマウスクリックも同様に登録
+window.addEventListener('mousedown', () => {
+    if(triggerJumpFunction) triggerJumpFunction();
+});
+
+const config = {
     type: Phaser.AUTO,
     width: WIDTH,
     height: HEIGHT,
@@ -335,13 +332,14 @@ new Phaser.Game({
         default: 'arcade',
         arcade: { gravity: {y: 0}, debug: false }
     },
-    // RESIZEモードでスマホの縦向き・横向き・画面サイズ変化に自動追従
     scale: { 
         mode: Phaser.Scale.RESIZE, 
         autoCenter: Phaser.Scale.CENTER_BOTH 
     },
     scene: [MainScene]
-})
+};
+
+const game = new Phaser.Game(config);
 </script>
 </body>
 </html>
