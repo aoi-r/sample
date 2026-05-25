@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>collapse - Glass Edition</title>
+    <title>collapse - Clear Glass Edition</title>
     <style>
         :root {
             --bg-color: #d29a5c;
@@ -11,9 +11,9 @@
             --bubble-border: rgba(255, 255, 255, 0.6);
             --text-gold: #f6e58d;
             
-            /* ケースのサイズ定義 */
+            /* iPhone/Safariの画面高さ(100dvh)に合わせて可変するケースサイズ */
             --case-width: 400px;
-            --case-height: 600px;
+            --case-height: 72dvh; /* 画面全体の72%をゲームエリアにする */
         }
         body {
             margin: 0;
@@ -82,31 +82,29 @@
             height: var(--case-height);
         }
 
-        /* ★ガラス風ケースのレイアウト */
+        /* ★クリアガラス（中が綺麗に見えるアクリル風）ケース */
         #glass-case {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 480px; /* デッドライン(120px)から下のサイズ */
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 6px solid rgba(255, 245, 225, 0.6);
+            height: 78%; /* 上部の雲の待機スペースを除いた高さを自動計算 */
+            background: rgba(255, 255, 255, 0.08); /* 完全に透明に近く */
+            border: 6px solid rgba(255, 255, 255, 0.7); /* 白い綺麗な輪郭線 */
             border-top: none; /* 上部はオープン */
             border-radius: 0 0 24px 24px;
             box-shadow: 
-                0 20px 40px rgba(0,0,0,0.15), 
-                inset 0 2px 20px rgba(255,255,255,0.3);
-            pointer-events: none; /* 物理演算のクリックを邪魔しない */
-            z-index: 1;
+                0 15px 35px rgba(0,0,0,0.2), 
+                inset 0 -10px 20px rgba(255,255,255,0.1); /* 底面にわずかな光沢 */
+            pointer-events: none;
+            z-index: 2;
             box-sizing: border-box;
         }
 
         /* 追従する雲のキャラクター */
         #cloud-character {
             position: absolute;
-            top: 25px;
+            top: 10px;
             left: 50%;
             transform: translateX(-50%);
             width: 70px;
@@ -129,12 +127,14 @@
         #cloud-character::before { width: 35px; height: 35px; top: -15px; left: 12px; }
         #cloud-character::after { width: 28px; height: 28px; top: -10px; right: 12px; }
 
-        /* キャンバスを最背面に配置してケースのガラス越しに見せる */
+        /* Matter.jsのキャンバスをコンテナと100%同期させる */
         canvas {
             position: absolute;
             top: 0;
             left: 0;
-            z-index: 0;
+            width: 100% !important;
+            height: 100% !important;
+            z-index: 1;
         }
 
         /* --- ゲームオーバー画面 --- */
@@ -181,10 +181,6 @@
             border-radius: 30px;
             cursor: pointer;
             box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-            transition: transform 0.2s;
-        }
-        #restart-btn:hover {
-            transform: scale(1.05);
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
@@ -204,7 +200,6 @@
     
     <div id="game-container">
         <div id="glass-case"></div>
-        
         <div id="cloud-character"></div>
 
         <div id="game-over-screen">
@@ -217,11 +212,14 @@
 <script>
 const { Engine, Render, Runner, Bodies, Composite, Body, Events } = Matter;
 
-// ケースの寸法に連動
-const WIDTH = 400;
-const HEIGHT = 600;
-const DEAD_LINE_Y = 120; // 雲の下・ガラスケースの上辺位置
-const WALL_THICKNESS = 20;
+// 要素のサイズをブラウザの表示（CSS）から動的に取得
+const container = document.getElementById('game-container');
+const WIDTH = container.clientWidth;
+const HEIGHT = container.clientHeight;
+
+// ガラスケースの高さの比率(78%)からデッドライン(上辺)のY座標を自動計算
+const DEAD_LINE_Y = HEIGHT * (1 - 0.78); 
+const CASE_BORDER = 6; // 枠線の太さ
 
 let engine, render, runner;
 let score = 0;
@@ -231,22 +229,22 @@ let isReady = false;
 let isGameOver = false;
 let fruitTimers = new Map();
 
+// スマートフォン表示を考慮してフルーツのサイズをややコンパクトに調整
 const FRUIT_TYPES = [
-    { level: 0, radius: 14, color: '#ff3838', score: 1 },  
-    { level: 1, radius: 20, color: '#ff7675', score: 2 },  
-    { level: 2, radius: 28, color: '#a55eea', score: 4 },  
-    { level: 3, radius: 36, color: '#ff9f43', score: 8 },  
-    { level: 4, radius: 46, color: '#ffa801', score: 16 }, 
-    { level: 5, radius: 56, color: '#ff4757', score: 32 }, 
-    { level: 6, radius: 68, color: '#fed330', score: 64 }, 
-    { level: 7, radius: 80, color: '#ff6b81', score: 128 },
-    { level: 8, radius: 94, color: '#26de81', score: 256 },
-    { level: 9, radius: 110, color: '#20bf6b', score: 512 },
-    { level: 10, radius: 125, color: '#05c46b', score: 1024 }
+    { level: 0, radius: 12, color: '#ff3838', score: 1 },  
+    { level: 1, radius: 18, color: '#ff7675', score: 2 },  
+    { level: 2, radius: 24, color: '#a55eea', score: 4 },  
+    { level: 3, radius: 32, color: '#ff9f43', score: 8 },  
+    { level: 4, radius: 40, color: '#ffa801', score: 16 }, 
+    { level: 5, radius: 50, color: '#ff4757', score: 32 }, 
+    { level: 6, radius: 60, color: '#fed330', score: 64 }, 
+    { level: 7, radius: 72, color: '#ff6b81', score: 128 },
+    { level: 8, radius: 85, color: '#26de81', score: 256 },
+    { level: 9, radius: 100, color: '#20bf6b', score: 512 },
+    { level: 10, radius: 115, color: '#05c46b', score: 1024 }
 ];
 
-const container = document.getElementById('game-container');
-engine = Engine.create({ gravity: { y: 1.2 } });
+engine = Engine.create({ gravity: { y: 1.4 } }); // 少し爽快感を出すため重力を微増
 
 render = Render.create({
     element: container,
@@ -272,7 +270,7 @@ Events.on(render, 'afterRender', () => {
         context.beginPath();
         context.setLineDash([4, 6]);
         context.moveTo(currentFruit.position.x, currentFruit.position.y);
-        context.lineTo(currentFruit.position.x, HEIGHT - 6);
+        context.lineTo(currentFruit.position.x, HEIGHT - CASE_BORDER);
         context.lineWidth = 2;
         context.strokeStyle = 'rgba(255, 255, 255, 0.4)';
         context.stroke();
@@ -281,10 +279,10 @@ Events.on(render, 'afterRender', () => {
 
     // 2. デッドライン（ゲームオーバー警告線）
     context.beginPath();
-    context.moveTo(6, DEAD_LINE_Y);
-    context.lineTo(WIDTH - 6, DEAD_LINE_Y);
+    context.moveTo(CASE_BORDER, DEAD_LINE_Y);
+    context.lineTo(WIDTH - CASE_BORDER, DEAD_LINE_Y);
     context.lineWidth = 3;
-    context.strokeStyle = isGameOver ? '#ff4d4d' : 'rgba(255, 255, 255, 0.25)';
+    context.strokeStyle = isGameOver ? '#ff4d4d' : 'rgba(255, 255, 255, 0.3)';
     context.stroke();
 });
 
@@ -298,12 +296,12 @@ function initGame() {
     isGameOver = false;
     document.getElementById('game-over-screen').classList.remove('show');
 
-    // ガラスケースの枠（内側サイズがピッタリ合うように厚みを考慮して配置）
+    // ★重要：見た目の枠線（CASE_BORDER）の太さに寸分の狂いもなく物理の壁を同期させる
     const wallOptions = { isStatic: true, render: { visible: false } };
     
-    const ground = Bodies.rectangle(WIDTH / 2, HEIGHT - 3, WIDTH, 6, wallOptions);
-    const leftWall = Bodies.rectangle(3, HEIGHT / 2, 6, HEIGHT, wallOptions);
-    const rightWall = Bodies.rectangle(WIDTH - 3, HEIGHT / 2, 6, HEIGHT, wallOptions);
+    const ground = Bodies.rectangle(WIDTH / 2, HEIGHT - (CASE_BORDER / 2), WIDTH, CASE_BORDER, wallOptions);
+    const leftWall = Bodies.rectangle(CASE_BORDER / 2, HEIGHT / 2, CASE_BORDER, HEIGHT, wallOptions);
+    const rightWall = Bodies.rectangle(WIDTH - (CASE_BORDER / 2), HEIGHT / 2, CASE_BORDER, HEIGHT, wallOptions);
     
     Composite.add(engine.world, [ground, leftWall, rightWall]);
 
@@ -323,7 +321,7 @@ function createFruit(x, y, typeIndex, isStatic = false) {
     const type = FRUIT_TYPES[typeIndex];
     return Bodies.circle(x, y, type.radius, {
         isStatic: isStatic,
-        restitution: 0.15, 
+        restitution: 0.12, 
         friction: 0.08,
         render: { fillStyle: type.color },
         plugin: { level: type.level, combined: false }
@@ -333,7 +331,7 @@ function createFruit(x, y, typeIndex, isStatic = false) {
 function spawnNextFruit() {
     if (!isReady || isGameOver) return;
     
-    currentFruit = createFruit(WIDTH / 2, DEAD_LINE_Y - 40, nextFruitIndex, true);
+    currentFruit = createFruit(WIDTH / 2, DEAD_LINE_Y - 30, nextFruitIndex, true);
     Composite.add(engine.world, currentFruit);
     
     nextFruitIndex = Math.floor(Math.random() * 5);
@@ -347,10 +345,10 @@ function handleMove(clientX) {
     const rect = render.canvas.getBoundingClientRect();
     let mouseX = clientX - rect.left;
     
-    // ガラスケースの内側の境界線からフルーツがはみ出さないようにガード
+    // クリアガラスケースの内側の境界線からフルーツがはみ出さないようにガード
     const radius = FRUIT_TYPES[currentFruit.plugin.level].radius;
-    const minX = 6 + radius;
-    const maxX = WIDTH - 6 - radius;
+    const minX = CASE_BORDER + radius;
+    const maxX = WIDTH - CASE_BORDER - radius;
     
     if (mouseX < minX) mouseX = minX;
     if (mouseX > maxX) mouseX = maxX;
@@ -373,10 +371,10 @@ function handleDrop() {
             isReady = true;
             spawnNextFruit();
         }
-    }, 550);
+    }, 500);
 }
 
-// イベントリスナーをコンテナに絞ることで誤作動を防止
+// イベントをコンテナ単位で補足
 container.addEventListener('mousemove', (e) => handleMove(e.clientX));
 container.addEventListener('click', handleDrop);
 
