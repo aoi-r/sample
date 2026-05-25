@@ -3,65 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
-<title>Runner Game - Custom Sprite Edition</title>
+<title>Runner Game - Perfection Edition</title>
 <style>
-html,body{ 
-    margin:0; 
-    padding:0; 
-    width: 100%;
-    height: 100%;
-    overflow:hidden; 
-    background:#0b1020; 
-    font-family:sans-serif; 
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-}
-
-canvas{ 
-    display:block; 
-    width: 100% !important;
-    height: 100% !important;
-}
-
-#score{ 
-    position:fixed; 
-    top: 20px; 
-    left: 20px; 
-    color:white; 
-    font-size:24px; 
-    z-index:10; 
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-    pointer-events: none; 
-}
-
-#speed-display{
-    position:fixed; 
-    top: 20px; 
-    right: 20px; 
-    color: #00e5ff; 
-    font-size:24px; 
-    z-index:10; 
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-    font-weight: bold;
-    pointer-events: none;
-}
-
-#overlay{ 
-    position:fixed; 
-    inset:0; 
-    display:flex; 
-    align-items:center; 
-    justify-content:center; 
-    flex-direction:column; 
-    color:white; 
-    background:rgba(0,0,0,0.6); 
-    z-index:20; 
-    backdrop-filter: blur(4px); 
-    -webkit-backdrop-filter: blur(4px); 
-}
-#overlay h1{ font-size:48px; margin:0; color: #00e5ff; text-shadow: 0 0 10px #00e5ff; }
-#overlay p{ font-size:20px; }
+html,body{ margin:0; padding:0; width: 100%; height: 100%; overflow:hidden; background:#0b1020; font-family:sans-serif; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+canvas{ display:block; width: 100% !important; height: 100% !important; }
+#score{ position:fixed; top: 20px; left: 20px; color:white; font-size:24px; z-index:10; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); pointer-events: none; }
+#speed-display{ position:fixed; top: 20px; right: 20px; color: #00e5ff; font-size:24px; z-index:10; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); font-weight: bold; pointer-events: none; }
+#overlay{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; color:white; background:rgba(0,0,0,0.6); z-index:20; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+#overlay h1{ font-size:48px; margin:0; color: #00e5ff; text-shadow: 0 0 10px #00e5ff; padding-bottom: 10px; }
+#overlay p{ font-size:20px; margin: 5px 0; color: #ffffff; }
 </style>
 </head>
 <body>
@@ -71,7 +21,8 @@ canvas{
 
 <div id="overlay">
     <h1>RUNNER</h1>
-    <p>Tap to Start / Jump</p>
+    <p>Press SPACE Key or Tap Screen</p>
+    <p style="font-size: 14px; color: #888;">(ゲーム画面をクリックしてからスペースを押してください)</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
@@ -114,19 +65,20 @@ class MainScene extends Phaser.Scene {
     }
 
     preload(){
-        // ★【自作スプライトシートの読み込み設定】
-        // 同じディレクトリにある 'runa.png' を読み込みます。
-        // 解析した結果、1コマのサイズは横400px、縦600pxが最適です。
+        // 画像の切り出しサイズ（横256、縦360）はそのまま
         this.load.spritesheet('player_run', 'runa.png', {
-            frameWidth: 400,
-            frameHeight: 600
+            frameWidth: 256,
+            frameHeight: 360
         });
         
-        // 障害物の画像
-        this.load.image('spike', 'https://labs.phaser.io/assets/sprites/ufo.png')
-        
-        // 床のテクスチャを生成
+        // ★【ここを修正】外部URLからの読み込みをやめ、プログラムで生成した赤い四角を障害物にします
         const g = this.make.graphics({x:0,y:0,add:false})
+        g.fillStyle(0xff3333) // 障害物を赤い四角に
+        g.fillRect(0,0,40,40)
+        g.generateTexture('spike',40,40)
+        g.clear()
+
+        // 地面タイル
         g.fillStyle(0x111827)
         g.fillRect(0,0,120,60)
         g.lineStyle(2, 0x00e5ff, 0.5)
@@ -146,46 +98,39 @@ class MainScene extends Phaser.Scene {
         scoreText.textContent = 'SCORE : 0'
         speedText.textContent = `SPEED : ${SPEED_TABLE[0].display} km/h`
         
-        overlay.innerHTML = `
-            <h1>SPEED RUN</h1>
-            <p>Tap to Jump</p>
-        `
         overlay.style.display = 'flex'
 
         this.cameras.main.setBackgroundColor('#0b1020')
 
-        grounds = this.physics.add.group()
+        // 地面を「動かない物理オブジェクト」として確実に生成
+        grounds = this.physics.add.staticGroup()
         for(let i=0; i<30; i++){
-            const ground = grounds.create(i*120, GROUND_Y, 'ground').setOrigin(0,0)
-            ground.body.allowGravity = false
-            ground.body.setImmovable(true)
+            grounds.create(i*120, GROUND_Y, 'ground').setOrigin(0,0).refreshBody()
         }
 
-        // プレイヤーの作成
-        player = this.physics.add.sprite(150, GROUND_Y - 120, 'player_run')
-        // 元画像が大きいので、ゲーム画面に合うようにリサイズ（横60px、縦90px）
-        player.setDisplaySize(60, 90) 
-        player.setGravityY(2200) 
+        // プレイヤーの初期配置
+        player = this.physics.add.sprite(150, GROUND_Y - 150, 'player_run')
+        player.setDisplaySize(70, 100) 
+        player.setGravityY(2500) // 重力をしっかりと強くかける
 
-        // ★当たり判定（物理ボディ）のサイズ調整
-        // 画像の余白が大きいため、キャラクターの実体に合わせた当たり判定にギュッと狭めます
-        player.body.setSize(200, 500)
-        player.body.setOffset(100, 50)
+        // 当たり判定をドット絵の身体の中心に絞る調整
+        player.body.setSize(120, 260)
+        player.body.setOffset(68, 60)
 
-        // ★走るアニメーション登録（2コマ目と3コマ目をループさせる）
+        // ★【アニメーション定義：上段の4コマ（0〜3番）が走るモーション】
         if (!this.anims.exists('run_dash')) {
             this.anims.create({
                 key: 'run_dash',
-                frames: this.anims.generateFrameNumbers('player_run', { start: 1, end: 2 }),
-                frameRate: 8, // アニメーションの速度（好みに合わせて変えてね）
+                frames: this.anims.generateFrameNumbers('player_run', { start: 0, end: 3 }),
+                frameRate: 12, 
                 repeat: -1     
             });
         }
         player.anims.play('run_dash', true);
 
-        // 衝突判定
-        this.physics.add.collider(player, grounds, (p, g)=>{
-            if(p.body.touching.down){
+        // 地面との衝突設定
+        this.physics.add.collider(player, grounds, ()=>{
+            if(player.body.touching.down){
                 jumpCount = 0
                 if(started && !gameOver && !player.anims.isPlaying) {
                     player.anims.play('run_dash', true);
@@ -196,7 +141,7 @@ class MainScene extends Phaser.Scene {
         obstacles = this.physics.add.group()
         this.physics.add.overlap(player, obstacles, ()=>{ this.dead() })
 
-        // ジャンプ・スタート関数
+        // ★【キーボード・マウス・タッチすべてを統合したゲームコントロール】
         triggerJumpFunction = () => {
             if(gameOver) {
                 triggerJumpFunction = null;
@@ -205,21 +150,23 @@ class MainScene extends Phaser.Scene {
                 if(!started) {
                     started = true;
                     overlay.style.display = 'none';
+                    player.anims.play('run_dash', true);
                 }
                 if(jumpCount < 2){
-                    player.setVelocityY(-780); 
+                    player.setVelocityY(-850); // ジャンプ速度
                     jumpCount++;
-                    
-                    // ジャンプ中は1コマ目（足を前に出して飛んでいるポーズ）に固定
                     player.anims.stop();
-                    player.setFrame(1); 
+                    // 下段の真ん中（7番：腕を大きく突き上げたジャンプポーズ）を指定
+                    player.setFrame(7); 
                 }
             }
         };
 
-        // キーボード操作
+        // ブラウザのキー入力を確実にキャッチする設定
+        this.input.keyboard.enabled = true;
         this.input.keyboard.off('keydown-SPACE')
-        this.input.keyboard.on('keydown-SPACE',()=>{
+        this.input.keyboard.on('keydown-SPACE', (event) => {
+            event.preventDefault(); // スペースキーによるブラウザのスクロールを防止
             if(triggerJumpFunction) triggerJumpFunction();
         })
 
@@ -246,19 +193,21 @@ class MainScene extends Phaser.Scene {
 
         this.checkSpeedUp()
 
-        if(player.y > GROUND_Y + 50){
+        // 穴に落ちた場合の死亡判定
+        if(player.y > GROUND_Y + 120){
             this.dead()
             return
         }
 
+        // 地面タイルをスムーズにスクロールさせる処理
         grounds.getChildren().forEach((ground)=>{
             ground.x -= speed * delta / 1000
             if(ground.x <= -120){
                 let maxX = 0
                 grounds.getChildren().forEach((g)=>{ if(g.x > maxX) maxX = g.x })
                 ground.x = maxX + 120
-                ground.y = GROUND_Y 
             }
+            ground.body.updateFromGameObject();
         })
 
         obstacles.getChildren().forEach((obj)=>{
@@ -312,24 +261,24 @@ class MainScene extends Phaser.Scene {
     dead(){
         if(gameOver) return
         gameOver = true
-        this.physics.pause()
+        player.setVelocityY(0);
         player.anims.stop();
-        player.setFrame(0); // 終了時は立ちポーズ
+        // 下段の右端（9番：膝をついてうなだれるゲームオーバーポーズ）を指定
+        player.setFrame(9); 
 
         overlay.innerHTML = `
             <h1>GAME OVER</h1>
             <p>SCORE : ${Math.floor(score)}</p>
-            <p>Tap to Retry</p>
+            <p>Press SPACE or Tap to Retry</p>
         `
         overlay.style.display = 'flex'
     }
 }
 
+// 画面クリック・タッチでも連動して動くように外部イベントをバインド
 window.addEventListener('touchstart', (e) => {
     if (e.touches.length > 1) e.preventDefault(); 
-    if(triggerJumpFunction) {
-        triggerJumpFunction();
-    }
+    if(triggerJumpFunction) triggerJumpFunction();
 }, { passive: false });
 
 window.addEventListener('mousedown', () => {
@@ -337,17 +286,14 @@ window.addEventListener('mousedown', () => {
 });
 
 const config = {
-    type: Phaser.AUTO,
+    type: Phaser.CANVAS, // 特定のブラウザ環境でのバグを防ぐため、CANVAS描画に強制固定
     width: WIDTH,
     height: HEIGHT,
     physics: {
         default: 'arcade',
         arcade: { gravity: {y: 0}, debug: false }
     },
-    scale: { 
-        mode: Phaser.Scale.RESIZE, 
-        autoCenter: Phaser.Scale.CENTER_BOTH 
-    },
+    scale: { mode: Phaser.Scale.RESIZE, autoCenter: Phaser.Scale.CENTER_BOTH },
     scene: [MainScene]
 };
 
