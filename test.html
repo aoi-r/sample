@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
-<title>Runner Game - Safari Perfect Fix</title>
+<title>Runner Game - Custom Sprite Edition</title>
 <style>
 html,body{ 
     margin:0; 
@@ -13,7 +13,6 @@ html,body{
     overflow:hidden; 
     background:#0b1020; 
     font-family:sans-serif; 
-    /* Safariでの文字選択や長押しメニューを禁止 */
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     user-select: none;
@@ -97,7 +96,6 @@ let score = 0
 let speed = 400
 let currentSpeedLevel = 0 
 
-// ジャンプを外部からトリガーするための関数をシーン外に用意（Safari対策）
 let triggerJumpFunction = null;
 
 const SPEED_TABLE = [
@@ -116,13 +114,18 @@ class MainScene extends Phaser.Scene {
     }
 
     preload(){
-        this.load.crossOrigin = 'anonymous';
-        this.load.spritesheet('player_run', 'https://labs.phaser.io/assets/sprites/dude.png', {
-            frameWidth: 32,
-            frameHeight: 48
+        // ★【自作スプライトシートの読み込み設定】
+        // 同じディレクトリにある 'runa.png' を読み込みます。
+        // 解析した結果、1コマのサイズは横400px、縦600pxが最適です。
+        this.load.spritesheet('player_run', 'runa.png', {
+            frameWidth: 400,
+            frameHeight: 600
         });
+        
+        // 障害物の画像
         this.load.image('spike', 'https://labs.phaser.io/assets/sprites/ufo.png')
         
+        // 床のテクスチャを生成
         const g = this.make.graphics({x:0,y:0,add:false})
         g.fillStyle(0x111827)
         g.fillRect(0,0,120,60)
@@ -151,7 +154,6 @@ class MainScene extends Phaser.Scene {
 
         this.cameras.main.setBackgroundColor('#0b1020')
 
-        // 床グループの作成（画面サイズに合わせて配置）
         grounds = this.physics.add.group()
         for(let i=0; i<30; i++){
             const ground = grounds.create(i*120, GROUND_Y, 'ground').setOrigin(0,0)
@@ -159,34 +161,44 @@ class MainScene extends Phaser.Scene {
             ground.body.setImmovable(true)
         }
 
-        player = this.physics.add.sprite(150, GROUND_Y - 100, 'player_run')
-        player.setDisplaySize(50, 70) 
-        player.setGravityY(2000) 
+        // プレイヤーの作成
+        player = this.physics.add.sprite(150, GROUND_Y - 120, 'player_run')
+        // 元画像が大きいので、ゲーム画面に合うようにリサイズ（横60px、縦90px）
+        player.setDisplaySize(60, 90) 
+        player.setGravityY(2200) 
 
-        if (!this.anims.exists('run')) {
+        // ★当たり判定（物理ボディ）のサイズ調整
+        // 画像の余白が大きいため、キャラクターの実体に合わせた当たり判定にギュッと狭めます
+        player.body.setSize(200, 500)
+        player.body.setOffset(100, 50)
+
+        // ★走るアニメーション登録（2コマ目と3コマ目をループさせる）
+        if (!this.anims.exists('run_dash')) {
             this.anims.create({
-                key: 'run',
-                frames: this.anims.generateFrameNumbers('player_run', { start: 5, end: 8 }),
-                frameRate: 12, 
+                key: 'run_dash',
+                frames: this.anims.generateFrameNumbers('player_run', { start: 1, end: 2 }),
+                frameRate: 8, // アニメーションの速度（好みに合わせて変えてね）
                 repeat: -1     
             });
         }
-        player.anims.play('run', true);
+        player.anims.play('run_dash', true);
 
+        // 衝突判定
         this.physics.add.collider(player, grounds, (p, g)=>{
             if(p.body.touching.down){
                 jumpCount = 0
-                if(started && !gameOver) player.anims.play('run', true);
+                if(started && !gameOver && !player.anims.isPlaying) {
+                    player.anims.play('run_dash', true);
+                }
             }
         })
 
         obstacles = this.physics.add.group()
         this.physics.add.overlap(player, obstacles, ()=>{ this.dead() })
 
-        // ★【Safari対策の核心】外部のJavaScriptネイティブイベントから叩けるように関数を登録
+        // ジャンプ・スタート関数
         triggerJumpFunction = () => {
             if(gameOver) {
-                // ゲームオーバー時はシーンをリスタート
                 triggerJumpFunction = null;
                 this.scene.restart();
             } else {
@@ -195,14 +207,17 @@ class MainScene extends Phaser.Scene {
                     overlay.style.display = 'none';
                 }
                 if(jumpCount < 2){
-                    player.setVelocityY(-720);
+                    player.setVelocityY(-780); 
                     jumpCount++;
+                    
+                    // ジャンプ中は1コマ目（足を前に出して飛んでいるポーズ）に固定
                     player.anims.stop();
+                    player.setFrame(1); 
                 }
             }
         };
 
-        // PC用のキーボード操作
+        // キーボード操作
         this.input.keyboard.off('keydown-SPACE')
         this.input.keyboard.on('keydown-SPACE',()=>{
             if(triggerJumpFunction) triggerJumpFunction();
@@ -231,7 +246,7 @@ class MainScene extends Phaser.Scene {
 
         this.checkSpeedUp()
 
-        if(player.y > GROUND_Y + 20){
+        if(player.y > GROUND_Y + 50){
             this.dead()
             return
         }
@@ -299,6 +314,7 @@ class MainScene extends Phaser.Scene {
         gameOver = true
         this.physics.pause()
         player.anims.stop();
+        player.setFrame(0); // 終了時は立ちポーズ
 
         overlay.innerHTML = `
             <h1>GAME OVER</h1>
@@ -309,17 +325,13 @@ class MainScene extends Phaser.Scene {
     }
 }
 
-// ★【Safari用イベントリスナーの強制登録】
-// Phaserのシステムを通さず、HTML画面全体を触った瞬間に最速でジャンプ・スタート処理を実行させます。
 window.addEventListener('touchstart', (e) => {
-    // スクロールなどの標準動作をキャンセルしてゲーム入力を確定させる
     if (e.touches.length > 1) e.preventDefault(); 
     if(triggerJumpFunction) {
         triggerJumpFunction();
     }
 }, { passive: false });
 
-// PC用のマウスクリックも同様に登録
 window.addEventListener('mousedown', () => {
     if(triggerJumpFunction) triggerJumpFunction();
 });
