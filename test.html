@@ -6,12 +6,14 @@
 <title>Salaryman Runner</title>
 
 <style>
+
 html,body{
     margin:0;
     padding:0;
     overflow:hidden;
     background:#87ceeb;
     touch-action:none;
+    font-family:sans-serif;
 }
 
 canvas{
@@ -19,6 +21,7 @@ canvas{
     width:100vw;
     height:100vh;
 }
+
 </style>
 </head>
 <body>
@@ -26,13 +29,12 @@ canvas{
 <canvas id="game"></canvas>
 
 <script>
+
 // ======================================================
-// ★ GIFファイル名（ここだけ変更すればOK）
+// スマホ判定
 // ======================================================
 
-const RUN_GIF = "sala/salarun.gif";
-const JUMP_GIF = "sala/jump.gif";
-const DEAD_GIF = "sala/death.gif";
+const isMobile = window.innerWidth < 768;
 
 // ======================================================
 // Canvas
@@ -42,38 +44,57 @@ const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
 function resize(){
+
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 }
+
 resize();
+
 window.addEventListener("resize", resize);
 
 // ======================================================
-// 画像
+// スプライト読み込み
+// sala/run1.png ～ run8.png
+// sala/jump1.png ～ jump6.png
+// sala/dead1.png ～ dead6.png
 // ======================================================
 
-const runImg = new Image();
-runImg.src = RUN_GIF;
+function loadFrames(prefix,count){
 
-const jumpImg = new Image();
-jumpImg.src = JUMP_GIF;
+    const arr = [];
 
-const deadImg = new Image();
-deadImg.src = DEAD_GIF;
+    for(let i=1;i<=count;i++){
+
+        const img = new Image();
+        img.src = `sala_img/${prefix}${i}.png`;
+
+        arr.push(img);
+    }
+
+    return arr;
+}
+
+const runFrames = loadFrames("run",8);
+const jumpFrames = loadFrames("jump",6);
+const deadFrames = loadFrames("dead",6);
 
 // ======================================================
 // プレイヤー
 // ======================================================
 
 const player = {
-    x:120,
+
+    x:isMobile ? 70 : 120,
     y:0,
-    width:90,
-    height:90,
+
+    width:isMobile ? 72 : 96,
+    height:isMobile ? 72 : 96,
 
     vy:0,
+
     gravity:0.9,
-    jumpPower:-18,
+    jumpPower:isMobile ? -16 : -18,
 
     jumpCount:0,
     maxJump:2,
@@ -81,7 +102,67 @@ const player = {
     dead:false
 };
 
-const groundY = () => canvas.height - 140;
+const groundY = () => canvas.height - (isMobile ? 110 : 140);
+
+// ======================================================
+// アニメーション
+// ======================================================
+
+let frameIndex = 0;
+let frameTimer = 0;
+
+const RUN_SPEED = 5;
+const JUMP_SPEED = 6;
+const DEAD_SPEED = 10;
+
+// ======================================================
+// スコア
+// ======================================================
+
+let score = 0;
+
+// ======================================================
+// ゲーム速度
+// ======================================================
+
+let gameSpeed = isMobile ? 6 : 8;
+
+// ======================================================
+// スピードアップ演出
+// ======================================================
+
+let speedLevel = 1;
+let speedEffectTimer = 0;
+
+// ======================================================
+// 背景スクロール
+// ======================================================
+
+let bgX = 0;
+
+// ======================================================
+// パーティクル
+// ======================================================
+
+const particles = [];
+
+function createSpeedParticles(){
+
+    for(let i=0;i<8;i++){
+
+        particles.push({
+
+            x:player.x + player.width / 2,
+            y:player.y + player.height / 2,
+
+            vx:-Math.random() * 8 - 2,
+            vy:(Math.random() - 0.5) * 6,
+
+            size:Math.random() * 4 + 2,
+            life:30
+        });
+    }
+}
 
 // ======================================================
 // 障害物
@@ -91,36 +172,79 @@ const obstacles = [];
 
 function createObstacle(){
 
-    const type = Math.random() < 0.7 ? "block" : "hole";
+    const rand = Math.random();
 
-    if(type === "block"){
+    // ==================================================
+    // 単体ブロック
+    // ==================================================
+
+    if(rand < 0.45){
 
         obstacles.push({
+
             type:"block",
-            x:canvas.width + 100,
-            y:groundY() - 60,
-            width:50 + Math.random() * 40,
-            height:60
-        });
 
-    }else{
+            x:canvas.width + 100,
+
+            y:groundY() - (isMobile ? 45 : 60),
+
+            width:isMobile
+                ? 40 + Math.random() * 25
+                : 50 + Math.random() * 40,
+
+            height:isMobile ? 45 : 60
+        });
+    }
+
+    // ==================================================
+    // 2連ブロック
+    // ==================================================
+
+    else if(rand < 0.7){
+
+        for(let i=0;i<2;i++){
+
+            obstacles.push({
+
+                type:"block",
+
+                x:canvas.width + 100 + (i * 120),
+
+                y:groundY() - (isMobile ? 45 : 60),
+
+                width:isMobile ? 45 : 60,
+                height:isMobile ? 45 : 60
+            });
+        }
+    }
+
+    // ==================================================
+    // 穴
+    // ==================================================
+
+    else{
 
         obstacles.push({
-            type:"hole",
-            x:canvas.width + 100,
-            width:120 + Math.random() * 80
-        });
 
+            type:"hole",
+
+            x:canvas.width + 100,
+
+            width:isMobile
+                ? 90 + Math.random() * 40
+                : 120 + Math.random() * 80
+        });
     }
 }
 
 setInterval(() => {
 
     if(!player.dead){
+
         createObstacle();
     }
 
-}, 1600);
+}, isMobile ? 1800 : 1500);
 
 // ======================================================
 // 入力
@@ -137,20 +261,46 @@ function jump(){
     }
 }
 
+// ======================================================
+// キーボード
+// ======================================================
+
 window.addEventListener("keydown", e => {
 
     if(e.code === "Space"){
+
+        if(player.dead){
+
+            restart();
+            return;
+        }
+
         jump();
     }
 
     if(e.code === "KeyR"){
+
         restart();
     }
-
 });
 
-window.addEventListener("mousedown", jump);
-window.addEventListener("touchstart", jump);
+// ======================================================
+// タッチ
+// ======================================================
+
+function handleTouch(){
+
+    if(player.dead){
+
+        restart();
+        return;
+    }
+
+    jump();
+}
+
+window.addEventListener("mousedown", handleTouch);
+window.addEventListener("touchstart", handleTouch);
 
 // ======================================================
 // リスタート
@@ -159,11 +309,24 @@ window.addEventListener("touchstart", jump);
 function restart(){
 
     player.dead = false;
+
     player.y = 0;
     player.vy = 0;
+
     player.jumpCount = 0;
 
     obstacles.length = 0;
+    particles.length = 0;
+
+    score = 0;
+
+    gameSpeed = isMobile ? 6 : 8;
+
+    speedLevel = 1;
+    speedEffectTimer = 0;
+
+    frameIndex = 0;
+    frameTimer = 0;
 }
 
 // ======================================================
@@ -173,11 +336,27 @@ function restart(){
 function rectHit(a,b){
 
     return (
+
         a.x < b.x + b.width &&
         a.x + a.width > b.x &&
+
         a.y < b.y + b.height &&
         a.y + a.height > b.y
     );
+}
+
+// ======================================================
+// 死亡
+// ======================================================
+
+function killPlayer(){
+
+    if(player.dead) return;
+
+    player.dead = true;
+
+    frameIndex = 0;
+    frameTimer = 0;
 }
 
 // ======================================================
@@ -186,37 +365,179 @@ function rectHit(a,b){
 
 function update(){
 
-    if(player.dead) return;
+    // ==================================================
+    // 死亡アニメ
+    // ==================================================
 
+    if(player.dead){
+
+        frameTimer++;
+
+        if(frameTimer >= DEAD_SPEED){
+
+            frameTimer = 0;
+
+            if(frameIndex < deadFrames.length - 1){
+
+                frameIndex++;
+            }
+        }
+
+        return;
+    }
+
+    // ==================================================
+    // スコア
+    // ==================================================
+
+    score += 0.1;
+
+    // ==================================================
+    // スピードアップ
+    // ==================================================
+
+    const nextLevel = Math.floor(score / 100) + 1;
+
+    if(nextLevel > speedLevel){
+
+        speedLevel = nextLevel;
+
+        gameSpeed += 1;
+
+        speedEffectTimer = 120;
+
+        createSpeedParticles();
+    }
+
+    // 徐々に加速
+    gameSpeed += isMobile ? 0.0006 : 0.0009;
+
+    // ==================================================
+    // スピード演出タイマー
+    // ==================================================
+
+    if(speedEffectTimer > 0){
+
+        speedEffectTimer--;
+    }
+
+    // ==================================================
+    // 背景
+    // ==================================================
+
+    bgX -= gameSpeed;
+
+    if(bgX <= -80){
+
+        bgX = 0;
+    }
+
+    // ==================================================
     // 重力
+    // ==================================================
+
     player.vy += player.gravity;
     player.y += player.vy;
 
+    // ==================================================
     // 地面
+    // ==================================================
+
     if(player.y > groundY() - player.height){
 
         player.y = groundY() - player.height;
+
         player.vy = 0;
         player.jumpCount = 0;
     }
 
-    // 障害物移動
+    // ==================================================
+    // アニメーション
+    // ==================================================
+
+    frameTimer++;
+
+    let speed = RUN_SPEED;
+
+    if(player.jumpCount > 0){
+
+        speed = JUMP_SPEED;
+    }
+
+    if(frameTimer >= speed){
+
+        frameTimer = 0;
+
+        frameIndex++;
+    }
+
+    // run
+    if(player.jumpCount === 0){
+
+        if(frameIndex >= runFrames.length){
+
+            frameIndex = 0;
+        }
+    }
+
+    // jump
+    else{
+
+        if(frameIndex >= jumpFrames.length){
+
+            frameIndex = 0;
+        }
+    }
+
+    // ==================================================
+    // パーティクル
+    // ==================================================
+
+    for(let i=particles.length-1;i>=0;i--){
+
+        const p = particles[i];
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        p.life--;
+
+        if(p.life <= 0){
+
+            particles.splice(i,1);
+        }
+    }
+
+    // ==================================================
+    // 障害物
+    // ==================================================
+
     for(let i=obstacles.length-1;i>=0;i--){
 
         const o = obstacles[i];
 
-        o.x -= 8;
+        o.x -= gameSpeed;
 
-        // ブロック
+        // 判定
+        const hitbox = {
+
+            x:player.x + (isMobile ? 10 : 18),
+            y:player.y + (isMobile ? 8 : 12),
+
+            width:player.width - (isMobile ? 20 : 36),
+            height:player.height - (isMobile ? 14 : 20)
+        };
+
+        // block
         if(o.type === "block"){
 
-            if(rectHit(player,o)){
-                player.dead = true;
-            }
+            if(rectHit(hitbox,o)){
 
+                killPlayer();
+            }
         }
 
-        // 落とし穴
+        // hole
         else{
 
             const playerFront = player.x + player.width * 0.5;
@@ -226,12 +547,14 @@ function update(){
                 playerFront < o.x + o.width &&
                 player.y + player.height >= groundY()
             ){
-                player.dead = true;
+
+                killPlayer();
             }
         }
 
         // 削除
         if(o.x + (o.width || 0) < -200){
+
             obstacles.splice(i,1);
         }
     }
@@ -243,15 +566,49 @@ function update(){
 
 function draw(){
 
+    // ==================================================
     // 空
-    ctx.fillStyle = "#87ceeb";
+    // ==================================================
+
+    ctx.fillStyle = speedEffectTimer > 0
+        ? "#bfe9ff"
+        : "#87ceeb";
+
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    // 地面
-    ctx.fillStyle = "#66bb55";
-    ctx.fillRect(0,groundY(),canvas.width,200);
+    // ==================================================
+    // スピードライン
+    // ==================================================
 
-    // 落とし穴
+    ctx.fillStyle = "#ffffff55";
+
+    for(let i=0;i<35;i++){
+
+        ctx.fillRect(
+            (i * 80) + bgX,
+            Math.sin(i) * 20 + 120,
+            50,
+            4
+        );
+    }
+
+    // ==================================================
+    // 地面
+    // ==================================================
+
+    ctx.fillStyle = "#66bb55";
+
+    ctx.fillRect(
+        0,
+        groundY(),
+        canvas.width,
+        200
+    );
+
+    // ==================================================
+    // 穴
+    // ==================================================
+
     obstacles.forEach(o => {
 
         if(o.type === "hole"){
@@ -267,7 +624,10 @@ function draw(){
         }
     });
 
-    // 障害物
+    // ==================================================
+    // ブロック
+    // ==================================================
+
     obstacles.forEach(o => {
 
         if(o.type === "block"){
@@ -284,47 +644,121 @@ function draw(){
     });
 
     // ==================================================
-    // プレイヤーGIF切り替え
+    // パーティクル
     // ==================================================
 
-    let currentImg = runImg;
+    particles.forEach(p => {
+
+        ctx.fillStyle = "#ffffff";
+
+        ctx.fillRect(
+            p.x,
+            p.y,
+            p.size,
+            p.size
+        );
+    });
+
+    // ==================================================
+    // プレイヤー
+    // ==================================================
+
+    let currentFrame;
 
     if(player.dead){
 
-        currentImg = deadImg;
+        currentFrame = deadFrames[frameIndex];
 
     }else if(player.jumpCount > 0){
 
-        currentImg = jumpImg;
+        currentFrame = jumpFrames[frameIndex];
+
+    }else{
+
+        currentFrame = runFrames[frameIndex];
     }
 
     ctx.drawImage(
-        currentImg,
+        currentFrame,
         player.x,
         player.y,
         player.width,
         player.height
     );
 
+    // ==================================================
     // UI
+    // ==================================================
+
     ctx.fillStyle = "#fff";
-    ctx.font = "24px sans-serif";
-    ctx.fillText("SPACE / TAP : JUMP",20,40);
+
+    ctx.font = isMobile
+        ? "20px sans-serif"
+        : "24px sans-serif";
+
+    ctx.fillText(
+        "SPACE / TAP : JUMP",
+        20,
+        40
+    );
+
+    ctx.fillText(
+        "SCORE : " + Math.floor(score),
+        20,
+        75
+    );
+
+    ctx.fillText(
+        "SPEED Lv." + speedLevel,
+        20,
+        110
+    );
+
+    // ==================================================
+    // SPEED UP
+    // ==================================================
+
+    if(speedEffectTimer > 0){
+
+        ctx.fillStyle = "#ffffff";
+
+        ctx.font = isMobile
+            ? "42px sans-serif"
+            : "64px sans-serif";
+
+        ctx.fillText(
+            "SPEED UP!",
+            canvas.width/2 - (isMobile ? 140 : 190),
+            canvas.height/3
+        );
+    }
+
+    // ==================================================
+    // GAME OVER
+    // ==================================================
 
     if(player.dead){
 
-        ctx.font = "48px sans-serif";
+        ctx.fillStyle = "#fff";
+
+        ctx.font = isMobile
+            ? "42px sans-serif"
+            : "56px sans-serif";
+
         ctx.fillText(
             "GAME OVER",
-            canvas.width/2 - 160,
+            canvas.width/2 - (isMobile ? 140 : 180),
             canvas.height/2
         );
 
-        ctx.font = "28px sans-serif";
+        ctx.font = isMobile
+            ? "22px sans-serif"
+            : "28px sans-serif";
+
         ctx.fillText(
-            "Press R to Restart",
-            canvas.width/2 - 120,
-            canvas.height/2 + 50
+            "TAP / SPACE TO RESTART",
+            canvas.width/2 - (isMobile ? 145 : 170),
+            canvas.height/2 + 45
         );
     }
 }
