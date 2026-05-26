@@ -111,6 +111,13 @@ const run=load("run",8);
 const jump=load("jump",6);
 const dead=load("dead",6);
 
+//======================
+//障害物・・・
+//======================
+const bill = new Image();
+bill.src = "sala_img/bill.png";
+
+
 // =====================
 // プレイヤー
 // =====================
@@ -441,7 +448,10 @@ function draw(){
 
     // 障害物の描画
     obs.forEach(o=>{
-        if(o.t==="brown") ctx.fillStyle="#8b4513";
+        if(o.t==="brown"){
+		//ctx.fillStyle="#8b4513";
+		ctx.drawImage(bill,o.x,o.y,o.w,o.h);
+	}
         if(o.t==="green") ctx.fillStyle="#3cb371";
 
         if(o.t==="brown" || o.t==="green"){
