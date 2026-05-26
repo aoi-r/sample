@@ -117,6 +117,9 @@ const dead=load("dead",6);
 const bill = new Image();
 bill.src = "sala_img/bill.png";
 
+const joshi = new Image();
+joshi.src = "sala_img/joshi.png";
+
 
 // =====================
 // プレイヤー
@@ -454,8 +457,7 @@ obs.forEach(o => {
     }
     // 🟢 緑：2段ジャンプ必須の四角形
     else if (o.t === "green") {
-        ctx.fillStyle = "#3cb371";
-        ctx.fillRect(o.x, o.y, o.w, o.h);
+        ctx.drawImage(joshi, o.x, o.y, o.w, o.h);
     }
     // 🩷 ピンク：天井トラップ
     else if (o.t === "pink") {
