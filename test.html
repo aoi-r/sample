@@ -120,6 +120,9 @@ bill.src = "sala_img/bill.png";
 const joshi = new Image();
 joshi.src = "sala_img/joshi.png";
 
+const light = new Image();
+light.src = "sala_img/light.png";
+
 
 // =====================
 // プレイヤー
@@ -461,10 +464,10 @@ obs.forEach(o => {
     }
     // 🩷 ピンク：天井トラップ
     else if (o.t === "pink") {
-        ctx.fillStyle = "#ff4fa3";
-        ctx.fillRect(o.x, o.y, o.w, o.h);
-        ctx.fillStyle = "#ff7abf";
-        ctx.fillRect(o.x, 0, o.w, 10);
+        const imgAspect = light.width / light.height;		////////////////不安要素君
+	const drawW = o.w;
+	const drawH = drawW/imgAspect;
+	ctx.drawImage(light,o.x,0,drawW,drawH);
     }
     // 🕳️ 落とし穴
     else if (o.t === "pit") {
