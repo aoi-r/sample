@@ -464,10 +464,7 @@ obs.forEach(o => {
     }
     // 🩷 ピンク：天井トラップ
     else if (o.t === "pink") {
-        const imgAspect = light.width / light.height;		////////////////不安要素君
-	const drawW = o.w;
-	const drawH = drawW/imgAspect;
-	ctx.drawImage(light,o.x,0,drawW,drawH);
+        ctx.drawImage(light, o.x, 0, o.w, o.h);
     }
     // 🕳️ 落とし穴
     else if (o.t === "pit") {
