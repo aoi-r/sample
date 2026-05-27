@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>リアルタイム将棋</title>
+<title>リアルタイム将棋 完成版</title>
 </head>
 
 <body style="margin:0; overflow:hidden;">
@@ -23,23 +23,23 @@ import {
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"
 
 ////////////////////////////////////////////////////
-// 🔥 Firebase設定（ここ自分のに差し替え）
+// Firebase
 ////////////////////////////////////////////////////
 const firebaseConfig = {
   apiKey: "AIzaSyDk7KNFdlp9zPtnixdNv96VtfKrELX1f8I",
-  authDomain: "syogi-cee67.firebaseapp.com",
-  databaseURL: "https://syogi-cee67-default-rtdb.firebaseio.com",
-  projectId: "syogi-cee67",
-  storageBucket: "syogi-cee67.firebasestorage.app",
-  messagingSenderId: "272231556689",
-  appId: "1:272231556689:web:b92700feb73a3ce5277a70"
+    authDomain: "syogi-cee67.firebaseapp.com",
+    databaseURL: "https://syogi-cee67-default-rtdb.firebaseio.com",
+    projectId: "syogi-cee67",
+    storageBucket: "syogi-cee67.firebasestorage.app",
+    messagingSenderId: "272231556689",
+    appId: "1:272231556689:web:b92700feb73a3ce5277a70"
 }
 
 const app = initializeApp(firebaseConfig)
 const db = getDatabase(app)
 
 ////////////////////////////////////////////////////
-// 基本設定
+// 基本
 ////////////////////////////////////////////////////
 const canvas = document.getElementById("game")
 const ctx = canvas.getContext("2d")
@@ -47,103 +47,297 @@ const ctx = canvas.getContext("2d")
 canvas.width = innerWidth
 canvas.height = innerHeight
 
-const CELL = 80 // 盤の1マスサイズ
-
-const playerId = Math.random().toString(36).slice(2)
+const CELL = 70
+const id = Math.random().toString(36).slice(2)
 
 ////////////////////////////////////////////////////
 // 駒画像
 ////////////////////////////////////////////////////
-const pieceImg = {}
+const img = {}
 
 function load(name){
-  const img = new Image()
-  img.src = "syogi_img/" + name + ".png"
-  pieceImg[name] = img
+  const i = new Image()
+  i.src = "syogi_img/" + name + ".png"
+  img[name] = i
 }
 
-load("fu")
+[
+ "fu","kyo","keima","gin","kin","ou","hisha","kaku"
+].forEach(load)
 
 ////////////////////////////////////////////////////
 // 状態
 ////////////////////////////////////////////////////
-let players = {}
+let state = {
+  turn:"sente",
+  pieces:{},
+  hands:{sente:[], gote:[]}
+}
 
-let targetX = 0
-let targetY = 0
+let selected = null
+let dragging = false
+let dragX = 0
+let dragY = 0
 
 ////////////////////////////////////////////////////
 // Firebase受信
 ////////////////////////////////////////////////////
-onValue(ref(db, "pieces"), snapshot => {
-  players = snapshot.val() || {}
+onValue(ref(db,"game"), snap=>{
+  state = snap.val() || state
 })
 
 ////////////////////////////////////////////////////
-// クリック操作（PC）
+// 初期配置
 ////////////////////////////////////////////////////
-canvas.addEventListener("click", e => {
-  targetX = Math.floor(e.clientX / CELL)
-  targetY = Math.floor(e.clientY / CELL)
-})
+function createInitialPieces(){
 
-////////////////////////////////////////////////////
-// タッチ操作（スマホ）
-////////////////////////////////////////////////////
-canvas.addEventListener("touchstart", e => {
-  const t = e.touches[0]
-  targetX = Math.floor(t.clientX / CELL)
-  targetY = Math.floor(t.clientY / CELL)
-})
+  const p = {}
 
-////////////////////////////////////////////////////
-// ループ
-////////////////////////////////////////////////////
-function loop(){
-
-  // 自分の駒（仮：常に歩）
-  const myPiece = {
-    x: targetX,
-    y: targetY,
-    piece: "fu"
+  // 先手
+  for(let i=0;i<9;i++){
+    p["s_fu"+i] = {x:i,y:6,type:"fu",owner:"sente"}
   }
 
-  set(ref(db, "pieces/" + playerId), myPiece)
+  p["s_kyo1"] = {x:0,y:8,type:"kyo",owner:"sente"}
+  p["s_kyo2"] = {x:8,y:8,type:"kyo",owner:"sente"}
+  p["s_ke1"] = {x:1,y:8,type:"keima",owner:"sente"}
+  p["s_ke2"] = {x:7,y:8,type:"keima",owner:"sente"}
+  p["s_gin1"] = {x:2,y:8,type:"gin",owner:"sente"}
+  p["s_gin2"] = {x:6,y:8,type:"gin",owner:"sente"}
+  p["s_kin1"] = {x:3,y:8,type:"kin",owner:"sente"}
+  p["s_kin2"] = {x:5,y:8,type:"kin",owner:"sente"}
+  p["s_ou"] = {x:4,y:8,type:"ou",owner:"sente"}
+  p["s_hisha"] = {x:1,y:7,type:"hisha",owner:"sente"}
+  p["s_kaku"] = {x:7,y:7,type:"kaku",owner:"sente"}
 
-  ////////////////////////////////////////////////////
-  // 描画
-  ////////////////////////////////////////////////////
-  ctx.clearRect(0,0,canvas.width,canvas.height)
+  // 後手
+  for(let i=0;i<9;i++){
+    p["g_fu"+i] = {x:i,y:2,type:"fu",owner:"gote"}
+  }
 
-  // 盤面
+  p["g_kyo1"] = {x:0,y:0,type:"kyo",owner:"gote"}
+  p["g_kyo2"] = {x:8,y:0,type:"kyo",owner:"gote"}
+  p["g_ke1"] = {x:1,y:0,type:"keima",owner:"gote"}
+  p["g_ke2"] = {x:7,y:0,type:"keima",owner:"gote"}
+  p["g_gin1"] = {x:2,y:0,type:"gin",owner:"gote"}
+  p["g_gin2"] = {x:6,y:0,type:"gin",owner:"gote"}
+  p["g_kin1"] = {x:3,y:0,type:"kin",owner:"gote"}
+  p["g_kin2"] = {x:5,y:0,type:"kin",owner:"gote"}
+  p["g_ou"] = {x:4,y:0,type:"ou",owner:"gote"}
+  p["g_hisha"] = {x:7,y:1,type:"hisha",owner:"gote"}
+  p["g_kaku"] = {x:1,y:1,type:"kaku",owner:"gote"}
+
+  return p
+}
+
+////////////////////////////////////////////////////
+// 初期化（1回だけ実行）
+////////////////////////////////////////////////////
+// set(ref(db,"game"),{
+//   turn:"sente",
+//   pieces:createInitialPieces(),
+//   hands:{sente:[], gote:[]}
+// })
+
+////////////////////////////////////////////////////
+// ユーティリティ
+////////////////////////////////////////////////////
+function getPieceAt(x,y){
+  for(const k in state.pieces){
+    const p = state.pieces[k]
+    if(p.x===x && p.y===y) return p
+  }
+  return null
+}
+
+function isBlocked(p,tx,ty){
+
+  const dx = tx - p.x
+  const dy = ty - p.y
+
+  const sx = dx===0?0:dx/Math.abs(dx)
+  const sy = dy===0?0:dy/Math.abs(dy)
+
+  let x = p.x + sx
+  let y = p.y + sy
+
+  while(x!==tx || y!==ty){
+    if(getPieceAt(x,y)) return true
+    x+=sx
+    y+=sy
+  }
+
+  return false
+}
+
+////////////////////////////////////////////////////
+// ルール
+////////////////////////////////////////////////////
+function canMove(p,x,y){
+
+  const dx = x - p.x
+  const dy = y - p.y
+
+  const target = getPieceAt(x,y)
+  if(target && target.owner===p.owner) return false
+
+  if(p.type==="fu"){
+    return p.owner==="sente"? dx===0&&dy===-1 : dx===0&&dy===1
+  }
+
+  if(p.type==="hisha"){
+    return (dx===0||dy===0) && !isBlocked(p,x,y)
+  }
+
+  if(p.type==="kaku"){
+    return Math.abs(dx)===Math.abs(dy) && !isBlocked(p,x,y)
+  }
+
+  if(p.type==="kyo"){
+    return dx===0 && dy<0 && !isBlocked(p,x,y)
+  }
+
+  if(p.type==="kin"){
+    return Math.abs(dx)<=1 && Math.abs(dy)<=1
+  }
+
+  if(p.type==="gin"){
+    return Math.abs(dx)<=1 && Math.abs(dy)<=1
+  }
+
+  if(p.type==="keima"){
+    return Math.abs(dx)===1 && Math.abs(dy)===2
+  }
+
+  if(p.type==="ou"){
+    return Math.abs(dx)<=1 && Math.abs(dy)<=1
+  }
+
+  return false
+}
+
+////////////////////////////////////////////////////
+// ドラッグ
+////////////////////////////////////////////////////
+canvas.addEventListener("mousedown", e=>{
+  const x = Math.floor(e.clientX/CELL)
+  const y = Math.floor(e.clientY/CELL)
+
+  for(const k in state.pieces){
+    const p = state.pieces[k]
+    if(p.x===x && p.y===y){
+      if(p.owner!==state.turn) return
+      selected = k
+      dragging = true
+    }
+  }
+})
+
+canvas.addEventListener("mouseup", e=>{
+  if(!selected) return
+
+  const x = Math.floor(e.clientX/CELL)
+  const y = Math.floor(e.clientY/CELL)
+
+  const p = state.pieces[selected]
+
+  if(canMove(p,x,y)){
+
+    for(const k in state.pieces){
+      const q = state.pieces[k]
+      if(q.x===x && q.y===y){
+        state.hands[state.turn].push(q.type)
+        delete state.pieces[k]
+      }
+    }
+
+    p.x = x
+    p.y = y
+
+    state.turn = state.turn==="sente"?"gote":"sente"
+
+    set(ref(db,"game"),state)
+  }
+
+  selected = null
+  dragging = false
+})
+
+////////////////////////////////////////////////////
+// スマホ対応
+////////////////////////////////////////////////////
+canvas.addEventListener("touchstart", e=>{
+  const t = e.touches[0]
+  const x = Math.floor(t.clientX/CELL)
+  const y = Math.floor(t.clientY/CELL)
+
+  for(const k in state.pieces){
+    const p = state.pieces[k]
+    if(p.x===x && p.y===y){
+      if(p.owner!==state.turn) return
+      selected = k
+    }
+  }
+})
+
+canvas.addEventListener("touchend", e=>{
+  if(!selected) return
+
+  const t = e.changedTouches[0]
+  const x = Math.floor(t.clientX/CELL)
+  const y = Math.floor(t.clientY/CELL)
+
+  const p = state.pieces[selected]
+
+  if(canMove(p,x,y)){
+
+    for(const k in state.pieces){
+      const q = state.pieces[k]
+      if(q.x===x && q.y===y){
+        state.hands[state.turn].push(q.type)
+        delete state.pieces[k]
+      }
+    }
+
+    p.x = x
+    p.y = y
+
+    state.turn = state.turn==="sente"?"gote":"sente"
+
+    set(ref(db,"game"),state)
+  }
+
+  selected = null
+})
+
+////////////////////////////////////////////////////
+// 描画
+////////////////////////////////////////////////////
+function draw(){
+
+  ctx.clearRect(0,0,innerWidth,innerHeight)
+
   for(let x=0;x<9;x++){
     for(let y=0;y<9;y++){
-      ctx.strokeStyle = "#333"
-      ctx.strokeRect(x*CELL, y*CELL, CELL, CELL)
+      ctx.strokeRect(x*CELL,y*CELL,CELL,CELL)
     }
   }
 
-  // 駒描画
-  for(const id in players){
-
-    const p = players[id]
-    const img = pieceImg[p.piece]
-
-    if(img){
-      ctx.drawImage(
-        img,
-        p.x * CELL,
-        p.y * CELL,
-        CELL,
-        CELL
-      )
-    }else{
-      // 画像なければ四角
-      ctx.fillStyle = "red"
-      ctx.fillRect(p.x*CELL, p.y*CELL, CELL, CELL)
+  for(const k in state.pieces){
+    const p = state.pieces[k]
+    const i = img[p.type]
+    if(i){
+      ctx.drawImage(i,p.x*CELL,p.y*CELL,CELL,CELL)
     }
   }
 
+  ctx.fillStyle="black"
+  ctx.fillText("S:"+state.hands.sente.join(","),10,20)
+  ctx.fillText("G:"+state.hands.gote.join(","),10,40)
+}
+
+function loop(){
+  draw()
   requestAnimationFrame(loop)
 }
 
