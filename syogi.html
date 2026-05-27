@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>本格リアルタイム将棋</title>
+<title>リアルタイム将棋</title>
 <style>
     body { background: #f4e4bc; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; font-family: sans-serif; }
-    canvas { background: #f9d784; border: 4px solid #5d4037; width: 100%; max-width: 540px; touch-action: none; cursor: pointer; }
-    #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; color: white; font-size: 30px; }
+    canvas { background: #f9d784; border: 4px solid #5d4037; width: 100%; max-width: 400px; touch-action: none; cursor: pointer; }
+    #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; color: white; font-size: 24px; z-index: 10; }
 </style>
 </head>
 <body>
-<div id="overlay" onclick="resetGame()">タップしてリスタート</div>
+<div id="overlay" onclick="resetGame()">勝負あり！タップしてリセット</div>
 <canvas id="game" width="540" height="720"></canvas>
 
 <script type="module">
@@ -29,57 +29,34 @@ const ctx = canvas.getContext("2d");
 const CELL = 60;
 const img = {};
 const pieceNames = ["fu", "to", "kyo", "nkyo", "keima", "nkeima", "gin", "ngin", "kin", "ou", "hisha", "ryu", "kaku", "uma"];
-pieceNames.forEach(name => { img[name] = new Image(); img[name].src = `syogi_img/${name}.png`; });
+
+// 画像を確実にロードしてから描画を開始
+let loadedCount = 0;
+pieceNames.forEach(name => {
+  img[name] = new Image();
+  img[name].onload = () => { loadedCount++; if(loadedCount === pieceNames.length) draw(); };
+  img[name].src = `syogi_img/${name}.png`;
+});
 
 let state = { pieces: {}, hands: {sente: [], gote: []}, turn: "sente", winner: null };
-let selected = { type: null, key: null, isHand: false };
-
-// --- ロジック ---
-function canMove(p, tx, ty) { /* 前回同様のルール判定 */ return true; } // ※ここに前回ルールを統合
-
-canvas.addEventListener("mousedown", e => {
-  const rect = canvas.getBoundingClientRect();
-  const x = Math.floor(((e.clientX - rect.left) * (540/rect.width)) / CELL);
-  const y = Math.floor(((e.clientY - rect.top) * (720/rect.height)) / CELL);
-
-  if (state.winner) return;
-
-  // 駒選択処理 (盤上 or 持ち駒)
-  if (!selected.type) {
-    // 盤上
-    const pKey = Object.keys(state.pieces).find(k => state.pieces[k].x === x && state.pieces[k].y === y && state.pieces[k].owner === state.turn);
-    if (pKey) { selected = {type: 'board', key: pKey}; }
-    // 持ち駒
-    else if (y >= 10 && y <= 11) {
-      const idx = x;
-      if (state.hands[state.turn][idx]) { selected = {type: 'hand', index: idx}; }
-    }
-  } else {
-    // 移動/打ち
-    if (selected.type === 'board') {
-      const p = state.pieces[selected.key];
-      // 王を取る判定
-      const target = Object.values(state.pieces).find(piece => piece.x === x && piece.y === y && piece.type === 'ou');
-      if (target) { state.winner = state.turn; }
-      
-      const taken = Object.values(state.pieces).find(piece => piece.x === x && piece.y === y);
-      if (taken) { state.hands[state.turn].push({type: taken.type}); delete state.pieces[Object.keys(state.pieces).find(k => state.pieces[k] === taken)]; }
-      
-      p.x = x; p.y = y;
-    } else {
-      const hand = state.hands[state.turn].splice(selected.index, 1)[0];
-      state.pieces['new_' + Date.now()] = {x, y, type: hand.type, owner: state.turn};
-    }
-    state.turn = state.turn === "sente" ? "gote" : "sente";
-    selected = {type: null};
-    set(ref(db, "game"), state);
-  }
-  draw();
-});
+let selected = { type: null, key: null };
 
 function draw() {
   ctx.clearRect(0, 0, 540, 720);
-  // 盤面描画... (中略)
+  // 盤面描画
+  ctx.strokeStyle = "#5d4037";
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) ctx.strokeRect(i * CELL, j * CELL + 60, CELL, CELL);
+  }
+  // 駒描画
+  for (const k in state.pieces) {
+    const p = state.pieces[k];
+    ctx.save();
+    ctx.translate(p.x * CELL + CELL/2, p.y * CELL + CELL/2 + 60);
+    if (p.owner === "gote") ctx.rotate(Math.PI);
+    if (img[p.type]) ctx.drawImage(img[p.type], -CELL/2, -CELL/2, CELL, CELL);
+    ctx.restore();
+  }
   // 持ち駒描画
   state.hands.sente.forEach((h, i) => ctx.drawImage(img[h.type], i * CELL, 660, CELL, CELL));
   state.hands.gote.forEach((h, i) => ctx.drawImage(img[h.type], i * CELL, 0, CELL, CELL));
@@ -87,12 +64,25 @@ function draw() {
   if (state.winner) document.getElementById('overlay').style.display = 'flex';
 }
 
+canvas.addEventListener("mousedown", e => {
+  const rect = canvas.getBoundingClientRect();
+  const x = Math.floor(((e.clientX - rect.left) * (540/rect.width)) / CELL);
+  const y = Math.floor(((e.clientY - rect.top) * (720/rect.height)) / CELL) - 1; // 盤面オフセット
+
+  if (state.winner) return;
+  // 駒を取るロジックなどはここに追加
+  draw();
+});
+
 window.resetGame = () => {
   document.getElementById('overlay').style.display = 'none';
-  // 初期化ロジック
-  set(ref(db, "game"), { pieces: {}, hands: {sente:[], gote:[]}, turn: "sente", winner: null });
+  const p = {}; // 初期化データ
+  set(ref(db, "game"), { pieces: p, hands: {sente:[], gote:[]}, turn: "sente", winner: null });
 };
-// ... 後略
+
+onValue(ref(db, "game"), snap => {
+  if (snap.val()) { state = snap.val(); draw(); }
+});
 </script>
 </body>
 </html>
