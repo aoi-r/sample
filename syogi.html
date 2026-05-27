@@ -2,15 +2,14 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>リアルタイム将棋 デバッグ版</title>
+<title>本格リアルタイム将棋：移動制限・成り実装版</title>
 <style>
-    body { background: #f4e4bc; display: flex; flex-direction: column; align-items: center; }
-    canvas { background: #f9d784; border: 5px solid red; margin-top: 20px; }
+    body { background: #f4e4bc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    canvas { background: #f9d784; border: 5px solid #5d4037; cursor: pointer; }
 </style>
 </head>
 <body>
 <canvas id="game" width="540" height="540"></canvas>
-<div id="status" style="color:red; font-weight:bold;"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -25,68 +24,105 @@ const db = getDatabase(initializeApp({
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 const CELL = 60;
-const statusDiv = document.getElementById("status");
 
-const pieceNames = ["fu", "to", "kyo", "nkyo", "keima", "nkeima", "gin", "ngin", "kin", "ou", "hisha", "ryu", "kaku", "uma"];
 const img = {};
-let loaded = 0;
-
-// 1. 画像ロード
+const pieceNames = ["fu", "to", "kyo", "nkyo", "keima", "nkeima", "gin", "ngin", "kin", "ou", "hisha", "ryu", "kaku", "uma"];
 pieceNames.forEach(name => {
   const i = new Image();
-  i.onload = () => {
-    loaded++;
-    console.log(`Loaded: ${name}, Total: ${loaded}`);
-  };
-  i.onerror = () => console.error(`Failed to load: ${name}`);
   i.src = `syogi_img/${name}.png`;
   img[name] = i;
 });
 
-// 2. 描画処理
-function draw(state) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // グリッド
-  ctx.strokeStyle = "black";
-  for (let i = 0; i < 9; i++) {
-    for (let j = 0; j < 9; j++) ctx.strokeRect(i * CELL, j * CELL, CELL, CELL);
+let state = { pieces: {}, turn: "sente" };
+let selectedKey = null;
+
+// 障害物判定
+function isBlocked(p, tx, ty) {
+  const dx = tx - p.x; const dy = ty - p.y;
+  const sx = dx === 0 ? 0 : dx / Math.abs(dx);
+  const sy = dy === 0 ? 0 : dy / Math.abs(dy);
+  let x = p.x + sx; let y = p.y + sy;
+  while (x !== tx || y !== ty) {
+    if (Object.values(state.pieces).find(piece => piece.x === x && piece.y === y)) return true;
+    x += sx; y += sy;
   }
-  // 駒
-  if (state.pieces) {
-    for (const k in state.pieces) {
-      const p = state.pieces[k];
-      if (img[p.type]) {
-        ctx.save();
-        ctx.translate(p.x * CELL + CELL / 2, p.y * CELL + CELL / 2);
-        if (p.owner === "gote") ctx.rotate(Math.PI);
-        ctx.drawImage(img[p.type], -CELL / 2, -CELL / 2, CELL, CELL);
-        ctx.restore();
-      }
-    }
+  return false;
+}
+
+// 成り候補マップ
+const promotionMap = { "fu":"to", "kyo":"nkyo", "keima":"nkeima", "gin":"ngin", "hisha":"ryu", "kaku":"uma" };
+
+function canMove(p, tx, ty) {
+  const dx = tx - p.x; const dy = ty - p.y;
+  const dir = p.owner === "sente" ? -1 : 1;
+  const target = Object.values(state.pieces).find(piece => piece.x === tx && piece.y === ty);
+  if (target && target.owner === p.owner) return false;
+
+  const absDx = Math.abs(dx); const absDy = Math.abs(dy);
+
+  switch(p.type) {
+    case "fu": return dx === 0 && dy === dir;
+    case "hisha": return (dx === 0 || dy === 0) && !isBlocked(p, tx, ty);
+    case "kaku": return absDx === absDy && !isBlocked(p, tx, ty);
+    case "kyo": return dx === 0 && dy * dir < 0 && !isBlocked(p, tx, ty);
+    case "keima": return absDx === 1 && dy === 2 * dir;
+    case "gin": return absDx <= 1 && absDy <= 1 && (dx !== 0 || dy !== 0) && !(absDx === 1 && dy === -dir);
+    case "kin": case "to": case "ngin": case "nkyo": case "nkeima":
+      return absDx <= 1 && absDy <= 1 && !(absDx === 1 && dy === -dir);
+    case "ou": return absDx <= 1 && absDy <= 1;
+    case "ryu": return (dx === 0 || dy === 0 || (absDx === 1 && absDy === 1)) && !isBlocked(p, tx, ty);
+    case "uma": return (absDx === absDy || (absDx <= 1 && absDy <= 1)) && !isBlocked(p, tx, ty);
+    default: return false;
   }
 }
 
-// 3. データ取得とデバッグ
-onValue(ref(db, "game"), snap => {
-  const val = snap.val();
-  if (!val || !val.pieces) {
-    statusDiv.innerText = "Firebaseのデータが空です。以下のテストデータを投入してください。";
-    console.warn("No data in Firebase");
-    return;
+canvas.addEventListener("mousedown", e => {
+  const rect = canvas.getBoundingClientRect();
+  const x = Math.floor((e.clientX - rect.left) / CELL);
+  const y = Math.floor((e.clientY - rect.top) / CELL);
+
+  if (!selectedKey) {
+    for (const k in state.pieces) {
+      if (state.pieces[k].x === x && state.pieces[k].y === y && state.pieces[k].owner === state.turn) {
+        selectedKey = k; break;
+      }
+    }
+  } else {
+    const p = state.pieces[selectedKey];
+    if (canMove(p, x, y)) {
+      // 駒取り
+      const targetKey = Object.keys(state.pieces).find(k => state.pieces[k].x === x && state.pieces[k].y === y);
+      if (targetKey) delete state.pieces[targetKey];
+      
+      // 成り判定
+      if (promotionMap[p.type] && (y < 3 || p.y < 3 || y > 5 || p.y > 5)) {
+        if (confirm("成りますか？")) p.type = promotionMap[p.type];
+      }
+      
+      p.x = x; p.y = y;
+      state.turn = state.turn === "sente" ? "gote" : "sente";
+      set(ref(db, "game"), state);
+    }
+    selectedKey = null;
   }
-  statusDiv.innerText = "データ受信成功";
-  draw(val);
+  draw();
 });
 
-// テスト用データ投入ボタン（画面に表示されない場合、コンソールでこれを実行してください）
-window.setTestData = () => {
-  set(ref(db, "game"), {
-    pieces: {
-      "t1": {x: 4, y: 4, type: "ou", owner: "sente"},
-      "t2": {x: 5, y: 5, type: "hisha", owner: "gote"}
-    }
-  });
-};
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let i = 0; i < 9; i++) for (let j = 0; j < 9; j++) ctx.strokeRect(i * CELL, j * CELL, CELL, CELL);
+  for (const k in state.pieces) {
+    const p = state.pieces[k];
+    ctx.save();
+    ctx.translate(p.x * CELL + CELL / 2, p.y * CELL + CELL / 2);
+    if (p.owner === "gote") ctx.rotate(Math.PI);
+    if (img[p.type]) ctx.drawImage(img[p.type], -CELL/2, -CELL/2, CELL, CELL);
+    if (selectedKey === k) ctx.strokeRect(-CELL/2, -CELL/2, CELL, CELL);
+    ctx.restore();
+  }
+}
+
+onValue(ref(db, "game"), snap => { if(snap.val()) { state = snap.val(); draw(); } });
 </script>
 </body>
 </html>
