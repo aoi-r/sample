@@ -305,9 +305,10 @@ function updateGameSystem() {
           : `${emptyRole === "black" ? "黒" : "白"}の席が空いています。参戦しますか？`;
 
         if (confirm(msg)) {
-          const joinOps = {};
-          joinOps[`game/${emptyRole}Id`] = myId;
-          update(ref(db), joinOps);
+          // 【修正箇所】確実にデータが書き換わる安全なパス指定に変更
+          update(ref(db, "game"), {
+            [`${emptyRole}Id`]: myId
+          });
         }
       };
     } else { 
