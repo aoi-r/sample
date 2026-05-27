@@ -3,9 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>リアルタイム将棋 完全版</title>
+<title>Crusade</title>
 <style>
     body { background: #f4e4bc; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; font-family: sans-serif; }
+    #watcherConsole { display: none; background: #5d4037; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; margin-bottom: 12px; align-items: center; gap: 15px; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+    #joinBtn { background: #2e7d32; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    #joinBtn:hover { background: #1b5e20; }
+    
     canvas { background: #f9d784; border: 4px solid #5d4037; width: 100%; max-width: 400px; touch-action: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
     #resetBtn { padding: 12px 24px; margin-bottom: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
     .normal { background: #5d4037; color: white; }
@@ -15,16 +19,17 @@
 </style>
 </head>
 <body>
-<div id="overlay" onclick="closeOverlay()">
-  <div id="winnerText">○手の勝ち！</div>
-  <span>タップして盤面を初期化し、次の対局へ</span>
+<div id="watcherConsole">
+  <span id="watcherStatus">観戦モード中</span>
+  <button id="joinBtn">参戦する</button>
 </div>
+
 <button id="resetBtn" class="normal">リセット申請</button>
 <canvas id="game" width="540" height="720"></canvas>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getDatabase, ref, set, onValue, onDisconnect } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const db = getDatabase(initializeApp({
   apiKey: "AIzaSyDk7KNFdlp9zPtnixdNv96VtfKrELX1f8I",
@@ -32,7 +37,11 @@ const db = getDatabase(initializeApp({
   projectId: "syogi-cee67"
 }));
 
-const myId = Math.random().toString(36).slice(2);
+let myId = sessionStorage.getItem("shogi_myId");
+if (!myId) {
+  myId = Math.random().toString(36).slice(2);
+  sessionStorage.setItem("shogi_myId", myId);
+}
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -41,7 +50,7 @@ const img = {};
 const pieceNames = ["fu", "to", "kyo", "nkyo", "keima", "nkeima", "gin", "ngin", "kin", "ou", "hisha", "ryu", "kaku", "uma"];
 pieceNames.forEach(name => { img[name] = new Image(); img[name].src = `syogi_img/${name}.png`; });
 
-let state = { pieces: {}, hands: {sente: [], gote: []}, turn: "sente", resetReq: false, resetSender: null, winner: null, senteId: null, goteId: null, lastMove: null };
+let state = { pieces: {}, hands: {sente: [], gote: []}, turn: "sente", resetReq: false, resetSender: null, winner: null, senteId: null, goteId: null, senteOnline: false, goteOnline: false, lastMove: null };
 let selected = { type: null, key: null, hIdx: null };
 let lastResetReq = false;
 
@@ -82,41 +91,28 @@ function canMove(p, tx, ty) {
 
 canvas.addEventListener("mousedown", e => {
   if (state.winner) return;
-  const rect = canvas.getBoundingClientRect();
   
-  // ★現在のプレイヤーの役割を判定
   let myRole = null;
   if (state.senteId === myId) myRole = "sente";
   else if (state.goteId === myId) myRole = "gote";
 
-  // ★タップされた物理ピクセル座標を計算
-  let rectX = (e.clientX - rect.left) * (540 / rect.width);
-  let rectY = (e.clientY - rect.top) * (720 / rect.height);
-
-  // ★自分が「後手」の場合、タップ座標を180度反転（画面の見た目とデータ座標を一致させる）
-  if (myRole === "gote") {
-    rectX = 540 - rectX;
-    rectY = 720 - rectY;
-  }
-
-  const x = Math.floor(rectX / CELL);
-  const y = Math.floor(rectY / CELL) - 1;
-
-  // プレイヤーの座席自動割り当て
-  if (!myRole) {
-    const pKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y);
-    let targetOwner = null;
-    if (pKey) targetOwner = state.pieces[pKey].owner;
-    else if (y === 10) targetOwner = "sente";
-    else if (y === -1) targetOwner = "gote";
-
-    if (targetOwner) {
-      if (targetOwner === "sente" && !state.senteId) { state.senteId = myId; myRole = "sente"; }
-      else if (targetOwner === "gote" && !state.goteId) { state.goteId = myId; myRole = "gote"; }
-    }
+  // プレイヤーの画面がロックされている（相手がいない、または切断中）なら操作拒否
+  if (myRole) {
+    const opponentId = myRole === "sente" ? state.goteId : state.senteId;
+    const opponentOnline = myRole === "sente" ? state.goteOnline : state.senteOnline;
+    if (!opponentId || !opponentOnline) return;
   }
 
   if (!myRole || state.turn !== myRole) return;
+
+  const rect = canvas.getBoundingClientRect();
+  let rectX = (e.clientX - rect.left) * (540 / rect.width);
+  let rectY = (e.clientY - rect.top) * (720 / rect.height);
+
+  if (myRole === "gote") { rectX = 540 - rectX; rectY = 720 - rectY; }
+
+  const x = Math.floor(rectX / CELL);
+  const y = Math.floor(rectY / CELL) - 1;
 
   const pKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y && state.pieces[k].owner === state.turn);
   if (pKey) { selected = {type: 'board', key: pKey}; draw(); return; }
@@ -138,7 +134,6 @@ canvas.addEventListener("mousedown", e => {
       if (targetKey && state.pieces[targetKey].owner !== p.owner) {
         const captured = state.pieces[targetKey];
         if (captured.type === "ou") state.winner = state.turn;
-        
         if (!state.hands) state.hands = { sente: [], gote: [] };
         if (!state.hands[state.turn]) state.hands[state.turn] = [];
         
@@ -154,15 +149,12 @@ canvas.addEventListener("mousedown", e => {
 
       const oldY = p.y;
       state.lastMove = { fromX: p.x, fromY: p.y, toX: x, toY: y };
-      
       p.x = x; p.y = y;
       const isEnemyZone = (p.owner === "sente" && (y <= 2 || oldY <= 2)) || (p.owner === "gote" && (y >= 6 || oldY >= 6));
       const promotable = ["fu", "kyo", "keima", "gin", "hisha", "kaku"].includes(p.type);
 
       if (isEnemyZone && promotable) {
-        const force = (p.type === "fu" && (y === 0 || y === 8)) || 
-                      (p.type === "kyo" && (y === 0 || y === 8)) || 
-                      (p.type === "keima" && (p.owner === "sente" ? y <= 1 : y >= 7));
+        const force = (p.type === "fu" && (y === 0 || y === 8)) || (p.type === "kyo" && (y === 0 || y === 8)) || (p.type === "keima" && (p.owner === "sente" ? y <= 1 : y >= 7));
         if (force || confirm("成りますか？")) {
           if (p.type === "fu") p.type = "to";
           else if (p.type === "kaku") p.type = "uma";
@@ -173,18 +165,13 @@ canvas.addEventListener("mousedown", e => {
 
     } else if (selected.type === 'hand') {
       if (x < 0 || x > 8 || y < 0 || y > 8 || targetKey) { selected = { type: null }; draw(); return; }
-      
       const h = state.hands[state.turn][selected.hIdx];
       if (h.type === 'fu') {
         const isNifu = Object.values(state.pieces || {}).some(p => p.x === x && p.type === 'fu' && p.owner === state.turn);
         if (isNifu) { alert("二歩は反則です！"); selected = { type: null }; draw(); return; }
       }
-      if ((h.type === 'fu' || h.type === 'kyo') && ((state.turn === 'sente' && y === 0) || (state.turn === 'gote' && y === 8))) {
-        alert("そこには打てません！"); selected = { type: null }; draw(); return;
-      }
-      if (h.type === 'keima' && ((state.turn === 'sente' && y <= 1) || (state.turn === 'gote' && y >= 7))) {
-        alert("そこには打てません！"); selected = { type: null }; draw(); return;
-      }
+      if ((h.type === 'fu' || h.type === 'kyo') && ((state.turn === 'sente' && y === 0) || (state.turn === 'gote' && y === 8))) { alert("そこには打てません！"); selected = { type: null }; draw(); return; }
+      if (h.type === 'keima' && ((state.turn === 'sente' && y <= 1) || (state.turn === 'gote' && y >= 7))) { alert("そこには打てません！"); selected = { type: null }; draw(); return; }
       
       state.lastMove = { fromX: null, fromY: null, toX: x, toY: y };
       state.hands[state.turn].splice(selected.hIdx, 1);
@@ -199,71 +186,44 @@ canvas.addEventListener("mousedown", e => {
 
 document.getElementById("resetBtn").addEventListener("click", () => {
   if (state.resetReq) return;
-  state.resetReq = true;
-  state.resetSender = myId;
-  set(ref(db, "game"), state);
+  state.resetReq = true; state.resetSender = myId; set(ref(db, "game"), state);
 });
 
-window.closeOverlay = () => { 
-  document.getElementById('overlay').style.display = 'none'; 
-  initBoard(); 
-};
+window.closeOverlay = () => { document.getElementById('overlay').style.display = 'none'; initBoard(); };
 
 function initBoard() {
-  const p = {};
-  const line = ["kyo", "keima", "gin", "kin", "ou", "kin", "gin", "keima", "kyo"];
+  const p = {}; const line = ["kyo", "keima", "gin", "kin", "ou", "kin", "gin", "keima", "kyo"];
   line.forEach((t, i) => { p["s"+i] = {x:i, y:8, type:t, owner:"sente"}; p["g"+i] = {x:8-i, y:0, type:t, owner:"gote"}; });
   p["s_h"] = {x:1, y:7, type:"hisha", owner:"sente"}; p["g_h"] = {x:7, y:1, type:"hisha", owner:"gote"};
   p["s_k"] = {x:7, y:7, type:"kaku", owner:"sente"}; p["g_k"] = {x:1, y:1, type:"kaku", owner:"gote"};
   for(let i=0; i<9; i++) { p["sf"+i] = {x:i, y:6, type:"fu", owner:"sente"}; p["gf"+i] = {x:i, y:2, type:"fu", owner:"gote"}; }
-  
-  set(ref(db, "game"), { 
-    pieces: p, hands: {sente:[], gote:[]}, turn: "sente", resetReq: false, resetSender: null, winner: null,
-    senteId: state?.senteId || null, goteId: state?.goteId || null, lastMove: null 
-  });
+  set(ref(db, "game"), { pieces: p, hands: {sente:[], gote:[]}, turn: "sente", resetReq: false, resetSender: null, winner: null, senteId: null, goteId: null, senteOnline: false, goteOnline: false, lastMove: null });
 }
 
 function draw() {
   ctx.clearRect(0, 0, 540, 720);
-  
   let myRole = null;
   if (state.senteId === myId) myRole = "sente";
   else if (state.goteId === myId) myRole = "gote";
 
-  // ★【視点切り替え】自分が「後手」ならCanvas全体を180度回転させて描画開始
   ctx.save();
-  if (myRole === "gote") {
-    ctx.translate(540 / 2, 720 / 2);
-    ctx.rotate(Math.PI);
-    ctx.translate(-540 / 2, -720 / 2);
-  }
+  if (myRole === "gote") { ctx.translate(540 / 2, 720 / 2); ctx.rotate(Math.PI); ctx.translate(-540 / 2, -720 / 2); }
   
-  // 配置エフェクト
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
       if (state.lastMove && ((state.lastMove.toX === i && state.lastMove.toY === j) || (state.lastMove.fromX === i && state.lastMove.fromY === j))) {
-        ctx.fillStyle = "rgba(255, 140, 0, 0.35)";
-        ctx.fillRect(i * CELL, j * CELL + 60, CELL, CELL);
+        ctx.fillStyle = "rgba(255, 140, 0, 0.35)"; ctx.fillRect(i * CELL, j * CELL + 60, CELL, CELL);
       }
-      ctx.strokeStyle = "#5d4037"; ctx.lineWidth = 1;
-      ctx.strokeRect(i * CELL, j * CELL + 60, CELL, CELL);
+      ctx.strokeStyle = "#5d4037"; ctx.lineWidth = 1; ctx.strokeRect(i * CELL, j * CELL + 60, CELL, CELL);
     }
   }
   
-  // 盤上の駒描画
   for (const k in (state.pieces || {})) {
-    const p = state.pieces[k];
-    ctx.save();
-    
-    let offsetY = 0;
+    const p = state.pieces[k]; ctx.save(); let offsetY = 0;
     if (selected.key === k && selected.type === 'board') {
       offsetY = p.owner === "sente" ? -10 : 10;
-      ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
-      ctx.shadowBlur = 12;
-      ctx.shadowOffsetX = 4;
-      ctx.shadowOffsetY = 6;
+      ctx.shadowColor = "rgba(0, 0, 0, 0.4)"; ctx.shadowBlur = 12; ctx.shadowOffsetX = 4; ctx.shadowOffsetY = 6;
     }
-
     ctx.translate(p.x * CELL + CELL/2, p.y * CELL + CELL/2 + 60 + offsetY);
     if (p.owner === "gote") ctx.rotate(Math.PI);
     if (img[p.type]) ctx.drawImage(img[p.type], -CELL/2, -CELL/2, CELL, CELL);
@@ -271,68 +231,131 @@ function draw() {
     ctx.restore();
   }
   
-  // 先手持ち駒
   (state.hands?.sente || []).forEach((h, i) => {
-    ctx.save();
-    let offsetY = 0;
-    if (selected.type === 'hand' && state.turn === 'sente' && selected.hIdx === i) {
-      offsetY = -10; ctx.shadowColor = "rgba(0,0,0,0.4)"; ctx.shadowBlur = 10;
-    }
-    ctx.translate(i * CELL, 660 + offsetY);
-    if (img[h.type]) ctx.drawImage(img[h.type], 0, 0, CELL, CELL);
+    ctx.save(); let offsetY = 0;
+    if (selected.type === 'hand' && state.turn === 'sente' && selected.hIdx === i) { offsetY = -10; ctx.shadowColor = "rgba(0,0,0,0.4)"; ctx.shadowBlur = 10; }
+    ctx.translate(i * CELL, 660 + offsetY); if (img[h.type]) ctx.drawImage(img[h.type], 0, 0, CELL, CELL);
     if (selected.type === 'hand' && state.turn === 'sente' && selected.hIdx === i) { ctx.strokeStyle = "red"; ctx.lineWidth = 3; ctx.strokeRect(0, 0, CELL, CELL); }
     ctx.restore();
   });
 
-  // 後手持ち駒
   (state.hands?.gote || []).forEach((h, i) => {
-    ctx.save();
-    let offsetY = 0;
-    if (selected.type === 'hand' && state.turn === 'gote' && selected.hIdx === i) {
-      offsetY = 10; ctx.shadowColor = "rgba(0,0,0,0.4)"; ctx.shadowBlur = 10;
-    }
-    ctx.translate(i * CELL, 0 + offsetY);
-    if (img[h.type]) ctx.drawImage(img[h.type], 0, 0, CELL, CELL);
+    ctx.save(); let offsetY = 0;
+    if (selected.type === 'hand' && state.turn === 'gote' && selected.hIdx === i) { offsetY = 10; ctx.shadowColor = "rgba(0,0,0,0.4)"; ctx.shadowBlur = 10; }
+    ctx.translate(i * CELL, 0 + offsetY); if (img[h.type]) ctx.drawImage(img[h.type], 0, 0, CELL, CELL);
     if (selected.type === 'hand' && state.turn === 'gote' && selected.hIdx === i) { ctx.strokeStyle = "red"; ctx.lineWidth = 3; ctx.strokeRect(0, 0, CELL, CELL); }
     ctx.restore();
   });
-  
-  // ★後手視点用の反転描画をここで終了（UIテキストが逆さになるのを防ぐため）
   ctx.restore();
 
-  // ボタン状態
   const btn = document.getElementById("resetBtn");
   if (state.resetReq) {
     if (state.resetSender === myId) { btn.innerText = "リセット回答待ち..."; btn.className = "waiting"; btn.disabled = true; }
     else { btn.innerText = "リセット申請を受信中"; btn.className = "waiting"; btn.disabled = false; }
   } else { btn.innerText = "リreset申請"; btn.innerText = "リセット申請"; btn.className = "normal"; btn.disabled = false; }
 
-  // 相手のターン時の視覚エフェクト（文字は常に正対して表示）
+  // ★【新機能】未入室・切断時の待機画面シールド（プレイヤー専用。観戦者には見せない）
+  let opponentMissing = false;
+  let opponentOffline = false;
+  let opponentName = myRole === "sente" ? "後手" : "先手";
+
+  if (myRole === "sente") {
+    if (!state.goteId) opponentMissing = true;
+    else if (!state.goteOnline) opponentOffline = true;
+  } else if (myRole === "gote") {
+    if (!state.senteId) opponentMissing = true;
+    else if (!state.senteOnline) opponentOffline = true;
+  }
+
+  if ((opponentMissing || opponentOffline) && !state.winner && myRole) {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.6)"; ctx.fillRect(0, 0, 540, 720);
+    // 相手がそもそもいないなら青、いるけど切断されたなら赤
+    ctx.fillStyle = opponentMissing ? "#0288d1" : "#d32f2f"; 
+    ctx.fillRect(100, 320, 340, 80);
+    ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.strokeRect(100, 320, 340, 80);
+    ctx.fillStyle = "#fff"; ctx.font = "bold 18px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    
+    if (opponentMissing) {
+      ctx.fillText("対戦相手を待っています...", 270, 360);
+    } else {
+      ctx.fillText(`${opponentName}が切断されました`, 270, 345);
+      ctx.font = "14px sans-serif"; ctx.fillText("復帰、または新規参戦を待っています...", 270, 375);
+    }
+    return;
+  }
+
   if (myRole && state.turn !== myRole && !state.winner) {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
-    ctx.fillRect(0, 0, 540, 720);
-
-    ctx.fillStyle = "rgba(93, 64, 55, 0.85)";
-    ctx.fillRect(160, 335, 220, 50);
-    ctx.strokeStyle = "#f4e4bc"; ctx.lineWidth = 2;
-    ctx.strokeRect(160, 335, 220, 50);
-
-    ctx.fillStyle = "#fff"; ctx.font = "bold 18px sans-serif";
-    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillStyle = "rgba(0, 0, 0, 0.15)"; ctx.fillRect(0, 0, 540, 720);
+    ctx.fillStyle = "rgba(93, 64, 55, 0.85)"; ctx.fillRect(160, 335, 220, 50);
+    ctx.strokeStyle = "#f4e4bc"; ctx.lineWidth = 2; ctx.strokeRect(160, 335, 220, 50);
+    ctx.fillStyle = "#fff"; ctx.font = "bold 18px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
     ctx.fillText("相手のターンです", 270, 360);
   }
 
   if (state.winner) {
     document.getElementById("winnerText").innerText = (state.winner === "sente" ? "先手" : "後手") + "の勝ち！";
     document.getElementById('overlay').style.display = 'flex';
-  } else {
-    document.getElementById('overlay').style.display = 'none';
-  }
+  } else { document.getElementById('overlay').style.display = 'none'; }
 }
 
 onValue(ref(db, "game"), snap => { 
   if(snap.val()) { 
     state = snap.val(); 
+
+    // 2人ともが離れたら強制リセット
+    const hasPlayers = state.senteId || state.goteId;
+    const bothOffline = (state.senteId ? !state.senteOnline : true) && (state.goteId ? !state.goteOnline : true);
+    if (hasPlayers && bothOffline) { initBoard(); return; }
+
+    let myRole = null;
+    // ★座席割り当ての判定＆リロード復帰時の自動フラグ点灯
+    if (state.senteId === myId) {
+      myRole = "sente";
+      if (!state.senteOnline) { state.senteOnline = true; set(ref(db, "game/senteOnline"), true); onDisconnect(ref(db, "game/senteOnline")).set(false); }
+    } else if (state.goteId === myId) {
+      myRole = "gote";
+      if (!state.goteOnline) { state.goteOnline = true; set(ref(db, "game/goteOnline"), true); onDisconnect(ref(db, "game/goteOnline")).set(false); }
+    } else {
+      // ★【新機能】完全に空席（まだ誰も座っていない）ならアクセスした瞬間に自動着席
+      if (!state.senteId) {
+        myRole = "sente"; state.senteId = myId; state.senteOnline = true;
+        set(ref(db, "game/senteId"), myId); set(ref(db, "game/senteOnline"), true); onDisconnect(ref(db, "game/senteOnline")).set(false);
+      } else if (!state.goteId) {
+        myRole = "gote"; state.goteId = myId; state.goteOnline = true;
+        set(ref(db, "game/goteId"), myId); set(ref(db, "game/goteOnline"), true); onDisconnect(ref(db, "game/goteOnline")).set(false);
+      }
+    }
+
+    // 観戦者用UI＆途中参戦の制御
+    const watcherConsole = document.getElementById("watcherConsole");
+    const watcherStatus = document.getElementById("watcherStatus");
+    const joinBtn = document.getElementById("joinBtn");
+
+    if (!myRole) {
+      watcherConsole.style.display = "flex";
+      watcherStatus.innerText = `👀 観戦モード中 (${state.turn === "sente" ? "先手" : "後手"}の手番)`;
+      
+      let emptyRole = null;
+      if (!state.senteId || !state.senteOnline) emptyRole = "sente";
+      else if (!state.goteId || !state.goteOnline) emptyRole = "gote";
+      
+      if (emptyRole && !state.winner) {
+        joinBtn.style.display = "inline-block";
+        joinBtn.innerText = `⚔️ ${emptyRole === "sente" ? "先手" : "後手"}として途中参戦する`;
+        joinBtn.onclick = () => {
+          if (confirm(`${emptyRole === "sente" ? "先手" : "後手"}の席が空いています。この対局を引き継いで途中参戦しますか？`)) {
+            if (emptyRole === "sente") {
+              onDisconnect(ref(db, "game/senteOnline")).set(false); set(ref(db, "game/senteId"), myId); set(ref(db, "game/senteOnline"), true);
+            } else {
+              onDisconnect(ref(db, "game/goteOnline")).set(false); set(ref(db, "game/goteId"), myId); set(ref(db, "game/goteOnline"), true);
+            }
+          }
+        };
+      } else { joinBtn.style.display = "none"; }
+    } else {
+      watcherConsole.style.display = "none";
+    }
+    
     draw(); 
     
     if (state.resetReq && !lastResetReq && state.resetSender !== myId) {
