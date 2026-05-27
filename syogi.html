@@ -2,78 +2,91 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>リアルタイム将棋</title>
+<title>リアルタイム将棋 デバッグ版</title>
 <style>
-    body { background: #f4e4bc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-    canvas { background: #f9d784; border: 2px solid #5d4037; cursor: pointer; }
+    body { background: #f4e4bc; display: flex; flex-direction: column; align-items: center; }
+    canvas { background: #f9d784; border: 5px solid red; margin-top: 20px; }
 </style>
 </head>
 <body>
 <canvas id="game" width="540" height="540"></canvas>
+<div id="status" style="color:red; font-weight:bold;"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-// Firebase設定
-const firebaseConfig = {
+const db = getDatabase(initializeApp({
   apiKey: "AIzaSyDk7KNFdlp9zPtnixdNv96VtfKrELX1f8I",
   databaseURL: "https://syogi-cee67-default-rtdb.firebaseio.com",
   projectId: "syogi-cee67"
-};
-const db = getDatabase(initializeApp(firebaseConfig));
+}));
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
-const CELL = 60; // 540 / 9 = 60
+const CELL = 60;
+const statusDiv = document.getElementById("status");
 
-// 駒定義
 const pieceNames = ["fu", "to", "kyo", "nkyo", "keima", "nkeima", "gin", "ngin", "kin", "ou", "hisha", "ryu", "kaku", "uma"];
 const img = {};
-let imagesLoaded = 0;
+let loaded = 0;
 
-// 画像読み込み
+// 1. 画像ロード
 pieceNames.forEach(name => {
-  img[name] = new Image();
-  img[name].onload = () => {
-    imagesLoaded++;
-    if (imagesLoaded === pieceNames.length) draw();
+  const i = new Image();
+  i.onload = () => {
+    loaded++;
+    console.log(`Loaded: ${name}, Total: ${loaded}`);
   };
-  img[name].src = `syogi_img/${name}.png`;
+  i.onerror = () => console.error(`Failed to load: ${name}`);
+  i.src = `syogi_img/${name}.png`;
+  img[name] = i;
 });
 
-let state = { pieces: {} };
-
-// 描画ロジック
-function draw() {
+// 2. 描画処理
+function draw(state) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
-  // 盤面グリッド
-  ctx.strokeStyle = "#5d4037";
+  // グリッド
+  ctx.strokeStyle = "black";
   for (let i = 0; i < 9; i++) {
-    for (let j = 0; j < 9; j++) {
-      ctx.strokeRect(i * CELL, j * CELL, CELL, CELL);
-    }
+    for (let j = 0; j < 9; j++) ctx.strokeRect(i * CELL, j * CELL, CELL, CELL);
   }
-
-  // 駒描画
-  for (const k in state.pieces) {
-    const p = state.pieces[k];
-    ctx.save();
-    ctx.translate(p.x * CELL + CELL / 2, p.y * CELL + CELL / 2);
-    if (p.owner === "gote") ctx.rotate(Math.PI);
-    ctx.drawImage(img[p.type], -CELL / 2, -CELL / 2, CELL, CELL);
-    ctx.restore();
+  // 駒
+  if (state.pieces) {
+    for (const k in state.pieces) {
+      const p = state.pieces[k];
+      if (img[p.type]) {
+        ctx.save();
+        ctx.translate(p.x * CELL + CELL / 2, p.y * CELL + CELL / 2);
+        if (p.owner === "gote") ctx.rotate(Math.PI);
+        ctx.drawImage(img[p.type], -CELL / 2, -CELL / 2, CELL, CELL);
+        ctx.restore();
+      }
+    }
   }
 }
 
-// データ受信
+// 3. データ取得とデバッグ
 onValue(ref(db, "game"), snap => {
-  if (snap.val()) {
-    state = snap.val();
-    draw();
+  const val = snap.val();
+  if (!val || !val.pieces) {
+    statusDiv.innerText = "Firebaseのデータが空です。以下のテストデータを投入してください。";
+    console.warn("No data in Firebase");
+    return;
   }
+  statusDiv.innerText = "データ受信成功";
+  draw(val);
 });
+
+// テスト用データ投入ボタン（画面に表示されない場合、コンソールでこれを実行してください）
+window.setTestData = () => {
+  set(ref(db, "game"), {
+    pieces: {
+      "t1": {x: 4, y: 4, type: "ou", owner: "sente"},
+      "t2": {x: 5, y: 5, type: "hisha", owner: "gote"}
+    }
+  });
+};
 </script>
 </body>
 </html>
