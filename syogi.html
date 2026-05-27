@@ -2,16 +2,20 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>本格リアルタイム将棋</title>
+<title>リアルタイム将棋</title>
+<style>
+    body { background: #f4e4bc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    canvas { background: #f9d784; border: 2px solid #5d4037; cursor: pointer; }
+</style>
 </head>
-<body style="margin:0; background:#f4e4bc; display:flex; justify-content:center;">
-
-<canvas id="game"></canvas>
+<body>
+<canvas id="game" width="540" height="540"></canvas>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
+// Firebase設定
 const firebaseConfig = {
   apiKey: "AIzaSyDk7KNFdlp9zPtnixdNv96VtfKrELX1f8I",
   databaseURL: "https://syogi-cee67-default-rtdb.firebaseio.com",
@@ -21,68 +25,54 @@ const db = getDatabase(initializeApp(firebaseConfig));
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
-canvas.width = 600;
-canvas.height = 800;
+const CELL = 60; // 540 / 9 = 60
 
-const CELL = 60;
-const img = {};
+// 駒定義
 const pieceNames = ["fu", "to", "kyo", "nkyo", "keima", "nkeima", "gin", "ngin", "kin", "ou", "hisha", "ryu", "kaku", "uma"];
+const img = {};
+let imagesLoaded = 0;
 
-// 画像ロード完了後にゲーム開始
-let loadedCount = 0;
+// 画像読み込み
 pieceNames.forEach(name => {
-  const i = new Image();
-  i.onload = () => {
-    loadedCount++;
-    if (loadedCount === pieceNames.length) draw();
+  img[name] = new Image();
+  img[name].onload = () => {
+    imagesLoaded++;
+    if (imagesLoaded === pieceNames.length) draw();
   };
-  i.src = `syogi_img/${name}.png`;
-  img[name] = i;
+  img[name].src = `syogi_img/${name}.png`;
 });
 
-let state = { turn: "sente", pieces: {}, hands: { sente: [], gote: [] } };
-let selected = null;
+let state = { pieces: {} };
 
+// 描画ロジック
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   
-  // 盤面描画
+  // 盤面グリッド
+  ctx.strokeStyle = "#5d4037";
   for (let i = 0; i < 9; i++) {
-    for (let j = 0; j < 9; j++) ctx.strokeRect(i * CELL, j * CELL + 100, CELL, CELL);
+    for (let j = 0; j < 9; j++) {
+      ctx.strokeRect(i * CELL, j * CELL, CELL, CELL);
+    }
   }
 
   // 駒描画
   for (const k in state.pieces) {
     const p = state.pieces[k];
     ctx.save();
-    ctx.translate(p.x * CELL + CELL / 2, p.y * CELL + CELL / 2 + 100);
+    ctx.translate(p.x * CELL + CELL / 2, p.y * CELL + CELL / 2);
     if (p.owner === "gote") ctx.rotate(Math.PI);
-    // アスペクト比を保って描画
-    const scale = Math.min(CELL/140, CELL/148);
-    ctx.drawImage(img[p.type], -70*scale, -74*scale, 140*scale, 148*scale);
+    ctx.drawImage(img[p.type], -CELL / 2, -CELL / 2, CELL, CELL);
     ctx.restore();
   }
-
-  // 持ち駒表示
-  ctx.fillStyle = "black";
-  ctx.font = "20px Arial";
-  ctx.fillText("先手の持ち駒: " + state.hands.sente.join(","), 10, 750);
-  ctx.fillText("後手の持ち駒: " + state.hands.gote.join(","), 10, 50);
 }
 
-// 簡易的なクリックイベント（盤面上の座標計算）
-canvas.addEventListener("mousedown", e => {
-  const rect = canvas.getBoundingClientRect();
-  const x = Math.floor((e.clientX - rect.left) / CELL);
-  const y = Math.floor((e.clientY - rect.top - 100) / CELL);
-  
-  // ここに移動・成り・持ち駒のロジックを追加していく
-  console.log(`Clicked: ${x}, ${y}`);
-});
-
+// データ受信
 onValue(ref(db, "game"), snap => {
-  if (snap.val()) state = snap.val();
-  draw();
+  if (snap.val()) {
+    state = snap.val();
+    draw();
+  }
 });
 </script>
 </body>
