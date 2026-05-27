@@ -151,12 +151,12 @@ canvas.addEventListener("mousedown", e => {
     else state.winner = "draw";
   }
 
-  set(ref(db, "game"), state);
+  set(ref(db, "othello_game"), state);
 });
 
 document.getElementById("resetBtn").addEventListener("click", () => {
   if (state.resetReq) return;
-  state.resetReq = true; state.resetSender = myId; set(ref(db, "game"), state);
+  state.resetReq = true; state.resetSender = myId; set(ref(db, "othello_game"), state);
 });
 
 window.closeOverlay = () => { document.getElementById('overlay').style.display = 'none'; initBoard(true); };
@@ -176,7 +176,7 @@ function initBoard(keepPlayers = false) {
     whiteId: keepPlayers ? (state.whiteId || null) : null, 
     lastMove: null 
   };
-  set(ref(db, "game"), newState);
+  set(ref(db, "othello_game"), newState);
 }
 
 function draw(isBlackOnline, isWhiteOnline) {
@@ -267,7 +267,6 @@ function draw(isBlackOnline, isWhiteOnline) {
   }
 }
 
-// ゲーム管理・プレゼンス統合システム
 function updateGameSystem() {
   if (!state || !state.board) return;
 
@@ -305,8 +304,7 @@ function updateGameSystem() {
           : `${emptyRole === "black" ? "黒" : "白"}の席が空いています。参戦しますか？`;
 
         if (confirm(msg)) {
-          // 【修正箇所】確実にデータが書き換わる安全なパス指定に変更
-          update(ref(db, "game"), {
+          update(ref(db, "othello_game"), {
             [`${emptyRole}Id`]: myId
           });
         }
@@ -324,26 +322,26 @@ function updateGameSystem() {
     lastResetReq = true;
     setTimeout(() => {
       if (confirm("相手からリセット申請が届きました。承諾して盤面を初期化しますか？")) { initBoard(true); }
-      else { update(ref(db), { "game/resetReq": false, "game/resetSender": null }); }
+      else { update(ref(db, "othello_game"), { resetReq: false, resetSender: null }); }
     }, 100);
   } else { lastResetReq = state.resetReq; }
 }
 
-// 1. 強固なプレゼンス監視
+// 1. オセロ専用のプレゼンス監視
 onValue(ref(db, ".info/connected"), snap => {
   if (snap.val() === true) {
-    onDisconnect(ref(db, `presence/${myId}`)).remove();
-    set(ref(db, `presence/${myId}`), true);
+    onDisconnect(ref(db, `othello_presence/${myId}`)).remove();
+    set(ref(db, `othello_presence/${myId}`), true);
   }
 });
 
-onValue(ref(db, "presence"), snap => {
+onValue(ref(db, "othello_presence"), snap => {
   presence = snap.val() || {};
   updateGameSystem();
 });
 
-// 2. ゲーム盤面監視
-onValue(ref(db, "game"), snap => { 
+// 2. オセロ専用のゲーム盤面監視
+onValue(ref(db, "othello_game"), snap => { 
   if(snap.val()) { 
     state = snap.val(); 
     updateGameSystem();
