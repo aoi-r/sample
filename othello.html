@@ -6,9 +6,14 @@
 <title>Othello Crusade</title>
 <style>
     body { background: #e0f2f1; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; font-family: sans-serif; }
+    
+    /* 観戦中用のバー */
     #watcherConsole { display: none; background: #004d40; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; margin-bottom: 12px; align-items: center; gap: 15px; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
     #joinBtn { background: #ffb300; color: #333; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; }
     #joinBtn:hover { background: #ffa000; }
+    
+    /* 【新設】プレイ中用のバー */
+    #playerConsole { display: none; background: #00796b; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; margin-bottom: 12px; align-items: center; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
     
     canvas { 
         background: #00897b; 
@@ -34,6 +39,10 @@
 <div id="watcherConsole">
   <span id="watcherStatus">観戦モード中</span>
   <button id="joinBtn">参戦する</button>
+</div>
+
+<div id="playerConsole">
+  <span id="playerStatus">対戦モード</span>
 </div>
 
 <button id="resetBtn" class="normal">リセット申請</button>
@@ -284,9 +293,15 @@ function updateGameSystem() {
   const watcherConsole = document.getElementById("watcherConsole");
   const watcherStatus = document.getElementById("watcherStatus");
   const joinBtn = document.getElementById("joinBtn");
+  
+  // 【新設】プレイヤー用表示板の要素取得
+  const playerConsole = document.getElementById("playerConsole");
+  const playerStatus = document.getElementById("playerStatus");
 
   if (!myRole) {
+    // 観戦モードの時の表示処理
     watcherConsole.style.display = "flex";
+    playerConsole.style.display = "none"; // プレイヤー用は隠す
     watcherStatus.innerText = `👀 観戦モード中 (${state.turn === "black" ? "黒" : "白"}の手番)`;
     
     let emptyRole = null;
@@ -313,7 +328,15 @@ function updateGameSystem() {
       joinBtn.style.display = "none"; 
     }
   } else {
-    watcherConsole.style.display = "none";
+    // プレイヤーとして対戦中の表示処理（新設）
+    watcherConsole.style.display = "none"; // 観戦用は隠す
+    playerConsole.style.display = "flex";  // プレイヤー用を表示
+    
+    if (myRole === "black") {
+      playerStatus.innerText = "⚫ あなたは 黒（先手）です";
+    } else {
+      playerStatus.innerText = "⚪ あなたは 白（後手）です";
+    }
   }
   
   draw(isBlackOnline, isWhiteOnline); 
