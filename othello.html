@@ -6,23 +6,17 @@
 <title>Othello Online</title>
 <style>
     body { background: #2e7d32; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; font-family: sans-serif; }
-    #watcherConsole { display: none; background: #1b5e20; color: white; padding: 10px 20px; border-radius: 5px; margin-bottom: 12px; font-weight: bold; }
-    /* ★モバイル対応：縦横比を維持して画面幅いっぱいに */
+    #status { color: white; font-weight: bold; margin-bottom: 10px; font-size: 18px; }
     canvas { 
         background: #388e3c; border: 4px solid #1b5e20; cursor: pointer; 
         width: 100%; max-width: 480px; height: auto; aspect-ratio: 1/1;
         touch-action: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
-    #joinBtn { background: #ffeb3b; border: none; padding: 8px 16px; cursor: pointer; font-weight: bold; border-radius: 4px; margin-left: 10px; }
 </style>
 </head>
 <body>
 
-<div id="watcherConsole">
-  <span id="watcherStatus">観戦モード中</span>
-  <button id="joinBtn">参戦する</button>
-</div>
-
+<div id="status">接続中...</div>
 <canvas id="othelloBoard" width="800" height="800"></canvas>
 
 <script type="module">
@@ -40,12 +34,11 @@ sessionStorage.setItem("othello_myId", myId);
 
 const canvas = document.getElementById("othelloBoard");
 const ctx = canvas.getContext("2d");
-let state = { board: [], turn: 1, blackId: null, whiteId: null };
+let state = { board: [], turn: 1, blackId: null, whiteId: null, gameOver: false };
 
-// 8方向の定義
 const directions = [[0,1],[0,-1],[1,0],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]];
 
-// 挟める石を取得する関数
+// 置ける場所があるか判定
 function getFlippableStones(board, x, y, player) {
     if (board[y][x] !== 0) return [];
     let toFlip = [];
@@ -63,7 +56,15 @@ function getFlippableStones(board, x, y, player) {
     return toFlip;
 }
 
-// 描画
+function hasValidMoves(board, player) {
+    for(let y=0; y<8; y++) {
+        for(let x=0; x<8; x++) {
+            if (getFlippableStones(board, x, y, player).length > 0) return true;
+        }
+    }
+    return false;
+}
+
 function draw() {
     ctx.clearRect(0, 0, 800, 800);
     for(let i=0; i<8; i++) {
@@ -80,6 +81,7 @@ function draw() {
 }
 
 canvas.addEventListener("mousedown", (e) => {
+    if(state.gameOver) return;
     let myRole = (state.blackId === myId) ? 1 : (state.whiteId === myId ? -1 : 0);
     if (myRole === 0 || myRole !== state.turn) return;
 
@@ -91,7 +93,18 @@ canvas.addEventListener("mousedown", (e) => {
     if (flips.length > 0) {
         state.board[y][x] = state.turn;
         flips.forEach(f => state.board[f.y][f.x] = state.turn);
-        state.turn *= -1;
+        
+        // 次のプレイヤーの移動判定
+        let nextTurn = -state.turn;
+        if (!hasValidMoves(state.board, nextTurn)) {
+            if (!hasValidMoves(state.board, state.turn)) {
+                state.gameOver = true; // 両者置けないので終了
+            } else {
+                // パス発生（次のプレイヤーが置けないので、今のプレイヤーが続投）
+                nextTurn = state.turn;
+            }
+        }
+        state.turn = nextTurn;
         set(ref(db, "games/othello"), state);
     }
 });
@@ -101,27 +114,19 @@ onValue(ref(db, "games/othello"), (snap) => {
     if(!val) {
         let b = Array(8).fill(0).map(() => Array(8).fill(0));
         b[3][3] = -1; b[3][4] = 1; b[4][3] = 1; b[4][4] = -1;
-        set(ref(db, "games/othello"), { board: b, turn: 1, blackId: null, whiteId: null });
+        set(ref(db, "games/othello"), { board: b, turn: 1, blackId: null, whiteId: null, gameOver: false });
         return;
     }
     state = val;
     
-    // UI制御(将棋と同じロジック)
-    const watcherConsole = document.getElementById("watcherConsole");
-    const joinBtn = document.getElementById("joinBtn");
-    let myRole = (state.blackId === myId) ? 1 : (state.whiteId === myId ? -1 : 0);
-
-    if (myRole === 0) {
-        watcherConsole.style.display = "block";
-        let empty = !state.blackId ? "黒" : (!state.whiteId ? "白" : null);
-        joinBtn.style.display = empty ? "inline" : "none";
-        joinBtn.onclick = () => {
-            if(confirm(`${empty}として参戦しますか？`)) {
-                update(ref(db, "games/othello"), empty === "黒" ? {blackId: myId} : {whiteId: myId});
-            }
-        };
+    // ステータス表示
+    const status = document.getElementById("status");
+    if(state.gameOver) {
+        let blackCount = state.board.flat().filter(v => v === 1).length;
+        let whiteCount = state.board.flat().filter(v => v === -1).length;
+        status.innerText = `終了: 黒${blackCount} vs 白${whiteCount} → ${blackCount > whiteCount ? "黒の勝ち！" : "白の勝ち！"}`;
     } else {
-        watcherConsole.style.display = "none";
+        status.innerText = state.turn === 1 ? "黒の番です" : "白の番です";
     }
     draw();
 });
