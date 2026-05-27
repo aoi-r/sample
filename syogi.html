@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Game</title>
+<title>リアルタイム将棋</title>
 </head>
 
 <body style="margin:0; overflow:hidden;">
@@ -22,69 +22,126 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"
 
+////////////////////////////////////////////////////
+// 🔥 Firebase設定（ここ自分のに差し替え）
+////////////////////////////////////////////////////
 const firebaseConfig = {
-
   apiKey: "AIzaSyDk7KNFdlp9zPtnixdNv96VtfKrELX1f8I",
-  authDomain: authDomain: "syogi-cee67.firebaseapp.com",
+  authDomain: "syogi-cee67.firebaseapp.com",
   databaseURL: "https://syogi-cee67-default-rtdb.firebaseio.com",
   projectId: "syogi-cee67",
   storageBucket: "syogi-cee67.firebasestorage.app",
   messagingSenderId: "272231556689",
   appId: "1:272231556689:web:b92700feb73a3ce5277a70"
-
 }
 
 const app = initializeApp(firebaseConfig)
 const db = getDatabase(app)
 
+////////////////////////////////////////////////////
+// 基本設定
+////////////////////////////////////////////////////
 const canvas = document.getElementById("game")
 const ctx = canvas.getContext("2d")
 
 canvas.width = innerWidth
 canvas.height = innerHeight
 
-const id = Math.random().toString(36).slice(2)
+const CELL = 80 // 盤の1マスサイズ
 
-const player = {
-  x: 100,
-  y: 100
+const playerId = Math.random().toString(36).slice(2)
+
+////////////////////////////////////////////////////
+// 駒画像
+////////////////////////////////////////////////////
+const pieceImg = {}
+
+function load(name){
+  const img = new Image()
+  img.src = "syogi_img/" + name + ".png"
+  pieceImg[name] = img
 }
 
+load("fu")
+
+////////////////////////////////////////////////////
+// 状態
+////////////////////////////////////////////////////
 let players = {}
 
-const keys = {}
+let targetX = 0
+let targetY = 0
 
-addEventListener("keydown", e => {
-  keys[e.key] = true
-})
-
-addEventListener("keyup", e => {
-  keys[e.key] = false
-})
-
-onValue(ref(db, "players"), snapshot => {
+////////////////////////////////////////////////////
+// Firebase受信
+////////////////////////////////////////////////////
+onValue(ref(db, "pieces"), snapshot => {
   players = snapshot.val() || {}
 })
 
-function loop() {
+////////////////////////////////////////////////////
+// クリック操作（PC）
+////////////////////////////////////////////////////
+canvas.addEventListener("click", e => {
+  targetX = Math.floor(e.clientX / CELL)
+  targetY = Math.floor(e.clientY / CELL)
+})
 
-  if(keys["w"]) player.y -= 3
-  if(keys["s"]) player.y += 3
-  if(keys["a"]) player.x -= 3
-  if(keys["d"]) player.x += 3
+////////////////////////////////////////////////////
+// タッチ操作（スマホ）
+////////////////////////////////////////////////////
+canvas.addEventListener("touchstart", e => {
+  const t = e.touches[0]
+  targetX = Math.floor(t.clientX / CELL)
+  targetY = Math.floor(t.clientY / CELL)
+})
 
-  set(ref(db, "players/" + id), player)
+////////////////////////////////////////////////////
+// ループ
+////////////////////////////////////////////////////
+function loop(){
 
+  // 自分の駒（仮：常に歩）
+  const myPiece = {
+    x: targetX,
+    y: targetY,
+    piece: "fu"
+  }
+
+  set(ref(db, "pieces/" + playerId), myPiece)
+
+  ////////////////////////////////////////////////////
+  // 描画
+  ////////////////////////////////////////////////////
   ctx.clearRect(0,0,canvas.width,canvas.height)
 
-  for(const pid in players){
+  // 盤面
+  for(let x=0;x<9;x++){
+    for(let y=0;y<9;y++){
+      ctx.strokeStyle = "#333"
+      ctx.strokeRect(x*CELL, y*CELL, CELL, CELL)
+    }
+  }
 
-    const p = players[pid]
+  // 駒描画
+  for(const id in players){
 
-    ctx.fillStyle =
-      pid === id ? "red" : "blue"
+    const p = players[id]
+    const img = pieceImg[p.piece]
 
-    ctx.fillRect(p.x, p.y, 50, 50)
+    if(img){
+      ctx.drawImage(
+        img,
+        p.x * CELL,
+        p.y * CELL,
+        CELL,
+        CELL
+      )
+    }else{
+      // 画像なければ四角
+      ctx.fillStyle = "red"
+      ctx.fillRect(p.x*CELL, p.y*CELL, CELL, CELL)
+    }
   }
 
   requestAnimationFrame(loop)
