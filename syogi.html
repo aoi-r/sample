@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>リアルタイム将棋</title>
+<title>本格将棋対戦</title>
 <style>
     body { background: #f4e4bc; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; }
     canvas { background: #f9d784; border: 4px solid #5d4037; width: 100%; max-width: 400px; touch-action: none; cursor: pointer; }
-    #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; color: white; font-size: 24px; z-index: 10; }
+    #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; color: white; font-size: 24px; z-index: 10; cursor: pointer; }
 </style>
 </head>
 <body>
-<div id="overlay" onclick="resetGame()">勝負あり！タップしてリセット</div>
+<div id="overlay" onclick="resetGame()">勝負あり！タップでリセット</div>
 <canvas id="game" width="540" height="720"></canvas>
 
 <script type="module">
@@ -29,29 +29,82 @@ const ctx = canvas.getContext("2d");
 const CELL = 60;
 const img = {};
 const pieceNames = ["fu", "to", "kyo", "nkyo", "keima", "nkeima", "gin", "ngin", "kin", "ou", "hisha", "ryu", "kaku", "uma"];
-
-// 画像キャッシュ
-pieceNames.forEach(name => {
-  img[name] = new Image();
-  img[name].src = `syogi_img/${name}.png`;
-});
+pieceNames.forEach(name => { img[name] = new Image(); img[name].src = `syogi_img/${name}.png`; });
 
 let state = { pieces: {}, hands: {sente: [], gote: []}, turn: "sente", winner: null };
+let selected = { type: null, key: null, hIdx: null };
+
+function isBlocked(p, tx, ty) {
+  const dx = Math.sign(tx - p.x), dy = Math.sign(ty - p.y);
+  let x = p.x + dx, y = p.y + dy;
+  while (x !== tx || y !== ty) {
+    if (Object.values(state.pieces).find(piece => piece.x === x && piece.y === y)) return true;
+    x += dx; y += dy;
+  }
+  return false;
+}
+
+function canMove(p, tx, ty) {
+  const dx = tx - p.x, dy = ty - p.y, absDx = Math.abs(dx), absDy = Math.abs(dy);
+  const dir = p.owner === "sente" ? -1 : 1;
+  const target = Object.values(state.pieces).find(piece => piece.x === tx && piece.y === ty);
+  if (target && target.owner === p.owner) return false;
+
+  switch(p.type) {
+    case "fu": return dx === 0 && dy === dir;
+    case "hisha": return (dx === 0 || dy === 0) && !isBlocked(p, tx, ty);
+    case "kaku": return absDx === absDy && !isBlocked(p, tx, ty);
+    case "ou": return absDx <= 1 && absDy <= 1;
+    case "kin": case "to": case "ngin": case "nkyo": case "nkeima": return absDx <= 1 && absDy <= 1 && !(absDx === 1 && dy === -dir);
+    case "gin": return absDx <= 1 && absDy <= 1 && (dx !== 0 || dy !== 0) && !(absDx === 1 && dy === -dir);
+    case "keima": return absDx === 1 && dy === 2 * dir;
+    case "kyo": return dx === 0 && dy * dir < 0 && !isBlocked(p, tx, ty);
+    default: return true;
+  }
+}
+
+canvas.addEventListener("mousedown", e => {
+  if (state.winner) return;
+  const rect = canvas.getBoundingClientRect();
+  const x = Math.floor(((e.clientX - rect.left) * (540/rect.width)) / CELL);
+  const y = Math.floor(((e.clientY - rect.top) * (720/rect.height)) / CELL) - 1;
+
+  // 駒選択
+  if (!selected.type) {
+    const pKey = Object.keys(state.pieces).find(k => state.pieces[k].x === x && state.pieces[k].y === y && state.pieces[k].owner === state.turn);
+    if (pKey) selected = {type: 'board', key: pKey};
+    else if (y === 10 || y === -1) { // 持ち駒選択
+        const hIdx = x;
+        if (state.hands[state.turn][hIdx]) selected = {type: 'hand', hIdx};
+    }
+  } else {
+    // 移動/打ち
+    if (selected.type === 'board') {
+      const p = state.pieces[selected.key];
+      if (canMove(p, x, y)) {
+        const target = Object.values(state.pieces).find(piece => piece.x === x && piece.y === y);
+        if (target) {
+            if (target.type === 'ou') state.winner = state.turn;
+            state.hands[state.turn].push({type: target.type.replace(/n|to|uma|ryu/g, '').replace('kaku', 'kaku').replace('hisha', 'hisha')});
+            delete state.pieces[Object.keys(state.pieces).find(k => state.pieces[k] === target)];
+        }
+        p.x = x; p.y = y;
+        state.turn = state.turn === "sente" ? "gote" : "sente";
+      }
+    } else {
+      const h = state.hands[state.turn].splice(selected.hIdx, 1)[0];
+      state.pieces['p_' + Date.now()] = {x, y, type: h.type, owner: state.turn};
+      state.turn = state.turn === "sente" ? "gote" : "sente";
+    }
+    selected = {type: null};
+    set(ref(db, "game"), state);
+  }
+  draw();
+});
 
 function draw() {
-  if (!ctx) return;
   ctx.clearRect(0, 0, 540, 720);
-  
-  // 安全対策: stateが存在しない場合を考慮
-  const hands = state.hands || {sente: [], gote: []};
-  
-  // 盤面描画
-  ctx.strokeStyle = "#5d4037";
-  for (let i = 0; i < 9; i++) {
-    for (let j = 0; j < 9; j++) ctx.strokeRect(i * CELL, j * CELL + 60, CELL, CELL);
-  }
-  
-  // 駒描画
+  for (let i = 0; i < 9; i++) for (let j = 0; j < 9; j++) ctx.strokeRect(i * CELL, j * CELL + 60, CELL, CELL);
   for (const k in state.pieces) {
     const p = state.pieces[k];
     ctx.save();
@@ -60,27 +113,15 @@ function draw() {
     if (img[p.type]) ctx.drawImage(img[p.type], -CELL/2, -CELL/2, CELL, CELL);
     ctx.restore();
   }
-  
-  // 持ち駒描画
-  hands.sente.forEach((h, i) => ctx.drawImage(img[h.type], i * CELL, 660, CELL, CELL));
-  hands.gote.forEach((h, i) => ctx.drawImage(img[h.type], i * CELL, 0, CELL, CELL));
-  
+  (state.hands.sente || []).forEach((h, i) => ctx.drawImage(img[h.type], i * CELL, 660, CELL, CELL));
+  (state.hands.gote || []).forEach((h, i) => ctx.drawImage(img[h.type], i * CELL, 0, CELL, CELL));
   if (state.winner) document.getElementById('overlay').style.display = 'flex';
 }
 
-onValue(ref(db, "game"), snap => {
-  const val = snap.val();
-  if (val) {
-    state = val;
-    draw();
-  }
-});
-
 window.resetGame = () => {
-  document.getElementById('overlay').style.display = 'none';
-  const p = {}; // 初期化ロジックは必要に応じて記述
-  set(ref(db, "game"), { pieces: p, hands: {sente:[], gote:[]}, turn: "sente", winner: null });
+    set(ref(db, "game"), { pieces: { /* 初期配置ロジック */ }, hands: {sente:[], gote:[]}, turn: "sente", winner: null });
 };
+onValue(ref(db, "game"), snap => { if (snap.val()) { state = snap.val(); draw(); } });
 </script>
 </body>
 </html>
