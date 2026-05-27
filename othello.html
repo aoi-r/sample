@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Othello Online</title>
+<style>
+    body { background: #2e7d32; display: flex; flex-direction: column; align-items: center; font-family: sans-serif; }
+    #watcherConsole { display: none; background: #1b5e20; color: white; padding: 10px 20px; border-radius: 5px; margin-bottom: 12px; }
+    canvas { background: #388e3c; border: 4px solid #1b5e20; cursor: pointer; touch-action: none; }
+    #joinBtn { background: #ffeb3b; border: none; padding: 5px 10px; cursor: pointer; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<div id="watcherConsole">
+  <span id="watcherStatus">観戦モード中</span>
+  <button id="joinBtn">参戦する</button>
+</div>
+
+<canvas id="othelloBoard" width="480" height="480"></canvas>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, onValue, set, update, onDisconnect } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const db = getDatabase(initializeApp({
+    apiKey: "AIzaSyDk7KNFdlp9zPtnixdNv96VtfKrELX1f8I",
+    databaseURL: "https://syogi-cee67-default-rtdb.firebaseio.com",
+    projectId: "syogi-cee67"
+}));
+
+// ID管理
+let myId = sessionStorage.getItem("othello_myId") || Math.random().toString(36).slice(2);
+sessionStorage.setItem("othello_myId", myId);
+
+const canvas = document.getElementById("othelloBoard");
+const ctx = canvas.getContext("2d");
+const CELL = 60;
+let state = { board: [], turn: 1, blackId: null, whiteId: null, blackOnline: false, whiteOnline: false };
+
+function initBoard() {
+    let b = Array(8).fill(0).map(() => Array(8).fill(0));
+    b[3][3] = -1; b[3][4] = 1; b[4][3] = 1; b[4][4] = -1;
+    return b;
+}
+
+function draw() {
+    ctx.clearRect(0, 0, 480, 480);
+    for(let i=0; i<8; i++) {
+        for(let j=0; j<8; j++) {
+            ctx.strokeRect(i*CELL, j*CELL, CELL, CELL);
+            if(state.board[j][i] !== 0) {
+                ctx.beginPath();
+                ctx.arc(i*CELL + CELL/2, j*CELL + CELL/2, 20, 0, Math.PI*2);
+                ctx.fillStyle = state.board[j][i] === 1 ? "black" : "white";
+                ctx.fill();
+            }
+        }
+    }
+}
+
+canvas.addEventListener("mousedown", (e) => {
+    // 自分の番かチェック
+    let myRole = (state.blackId === myId) ? 1 : (state.whiteId === myId ? -1 : 0);
+    if (myRole === 0 || myRole !== state.turn) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.floor((e.clientX - rect.left) / CELL);
+    const y = Math.floor((e.clientY - rect.top) / CELL);
+    
+    if (state.board[y][x] === 0) {
+        state.board[y][x] = state.turn;
+        state.turn *= -1;
+        set(ref(db, "games/othello"), state);
+    }
+});
+
+onValue(ref(db, "games/othello"), (snap) => {
+    const val = snap.val();
+    if(!val) {
+        set(ref(db, "games/othello"), { board: initBoard(), turn: 1, blackId: null, whiteId: null });
+        return;
+    }
+    state = val;
+
+    // 接続状態の更新
+    let updates = {};
+    if (state.blackId === myId && !state.blackOnline) updates["blackOnline"] = true;
+    if (state.whiteId === myId && !state.whiteOnline) updates["whiteOnline"] = true;
+    if (Object.keys(updates).length > 0) update(ref(db, "games/othello"), updates);
+
+    // 観戦モードUI制御
+    const watcherConsole = document.getElementById("watcherConsole");
+    const joinBtn = document.getElementById("joinBtn");
+    let myRole = (state.blackId === myId) ? 1 : (state.whiteId === myId ? -1 : 0);
+
+    if (myRole === 0) {
+        watcherConsole.style.display = "block";
+        let empty = !state.blackId ? "黒" : (!state.whiteId ? "白" : null);
+        if (empty) {
+            joinBtn.style.display = "inline";
+            joinBtn.onclick = () => {
+                if(confirm(`${empty}として参戦しますか？`)) {
+                    let updateData = empty === "黒" ? {blackId: myId, blackOnline: true} : {whiteId: myId, whiteOnline: true};
+                    update(ref(db, "games/othello"), updateData);
+                }
+            };
+        } else {
+            joinBtn.style.display = "none";
+            document.getElementById("watcherStatus").innerText = "観戦中（対局中）";
+        }
+    } else {
+        watcherConsole.style.display = "none";
+    }
+
+    draw();
+});
+</script>
+</body>
+</html>
