@@ -2,13 +2,16 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>本格リアルタイム将棋：移動制限・成り実装版</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>本格リアルタイム将棋</title>
 <style>
-    body { background: #f4e4bc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-    canvas { background: #f9d784; border: 5px solid #5d4037; cursor: pointer; }
+    body { background: #f4e4bc; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
+    canvas { background: #f9d784; border: 5px solid #5d4037; touch-action: none; max-width: 100%; height: auto; }
+    button { padding: 15px 30px; font-size: 18px; margin-bottom: 20px; background: #5d4037; color: white; border: none; border-radius: 5px; }
 </style>
 </head>
 <body>
+<button onclick="initGame()">盤面を初期化する</button>
 <canvas id="game" width="540" height="540"></canvas>
 
 <script type="module">
@@ -24,19 +27,14 @@ const db = getDatabase(initializeApp({
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 const CELL = 60;
-
 const img = {};
 const pieceNames = ["fu", "to", "kyo", "nkyo", "keima", "nkeima", "gin", "ngin", "kin", "ou", "hisha", "ryu", "kaku", "uma"];
-pieceNames.forEach(name => {
-  const i = new Image();
-  i.src = `syogi_img/${name}.png`;
-  img[name] = i;
-});
+pieceNames.forEach(name => { img[name] = new Image(); img[name].src = `syogi_img/${name}.png`; });
 
 let state = { pieces: {}, turn: "sente" };
 let selectedKey = null;
+const promotionMap = { "fu":"to", "kyo":"nkyo", "keima":"nkeima", "gin":"ngin", "hisha":"ryu", "kaku":"uma" };
 
-// 障害物判定
 function isBlocked(p, tx, ty) {
   const dx = tx - p.x; const dy = ty - p.y;
   const sx = dx === 0 ? 0 : dx / Math.abs(dx);
@@ -49,15 +47,11 @@ function isBlocked(p, tx, ty) {
   return false;
 }
 
-// 成り候補マップ
-const promotionMap = { "fu":"to", "kyo":"nkyo", "keima":"nkeima", "gin":"ngin", "hisha":"ryu", "kaku":"uma" };
-
 function canMove(p, tx, ty) {
   const dx = tx - p.x; const dy = ty - p.y;
   const dir = p.owner === "sente" ? -1 : 1;
   const target = Object.values(state.pieces).find(piece => piece.x === tx && piece.y === ty);
   if (target && target.owner === p.owner) return false;
-
   const absDx = Math.abs(dx); const absDy = Math.abs(dy);
 
   switch(p.type) {
@@ -78,27 +72,18 @@ function canMove(p, tx, ty) {
 
 canvas.addEventListener("mousedown", e => {
   const rect = canvas.getBoundingClientRect();
-  const x = Math.floor((e.clientX - rect.left) / CELL);
-  const y = Math.floor((e.clientY - rect.top) / CELL);
-
+  const scale = canvas.width / rect.width;
+  const x = Math.floor(((e.clientX - rect.left) * scale) / CELL);
+  const y = Math.floor(((e.clientY - rect.top) * scale) / CELL);
+  
   if (!selectedKey) {
-    for (const k in state.pieces) {
-      if (state.pieces[k].x === x && state.pieces[k].y === y && state.pieces[k].owner === state.turn) {
-        selectedKey = k; break;
-      }
-    }
+    selectedKey = Object.keys(state.pieces).find(k => state.pieces[k].x === x && state.pieces[k].y === y && state.pieces[k].owner === state.turn);
   } else {
     const p = state.pieces[selectedKey];
     if (canMove(p, x, y)) {
-      // 駒取り
       const targetKey = Object.keys(state.pieces).find(k => state.pieces[k].x === x && state.pieces[k].y === y);
       if (targetKey) delete state.pieces[targetKey];
-      
-      // 成り判定
-      if (promotionMap[p.type] && (y < 3 || p.y < 3 || y > 5 || p.y > 5)) {
-        if (confirm("成りますか？")) p.type = promotionMap[p.type];
-      }
-      
+      if (promotionMap[p.type] && (y < 3 || p.y < 3 || y > 5 || p.y > 5)) if (confirm("成りますか？")) p.type = promotionMap[p.type];
       p.x = x; p.y = y;
       state.turn = state.turn === "sente" ? "gote" : "sente";
       set(ref(db, "game"), state);
@@ -117,10 +102,18 @@ function draw() {
     ctx.translate(p.x * CELL + CELL / 2, p.y * CELL + CELL / 2);
     if (p.owner === "gote") ctx.rotate(Math.PI);
     if (img[p.type]) ctx.drawImage(img[p.type], -CELL/2, -CELL/2, CELL, CELL);
-    if (selectedKey === k) ctx.strokeRect(-CELL/2, -CELL/2, CELL, CELL);
+    if (selectedKey === k) { ctx.strokeStyle = "red"; ctx.lineWidth = 3; ctx.strokeRect(-CELL/2, -CELL/2, CELL, CELL); }
     ctx.restore();
   }
 }
+
+window.initGame = () => {
+  const p = {};
+  const setup = (row, type, owner) => { for(let i=0; i<9; i++) p[`${owner}_${type}_${i}`] = {x:i, y:row, type:type, owner:owner}; };
+  setup(6, "fu", "sente"); setup(2, "fu", "gote");
+  p["s_ou"] = {x:4, y:8, type:"ou", owner:"sente"}; p["g_ou"] = {x:4, y:0, type:"ou", owner:"gote"};
+  set(ref(db, "game"), { pieces: p, turn: "sente" });
+};
 
 onValue(ref(db, "game"), snap => { if(snap.val()) { state = snap.val(); draw(); } });
 </script>
