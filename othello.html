@@ -3,27 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Crusade</title>
+<title>Othello Crusade</title>
 <style>
-    body { background: #f4e4bc; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; font-family: sans-serif; }
-    #watcherConsole { display: none; background: #5d4037; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; margin-bottom: 12px; align-items: center; gap: 15px; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-    #joinBtn { background: #2e7d32; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-    #joinBtn:hover { background: #1b5e20; }
+    body { background: #e0f2f1; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; font-family: sans-serif; }
+    #watcherConsole { display: none; background: #004d40; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; margin-bottom: 12px; align-items: center; gap: 15px; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+    #joinBtn { background: #ffb300; color: #333; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    #joinBtn:hover { background: #ffa000; }
     
     canvas { 
-        background: #f9d784; 
-        border: 4px solid #5d4037; 
+        background: #00897b; 
+        border: 6px solid #004d40; 
         width: 100%; 
         max-width: 400px; 
         height: auto; 
-        aspect-ratio: 540 / 720; 
+        aspect-ratio: 1 / 1; 
         touch-action: none; 
         cursor: pointer; 
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
     }
     
     #resetBtn { padding: 12px 24px; margin-bottom: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-    .normal { background: #5d4037; color: white; }
+    .normal { background: #004d40; color: white; }
     .waiting { background: #d32f2f; color: white; opacity: 0.8; }
     
     #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; font-size: 28px; font-weight: bold; z-index: 10; cursor: pointer; }
@@ -37,7 +37,7 @@
 </div>
 
 <button id="resetBtn" class="normal">リセット申請</button>
-<canvas id="game" width="540" height="720"></canvas>
+<canvas id="game" width="540" height="540"></canvas>
 
 <div id="overlay" onclick="closeOverlay()">
   <div id="winnerText"></div>
@@ -56,10 +56,10 @@ const db = getDatabase(initializeApp({
 
 let myId = null;
 try {
-  myId = sessionStorage.getItem("shogi_myId");
+  myId = sessionStorage.getItem("othello_myId");
   if (!myId) {
     myId = Math.random().toString(36).slice(2);
-    sessionStorage.setItem("shogi_myId", myId);
+    sessionStorage.setItem("othello_myId", myId);
   }
 } catch (e) {
   myId = Math.random().toString(36).slice(2);
@@ -67,147 +67,99 @@ try {
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
-const CELL = 60;
-const img = {};
-const pieceNames = ["fu", "to", "kyo", "nkyo", "keima", "nkeima", "gin", "ngin", "kin", "ou", "hisha", "ryu", "kaku", "uma"];
-pieceNames.forEach(name => { 
-  img[name] = new Image(); 
-  img[name].src = `syogi_img/${name}.png`; 
-  img[name].onload = () => draw(); // 画像読み込み完了時に描画を走らせる安全弁
-});
+const CELL = 540 / 8; // 1マス 67.5px
 
-let state = { pieces: {}, hands: {sente: [], gote: []}, turn: "sente", resetReq: false, resetSender: null, winner: null, senteId: null, goteId: null, senteOnline: false, goteOnline: false, lastMove: null };
-let selected = { type: null, key: null, hIdx: null };
+// 盤面データ構造: 空白=0, 黒(先手)=1, 白(後手)=2
+let state = { board: Array(64).fill(0), turn: "black", resetReq: false, resetSender: null, winner: null, blackId: null, whiteId: null, blackOnline: false, whiteOnline: false, lastMove: null };
 let lastResetReq = false;
-
-// ⚡リファレンス修正：オンライン監視を完璧に同期するためのグローバル変数
-let myRole = null;
+let myRole = null; 
 let disconnectSetForRole = null;
 
-function isBlocked(p, tx, ty) {
-  const dx = tx - p.x, dy = ty - p.y;
-  const sx = dx === 0 ? 0 : Math.sign(dx);
-  const sy = dy === 0 ? 0 : Math.sign(dy);
-  let cx = p.x + sx, cy = p.y + sy;
-  while (cx !== tx || cy !== ty) {
-    if (Object.values(state.pieces || {}).some(piece => piece.x === cx && piece.y === cy)) return true;
-    cx += sx; cy += sy;
+const dirs = [[-1,-1], [-1,0], [-1,1], [0,-1], [0,1], [1,-1], [1,0], [1,1]];
+
+// 指定マスに石を置いたとき、裏返せるマスのリストを取得する関数
+function getFlips(board, x, y, color) {
+  if (board[y * 8 + x] !== 0) return [];
+  let flips = [];
+  const opp = color === 1 ? 2 : 1;
+
+  for (const [dx, dy] of dirs) {
+    let cx = x + dx, cy = y + dy;
+    let temp = [];
+    while (cx >= 0 && cx < 8 && cy >= 0 && cy < 8) {
+      const idx = cy * 8 + cx;
+      if (board[idx] === opp) {
+        temp.push(idx);
+      } else if (board[idx] === color) {
+        if (temp.length > 0) flips = flips.concat(temp);
+        break;
+      } else {
+        break;
+      }
+      cx += dx; cy += dy;
+    }
   }
-  return false;
+  return flips;
 }
 
-function canMove(p, tx, ty) {
-  const dx = tx - p.x, dy = ty - p.y;
-  const absDx = Math.abs(dx), absDy = Math.abs(dy);
-  const dir = p.owner === "sente" ? -1 : 1;
-  const target = Object.values(state.pieces || {}).find(piece => piece.x === tx && piece.y === ty);
-  if (target && target.owner === p.owner) return false;
-
-  switch(p.type) {
-    case "fu": return dx === 0 && dy === dir;
-    case "kyo": return dx === 0 && dy * dir > 0 && !isBlocked(p, tx, ty);
-    case "keima": return absDx === 1 && dy === 2 * dir;
-    case "gin": return (dy === dir && absDx <= 1) || (dy === -dir && absDx === 1);
-    case "kin": case "to": case "nkyo": case "nkeima": case "ngin":
-      return (dy === dir && absDx <= 1) || (dy === 0 && absDx === 1) || (dx === 0 && dy === -dir);
-    case "ou": return absDx <= 1 && absDy <= 1 && (dx !== 0 || dy !== 0);
-    case "hisha": return (dx === 0 || dy === 0) && (dx !== 0 || dy !== 0) && !isBlocked(p, tx, ty);
-    case "kaku": return absDx === absDy && dx !== 0 && !isBlocked(p, tx, ty);
-    case "ryu": return ((dx === 0 || dy === 0) && !isBlocked(p, tx, ty)) || (absDx === 1 && absDy === 1);
-    case "uma": return (absDx === absDy && !isBlocked(p, tx, ty)) || (absDx <= 1 && absDy <= 1 && (dx !== 0 || dy !== 0));
-    default: return false;
+// 盤面全体で、その色（プレイヤー）が打てる場所があるか調べる関数
+function hasValidMoves(board, color) {
+  for (let y = 0; y < 8; y++) {
+    for (let x = 0; x < 8; x++) {
+      if (getFlips(board, x, y, color).length > 0) return true;
+    }
   }
+  return false;
 }
 
 canvas.addEventListener("mousedown", e => {
   if (state.winner) return;
   
-  // 相手が不在、またはオフラインの時は操作を完全にロックする
   if (myRole) {
-    const opponentOnline = myRole === "sente" ? state.goteOnline : state.senteOnline;
-    const opponentId = myRole === "sente" ? state.goteId : state.senteId;
+    const opponentOnline = myRole === "black" ? state.whiteOnline : state.blackOnline;
+    const opponentId = myRole === "black" ? state.whiteId : state.blackId;
     if (!opponentId || !opponentOnline) return;
   }
 
   if (!myRole || state.turn !== myRole) return;
 
   const rect = canvas.getBoundingClientRect();
-  let rectX = (e.clientX - rect.left) * (540 / rect.width);
-  let rectY = (e.clientY - rect.top) * (720 / rect.height);
-
-  if (myRole === "gote") { rectX = 540 - rectX; rectY = 720 - rectY; }
+  const rectX = (e.clientX - rect.left) * (540 / rect.width);
+  const rectY = (e.clientY - rect.top) * (540 / rect.height);
 
   const x = Math.floor(rectX / CELL);
-  const y = Math.floor(rectY / CELL) - 1;
+  const y = Math.floor(rectY / CELL);
+  if (x < 0 || x > 7 || y < 0 || y > 7) return;
 
-  const pKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y && state.pieces[k].owner === state.turn);
-  if (pKey) { selected = {type: 'board', key: pKey}; draw(); return; }
+  const currentColor = state.turn === "black" ? 1 : 2;
+  const flips = getFlips(state.board, x, y, currentColor);
 
-  if (y === 10 && state.turn === 'sente') {
-      const idx = x; if (state.hands?.sente?.[idx]) { selected = {type: 'hand', hIdx: idx}; draw(); return; }
+  if (flips.length === 0) return; // 合法手でないなら何もしない
+
+  // 石を配置してひっくり返す
+  state.board[y * 8 + x] = currentColor;
+  flips.forEach(idx => state.board[idx] = currentColor);
+  state.lastMove = { x, y };
+
+  // 次のターンの判定
+  const nextColor = currentColor === 1 ? 2 : 1;
+  const nextTurn = state.turn === "black" ? "white" : "black";
+
+  if (hasValidMoves(state.board, nextColor)) {
+    state.turn = nextTurn;
+  } else if (hasValidMoves(state.board, currentColor)) {
+    // 次の相手が打てず、自分がまだ打てるなら「パス」させて自分のターンのまま
+    state.turn = state.turn; 
+  } else {
+    // どちらも打てなくなったらゲーム終了（集計へ）
+    let blackCount = state.board.filter(v => v === 1).length;
+    let whiteCount = state.board.filter(v => v === 2).length;
+    if (blackCount > whiteCount) state.winner = "black";
+    else if (whiteCount > blackCount) state.winner = "white";
+    else state.winner = "draw";
   }
-  if (y === -1 && state.turn === 'gote') {
-      const idx = x; if (state.hands?.gote?.[idx]) { selected = {type: 'hand', hIdx: idx}; draw(); return; }
-  }
 
-  if (selected.type) {
-    const targetKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y);
-
-    if (selected.type === 'board') {
-      const p = state.pieces[selected.key];
-      if (!canMove(p, x, y) || x < 0 || x > 8 || y < 0 || y > 8) { selected = { type: null }; draw(); return; }
-      
-      if (targetKey && state.pieces[targetKey].owner !== p.owner) {
-        const captured = state.pieces[targetKey];
-        if (captured.type === "ou") state.winner = state.turn;
-        if (!state.hands) state.hands = { sente: [], gote: [] };
-        if (!state.hands[state.turn]) state.hands[state.turn] = [];
-        
-        let baseType = captured.type;
-        if (baseType === 'to') baseType = 'fu';
-        else if (baseType === 'uma') baseType = 'kaku';
-        else if (baseType === 'ryu') baseType = 'hisha';
-        else if (baseType.startsWith('n')) baseType = baseType.slice(1);
-
-        state.hands[state.turn].push({type: baseType});
-        delete state.pieces[targetKey];
-      }
-
-      const oldY = p.y;
-      state.lastMove = { fromX: p.x, fromY: p.y, toX: x, toY: y };
-      p.x = x; p.y = y;
-      const isEnemyZone = (p.owner === "sente" && (y <= 2 || oldY <= 2)) || (p.owner === "gote" && (y >= 6 || oldY >= 6));
-      const promotable = ["fu", "kyo", "keima", "gin", "hisha", "kaku"].includes(p.type);
-
-      if (isEnemyZone && promotable) {
-        const force = (p.type === "fu" && (y === 0 || y === 8)) || (p.type === "kyo" && (y === 0 || y === 8)) || (p.type === "keima" && (p.owner === "sente" ? y <= 1 : y >= 7));
-        if (force || confirm("成りますか？")) {
-          if (p.type === "fu") p.type = "to";
-          else if (p.type === "kaku") p.type = "uma";
-          else if (p.type === "hisha") p.type = "ryu";
-          else p.type = "n" + p.type;
-        }
-      }
-
-    } else if (selected.type === 'hand') {
-      if (x < 0 || x > 8 || y < 0 || y > 8 || targetKey) { selected = { type: null }; draw(); return; }
-      const h = state.hands[state.turn][selected.hIdx];
-      if (h.type === 'fu') {
-        const isNifu = Object.values(state.pieces || {}).some(p => p.x === x && p.type === 'fu' && p.owner === state.turn);
-        if (isNifu) { alert("二歩は反則です！"); selected = { type: null }; draw(); return; }
-      }
-      if ((h.type === 'fu' || h.type === 'kyo') && ((state.turn === 'sente' && y === 0) || (state.turn === 'gote' && y === 8))) { alert("そこには打てません！"); selected = { type: null }; draw(); return; }
-      if (h.type === 'keima' && ((state.turn === 'sente' && y <= 1) || (state.turn === 'gote' && y >= 7))) { alert("そこには打てません！"); selected = { type: null }; draw(); return; }
-      
-      state.lastMove = { fromX: null, fromY: null, toX: x, toY: y };
-      state.hands[state.turn].splice(selected.hIdx, 1);
-      state.pieces['p_' + Date.now()] = {x, y, type: h.type, owner: state.turn};
-    }
-
-    state.turn = state.turn === "sente" ? "gote" : "sente";
-    selected = {type: null};
-    set(ref(db, "game"), state);
-  }
+  set(ref(db, "game"), state);
 });
 
 document.getElementById("resetBtn").addEventListener("click", () => {
@@ -218,73 +170,67 @@ document.getElementById("resetBtn").addEventListener("click", () => {
 window.closeOverlay = () => { document.getElementById('overlay').style.display = 'none'; initBoard(true); };
 
 function initBoard(keepPlayers = false) {
-  const p = {}; const line = ["kyo", "keima", "gin", "kin", "ou", "kin", "gin", "keima", "kyo"];
-  line.forEach((t, i) => { p["s"+i] = {x:i, y:8, type:t, owner:"sente"}; p["g"+i] = {x:8-i, y:0, type:t, owner:"gote"}; });
-  p["s_h"] = {x:1, y:7, type:"hisha", owner:"sente"}; p["g_h"] = {x:7, y:1, type:"hisha", owner:"gote"};
-  p["s_k"] = {x:7, y:7, type:"kaku", owner:"sente"}; p["g_k"] = {x:1, y:1, type:"kaku", owner:"gote"};
-  for(let i=0; i<9; i++) { p["sf"+i] = {x:i, y:6, type:"fu", owner:"sente"}; p["gf"+i] = {x:i, y:2, type:"fu", owner:"gote"}; }
+  const b = Array(64).fill(0);
+  // オセロの初期配置
+  b[3 * 8 + 3] = 2; b[3 * 8 + 4] = 1;
+  b[4 * 8 + 3] = 1; b[4 * 8 + 4] = 2;
   
   const newState = { 
-    pieces: p, 
-    hands: {sente:[], gote:[]}, 
-    turn: "sente", 
+    board: b, 
+    turn: "black", 
     resetReq: false, 
     resetSender: null, 
     winner: null, 
-    senteId: keepPlayers ? (state.senteId || null) : null, 
-    goteId: keepPlayers ? (state.goteId || null) : null, 
-    senteOnline: keepPlayers ? (state.senteOnline || false) : false, 
-    goteOnline: keepPlayers ? (state.goteOnline || false) : false, 
+    blackId: keepPlayers ? (state.blackId || null) : null, 
+    whiteId: keepPlayers ? (state.whiteId || null) : null, 
+    blackOnline: keepPlayers ? (state.blackOnline || false) : false, 
+    whiteOnline: keepPlayers ? (state.whiteOnline || false) : false, 
     lastMove: null 
   };
   set(ref(db, "game"), newState);
 }
 
 function draw() {
-  ctx.clearRect(0, 0, 540, 720);
-
-  ctx.save();
-  if (myRole === "gote") { ctx.translate(540 / 2, 720 / 2); ctx.rotate(Math.PI); ctx.translate(-540 / 2, -720 / 2); }
+  ctx.clearRect(0, 0, 540, 540);
   
-  for (let i = 0; i < 9; i++) {
-    for (let j = 0; j < 9; j++) {
-      if (state.lastMove && ((state.lastMove.toX === i && state.lastMove.toY === j) || (state.lastMove.fromX === i && state.lastMove.fromY === j))) {
-        ctx.fillStyle = "rgba(255, 140, 0, 0.35)"; ctx.fillRect(i * CELL, j * CELL + 60, CELL, CELL);
+  // 盤面（マス目）の描画
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      ctx.strokeStyle = "#004d40";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(i * CELL, j * CELL, CELL, CELL);
+      
+      // オセロの4つのドット（目印）
+      if ((i === 2 || i === 6) && (j === 2 || j === 6)) {
+        ctx.fillStyle = "#004d40";
+        ctx.beginPath();
+        ctx.arc(i * CELL, j * CELL, 4, 0, Math.PI * 2);
+        ctx.fill();
       }
-      ctx.strokeStyle = "#5d4037"; ctx.lineWidth = 1; ctx.strokeRect(i * CELL, j * CELL + 60, CELL, CELL);
+
+      // 最後に打たれたマスのハイライト
+      if (state.lastMove && state.lastMove.x === i && state.lastMove.y === j) {
+        ctx.fillStyle = "rgba(255, 235, 59, 0.25)";
+        ctx.fillRect(i * CELL, j * CELL, CELL, CELL);
+      }
+
+      // 石の描画
+      const val = state.board[j * 8 + i];
+      if (val !== 0) {
+        ctx.save();
+        ctx.shadowColor = "rgba(0,0,0,0.3)";
+        ctx.shadowBlur = 6;
+        ctx.shadowOffsetY = 3;
+        ctx.fillStyle = val === 1 ? "#111" : "#fff";
+        ctx.beginPath();
+        ctx.arc(i * CELL + CELL / 2, j * CELL + CELL / 2, CELL * 0.4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
     }
   }
-  
-  for (const k in (state.pieces || {})) {
-    const p = state.pieces[k]; ctx.save(); let offsetY = 0;
-    if (selected.key === k && selected.type === 'board') {
-      offsetY = p.owner === "sente" ? -10 : 10;
-      ctx.shadowColor = "rgba(0, 0, 0, 0.4)"; ctx.shadowBlur = 12; ctx.shadowOffsetX = 4; ctx.shadowOffsetY = 6;
-    }
-    ctx.translate(p.x * CELL + CELL/2, p.y * CELL + CELL/2 + 60 + offsetY);
-    if (p.owner === "gote") ctx.rotate(Math.PI);
-    if (img[p.type]) ctx.drawImage(img[p.type], -CELL/2, -CELL/2, CELL, CELL);
-    if (selected.key === k && selected.type === 'board') { ctx.strokeStyle = "red"; ctx.lineWidth = 3; ctx.strokeRect(-CELL/2, -CELL/2, CELL, CELL); }
-    ctx.restore();
-  }
-  
-  (state.hands?.sente || []).forEach((h, i) => {
-    ctx.save(); let offsetY = 0;
-    if (selected.type === 'hand' && state.turn === 'sente' && selected.hIdx === i) { offsetY = -10; ctx.shadowColor = "rgba(0,0,0,0.4)"; ctx.shadowBlur = 10; }
-    ctx.translate(i * CELL, 660 + offsetY); if (img[h.type]) ctx.drawImage(img[h.type], 0, 0, CELL, CELL);
-    if (selected.type === 'hand' && state.turn === 'sente' && selected.hIdx === i) { ctx.strokeStyle = "red"; ctx.lineWidth = 3; ctx.strokeRect(0, 0, CELL, CELL); }
-    ctx.restore();
-  });
 
-  (state.hands?.gote || []).forEach((h, i) => {
-    ctx.save(); let offsetY = 0;
-    if (selected.type === 'hand' && state.turn === 'gote' && selected.hIdx === i) { offsetY = 10; ctx.shadowColor = "rgba(0,0,0,0.4)"; ctx.shadowBlur = 10; }
-    ctx.translate(i * CELL, 0 + offsetY); if (img[h.type]) ctx.drawImage(img[h.type], 0, 0, CELL, CELL);
-    if (selected.type === 'hand' && state.turn === 'gote' && selected.hIdx === i) { ctx.strokeStyle = "red"; ctx.lineWidth = 3; ctx.strokeRect(0, 0, CELL, CELL); }
-    ctx.restore();
-  });
-  ctx.restore();
-
+  // リセットボタンの状態制御
   const btn = document.getElementById("resetBtn");
   if (state.resetReq) {
     if (state.resetSender === myId) { btn.innerText = "リセット回答待ち..."; btn.className = "waiting"; btn.disabled = true; }
@@ -293,54 +239,57 @@ function draw() {
 
   let opponentMissing = false;
   let opponentOffline = false;
-  let opponentName = myRole === "sente" ? "後手" : "先手";
+  let opponentName = myRole === "black" ? "白（後手）" : "黒（先手）";
 
-  if (myRole === "sente") {
-    if (!state.goteId) opponentMissing = true;
-    else if (!state.goteOnline) opponentOffline = true;
-  } else if (myRole === "gote") {
-    if (!state.senteId) opponentMissing = true;
-    else if (!state.senteOnline) opponentOffline = true;
+  if (myRole === "black") {
+    if (!state.whiteId) opponentMissing = true;
+    else if (!state.whiteOnline) opponentOffline = true;
+  } else if (myRole === "white") {
+    if (!state.blackId) opponentMissing = true;
+    else if (!state.blackOnline) opponentOffline = true;
   }
 
-  // ★対戦相手が不在・または切断時の「通信待機オーバーレイ」のレンダリング
+  // 相手の接続ステータスオーバーレイ
   if ((opponentMissing || opponentOffline) && !state.winner && myRole) {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.6)"; ctx.fillRect(0, 0, 540, 720);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.6)"; ctx.fillRect(0, 0, 540, 540);
     ctx.fillStyle = opponentMissing ? "#0288d1" : "#d32f2f"; 
-    ctx.fillRect(100, 320, 340, 80);
-    ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.strokeRect(100, 320, 340, 80);
+    ctx.fillRect(100, 230, 340, 80);
+    ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.strokeRect(100, 230, 340, 80);
     ctx.fillStyle = "#fff"; ctx.font = "bold 18px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
     
     if (opponentMissing) {
-      ctx.fillText("対戦相手を待っています...", 270, 360);
+      ctx.fillText("対戦相手を待っています...", 270, 270);
     } else {
-      ctx.fillText(`${opponentName}が切断されました`, 270, 345);
-      ctx.font = "14px sans-serif"; ctx.fillText("復帰、または新規参戦を待っています...", 270, 375);
+      ctx.fillText(`${opponentName}が切断されました`, 270, 255);
+      ctx.font = "14px sans-serif"; ctx.fillText("復帰、または新規参戦を待っています...", 270, 285);
     }
   }
 
+  // 手番表示オーバーレイ
   if (myRole && state.turn !== myRole && !state.winner && !opponentMissing && !opponentOffline) {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.15)"; ctx.fillRect(0, 0, 540, 720);
-    ctx.fillStyle = "rgba(93, 64, 55, 0.85)"; ctx.fillRect(160, 335, 220, 50);
-    ctx.strokeStyle = "#f4e4bc"; ctx.lineWidth = 2; ctx.strokeRect(160, 335, 220, 50);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.1)"; ctx.fillRect(0, 0, 540, 540);
+    ctx.fillStyle = "rgba(0, 77, 64, 0.85)"; ctx.fillRect(160, 245, 220, 50);
+    ctx.strokeStyle = "#e0f2f1"; ctx.lineWidth = 2; ctx.strokeRect(160, 245, 220, 50);
     ctx.fillStyle = "#fff"; ctx.font = "bold 18px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-    ctx.fillText("相手のターンです", 270, 360);
+    ctx.fillText("相手のターンです", 270, 270);
   }
 
+  // 勝敗 overlay
   const overlayEl = document.getElementById('overlay');
   const winnerTxtEl = document.getElementById("winnerText");
   if (state.winner) {
-    winnerTxtEl.innerText = (state.winner === "sente" ? "先手" : "後手") + "の勝ち！";
+    if (state.winner === "draw") winnerTxtEl.innerText = "引き分け！";
+    else winnerTxtEl.innerText = (state.winner === "black" ? "黒（先手）" : "白（後手）") + "の勝ち！";
     overlayEl.style.display = 'flex';
   } else { 
     overlayEl.style.display = 'none'; 
   }
 }
 
-// ★最重要追加：Firebase接続状況の直接監視（リフレッシュや電波瞬断からの復帰用）
+// ネットワーク切断・オンライン監視システム
 onValue(ref(db, ".info/connected"), snap => {
   if (snap.val() === true) {
-    disconnectSetForRole = null; // 再接続時は切断イベントをサーバーに再登録させる
+    disconnectSetForRole = null;
     if (myRole) {
       onDisconnect(ref(db, `game/${myRole}Online`)).set(false);
       disconnectSetForRole = myRole;
@@ -355,29 +304,26 @@ onValue(ref(db, "game"), snap => {
   if(snap.val()) { 
     state = snap.val(); 
 
-    // ★要件1：先手・後手ともに完全にいなくなった（両者オフライン）なら盤面を完全初期化
-    const hasPlayers = state.senteId || state.goteId;
-    const bothOffline = (state.senteId ? !state.senteOnline : true) && (state.goteId ? !state.goteOnline : true);
+    // 全員不在時に盤面を自動初期化
+    const hasPlayers = state.blackId || state.whiteId;
+    const bothOffline = (state.blackId ? !state.blackOnline : true) && (state.whiteId ? !state.whiteOnline : true);
     if (hasPlayers && bothOffline) { initBoard(false); return; }
 
     let newRole = null;
     let writeOps = {};
     let runWrite = false;
 
-    // 現在のロール決定
-    if (state.senteId === myId) newRole = "sente";
-    else if (state.goteId === myId) newRole = "gote";
+    if (state.blackId === myId) newRole = "black";
+    else if (state.whiteId === myId) newRole = "white";
     else {
-      // 空席があるなら自動着席
-      if (!state.senteId) {
-        newRole = "sente"; writeOps["game/senteId"] = myId; writeOps["game/senteOnline"] = true; runWrite = true;
-      } else if (!state.goteId) {
-        newRole = "gote"; writeOps["game/goteId"] = myId; writeOps["game/goteOnline"] = true; runWrite = true;
+      if (!state.blackId) {
+        newRole = "black"; writeOps["game/blackId"] = myId; writeOps["game/blackOnline"] = true; runWrite = true;
+      } else if (!state.whiteId) {
+        newRole = "white"; writeOps["game/whiteId"] = myId; writeOps["game/whiteOnline"] = true; runWrite = true;
       }
     }
     myRole = newRole;
 
-    // ★要件3のベース：途中参戦や再接続時にも確実に機能する切断検知トリガー
     if (myRole && disconnectSetForRole !== myRole) {
       onDisconnect(ref(db, `game/${myRole}Online`)).set(false);
       disconnectSetForRole = myRole;
@@ -388,25 +334,24 @@ onValue(ref(db, "game"), snap => {
 
     if (runWrite) { update(ref(db), writeOps); }
 
-    // 観戦コンソールの制御
+    // 観戦コンソールの制御と途中参戦ロジック
     const watcherConsole = document.getElementById("watcherConsole");
     const watcherStatus = document.getElementById("watcherStatus");
     const joinBtn = document.getElementById("joinBtn");
 
     if (!myRole) {
       watcherConsole.style.display = "flex";
-      watcherStatus.innerText = `👀 観戦モード中 (${state.turn === "sente" ? "先手" : "後手"}の手番)`;
+      watcherStatus.innerText = `👀 観戦モード中 (${state.turn === "black" ? "黒" : "白"}の手番)`;
       
-      // ★要件3：どちらかが切断中、または不参加なら、観戦者に「途中参戦ボタン」を表示して促す
       let emptyRole = null;
-      if (!state.senteId || !state.senteOnline) emptyRole = "sente";
-      else if (!state.goteId || !state.goteOnline) emptyRole = "gote";
+      if (!state.blackId || !state.blackOnline) emptyRole = "black";
+      else if (!state.whiteId || !state.whiteOnline) emptyRole = "white";
       
       if (emptyRole && !state.winner) {
         joinBtn.style.display = "inline-block";
-        joinBtn.innerText = `⚔️ ${emptyRole === "sente" ? "先手" : "後手"}として途中参戦する`;
+        joinBtn.innerText = `⚔️ ${emptyRole === "black" ? "黒" : "白"}として途中参戦する`;
         joinBtn.onclick = () => {
-          if (confirm(`${emptyRole === "sente" ? "先手" : "後手"}の席が空いています。途中参戦しますか？`)) {
+          if (confirm(`${emptyRole === "black" ? "黒" : "白"}の席が空いています。途中参戦しますか？`)) {
             const joinOps = {};
             joinOps[`game/${emptyRole}Id`] = myId;
             joinOps[`game/${emptyRole}Online`] = true;
