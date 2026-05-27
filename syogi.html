@@ -10,10 +10,23 @@
     #joinBtn { background: #2e7d32; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; }
     #joinBtn:hover { background: #1b5e20; }
     
-    canvas { background: #f9d784; border: 4px solid #5d4037; width: 100%; max-width: 400px; touch-action: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+    /* ★修正点：iPhoneでのCanvasの高さ潰れを縦横比(3:4)指定で物理的に防止 */
+    canvas { 
+        background: #f9d784; 
+        border: 4px solid #5d4037; 
+        width: 100%; 
+        max-width: 400px; 
+        height: auto; 
+        aspect-ratio: 540 / 720; 
+        touch-action: none; 
+        cursor: pointer; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
+    }
+    
     #resetBtn { padding: 12px 24px; margin-bottom: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
     .normal { background: #5d4037; color: white; }
     .waiting { background: #d32f2f; color: white; opacity: 0.8; }
+    
     #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; font-size: 28px; font-weight: bold; z-index: 10; cursor: pointer; }
     #overlay span { font-size: 16px; color: #ccc; margin-top: 10px; }
 </style>
@@ -27,9 +40,14 @@
 <button id="resetBtn" class="normal">リセット申請</button>
 <canvas id="game" width="540" height="720"></canvas>
 
+<div id="overlay" onclick="closeOverlay()">
+  <div id="winnerText"></div>
+  <span>画面をタップして新しくゲームを始める</span>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, set, onValue, onDisconnect } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getDatabase, ref, set, update, onValue, onDisconnect } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const db = getDatabase(initializeApp({
   apiKey: "AIzaSyDk7KNFdlp9zPtnixdNv96VtfKrELX1f8I",
@@ -37,10 +55,16 @@ const db = getDatabase(initializeApp({
   projectId: "syogi-cee67"
 }));
 
-let myId = sessionStorage.getItem("shogi_myId");
-if (!myId) {
+// ★修正点：iPhoneのシークレット（プライベート）モードでのエラー落ちを対策
+let myId = null;
+try {
+  myId = sessionStorage.getItem("shogi_myId");
+  if (!myId) {
+    myId = Math.random().toString(36).slice(2);
+    sessionStorage.setItem("shogi_myId", myId);
+  }
+} catch (e) {
   myId = Math.random().toString(36).slice(2);
-  sessionStorage.setItem("shogi_myId", myId);
 }
 
 const canvas = document.getElementById("game");
@@ -53,6 +77,9 @@ pieceNames.forEach(name => { img[name] = new Image(); img[name].src = `syogi_img
 let state = { pieces: {}, hands: {sente: [], gote: []}, turn: "sente", resetReq: false, resetSender: null, winner: null, senteId: null, goteId: null, senteOnline: false, goteOnline: false, lastMove: null };
 let selected = { type: null, key: null, hIdx: null };
 let lastResetReq = false;
+
+// ★修正点：切断監視デトックス用（重複してリスナーを付けないための防御盾）
+let hasSetDisconnect = false;
 
 function isBlocked(p, tx, ty) {
   const dx = tx - p.x, dy = ty - p.y;
@@ -96,7 +123,6 @@ canvas.addEventListener("mousedown", e => {
   if (state.senteId === myId) myRole = "sente";
   else if (state.goteId === myId) myRole = "gote";
 
-  // プレイヤーの画面がロックされている（相手がいない、または切断中）なら操作拒否
   if (myRole) {
     const opponentId = myRole === "sente" ? state.goteId : state.senteId;
     const opponentOnline = myRole === "sente" ? state.goteOnline : state.senteOnline;
@@ -189,15 +215,30 @@ document.getElementById("resetBtn").addEventListener("click", () => {
   state.resetReq = true; state.resetSender = myId; set(ref(db, "game"), state);
 });
 
-window.closeOverlay = () => { document.getElementById('overlay').style.display = 'none'; initBoard(); };
+// ★修正点：ゲーム終了後のリセット時にプレイヤーの座席情報が吹き飛んでいたバグを修正
+window.closeOverlay = () => { document.getElementById('overlay').style.display = 'none'; initBoard(true); };
 
-function initBoard() {
+function initBoard(keepPlayers = false) {
   const p = {}; const line = ["kyo", "keima", "gin", "kin", "ou", "kin", "gin", "keima", "kyo"];
   line.forEach((t, i) => { p["s"+i] = {x:i, y:8, type:t, owner:"sente"}; p["g"+i] = {x:8-i, y:0, type:t, owner:"gote"}; });
   p["s_h"] = {x:1, y:7, type:"hisha", owner:"sente"}; p["g_h"] = {x:7, y:1, type:"hisha", owner:"gote"};
   p["s_k"] = {x:7, y:7, type:"kaku", owner:"sente"}; p["g_k"] = {x:1, y:1, type:"kaku", owner:"gote"};
   for(let i=0; i<9; i++) { p["sf"+i] = {x:i, y:6, type:"fu", owner:"sente"}; p["gf"+i] = {x:i, y:2, type:"fu", owner:"gote"}; }
-  set(ref(db, "game"), { pieces: p, hands: {sente:[], gote:[]}, turn: "sente", resetReq: false, resetSender: null, winner: null, senteId: null, goteId: null, senteOnline: false, goteOnline: false, lastMove: null });
+  
+  const newState = { 
+    pieces: p, 
+    hands: {sente:[], gote:[]}, 
+    turn: "sente", 
+    resetReq: false, 
+    resetSender: null, 
+    winner: null, 
+    senteId: keepPlayers ? (state.senteId || null) : null, 
+    goteId: keepPlayers ? (state.goteId || null) : null, 
+    senteOnline: keepPlayers ? (state.senteOnline || false) : false, 
+    goteOnline: keepPlayers ? (state.goteOnline || false) : false, 
+    lastMove: null 
+  };
+  set(ref(db, "game"), newState);
 }
 
 function draw() {
@@ -252,9 +293,8 @@ function draw() {
   if (state.resetReq) {
     if (state.resetSender === myId) { btn.innerText = "リセット回答待ち..."; btn.className = "waiting"; btn.disabled = true; }
     else { btn.innerText = "リセット申請を受信中"; btn.className = "waiting"; btn.disabled = false; }
-  } else { btn.innerText = "リreset申請"; btn.innerText = "リセット申請"; btn.className = "normal"; btn.disabled = false; }
+  } else { btn.innerText = "リセット申請"; btn.className = "normal"; btn.disabled = false; }
 
-  // ★【新機能】未入室・切断時の待機画面シールド（プレイヤー専用。観戦者には見せない）
   let opponentMissing = false;
   let opponentOffline = false;
   let opponentName = myRole === "sente" ? "後手" : "先手";
@@ -267,9 +307,9 @@ function draw() {
     else if (!state.senteOnline) opponentOffline = true;
   }
 
+  // ★修正点：待機画面をレンダリングした後にreturnせず、下の「絶対通るべき処理」に流すことでエラーを徹底ガード
   if ((opponentMissing || opponentOffline) && !state.winner && myRole) {
     ctx.fillStyle = "rgba(0, 0, 0, 0.6)"; ctx.fillRect(0, 0, 540, 720);
-    // 相手がそもそもいないなら青、いるけど切断されたなら赤
     ctx.fillStyle = opponentMissing ? "#0288d1" : "#d32f2f"; 
     ctx.fillRect(100, 320, 340, 80);
     ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.strokeRect(100, 320, 340, 80);
@@ -281,10 +321,9 @@ function draw() {
       ctx.fillText(`${opponentName}が切断されました`, 270, 345);
       ctx.font = "14px sans-serif"; ctx.fillText("復帰、または新規参戦を待っています...", 270, 375);
     }
-    return;
   }
 
-  if (myRole && state.turn !== myRole && !state.winner) {
+  if (myRole && state.turn !== myRole && !state.winner && !opponentMissing && !opponentOffline) {
     ctx.fillStyle = "rgba(0, 0, 0, 0.15)"; ctx.fillRect(0, 0, 540, 720);
     ctx.fillStyle = "rgba(93, 64, 55, 0.85)"; ctx.fillRect(160, 335, 220, 50);
     ctx.strokeStyle = "#f4e4bc"; ctx.lineWidth = 2; ctx.strokeRect(160, 335, 220, 50);
@@ -292,41 +331,59 @@ function draw() {
     ctx.fillText("相手のターンです", 270, 360);
   }
 
+  // ★修正点：確実にあるHTMLパーツを呼び出すため、iPhoneでもクラッシュせずリアルタイムにヌルヌル同期
+  const overlayEl = document.getElementById('overlay');
+  const winnerTxtEl = document.getElementById("winnerText");
   if (state.winner) {
-    document.getElementById("winnerText").innerText = (state.winner === "sente" ? "先手" : "後手") + "の勝ち！";
-    document.getElementById('overlay').style.display = 'flex';
-  } else { document.getElementById('overlay').style.display = 'none'; }
+    winnerTxtEl.innerText = (state.winner === "sente" ? "先手" : "後手") + "の勝ち！";
+    overlayEl.style.display = 'flex';
+  } else { 
+    overlayEl.style.display = 'none'; 
+  }
 }
 
 onValue(ref(db, "game"), snap => { 
   if(snap.val()) { 
     state = snap.val(); 
 
-    // 2人ともが離れたら強制リセット
     const hasPlayers = state.senteId || state.goteId;
     const bothOffline = (state.senteId ? !state.senteOnline : true) && (state.goteId ? !state.goteOnline : true);
-    if (hasPlayers && bothOffline) { initBoard(); return; }
+    if (hasPlayers && bothOffline) { initBoard(false); return; }
 
     let myRole = null;
-    // ★座席割り当ての判定＆リロード復帰時の自動フラグ点灯
+    let writeOps = {};
+    let runWrite = false;
+
+    // ★修正点：ミリ秒単位のパケット衝突を防ぐ一括アップデート(update)最適化
     if (state.senteId === myId) {
       myRole = "sente";
-      if (!state.senteOnline) { state.senteOnline = true; set(ref(db, "game/senteOnline"), true); onDisconnect(ref(db, "game/senteOnline")).set(false); }
+      if (!state.senteOnline) { state.senteOnline = true; writeOps["game/senteOnline"] = true; runWrite = true; }
     } else if (state.goteId === myId) {
       myRole = "gote";
-      if (!state.goteOnline) { state.goteOnline = true; set(ref(db, "game/goteOnline"), true); onDisconnect(ref(db, "game/goteOnline")).set(false); }
+      if (!state.goteOnline) { state.goteOnline = true; writeOps["game/goteOnline"] = true; runWrite = true; }
     } else {
-      // ★【新機能】完全に空席（まだ誰も座っていない）ならアクセスした瞬間に自動着席
       if (!state.senteId) {
         myRole = "sente"; state.senteId = myId; state.senteOnline = true;
-        set(ref(db, "game/senteId"), myId); set(ref(db, "game/senteOnline"), true); onDisconnect(ref(db, "game/senteOnline")).set(false);
+        writeOps["game/senteId"] = myId; writeOps["game/senteOnline"] = true; runWrite = true;
       } else if (!state.goteId) {
         myRole = "gote"; state.goteId = myId; state.goteOnline = true;
-        set(ref(db, "game/goteId"), myId); set(ref(db, "game/goteOnline"), true); onDisconnect(ref(db, "game/goteOnline")).set(false);
+        writeOps["game/goteId"] = myId; writeOps["game/goteOnline"] = true; runWrite = true;
       }
     }
 
-    // 観戦者用UI＆途中参戦の制御
+    // ★修正点：通信回数を劇的に減らし、スマホ回線のラグを完全解消
+    if (runWrite) {
+      update(ref(db), writeOps).then(() => {
+        if (myRole === "sente" && !hasSetDisconnect) {
+          onDisconnect(ref(db, "game/senteOnline")).set(false);
+          hasSetDisconnect = true;
+        } else if (myRole === "gote" && !hasSetDisconnect) {
+          onDisconnect(ref(db, "game/goteOnline")).set(false);
+          hasSetDisconnect = true;
+        }
+      });
+    }
+
     const watcherConsole = document.getElementById("watcherConsole");
     const watcherStatus = document.getElementById("watcherStatus");
     const joinBtn = document.getElementById("joinBtn");
@@ -343,11 +400,12 @@ onValue(ref(db, "game"), snap => {
         joinBtn.style.display = "inline-block";
         joinBtn.innerText = `⚔️ ${emptyRole === "sente" ? "先手" : "後手"}として途中参戦する`;
         joinBtn.onclick = () => {
-          if (confirm(`${emptyRole === "sente" ? "先手" : "後手"}の席が空いています。この対局を引き継いで途中参戦しますか？`)) {
+          if (confirm(`${emptyRole === "sente" ? "先手" : "後手"}の席が空いています。途中参戦しますか？`)) {
+            hasSetDisconnect = false;
             if (emptyRole === "sente") {
-              onDisconnect(ref(db, "game/senteOnline")).set(false); set(ref(db, "game/senteId"), myId); set(ref(db, "game/senteOnline"), true);
+              update(ref(db), { "game/senteId": myId, "game/senteOnline": true });
             } else {
-              onDisconnect(ref(db, "game/goteOnline")).set(false); set(ref(db, "game/goteId"), myId); set(ref(db, "game/goteOnline"), true);
+              update(ref(db), { "game/goteId": myId, "game/goteOnline": true });
             }
           }
         };
@@ -361,11 +419,11 @@ onValue(ref(db, "game"), snap => {
     if (state.resetReq && !lastResetReq && state.resetSender !== myId) {
       lastResetReq = true;
       setTimeout(() => {
-        if (confirm("相手からリセット申請が届きました。承諾して盤面を初期化しますか？")) { initBoard(); }
-        else { state.resetReq = false; state.resetSender = null; set(ref(db, "game"), state); }
+        if (confirm("相手からリセット申請が届きました。承諾して盤面を初期化しますか？")) { initBoard(true); }
+        else { update(ref(db), { "game/resetReq": false, "game/resetSender": null }); }
       }, 100);
     } else { lastResetReq = state.resetReq; }
-  } else { initBoard(); }
+  } else { initBoard(false); }
 });
 </script>
 </body>
