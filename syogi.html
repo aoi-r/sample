@@ -43,18 +43,22 @@ canvas.addEventListener("mousedown", e => {
   const y = Math.floor(((e.clientY - rect.top) * (720/rect.height)) / CELL) - 1;
 
   // 1. 駒選択（自分の手番の駒のみ）
-  const pKey = Object.keys(state.pieces).find(k => state.pieces[k].x === x && state.pieces[k].y === y && state.pieces[k].owner === state.turn);
+  const pKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y && state.pieces[k].owner === state.turn);
   if (pKey) { selected = {type: 'board', key: pKey}; return; }
 
   // 2. 移動 / 打ち
   if (selected.type) {
     if (selected.type === 'board') {
       const p = state.pieces[selected.key];
-      const targetKey = Object.keys(state.pieces).find(k => state.pieces[k].x === x && state.pieces[k].y === y);
+      const targetKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y);
       
       // 相手の駒を取る処理
       if (targetKey && state.pieces[targetKey].owner !== p.owner) {
         const captured = state.pieces[targetKey];
+        // Firebaseの仕様対策: handsオブジェクトが存在しない場合の初期化
+        if (!state.hands) state.hands = { sente: [], gote: [] };
+        if (!state.hands[state.turn]) state.hands[state.turn] = [];
+        
         state.hands[state.turn].push({type: captured.type.replace(/n|to|uma|ryu/g, '')});
         delete state.pieces[targetKey];
       }
@@ -79,13 +83,16 @@ function initBoard() {
   p["s_h"] = {x:1, y:7, type:"hisha", owner:"sente"}; p["g_h"] = {x:7, y:1, type:"hisha", owner:"gote"};
   p["s_k"] = {x:7, y:7, type:"kaku", owner:"sente"}; p["g_k"] = {x:1, y:1, type:"kaku", owner:"gote"};
   for(let i=0; i<9; i++) { p["sf"+i] = {x:i, y:6, type:"fu", owner:"sente"}; p["gf"+i] = {x:i, y:2, type:"fu", owner:"gote"}; }
+  
+  // 意図的に空配列をセットしてもFirebase上では消えるため、受信時に補完する必要があります
   set(ref(db, "game"), { pieces: p, hands: {sente:[], gote:[]}, turn: "sente", resetReq: false });
 }
 
 function draw() {
   ctx.clearRect(0, 0, 540, 720);
   for (let i = 0; i < 9; i++) for (let j = 0; j < 9; j++) ctx.strokeRect(i * CELL, j * CELL + 60, CELL, CELL);
-  for (const k in state.pieces) {
+  
+  for (const k in (state.pieces || {})) {
     const p = state.pieces[k];
     ctx.save();
     ctx.translate(p.x * CELL + CELL/2, p.y * CELL + CELL/2 + 60);
@@ -93,16 +100,23 @@ function draw() {
     ctx.drawImage(img[p.type], -CELL/2, -CELL/2, CELL, CELL);
     ctx.restore();
   }
-  // 持ち駒描画
-  state.hands.sente.forEach((h, i) => ctx.drawImage(img[h.type], i * CELL, 660, CELL, CELL));
-  state.hands.gote.forEach((h, i) => ctx.drawImage(img[h.type], i * CELL, 0, CELL, CELL));
+  
+  // Firebaseの仕様対策: state.hands や sente/gote が未定義の場合に備えてオプショナルチェーン（?.）と空配列（|| []）を使用
+  (state.hands?.sente || []).forEach((h, i) => ctx.drawImage(img[h.type], i * CELL, 660, CELL, CELL));
+  (state.hands?.gote || []).forEach((h, i) => ctx.drawImage(img[h.type], i * CELL, 0, CELL, CELL));
   
   // ボタンUIの切り替え
   const btn = document.getElementById("resetBtn");
   btn.innerText = state.resetReq ? "リセット申請中 (タップで合意)" : "リセット申請";
   btn.className = state.resetReq ? "waiting" : "normal";
 }
-onValue(ref(db, "game"), snap => { if(snap.val()) { state = snap.val(); draw(); } });
+
+onValue(ref(db, "game"), snap => { 
+  if(snap.val()) { 
+    state = snap.val(); 
+    draw(); 
+  } 
+});
 </script>
 </body>
 </html>
