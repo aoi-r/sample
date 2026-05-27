@@ -9,16 +9,15 @@
     canvas { background: #f9d784; border: 4px solid #5d4037; width: 100%; max-width: 400px; touch-action: none; cursor: pointer; }
     #resetBtn { padding: 12px 24px; margin-bottom: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
     .normal { background: #5d4037; color: white; }
-    .waiting { background: #d32f2f; color: white; animation: blink 1s infinite; }
+    .waiting { background: #d32f2f; color: white; opacity: 0.8; }
     #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; font-size: 28px; font-weight: bold; z-index: 10; cursor: pointer; }
     #overlay span { font-size: 16px; color: #ccc; margin-top: 10px; }
-    @keyframes blink { 50% { opacity: 0.7; } }
 </style>
 </head>
 <body>
 <div id="overlay" onclick="closeOverlay()">
   <div id="winnerText">○手の勝ち！</div>
-  <span>タップして盤面へ（リセットは上のボタンから）</span>
+  <span>タップして盤面を初期化し、次の対局へ</span>
 </div>
 <button id="resetBtn" class="normal">リセット申請</button>
 <canvas id="game" width="540" height="720"></canvas>
@@ -33,6 +32,9 @@ const db = getDatabase(initializeApp({
   projectId: "syogi-cee67"
 }));
 
+// ★端末を識別するためのランダムIDを生成
+const myId = Math.random().toString(36).slice(2);
+
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 const CELL = 60;
@@ -40,8 +42,9 @@ const img = {};
 const pieceNames = ["fu", "to", "kyo", "nkyo", "keima", "nkeima", "gin", "ngin", "kin", "ou", "hisha", "ryu", "kaku", "uma"];
 pieceNames.forEach(name => { img[name] = new Image(); img[name].src = `syogi_img/${name}.png`; });
 
-let state = { pieces: {}, hands: {sente: [], gote: []}, turn: "sente", resetReq: false, winner: null };
+let state = { pieces: {}, hands: {sente: [], gote: []}, turn: "sente", resetReq: false, resetSender: null, winner: null };
 let selected = { type: null, key: null, hIdx: null };
+let lastResetReq = false; // 前回の申請状態をローカルで記憶する用
 
 function isBlocked(p, tx, ty) {
   const dx = tx - p.x, dy = ty - p.y;
@@ -84,7 +87,6 @@ canvas.addEventListener("mousedown", e => {
   const x = Math.floor(((e.clientX - rect.left) * (540/rect.width)) / CELL);
   const y = Math.floor(((e.clientY - rect.top) * (720/rect.height)) / CELL) - 1;
 
-  // 1. 駒選択
   const pKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y && state.pieces[k].owner === state.turn);
   if (pKey) { selected = {type: 'board', key: pKey}; draw(); return; }
 
@@ -95,7 +97,6 @@ canvas.addEventListener("mousedown", e => {
       const idx = x; if (state.hands?.gote?.[idx]) { selected = {type: 'hand', hIdx: idx}; draw(); return; }
   }
 
-  // 2. 移動 / 打ちの実行
   if (selected.type) {
     const targetKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y);
 
@@ -103,15 +104,13 @@ canvas.addEventListener("mousedown", e => {
       const p = state.pieces[selected.key];
       if (!canMove(p, x, y) || x < 0 || x > 8 || y < 0 || y > 8) { selected = { type: null }; draw(); return; }
       
-      // 駒取り処理
       if (targetKey && state.pieces[targetKey].owner !== p.owner) {
         const captured = state.pieces[targetKey];
-        if (captured.type === "ou") state.winner = state.turn; // 王取られ判定
+        if (captured.type === "ou") state.winner = state.turn;
         
         if (!state.hands) state.hands = { sente: [], gote: [] };
         if (!state.hands[state.turn]) state.hands[state.turn] = [];
         
-        // 成り駒を元に戻す処理
         let baseType = captured.type;
         if (baseType === 'to') baseType = 'fu';
         else if (baseType === 'uma') baseType = 'kaku';
@@ -122,14 +121,12 @@ canvas.addEventListener("mousedown", e => {
         delete state.pieces[targetKey];
       }
 
-      // 成り判定 (先手はy<=2, 後手はy>=6が敵陣)
       const oldY = p.y;
       p.x = x; p.y = y;
       const isEnemyZone = (p.owner === "sente" && (y <= 2 || oldY <= 2)) || (p.owner === "gote" && (y >= 6 || oldY >= 6));
       const promotable = ["fu", "kyo", "keima", "gin", "hisha", "kaku"].includes(p.type);
 
       if (isEnemyZone && promotable) {
-        // 行き所のない駒の強制成り判定
         const force = (p.type === "fu" && (y === 0 || y === 8)) || 
                       (p.type === "kyo" && (y === 0 || y === 8)) || 
                       (p.type === "keima" && (p.owner === "sente" ? y <= 1 : y >= 7));
@@ -142,10 +139,23 @@ canvas.addEventListener("mousedown", e => {
       }
 
     } else if (selected.type === 'hand') {
-      // 打ちルール：盤面外や駒の上には打てない
       if (x < 0 || x > 8 || y < 0 || y > 8 || targetKey) { selected = { type: null }; draw(); return; }
       
-      const h = state.hands[state.turn].splice(selected.hIdx, 1)[0];
+      const h = state.hands[state.turn][selected.hIdx];
+      
+      if (h.type === 'fu') {
+        const isNifu = Object.values(state.pieces || {}).some(p => p.x === x && p.type === 'fu' && p.owner === state.turn);
+        if (isNifu) { alert("二歩は反則です！"); selected = { type: null }; draw(); return; }
+      }
+      
+      if ((h.type === 'fu' || h.type === 'kyo') && ((state.turn === 'sente' && y === 0) || (state.turn === 'gote' && y === 8))) {
+        alert("そこには打てません！"); selected = { type: null }; draw(); return;
+      }
+      if (h.type === 'keima' && ((state.turn === 'sente' && y <= 1) || (state.turn === 'gote' && y >= 7))) {
+        alert("そこには打てません！"); selected = { type: null }; draw(); return;
+      }
+      
+      state.hands[state.turn].splice(selected.hIdx, 1);
       state.pieces['p_' + Date.now()] = {x, y, type: h.type, owner: state.turn};
     }
 
@@ -155,12 +165,18 @@ canvas.addEventListener("mousedown", e => {
   }
 });
 
+// ★リセットボタンを押した時の処理を変更
 document.getElementById("resetBtn").addEventListener("click", () => {
-  if (state.resetReq) initBoard();
-  else { state.resetReq = true; set(ref(db, "game"), state); }
+  if (state.resetReq) return; // すでに申請中なら連打を無効化
+  state.resetReq = true;
+  state.resetSender = myId; // 誰が送ったかを記録
+  set(ref(db, "game"), state);
 });
 
-window.closeOverlay = () => { document.getElementById('overlay').style.display = 'none'; };
+window.closeOverlay = () => { 
+  document.getElementById('overlay').style.display = 'none'; 
+  initBoard(); 
+};
 
 function initBoard() {
   const p = {};
@@ -169,7 +185,8 @@ function initBoard() {
   p["s_h"] = {x:1, y:7, type:"hisha", owner:"sente"}; p["g_h"] = {x:7, y:1, type:"hisha", owner:"gote"};
   p["s_k"] = {x:7, y:7, type:"kaku", owner:"sente"}; p["g_k"] = {x:1, y:1, type:"kaku", owner:"gote"};
   for(let i=0; i<9; i++) { p["sf"+i] = {x:i, y:6, type:"fu", owner:"sente"}; p["gf"+i] = {x:i, y:2, type:"fu", owner:"gote"}; }
-  set(ref(db, "game"), { pieces: p, hands: {sente:[], gote:[]}, turn: "sente", resetReq: false, winner: null });
+  // 初期化時はリセット関連のフラグもクリア
+  set(ref(db, "game"), { pieces: p, hands: {sente:[], gote:[]}, turn: "sente", resetReq: false, resetSender: null, winner: null });
 }
 
 function draw() {
@@ -196,9 +213,23 @@ function draw() {
     if (selected.type === 'hand' && state.turn === 'gote' && selected.hIdx === i) { ctx.strokeStyle = "red"; ctx.lineWidth = 3; ctx.strokeRect(i * CELL, 0, CELL, CELL); }
   });
   
+  // ★ボタンの表示・無効化制御
   const btn = document.getElementById("resetBtn");
-  btn.innerText = state.resetReq ? "リセット申請中 (タップで合意)" : "リセット申請";
-  btn.className = state.resetReq ? "waiting" : "normal";
+  if (state.resetReq) {
+    if (state.resetSender === myId) {
+      btn.innerText = "リセット回答待ち...";
+      btn.className = "waiting";
+      btn.disabled = true; // 申請側は連続で押せないようにロック
+    } else {
+      btn.innerText = "リセット申請を受信中";
+      btn.className = "waiting";
+      btn.disabled = false;
+    }
+  } else {
+    btn.innerText = "リセット申請";
+    btn.className = "normal";
+    btn.disabled = false;
+  }
 
   if (state.winner) {
     document.getElementById("winnerText").innerText = (state.winner === "sente" ? "先手" : "後手") + "の勝ち！";
@@ -208,7 +239,29 @@ function draw() {
   }
 }
 
-onValue(ref(db, "game"), snap => { if(snap.val()) { state = snap.val(); draw(); } });
+onValue(ref(db, "game"), snap => { 
+  if(snap.val()) { 
+    state = snap.val(); 
+    draw(); 
+    
+    // ★リセット申請が「なし」から「あり」に切り替わり、かつ申請者が自分以外の場合にポップアップを出す
+    if (state.resetReq && !lastResetReq && state.resetSender !== myId) {
+      lastResetReq = true; // 連続発火防止
+      setTimeout(() => {
+        if (confirm("相手からリセット申請が届きました。承諾して盤面を初期化しますか？")) {
+          initBoard();
+        } else {
+          // 拒否されたらFirebaseのフラグを元に戻す（申請側のボタンも自動復活）
+          state.resetReq = false;
+          state.resetSender = null;
+          set(ref(db, "game"), state);
+        }
+      }, 100);
+    } else {
+      lastResetReq = state.resetReq;
+    }
+  } 
+});
 </script>
 </body>
 </html>
