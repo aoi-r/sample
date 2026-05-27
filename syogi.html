@@ -6,7 +6,7 @@
 <title>リアルタイム将棋 完全版</title>
 <style>
     body { background: #f4e4bc; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; font-family: sans-serif; }
-    canvas { background: #f9d784; border: 4px solid #5d4037; width: 100%; max-width: 400px; touch-action: none; cursor: pointer; }
+    canvas { background: #f9d784; border: 4px solid #5d4037; width: 100%; max-width: 400px; touch-action: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
     #resetBtn { padding: 12px 24px; margin-bottom: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
     .normal { background: #5d4037; color: white; }
     .waiting { background: #d32f2f; color: white; opacity: 0.8; }
@@ -32,7 +32,6 @@ const db = getDatabase(initializeApp({
   projectId: "syogi-cee67"
 }));
 
-// ★端末を識別するためのランダムIDを生成
 const myId = Math.random().toString(36).slice(2);
 
 const canvas = document.getElementById("game");
@@ -42,9 +41,9 @@ const img = {};
 const pieceNames = ["fu", "to", "kyo", "nkyo", "keima", "nkeima", "gin", "ngin", "kin", "ou", "hisha", "ryu", "kaku", "uma"];
 pieceNames.forEach(name => { img[name] = new Image(); img[name].src = `syogi_img/${name}.png`; });
 
-let state = { pieces: {}, hands: {sente: [], gote: []}, turn: "sente", resetReq: false, resetSender: null, winner: null };
+let state = { pieces: {}, hands: {sente: [], gote: []}, turn: "sente", resetReq: false, resetSender: null, winner: null, senteId: null, goteId: null, lastMove: null };
 let selected = { type: null, key: null, hIdx: null };
-let lastResetReq = false; // 前回の申請状態をローカルで記憶する用
+let lastResetReq = false;
 
 function isBlocked(p, tx, ty) {
   const dx = tx - p.x, dy = ty - p.y;
@@ -84,8 +83,40 @@ function canMove(p, tx, ty) {
 canvas.addEventListener("mousedown", e => {
   if (state.winner) return;
   const rect = canvas.getBoundingClientRect();
-  const x = Math.floor(((e.clientX - rect.left) * (540/rect.width)) / CELL);
-  const y = Math.floor(((e.clientY - rect.top) * (720/rect.height)) / CELL) - 1;
+  
+  // ★現在のプレイヤーの役割を判定
+  let myRole = null;
+  if (state.senteId === myId) myRole = "sente";
+  else if (state.goteId === myId) myRole = "gote";
+
+  // ★タップされた物理ピクセル座標を計算
+  let rectX = (e.clientX - rect.left) * (540 / rect.width);
+  let rectY = (e.clientY - rect.top) * (720 / rect.height);
+
+  // ★自分が「後手」の場合、タップ座標を180度反転（画面の見た目とデータ座標を一致させる）
+  if (myRole === "gote") {
+    rectX = 540 - rectX;
+    rectY = 720 - rectY;
+  }
+
+  const x = Math.floor(rectX / CELL);
+  const y = Math.floor(rectY / CELL) - 1;
+
+  // プレイヤーの座席自動割り当て
+  if (!myRole) {
+    const pKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y);
+    let targetOwner = null;
+    if (pKey) targetOwner = state.pieces[pKey].owner;
+    else if (y === 10) targetOwner = "sente";
+    else if (y === -1) targetOwner = "gote";
+
+    if (targetOwner) {
+      if (targetOwner === "sente" && !state.senteId) { state.senteId = myId; myRole = "sente"; }
+      else if (targetOwner === "gote" && !state.goteId) { state.goteId = myId; myRole = "gote"; }
+    }
+  }
+
+  if (!myRole || state.turn !== myRole) return;
 
   const pKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y && state.pieces[k].owner === state.turn);
   if (pKey) { selected = {type: 'board', key: pKey}; draw(); return; }
@@ -122,6 +153,8 @@ canvas.addEventListener("mousedown", e => {
       }
 
       const oldY = p.y;
+      state.lastMove = { fromX: p.x, fromY: p.y, toX: x, toY: y };
+      
       p.x = x; p.y = y;
       const isEnemyZone = (p.owner === "sente" && (y <= 2 || oldY <= 2)) || (p.owner === "gote" && (y >= 6 || oldY >= 6));
       const promotable = ["fu", "kyo", "keima", "gin", "hisha", "kaku"].includes(p.type);
@@ -142,12 +175,10 @@ canvas.addEventListener("mousedown", e => {
       if (x < 0 || x > 8 || y < 0 || y > 8 || targetKey) { selected = { type: null }; draw(); return; }
       
       const h = state.hands[state.turn][selected.hIdx];
-      
       if (h.type === 'fu') {
         const isNifu = Object.values(state.pieces || {}).some(p => p.x === x && p.type === 'fu' && p.owner === state.turn);
         if (isNifu) { alert("二歩は反則です！"); selected = { type: null }; draw(); return; }
       }
-      
       if ((h.type === 'fu' || h.type === 'kyo') && ((state.turn === 'sente' && y === 0) || (state.turn === 'gote' && y === 8))) {
         alert("そこには打てません！"); selected = { type: null }; draw(); return;
       }
@@ -155,6 +186,7 @@ canvas.addEventListener("mousedown", e => {
         alert("そこには打てません！"); selected = { type: null }; draw(); return;
       }
       
+      state.lastMove = { fromX: null, fromY: null, toX: x, toY: y };
       state.hands[state.turn].splice(selected.hIdx, 1);
       state.pieces['p_' + Date.now()] = {x, y, type: h.type, owner: state.turn};
     }
@@ -165,11 +197,10 @@ canvas.addEventListener("mousedown", e => {
   }
 });
 
-// ★リセットボタンを押した時の処理を変更
 document.getElementById("resetBtn").addEventListener("click", () => {
-  if (state.resetReq) return; // すでに申請中なら連打を無効化
+  if (state.resetReq) return;
   state.resetReq = true;
-  state.resetSender = myId; // 誰が送ったかを記録
+  state.resetSender = myId;
   set(ref(db, "game"), state);
 });
 
@@ -185,50 +216,110 @@ function initBoard() {
   p["s_h"] = {x:1, y:7, type:"hisha", owner:"sente"}; p["g_h"] = {x:7, y:1, type:"hisha", owner:"gote"};
   p["s_k"] = {x:7, y:7, type:"kaku", owner:"sente"}; p["g_k"] = {x:1, y:1, type:"kaku", owner:"gote"};
   for(let i=0; i<9; i++) { p["sf"+i] = {x:i, y:6, type:"fu", owner:"sente"}; p["gf"+i] = {x:i, y:2, type:"fu", owner:"gote"}; }
-  // 初期化時はリセット関連のフラグもクリア
-  set(ref(db, "game"), { pieces: p, hands: {sente:[], gote:[]}, turn: "sente", resetReq: false, resetSender: null, winner: null });
+  
+  set(ref(db, "game"), { 
+    pieces: p, hands: {sente:[], gote:[]}, turn: "sente", resetReq: false, resetSender: null, winner: null,
+    senteId: state?.senteId || null, goteId: state?.goteId || null, lastMove: null 
+  });
 }
 
 function draw() {
   ctx.clearRect(0, 0, 540, 720);
-  ctx.strokeStyle = "#5d4037"; ctx.lineWidth = 1;
-  for (let i = 0; i < 9; i++) for (let j = 0; j < 9; j++) ctx.strokeRect(i * CELL, j * CELL + 60, CELL, CELL);
   
+  let myRole = null;
+  if (state.senteId === myId) myRole = "sente";
+  else if (state.goteId === myId) myRole = "gote";
+
+  // ★【視点切り替え】自分が「後手」ならCanvas全体を180度回転させて描画開始
+  ctx.save();
+  if (myRole === "gote") {
+    ctx.translate(540 / 2, 720 / 2);
+    ctx.rotate(Math.PI);
+    ctx.translate(-540 / 2, -720 / 2);
+  }
+  
+  // 配置エフェクト
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      if (state.lastMove && ((state.lastMove.toX === i && state.lastMove.toY === j) || (state.lastMove.fromX === i && state.lastMove.fromY === j))) {
+        ctx.fillStyle = "rgba(255, 140, 0, 0.35)";
+        ctx.fillRect(i * CELL, j * CELL + 60, CELL, CELL);
+      }
+      ctx.strokeStyle = "#5d4037"; ctx.lineWidth = 1;
+      ctx.strokeRect(i * CELL, j * CELL + 60, CELL, CELL);
+    }
+  }
+  
+  // 盤上の駒描画
   for (const k in (state.pieces || {})) {
     const p = state.pieces[k];
     ctx.save();
-    ctx.translate(p.x * CELL + CELL/2, p.y * CELL + CELL/2 + 60);
+    
+    let offsetY = 0;
+    if (selected.key === k && selected.type === 'board') {
+      offsetY = p.owner === "sente" ? -10 : 10;
+      ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
+      ctx.shadowBlur = 12;
+      ctx.shadowOffsetX = 4;
+      ctx.shadowOffsetY = 6;
+    }
+
+    ctx.translate(p.x * CELL + CELL/2, p.y * CELL + CELL/2 + 60 + offsetY);
     if (p.owner === "gote") ctx.rotate(Math.PI);
     if (img[p.type]) ctx.drawImage(img[p.type], -CELL/2, -CELL/2, CELL, CELL);
     if (selected.key === k && selected.type === 'board') { ctx.strokeStyle = "red"; ctx.lineWidth = 3; ctx.strokeRect(-CELL/2, -CELL/2, CELL, CELL); }
     ctx.restore();
   }
   
+  // 先手持ち駒
   (state.hands?.sente || []).forEach((h, i) => {
-    if (img[h.type]) ctx.drawImage(img[h.type], i * CELL, 660, CELL, CELL);
-    if (selected.type === 'hand' && state.turn === 'sente' && selected.hIdx === i) { ctx.strokeStyle = "red"; ctx.lineWidth = 3; ctx.strokeRect(i * CELL, 660, CELL, CELL); }
+    ctx.save();
+    let offsetY = 0;
+    if (selected.type === 'hand' && state.turn === 'sente' && selected.hIdx === i) {
+      offsetY = -10; ctx.shadowColor = "rgba(0,0,0,0.4)"; ctx.shadowBlur = 10;
+    }
+    ctx.translate(i * CELL, 660 + offsetY);
+    if (img[h.type]) ctx.drawImage(img[h.type], 0, 0, CELL, CELL);
+    if (selected.type === 'hand' && state.turn === 'sente' && selected.hIdx === i) { ctx.strokeStyle = "red"; ctx.lineWidth = 3; ctx.strokeRect(0, 0, CELL, CELL); }
+    ctx.restore();
   });
+
+  // 後手持ち駒
   (state.hands?.gote || []).forEach((h, i) => {
-    if (img[h.type]) ctx.drawImage(img[h.type], i * CELL, 0, CELL, CELL);
-    if (selected.type === 'hand' && state.turn === 'gote' && selected.hIdx === i) { ctx.strokeStyle = "red"; ctx.lineWidth = 3; ctx.strokeRect(i * CELL, 0, CELL, CELL); }
+    ctx.save();
+    let offsetY = 0;
+    if (selected.type === 'hand' && state.turn === 'gote' && selected.hIdx === i) {
+      offsetY = 10; ctx.shadowColor = "rgba(0,0,0,0.4)"; ctx.shadowBlur = 10;
+    }
+    ctx.translate(i * CELL, 0 + offsetY);
+    if (img[h.type]) ctx.drawImage(img[h.type], 0, 0, CELL, CELL);
+    if (selected.type === 'hand' && state.turn === 'gote' && selected.hIdx === i) { ctx.strokeStyle = "red"; ctx.lineWidth = 3; ctx.strokeRect(0, 0, CELL, CELL); }
+    ctx.restore();
   });
   
-  // ★ボタンの表示・無効化制御
+  // ★後手視点用の反転描画をここで終了（UIテキストが逆さになるのを防ぐため）
+  ctx.restore();
+
+  // ボタン状態
   const btn = document.getElementById("resetBtn");
   if (state.resetReq) {
-    if (state.resetSender === myId) {
-      btn.innerText = "リセット回答待ち...";
-      btn.className = "waiting";
-      btn.disabled = true; // 申請側は連続で押せないようにロック
-    } else {
-      btn.innerText = "リセット申請を受信中";
-      btn.className = "waiting";
-      btn.disabled = false;
-    }
-  } else {
-    btn.innerText = "リセット申請";
-    btn.className = "normal";
-    btn.disabled = false;
+    if (state.resetSender === myId) { btn.innerText = "リセット回答待ち..."; btn.className = "waiting"; btn.disabled = true; }
+    else { btn.innerText = "リセット申請を受信中"; btn.className = "waiting"; btn.disabled = false; }
+  } else { btn.innerText = "リreset申請"; btn.innerText = "リセット申請"; btn.className = "normal"; btn.disabled = false; }
+
+  // 相手のターン時の視覚エフェクト（文字は常に正対して表示）
+  if (myRole && state.turn !== myRole && !state.winner) {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+    ctx.fillRect(0, 0, 540, 720);
+
+    ctx.fillStyle = "rgba(93, 64, 55, 0.85)";
+    ctx.fillRect(160, 335, 220, 50);
+    ctx.strokeStyle = "#f4e4bc"; ctx.lineWidth = 2;
+    ctx.strokeRect(160, 335, 220, 50);
+
+    ctx.fillStyle = "#fff"; ctx.font = "bold 18px sans-serif";
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText("相手のターンです", 270, 360);
   }
 
   if (state.winner) {
@@ -244,23 +335,14 @@ onValue(ref(db, "game"), snap => {
     state = snap.val(); 
     draw(); 
     
-    // ★リセット申請が「なし」から「あり」に切り替わり、かつ申請者が自分以外の場合にポップアップを出す
     if (state.resetReq && !lastResetReq && state.resetSender !== myId) {
-      lastResetReq = true; // 連続発火防止
+      lastResetReq = true;
       setTimeout(() => {
-        if (confirm("相手からリセット申請が届きました。承諾して盤面を初期化しますか？")) {
-          initBoard();
-        } else {
-          // 拒否されたらFirebaseのフラグを元に戻す（申請側のボタンも自動復活）
-          state.resetReq = false;
-          state.resetSender = null;
-          set(ref(db, "game"), state);
-        }
+        if (confirm("相手からリセット申請が届きました。承諾して盤面を初期化しますか？")) { initBoard(); }
+        else { state.resetReq = false; state.resetSender = null; set(ref(db, "game"), state); }
       }, 100);
-    } else {
-      lastResetReq = state.resetReq;
-    }
-  } 
+    } else { lastResetReq = state.resetReq; }
+  } else { initBoard(); }
 });
 </script>
 </body>
