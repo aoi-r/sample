@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>本格リアルタイム将棋</title>
 <style>
-    body { background: #f4e4bc; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
-    canvas { background: #f9d784; border: 5px solid #5d4037; touch-action: none; max-width: 100%; height: auto; }
-    button { padding: 15px 30px; font-size: 18px; margin-bottom: 20px; background: #5d4037; color: white; border: none; border-radius: 5px; }
+    body { background: #f4e4bc; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+    canvas { background: #f9d784; border: 5px solid #5d4037; touch-action: none; cursor: pointer; }
+    button { padding: 15px; margin: 10px; font-size: 16px; }
 </style>
 </head>
 <body>
@@ -35,6 +35,13 @@ let state = { pieces: {}, turn: "sente" };
 let selectedKey = null;
 const promotionMap = { "fu":"to", "kyo":"nkyo", "keima":"nkeima", "gin":"ngin", "hisha":"ryu", "kaku":"uma" };
 
+// 成り判定ロジック：敵陣に入ったか？
+function canPromote(p, newY) {
+  if (p.owner === "sente") return newY < 3 || p.y < 3;
+  return newY > 5 || p.y > 5;
+}
+
+// ... (canMove, isBlocked 等は前回と同様)
 function isBlocked(p, tx, ty) {
   const dx = tx - p.x; const dy = ty - p.y;
   const sx = dx === 0 ? 0 : dx / Math.abs(dx);
@@ -53,7 +60,6 @@ function canMove(p, tx, ty) {
   const target = Object.values(state.pieces).find(piece => piece.x === tx && piece.y === ty);
   if (target && target.owner === p.owner) return false;
   const absDx = Math.abs(dx); const absDy = Math.abs(dy);
-
   switch(p.type) {
     case "fu": return dx === 0 && dy === dir;
     case "hisha": return (dx === 0 || dy === 0) && !isBlocked(p, tx, ty);
@@ -61,8 +67,7 @@ function canMove(p, tx, ty) {
     case "kyo": return dx === 0 && dy * dir < 0 && !isBlocked(p, tx, ty);
     case "keima": return absDx === 1 && dy === 2 * dir;
     case "gin": return absDx <= 1 && absDy <= 1 && (dx !== 0 || dy !== 0) && !(absDx === 1 && dy === -dir);
-    case "kin": case "to": case "ngin": case "nkyo": case "nkeima":
-      return absDx <= 1 && absDy <= 1 && !(absDx === 1 && dy === -dir);
+    case "kin": case "to": case "ngin": case "nkyo": case "nkeima": return absDx <= 1 && absDy <= 1 && !(absDx === 1 && dy === -dir);
     case "ou": return absDx <= 1 && absDy <= 1;
     case "ryu": return (dx === 0 || dy === 0 || (absDx === 1 && absDy === 1)) && !isBlocked(p, tx, ty);
     case "uma": return (absDx === absDy || (absDx <= 1 && absDy <= 1)) && !isBlocked(p, tx, ty);
@@ -75,7 +80,6 @@ canvas.addEventListener("mousedown", e => {
   const scale = canvas.width / rect.width;
   const x = Math.floor(((e.clientX - rect.left) * scale) / CELL);
   const y = Math.floor(((e.clientY - rect.top) * scale) / CELL);
-  
   if (!selectedKey) {
     selectedKey = Object.keys(state.pieces).find(k => state.pieces[k].x === x && state.pieces[k].y === y && state.pieces[k].owner === state.turn);
   } else {
@@ -83,7 +87,7 @@ canvas.addEventListener("mousedown", e => {
     if (canMove(p, x, y)) {
       const targetKey = Object.keys(state.pieces).find(k => state.pieces[k].x === x && state.pieces[k].y === y);
       if (targetKey) delete state.pieces[targetKey];
-      if (promotionMap[p.type] && (y < 3 || p.y < 3 || y > 5 || p.y > 5)) if (confirm("成りますか？")) p.type = promotionMap[p.type];
+      if (promotionMap[p.type] && canPromote(p, y)) if (confirm("成りますか？")) p.type = promotionMap[p.type];
       p.x = x; p.y = y;
       state.turn = state.turn === "sente" ? "gote" : "sente";
       set(ref(db, "game"), state);
@@ -109,12 +113,17 @@ function draw() {
 
 window.initGame = () => {
   const p = {};
-  const setup = (row, type, owner) => { for(let i=0; i<9; i++) p[`${owner}_${type}_${i}`] = {x:i, y:row, type:type, owner:owner}; };
-  setup(6, "fu", "sente"); setup(2, "fu", "gote");
-  p["s_ou"] = {x:4, y:8, type:"ou", owner:"sente"}; p["g_ou"] = {x:4, y:0, type:"ou", owner:"gote"};
+  const pos = [
+    {x:0,y:8,t:"kyo"},{x:1,y:8,t:"keima"},{x:2,y:8,t:"gin"},{x:3,y:8,t:"kin"},{x:4,y:8,t:"ou"},{x:5,y:8,t:"kin"},{x:6,y:8,t:"gin"},{x:7,y:8,t:"keima"},{x:8,y:8,t:"kyo"},
+    {x:1,y:7,t:"hisha"},{x:7,y:7,t:"kaku"}
+  ];
+  for(let i=0; i<9; i++) p["s_f_"+i] = {x:i, y:6, type:"fu", owner:"sente"};
+  pos.forEach((o,i) => p["s_"+i] = {x:o.x, y:o.y, type:o.t, owner:"sente"});
+  
+  pos.forEach((o,i) => p["g_"+i] = {x:8-o.x, y:0-o.y+2, type:o.t, owner:"gote"});
+  for(let i=0; i<9; i++) p["g_f_"+i] = {x:i, y:2, type:"fu", owner:"gote"};
   set(ref(db, "game"), { pieces: p, turn: "sente" });
 };
-
 onValue(ref(db, "game"), snap => { if(snap.val()) { state = snap.val(); draw(); } });
 </script>
 </body>
