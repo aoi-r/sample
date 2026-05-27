@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Game</title>
+</head>
+
+<body style="margin:0; overflow:hidden;">
+
+<canvas id="game"></canvas>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"
+
+import {
+  getDatabase,
+  ref,
+  set,
+  onValue
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyDk7KNFdlp9zPtnixdNv96VtfKrELX1f8I",
+  authDomain: authDomain: "syogi-cee67.firebaseapp.com",
+  databaseURL: "https://syogi-cee67-default-rtdb.firebaseio.com",
+  projectId: "syogi-cee67",
+  storageBucket: "syogi-cee67.firebasestorage.app",
+  messagingSenderId: "272231556689",
+  appId: "1:272231556689:web:b92700feb73a3ce5277a70"
+
+}
+
+const app = initializeApp(firebaseConfig)
+const db = getDatabase(app)
+
+const canvas = document.getElementById("game")
+const ctx = canvas.getContext("2d")
+
+canvas.width = innerWidth
+canvas.height = innerHeight
+
+const id = Math.random().toString(36).slice(2)
+
+const player = {
+  x: 100,
+  y: 100
+}
+
+let players = {}
+
+const keys = {}
+
+addEventListener("keydown", e => {
+  keys[e.key] = true
+})
+
+addEventListener("keyup", e => {
+  keys[e.key] = false
+})
+
+onValue(ref(db, "players"), snapshot => {
+  players = snapshot.val() || {}
+})
+
+function loop() {
+
+  if(keys["w"]) player.y -= 3
+  if(keys["s"]) player.y += 3
+  if(keys["a"]) player.x -= 3
+  if(keys["d"]) player.x += 3
+
+  set(ref(db, "players/" + id), player)
+
+  ctx.clearRect(0,0,canvas.width,canvas.height)
+
+  for(const pid in players){
+
+    const p = players[pid]
+
+    ctx.fillStyle =
+      pid === id ? "red" : "blue"
+
+    ctx.fillRect(p.x, p.y, 50, 50)
+  }
+
+  requestAnimationFrame(loop)
+}
+
+loop()
+
+</script>
+
+</body>
+</html>
