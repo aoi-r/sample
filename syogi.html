@@ -5,13 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>リアルタイム将棋</title>
 <style>
-    body { background: #f4e4bc; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; }
+    body { background: #f4e4bc; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; font-family: sans-serif; }
     canvas { background: #f9d784; border: 4px solid #5d4037; width: 100%; max-width: 400px; touch-action: none; cursor: pointer; }
-    #resetBtn { padding: 10px 20px; margin-bottom: 10px; background: #5d4037; color: white; border: none; border-radius: 5px; }
+    #resetBtn { padding: 12px 24px; margin-bottom: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+    .normal { background: #5d4037; color: white; }
+    .waiting { background: #d32f2f; color: white; animation: blink 1s infinite; }
+    @keyframes blink { 50% { opacity: 0.7; } }
 </style>
 </head>
 <body>
-<button id="resetBtn">リセット申請</button>
+<button id="resetBtn" class="normal">リセット申請</button>
 <canvas id="game" width="540" height="720"></canvas>
 
 <script type="module">
@@ -39,30 +42,26 @@ canvas.addEventListener("mousedown", e => {
   const x = Math.floor(((e.clientX - rect.left) * (540/rect.width)) / CELL);
   const y = Math.floor(((e.clientY - rect.top) * (720/rect.height)) / CELL) - 1;
 
-  // 駒選択：盤面
+  // 1. 駒選択（自分の手番の駒のみ）
   const pKey = Object.keys(state.pieces).find(k => state.pieces[k].x === x && state.pieces[k].y === y && state.pieces[k].owner === state.turn);
   if (pKey) { selected = {type: 'board', key: pKey}; return; }
 
-  // 駒選択：持ち駒
-  if (y === 10 && state.turn === 'sente') {
-      const idx = x; if (state.hands.sente[idx]) selected = {type: 'hand', hIdx: idx}; return;
-  }
-
-  // 移動 / 打ち
+  // 2. 移動 / 打ち
   if (selected.type) {
     if (selected.type === 'board') {
       const p = state.pieces[selected.key];
-      const target = Object.values(state.pieces).find(piece => piece.x === x && piece.y === y);
-      if (!target || target.owner !== p.owner) {
-        if (target) { state.hands[state.turn].push({type: target.type.replace(/n|to|uma|ryu/g, '')}); delete state.pieces[Object.keys(state.pieces).find(k => state.pieces[k] === target)]; }
-        p.x = x; p.y = y;
-        state.turn = state.turn === "sente" ? "gote" : "sente";
+      const targetKey = Object.keys(state.pieces).find(k => state.pieces[k].x === x && state.pieces[k].y === y);
+      
+      // 相手の駒を取る処理
+      if (targetKey && state.pieces[targetKey].owner !== p.owner) {
+        const captured = state.pieces[targetKey];
+        state.hands[state.turn].push({type: captured.type.replace(/n|to|uma|ryu/g, '')});
+        delete state.pieces[targetKey];
       }
-    } else if (selected.type === 'hand') {
-      const h = state.hands[state.turn].splice(selected.hIdx, 1)[0];
-      state.pieces['p_' + Date.now()] = {x, y, type: h.type, owner: state.turn};
-      state.turn = state.turn === "sente" ? "gote" : "sente";
+      
+      p.x = x; p.y = y;
     }
+    state.turn = state.turn === "sente" ? "gote" : "sente";
     selected = {type: null};
     set(ref(db, "game"), state);
   }
@@ -94,12 +93,15 @@ function draw() {
     ctx.drawImage(img[p.type], -CELL/2, -CELL/2, CELL, CELL);
     ctx.restore();
   }
+  // 持ち駒描画
   state.hands.sente.forEach((h, i) => ctx.drawImage(img[h.type], i * CELL, 660, CELL, CELL));
   state.hands.gote.forEach((h, i) => ctx.drawImage(img[h.type], i * CELL, 0, CELL, CELL));
   
-  document.getElementById("resetBtn").innerText = state.resetReq ? "相手待ち (リセット中)" : "リセット申請";
+  // ボタンUIの切り替え
+  const btn = document.getElementById("resetBtn");
+  btn.innerText = state.resetReq ? "リセット申請中 (タップで合意)" : "リセット申請";
+  btn.className = state.resetReq ? "waiting" : "normal";
 }
-
 onValue(ref(db, "game"), snap => { if(snap.val()) { state = snap.val(); draw(); } });
 </script>
 </body>
