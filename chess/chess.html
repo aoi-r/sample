@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Chess Crusade</title>
+<style>
+    body { background: #2c3e50; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; font-family: sans-serif; }
+    #watcherConsole { display: none; background: #34495e; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; margin-bottom: 12px; align-items: center; gap: 15px; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+    #joinBtn { background: #27ae60; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    #joinBtn:hover { background: #2ecc71; }
+    
+    canvas { 
+        background: #f0d9b5; 
+        border: 4px solid #34495e; 
+        width: 100%; 
+        max-width: 480px; 
+        height: auto; 
+        aspect-ratio: 1 / 1; 
+        touch-action: none; 
+        cursor: pointer; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5); 
+    }
+    
+    #resetBtn { padding: 12px 24px; margin-bottom: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+    .normal { background: #ecf0f1; color: #2c3e50; }
+    .waiting { background: #e74c3c; color: white; opacity: 0.8; }
+    
+    #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; font-size: 28px; font-weight: bold; z-index: 10; cursor: pointer; }
+    #overlay span { font-size: 16px; color: #ccc; margin-top: 10px; }
+
+    /* プロモーション選択用のUIスタイル */
+    #promotionOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; font-size: 20px; font-weight: bold; z-index: 20; }
+    .promo-buttons { display: flex; gap: 15px; margin-top: 20px; }
+    .promo-buttons button { background: #34495e; border: 2px solid #ecf0f1; border-radius: 8px; padding: 10px; color: white; cursor: pointer; display: flex; flex-direction: column; align-items: center; width: 80px; font-weight: bold; transition: 0.2s; }
+    .promo-buttons button:hover { background: #2ecc71; border-color: #fff; }
+</style>
+</head>
+<body>
+<div id="watcherConsole">
+  <span id="watcherStatus">観戦モード中</span>
+  <button id="joinBtn">参戦する</button>
+</div>
+
+<button id="resetBtn" class="normal">リセット申請</button>
+<canvas id="game" width="480" height="480"></canvas>
+
+<div id="overlay" onclick="closeOverlay()">
+  <div id="winnerText"></div>
+  <span>画面をタップして新しくゲームを始める</span>
+</div>
+
+<div id="promotionOverlay">
+  <div>昇格させる駒を選んでください</div>
+  <div id="promo-buttons" class="promo-buttons">
+      </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, set, update, onValue, onDisconnect } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+// ご自身のFirebase設定に書き換えてください
+const db = getDatabase(initializeApp({
+  apiKey: "YOUR_API_KEY",
+  databaseURL: "YOUR_DATABASE_URL",
+  projectId: "YOUR_PROJECT_ID"
+}));
+
+let myId = null;
+try {
+  myId = sessionStorage.getItem("chess_myId");
+  if (!myId) {
+    myId = Math.random().toString(36).slice(2);
+    sessionStorage.setItem("chess_myId", myId);
+  }
+} catch (e) {
+  myId = Math.random().toString(36).slice(2);
+}
+
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+const CELL = 60;
+
+// Unicodeの駒（塗りつぶし文字）をベースに使う
+const uPieces = {
+    pawn: "♟", rook: "♜", knight: "♞", bishop: "♝", queen: "♛", king: "♚"
+};
+
+let state = { pieces: {}, turn: "white", resetReq: false, resetSender: null, winner: null, whiteId: null, blackId: null, lastMove: null };
+let presence = {}; 
+let selected = { type: null, key: null };
+let lastResetReq = false;
+let myRole = null;
+
+function isBlocked(p, tx, ty) {
+  const dx = tx - p.x, dy = ty - p.y;
+  const sx = dx === 0 ? 0 : Math.sign(dx);
+  const sy = dy === 0 ? 0 : Math.sign(dy);
+  let cx = p.x + sx, cy = p.y + sy;
+  while (cx !== tx || cy !== ty) {
+    if (Object.values(state.pieces || {}).some(piece => piece.x === cx && piece.y === cy)) return true;
+    cx += sx; cy += sy;
+  }
+  return false;
+}
+
+function canMove(p, tx, ty) {
+  const dx = tx - p.x, dy = ty - p.y;
+  const absDx = Math.abs(dx), absDy = Math.abs(dy);
+  const target = Object.values(state.pieces || {}).find(piece => piece.x === tx && piece.y === ty);
+  if (target && target.owner === p.owner) return false;
+
+  switch(p.type) {
+    case "pawn":
+      const startRow = p.owner === "white" ? 6 : 1;
+      const fwd = p.owner === "white" ? -1 : 1;
+      // 前進
+      if (dx === 0 && dy === fwd && !target) return true;
+      // 初期位置からの2歩前進
+      if (dx === 0 && dy === fwd * 2 && p.y === startRow && !target && !isBlocked(p, tx, ty)) return true;
+      // 斜め前の駒を取る
+      if (absDx === 1 && dy === fwd && target && target.owner !== p.owner) return true;
+      return false;
+    case "rook":
+      return (dx === 0 || dy === 0) && (dx !== 0 || dy !== 0) && !isBlocked(p, tx, ty);
+    case "knight":
+      return (absDx === 1 && absDy === 2) || (absDx === 2 && absDy === 1);
+    case "bishop":
+      return absDx === absDy && dx !== 0 && !isBlocked(p, tx, ty);
+    case "queen":
+      return ((dx === 0 || dy === 0) || (absDx === absDy)) && (dx !== 0 || dy !== 0) && !isBlocked(p, tx, ty);
+    case "king":
+      return absDx <= 1 && absDy <= 1 && (dx !== 0 || dy !== 0);
+    default: return false;
+  }
+}
+
+canvas.addEventListener("mousedown", e => {
+  if (state.winner) return;
+  
+  if (myRole) {
+    const opponentId = myRole === "white" ? state.blackId : state.whiteId;
+    if (!opponentId) return; 
+  }
+
+  if (!myRole || state.turn !== myRole) return;
+
+  const rect = canvas.getBoundingClientRect();
+  let rectX = (e.clientX - rect.left) * (480 / rect.width);
+  let rectY = (e.clientY - rect.top) * (480 / rect.height);
+
+  if (myRole === "black") { rectX = 480 - rectX; rectY = 480 - rectY; }
+
+  const x = Math.floor(rectX / CELL);
+  const y = Math.floor(rectY / CELL);
+
+  const pKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y && state.pieces[k].owner === state.turn);
+  const isWhiteOnline = state.whiteId ? (presence[state.whiteId] === true) : false;
+  const isBlackOnline = state.blackId ? (presence[state.blackId] === true) : false;
+
+  if (pKey) { selected = {type: 'board', key: pKey}; draw(isWhiteOnline, isBlackOnline); return; }
+
+  if (selected.type === 'board') {
+    const p = state.pieces[selected.key];
+    if (!canMove(p, x, y) || x < 0 || x > 7 || y < 0 || y > 7) { selected = { type: null }; draw(isWhiteOnline, isBlackOnline); return; }
+    
+    const targetKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y);
+    const isPromotion = p.type === "pawn" && ((p.owner === "white" && y === 0) || (p.owner === "black" && y === 7));
+
+    const finalizeMove = (promoPieceType = null) => {
+      if (targetKey && state.pieces[targetKey].owner !== p.owner) {
+        const captured = state.pieces[targetKey];
+        if (captured.type === "king") state.winner = state.turn;
+        delete state.pieces[targetKey];
+      }
+
+      state.lastMove = { fromX: p.x, fromY: p.y, toX: x, toY: y };
+      p.x = x; p.y = y;
+
+      if (promoPieceType) {
+        p.type = promoPieceType;
+      }
+
+      state.turn = state.turn === "white" ? "black" : "white";
+      selected = {type: null};
+      
+      set(ref(db, "chess_game"), state);
+      document.getElementById('promotionOverlay').style.display = 'none';
+    };
+
+    if (isPromotion) {
+      // 選択画面のUIを動的に生成する (色などを合わせるため)
+      const promoButtonsContainer = document.getElementById('promo-buttons');
+      promoButtonsContainer.innerHTML = '';
+      
+      const options = [
+          { type: 'queen', label: 'Queen' },
+          { type: 'rook', label: 'Rook' },
+          { type: 'bishop', label: 'Bishop' },
+          { type: 'knight', label: 'Knight' }
+      ];
+
+      options.forEach(opt => {
+          const btn = document.createElement('button');
+          const color = p.owner === 'white' ? '#ffffff' : '#000000';
+          const textShadow = p.owner === 'white' 
+              ? '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000' 
+              : 'none';
+
+          btn.innerHTML = `
+              <div style="font-size: 45px; color: ${color}; text-shadow: ${textShadow}; line-height: 1.2;">
+                  ${uPieces[opt.type]}
+              </div>
+              <div>${opt.label}</div>
+          `;
+          btn.onclick = () => finalizeMove(opt.type);
+          promoButtonsContainer.appendChild(btn);
+      });
+
+      document.getElementById('promotionOverlay').style.display = 'flex';
+      return; 
+    }
+
+    finalizeMove();
+  }
+});
+
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if (state.resetReq) return;
+  state.resetReq = true; state.resetSender = myId; set(ref(db, "chess_game"), state);
+});
+
+window.closeOverlay = () => { document.getElementById('overlay').style.display = 'none'; initBoard(true); };
+
+function initBoard(keepPlayers = false) {
+  const p = {}; 
+  const backRank = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"];
+  
+  // 黒
+  backRank.forEach((t, i) => { p["b_"+i] = {x:i, y:0, type:t, owner:"black"}; });
+  for(let i=0; i<8; i++) { p["bp_"+i] = {x:i, y:1, type:"pawn", owner:"black"}; }
+  
+  // 白
+  backRank.forEach((t, i) => { p["w_"+i] = {x:i, y:7, type:t, owner:"white"}; });
+  for(let i=0; i<8; i++) { p["wp_"+i] = {x:i, y:6, type:"pawn", owner:"white"}; }
+  
+  const newState = { 
+    pieces: p, 
+    turn: "white", 
+    resetReq: false, 
+    resetSender: null, 
+    winner: null, 
+    whiteId: keepPlayers ? (state.whiteId || null) : null, 
+    blackId: keepPlayers ? (state.blackId || null) : null, 
+    lastMove: null 
+  };
+  set(ref(db, "chess_game"), newState);
+}
+
+function draw(isWhiteOnline, isBlackOnline) {
+  ctx.clearRect(0, 0, 480, 480);
+  ctx.save();
+  
+  if (myRole === "black") { ctx.translate(480 / 2, 480 / 2); ctx.rotate(Math.PI); ctx.translate(-480 / 2, -480 / 2); }
+  
+  // 盤面描画
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      ctx.fillStyle = (i + j) % 2 === 0 ? "#f0d9b5" : "#b58863";
+      ctx.fillRect(i * CELL, j * CELL, CELL, CELL);
+
+      if (state.lastMove && ((state.lastMove.toX === i && state.lastMove.toY === j) || (state.lastMove.fromX === i && state.lastMove.fromY === j))) {
+        ctx.fillStyle = "rgba(255, 255, 0, 0.4)"; 
+        ctx.fillRect(i * CELL, j * CELL, CELL, CELL);
+      }
+    }
+  }
+  
+  // Unicode駒の描画
+  ctx.font = "44px sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  for (const k in (state.pieces || {})) {
+    const p = state.pieces[k]; 
+    ctx.save();
+    
+    if (selected.key === k && selected.type === 'board') {
+      ctx.shadowColor = "rgba(0, 0, 0, 0.6)"; ctx.shadowBlur = 15; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
+    }
+    
+    ctx.translate(p.x * CELL + CELL/2, p.y * CELL + CELL/2);
+    if (p.owner === "black") ctx.rotate(Math.PI);
+    
+    const char = uPieces[p.type];
+    
+    // 色分けロジック
+    if (p.owner === "white") {
+        ctx.fillStyle = "#ffffff";
+        ctx.strokeStyle = "#000000";
+        ctx.lineWidth = 1.5;
+        // 白の駒は黒い縁取りをつける
+        ctx.strokeText(char, 0, 4);
+        ctx.fillText(char, 0, 4);
+    } else {
+        ctx.fillStyle = "#000000";
+        // 黒の駒はそのまま描画
+        ctx.fillText(char, 0, 4);
+    }
+
+    if (selected.key === k && selected.type === 'board') { 
+        ctx.strokeStyle = "red"; 
+        ctx.lineWidth = 3; 
+        ctx.strokeRect(-CELL/2, -CELL/2, CELL, CELL); 
+    }
+    ctx.restore();
+  }
+  
+  ctx.restore();
+
+  // 以下UI関連処理
+  const btn = document.getElementById("resetBtn");
+  if (state.resetReq) {
+    if (state.resetSender === myId) { btn.innerText = "リセット回答待ち..."; btn.className = "waiting"; btn.disabled = true; }
+    else { btn.innerText = "リセット申請を受信中"; btn.className = "waiting"; btn.disabled = false; }
+  } else { btn.innerText = "リセット申請"; btn.className = "normal"; btn.disabled = false; }
+
+  let opponentMissing = false;
+  let opponentOffline = false;
+  let opponentName = myRole === "white" ? "黒（Black）" : "白（White）";
+
+  if (myRole === "white") {
+    if (!state.blackId) opponentMissing = true;
+    else if (!isBlackOnline) opponentOffline = true;
+  } else if (myRole === "black") {
+    if (!state.whiteId) opponentMissing = true;
+    else if (!isWhiteOnline) opponentOffline = true;
+  }
+
+  if ((opponentMissing || opponentOffline) && !state.winner && myRole) {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.6)"; ctx.fillRect(0, 0, 480, 480);
+    ctx.fillStyle = opponentMissing ? "#2980b9" : "#c0392b"; 
+    ctx.fillRect(70, 200, 340, 80);
+    ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.strokeRect(70, 200, 340, 80);
+    ctx.fillStyle = "#fff"; ctx.font = "bold 18px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    
+    if (opponentMissing) {
+      ctx.fillText("対戦相手を待っています...", 240, 240);
+    } else {
+      ctx.fillText(`${opponentName}が切断されました`, 240, 225);
+      ctx.font = "14px sans-serif"; ctx.fillText("復帰、または新規参戦を待っています...", 240, 255);
+    }
+  }
+
+  if (myRole && state.turn !== myRole && !state.winner && !opponentMissing && !opponentOffline) {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.15)"; ctx.fillRect(0, 0, 480, 480);
+    ctx.fillStyle = "rgba(44, 62, 80, 0.85)"; ctx.fillRect(130, 215, 220, 50);
+    ctx.strokeStyle = "#ecf0f1"; ctx.lineWidth = 2; ctx.strokeRect(130, 215, 220, 50);
+    ctx.fillStyle = "#fff"; ctx.font = "bold 18px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText("相手のターンです", 240, 240);
+  }
+
+  const overlayEl = document.getElementById('overlay');
+  const winnerTxtEl = document.getElementById("winnerText");
+  if (state.winner) {
+    winnerTxtEl.innerText = (state.winner === "white" ? "白(White)" : "黒(Black)") + "の勝ち！";
+    overlayEl.style.display = 'flex';
+  } else { 
+    overlayEl.style.display = 'none'; 
+  }
+}
+
+function updateGameSystem() {
+  if (!state || !state.pieces) return;
+
+  const isWhiteOnline = state.whiteId ? (presence[state.whiteId] === true) : false;
+  const isBlackOnline = state.blackId ? (presence[state.blackId] === true) : false;
+
+  if (state.whiteId === myId) {
+    myRole = "white";
+  } else if (state.blackId === myId) {
+    myRole = "black";
+  } else {
+    myRole = null;
+  }
+
+  const watcherConsole = document.getElementById("watcherConsole");
+  const watcherStatus = document.getElementById("watcherStatus");
+  const joinBtn = document.getElementById("joinBtn");
+
+  if (!myRole) {
+    watcherConsole.style.display = "flex";
+    watcherStatus.innerText = `👀 観戦モード中 (${state.turn === "white" ? "白" : "黒"}の手番)`;
+    
+    let emptyRole = null;
+    if (!state.whiteId || !isWhiteOnline) emptyRole = "white";
+    else if (!state.blackId || !isBlackOnline) emptyRole = "black";
+    
+    if (emptyRole && !state.winner) {
+      joinBtn.style.display = "inline-block";
+      joinBtn.innerText = `⚔️ ${emptyRole === "white" ? "白" : "黒"}として参戦する`;
+      
+      joinBtn.onclick = () => {
+        const hasZombie = state[emptyRole + "Id"] && !presence[state[emptyRole + "Id"]];
+        const msg = hasZombie 
+          ? `前のプレイヤーがオフラインのようです。席を引き継いで参戦しますか？`
+          : `${emptyRole === "white" ? "白" : "黒"}の席が空いています。参戦しますか？`;
+
+        if (confirm(msg)) {
+          if (emptyRole === "white") update(ref(db), { "chess_game/whiteId": myId });
+          else update(ref(db), { "chess_game/blackId": myId });
+        }
+      };
+    } else { 
+      joinBtn.style.display = "none"; 
+    }
+  } else {
+    watcherConsole.style.display = "none";
+  }
+  
+  draw(isWhiteOnline, isBlackOnline); 
+  
+  if (state.resetReq && !lastResetReq && state.resetSender !== myId) {
+    lastResetReq = true;
+    setTimeout(() => {
+      if (confirm("相手からリセット申請が届きました。承諾して盤面を初期化しますか？")) { initBoard(true); }
+      else { update(ref(db), { "chess_game/resetReq": false, "chess_game/resetSender": null }); }
+    }, 100);
+  } else { lastResetReq = state.resetReq; }
+}
+
+onValue(ref(db, ".info/connected"), snap => {
+  if (snap.val() === true) {
+    onDisconnect(ref(db, `chess_presence/${myId}`)).remove();
+    set(ref(db, `chess_presence/${myId}`), true);
+  }
+});
+
+onValue(ref(db, "chess_presence"), snap => {
+  presence = snap.val() || {};
+  updateGameSystem();
+});
+
+onValue(ref(db, "chess_game"), snap => { 
+  if(snap.val()) { 
+    state = snap.val(); 
+    updateGameSystem();
+  } else { 
+    initBoard(false); 
+  }
+});
+</script>
+</body>
+</html>
