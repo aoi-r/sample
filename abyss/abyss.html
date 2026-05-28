@@ -123,6 +123,9 @@ joshi.src = "sala_img/joshi.png";
 const light = new Image();
 light.src = "sala_img/light.png";
 
+const pit = new Image();
+pit.src = "sala_img/pit.img";
+
 
 // =====================
 // プレイヤー
@@ -468,8 +471,9 @@ obs.forEach(o => {
     }
     // 🕳️ 落とし穴
     else if (o.t === "pit") {
-        ctx.fillStyle = "#87ceeb";
-        ctx.fillRect(o.x, o.y, o.w, o.h);
+	ctx.drawImage(pit,o.x,o.y, o.w, o.h);
+        //ctx.fillStyle = "#87ceeb";
+        //ctx.fillRect(o.x, o.y, o.w, o.h);
     }
 });
 
