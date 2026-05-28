@@ -5,26 +5,73 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Chess Crusade</title>
 <style>
-    body { background: #2c3e50; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; font-family: sans-serif; }
-    #watcherConsole { display: none; background: #34495e; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; margin-bottom: 12px; align-items: center; gap: 15px; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
-    #joinBtn { background: #27ae60; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    * { box-sizing: border-box; }
+    body { 
+        background: #2c3e50; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0; 
+        padding: 15px; 
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+    }
+    
+    #watcherConsole { 
+        display: none; 
+        background: #34495e; 
+        color: white; 
+        padding: 10px 20px; 
+        border-radius: 8px; 
+        font-weight: bold; 
+        margin-bottom: 12px; 
+        align-items: center; 
+        gap: 15px; 
+        font-size: 14px; 
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        width: 100%;
+        max-width: 480px;
+        justify-content: space-between;
+    }
+    #joinBtn { background: #27ae60; color: white; border: none; padding: 6px 14px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; }
     #joinBtn:hover { background: #2ecc71; }
     
+    #resetBtn { 
+        width: 100%;
+        max-width: 480px;
+        padding: 12px; 
+        margin-bottom: 12px; 
+        border: none; 
+        border-radius: 8px; 
+        font-weight: bold; 
+        font-size: 16px;
+        cursor: pointer; 
+        transition: 0.3s; 
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    .normal { background: #ecf0f1; color: #2c3e50; }
+    .waiting { background: #e74c3c; color: white; opacity: 0.8; }
+    
+    /* 盤面のレスポンシブ対応 */
+    .canvas-container {
+        width: 100%;
+        max-width: 480px;
+        aspect-ratio: 1 / 1;
+        position: relative;
+    }
     canvas { 
         background: #f0d9b5; 
         border: 4px solid #34495e; 
+        border-radius: 4px;
         width: 100%; 
-        max-width: 480px; 
-        height: auto; 
-        aspect-ratio: 1 / 1; 
+        height: 100%; 
         touch-action: none; 
         cursor: pointer; 
-        box-shadow: 0 4px 10px rgba(0,0,0,0.5); 
+        box-shadow: 0 8px 16px rgba(0,0,0,0.4); 
+        user-select: none;
+        -webkit-user-select: none;
     }
-    
-    #resetBtn { padding: 12px 24px; margin-bottom: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-    .normal { background: #ecf0f1; color: #2c3e50; }
-    .waiting { background: #e74c3c; color: white; opacity: 0.8; }
     
     #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; font-size: 28px; font-weight: bold; z-index: 10; cursor: pointer; }
     #overlay span { font-size: 16px; color: #ccc; margin-top: 10px; }
@@ -43,7 +90,10 @@
 </div>
 
 <button id="resetBtn" class="normal">リセット申請</button>
-<canvas id="game" width="480" height="480"></canvas>
+
+<div class="canvas-container">
+    <canvas id="game" width="480" height="480"></canvas>
+</div>
 
 <div id="overlay" onclick="closeOverlay()">
   <div id="winnerText"></div>
@@ -52,15 +102,14 @@
 
 <div id="promotionOverlay">
   <div>昇格させる駒を選んでください</div>
-  <div id="promo-buttons" class="promo-buttons">
-      </div>
+  <div id="promo-buttons" class="promo-buttons"></div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, set, update, onValue, onDisconnect } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-// ご自身のFirebase設定に書き換えてください
+// ご提示いただいたFirebase設定
 const db = getDatabase(initializeApp({
   apiKey: "AIzaSyDk7KNFdlp9zPtnixdNv96VtfKrELX1f8I",
   databaseURL: "https://syogi-cee67-default-rtdb.firebaseio.com",
@@ -82,9 +131,10 @@ const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 const CELL = 60;
 
-// Unicodeの駒（塗りつぶし文字）をベースに使う
+// 白用（白抜き）と黒用（塗りつぶし）でUnicode文字自体を明確に分ける
 const uPieces = {
-    pawn: "♟", rook: "♜", knight: "♞", bishop: "♝", queen: "♛", king: "♚"
+    white: { pawn: "♙", rook: "♖", knight: "♘", bishop: "♗", queen: "♕", king: "♔" },
+    black: { pawn: "♟", rook: "♜", knight: "♞", bishop: "♝", queen: "♛", king: "♚" }
 };
 
 let state = { pieces: {}, turn: "white", resetReq: false, resetSender: null, winner: null, whiteId: null, blackId: null, lastMove: null };
@@ -115,11 +165,8 @@ function canMove(p, tx, ty) {
     case "pawn":
       const startRow = p.owner === "white" ? 6 : 1;
       const fwd = p.owner === "white" ? -1 : 1;
-      // 前進
       if (dx === 0 && dy === fwd && !target) return true;
-      // 初期位置からの2歩前進
       if (dx === 0 && dy === fwd * 2 && p.y === startRow && !target && !isBlocked(p, tx, ty)) return true;
-      // 斜め前の駒を取る
       if (absDx === 1 && dy === fwd && target && target.owner !== p.owner) return true;
       return false;
     case "rook":
@@ -136,7 +183,8 @@ function canMove(p, tx, ty) {
   }
 }
 
-canvas.addEventListener("mousedown", e => {
+// 📱 PCマウス・スマホタッチ双方に完全対応する「pointerdown」に変更
+canvas.addEventListener("pointerdown", e => {
   if (state.winner) return;
   
   if (myRole) {
@@ -190,7 +238,6 @@ canvas.addEventListener("mousedown", e => {
     };
 
     if (isPromotion) {
-      // 選択画面のUIを動的に生成する (色などを合わせるため)
       const promoButtonsContainer = document.getElementById('promo-buttons');
       promoButtonsContainer.innerHTML = '';
       
@@ -203,14 +250,13 @@ canvas.addEventListener("mousedown", e => {
 
       options.forEach(opt => {
           const btn = document.createElement('button');
-          const color = p.owner === 'white' ? '#ffffff' : '#000000';
-          const textShadow = p.owner === 'white' 
-              ? '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000' 
-              : 'none';
+          const isWhite = p.owner === 'white';
+          // プロモーション画面でも白・黒のUnicode文字を分ける
+          const char = uPieces[p.owner][opt.type];
 
           btn.innerHTML = `
-              <div style="font-size: 45px; color: ${color}; text-shadow: ${textShadow}; line-height: 1.2;">
-                  ${uPieces[opt.type]}
+              <div style="font-size: 45px; color: ${isWhite ? '#ffffff' : '#000000'}; text-shadow: ${isWhite ? '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000' : 'none'}; line-height: 1.2;">
+                  ${char}
               </div>
               <div>${opt.label}</div>
           `;
@@ -277,8 +323,8 @@ function draw(isWhiteOnline, isBlackOnline) {
     }
   }
   
-  // Unicode駒の描画
-  ctx.font = "44px sans-serif";
+  // Unicode駒の描画設定
+  ctx.font = "bold 44px sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
@@ -287,32 +333,33 @@ function draw(isWhiteOnline, isBlackOnline) {
     ctx.save();
     
     if (selected.key === k && selected.type === 'board') {
-      ctx.shadowColor = "rgba(0, 0, 0, 0.6)"; ctx.shadowBlur = 15; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
+      ctx.shadowColor = "rgba(0, 0, 0, 0.5)"; ctx.shadowBlur = 10;
     }
     
     ctx.translate(p.x * CELL + CELL/2, p.y * CELL + CELL/2);
     if (p.owner === "black") ctx.rotate(Math.PI);
     
-    const char = uPieces[p.type];
+    // オーナーに合わせた文字配列から取得（ここが最重要修正ポイント）
+    const char = uPieces[p.owner][p.type];
     
-    // 色分けロジック
     if (p.owner === "white") {
         ctx.fillStyle = "#ffffff";
         ctx.strokeStyle = "#000000";
         ctx.lineWidth = 1.5;
-        // 白の駒は黒い縁取りをつける
-        ctx.strokeText(char, 0, 4);
-        ctx.fillText(char, 0, 4);
+        ctx.strokeText(char, 0, 2);
+        ctx.fillText(char, 0, 2);
     } else {
         ctx.fillStyle = "#000000";
-        // 黒の駒はそのまま描画
-        ctx.fillText(char, 0, 4);
+        ctx.strokeStyle = "rgba(255,255,255,0.5)";
+        ctx.lineWidth = 0.8;
+        ctx.strokeText(char, 0, 2); // 黒の視認性向上のため、うっすら白の縁を付与
+        ctx.fillText(char, 0, 2);
     }
 
     if (selected.key === k && selected.type === 'board') { 
-        ctx.strokeStyle = "red"; 
+        ctx.strokeStyle = "#e74c3c"; 
         ctx.lineWidth = 3; 
-        ctx.strokeRect(-CELL/2, -CELL/2, CELL, CELL); 
+        ctx.strokeRect(-CELL/2 + 2, -CELL/2 + 2, CELL - 4, CELL - 4); 
     }
     ctx.restore();
   }
@@ -341,8 +388,8 @@ function draw(isWhiteOnline, isBlackOnline) {
   if ((opponentMissing || opponentOffline) && !state.winner && myRole) {
     ctx.fillStyle = "rgba(0, 0, 0, 0.6)"; ctx.fillRect(0, 0, 480, 480);
     ctx.fillStyle = opponentMissing ? "#2980b9" : "#c0392b"; 
-    ctx.fillRect(70, 200, 340, 80);
-    ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.strokeRect(70, 200, 340, 80);
+    ctx.fillRect(50, 190, 380, 100);
+    ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.strokeRect(50, 190, 380, 100);
     ctx.fillStyle = "#fff"; ctx.font = "bold 18px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
     
     if (opponentMissing) {
@@ -354,10 +401,10 @@ function draw(isWhiteOnline, isBlackOnline) {
   }
 
   if (myRole && state.turn !== myRole && !state.winner && !opponentMissing && !opponentOffline) {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.15)"; ctx.fillRect(0, 0, 480, 480);
-    ctx.fillStyle = "rgba(44, 62, 80, 0.85)"; ctx.fillRect(130, 215, 220, 50);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.1)"; ctx.fillRect(0, 0, 480, 480);
+    ctx.fillStyle = "rgba(44, 62, 80, 0.9)"; ctx.fillRect(130, 215, 220, 50);
     ctx.strokeStyle = "#ecf0f1"; ctx.lineWidth = 2; ctx.strokeRect(130, 215, 220, 50);
-    ctx.fillStyle = "#fff"; ctx.font = "bold 18px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillStyle = "#fff"; ctx.font = "bold 16px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
     ctx.fillText("相手のターンです", 240, 240);
   }
 
@@ -391,7 +438,7 @@ function updateGameSystem() {
 
   if (!myRole) {
     watcherConsole.style.display = "flex";
-    watcherStatus.innerText = `👀 観戦モード中 (${state.turn === "white" ? "白" : "黒"}の手番)`;
+    watcherStatus.innerText = `👀 観戦 (${state.turn === "white" ? "白" : "黒"}の手番)`;
     
     let emptyRole = null;
     if (!state.whiteId || !isWhiteOnline) emptyRole = "white";
@@ -399,12 +446,12 @@ function updateGameSystem() {
     
     if (emptyRole && !state.winner) {
       joinBtn.style.display = "inline-block";
-      joinBtn.innerText = `⚔️ ${emptyRole === "white" ? "白" : "黒"}として参戦する`;
+      joinBtn.innerText = `⚔️ ${emptyRole === "white" ? "白" : "黒"}で参戦`;
       
       joinBtn.onclick = () => {
         const hasZombie = state[emptyRole + "Id"] && !presence[state[emptyRole + "Id"]];
         const msg = hasZombie 
-          ? `前のプレイヤーがオフラインのようです。席を引き継いで参戦しますか？`
+          ? `前のプレイヤーがオフラインです。席を引き継いで参戦しますか？`
           : `${emptyRole === "white" ? "白" : "黒"}の席が空いています。参戦しますか？`;
 
         if (confirm(msg)) {
