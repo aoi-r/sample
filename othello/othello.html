@@ -5,77 +5,77 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Dominion - Othello</title>
 <style>
-    body { background: #e0f2f1; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; font-family: sans-serif; }
-    
-    /* 観戦中用のバー */
-    #watcherConsole { display: none; background: #004d40; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; margin-bottom: 12px; align-items: center; gap: 15px; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-    #joinBtn { background: #ffb300; color: #333; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-    #joinBtn:hover { background: #ffa000; }
-    
-    /* プレイ中用のバー */
-    #playerConsole { display: none; background: #00796b; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; margin-bottom: 12px; align-items: center; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-    
-    canvas { 
-        background: #00897b; 
-        border: 6px solid #004d40; 
-        width: 100%; 
-        max-width: 400px; 
-        height: auto; 
-        aspect-ratio: 1 / 1; 
-        touch-action: none; 
-        cursor: pointer; 
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
-    }
-    
-    #resetBtn { padding: 12px 24px; margin-top: 10px; margin-bottom: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-    .normal { background: #004d40; color: white; }
-    .waiting { background: #d32f2f; color: white; opacity: 0.8; }
-    
-    /* カード用UIエリア */
-    #cardArea { display: flex; gap: 10px; justify-content: center; margin-top: 15px; width: 100%; max-width: 400px; }
-    .card-btn {
-        flex: 1;
-        aspect-ratio: 3 / 4;
-        border: 3px solid #004d40;
-        border-radius: 8px;
-        background-size: cover;
-        background-position: center;
-        cursor: pointer;
-        position: relative;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-        transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .card-btn:hover:not(:disabled) { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); }
-    .card-btn:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(100%); }
-    .card-btn.active { border-color: #ffb300; box-shadow: 0 0 15px #ffb300; transform: scale(1.05); }
-    
-    #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; font-size: 28px; font-weight: bold; z-index: 10; cursor: pointer; }
-    #overlay span { font-size: 16px; color: #ccc; margin-top: 10px; }
+    body { background: #e0f2f1; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; font-family: sans-serif; }
+    
+    /* 観戦中用のバー */
+    #watcherConsole { display: none; background: #004d40; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; margin-bottom: 12px; align-items: center; gap: 15px; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+    #joinBtn { background: #ffb300; color: #333; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    #joinBtn:hover { background: #ffa000; }
+    
+    /* プレイ中用のバー */
+    #playerConsole { display: none; background: #00796b; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; margin-bottom: 12px; align-items: center; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+    
+    canvas { 
+        background: #00897b; 
+        border: 6px solid #004d40; 
+        width: 100%; 
+        max-width: 400px; 
+        height: auto; 
+        aspect-ratio: 1 / 1; 
+        touch-action: none; 
+        cursor: pointer; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+    }
+    
+    #resetBtn { padding: 12px 24px; margin-top: 10px; margin-bottom: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+    .normal { background: #004d40; color: white; }
+    .waiting { background: #d32f2f; color: white; opacity: 0.8; }
+    
+    /* カード用UIエリア */
+    #cardArea { display: flex; gap: 10px; justify-content: center; margin-top: 15px; width: 100%; max-width: 400px; }
+    .card-btn {
+        flex: 1;
+        aspect-ratio: 3 / 4;
+        border: 3px solid #004d40;
+        border-radius: 8px;
+        background-size: cover;
+        background-position: center;
+        cursor: pointer;
+        position: relative;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card-btn:hover:not(:disabled) { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); }
+    .card-btn:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(100%); }
+    .card-btn.active { border-color: #ffb300; box-shadow: 0 0 15px #ffb300; transform: scale(1.05); }
+    
+    #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; font-size: 28px; font-weight: bold; z-index: 10; cursor: pointer; }
+    #overlay span { font-size: 16px; color: #ccc; margin-top: 10px; }
 </style>
 </head>
 <body>
 <div id="watcherConsole">
-  <span id="watcherStatus">観戦モード中</span>
-  <button id="joinBtn">参戦する</button>
+  <span id="watcherStatus">観戦モード中</span>
+  <button id="joinBtn">参戦する</button>
 </div>
 
 <div id="playerConsole">
-  <span id="playerStatus">対戦モード</span>
+  <span id="playerStatus">対戦モード</span>
 </div>
 
 <canvas id="game" width="540" height="540"></canvas>
 
 <div id="cardArea">
-  <button id="cardWana" class="card-btn" title="罠：空きマスに設置、置いた駒を反転"></button>
-  <button id="cardPass" class="card-btn" title="パス：次の相手のターンをスキップ"></button>
-  <button id="cardHanten" class="card-btn" title="反転：置いてある駒を1つ反転"></button>
+  <button id="cardWana" class="card-btn" title="罠：空きマスに設置、置いた駒を反転"></button>
+  <button id="cardPass" class="card-btn" title="パス：次の相手のターンをスキップ"></button>
+  <button id="cardHanten" class="card-btn" title="反転：置いてある駒を1つ反転"></button>
 </div>
 
 <button id="resetBtn" class="normal">リセット申請</button>
 
 <div id="overlay" onclick="closeOverlay()">
-  <div id="winnerText"></div>
-  <span>画面をタップして新しくゲームを始める</span>
+  <div id="winnerText"></div>
+  <span>画面をタップして新しくゲームを始める</span>
 </div>
 
 <script type="module">
@@ -83,30 +83,30 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getDatabase, ref, set, update, onValue, onDisconnect } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const db = getDatabase(initializeApp({
-  apiKey: "AIzaSyDk7KNFdlp9zPtnixdNv96VtfKrELX1f8I",
-  databaseURL: "https://syogi-cee67-default-rtdb.firebaseio.com",
-  projectId: "syogi-cee67"
+  apiKey: "AIzaSyDk7KNFdlp9zPtnixdNv96VtfKrELX1f8I",
+  databaseURL: "https://syogi-cee67-default-rtdb.firebaseio.com",
+  projectId: "syogi-cee67"
 }));
 
 let myId = null;
 try {
-  myId = sessionStorage.getItem("othello_myId");
-  if (!myId) {
-    myId = Math.random().toString(36).slice(2);
-    sessionStorage.setItem("othello_myId", myId);
-  }
+  myId = sessionStorage.getItem("othello_myId");
+  if (!myId) {
+    myId = Math.random().toString(36).slice(2);
+    sessionStorage.setItem("othello_myId", myId);
+  }
 } catch (e) {
-  myId = Math.random().toString(36).slice(2);
+  myId = Math.random().toString(36).slice(2);
 }
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
-const CELL = 540 / 8; 
+const CELL = 540 / 8; 
 
 const cardImages = {
-  wana: new Image(),
-  pass: new Image(),
-  hanten: new Image()
+  wana: new Image(),
+  pass: new Image(),
+  hanten: new Image()
 };
 cardImages.wana.src = "othello_img/wana.png";
 cardImages.pass.src = "othello_img/pass.png";
@@ -116,436 +116,443 @@ cardImages.wana.onload = () => document.getElementById("cardWana").style.backgro
 cardImages.pass.onload = () => document.getElementById("cardPass").style.backgroundImage = `url('${cardImages.pass.src}')`;
 cardImages.hanten.onload = () => document.getElementById("cardHanten").style.backgroundImage = `url('${cardImages.hanten.src}')`;
 
-let state = { 
-  board: Array(64).fill(0), 
-  turn: "black", 
-  resetReq: false, 
-  resetSender: null, 
-  winner: null, 
-  blackId: null, 
-  whiteId: null, 
-  lastMove: null,
-  cards: { black: { wana: true, pass: true, hanten: true }, white: { wana: true, pass: true, hanten: true } },
-  traps: Array(64).fill(0),
-  skipNext: false 
+let state = { 
+  board: Array(64).fill(0), 
+  turn: "black", 
+  resetReq: false, 
+  resetSender: null, 
+  winner: null, 
+  blackId: null, 
+  whiteId: null, 
+  lastMove: null,
+  cards: { black: { wana: true, pass: true, hanten: true }, white: { wana: true, pass: true, hanten: true } },
+  traps: Array(64).fill(0),
+  skipNext: false 
 };
-let presence = {}; 
+let presence = {}; 
 let lastResetReq = false;
-let myRole = null; 
-let activeSkill = null; 
+let myRole = null; 
+let activeSkill = null; 
 
 const dirs = [[-1,-1], [-1,0], [-1,1], [0,-1], [0,1], [1,-1], [1,0], [1,1]];
 
-function getFlips(board, x, y, color) {
-  if (board[y * 8 + x] !== 0) return [];
-  let flips = [];
-  const opp = color === 1 ? 2 : 1;
+// 追加：計6手(初期4+6=10)打たれたかチェック
+function canUseCards() {
+  return state.board.filter(v => v !== 0).length >= 10;
+}
 
-  for (const [dx, dy] of dirs) {
-    let cx = x + dx, cy = y + dy;
-    let temp = [];
-    while (cx >= 0 && cx < 8 && cy >= 0 && cy < 8) {
-      const idx = cy * 8 + cx;
-      if (board[idx] === opp) {
-        temp.push(idx);
-      } else if (board[idx] === color) {
-        if (temp.length > 0) flips = flips.concat(temp);
-        break;
-      } else {
-        break;
-      }
-      cx += dx; cy += dy;
-    }
-  }
-  return flips;
+function getFlips(board, x, y, color) {
+  if (board[y * 8 + x] !== 0) return [];
+  let flips = [];
+  const opp = color === 1 ? 2 : 1;
+
+  for (const [dx, dy] of dirs) {
+    let cx = x + dx, cy = y + dy;
+    let temp = [];
+    while (cx >= 0 && cx < 8 && cy >= 0 && cy < 8) {
+      const idx = cy * 8 + cx;
+      if (board[idx] === opp) {
+        temp.push(idx);
+      } else if (board[idx] === color) {
+        if (temp.length > 0) flips = flips.concat(temp);
+        break;
+      } else {
+        break;
+      }
+      cx += dx; cy += dy;
+    }
+  }
+  return flips;
 }
 
 function hasValidMoves(board, color) {
-  for (let y = 0; y < 8; y++) {
-    for (let x = 0; x < 8; x++) {
-      if (getFlips(board, x, y, color).length > 0) return true;
-    }
-  }
-  return false;
+  for (let y = 0; y < 8; y++) {
+    for (let x = 0; x < 8; x++) {
+      if (getFlips(board, x, y, color).length > 0) return true;
+    }
+  }
+  return false;
 }
 
 function checkTurnEnd(currentColor) {
-  const nextColor = currentColor === 1 ? 2 : 1;
-  const nextTurn = state.turn === "black" ? "white" : "black";
+  const nextColor = currentColor === 1 ? 2 : 1;
+  const nextTurn = state.turn === "black" ? "white" : "black";
 
-  if (state.skipNext) {
-    state.skipNext = false; 
-    if (hasValidMoves(state.board, currentColor)) {
-      return; 
-    }
-  }
+  if (state.skipNext) {
+    state.skipNext = false; 
+    if (hasValidMoves(state.board, currentColor)) {
+      return; 
+    }
+  }
 
-  if (hasValidMoves(state.board, nextColor)) {
-    state.turn = nextTurn;
-  } else if (hasValidMoves(state.board, currentColor)) {
-    state.turn = state.turn; 
-  } else {
-    endGame();
-  }
+  if (hasValidMoves(state.board, nextColor)) {
+    state.turn = nextTurn;
+  } else if (hasValidMoves(state.board, currentColor)) {
+    state.turn = state.turn; 
+  } else {
+    endGame();
+  }
 }
 
 function endGame() {
-  let blackCount = state.board.filter(v => v === 1).length;
-  let whiteCount = state.board.filter(v => v === 2).length;
-  if (blackCount > whiteCount) state.winner = "black";
-  else if (whiteCount > blackCount) state.winner = "white";
-  else state.winner = "draw";
+  let blackCount = state.board.filter(v => v === 1).length;
+  let whiteCount = state.board.filter(v => v === 2).length;
+  if (blackCount > whiteCount) state.winner = "black";
+  else if (whiteCount > blackCount) state.winner = "white";
+  else state.winner = "draw";
 }
 
 canvas.addEventListener("mousedown", e => {
-  if (state.winner) return;
-  
-  if (myRole) {
-    const opponentId = myRole === "black" ? state.whiteId : state.blackId;
-    if (!opponentId) return; 
-  }
+  if (state.winner) return;
+  
+  if (myRole) {
+    const opponentId = myRole === "black" ? state.whiteId : state.blackId;
+    if (!opponentId) return; 
+  }
 
-  if (!myRole || state.turn !== myRole) return;
+  if (!myRole || state.turn !== myRole) return;
 
-  const rect = canvas.getBoundingClientRect();
-  const rectX = (e.clientX - rect.left) * (540 / rect.width);
-  const rectY = (e.clientY - rect.top) * (540 / rect.height);
+  const rect = canvas.getBoundingClientRect();
+  const rectX = (e.clientX - rect.left) * (540 / rect.width);
+  const rectY = (e.clientY - rect.top) * (540 / rect.height);
 
-  const x = Math.floor(rectX / CELL);
-  const y = Math.floor(rectY / CELL);
-  if (x < 0 || x > 7 || y < 0 || y > 7) return;
+  const x = Math.floor(rectX / CELL);
+  const y = Math.floor(rectY / CELL);
+  if (x < 0 || x > 7 || y < 0 || y > 7) return;
 
-  const idx = y * 8 + x;
-  const currentColor = state.turn === "black" ? 1 : 2;
-  const oppColor = currentColor === 1 ? 2 : 1;
+  const idx = y * 8 + x;
+  const currentColor = state.turn === "black" ? 1 : 2;
+  const oppColor = currentColor === 1 ? 2 : 1;
 
-  // --- スキル発動モード時の処理 ---
-  if (activeSkill === 'wana') {
-    if (state.board[idx] !== 0 || state.traps[idx] !== 0) return; 
-    state.traps[idx] = currentColor;
-    state.cards[myRole].wana = false;
-    activeSkill = null;
-    set(ref(db, "othello_game"), state);
-    return;
-  }
+  // --- スキル発動モード時の処理 ---
+  if (activeSkill === 'wana') {
+    if (state.board[idx] !== 0 || state.traps[idx] !== 0) return; 
+    state.traps[idx] = currentColor;
+    state.cards[myRole].wana = false;
+    activeSkill = null;
+    set(ref(db, "othello_game"), state);
+    return;
+  }
 
-  if (activeSkill === 'hanten') {
-    // 【修正箇所②】相手の駒のみを反転対象にする
-    if (state.board[idx] !== oppColor) return; 
-    
-    state.board[idx] = currentColor; 
-    state.cards[myRole].hanten = false;
-    activeSkill = null; 
-    
-    if (!hasValidMoves(state.board, 1) && !hasValidMoves(state.board, 2)) {
-      endGame();
-    }
-    set(ref(db, "othello_game"), state);
-    return;
-  }
+  if (activeSkill === 'hanten') {
+    // 【修正箇所②】相手の駒のみを反転対象にする
+    if (state.board[idx] !== oppColor) return; 
+    
+    state.board[idx] = currentColor; 
+    state.cards[myRole].hanten = false;
+    activeSkill = null; 
+    
+    if (!hasValidMoves(state.board, 1) && !hasValidMoves(state.board, 2)) {
+      endGame();
+    }
+    set(ref(db, "othello_game"), state);
+    return;
+  }
 
-  // --- 通常の着手処理 ---
-  const isTrapTriggered = (state.traps[idx] === oppColor);
+  // --- 通常の着手処理 ---
+  const isTrapTriggered = (state.traps[idx] === oppColor);
 
-  let flips = getFlips(state.board, x, y, currentColor);
-  if (flips.length === 0) return; 
+  let flips = getFlips(state.board, x, y, currentColor);
+  if (flips.length === 0) return; 
 
-  if (isTrapTriggered) {
-    state.board[idx] = oppColor;
-    state.traps[idx] = 0; 
-    state.lastMove = { x, y };
-  } else {
-    state.board[idx] = currentColor;
-    flips.forEach(fIdx => state.board[fIdx] = currentColor);
-    // 【修正箇所①】自分の罠の上に置いた場合でも確実に解除する
-    state.traps[idx] = 0; 
-    state.lastMove = { x, y };
-  }
+  if (isTrapTriggered) {
+    state.board[idx] = oppColor;
+    state.traps[idx] = 0; 
+    state.lastMove = { x, y };
+  } else {
+    state.board[idx] = currentColor;
+    flips.forEach(fIdx => state.board[fIdx] = currentColor);
+    // 【修正箇所①】自分の罠の上に置いた場合でも確実に解除する
+    state.traps[idx] = 0; 
+    state.lastMove = { x, y };
+  }
 
-  checkTurnEnd(currentColor);
-  set(ref(db, "othello_game"), state);
+  checkTurnEnd(currentColor);
+  set(ref(db, "othello_game"), state);
 });
 
 // --- カードボタンのイベントリスナー ---
 document.getElementById("cardWana").addEventListener("click", () => {
-  if (!myRole || state.turn !== myRole || !state.cards[myRole].wana) return;
-  activeSkill = activeSkill === 'wana' ? null : 'wana';
-  updateGameSystem();
+  if (!myRole || state.turn !== myRole || !state.cards[myRole].wana || !canUseCards()) return;
+  activeSkill = activeSkill === 'wana' ? null : 'wana';
+  updateGameSystem();
 });
 
 document.getElementById("cardPass").addEventListener("click", () => {
-  if (!myRole || state.turn !== myRole || !state.cards[myRole].pass) return;
-  if (!confirm("パスカードを使用します。次の相手のターンをスキップしますか？")) return;
-  
-  state.cards[myRole].pass = false;
-  state.skipNext = true; 
-  activeSkill = null;
-  set(ref(db, "othello_game"), state);
+  if (!myRole || state.turn !== myRole || !state.cards[myRole].pass || !canUseCards()) return;
+  if (!confirm("パスカードを使用します。次の相手のターンをスキップしますか？")) return;
+  
+  state.cards[myRole].pass = false;
+  state.skipNext = true; 
+  activeSkill = null;
+  set(ref(db, "othello_game"), state);
 });
 
 document.getElementById("cardHanten").addEventListener("click", () => {
-  if (!myRole || state.turn !== myRole || !state.cards[myRole].hanten) return;
-  activeSkill = activeSkill === 'hanten' ? null : 'hanten';
-  updateGameSystem();
+  if (!myRole || state.turn !== myRole || !state.cards[myRole].hanten || !canUseCards()) return;
+  activeSkill = activeSkill === 'hanten' ? null : 'hanten';
+  updateGameSystem();
 });
 
 document.getElementById("resetBtn").addEventListener("click", () => {
-  if (state.resetReq) return;
-  state.resetReq = true; state.resetSender = myId; set(ref(db, "othello_game"), state);
+  if (state.resetReq) return;
+  state.resetReq = true; state.resetSender = myId; set(ref(db, "othello_game"), state);
 });
 
 window.closeOverlay = () => { document.getElementById('overlay').style.display = 'none'; initBoard(true); };
 
 function initBoard(keepPlayers = false) {
-  const b = Array(64).fill(0);
-  b[3 * 8 + 3] = 2; b[3 * 8 + 4] = 1;
-  b[4 * 8 + 3] = 1; b[4 * 8 + 4] = 2;
-  
-  const newState = { 
-    board: b, 
-    turn: "black", 
-    resetReq: false, 
-    resetSender: null, 
-    winner: null, 
-    blackId: keepPlayers ? (state.blackId || null) : null, 
-    whiteId: keepPlayers ? (state.whiteId || null) : null, 
-    lastMove: null,
-    cards: { black: { wana: true, pass: true, hanten: true }, white: { wana: true, pass: true, hanten: true } },
-    traps: Array(64).fill(0),
-    skipNext: false
-  };
-  activeSkill = null;
-  set(ref(db, "othello_game"), newState);
+  const b = Array(64).fill(0);
+  b[3 * 8 + 3] = 2; b[3 * 8 + 4] = 1;
+  b[4 * 8 + 3] = 1; b[4 * 8 + 4] = 2;
+  
+  const newState = { 
+    board: b, 
+    turn: "black", 
+    resetReq: false, 
+    resetSender: null, 
+    winner: null, 
+    blackId: keepPlayers ? (state.blackId || null) : null, 
+    whiteId: keepPlayers ? (state.whiteId || null) : null, 
+    lastMove: null,
+    cards: { black: { wana: true, pass: true, hanten: true }, white: { wana: true, pass: true, hanten: true } },
+    traps: Array(64).fill(0),
+    skipNext: false
+  };
+  activeSkill = null;
+  set(ref(db, "othello_game"), newState);
 }
 
 function draw(isBlackOnline, isWhiteOnline) {
-  ctx.clearRect(0, 0, 540, 540);
-  
-  const myColorNum = myRole === "black" ? 1 : (myRole === "white" ? 2 : 0);
+  ctx.clearRect(0, 0, 540, 540);
+  
+  const myColorNum = myRole === "black" ? 1 : (myRole === "white" ? 2 : 0);
 
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      ctx.strokeStyle = "#004d40";
-      ctx.lineWidth = 2;
-      ctx.strokeRect(i * CELL, j * CELL, CELL, CELL);
-      
-      if ((i === 2 || i === 6) && (j === 2 || j === 6)) {
-        ctx.fillStyle = "#004d40";
-        ctx.beginPath();
-        ctx.arc(i * CELL, j * CELL, 4, 0, Math.PI * 2);
-        ctx.fill();
-      }
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      ctx.strokeStyle = "#004d40";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(i * CELL, j * CELL, CELL, CELL);
+      
+      if ((i === 2 || i === 6) && (j === 2 || j === 6)) {
+        ctx.fillStyle = "#004d40";
+        ctx.beginPath();
+        ctx.arc(i * CELL, j * CELL, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
 
-      if (state.lastMove && state.lastMove.x === i && state.lastMove.y === j) {
-        ctx.fillStyle = "rgba(255, 235, 59, 0.25)";
-        ctx.fillRect(i * CELL, j * CELL, CELL, CELL);
-      }
+      if (state.lastMove && state.lastMove.x === i && state.lastMove.y === j) {
+        ctx.fillStyle = "rgba(255, 235, 59, 0.25)";
+        ctx.fillRect(i * CELL, j * CELL, CELL, CELL);
+      }
 
-      const idx = j * 8 + i;
-      const val = state.board[idx];
-      if (val !== 0) {
-        ctx.save();
-        ctx.shadowColor = "rgba(0,0,0,0.3)";
-        ctx.shadowBlur = 6;
-        ctx.shadowOffsetY = 3;
-        ctx.fillStyle = val === 1 ? "#111" : "#fff";
-        ctx.beginPath();
-        ctx.arc(i * CELL + CELL / 2, j * CELL + CELL / 2, CELL * 0.4, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      }
+      const idx = j * 8 + i;
+      const val = state.board[idx];
+      if (val !== 0) {
+        ctx.save();
+        ctx.shadowColor = "rgba(0,0,0,0.3)";
+        ctx.shadowBlur = 6;
+        ctx.shadowOffsetY = 3;
+        ctx.fillStyle = val === 1 ? "#111" : "#fff";
+        ctx.beginPath();
+        ctx.arc(i * CELL + CELL / 2, j * CELL + CELL / 2, CELL * 0.4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
 
-      if (state.traps && state.traps[idx] === myColorNum && myColorNum !== 0) {
-        ctx.fillStyle = "rgba(156, 39, 176, 0.4)";
-        ctx.beginPath();
-        ctx.arc(i * CELL + CELL / 2, j * CELL + CELL / 2, CELL * 0.2, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.strokeStyle = "rgba(156, 39, 176, 0.8)";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-      }
-    }
-  }
+      if (state.traps && state.traps[idx] === myColorNum && myColorNum !== 0) {
+        ctx.fillStyle = "rgba(156, 39, 176, 0.4)";
+        ctx.beginPath();
+        ctx.arc(i * CELL + CELL / 2, j * CELL + CELL / 2, CELL * 0.2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "rgba(156, 39, 176, 0.8)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+    }
+  }
 
-  const btnWana = document.getElementById("cardWana");
-  const btnPass = document.getElementById("cardPass");
-  const btnHanten = document.getElementById("cardHanten");
+  const btnWana = document.getElementById("cardWana");
+  const btnPass = document.getElementById("cardPass");
+  const btnHanten = document.getElementById("cardHanten");
 
-  if (myRole && state.turn === myRole && !state.winner) {
-    const myCards = state.cards[myRole];
-    btnWana.disabled = !myCards.wana;
-    btnPass.disabled = !myCards.pass;
-    btnHanten.disabled = !myCards.hanten;
+  if (myRole && state.turn === myRole && !state.winner) {
+    const isEnabled = canUseCards();
+    const myCards = state.cards[myRole];
+    
+    btnWana.disabled = !myCards.wana || !isEnabled;
+    btnPass.disabled = !myCards.pass || !isEnabled;
+    btnHanten.disabled = !myCards.hanten || !isEnabled;
 
-    btnWana.classList.toggle("active", activeSkill === 'wana');
-    btnPass.classList.toggle("active", state.skipNext); 
-    btnHanten.classList.toggle("active", activeSkill === 'hanten');
-  } else {
-    btnWana.disabled = true; btnPass.disabled = true; btnHanten.disabled = true;
-    btnWana.classList.remove("active"); btnPass.classList.remove("active"); btnHanten.classList.remove("active");
-  }
+    btnWana.classList.toggle("active", activeSkill === 'wana');
+    btnPass.classList.toggle("active", state.skipNext); 
+    btnHanten.classList.toggle("active", activeSkill === 'hanten');
+  } else {
+    btnWana.disabled = true; btnPass.disabled = true; btnHanten.disabled = true;
+    btnWana.classList.remove("active"); btnPass.classList.remove("active"); btnHanten.classList.remove("active");
+  }
 
-  const btn = document.getElementById("resetBtn");
-  if (state.resetReq) {
-    if (state.resetSender === myId) { btn.innerText = "リセット回答待ち..."; btn.className = "waiting"; btn.disabled = true; }
-    else { btn.innerText = "リセット申請を受信中"; btn.className = "waiting"; btn.disabled = false; }
-  } else { btn.innerText = "リセット申請"; btn.className = "normal"; btn.disabled = false; }
+  const btn = document.getElementById("resetBtn");
+  if (state.resetReq) {
+    if (state.resetSender === myId) { btn.innerText = "リセット回答待ち..."; btn.className = "waiting"; btn.disabled = true; }
+    else { btn.innerText = "リセット申請を受信中"; btn.className = "waiting"; btn.disabled = false; }
+  } else { btn.innerText = "リセット申請"; btn.className = "normal"; btn.disabled = false; }
 
-  let opponentMissing = false;
-  let opponentOffline = false;
-  let opponentName = myRole === "black" ? "白（後手）" : "黒（先手）";
+  let opponentMissing = false;
+  let opponentOffline = false;
+  let opponentName = myRole === "black" ? "白（後手）" : "黒（先手）";
 
-  if (myRole === "black") {
-    if (!state.whiteId) opponentMissing = true;
-    else if (!isWhiteOnline) opponentOffline = true;
-  } else if (myRole === "white") {
-    if (!state.blackId) opponentMissing = true;
-    else if (!isBlackOnline) opponentOffline = true;
-  }
+  if (myRole === "black") {
+    if (!state.whiteId) opponentMissing = true;
+    else if (!isWhiteOnline) opponentOffline = true;
+  } else if (myRole === "white") {
+    if (!state.blackId) opponentMissing = true;
+    else if (!isBlackOnline) opponentOffline = true;
+  }
 
-  if ((opponentMissing || opponentOffline) && !state.winner && myRole) {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.6)"; ctx.fillRect(0, 0, 540, 540);
-    ctx.fillStyle = opponentMissing ? "#0288d1" : "#d32f2f"; 
-    ctx.fillRect(100, 230, 340, 80);
-    ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.strokeRect(100, 230, 340, 80);
-    ctx.fillStyle = "#fff"; ctx.font = "bold 18px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-    
-    if (opponentMissing) {
-      ctx.fillText("対戦相手を待っています...", 270, 270);
-    } else {
-      ctx.fillText(`${opponentName}が切断されました`, 270, 255);
-      ctx.font = "14px sans-serif"; ctx.fillText("復帰、または新規参戦を待っています...", 270, 285);
-    }
-  }
+  if ((opponentMissing || opponentOffline) && !state.winner && myRole) {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.6)"; ctx.fillRect(0, 0, 540, 540);
+    ctx.fillStyle = opponentMissing ? "#0288d1" : "#d32f2f"; 
+    ctx.fillRect(100, 230, 340, 80);
+    ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.strokeRect(100, 230, 340, 80);
+    ctx.fillStyle = "#fff"; ctx.font = "bold 18px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    
+    if (opponentMissing) {
+      ctx.fillText("対戦相手を待っています...", 270, 270);
+    } else {
+      ctx.fillText(`${opponentName}が切断されました`, 270, 255);
+      ctx.font = "14px sans-serif"; ctx.fillText("復帰、または新規参戦を待っています...", 270, 285);
+    }
+  }
 
-  if (myRole && state.turn === myRole && !state.winner) {
-    if (activeSkill) {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.3)"; ctx.fillRect(0, 0, 540, 540);
-      ctx.fillStyle = "#ffb300"; ctx.fillRect(80, 245, 380, 50);
-      ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.strokeRect(80, 245, 380, 50);
-      ctx.fillStyle = "#333"; ctx.font = "bold 16px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-      
-      // 【修正箇所③】キャンセルの方法をUIに明示し、ソフトロックを防ぐ
-      const txt = activeSkill === 'wana' ? "罠を設置する空きマスを選択 (再タップで取消)" : "反転させる相手の駒を選択 (再タップで取消)";
-      ctx.fillText(txt, 270, 270);
-    }
-  }
+  if (myRole && state.turn === myRole && !state.winner) {
+    if (activeSkill) {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.3)"; ctx.fillRect(0, 0, 540, 540);
+      ctx.fillStyle = "#ffb300"; ctx.fillRect(80, 245, 380, 50);
+      ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.strokeRect(80, 245, 380, 50);
+      ctx.fillStyle = "#333"; ctx.font = "bold 16px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      
+      // 【修正箇所③】キャンセルの方法をUIに明示し、ソフトロックを防ぐ
+      const txt = activeSkill === 'wana' ? "罠を設置する空きマスを選択 (再タップで取消)" : "反転させる相手の駒を選択 (再タップで取消)";
+      ctx.fillText(txt, 270, 270);
+    }
+  }
 
-  if (myRole && state.turn !== myRole && !state.winner && !opponentMissing && !opponentOffline) {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.1)"; ctx.fillRect(0, 0, 540, 540);
-    ctx.fillStyle = "rgba(0, 77, 64, 0.85)"; ctx.fillRect(160, 245, 220, 50);
-    ctx.strokeStyle = "#e0f2f1"; ctx.lineWidth = 2; ctx.strokeRect(160, 245, 220, 50);
-    ctx.fillStyle = "#fff"; ctx.font = "bold 18px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-    ctx.fillText("相手のターンです", 270, 270);
-  }
+  if (myRole && state.turn !== myRole && !state.winner && !opponentMissing && !opponentOffline) {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.1)"; ctx.fillRect(0, 0, 540, 540);
+    ctx.fillStyle = "rgba(0, 77, 64, 0.85)"; ctx.fillRect(160, 245, 220, 50);
+    ctx.strokeStyle = "#e0f2f1"; ctx.lineWidth = 2; ctx.strokeRect(160, 245, 220, 50);
+    ctx.fillStyle = "#fff"; ctx.font = "bold 18px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText("相手のターンです", 270, 270);
+  }
 
-  const overlayEl = document.getElementById('overlay');
-  const winnerTxtEl = document.getElementById("winnerText");
-  if (state.winner) {
-    let blackCount = state.board.filter(v => v === 1).length;
-    let whiteCount = state.board.filter(v => v === 2).length;
-    const scoreStr = ` (${blackCount}対${whiteCount})`;
-    if (state.winner === "draw") winnerTxtEl.innerText = "引き分け！" + scoreStr;
-    else winnerTxtEl.innerText = (state.winner === "black" ? "黒（先手）" : "白（後手）") + "の勝ち！" + scoreStr;
-    overlayEl.style.display = 'flex';
-  } else { 
-    overlayEl.style.display = 'none'; 
-  }
+  const overlayEl = document.getElementById('overlay');
+  const winnerTxtEl = document.getElementById("winnerText");
+  if (state.winner) {
+    let blackCount = state.board.filter(v => v === 1).length;
+    let whiteCount = state.board.filter(v => v === 2).length;
+    const scoreStr = ` (${blackCount}対${whiteCount})`;
+    if (state.winner === "draw") winnerTxtEl.innerText = "引き分け！" + scoreStr;
+    else winnerTxtEl.innerText = (state.winner === "black" ? "黒（先手）" : "白（後手）") + "の勝ち！" + scoreStr;
+    overlayEl.style.display = 'flex';
+  } else { 
+    overlayEl.style.display = 'none'; 
+  }
 }
 
 function updateGameSystem() {
-  if (!state || !state.board) return;
+  if (!state || !state.board) return;
 
-  const isBlackOnline = state.blackId ? (presence[state.blackId] === true) : false;
-  const isWhiteOnline = state.whiteId ? (presence[state.whiteId] === true) : false;
+  const isBlackOnline = state.blackId ? (presence[state.blackId] === true) : false;
+  const isWhiteOnline = state.whiteId ? (presence[state.whiteId] === true) : false;
 
-  if (state.blackId === myId) {
-    myRole = "black";
-  } else if (state.whiteId === myId) {
-    myRole = "white";
-  } else {
-    myRole = null; 
-  }
+  if (state.blackId === myId) {
+    myRole = "black";
+  } else if (state.whiteId === myId) {
+    myRole = "white";
+  } else {
+    myRole = null; 
+  }
 
-  const watcherConsole = document.getElementById("watcherConsole");
-  const watcherStatus = document.getElementById("watcherStatus");
-  const joinBtn = document.getElementById("joinBtn");
-  
-  const playerConsole = document.getElementById("playerConsole");
-  const playerStatus = document.getElementById("playerStatus");
+  const watcherConsole = document.getElementById("watcherConsole");
+  const watcherStatus = document.getElementById("watcherStatus");
+  const joinBtn = document.getElementById("joinBtn");
+  
+  const playerConsole = document.getElementById("playerConsole");
+  const playerStatus = document.getElementById("playerStatus");
 
-  if (!myRole) {
-    watcherConsole.style.display = "flex";
-    playerConsole.style.display = "none";
-    watcherStatus.innerText = `👀 観戦モード中 (${state.turn === "black" ? "黒" : "白"}の手番)`;
-    
-    let emptyRole = null;
-    if (!state.blackId || !isBlackOnline) emptyRole = "black";
-    else if (!state.whiteId || !isWhiteOnline) emptyRole = "white";
-    
-    if (emptyRole && !state.winner) {
-      joinBtn.style.display = "inline-block";
-      joinBtn.innerText = `⚔️ ${emptyRole === "black" ? "黒" : "白"}として参戦する`;
-      
-      joinBtn.onclick = () => {
-        const hasZombie = state[emptyRole + "Id"] && !presence[state[emptyRole + "Id"]];
-        const msg = hasZombie 
-          ? `前のプレイヤーがオフラインのようです。席を引き継いで参戦しますか？`
-          : `${emptyRole === "black" ? "黒" : "白"}の席が空いています。参戦しますか？`;
+  if (!myRole) {
+    watcherConsole.style.display = "flex";
+    playerConsole.style.display = "none";
+    watcherStatus.innerText = `👀 観戦モード中 (${state.turn === "black" ? "黒" : "白"}の手番)`;
+    
+    let emptyRole = null;
+    if (!state.blackId || !isBlackOnline) emptyRole = "black";
+    else if (!state.whiteId || !isWhiteOnline) emptyRole = "white";
+    
+    if (emptyRole && !state.winner) {
+      joinBtn.style.display = "inline-block";
+      joinBtn.innerText = `⚔️ ${emptyRole === "black" ? "黒" : "白"}として参戦する`;
+      
+      joinBtn.onclick = () => {
+        const hasZombie = state[emptyRole + "Id"] && !presence[state[emptyRole + "Id"]];
+        const msg = hasZombie 
+          ? `前のプレイヤーがオフラインのようです。席を引き継いで参戦しますか？`
+          : `${emptyRole === "black" ? "黒" : "白"}の席が空いています。参戦しますか？`;
 
-        if (confirm(msg)) {
-          update(ref(db, "othello_game"), {
-            [`${emptyRole}Id`]: myId
-          });
-        }
-      };
-    } else { 
-      joinBtn.style.display = "none"; 
-    }
-  } else {
-    watcherConsole.style.display = "none";
-    playerConsole.style.display = "flex"; 
-    
-    if (myRole === "black") {
-      playerStatus.innerText = "⚫ あなたは 黒（先手）です";
-    } else {
-      playerStatus.innerText = "⚪ あなたは 白（後手）です";
-    }
-  }
-  
-  draw(isBlackOnline, isWhiteOnline); 
-  
-  if (state.resetReq && !lastResetReq && state.resetSender !== myId) {
-    lastResetReq = true;
-    setTimeout(() => {
-      if (confirm("相手からリセット申請が届きました。承諾して盤面を初期化しますか？")) { initBoard(true); }
-      else { update(ref(db, "othello_game"), { resetReq: false, resetSender: null }); }
-    }, 100);
-  } else { lastResetReq = state.resetReq; }
+        if (confirm(msg)) {
+          update(ref(db, "othello_game"), {
+            [`${emptyRole}Id`]: myId
+          });
+        }
+      };
+    } else { 
+      joinBtn.style.display = "none"; 
+    }
+  } else {
+    watcherConsole.style.display = "none";
+    playerConsole.style.display = "flex"; 
+    
+    if (myRole === "black") {
+      playerStatus.innerText = "⚫ あなたは 黒（先手）です";
+    } else {
+      playerStatus.innerText = "⚪ あなたは 白（後手）です";
+    }
+  }
+  
+  draw(isBlackOnline, isWhiteOnline); 
+  
+  if (state.resetReq && !lastResetReq && state.resetSender !== myId) {
+    lastResetReq = true;
+    setTimeout(() => {
+      if (confirm("相手からリセット申請が届きました。承諾して盤面を初期化しますか？")) { initBoard(true); }
+      else { update(ref(db, "othello_game"), { resetReq: false, resetSender: null }); }
+    }, 100);
+  } else { lastResetReq = state.resetReq; }
 }
 
 onValue(ref(db, ".info/connected"), snap => {
-  if (snap.val() === true) {
-    onDisconnect(ref(db, `othello_presence/${myId}`)).remove();
-    set(ref(db, `othello_presence/${myId}`), true);
-  }
+  if (snap.val() === true) {
+    onDisconnect(ref(db, `othello_presence/${myId}`)).remove();
+    set(ref(db, `othello_presence/${myId}`), true);
+  }
 });
 
 onValue(ref(db, "othello_presence"), snap => {
-  presence = snap.val() || {};
-  updateGameSystem();
+  presence = snap.val() || {};
+  updateGameSystem();
 });
 
-onValue(ref(db, "othello_game"), snap => { 
-  if(snap.val()) { 
-    state = snap.val(); 
-    if(!state.cards) state.cards = { black: { wana: true, pass: true, hanten: true }, white: { wana: true, pass: true, hanten: true } };
-    if(!state.traps) state.traps = Array(64).fill(0);
-    if(state.skipNext === undefined) state.skipNext = false;
-    updateGameSystem();
-  } else { 
-    initBoard(false); 
-  }
+onValue(ref(db, "othello_game"), snap => { 
+  if(snap.val()) { 
+    state = snap.val(); 
+    if(!state.cards) state.cards = { black: { wana: true, pass: true, hanten: true }, white: { wana: true, pass: true, hanten: true } };
+    if(!state.traps) state.traps = Array(64).fill(0);
+    if(state.skipNext === undefined) state.skipNext = false;
+    updateGameSystem();
+  } else { 
+    initBoard(false); 
+  }
 });
 </script>
 </body>
