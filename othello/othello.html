@@ -254,8 +254,8 @@ let myRole = null;
 let activeSkill = null;
 
 let trapEffect = null;
-let skillEffect = null;   // 追加：パス・反転カードの演出用管理変数
-let lastSkillTs = 0;      // 追加：演出の多重発火防止用タイムスタンプ
+let skillEffect = null;   
+let lastSkillTs = 0;      
 
 const dirs = [
     [-1,-1],[-1,0],[-1,1],
@@ -277,7 +277,6 @@ function triggerTrapEffect(x,y,color){
     };
 }
 
-// 追加：パス・反転カード用の演出トリガー関数
 function triggerSkillEffect(type,x,y){
     skillEffect = {
         type,
@@ -376,7 +375,6 @@ function drawTrapEffect(){
     ctx.restore();
 }
 
-// 追加：パス・反転カード用のド派手な演出描画関数（全画面同期）
 function drawSkillEffect(){
     if(!skillEffect) return;
 
@@ -397,26 +395,23 @@ function drawSkillEffect(){
     let imgObj = null;
 
     if(skillEffect.type === "pass"){
-        flashColor = "rgba(33,150,243,0.5)"; // 青ベース
+        flashColor = "rgba(33,150,243,0.5)"; 
         shadowColor = "rgba(33,150,243,0.8)";
         textStr = "PASS CARD USED!";
         imgObj = cardImages.pass;
     } else if(skillEffect.type === "hanten"){
-        flashColor = "rgba(255,152,0,0.5)"; // オレンジベース
+        flashColor = "rgba(255,152,0,0.5)"; 
         shadowColor = "rgba(255,152,0,0.8)";
         textStr = "FLIP CARD USED!";
         imgObj = cardImages.hanten;
     }
 
-    // 1. 盤面へのフラッシュ・衝撃波演出（前半のみ）
     const shockProgress = Math.min(progress * 2, 1);
     if (shockProgress < 1) {
         if(skillEffect.type === "pass"){
-            // パス：画面全体を青くフラッシュさせる
             ctx.fillStyle = `rgba(33,150,243,${0.4 * (1 - shockProgress)})`;
             ctx.fillRect(0, 0, 540, 540);
         } else if(skillEffect.x !== undefined && skillEffect.y !== undefined) {
-            // 反転：選択したコマを中心にオレンジの衝撃波を広げる
             const px = skillEffect.x * CELL + CELL/2;
             const py = skillEffect.y * CELL + CELL/2;
             
@@ -433,7 +428,6 @@ function drawSkillEffect(){
         }
     }
 
-    // 2. カードのド派手ポップアップ
     if(imgObj && imgObj.complete) {
         let scale = 1;
         let alpha = 1;
@@ -456,11 +450,9 @@ function drawSkillEffect(){
             bgAlpha = 0.7;
         }
 
-        // 背景を暗くする
         ctx.fillStyle = `rgba(0, 0, 0, ${bgAlpha})`;
         ctx.fillRect(0, 0, 540, 540);
 
-        // 特殊スキルのテキスト表示
         ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
         ctx.font = `bold 36px sans-serif`;
         ctx.textAlign = "center";
@@ -469,7 +461,6 @@ function drawSkillEffect(){
         ctx.shadowBlur = 20;
         ctx.fillText(textStr, 540 / 2, 540 / 2 - 210);
 
-        // カード描画
         const imgW = 280 * scale; 
         const imgH = (280 * (4/3)) * scale;
         const cx = 540 / 2;
@@ -547,10 +538,12 @@ function checkTurnEnd(currentColor){
     const nextColor = currentColor === 1 ? 2 : 1;
     const nextTurn = state.turn === "black" ? "white" : "black";
 
+    // 修正：パススキルが発動している場合
     if(state.skipNext){
 
-        state.skipNext = false;
+        state.skipNext = false; // フラグを消費
 
+        // 自分が続けて打てるマスがある場合は、手番を変更せずに続行
         if(hasValidMoves(state.board,currentColor)){
             return;
         }
@@ -643,7 +636,6 @@ canvas.addEventListener("mousedown", e => {
 
         activeSkill = null;
 
-        // 追加：反転カードの演出用データをFirebaseに書き込み（同期）
         state.activeSkillEffect = { type: "hanten", ts: Date.now(), x: x, y: y };
 
         if(!hasValidMoves(state.board,1) &&
@@ -725,22 +717,16 @@ document.getElementById("cardPass").addEventListener("click", () => {
        state.turn !== myRole ||
        !state.cards[myRole].pass) return;
 
-    if(!confirm("パスカードを使用します。次の相手のターンをスキップしますか？")) return;
+    if(!confirm("パスカードを使用します。このターン石を置いた後、次の相手のターンをスキップしますか？")) return;
 
     state.cards[myRole].pass = false;
 
+    // 修正：ここでは手番判定(checkTurnEnd)を行わず、フラグを立てて同期するだけにする
     state.skipNext = true;
 
     activeSkill = null;
 
-    // 追加：パスカードの演出用データをFirebaseに書き込み（同期）
     state.activeSkillEffect = { type: "pass", ts: Date.now() };
-
-    checkTurnEnd(
-        state.turn === "black"
-        ? 1
-        : 2
-    );
 
     set(ref(db,"othello_game"),state);
 });
@@ -816,7 +802,7 @@ function initBoard(keepPlayers=false){
 
         moveCount:0,
 
-        activeSkillEffect:null // 追加：初期化用
+        activeSkillEffect:null 
     };
 
     activeSkill = null;
@@ -939,7 +925,7 @@ function draw(isBlackOnline,isWhiteOnline){
     }
 
     drawTrapEffect();
-    drawSkillEffect(); // 追加：演出のレンダリング
+    drawSkillEffect(); 
 
     const btnWana =
         document.getElementById("cardWana");
@@ -1400,7 +1386,6 @@ onValue(ref(db,"othello_game"), snap => {
             state.moveCount = 0;
         }
 
-        // 追加：Firebaseからスキル演出の合図を受け取ったら、全員の画面で発火させる
         if(state.activeSkillEffect && state.activeSkillEffect.ts !== lastSkillTs){
             lastSkillTs = state.activeSkillEffect.ts;
             triggerSkillEffect(state.activeSkillEffect.type, state.activeSkillEffect.x, state.activeSkillEffect.y);
@@ -1415,7 +1400,6 @@ onValue(ref(db,"othello_game"), snap => {
 
 function gameLoop(){
 
-    // 修正：新しく追加したスキルエフェクト再生中も、毎フレーム再描画ループを回す
     if(trapEffect || skillEffect){
         draw(
             state.blackId ? (presence[state.blackId] === true) : false,
