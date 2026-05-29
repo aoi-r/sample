@@ -174,6 +174,7 @@ canvas{
     <button id="cardWana" class="card-btn" title="罠：空きマスに設置、置いた駒を反転"></button>
     <button id="cardPass" class="card-btn" title="パス：次の相手のターンをスキップ"></button>
     <button id="cardHanten" class="card-btn" title="反転：置いてある駒を1つ反転"></button>
+    <button id="cardTako" class="card-btn" title="失踪：強制的に敗北します" style="display:none;"></button>
 </div>
 
 <button id="resetBtn" class="normal">リセット申請</button>
@@ -215,16 +216,19 @@ const CELL = 540 / 8;
 const cardImages = {
     wana:new Image(),
     pass:new Image(),
-    hanten:new Image()
+    hanten:new Image(),
+    tako:new Image()
 };
 
 cardImages.wana.src = "othello_img/wana.png";
 cardImages.pass.src = "othello_img/pass.png";
 cardImages.hanten.src = "othello_img/hanten.png";
+cardImages.tako.src = "othello_img/tako.png";
 
 cardImages.wana.onload = () => document.getElementById("cardWana").style.backgroundImage = `url('${cardImages.wana.src}')`;
 cardImages.pass.onload = () => document.getElementById("cardPass").style.backgroundImage = `url('${cardImages.pass.src}')`;
 cardImages.hanten.onload = () => document.getElementById("cardHanten").style.backgroundImage = `url('${cardImages.hanten.src}')`;
+cardImages.tako.onload = () => document.getElementById("cardTako").style.backgroundImage = `url('${cardImages.tako.src}')`;
 
 let state = {
     board:Array(64).fill(0),
@@ -265,6 +269,15 @@ const dirs = [
 
 function canUseCards(){
     return state.moveCount >= 11;
+}
+
+function canUseTako(){
+    if(!myRole) return false;
+    const myColor = myRole === "black" ? 1 : 2;
+    const oppColor = myRole === "black" ? 2 : 1;
+    const myCount = state.board.filter(v => v === myColor).length;
+    const oppCount = state.board.filter(v => v === oppColor).length;
+    return myCount <= 10 && oppCount >= 25;
 }
 
 function triggerTrapEffect(x,y,color){
@@ -382,6 +395,10 @@ function drawSkillEffect(){
     const duration = 1500; 
 
     if(elapsed >= duration){
+        if(skillEffect.type === "tako" && myRole && state.turn === myRole){
+            state.winner = (myRole === "black" ? "white" : "black");
+            set(ref(db,"othello_game"),state);
+        }
         skillEffect = null;
         return;
     }
@@ -404,12 +421,20 @@ function drawSkillEffect(){
         shadowColor = "rgba(255,152,0,0.8)";
         textStr = "FLIP CARD USED!";
         imgObj = cardImages.hanten;
+    } else if(skillEffect.type === "tako"){
+        flashColor = "rgba(255,0,0,0.8)"; 
+        shadowColor = "rgba(255,0,0,1)";
+        textStr = "RESIGNING...!";
+        imgObj = cardImages.tako;
     }
 
     const shockProgress = Math.min(progress * 2, 1);
     if (shockProgress < 1) {
         if(skillEffect.type === "pass"){
             ctx.fillStyle = `rgba(33,150,243,${0.4 * (1 - shockProgress)})`;
+            ctx.fillRect(0, 0, 540, 540);
+        } else if(skillEffect.type === "tako"){
+            ctx.fillStyle = `rgba(255,0,0,${0.6 * (1 - shockProgress)})`;
             ctx.fillRect(0, 0, 540, 540);
         } else if(skillEffect.x !== undefined && skillEffect.y !== undefined) {
             const px = skillEffect.x * CELL + CELL/2;
@@ -747,6 +772,21 @@ document.getElementById("cardHanten").addEventListener("click", () => {
     updateGameSystem();
 });
 
+document.getElementById("cardTako").addEventListener("click", () => {
+
+    if(!canUseCards() || !canUseTako()) return;
+
+    if(!myRole || state.turn !== myRole) return;
+
+    if(!confirm("失踪を使用しますか？\n（強制的に敗北となり、ゲームが終了します）")) return;
+
+    activeSkill = null;
+
+    state.activeSkillEffect = { type: "tako", ts: Date.now() };
+
+    set(ref(db,"othello_game"),state);
+});
+
 document.getElementById("resetBtn").addEventListener("click", () => {
 
     if(state.resetReq) return;
@@ -936,6 +976,9 @@ function draw(isBlackOnline,isWhiteOnline){
     const btnHanten =
         document.getElementById("cardHanten");
 
+    const btnTako =
+        document.getElementById("cardTako");
+
     const cardsUnlocked = canUseCards();
 
     if(myRole &&
@@ -977,6 +1020,17 @@ function draw(isBlackOnline,isWhiteOnline){
         btnWana.classList.remove("active");
         btnPass.classList.remove("active");
         btnHanten.classList.remove("active");
+    }
+
+    if(myRole &&
+       state.turn === myRole &&
+       !state.winner &&
+       canUseTako()){
+        btnTako.style.display = "block";
+        btnTako.disabled = !cardsUnlocked;
+    }
+    else{
+        btnTako.style.display = "none";
     }
 
     const btn =
