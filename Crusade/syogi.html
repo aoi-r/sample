@@ -174,7 +174,7 @@ const cardData = {
     img: "syogi_img/kiri.png"
   },
   saisei: {
-    title: "再生",
+    title: "懐柔",
     flavor: "「因果を捻じ曲げる禁忌の術。敵の魂を自らの配下へと書き換える。」",
     desc: "発動後、盤上にある王（玉）以外の【相手の駒】を1つ指定します。その駒を盤上から消滅させ、自分の持ち駒（手駒）として直接追加します。（使用後も自分の手番は継続します）",
     img: "syogi_img/saisei.png"
@@ -486,6 +486,7 @@ function draw(isSenteOnline, isGoteOnline) {
   ctx.save();
   if (myRole === "gote") { ctx.translate(540 / 2, 720 / 2); ctx.rotate(Math.PI); ctx.translate(-540 / 2, -720 / 2); }
   
+  // 1. 盤面のマス目と最終着手マスの描画
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
       if (state.lastMove && ((state.lastMove.toX === i && state.lastMove.toY === j) || (state.lastMove.fromX === i && state.lastMove.fromY === j))) {
@@ -495,11 +496,12 @@ function draw(isSenteOnline, isGoteOnline) {
     }
   }
 
+  // 2. 移動エリア・スキル範囲ハイライトの描画（先に土台へ描く）
   if (selected.type && myRole === state.turn) {
     for (let i = 0; i < 9; i++) {
       for (let j = 0; j < 9; j++) {
         let highlight = false;
-        let color = "rgba(0, 122, 255, 0.5)";
+        let color = "rgba(0, 122, 255, 0.65)"; // 元の0.5から少しだけ視認性を強化
 
         if (selected.type === 'board') {
           const p = state.pieces[selected.key];
@@ -522,13 +524,18 @@ function draw(isSenteOnline, isGoteOnline) {
           const p = Object.values(state.pieces || {}).find(piece => piece.x === i && piece.y === j);
           if (p && p.owner !== myRole && p.type !== "ou") {
             highlight = true;
-            color = "rgba(156, 39, 176, 0.5)"; 
+            color = "rgba(156, 39, 176, 0.65)"; 
           }
         }
 
         if (highlight) {
+          // マス全体もほんのり光らせることで、駒の下でも外縁がはみ出て見える工夫
+          ctx.fillStyle = color.replace("0.65", "0.15");
+          ctx.fillRect(i * CELL, j * CELL + 60, CELL, CELL);
+
+          // 中央の円（ちょっとだけ大きく調整 CELL/5 -> CELL/4）
           ctx.beginPath();
-          ctx.arc(i * CELL + CELL / 2, j * CELL + 60 + CELL / 2, CELL / 5, 0, Math.PI * 2);
+          ctx.arc(i * CELL + CELL / 2, j * CELL + 60 + CELL / 2, CELL / 4, 0, Math.PI * 2);
           ctx.fillStyle = color;
           ctx.fill();
         }
@@ -536,6 +543,7 @@ function draw(isSenteOnline, isGoteOnline) {
     }
   }
   
+  // 3. 駒の描画（ハイライトより後に描画することで上に重ならせる）
   for (const k in (state.pieces || {})) {
     const p = state.pieces[k]; ctx.save(); let offsetY = 0;
     if (selected.key === k && selected.type === 'board') {
@@ -559,6 +567,7 @@ function draw(isSenteOnline, isGoteOnline) {
     ctx.restore();
   }
   
+  // 4. 先手持ち駒の描画
   (state.hands?.sente || []).forEach((h, i) => {
     ctx.save(); let offsetY = 0;
     if (selected.type === 'hand' && state.turn === 'sente' && selected.hIdx === i) { offsetY = -10; ctx.shadowColor = "rgba(0,0,0,0.4)"; ctx.shadowBlur = 10; }
@@ -567,6 +576,7 @@ function draw(isSenteOnline, isGoteOnline) {
     ctx.restore();
   });
 
+  // 5. 後手持ち駒の描画
   (state.hands?.gote || []).forEach((h, i) => {
     ctx.save(); let offsetY = 0;
     if (selected.type === 'hand' && state.turn === 'gote' && selected.hIdx === i) { offsetY = 10; ctx.shadowColor = "rgba(0,0,0,0.4)"; ctx.shadowBlur = 10; }
