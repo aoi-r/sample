@@ -337,7 +337,7 @@ document.getElementById("modalUseBtn").addEventListener("click", () => {
   } else if (skill === "oga") {
     state.skills[myRole].ogaUsed = true;
     state.skills[myRole].activeEffect = "oga";
-    state.winner = myRole === "sente" ? "gote" : "sente"; // 使用者が強制的に負ける
+    // 【演出対応】大爆発演出を先に見せるため、ここではstate.winnerをまだ書き込まない
     selected = { type: null };
     set(ref(db, "game"), state);
   } else {
@@ -462,8 +462,8 @@ canvas.addEventListener("mousedown", e => {
         const isNifu = Object.values(state.pieces || {}).some(p => p.x === x && p.type === 'fu' && p.owner === state.turn);
         if (isNifu) { alert("二歩は反則です！"); selected = { type: null }; return; }
       }
-      if ((h.type === 'fu' || h.type === 'kyo') && ((state.turn === 'sente' && y === 0) || (state.turn === 'gote' && y === 8))) { alert("そこには打てません！"); selected = { type: null }; return; }
-      if (h.type === 'keima' && ((state.turn === 'sente' && y <= 1) || (state.turn === 'gote' && y >= 7))) { alert("そこには打てません！"); selected = { type: null }; return; }
+      if ((h.type === 'fu' || h.type === 'kyo') && ((state.turn === 'sente' && j === 0) || (state.turn === 'gote' && j === 8))) { alert("そこには打てません！"); selected = { type: null }; return; }
+      if (h.type === 'keima' && ((state.turn === 'sente' && j <= 1) || (state.turn === 'gote' && j >= 7))) { alert("そこには打てません！"); selected = { type: null }; return; }
       
       state.lastMove = { fromX: null, fromY: null, toX: x, toY: y };
       state.hands[state.turn].splice(selected.hIdx, 1);
@@ -854,6 +854,15 @@ function gameLoop() {
     
     if (activeCutin) {
       activeCutin.timer++;
+      
+      // 【修正箇所】OGA演出が終了する直前のフレーム（159フレーム目）で敗北を同期させる
+      if (activeCutin.skill === "oga" && activeCutin.timer >= activeCutin.maxTimer - 1) {
+        if (myRole === activeCutin.side) { 
+          state.winner = myRole === "sente" ? "gote" : "sente";
+          set(ref(db, "game"), state);
+        }
+      }
+
       if (activeCutin.timer >= activeCutin.maxTimer) {
         activeCutin = null;
       }
