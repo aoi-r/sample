@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Dominion</title>
+<title>Dominion - Othello</title>
 <style>
     body { background: #e0f2f1; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; font-family: sans-serif; }
     
@@ -12,7 +12,7 @@
     #joinBtn { background: #ffb300; color: #333; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; }
     #joinBtn:hover { background: #ffa000; }
     
-    /* 【新設】プレイ中用のバー */
+    /* プレイ中用のバー */
     #playerConsole { display: none; background: #00796b; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; margin-bottom: 12px; align-items: center; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
     
     canvas { 
@@ -27,9 +27,27 @@
         box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
     }
     
-    #resetBtn { padding: 12px 24px; margin-bottom: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+    #resetBtn { padding: 12px 24px; margin-top: 10px; margin-bottom: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
     .normal { background: #004d40; color: white; }
     .waiting { background: #d32f2f; color: white; opacity: 0.8; }
+    
+    /* カード用UIエリア */
+    #cardArea { display: flex; gap: 10px; justify-content: center; margin-top: 15px; width: 100%; max-width: 400px; }
+    .card-btn {
+        flex: 1;
+        aspect-ratio: 3 / 4;
+        border: 3px solid #004d40;
+        border-radius: 8px;
+        background-size: cover;
+        background-position: center;
+        cursor: pointer;
+        position: relative;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card-btn:hover:not(:disabled) { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); }
+    .card-btn:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(100%); }
+    .card-btn.active { border-color: #ffb300; box-shadow: 0 0 15px #ffb300; transform: scale(1.05); }
     
     #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; font-size: 28px; font-weight: bold; z-index: 10; cursor: pointer; }
     #overlay span { font-size: 16px; color: #ccc; margin-top: 10px; }
@@ -45,8 +63,15 @@
   <span id="playerStatus">対戦モード</span>
 </div>
 
-<button id="resetBtn" class="normal">リセット申請</button>
 <canvas id="game" width="540" height="540"></canvas>
+
+<div id="cardArea">
+  <button id="cardWana" class="card-btn" title="罠：空きマスに設置、置いた駒を反転"></button>
+  <button id="cardPass" class="card-btn" title="パス：次の相手のターンをスキップ"></button>
+  <button id="cardHanten" class="card-btn" title="反転：置いてある駒を1つ反転"></button>
+</div>
+
+<button id="resetBtn" class="normal">リセット申請</button>
 
 <div id="overlay" onclick="closeOverlay()">
   <div id="winnerText"></div>
@@ -78,10 +103,38 @@ const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 const CELL = 540 / 8; 
 
-let state = { board: Array(64).fill(0), turn: "black", resetReq: false, resetSender: null, winner: null, blackId: null, whiteId: null, lastMove: null };
+// 画像プレロード用のオブジェクト
+const cardImages = {
+  wana: new Image(),
+  pass: new Image(),
+  hanten: new Image()
+};
+cardImages.wana.src = "othello_img/wana.png";
+cardImages.pass.src = "othello_img/pass.png";
+cardImages.hanten.src = "othello_img/hanten.png";
+
+// ボタンに背景画像を適用
+cardImages.wana.onload = () => document.getElementById("cardWana").style.backgroundImage = `url('${cardImages.wana.src}')`;
+cardImages.pass.onload = () => document.getElementById("cardPass").style.backgroundImage = `url('${cardImages.pass.src}')`;
+cardImages.hanten.onload = () => document.getElementById("cardHanten").style.backgroundImage = `url('${cardImages.hanten.src}')`;
+
+let state = { 
+  board: Array(64).fill(0), 
+  turn: "black", 
+  resetReq: false, 
+  resetSender: null, 
+  winner: null, 
+  blackId: null, 
+  whiteId: null, 
+  lastMove: null,
+  // カードとトラップ用の同期データを追加
+  cards: { black: { wana: true, pass: true, hanten: true }, white: { wana: true, pass: true, hanten: true } },
+  traps: Array(64).fill(0) // 1:黒の罠, 2:白の罠
+};
 let presence = {}; 
 let lastResetReq = false;
 let myRole = null; 
+let activeSkill = null; // ローカルでのスキル選択状態 ('wana' or 'hanten')
 
 const dirs = [[-1,-1], [-1,0], [-1,1], [0,-1], [0,1], [1,-1], [1,0], [1,1]];
 
@@ -118,6 +171,28 @@ function hasValidMoves(board, color) {
   return false;
 }
 
+// ターン終了処理の共通化
+function checkTurnEnd(currentColor) {
+  const nextColor = currentColor === 1 ? 2 : 1;
+  const nextTurn = state.turn === "black" ? "white" : "black";
+
+  if (hasValidMoves(state.board, nextColor)) {
+    state.turn = nextTurn;
+  } else if (hasValidMoves(state.board, currentColor)) {
+    state.turn = state.turn; 
+  } else {
+    endGame();
+  }
+}
+
+function endGame() {
+  let blackCount = state.board.filter(v => v === 1).length;
+  let whiteCount = state.board.filter(v => v === 2).length;
+  if (blackCount > whiteCount) state.winner = "black";
+  else if (whiteCount > blackCount) state.winner = "white";
+  else state.winner = "draw";
+}
+
 canvas.addEventListener("mousedown", e => {
   if (state.winner) return;
   
@@ -136,31 +211,76 @@ canvas.addEventListener("mousedown", e => {
   const y = Math.floor(rectY / CELL);
   if (x < 0 || x > 7 || y < 0 || y > 7) return;
 
+  const idx = y * 8 + x;
   const currentColor = state.turn === "black" ? 1 : 2;
-  const flips = getFlips(state.board, x, y, currentColor);
+  const oppColor = currentColor === 1 ? 2 : 1;
 
-  if (flips.length === 0) return; 
-
-  state.board[y * 8 + x] = currentColor;
-  flips.forEach(idx => state.board[idx] = currentColor);
-  state.lastMove = { x, y };
-
-  const nextColor = currentColor === 1 ? 2 : 1;
-  const nextTurn = state.turn === "black" ? "white" : "black";
-
-  if (hasValidMoves(state.board, nextColor)) {
-    state.turn = nextTurn;
-  } else if (hasValidMoves(state.board, currentColor)) {
-    state.turn = state.turn; 
-  } else {
-    let blackCount = state.board.filter(v => v === 1).length;
-    let whiteCount = state.board.filter(v => v === 2).length;
-    if (blackCount > whiteCount) state.winner = "black";
-    else if (whiteCount > blackCount) state.winner = "white";
-    else state.winner = "draw";
+  // --- スキル発動モード時の処理 ---
+  if (activeSkill === 'wana') {
+    if (state.board[idx] !== 0 || state.traps[idx] !== 0) return; // 既に駒か罠がある場所は不可
+    state.traps[idx] = currentColor;
+    state.cards[myRole].wana = false;
+    activeSkill = null;
+    set(ref(db, "othello_game"), state);
+    return;
   }
 
+  if (activeSkill === 'hanten') {
+    if (state.board[idx] === 0) return; // 駒が無い場所は不可
+    state.board[idx] = state.board[idx] === 1 ? 2 : 1; // 反転
+    state.cards[myRole].hanten = false;
+    activeSkill = null;
+    
+    // 反転後に両者打てる場所があるか再チェック
+    if (!hasValidMoves(state.board, 1) && !hasValidMoves(state.board, 2)) {
+      endGame();
+    } else {
+      checkTurnEnd(currentColor);
+    }
+    set(ref(db, "othello_game"), state);
+    return;
+  }
+
+  // --- 通常の着手処理 ---
+  const flips = getFlips(state.board, x, y, currentColor);
+  if (flips.length === 0) return; 
+
+  state.board[idx] = currentColor;
+  flips.forEach(fIdx => state.board[fIdx] = currentColor);
+  state.lastMove = { x, y };
+
+  // トラップ（罠）の判定
+  if (state.traps[idx] === oppColor) {
+    // 相手の罠を踏んだ：今置いた駒が相手の色に反転する
+    state.board[idx] = oppColor;
+    state.traps[idx] = 0; // 罠解除
+  }
+
+  checkTurnEnd(currentColor);
   set(ref(db, "othello_game"), state);
+});
+
+// --- カードボタンのイベントリスナー ---
+document.getElementById("cardWana").addEventListener("click", () => {
+  if (!myRole || state.turn !== myRole || !state.cards[myRole].wana) return;
+  activeSkill = activeSkill === 'wana' ? null : 'wana';
+  updateGameSystem();
+});
+
+document.getElementById("cardPass").addEventListener("click", () => {
+  if (!myRole || state.turn !== myRole || !state.cards[myRole].pass) return;
+  if (!confirm("パスカードを使用します。相手のターンをスキップしますか？")) return;
+  
+  state.cards[myRole].pass = false;
+  // 手番をスキップせず自分のままキープする（何もしないで相手をスキップと同じ効果）
+  activeSkill = null;
+  set(ref(db, "othello_game"), state);
+});
+
+document.getElementById("cardHanten").addEventListener("click", () => {
+  if (!myRole || state.turn !== myRole || !state.cards[myRole].hanten) return;
+  activeSkill = activeSkill === 'hanten' ? null : 'hanten';
+  updateGameSystem();
 });
 
 document.getElementById("resetBtn").addEventListener("click", () => {
@@ -183,14 +303,19 @@ function initBoard(keepPlayers = false) {
     winner: null, 
     blackId: keepPlayers ? (state.blackId || null) : null, 
     whiteId: keepPlayers ? (state.whiteId || null) : null, 
-    lastMove: null 
+    lastMove: null,
+    cards: { black: { wana: true, pass: true, hanten: true }, white: { wana: true, pass: true, hanten: true } },
+    traps: Array(64).fill(0)
   };
+  activeSkill = null;
   set(ref(db, "othello_game"), newState);
 }
 
 function draw(isBlackOnline, isWhiteOnline) {
   ctx.clearRect(0, 0, 540, 540);
   
+  const myColorNum = myRole === "black" ? 1 : (myRole === "white" ? 2 : 0);
+
   for (let i = 0; i < 8; i++) {
     for (let j = 0; j < 8; j++) {
       ctx.strokeStyle = "#004d40";
@@ -209,7 +334,8 @@ function draw(isBlackOnline, isWhiteOnline) {
         ctx.fillRect(i * CELL, j * CELL, CELL, CELL);
       }
 
-      const val = state.board[j * 8 + i];
+      const idx = j * 8 + i;
+      const val = state.board[idx];
       if (val !== 0) {
         ctx.save();
         ctx.shadowColor = "rgba(0,0,0,0.3)";
@@ -221,7 +347,38 @@ function draw(isBlackOnline, isWhiteOnline) {
         ctx.fill();
         ctx.restore();
       }
+
+      // 罠（トラップ）の描画：設置した本人にだけ、うっすら紫の魔法陣（印）が見える
+      if (state.traps && state.traps[idx] === myColorNum && myColorNum !== 0) {
+        ctx.fillStyle = "rgba(156, 39, 176, 0.4)";
+        ctx.beginPath();
+        ctx.arc(i * CELL + CELL / 2, j * CELL + CELL / 2, CELL * 0.2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "rgba(156, 39, 176, 0.8)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
     }
+  }
+
+  // カードボタンUIの状態を更新
+  const btnWana = document.getElementById("cardWana");
+  const btnPass = document.getElementById("cardPass");
+  const btnHanten = document.getElementById("cardHanten");
+
+  if (myRole && state.turn === myRole && !state.winner) {
+    const myCards = state.cards[myRole];
+    btnWana.disabled = !myCards.wana;
+    btnPass.disabled = !myCards.pass;
+    btnHanten.disabled = !myCards.hanten;
+
+    // アクティブなスキルの枠線強調
+    btnWana.classList.toggle("active", activeSkill === 'wana');
+    btnPass.classList.toggle("active", activeSkill === 'pass');
+    btnHanten.classList.toggle("active", activeSkill === 'hanten');
+  } else {
+    btnWana.disabled = true; btnPass.disabled = true; btnHanten.disabled = true;
+    btnWana.classList.remove("active"); btnPass.classList.remove("active"); btnHanten.classList.remove("active");
   }
 
   const btn = document.getElementById("resetBtn");
@@ -257,6 +414,18 @@ function draw(isBlackOnline, isWhiteOnline) {
     }
   }
 
+  // 特殊モード時のアナウンス表示
+  if (myRole && state.turn === myRole && !state.winner) {
+    if (activeSkill) {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.3)"; ctx.fillRect(0, 0, 540, 540);
+      ctx.fillStyle = "#ffb300"; ctx.fillRect(120, 245, 300, 50);
+      ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.strokeRect(120, 245, 300, 50);
+      ctx.fillStyle = "#333"; ctx.font = "bold 16px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      const txt = activeSkill === 'wana' ? "罠を設置する空きマスを選んでください" : "反転させる駒を選んでください";
+      ctx.fillText(txt, 270, 270);
+    }
+  }
+
   if (myRole && state.turn !== myRole && !state.winner && !opponentMissing && !opponentOffline) {
     ctx.fillStyle = "rgba(0, 0, 0, 0.1)"; ctx.fillRect(0, 0, 540, 540);
     ctx.fillStyle = "rgba(0, 77, 64, 0.85)"; ctx.fillRect(160, 245, 220, 50);
@@ -268,8 +437,11 @@ function draw(isBlackOnline, isWhiteOnline) {
   const overlayEl = document.getElementById('overlay');
   const winnerTxtEl = document.getElementById("winnerText");
   if (state.winner) {
-    if (state.winner === "draw") winnerTxtEl.innerText = "引き分け！";
-    else winnerTxtEl.innerText = (state.winner === "black" ? "黒（先手）" : "白（後手）") + "の勝ち！";
+    let blackCount = state.board.filter(v => v === 1).length;
+    let whiteCount = state.board.filter(v => v === 2).length;
+    const scoreStr = ` (${blackCount}対${whiteCount})`;
+    if (state.winner === "draw") winnerTxtEl.innerText = "引き分け！" + scoreStr;
+    else winnerTxtEl.innerText = (state.winner === "black" ? "黒（先手）" : "白（後手）") + "の勝ち！" + scoreStr;
     overlayEl.style.display = 'flex';
   } else { 
     overlayEl.style.display = 'none'; 
@@ -294,14 +466,12 @@ function updateGameSystem() {
   const watcherStatus = document.getElementById("watcherStatus");
   const joinBtn = document.getElementById("joinBtn");
   
-  // 【新設】プレイヤー用表示板の要素取得
   const playerConsole = document.getElementById("playerConsole");
   const playerStatus = document.getElementById("playerStatus");
 
   if (!myRole) {
-    // 観戦モードの時の表示処理
     watcherConsole.style.display = "flex";
-    playerConsole.style.display = "none"; // プレイヤー用は隠す
+    playerConsole.style.display = "none";
     watcherStatus.innerText = `👀 観戦モード中 (${state.turn === "black" ? "黒" : "白"}の手番)`;
     
     let emptyRole = null;
@@ -328,9 +498,8 @@ function updateGameSystem() {
       joinBtn.style.display = "none"; 
     }
   } else {
-    // プレイヤーとして対戦中の表示処理（新設）
-    watcherConsole.style.display = "none"; // 観戦用は隠す
-    playerConsole.style.display = "flex";  // プレイヤー用を表示
+    watcherConsole.style.display = "none";
+    playerConsole.style.display = "flex"; 
     
     if (myRole === "black") {
       playerStatus.innerText = "⚫ あなたは 黒（先手）です";
@@ -367,6 +536,9 @@ onValue(ref(db, "othello_presence"), snap => {
 onValue(ref(db, "othello_game"), snap => { 
   if(snap.val()) { 
     state = snap.val(); 
+    // 古いデータ構造からのマイグレーションケア
+    if(!state.cards) state.cards = { black: { wana: true, pass: true, hanten: true }, white: { wana: true, pass: true, hanten: true } };
+    if(!state.traps) state.traps = Array(64).fill(0);
     updateGameSystem();
   } else { 
     initBoard(false); 
