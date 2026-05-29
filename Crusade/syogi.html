@@ -22,9 +22,23 @@
         box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
     }
     
-    #resetBtn { padding: 12px 24px; margin-bottom: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+    #controlPanel { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; justify-content: center; }
+    #resetBtn, .skillBtn { padding: 10px 16px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 13px; }
+    #resetBtn { margin-bottom: 0; }
     .normal { background: #5d4037; color: white; }
     .waiting { background: #d32f2f; color: white; opacity: 0.8; }
+    
+    /* スキルボタンUI */
+    .skillBtn { background: #0288d1; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    .skillBtn:hover { background: #01579b; }
+    .skillBtn:disabled { background: #9e9e9e; color: #e0e0e0; cursor: not-allowed; box-shadow: none; opacity: 0.6; }
+    .skillBtn.active { background: #ff9100; animation: pulse 1.5s infinite; }
+    
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(255,145,0,0.7); }
+        70% { box-shadow: 0 0 0 8px rgba(255,145,0,0); }
+        100% { box-shadow: 0 0 0 0 rgba(255,145,0,0); }
+    }
     
     #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; font-size: 28px; font-weight: bold; z-index: 10; cursor: pointer; }
     #overlay span { font-size: 16px; color: #ccc; margin-top: 10px; }
@@ -36,7 +50,13 @@
   <button id="joinBtn">参戦する</button>
 </div>
 
-<button id="resetBtn" class="normal">リセット申請</button>
+<div id="controlPanel">
+  <button id="resetBtn" class="normal">リセット申請</button>
+  <button id="skillKanashibari" class="skillBtn">金縛り</button>
+  <button id="skillKirigakure" class="skillBtn">霧隠れ</button>
+  <button id="skillSaisei" class="skillBtn">再生</button>
+</div>
+
 <canvas id="game" width="540" height="720"></canvas>
 
 <div id="overlay" onclick="closeOverlay()">
@@ -72,7 +92,22 @@ const img = {};
 const pieceNames = ["fu", "to", "kyo", "nkyo", "keima", "nkeima", "gin", "ngin", "kin", "ou", "hisha", "ryu", "kaku", "uma"];
 pieceNames.forEach(name => { img[name] = new Image(); img[name].src = `syogi_img/${name}.png`; });
 
-let state = { pieces: {}, hands: {sente: [], gote: []}, turn: "sente", resetReq: false, resetSender: null, winner: null, senteId: null, goteId: null, lastMove: null };
+// スキルごとの独立管理に変更した初期ステート
+let state = { 
+  pieces: {}, 
+  hands: {sente: [], gote: []}, 
+  turn: "sente", 
+  resetReq: false, 
+  resetSender: null, 
+  winner: null, 
+  senteId: null, 
+  goteId: null, 
+  lastMove: null,
+  skills: {
+    sente: { kanashibariUsed: false, kirigakureUsed: false, saiseiUsed: false, activeEffect: null, targetPieceKey: null },
+    gote: { kanashibariUsed: false, kirigakureUsed: false, saiseiUsed: false, activeEffect: null, targetPieceKey: null }
+  }
+};
 let presence = {}; 
 let selected = { type: null, key: null, hIdx: null };
 let lastResetReq = false;
@@ -81,7 +116,7 @@ let myRole = null;
 function isBlocked(p, tx, ty) {
   const dx = tx - p.x, dy = ty - p.y;
   const sx = dx === 0 ? 0 : Math.sign(dx);
-  const sy = dy === 0 ? 0 : Math.sign(dy);
+  const sy = dy === 0 ? 0 : Math.sign(dx);
   let cx = p.x + sx, cy = p.y + sy;
   while (cx !== tx || cy !== ty) {
     if (Object.values(state.pieces || {}).some(piece => piece.x === cx && piece.y === cy)) return true;
@@ -91,11 +126,24 @@ function isBlocked(p, tx, ty) {
 }
 
 function canMove(p, tx, ty) {
+  // 金縛りエフェクトのチェック
+  const activeSkills = state.skills || { sente: {}, gote: {} };
+  const opponentRole = p.owner === "sente" ? "gote" : "sente";
+  if (activeSkills[opponentRole]?.activeEffect === "kanashibari" && activeSkills[opponentRole]?.targetPieceKey) {
+    const targetKey = Object.keys(state.pieces || {}).find(k => state.pieces[k] === p);
+    if (targetKey === activeSkills[opponentRole].targetPieceKey) return false; 
+  }
+
   const dx = tx - p.x, dy = ty - p.y;
   const absDx = Math.abs(dx), absDy = Math.abs(dy);
   const dir = p.owner === "sente" ? -1 : 1;
   const target = Object.values(state.pieces || {}).find(piece => piece.x === tx && piece.y === ty);
   if (target && target.owner === p.owner) return false;
+
+  // 霧隠れエフェクトのチェック
+  if (target && target.owner !== p.owner) {
+    if (activeSkills[target.owner]?.activeEffect === "kirigakure") return false;
+  }
 
   switch(p.type) {
     case "fu": return dx === 0 && dy === dir;
@@ -113,15 +161,74 @@ function canMove(p, tx, ty) {
   }
 }
 
+// 各スキルボタンの状態を個別にチェックしてUI更新
+function setupSkillButtons() {
+  const isMyTurn = state.turn === myRole;
+  const hasSelectedSkill = selected.type === 'skill';
+
+  ["kanashibari", "kirigakure", "saisei"].forEach(skill => {
+    const btnId = "skill" + skill.charAt(0).toUpperCase() + skill.slice(1);
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+
+    if (!myRole || state.winner) {
+      btn.disabled = true;
+      btn.classList.remove("active");
+      return;
+    }
+
+    // 各スキルが使用済みか、または相手の手番ならボタンを無効化
+    const isUsed = state.skills?.[myRole]?.[skill + "Used"];
+    if (isUsed || !isMyTurn) {
+      btn.disabled = true;
+      btn.classList.remove("active");
+    } else {
+      btn.disabled = false;
+      if (hasSelectedSkill && selected.key === skill) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    }
+  });
+}
+
+// 各種スキルボタンクリックリスナー
+["kanashibari", "kirigakure", "saisei"].forEach(skill => {
+  const btnId = "skill" + skill.charAt(0).toUpperCase() + skill.slice(1);
+  document.getElementById(btnId).addEventListener("click", () => {
+    if (!myRole || state.turn !== myRole || state.skills?.[myRole]?.[skill + "Used"]) return;
+    
+    if (selected.type === 'skill' && selected.key === skill) {
+      selected = { type: null };
+    } else {
+      if (skill === "kirigakure") {
+        if(confirm("「霧隠れ」を発動しますか？次の相手のターン、あなたの駒は一切取られなくなります。（発動後もあなたの手番は継続します）")) {
+          state.skills[myRole].kirigakureUsed = true;
+          state.skills[myRole].activeEffect = "kirigakure";
+          selected = { type: null };
+          set(ref(db, "game"), state);
+          return;
+        } else {
+          // キャンセル時は選択を解除
+          selected = { type: null };
+        }
+      } else {
+        selected = { type: 'skill', key: skill };
+      }
+    }
+    const isSenteOnline = state.senteId ? (presence[state.senteId] === true) : false;
+    const isGoteOnline = state.goteId ? (presence[state.goteId] === true) : false;
+    draw(isSenteOnline, isGoteOnline);
+  });
+});
+
 canvas.addEventListener("mousedown", e => {
   if (state.winner) return;
-  
-  // 相手が「誰かしら席に座っているか」だけをチェック（一瞬の電波切れで操作不能になるのを防ぐ）
   if (myRole) {
     const opponentId = myRole === "sente" ? state.goteId : state.senteId;
     if (!opponentId) return; 
   }
-
   if (!myRole || state.turn !== myRole) return;
 
   const rect = canvas.getBoundingClientRect();
@@ -133,9 +240,61 @@ canvas.addEventListener("mousedown", e => {
   const x = Math.floor(rectX / CELL);
   const y = Math.floor(rectY / CELL) - 1;
 
-  const pKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y && state.pieces[k].owner === state.turn);
   const isSenteOnline = state.senteId ? (presence[state.senteId] === true) : false;
   const isGoteOnline = state.goteId ? (presence[state.goteId] === true) : false;
+
+  // --- 【スキル対象選択モード】 ---
+  if (selected.type === 'skill') {
+    const targetKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y);
+    
+    if (selected.key === 'kanashibari') {
+      if (targetKey && state.pieces[targetKey].owner !== myRole) {
+        if (confirm("この駒に金縛りをかけますか？次のターン相手はこの駒を動かせなくなります。（手番は継続します）")) {
+          state.skills[myRole].kanashibariUsed = true;
+          state.skills[myRole].activeEffect = "kanashibari";
+          state.skills[myRole].targetPieceKey = targetKey;
+          selected = { type: null }; // スキル完了、通常状態に戻る
+          set(ref(db, "game"), state);
+        } else {
+          // キャンセル時はスキル選択を解除して通常状態へ
+          selected = { type: null };
+          draw(isSenteOnline, isGoteOnline);
+        }
+      }
+      return;
+    }
+    
+    if (selected.key === 'saisei') {
+      if (targetKey && state.pieces[targetKey].owner !== myRole) {
+        const captured = state.pieces[targetKey];
+        if (captured.type === "ou") { alert("王は再生（強奪）できません！"); return; }
+        if (confirm("この敵の駒を無条件であなたの持ち駒として奪い取りますか？（手番は継続します）")) {
+          state.skills[myRole].saiseiUsed = true;
+          if (!state.hands) state.hands = { sente: [], gote: [] };
+          if (!state.hands[myRole]) state.hands[myRole] = [];
+          
+          let baseType = captured.type;
+          if (baseType === 'to') baseType = 'fu';
+          else if (baseType === 'uma') baseType = 'kaku';
+          else if (baseType === 'ryu') baseType = 'hisha';
+          else if (baseType.startsWith('n')) baseType = baseType.slice(1);
+
+          state.hands[myRole].push({ type: baseType });
+          delete state.pieces[targetKey];
+          
+          selected = { type: null }; // スキル完了、通常状態に戻る
+          set(ref(db, "game"), state);
+        } else {
+          // キャンセル時はスキル選択を解除して通常状態へ
+          selected = { type: null };
+          draw(isSenteOnline, isGoteOnline);
+        }
+      }
+      return;
+    }
+  }
+
+  const pKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y && state.pieces[k].owner === state.turn);
 
   if (pKey) { selected = {type: 'board', key: pKey}; draw(isSenteOnline, isGoteOnline); return; }
 
@@ -193,11 +352,18 @@ canvas.addEventListener("mousedown", e => {
         if (isNifu) { alert("二歩は反則です！"); selected = { type: null }; draw(isSenteOnline, isGoteOnline); return; }
       }
       if ((h.type === 'fu' || h.type === 'kyo') && ((state.turn === 'sente' && y === 0) || (state.turn === 'gote' && y === 8))) { alert("そこには打てません！"); selected = { type: null }; draw(isSenteOnline, isGoteOnline); return; }
-      if (h.type === 'keima' && ((state.turn === 'sente' && y <= 1) || (state.turn === 'gote' && y >= 7))) { alert("そこには打てません！"); selected = { type: null }; draw(isSenteOnline, isGoteOnline); return; }
+      if (h.type === 'keima' && ((state.turn === 'sente' && y <= 1) || (state.turn === 'gote' && j >= 7))) { alert("そこには打てません！"); selected = { type: null }; draw(isSenteOnline, isGoteOnline); return; }
       
       state.lastMove = { fromX: null, fromY: null, toX: x, toY: y };
       state.hands[state.turn].splice(selected.hIdx, 1);
       state.pieces['p_' + Date.now()] = {x, y, type: h.type, owner: state.turn};
+    }
+
+    // 実際に駒を動かして「手番を完了」したタイミングで、自分が受けていた敵の持続スキル効果をクリアする
+    const opponentRole = state.turn === "sente" ? "gote" : "sente";
+    if (state.skills?.[opponentRole]) {
+      state.skills[opponentRole].activeEffect = null;
+      state.skills[opponentRole].targetPieceKey = null;
     }
 
     state.turn = state.turn === "sente" ? "gote" : "sente";
@@ -229,7 +395,11 @@ function initBoard(keepPlayers = false) {
     winner: null, 
     senteId: keepPlayers ? (state.senteId || null) : null, 
     goteId: keepPlayers ? (state.goteId || null) : null, 
-    lastMove: null 
+    lastMove: null,
+    skills: {
+      sente: { kanashibariUsed: false, kirigakureUsed: false, saiseiUsed: false, activeEffect: null, targetPieceKey: null },
+      gote: { kanashibariUsed: false, kirigakureUsed: false, saiseiUsed: false, activeEffect: null, targetPieceKey: null }
+    }
   };
   set(ref(db, "game"), newState);
 }
@@ -248,7 +418,50 @@ function draw(isSenteOnline, isGoteOnline) {
       ctx.strokeStyle = "#5d4037"; ctx.lineWidth = 1; ctx.strokeRect(i * CELL, j * CELL + 60, CELL, CELL);
     }
   }
+
+  // 移動エリア・スキル範囲ハイライト
+  if (selected.type && myRole === state.turn) {
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        let highlight = false;
+        let color = "rgba(0, 122, 255, 0.5)";
+
+        if (selected.type === 'board') {
+          const p = state.pieces[selected.key];
+          if (p && canMove(p, i, j)) highlight = true;
+        } else if (selected.type === 'hand') {
+          const h = state.hands[state.turn]?.[selected.hIdx];
+          const hasPiece = Object.values(state.pieces || {}).some(piece => piece.x === i && piece.y === j);
+          
+          if (h && !hasPiece) {
+            let valid = true;
+            if (h.type === 'fu') {
+              const isNifu = Object.values(state.pieces || {}).some(p => p.x === i && p.type === 'fu' && p.owner === state.turn);
+              if (isNifu) valid = false;
+            }
+            if ((h.type === 'fu' || h.type === 'kyo') && ((state.turn === 'sente' && j === 0) || (state.turn === 'gote' && j === 8))) valid = false;
+            if (h.type === 'keima' && ((state.turn === 'sente' && j <= 1) || (state.turn === 'gote' && j >= 7))) valid = false;
+            if (valid) highlight = true;
+          }
+        } else if (selected.type === 'skill' && (selected.key === 'kanashibari' || selected.key === 'saisei')) {
+          const p = Object.values(state.pieces || {}).find(piece => piece.x === i && piece.y === j);
+          if (p && p.owner !== myRole && p.type !== "ou") {
+            highlight = true;
+            color = "rgba(156, 39, 176, 0.5)"; 
+          }
+        }
+
+        if (highlight) {
+          ctx.beginPath();
+          ctx.arc(i * CELL + CELL / 2, j * CELL + 60 + CELL / 2, CELL / 5, 0, Math.PI * 2);
+          ctx.fillStyle = color;
+          ctx.fill();
+        }
+      }
+    }
+  }
   
+  // 駒描画
   for (const k in (state.pieces || {})) {
     const p = state.pieces[k]; ctx.save(); let offsetY = 0;
     if (selected.key === k && selected.type === 'board') {
@@ -258,10 +471,22 @@ function draw(isSenteOnline, isGoteOnline) {
     ctx.translate(p.x * CELL + CELL/2, p.y * CELL + CELL/2 + 60 + offsetY);
     if (p.owner === "gote") ctx.rotate(Math.PI);
     if (img[p.type]) ctx.drawImage(img[p.type], -CELL/2, -CELL/2, CELL, CELL);
+    
+    // 金縛り中のエフェクト
+    const activeSkills = state.skills || { sente: {}, gote: {} };
+    if ((activeSkills.sente?.activeEffect === "kanashibari" && activeSkills.sente?.targetPieceKey === k) ||
+        (activeSkills.gote?.activeEffect === "kanashibari" && activeSkills.gote?.targetPieceKey === k)) {
+      ctx.fillStyle = "rgba(121, 85, 72, 0.4)";
+      ctx.fillRect(-CELL/2, -CELL/2, CELL, CELL);
+      ctx.strokeStyle = "#795548"; ctx.lineWidth = 3;
+      ctx.strokeRect(-CELL/2, -CELL/2, CELL, CELL);
+    }
+
     if (selected.key === k && selected.type === 'board') { ctx.strokeStyle = "red"; ctx.lineWidth = 3; ctx.strokeRect(-CELL/2, -CELL/2, CELL, CELL); }
     ctx.restore();
   }
   
+  // 持ち駒
   (state.hands?.sente || []).forEach((h, i) => {
     ctx.save(); let offsetY = 0;
     if (selected.type === 'hand' && state.turn === 'sente' && selected.hIdx === i) { offsetY = -10; ctx.shadowColor = "rgba(0,0,0,0.4)"; ctx.shadowBlur = 10; }
@@ -277,6 +502,14 @@ function draw(isSenteOnline, isGoteOnline) {
     if (selected.type === 'hand' && state.turn === 'gote' && selected.hIdx === i) { ctx.strokeStyle = "red"; ctx.lineWidth = 3; ctx.strokeRect(0, 0, CELL, CELL); }
     ctx.restore();
   });
+
+  // 霧隠れ全体ビジュアルエフェクト
+  const opRole = myRole === "sente" ? "gote" : "sente";
+  if (state.skills?.[opRole]?.activeEffect === "kirigakure") {
+    ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
+    ctx.fillRect(0, 60, 540, 540);
+  }
+
   ctx.restore();
 
   const btn = document.getElementById("resetBtn");
@@ -328,25 +561,24 @@ function draw(isSenteOnline, isGoteOnline) {
   } else { 
     overlayEl.style.display = 'none'; 
   }
+
+  setupSkillButtons();
 }
 
-// コアロジックの統合アップデート（安全版）
 function updateGameSystem() {
   if (!state || !state.pieces) return;
 
   const isSenteOnline = state.senteId ? (presence[state.senteId] === true) : false;
   const isGoteOnline = state.goteId ? (presence[state.goteId] === true) : false;
 
-  // 強制自動割り当てを廃止し、自分のIDが登録されているかだけを厳密にチェック
   if (state.senteId === myId) {
     myRole = "sente";
   } else if (state.goteId === myId) {
     myRole = "gote";
   } else {
-    myRole = null; // どちらでもなければ「観戦者」
+    myRole = null;
   }
 
-  // 観戦コンソールの表示・途中参戦制御
   const watcherConsole = document.getElementById("watcherConsole");
   const watcherStatus = document.getElementById("watcherStatus");
   const joinBtn = document.getElementById("joinBtn");
@@ -355,7 +587,6 @@ function updateGameSystem() {
     watcherConsole.style.display = "flex";
     watcherStatus.innerText = `👀 観戦モード中 (${state.turn === "sente" ? "先手" : "後手"}の手番)`;
     
-    // 空いている、または座っている人がオフライン（ゾンビ）なら手動で参戦可能
     let emptyRole = null;
     if (!state.senteId || !isSenteOnline) emptyRole = "sente";
     else if (!state.goteId || !isGoteOnline) emptyRole = "gote";
@@ -365,7 +596,6 @@ function updateGameSystem() {
       joinBtn.innerText = `⚔️ ${emptyRole === "sente" ? "先手" : "後手"}として参戦する`;
       
       joinBtn.onclick = () => {
-        // 席に誰か（ゾンビ）がいる場合は、警告文を変える
         const hasZombie = state[emptyRole + "Id"] && !presence[state[emptyRole + "Id"]];
         const msg = hasZombie 
           ? `前のプレイヤーがオフラインのようです。席を引き継いで参戦しますか？`
@@ -394,7 +624,6 @@ function updateGameSystem() {
   } else { lastResetReq = state.resetReq; }
 }
 
-// 1. 強固なプレゼンス（生存ログ）監視システム
 onValue(ref(db, ".info/connected"), snap => {
   if (snap.val() === true) {
     onDisconnect(ref(db, `presence/${myId}`)).remove();
@@ -407,7 +636,6 @@ onValue(ref(db, "presence"), snap => {
   updateGameSystem();
 });
 
-// 2. ゲーム盤面監視システム
 onValue(ref(db, "game"), snap => { 
   if(snap.val()) { 
     state = snap.val(); 
