@@ -979,9 +979,23 @@ document.getElementById("modalUseBtn").addEventListener("click", () => {
     }
 });
 
-document.getElementById("cardWana").addEventListener("click", () => openCardModal("wana"));
+document.getElementById("cardWana").addEventListener("click", () => {
+    if (activeSkill === "wana") {
+        activeSkill = null;
+        updateGameSystem();
+    } else {
+        openCardModal("wana");
+    }
+});
 document.getElementById("cardPass").addEventListener("click", () => openCardModal("pass"));
-document.getElementById("cardHanten").addEventListener("click", () => openCardModal("hanten"));
+document.getElementById("cardHanten").addEventListener("click", () => {
+    if (activeSkill === "hanten") {
+        activeSkill = null;
+        updateGameSystem();
+    } else {
+        openCardModal("hanten");
+    }
+});
 document.getElementById("cardTako").addEventListener("click", () => openCardModal("tako"));
 
 document.getElementById("resetBtn").addEventListener("click", () => {
