@@ -92,7 +92,7 @@
 
 <canvas id="game" width="540" height="720"></canvas>
 
-<div id="overlay" onclick="closeOverlay()">
+<div id="overlay">
   <div id="winnerText"></div>
   <span>画面をタップして新しくゲームを始める</span>
 </div>
@@ -112,7 +112,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, set, update, onValue, onDisconnect } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getDatabase, ref, set, update, onValue, onDisconnect, runTransaction } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const db = getDatabase(initializeApp({
   apiKey: "AIzaSyDk7KNFdlp9zPtnixdNv96VtfKrELX1f8I",
@@ -124,11 +124,11 @@ let myId = null;
 try {
   myId = sessionStorage.getItem("shogi_myId");
   if (!myId) {
-    myId = Math.random().toString(36).slice(2);
+    myId = Math.random().toString(36).slice(2) + Date.now().toString(36);
     sessionStorage.setItem("shogi_myId", myId);
   }
 } catch (e) {
-  myId = Math.random().toString(36).slice(2);
+  myId = Math.random().toString(36).slice(2) + Date.now().toString(36);
 }
 
 const canvas = document.getElementById("game");
@@ -157,9 +157,8 @@ let presence = {};
 let selected = { type: null, key: null, hIdx: null };
 let lastResetReq = false;
 let myRole = null;
-let currentViewingSkill = null; // 現在モーダルで開いているスキルのキー名
+let currentViewingSkill = null; 
 
-// カードデータ定義（拡大表示の文言）
 const cardData = {
   kanashibari: {
     title: "金縛り",
@@ -181,6 +180,21 @@ const cardData = {
   }
 };
 
+function generateUniqueId() {
+  return 'p_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+}
+
+function normalizeState(val) {
+  if (!val) return val;
+  if (!val.hands) val.hands = { sente: [], gote: [] };
+  if (val.hands.sente && !Array.isArray(val.hands.sente)) val.hands.sente = Object.values(val.hands.sente);
+  if (val.hands.gote && !Array.isArray(val.hands.gote)) val.hands.gote = Object.values(val.hands.gote);
+  val.hands.sente = val.hands.sente || [];
+  val.hands.gote = val.hands.gote || [];
+  if (!val.pieces) val.pieces = {};
+  return val;
+}
+
 function isBlocked(p, tx, ty) {
   const dx = tx - p.x, dy = ty - p.y;
   const sx = dx === 0 ? 0 : Math.sign(dx);
@@ -196,6 +210,7 @@ function isBlocked(p, tx, ty) {
 function canMove(p, tx, ty) {
   const activeSkills = state.skills || { sente: {}, gote: {} };
   const opponentRole = p.owner === "sente" ? "gote" : "sente";
+  
   if (activeSkills[opponentRole]?.activeEffect === "kanashibari" && activeSkills[opponentRole]?.targetPieceKey) {
     const targetKey = Object.keys(state.pieces || {}).find(k => state.pieces[k] === p);
     if (targetKey === activeSkills[opponentRole].targetPieceKey) return false; 
@@ -205,8 +220,8 @@ function canMove(p, tx, ty) {
   const absDx = Math.abs(dx), absDy = Math.abs(dy);
   const dir = p.owner === "sente" ? -1 : 1;
   const target = Object.values(state.pieces || {}).find(piece => piece.x === tx && piece.y === ty);
+  
   if (target && target.owner === p.owner) return false;
-
   if (target && target.owner !== p.owner) {
     if (activeSkills[target.owner]?.activeEffect === "kirigakure") return false;
   }
@@ -257,7 +272,6 @@ function setupSkillButtons() {
   });
 }
 
-// ミニスキルボタンをタップしたら詳細確認モーダルを開く
 ["kanashibari", "kirigakure", "saisei"].forEach(skill => {
   const btnId = "skill" + skill.charAt(0).toUpperCase() + skill.slice(1);
   document.getElementById(btnId).addEventListener("click", () => {
@@ -275,13 +289,11 @@ function setupSkillButtons() {
   });
 });
 
-// モーダル内の「戻る」ボタン処理
 document.getElementById("modalCancelBtn").addEventListener("click", () => {
   document.getElementById("cardModal").style.display = "none";
   currentViewingSkill = null;
 });
 
-// モーダル内の「使用する」ボタン処理
 document.getElementById("modalUseBtn").addEventListener("click", () => {
   document.getElementById("cardModal").style.display = "none";
   const skill = currentViewingSkill;
@@ -290,13 +302,11 @@ document.getElementById("modalUseBtn").addEventListener("click", () => {
   if (!skill || !myRole || state.turn !== myRole || state.skills?.[myRole]?.[skill + "Used"]) return;
 
   if (skill === "kirigakure") {
-    // 霧隠れは即時発動
     state.skills[myRole].kirigakureUsed = true;
     state.skills[myRole].activeEffect = "kirigakure";
     selected = { type: null };
     set(ref(db, "game"), state);
   } else {
-    // 金縛り・再生は盤面対象選択モードへ移行
     selected = { type: 'skill', key: skill };
     const isSenteOnline = state.senteId ? (presence[state.senteId] === true) : false;
     const isGoteOnline = state.goteId ? (presence[state.goteId] === true) : false;
@@ -324,7 +334,6 @@ canvas.addEventListener("mousedown", e => {
   const isSenteOnline = state.senteId ? (presence[state.senteId] === true) : false;
   const isGoteOnline = state.goteId ? (presence[state.goteId] === true) : false;
 
-  // --- 【スキル対象選択モード時の挙動】 ---
   if (selected.type === 'skill') {
     const targetKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y);
     
@@ -336,7 +345,6 @@ canvas.addEventListener("mousedown", e => {
         selected = { type: null }; 
         set(ref(db, "game"), state);
       } else {
-        // 対象外をクリックした場合はスキル選択を解除して通常モードに戻す
         selected = { type: null };
         draw(isSenteOnline, isGoteOnline);
       }
@@ -364,7 +372,6 @@ canvas.addEventListener("mousedown", e => {
         selected = { type: null }; 
         set(ref(db, "game"), state);
       } else {
-        // 対象外をクリックした場合はスキル選択を解除して通常モードに戻す
         selected = { type: null };
         draw(isSenteOnline, isGoteOnline);
       }
@@ -418,7 +425,7 @@ canvas.addEventListener("mousedown", e => {
           if (p.type === "fu") p.type = "to";
           else if (p.type === "kaku") p.type = "uma";
           else if (p.type === "hisha") p.type = "ryu";
-          else p.type = "n" + p.type;
+          else if (!p.type.startsWith("n")) p.type = "n" + p.type;
         }
       }
 
@@ -434,7 +441,7 @@ canvas.addEventListener("mousedown", e => {
       
       state.lastMove = { fromX: null, fromY: null, toX: x, toY: y };
       state.hands[state.turn].splice(selected.hIdx, 1);
-      state.pieces['p_' + Date.now()] = {x, y, type: h.type, owner: state.turn};
+      state.pieces[generateUniqueId()] = {x, y, type: h.type, owner: state.turn};
     }
 
     const opponentRole = state.turn === "sente" ? "gote" : "sente";
@@ -454,7 +461,10 @@ document.getElementById("resetBtn").addEventListener("click", () => {
   state.resetReq = true; state.resetSender = myId; set(ref(db, "game"), state);
 });
 
-window.closeOverlay = () => { document.getElementById('overlay').style.display = 'none'; initBoard(true); };
+document.getElementById('overlay').addEventListener('click', () => {
+  document.getElementById('overlay').style.display = 'none';
+  initBoard(true);
+});
 
 function initBoard(keepPlayers = false) {
   const p = {}; const line = ["kyo", "keima", "gin", "kin", "ou", "kin", "gin", "keima", "kyo"];
@@ -486,7 +496,6 @@ function draw(isSenteOnline, isGoteOnline) {
   ctx.save();
   if (myRole === "gote") { ctx.translate(540 / 2, 720 / 2); ctx.rotate(Math.PI); ctx.translate(-540 / 2, -720 / 2); }
   
-  // 1. 盤面のマス目と最終着手マスの描画
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
       if (state.lastMove && ((state.lastMove.toX === i && state.lastMove.toY === j) || (state.lastMove.fromX === i && state.lastMove.fromY === j))) {
@@ -496,12 +505,11 @@ function draw(isSenteOnline, isGoteOnline) {
     }
   }
 
-  // 2. 移動エリア・スキル範囲ハイライトの描画（先に土台へ描く）
   if (selected.type && myRole === state.turn) {
     for (let i = 0; i < 9; i++) {
       for (let j = 0; j < 9; j++) {
         let highlight = false;
-        let color = "rgba(0, 122, 255, 0.65)"; // 元の0.5から少しだけ視認性を強化
+        let color = "rgba(0, 122, 255, 0.65)"; 
 
         if (selected.type === 'board') {
           const p = state.pieces[selected.key];
@@ -529,11 +537,8 @@ function draw(isSenteOnline, isGoteOnline) {
         }
 
         if (highlight) {
-          // マス全体もほんのり光らせることで、駒の下でも外縁がはみ出て見える工夫
           ctx.fillStyle = color.replace("0.65", "0.15");
           ctx.fillRect(i * CELL, j * CELL + 60, CELL, CELL);
-
-          // 中央の円（ちょっとだけ大きく調整 CELL/5 -> CELL/4）
           ctx.beginPath();
           ctx.arc(i * CELL + CELL / 2, j * CELL + 60 + CELL / 2, CELL / 4, 0, Math.PI * 2);
           ctx.fillStyle = color;
@@ -543,7 +548,6 @@ function draw(isSenteOnline, isGoteOnline) {
     }
   }
   
-  // 3. 駒の描画（ハイライトより後に描画することで上に重ならせる）
   for (const k in (state.pieces || {})) {
     const p = state.pieces[k]; ctx.save(); let offsetY = 0;
     if (selected.key === k && selected.type === 'board') {
@@ -567,7 +571,6 @@ function draw(isSenteOnline, isGoteOnline) {
     ctx.restore();
   }
   
-  // 4. 先手持ち駒の描画
   (state.hands?.sente || []).forEach((h, i) => {
     ctx.save(); let offsetY = 0;
     if (selected.type === 'hand' && state.turn === 'sente' && selected.hIdx === i) { offsetY = -10; ctx.shadowColor = "rgba(0,0,0,0.4)"; ctx.shadowBlur = 10; }
@@ -576,7 +579,6 @@ function draw(isSenteOnline, isGoteOnline) {
     ctx.restore();
   });
 
-  // 5. 後手持ち駒の描画
   (state.hands?.gote || []).forEach((h, i) => {
     ctx.save(); let offsetY = 0;
     if (selected.type === 'hand' && state.turn === 'gote' && selected.hIdx === i) { offsetY = 10; ctx.shadowColor = "rgba(0,0,0,0.4)"; ctx.shadowBlur = 10; }
@@ -623,6 +625,17 @@ function draw(isSenteOnline, isGoteOnline) {
       ctx.fillText(`${opponentName}が切断されました`, 270, 345);
       ctx.font = "14px sans-serif"; ctx.fillText("復帰、または新規参戦を待っています...", 270, 375);
     }
+  }
+
+  // --- 【ここに追加】スキル対象選択中の案内バー表示 ---
+  if (myRole && state.turn === myRole && selected.type === 'skill' && !state.winner) {
+    ctx.fillStyle = "rgba(93, 64, 55, 0.95)"; ctx.fillRect(50, 335, 440, 50);
+    ctx.strokeStyle = "#ff9100"; ctx.lineWidth = 2; ctx.strokeRect(50, 335, 440, 50);
+    ctx.fillStyle = "#fff"; ctx.font = "bold 16px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    const txt = selected.key === 'kanashibari' 
+        ? "金縛りの対象を選択 (他をタップで取消)" 
+        : "懐柔の対象を選択 (他をタップで取消)";
+    ctx.fillText(txt, 270, 360);
   }
 
   if (myRole && state.turn !== myRole && !state.winner && !opponentMissing && !opponentOffline) {
@@ -682,8 +695,12 @@ function updateGameSystem() {
           : `${emptyRole === "sente" ? "先手" : "後手"}の席が空いています。参戦しますか？`;
 
         if (confirm(msg)) {
-          if (emptyRole === "sente") update(ref(db), { "game/senteId": myId });
-          else update(ref(db), { "game/goteId": myId });
+          runTransaction(ref(db, `game/${emptyRole}Id`), (currentId) => {
+            if (currentId === null || !presence[currentId]) {
+              return myId;
+            }
+            return; 
+          });
         }
       };
     } else { 
@@ -718,7 +735,7 @@ onValue(ref(db, "presence"), snap => {
 
 onValue(ref(db, "game"), snap => { 
   if(snap.val()) { 
-    state = snap.val(); 
+    state = normalizeState(snap.val()); 
     updateGameSystem();
   } else { 
     initBoard(false); 
