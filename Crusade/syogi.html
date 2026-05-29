@@ -138,6 +138,10 @@ const img = {};
 const pieceNames = ["fu", "to", "kyo", "nkyo", "keima", "nkeima", "gin", "ngin", "kin", "ou", "hisha", "ryu", "kaku", "uma"];
 pieceNames.forEach(name => { img[name] = new Image(); img[name].src = `syogi_img/${name}.png`; });
 
+// 【演出用拡張】カード画像も個別にプリロード
+const skillImages = { kanashibari: "kana.png", kirigakure: "kiri.png", saisei: "saisei.png" };
+Object.entries(skillImages).forEach(([k, v]) => { img[`card_${k}`] = new Image(); img[`card_${k}`].src = `syogi_img/${v}`; });
+
 let state = { 
   pieces: {}, 
   hands: {sente: [], gote: []}, 
@@ -158,6 +162,10 @@ let selected = { type: null, key: null, hIdx: null };
 let lastResetReq = false;
 let myRole = null;
 let currentViewingSkill = null; 
+
+// 【演出用拡張】カットインとスキル監視用のローカル変数
+let lastSkillsState = null;
+let activeCutin = null; // { skill: string, title: string, timer: number, maxTimer: number, side: string }
 
 const cardData = {
   kanashibari: {
@@ -308,9 +316,7 @@ document.getElementById("modalUseBtn").addEventListener("click", () => {
     set(ref(db, "game"), state);
   } else {
     selected = { type: 'skill', key: skill };
-    const isSenteOnline = state.senteId ? (presence[state.senteId] === true) : false;
-    const isGoteOnline = state.goteId ? (presence[state.goteId] === true) : false;
-    draw(isSenteOnline, isGoteOnline);
+    // ここでの直接描画はgameLoopが行うためカット
   }
 });
 
@@ -331,9 +337,6 @@ canvas.addEventListener("mousedown", e => {
   const x = Math.floor(rectX / CELL);
   const y = Math.floor(rectY / CELL) - 1;
 
-  const isSenteOnline = state.senteId ? (presence[state.senteId] === true) : false;
-  const isGoteOnline = state.goteId ? (presence[state.goteId] === true) : false;
-
   if (selected.type === 'skill') {
     const targetKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y);
     
@@ -346,7 +349,6 @@ canvas.addEventListener("mousedown", e => {
         set(ref(db, "game"), state);
       } else {
         selected = { type: null };
-        draw(isSenteOnline, isGoteOnline);
       }
       return;
     }
@@ -354,7 +356,7 @@ canvas.addEventListener("mousedown", e => {
     if (selected.key === 'saisei') {
       if (targetKey && state.pieces[targetKey].owner !== myRole) {
         const captured = state.pieces[targetKey];
-        if (captured.type === "ou") { alert("王は再生（強奪）できません！"); return; }
+        if (captured.type === "ou") { alert("王は強奪（懐柔）できません！"); return; }
         
         state.skills[myRole].saiseiUsed = true;
         if (!state.hands) state.hands = { sente: [], gote: [] };
@@ -373,7 +375,6 @@ canvas.addEventListener("mousedown", e => {
         set(ref(db, "game"), state);
       } else {
         selected = { type: null };
-        draw(isSenteOnline, isGoteOnline);
       }
       return;
     }
@@ -381,13 +382,13 @@ canvas.addEventListener("mousedown", e => {
 
   const pKey = Object.keys(state.pieces || {}).find(k => state.pieces[k].x === x && state.pieces[k].y === y && state.pieces[k].owner === state.turn);
 
-  if (pKey) { selected = {type: 'board', key: pKey}; draw(isSenteOnline, isGoteOnline); return; }
+  if (pKey) { selected = {type: 'board', key: pKey}; return; }
 
   if (y === 10 && state.turn === 'sente') {
-      const idx = x; if (state.hands?.sente?.[idx]) { selected = {type: 'hand', hIdx: idx}; draw(isSenteOnline, isGoteOnline); return; }
+      const idx = x; if (state.hands?.sente?.[idx]) { selected = {type: 'hand', hIdx: idx}; return; }
   }
   if (y === -1 && state.turn === 'gote') {
-      const idx = x; if (state.hands?.gote?.[idx]) { selected = {type: 'hand', hIdx: idx}; draw(isSenteOnline, isGoteOnline); return; }
+      const idx = x; if (state.hands?.gote?.[idx]) { selected = {type: 'hand', hIdx: idx}; return; }
   }
 
   if (selected.type) {
@@ -395,7 +396,7 @@ canvas.addEventListener("mousedown", e => {
 
     if (selected.type === 'board') {
       const p = state.pieces[selected.key];
-      if (!canMove(p, x, y) || x < 0 || x > 8 || y < 0 || y > 8) { selected = { type: null }; draw(isSenteOnline, isGoteOnline); return; }
+      if (!canMove(p, x, y) || x < 0 || x > 8 || y < 0 || y > 8) { selected = { type: null }; return; }
       
       if (targetKey && state.pieces[targetKey].owner !== p.owner) {
         const captured = state.pieces[targetKey];
@@ -430,14 +431,14 @@ canvas.addEventListener("mousedown", e => {
       }
 
     } else if (selected.type === 'hand') {
-      if (x < 0 || x > 8 || y < 0 || y > 8 || targetKey) { selected = { type: null }; draw(isSenteOnline, isGoteOnline); return; }
+      if (x < 0 || x > 8 || y < 0 || y > 8 || targetKey) { selected = { type: null }; return; }
       const h = state.hands[state.turn][selected.hIdx];
       if (h.type === 'fu') {
         const isNifu = Object.values(state.pieces || {}).some(p => p.x === x && p.type === 'fu' && p.owner === state.turn);
-        if (isNifu) { alert("二歩は反則です！"); selected = { type: null }; draw(isSenteOnline, isGoteOnline); return; }
+        if (isNifu) { alert("二歩は反則です！"); selected = { type: null }; return; }
       }
-      if ((h.type === 'fu' || h.type === 'kyo') && ((state.turn === 'sente' && y === 0) || (state.turn === 'gote' && y === 8))) { alert("そこには打てません！"); selected = { type: null }; draw(isSenteOnline, isGoteOnline); return; }
-      if (h.type === 'keima' && ((state.turn === 'sente' && y <= 1) || (state.turn === 'gote' && y >= 7))) { alert("そこには打てません！"); selected = { type: null }; draw(isSenteOnline, isGoteOnline); return; }
+      if ((h.type === 'fu' || h.type === 'kyo') && ((state.turn === 'sente' && y === 0) || (state.turn === 'gote' && y === 8))) { alert("そこには打てません！"); selected = { type: null }; return; }
+      if (h.type === 'keima' && ((state.turn === 'sente' && y <= 1) || (state.turn === 'gote' && y >= 7))) { alert("そこには打てません！"); selected = { type: null }; return; }
       
       state.lastMove = { fromX: null, fromY: null, toX: x, toY: y };
       state.hands[state.turn].splice(selected.hIdx, 1);
@@ -558,13 +559,22 @@ function draw(isSenteOnline, isGoteOnline) {
     if (p.owner === "gote") ctx.rotate(Math.PI);
     if (img[p.type]) ctx.drawImage(img[p.type], -CELL/2, -CELL/2, CELL, CELL);
     
+    // --- 【演出強化】金縛り継続状態の呪印エフェクト ---
     const activeSkills = state.skills || { sente: {}, gote: {} };
     if ((activeSkills.sente?.activeEffect === "kanashibari" && activeSkills.sente?.targetPieceKey === k) ||
         (activeSkills.gote?.activeEffect === "kanashibari" && activeSkills.gote?.targetPieceKey === k)) {
-      ctx.fillStyle = "rgba(121, 85, 72, 0.4)";
+      
+      // 禍々しい妖気の明滅
+      const pulse = Math.sin(Date.now() / 150) * 0.15 + 0.4;
+      ctx.fillStyle = `rgba(106, 27, 154, ${pulse})`; 
       ctx.fillRect(-CELL/2, -CELL/2, CELL, CELL);
-      ctx.strokeStyle = "#795548"; ctx.lineWidth = 3;
-      ctx.strokeRect(-CELL/2, -CELL/2, CELL, CELL);
+      
+      // 動き回る呪縛の鎖（点線枠アニメーション）
+      ctx.strokeStyle = "#ea80fc"; ctx.lineWidth = 3;
+      ctx.setLineDash([6, 4]);
+      ctx.lineDashOffset = (Date.now() / 30) % 10;
+      ctx.strokeRect(-CELL/2 + 2, -CELL/2 + 2, CELL - 4, CELL - 4);
+      ctx.setLineDash([]);
     }
 
     if (selected.key === k && selected.type === 'board') { ctx.strokeStyle = "red"; ctx.lineWidth = 3; ctx.strokeRect(-CELL/2, -CELL/2, CELL, CELL); }
@@ -587,10 +597,27 @@ function draw(isSenteOnline, isGoteOnline) {
     ctx.restore();
   });
 
+  // --- 【演出強化】霧隠れ継続状態の全画面オーラ演出 ---
   const opRole = myRole === "sente" ? "gote" : "sente";
   if (state.skills?.[opRole]?.activeEffect === "kirigakure") {
-    ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
-    ctx.fillRect(0, 60, 540, 540);
+    ctx.save();
+    ctx.globalCompositeOperation = "screen";
+    const time = Date.now() / 1000;
+    // 複数の円グラデーションを揺らめかせて「神聖な白霧」を表現
+    for (let m = 0; m < 3; m++) {
+      const shiftX = Math.sin(time + m * 2) * 30;
+      const shiftY = Math.cos(time * 0.7 + m) * 30;
+      const grad = ctx.createRadialGradient(
+        270 + shiftX, 330 + shiftY, 60,
+        270 + shiftX, 330 + shiftY, 280
+      );
+      grad.addColorStop(0, "rgba(255, 255, 255, 0.25)");
+      grad.addColorStop(0.6, "rgba(235, 245, 255, 0.1)");
+      grad.addColorStop(1, "rgba(255, 255, 255, 0)");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 60, 540, 540);
+    }
+    ctx.restore();
   }
 
   ctx.restore();
@@ -627,7 +654,6 @@ function draw(isSenteOnline, isGoteOnline) {
     }
   }
 
-  // --- 【ここに追加】スキル対象選択中の案内バー表示 ---
   if (myRole && state.turn === myRole && selected.type === 'skill' && !state.winner) {
     ctx.fillStyle = "rgba(93, 64, 55, 0.95)"; ctx.fillRect(50, 335, 440, 50);
     ctx.strokeStyle = "#ff9100"; ctx.lineWidth = 2; ctx.strokeRect(50, 335, 440, 50);
@@ -655,7 +681,100 @@ function draw(isSenteOnline, isGoteOnline) {
     overlayEl.style.display = 'none'; 
   }
 
+  // --- 【演出追加】リアルタイム大迫力奥義カットインオーバーレイ描画 ---
+  if (activeCutin) {
+    ctx.save();
+    const t = activeCutin.timer;
+    const maxT = activeCutin.maxTimer;
+    let alpha = 1;
+    let scale = 1;
+
+    // アニメーションイージング（飛び出す登場感 ＆ スライド消滅）
+    if (t < 15) {
+      alpha = t / 15;
+      scale = 2.4 - (t / 15) * 1.4; // 大きく現れて静止位置へ
+    } else if (t > maxT - 15) {
+      alpha = (maxT - t) / 15;
+      scale = 1.0 + ((t - (maxT - 15)) / 15) * 0.4; // 拡大しながら消滅
+    }
+
+    // 1. 全画面和風暗転
+    ctx.fillStyle = `rgba(15, 10, 5, ${alpha * 0.75})`;
+    ctx.fillRect(0, 0, 540, 720);
+
+    // 2. 背後の光芒（オーラ）描画
+    ctx.save();
+    ctx.translate(270, 340);
+    ctx.scale(scale, scale);
+    ctx.globalAlpha = alpha;
+
+    const auraGrad = ctx.createRadialGradient(0, 0, 30, 0, 0, 200);
+    if (activeCutin.skill === "kanashibari") {
+      auraGrad.addColorStop(0, "rgba(156, 39, 176, 0.85)"); // 禍々しい妖紫
+      auraGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
+    } else if (activeCutin.skill === "kirigakure") {
+      auraGrad.addColorStop(0, "rgba(255, 255, 255, 0.9)");  // 聖なる純白
+      auraGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
+    } else {
+      auraGrad.addColorStop(0, "rgba(230, 81, 0, 0.9)");    // 禁忌の炎橙
+      auraGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
+    }
+    ctx.fillStyle = auraGrad;
+    ctx.beginPath(); ctx.arc(0, 0, 200, 0, Math.PI * 2); ctx.fill();
+
+    // 3. カードイラストの描画
+    const cardImg = img[`card_${activeCutin.skill}`];
+    if (cardImg && cardImg.complete) {
+      const cw = 210, ch = 280;
+      ctx.shadowColor = "rgba(0,0,0,0.7)"; ctx.shadowBlur = 20;
+      ctx.strokeStyle = "#ffe082"; ctx.lineWidth = 3;
+      ctx.strokeRect(-cw/2, -ch/2, cw, ch);
+      ctx.drawImage(cardImg, -cw/2, -ch/2, cw, ch);
+    }
+    ctx.restore();
+
+    // 4. 和風筆文字風のテキスト演出
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.textAlign = "center";
+    ctx.shadowColor = "#000000"; ctx.shadowBlur = 10;
+    ctx.shadowOffsetX = 3; ctx.shadowOffsetY = 3;
+
+    // 陣営テキスト
+    ctx.font = "bold 26px 'Hiragino Mincho ProN', 'MS Mincho', serif";
+    const sideName = activeCutin.side === "sente" ? "先手" : "後手";
+    ctx.fillStyle = activeCutin.side === "sente" ? "#ffca28" : "#ff5252";
+    ctx.fillText(`⚔️ ${sideName}、秘術発動 ⚔️`, 270, 130);
+
+    // 奥義名テキスト
+    ctx.font = "bold 46px 'Hiragino Mincho ProN', 'MS Mincho', serif";
+    ctx.fillStyle = "#ffffff";
+    ctx.strokeStyle = "#2d1a10"; ctx.lineWidth = 5;
+    ctx.strokeText(activeCutin.title, 270, 565);
+    ctx.fillText(activeCutin.title, 270, 565);
+    ctx.restore();
+
+    ctx.restore();
+  }
+
   setupSkillButtons();
+}
+
+// 【演出用拡張】描画と演出のタイマーを管理する常時稼働ループ
+function gameLoop() {
+  if (state && state.pieces) {
+    const isSenteOnline = state.senteId ? (presence[state.senteId] === true) : false;
+    const isGoteOnline = state.goteId ? (presence[state.goteId] === true) : false;
+    
+    if (activeCutin) {
+      activeCutin.timer++;
+      if (activeCutin.timer >= activeCutin.maxTimer) {
+        activeCutin = null;
+      }
+    }
+    draw(isSenteOnline, isGoteOnline);
+  }
+  requestAnimationFrame(gameLoop);
 }
 
 function updateGameSystem() {
@@ -670,6 +789,27 @@ function updateGameSystem() {
     myRole = "gote";
   } else {
     myRole = null;
+  }
+
+  // --- 【演出用拡張】Firebaseのスキル使用フラグ変更を検知してカットインをトリガー ---
+  if (state.skills) {
+    if (lastSkillsState) {
+      ["sente", "gote"].forEach(side => {
+        ["kanashibari", "kirigakure", "saisei"].forEach(skill => {
+          const prop = skill + "Used";
+          if (state.skills[side]?.[prop] && !lastSkillsState[side]?.[prop]) {
+            activeCutin = {
+              skill: skill,
+              title: cardData[skill].title,
+              timer: 0,
+              maxTimer: 95, // 約1.5秒表示
+              side: side
+            };
+          }
+        });
+      });
+    }
+    lastSkillsState = JSON.parse(JSON.stringify(state.skills));
   }
 
   const watcherConsole = document.getElementById("watcherConsole");
@@ -710,8 +850,6 @@ function updateGameSystem() {
     watcherConsole.style.display = "none";
   }
   
-  draw(isSenteOnline, isGoteOnline); 
-  
   if (state.resetReq && !lastResetReq && state.resetSender !== myId) {
     lastResetReq = true;
     setTimeout(() => {
@@ -741,6 +879,9 @@ onValue(ref(db, "game"), snap => {
     initBoard(false); 
   }
 });
+
+// 【演出用拡張】常時稼働ループのキックアップ
+requestAnimationFrame(gameLoop);
 </script>
 </body>
 </html>
