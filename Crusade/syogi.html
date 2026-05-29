@@ -48,6 +48,7 @@
     #skillKanashibari { background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('syogi_img/kana.png'); }
     #skillKirigakure { background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('syogi_img/kiri.png'); }
     #skillSaisei { background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('syogi_img/saisei.png'); }
+    #skillOga { background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('syogi_img/oga.png'); display: none; }
     
     .skillBtn:disabled { filter: grayscale(100%) brightness(50%); cursor: not-allowed; box-shadow: none; border-color: #777; }
     .skillBtn.active { border-color: #ff9100; box-shadow: 0 0 12px #ff9100; animation: pulse 1.5s infinite; }
@@ -88,6 +89,7 @@
   <button id="skillKanashibari" class="skillBtn">金縛り</button>
   <button id="skillKirigakure" class="skillBtn">霧隠れ</button>
   <button id="skillSaisei" class="skillBtn">懐柔</button>
+  <button id="skillOga" class="skillBtn">無知</button>
 </div>
 
 <canvas id="game" width="540" height="720"></canvas>
@@ -139,7 +141,7 @@ const pieceNames = ["fu", "to", "kyo", "nkyo", "keima", "nkeima", "gin", "ngin",
 pieceNames.forEach(name => { img[name] = new Image(); img[name].src = `syogi_img/${name}.png`; });
 
 // 【演出用拡張】カード画像も個別にプリロード
-const skillImages = { kanashibari: "kana.png", kirigakure: "kiri.png", saisei: "saisei.png" };
+const skillImages = { kanashibari: "kana.png", kirigakure: "kiri.png", saisei: "saisei.png", oga: "oga.png" };
 Object.entries(skillImages).forEach(([k, v]) => { img[`card_${k}`] = new Image(); img[`card_${k}`].src = `syogi_img/${v}`; });
 
 let state = { 
@@ -153,8 +155,8 @@ let state = {
   goteId: null, 
   lastMove: null,
   skills: {
-    sente: { kanashibariUsed: false, kirigakureUsed: false, saiseiUsed: false, activeEffect: null, targetPieceKey: null },
-    gote: { kanashibariUsed: false, kirigakureUsed: false, saiseiUsed: false, activeEffect: null, targetPieceKey: null }
+    sente: { kanashibariUsed: false, kirigakureUsed: false, saiseiUsed: false, ogaUsed: false, activeEffect: null, targetPieceKey: null },
+    gote: { kanashibariUsed: false, kirigakureUsed: false, saiseiUsed: false, ogaUsed: false, activeEffect: null, targetPieceKey: null }
   }
 };
 let presence = {}; 
@@ -185,6 +187,12 @@ const cardData = {
     flavor: "「因果を捻じ曲げる禁忌の術。敵の魂を自らの配下へと書き換える。」",
     desc: "発動後、盤上にある王（玉）以外の【相手の駒】を1つ指定します。その駒を盤上から消滅させ、自分の持ち駒（手駒）として直接追加します。（使用後も自分の手番は継続します）",
     img: "syogi_img/saisei.png"
+  },
+  oga: {
+    title: "無知",
+    flavor: "「俺はバカのふりをしてやっているだけなんだ」",
+    desc: "即座に発動します。発動した瞬間、あまりにも凄まじい大爆発が巻き起こり、あなたは【敗北】します。（使用するとゲームが終了します）",
+    img: "syogi_img/oga.png"
   }
 };
 
@@ -253,11 +261,23 @@ function canMove(p, tx, ty) {
 function setupSkillButtons() {
   const isMyTurn = state.turn === myRole;
   const hasSelectedSkill = selected.type === 'skill';
+  const opponentRole = myRole === "sente" ? "gote" : "sente";
+  const capturedCount = myRole ? (state.hands?.[opponentRole]?.length || 0) : 0;
 
-  ["kanashibari", "kirigakure", "saisei"].forEach(skill => {
+  ["kanashibari", "kirigakure", "saisei", "oga"].forEach(skill => {
     const btnId = "skill" + skill.charAt(0).toUpperCase() + skill.slice(1);
     const btn = document.getElementById(btnId);
     if (!btn) return;
+
+    if (skill === "oga") {
+      if (capturedCount >= 5 && myRole && !state.winner) {
+        btn.style.display = "flex";
+      } else {
+        btn.style.display = "none";
+        btn.classList.remove("active");
+        return;
+      }
+    }
 
     if (!myRole || state.winner) {
       btn.disabled = true;
@@ -280,7 +300,7 @@ function setupSkillButtons() {
   });
 }
 
-["kanashibari", "kirigakure", "saisei"].forEach(skill => {
+["kanashibari", "kirigakure", "saisei", "oga"].forEach(skill => {
   const btnId = "skill" + skill.charAt(0).toUpperCase() + skill.slice(1);
   document.getElementById(btnId).addEventListener("click", () => {
     if (!myRole || state.turn !== myRole || state.skills?.[myRole]?.[skill + "Used"]) return;
@@ -314,9 +334,14 @@ document.getElementById("modalUseBtn").addEventListener("click", () => {
     state.skills[myRole].activeEffect = "kirigakure";
     selected = { type: null };
     set(ref(db, "game"), state);
+  } else if (skill === "oga") {
+    state.skills[myRole].ogaUsed = true;
+    state.skills[myRole].activeEffect = "oga";
+    state.winner = myRole === "sente" ? "gote" : "sente"; // 使用者が強制的に負ける
+    selected = { type: null };
+    set(ref(db, "game"), state);
   } else {
     selected = { type: 'skill', key: skill };
-    // ここでの直接描画はgameLoopが行うためカット
   }
 });
 
@@ -485,8 +510,8 @@ function initBoard(keepPlayers = false) {
     goteId: keepPlayers ? (state.goteId || null) : null, 
     lastMove: null,
     skills: {
-      sente: { kanashibariUsed: false, kirigakureUsed: false, saiseiUsed: false, activeEffect: null, targetPieceKey: null },
-      gote: { kanashibariUsed: false, kirigakureUsed: false, saiseiUsed: false, activeEffect: null, targetPieceKey: null }
+      sente: { kanashibariUsed: false, kirigakureUsed: false, saiseiUsed: false, ogaUsed: false, activeEffect: null, targetPieceKey: null },
+      gote: { kanashibariUsed: false, kirigakureUsed: false, saiseiUsed: false, ogaUsed: false, activeEffect: null, targetPieceKey: null }
     }
   };
   set(ref(db, "game"), newState);
@@ -715,8 +740,14 @@ function draw(isSenteOnline, isGoteOnline) {
     } else if (activeCutin.skill === "kirigakure") {
       auraGrad.addColorStop(0, "rgba(255, 255, 255, 0.9)");  // 聖なる純白
       auraGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
-    } else {
+    } else if (activeCutin.skill === "saisei") {
       auraGrad.addColorStop(0, "rgba(230, 81, 0, 0.9)");    // 禁忌の炎橙
+      auraGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
+    } else if (activeCutin.skill === "oga") {
+      // OGA用のサイケデリックで超強力な光芒
+      const hue = (Date.now() / 4) % 360;
+      auraGrad.addColorStop(0, `hsla(${hue}, 100%, 65%, 0.95)`);
+      auraGrad.addColorStop(0.4, `hsla(${(hue + 120) % 360}, 100%, 50%, 0.6)`);
       auraGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
     }
     ctx.fillStyle = auraGrad;
@@ -754,7 +785,62 @@ function draw(isSenteOnline, isGoteOnline) {
     ctx.fillText(activeCutin.title, 270, 565);
     ctx.restore();
 
-    ctx.restore();
+    ctx.restore(); // 2.のtranslate, scaleを一旦解除（絶対座標系に戻る）
+
+    // --- 【OGA専用】超ド派手全画面エフェクト（爆発・衝撃波・画面振動） ---
+    if (activeCutin.skill === "oga") {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      
+      // 画面の激しい振動
+      const shakeX = (Math.random() - 0.5) * 16;
+      const shakeY = (Math.random() - 0.5) * 16;
+      ctx.translate(shakeX, shakeY);
+
+      // 広がり続けるマルチカラー衝撃波の輪
+      for (let i = 0; i < 5; i++) {
+        const progress = (t + i * 25) % maxT;
+        const radius = (progress / maxT) * 700;
+        const opacity = Math.max(0, 1 - (progress / maxT));
+        ctx.beginPath();
+        ctx.arc(270, 340, radius, 0, Math.PI * 2);
+        const circleGrad = ctx.createRadialGradient(270, 340, radius * 0.7, 270, 340, radius);
+        circleGrad.addColorStop(0, "rgba(255, 255, 255, 0)");
+        circleGrad.addColorStop(0.5, `hsla(${(Date.now() / 2 + i * 72) % 360}, 100%, 60%, ${opacity * 0.8})`);
+        circleGrad.addColorStop(1, "rgba(255, 255, 255, 0)");
+        ctx.strokeStyle = circleGrad;
+        ctx.lineWidth = 15;
+        ctx.stroke();
+      }
+
+      // 中心から全方位へ吹き飛ぶ無数の超高速光線・光粒子
+      for (let i = 0; i < 70; i++) {
+        const angle = (i * 133.7) % (Math.PI * 2);
+        const speed = 3 + (i % 8);
+        const distance = t * speed * 2;
+        const px = 270 + Math.cos(angle) * distance;
+        const py = 340 + Math.sin(angle) * distance;
+        
+        ctx.fillStyle = `hsla(${(i * 35) % 360}, 100%, 75%, ${1 - t / maxT})`;
+        ctx.beginPath();
+        ctx.arc(px, py, 4 + (i % 5), 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.strokeStyle = `hsla(${(i * 35) % 360}, 100%, 85%, ${(1 - t / maxT) * 0.4})`;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(270, 340);
+        ctx.lineTo(px, py);
+        ctx.stroke();
+      }
+
+      // 最初と最後の超強烈なホワイトアウトフラッシュ効果
+      if (t < 15 || t > maxT - 20) {
+        ctx.fillStyle = `rgba(255, 255, 255, ${t < 15 ? 0.85 : 0.95})`;
+        ctx.fillRect(-50, -50, 640, 820);
+      }
+      ctx.restore();
+    }
   }
 
   setupSkillButtons();
@@ -795,14 +881,14 @@ function updateGameSystem() {
   if (state.skills) {
     if (lastSkillsState) {
       ["sente", "gote"].forEach(side => {
-        ["kanashibari", "kirigakure", "saisei"].forEach(skill => {
+        ["kanashibari", "kirigakure", "saisei", "oga"].forEach(skill => {
           const prop = skill + "Used";
           if (state.skills[side]?.[prop] && !lastSkillsState[side]?.[prop]) {
             activeCutin = {
               skill: skill,
               title: cardData[skill].title,
               timer: 0,
-              maxTimer: 95, // 約1.5秒表示
+              maxTimer: skill === "oga" ? 160 : 95, // ogaはド派手にするため演出時間を長めに確保
               side: side
             };
           }
