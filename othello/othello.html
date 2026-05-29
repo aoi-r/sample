@@ -1594,7 +1594,7 @@ onValue(ref(db,".info/connected"), snap => {
     if(snap.val() === true){
 
         onDisconnect(
-            ref(ref(db,`othello_presence/${myId}`))
+            ref(db,`othello_presence/${myId}`)
         ).remove();
 
         set(
