@@ -196,7 +196,6 @@
                     if (!currentData.players) currentData.players = {};
                     const pos = START_POS[slot - 1];
                     
-                    // 🛠️【バグ防止】新規プレイヤー作成時に confuseUntil を明示的に 0 でリセット
                     currentData.players[myId] = {
                         id: myId, slot: slot, x: pos.x, y: pos.y, alive: true, name: "P" + slot, lastSeen: Date.now(), confuseUntil: 0
                     };
@@ -309,7 +308,6 @@
                 });
                 if (zombieKey) {
                     const zombieData = currentData.players[zombieKey];
-                    // 🛠️【バグ防止】乗っ取り時にも呪いを綺麗に消去
                     currentData.players[myId] = { ...zombieData, id: myId, lastSeen: now, confuseUntil: 0 };
                     delete currentData.players[zombieKey];
                 } else {
@@ -391,7 +389,13 @@
                 const alives = Object.values(data.players).filter(p => p.alive);
                 const totalPlayers = Object.keys(data.players).length;
 
-                if (totalPlayers >= 2 && alives.length <= 1) {
+                // 🛠️【バグ修正】リスタート時に全員の位置情報がリセットされきる前のタイムラグによる誤作動を完全に防ぐ
+                const isFullyReset = Object.values(data.players).every(p => {
+                    const pos = START_POS[p.slot - 1];
+                    return !p.alive || (p.x === pos.x && p.y === pos.y);
+                });
+
+                if (totalPlayers >= 2 && alives.length <= 1 && isFullyReset) {
                     let resultText = "DRAW (引き分け)";
                     if (alives.length === 1) resultText = `${alives[0].name} WIN!`;
                     roomRef.child("status").set("result");
@@ -409,7 +413,6 @@
             }
         });
 
-        // 🛠️【完全バグ対策版】リスタート処理
         function restartGame() {
             if (!gameState || !gameState.players) return;
 
@@ -424,7 +427,7 @@
                     alive: true,
                     x: pos.x,
                     y: pos.y,
-                    confuseUntil: 0, // 🛠️【ここ重要】リスタート時に全員の呪い時間を0秒（解除）にする！
+                    confuseUntil: 0, 
                     lastSeen: Date.now()
                 };
             });
@@ -440,7 +443,6 @@
                 players: updatedPlayers
             });
 
-            // 自分のローカル画面上のフラグもすべて綺麗に消去
             stockH = false; stockV = false; stockC = false;
             nextBombH = false; nextBombV = false; isConfused = false;
             updateSkillButtonUI();
