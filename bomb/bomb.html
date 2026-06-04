@@ -30,7 +30,6 @@
         #winMessage { font-size: 32px; font-weight: bold; color: #ffd700; margin-bottom: 10px; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
         #restartHint { font-size: 14px; color: #aaa; animation: blink 1s infinite alternate; }
 
-        /* 🛠️ 接続待ち画面用のスタイルを追加 */
         #waitingScreen {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.75); display: flex; flex-direction: column;
@@ -390,16 +389,27 @@
             }
 
             const now = Date.now();
-            // 通信が有効なアクティブプレイヤーの数を数える
             const activePlayers = Object.values(data.players).filter(p => p.lastSeen && (now - p.lastSeen <= 6000));
             
-            // 🛠️【新規追加】相手が誰もいなくなったら強制的にリセット・待機状態にする
-            if (activePlayers.length <= 1 && data.status !== "waiting") {
+            // 🛠️【バグ修正】リセット条件を「ゲーム中または結果画面中で、1人ぼっちになったとき」に限定
+            if ((data.status === "playing" || data.status === "result") && activePlayers.length <= 1) {
                 roomRef.child("status").set("waiting");
                 roomRef.child("map").set(baseMap);
                 roomRef.child("bombs").set("");
                 roomRef.child("flames").set("");
                 return; 
+            }
+
+            // 🛠️【新規追加】待機中(waiting)の時にプレイヤーが2人以上揃ったらゲームを自動開始させる
+            if (data.status === "waiting" && activePlayers.length >= 2) {
+                roomRef.update({
+                    status: "playing",
+                    startTime: Date.now(),
+                    map: baseMap,
+                    bombs: "",
+                    flames: ""
+                });
+                return;
             }
 
             gameState = data;
@@ -409,7 +419,6 @@
             const winMessage = document.getElementById("winMessage");
             const waitingScreen = document.getElementById("waitingScreen");
 
-            // 🛠️ 接続待ち・プレイ中・結果画面の表示切り替えを完全に制御
             if (data.status === "waiting") {
                 waitingScreen.style.display = "flex";
                 winScreen.style.display = "none";
@@ -449,7 +458,6 @@
                 };
             });
 
-            // プレイヤーが2人以上いるときだけplayingにし、1人ならwaitingにする
             const nextStatus = Object.keys(updatedPlayers).length >= 2 ? "playing" : "waiting";
 
             roomRef.set({
@@ -476,7 +484,6 @@
         });
 
         function move(origDx, origDy) {
-            // 🛠️ 接続待ち(waiting)の時は動けないようにロック
             if (currentRole === "spectator" || !isAlive || gameState.status !== "playing") return;
             let dx = origDx; let dy = origDy;
             if (isConfused) { dx = -origDx; dy = -origDy; }
