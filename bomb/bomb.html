@@ -187,7 +187,7 @@
                     
                     if (Object.keys(currentData.players).length >= 2 && (currentData.status === "waiting" || currentData.status === "result")) {
                         currentData.status = "playing";
-                        currentData.startTime = Date.now(); // ゲーム開始時刻を記録
+                        currentData.startTime = Date.now(); 
                     }
                 }
                 return currentData;
@@ -198,6 +198,14 @@
                 }
             });
         }
+
+        // 🚪 タブを閉じる・リロード時の即時退出処理（ゾンビ化防止）
+        window.addEventListener("beforeunload", () => {
+            if (currentRole !== "spectator") {
+                // 同期的にFirebaseデータを削除
+                roomRef.child("players").child(myId).remove();
+            }
+        });
 
         function updateRoleState(data) {
             if (!data) return;
@@ -218,7 +226,18 @@
             } else {
                 currentRole = "spectator";
                 const pCount = data.players ? Object.keys(data.players).length : 0;
-                if (pCount < 4) {
+                
+                // 誰もいない、あるいは全員が放置状態（ゾンビ部屋）なら自動クリーンアップ
+                const now = Date.now();
+                const isZombieRoom = data.players && Object.values(data.players).every(p => !p.lastSeen || (now - p.lastSeen > 6000));
+
+                if (pCount === 0 || isZombieRoom) {
+                    document.getElementById("info").innerText = "古い接続を掃除中...";
+                    document.getElementById("takeoverBtn").style.display = "none";
+                    roomRef.set({ status: "force_reset", map: baseMap, players: {}, bombs: {}, flames: {}, startTime: 0 }).then(() => {
+                        setTimeout(joinGame, 500);
+                    });
+                } else if (pCount < 4) {
                     document.getElementById("info").innerText = "観戦中 (空き席あり...)";
                     document.getElementById("takeoverBtn").style.display = "none";
                     setTimeout(joinGame, 1000);
@@ -288,15 +307,14 @@
             });
         }
 
-        // ⏱️ タイマー＆サドンデス監視処理（1秒毎）
+        // ⏱️ タイマー＆サドンデス監視処理
         setInterval(() => {
             if (gameState.status !== "playing" || !gameState.startTime) return;
             
             const elapsed = Math.floor((Date.now() - gameState.startTime) / 1000);
-            const totalDuration = 120; // 2分
+            const totalDuration = 120; 
             const remaining = Math.max(0, totalDuration - elapsed);
 
-            // タイマー文字表示の変更
             const m = Math.floor(remaining / 60);
             const s = remaining % 60;
             const timerEl = document.getElementById("timer-display");
@@ -308,17 +326,14 @@
                 timerEl.classList.remove("sudden-alert");
             }
 
-            // ⚠️ 【新設】サドンデス：残り60秒未満なら、経過1秒ごとに1マス永久壁化していく
             if (remaining < 60 && remaining > 0) {
-                const blockIndex = 60 - remaining - 1; // 0〜59マスの順
+                const blockIndex = 60 - remaining - 1; 
                 if (blockIndex < SUDDEN_BLOCKS.length) {
                     const targetBlock = SUDDEN_BLOCKS[blockIndex];
                     
-                    // 最初に気づいたホスト端末(または全端末で上書き)がFirebaseを安全に更新
                     roomRef.child("map").child(targetBlock.y).child(targetBlock.x).once("value", (snap) => {
                         if (snap.val() !== 1) {
                             roomRef.child("map").child(targetBlock.y).child(targetBlock.x).set(1);
-                            // そのマスにプレイヤーがいたら即死
                             if (gameState.players) {
                                 Object.values(gameState.players).forEach(p => {
                                     if (p.x === targetBlock.x && p.y === targetBlock.y && p.alive) {
@@ -331,7 +346,6 @@
                 }
             }
 
-            // タイムアップ判定
             if (remaining <= 0) {
                 roomRef.child("status").set("result");
             }
@@ -339,10 +353,20 @@
 
         roomRef.on("value", (snapshot) => {
             const data = snapshot.val();
+            
+            // 🛑 【新設】プレイ途中等に誰もいなくなったら（または全員の通信が切れたら）盤面と状態を完全リセット
             if (!data || !data.players || Object.keys(data.players).length === 0) {
                 if (data && data.status !== "force_reset") {
                     roomRef.set({ status: "force_reset", map: baseMap, players: {}, bombs: {}, flames: {}, startTime: 0 });
                 }
+                return;
+            }
+
+            // アクティブな（2秒ごとのlastSeenが生きている）プレイヤーが残っているかチェック
+            const now = Date.now();
+            const activePlayers = Object.values(data.players).filter(p => p.lastSeen && (now - p.lastSeen <= 6000));
+            if (activePlayers.length === 0 && data.status !== "force_reset") {
+                roomRef.set({ status: "force_reset", map: baseMap, players: {}, bombs: {}, flames: {}, startTime: 0 });
                 return;
             }
 
@@ -380,7 +404,7 @@
                 currentData.map = baseMap;
                 currentData.bombs = {};
                 currentData.flames = {};
-                currentData.startTime = Date.now(); // 再スタート時もタイマーリセット
+                currentData.startTime = Date.now(); 
                 if (currentData.players && Object.keys(currentData.players).length > 0) {
                     Object.keys(currentData.players).forEach(key => {
                         const p = currentData.players[key];
@@ -480,7 +504,6 @@
                         });
                     }
                     const flameId = `flame_${tile.x}_${tile.y}`;
-                    // 🔥 【新設】爆風消滅のフェード計算用に、爆発した絶対時刻（createdAt）を付与して保存
                     roomRef.child("flames").child(flameId).set({x: tile.x, y: tile.y, createdAt: Date.now()});
                     setTimeout(() => { roomRef.child("flames").child(flameId).remove(); }, 500);
                 });
@@ -541,15 +564,13 @@
                 }
             }
 
-            // 🔥 【改造】残りの生存時間を元に透明度（Alpha）をリアルタイム計算してフェードアウト描画
             if (gameState.flames) {
                 Object.values(gameState.flames).forEach(f => {
-                    const aliveTime = Date.now() - f.createdAt; // 爆発してからの経過ミリ秒 (0〜500ms)
-                    const alpha = Math.max(0, 1 - (aliveTime / 500)); // 時間とともに 1.0 -> 0.0 に落ちる
+                    const aliveTime = Date.now() - f.createdAt; 
+                    const alpha = Math.max(0, 1 - (aliveTime / 500)); 
                     
                     ctx.save();
                     ctx.globalAlpha = alpha;
-                    // 中心を黄色、外側をオレンジにするグラデーションでリアルに
                     ctx.fillStyle = "#ff5722";
                     ctx.fillRect(f.x * TILE_SIZE, f.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
                     ctx.fillStyle = "#ffeb3b";
