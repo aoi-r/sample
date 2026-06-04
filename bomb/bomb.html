@@ -116,6 +116,7 @@
         const PLAYER_COLORS = ["#ff4444", "#4444ff", "#44ff44", "#ffff44"];
         const START_POS = [{x:1,y:1}, {x:11,y:9}, {x:11,y:1}, {x:1,y:9}];
 
+        // 🛠️【修正】開幕の自爆を防ぐため、初期位置のL字以外をレンガ(2)で埋める正しいマップデータに修正
         const baseMap = [
             [1,1,1,1,1,1,1,1,1,1,1,1,1],
             [1,0,0,2,2,2,2,2,2,2,0,0,1],
@@ -391,6 +392,7 @@
             }
         });
 
+        // 🛠️【大修正】リスタート時に確実にすべてのデータを真っさらにして同期し直す
         function restartGame() {
             roomRef.transaction((currentData) => {
                 if (!currentData) return currentData;
@@ -415,11 +417,10 @@
             updateSkillButtonUI();
         }
 
-        // 🛑 【新設】勝敗画面（winScreen）をクリック、またはスマホでタッチしたときに再起動するイベントを設定
         const winScreenEl = document.getElementById("winScreen");
         winScreenEl.addEventListener("click", restartGame);
         winScreenEl.addEventListener("touchstart", (e) => {
-            e.preventDefault(); // スマホのダブルタップズームなどを防止
+            e.preventDefault(); 
             restartGame();
         });
 
