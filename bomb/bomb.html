@@ -213,11 +213,14 @@
                         id: myId, slot: slot, x: pos.x, y: pos.y, alive: true, name: "P" + slot, lastSeen: Date.now(), confuseUntil: 0
                     };
                     
-                    if (Object.keys(currentData.players).length >= 2) {
+                    // 2人目が揃ったらここできちんと状態をplayingにする
+                    const nowActiveCount = Object.values(currentData.players).filter(p => !p.lastSeen || (Date.now() - p.lastSeen <= 6000)).length;
+                    if (nowActiveCount >= 2 && currentData.status === "waiting") {
                         currentData.status = "playing";
-                        currentData.startTime = Date.now(); 
-                    } else {
-                        currentData.status = "waiting";
+                        currentData.startTime = Date.now();
+                        currentData.map = baseMap;
+                        currentData.bombs = "";
+                        currentData.flames = "";
                     }
                 }
                 return currentData;
@@ -391,25 +394,21 @@
             const now = Date.now();
             const activePlayers = Object.values(data.players).filter(p => p.lastSeen && (now - p.lastSeen <= 6000));
             
-            // 🛠️【バグ修正】リセット条件を「ゲーム中または結果画面中で、1人ぼっちになったとき」に限定
+            // 🛠️【バグ修正】トランザクションを使用して確実に1人以下になった時にリセットをかける
             if ((data.status === "playing" || data.status === "result") && activePlayers.length <= 1) {
-                roomRef.child("status").set("waiting");
-                roomRef.child("map").set(baseMap);
-                roomRef.child("bombs").set("");
-                roomRef.child("flames").set("");
-                return; 
-            }
-
-            // 🛠️【新規追加】待機中(waiting)の時にプレイヤーが2人以上揃ったらゲームを自動開始させる
-            if (data.status === "waiting" && activePlayers.length >= 2) {
-                roomRef.update({
-                    status: "playing",
-                    startTime: Date.now(),
-                    map: baseMap,
-                    bombs: "",
-                    flames: ""
+                roomRef.transaction((currentData) => {
+                    if (!currentData) return currentData;
+                    const insideActive = currentData.players ? Object.values(currentData.players).filter(p => p.lastSeen && (Date.now() - p.lastSeen <= 6000)) : [];
+                    if (insideActive.length <= 1) {
+                        currentData.status = "waiting";
+                        currentData.map = baseMap;
+                        currentData.bombs = "";
+                        currentData.flames = "";
+                        currentData.startTime = 0;
+                    }
+                    return currentData;
                 });
-                return;
+                return; 
             }
 
             gameState = data;
@@ -449,31 +448,35 @@
         function restartGame() {
             if (!gameState || !gameState.players) return;
 
-            let updatedPlayers = {};
-            Object.keys(gameState.players).forEach(key => {
-                const p = gameState.players[key];
-                const pos = START_POS[p.slot - 1];
-                updatedPlayers[key] = {
-                    id: p.id, slot: p.slot, name: p.name, alive: true, x: pos.x, y: pos.y, confuseUntil: 0, lastSeen: Date.now()
-                };
+            roomRef.transaction((currentData) => {
+                if (!currentData || !currentData.players) return currentData;
+                
+                let updatedPlayers = {};
+                Object.keys(currentData.players).forEach(key => {
+                    const p = currentData.players[key];
+                    const pos = START_POS[p.slot - 1];
+                    updatedPlayers[key] = {
+                        id: p.id, slot: p.slot, name: p.name, alive: true, x: pos.x, y: pos.y, confuseUntil: 0, lastSeen: Date.now()
+                    };
+                });
+
+                const activeCount = Object.values(updatedPlayers).filter(p => Date.now() - p.lastSeen <= 6000).length;
+                currentData.status = activeCount >= 2 ? "playing" : "waiting";
+                currentData.map = baseMap;
+                currentData.bombs = "";
+                currentData.flames = "";
+                currentData.startTime = Date.now();
+                currentData.players = updatedPlayers;
+                
+                return currentData;
+            }, (err, committed) => {
+                if (committed) {
+                    stockH = false; stockV = false; stockC = false;
+                    nextBombH = false; nextBombV = false; isConfused = false;
+                    updateSkillButtonUI();
+                    document.getElementById("winScreen").style.display = "none";
+                }
             });
-
-            const nextStatus = Object.keys(updatedPlayers).length >= 2 ? "playing" : "waiting";
-
-            roomRef.set({
-                status: nextStatus,
-                map: baseMap,
-                bombs: "",
-                flames: "",
-                startTime: Date.now(),
-                players: updatedPlayers
-            });
-
-            stockH = false; stockV = false; stockC = false;
-            nextBombH = false; nextBombV = false; isConfused = false;
-            updateSkillButtonUI();
-            
-            document.getElementById("winScreen").style.display = "none";
         }
 
         const winScreenEl = document.getElementById("winScreen");
