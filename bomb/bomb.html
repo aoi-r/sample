@@ -389,20 +389,19 @@
                 const alives = Object.values(data.players).filter(p => p.alive);
                 const totalPlayers = Object.keys(data.players).length;
 
-                // 🛠️【バグ修正】リスタート直後に全員が「alive: true」かつ「初期位置」に同期されるまで勝敗判定をスキップする
                 const isFullyReset = Object.values(data.players).every(p => {
                     const pos = START_POS[p.slot - 1];
                     return p.alive === true && p.x === pos.x && p.y === pos.y;
                 });
 
+                // 🛠️【超重要バグ修正】勝敗の「決定権」を各プレイヤーの画面から剥奪。
+                // サーバー側の status が正式に "result" になるまでは、絶対に勝手にWIN画面を出さない。
                 if (totalPlayers >= 2 && isFullyReset && alives.length <= 1) {
-                    let resultText = "DRAW (引き分け)";
-                    if (alives.length === 1) resultText = `${alives[0].name} WIN!`;
                     roomRef.child("status").set("result");
-                    winMessage.innerText = resultText;
-                    winScreen.style.display = "flex";
                 }
+                winScreen.style.display = "none";
             } else if (data.status === "result") {
+                // 🛠️ 勝敗画面の表示は、サーバーが "result" だと言っている時だけ完全に連動する
                 if (data.players) {
                     const alives = Object.values(data.players).filter(p => p.alive);
                     winMessage.innerText = alives.length === 1 ? `${alives[0].name} WIN!` : "DRAW (引き分け)";
@@ -434,7 +433,6 @@
 
             const nextStatus = Object.keys(updatedPlayers).length >= 2 ? "playing" : "waiting";
 
-            // 🛠️【同期の安全強化】まずサーバー側をきれいに上書き
             roomRef.set({
                 status: nextStatus,
                 map: baseMap,
@@ -448,7 +446,6 @@
             nextBombH = false; nextBombV = false; isConfused = false;
             updateSkillButtonUI();
             
-            // ローカル画面のWINスクリーンを即座に非表示にして先行してバグ感を消す
             document.getElementById("winScreen").style.display = "none";
         }
 
@@ -518,7 +515,6 @@
                 const bData = snap.val();
                 roomRef.child("bombs").child(bombId).remove();
                 
-                // 🛠️【バグ修正】爆弾の中心マス(bx, by)をはじめから爆風リストに入れておく
                 let affectedTiles = [{x: bx, y: by}];
                 const dirs = [
                     {x: 1,  y: 0,  type: 'h'}, 
@@ -578,7 +574,7 @@
                         });
                     }
                     const flameId = `flame_${tile.x}_${tile.y}`;
-                    roomRef.child("flames").child(flameId).set({x: tile.x, y: tile.y, createdAt: Date.now()});
+                    roomRef.child("flames").child(flameId).set({x: tile.x, y: tile.y, createdAt: Date.now() });
                     setTimeout(() => { roomRef.child("flames").child(flameId).remove(); }, 500);
                 });
             });
