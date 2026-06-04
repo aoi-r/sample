@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Firebase Bomberman</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #222;
+            color: #fff;
+            font-family: sans-serif;
+            text-align: center;
+            overflow: hidden;
+            user-select: none;
+        }
+        #info {
+            height: 30px;
+            line-height: 30px;
+            font-size: 14px;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background: #333;
+            max-width: 100vw;
+            max-height: 50vh;
+        }
+        /* スマホ用コントローラー */
+        #controller {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 40vh;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .pad-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+        }
+        .btn {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #555;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn:active { background: #888; }
+        #btn-up    { top: 0; left: 50px; }
+        #btn-left  { top: 50px; left: 0; }
+        #btn-right { top: 50px; left: 100px; }
+        #btn-down  { top: 100px; left: 50px; }
+        
+        #bombBtn {
+            width: 90px;
+            height: 90px;
+            background: #d32f2f;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            font-size: 36px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 5px #9a0007;
+        }
+        #bombBtn:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px #9a0007;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="info">接続中...</div>
+    <canvas id="gameCanvas" width="416" height="352"></canvas>
+
+    <div id="controller">
+        <div class="pad-container">
+            <div class="btn" id="btn-up">↑</div>
+            <div class="btn" id="btn-left">←</div>
+            <div class="btn" id="btn-right">→</div>
+            <div class="btn" id="btn-down">↓</div>
+        </div>
+        <button id="bombBtn">💣</button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <script>
+        // 1. Firebase 初期設定
+        const firebaseConfig = {
+            apiKey: "AIzaSyDk7KNFdlp9zPtnixdNv96VtfKrELX1f8I",
+            authDomain: "syogi-cee67.firebaseapp.com",
+            databaseURL: "https://syogi-cee67-default-rtdb.firebaseio.com",
+            projectId: "syogi-cee67",
+            storageBucket: "syogi-cee67.firebasestorage.app",
+            messagingSenderId: "272231556689",
+            appId: "1:272231556689:web:b92700feb73a3ce5277a70",
+            measurementId: "G-HC12MD1HVH"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const roomRef = db.ref("bomber_room");
+
+        // 2. ゲーム定数
+        const COLS = 13, ROWS = 11, TILE_SIZE = 32;
+        const PLAYER_COLORS = ["#ff4444", "#4444ff", "#44ff44", "#ffff44"];
+        const START_POS = [{x:1,y:1}, {x:11,y:9}, {x:11,y:1}, {x:1,y:9}];
+
+        // 初期マップ (1:壁, 2:壊れる箱, 0:通路)
+        const baseMap = [
+            [1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,0,0,2,2,2,2,2,2,2,0,0,1],
+            [1,0,1,2,1,2,1,2,1,2,1,0,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,2,1,2,1,2,1,2,1,2,1,2,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,2,1,2,1,2,1,2,1,2,1,2,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,0,1,2,1,2,1,2,1,2,1,0,1],
+            [1,0,0,2,2,2,2,2,2,2,0,0,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1]
+        ];
+
+        // 3. ローカル状態管理
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        const myId = "user_" + Math.random().toString(36).substr(2, 9);
+        
+        let currentRole = "spectator"; // player1~4 または spectator
+        let myGridX = 1, myGridY = 1;
+        let isAlive = true;
+        let gameState = { status: "waiting", players: {}, bombs: {}, map: [] };
+        
+        // 滑らかな描画用の補間データ
+        let renderPlayers = {};
+
+        // 4. ゲーム初期化・参加処理 (トランザクションで安全に席を確保)
+        roomRef.transaction((currentData) => {
+            if (!currentData) {
+                currentData = { status: "waiting", map: baseMap, players: {}, bombs: {} };
+            }
+            
+            // 既存プレイヤー数のカウント
+            const pCount = currentData.players ? Object.keys(currentData.players).length : 0;
+            
+            if (pCount < 4) {
+                // 空いているプレイヤー番号(1〜4)を探す
+                let slot = 1;
+                const existingSlots = Object.values(currentData.players).map(p => p.slot);
+                while(existingSlots.includes(slot)) slot++;
+
+                if (!currentData.players) currentData.players = {};
+                const pos = START_POS[slot - 1];
+                
+                currentData.players[myId] = {
+                    id: myId,
+                    slot: slot,
+                    x: pos.x,
+                    y: pos.y,
+                    alive: true,
+                    name: "P" + slot
+                };
+                
+                // 2人以上になったらステータスをプレイ中に
+                if (Object.keys(currentData.players).length >= 2 && currentData.status === "waiting") {
+                    currentData.status = "playing";
+                }
+            } else {
+                // 5人目以降は観戦
+                if (!currentData.spectators) currentData.spectators = {};
+                currentData.spectators[myId] = true;
+            }
+            return currentData;
+        }, (error, committed, snapshot) => {
+            if (committed) {
+                const data = snapshot.val();
+                if (data.players && data.players[myId]) {
+                    currentRole = "player" + data.players[myId].slot;
+                    myGridX = data.players[myId].x;
+                    myGridY = data.players[myId].y;
+                    document.getElementById("info").innerText = `あなたは Player ${data.players[myId].slot} です`;
+                } else {
+                    currentRole = "spectator";
+                    document.getElementById("info").innerText = "満員のため観戦モードです";
+                }
+            }
+        });
+
+        // ログアウト・切断時のクリーンアップ
+        window.addEventListener("beforeunload", () => {
+            roomRef.child("players").child(myId).remove();
+            // プレイヤーが0人になったら部屋をリセット
+            roomRef.child("players").once("value", s => {
+                if(!s.exists()) roomRef.remove();
+            });
+        });
+
+        // 5. Firebase同期監視
+        roomRef.on("value", (snapshot) => {
+            const data = snapshot.val();
+            if (!data) return;
+            gameState = data;
+            
+            // 自分が死んでいないかチェック
+            if (data.players && data.players[myId]) {
+                isAlive = data.players[myId].alive;
+                if(!isAlive) document.getElementById("info").innerText = "ゲームオーバー（観戦中）";
+            }
+            
+            // 勝敗判定表示
+            if (data.status === "playing" && data.players) {
+                const alives = Object.values(data.players).filter(p => p.alive);
+                if (alives.length === 1) {
+                    document.getElementById("info").innerText = `勝者: ${alives[0].name}！`;
+                } else if (alives.length === 0) {
+                    document.getElementById("info").innerText = "引き分け！";
+                }
+            }
+        });
+
+        // 6. 移動・爆弾設置のロジック
+        function move(dx, dy) {
+            if (currentRole === "spectator" || !isAlive || gameState.status !== "playing") return;
+            
+            const nextX = myGridX + dx;
+            const nextY = myGridY + dy;
+            
+            // マップ配列の安全チェック
+            if (!gameState.map || !gameState.map[nextY]) return;
+            
+            // 壁・箱の衝突判定
+            if (gameState.map[nextY][nextX] === 0) {
+                myGridX = nextX;
+                myGridY = nextY;
+                roomRef.child("players").child(myId).update({ x: myGridX, y: myGridY });
+            }
+        }
+
+        function placeBomb() {
+            if (currentRole === "spectator" || !isAlive || gameState.status !== "playing") return;
+            
+            const bombId = `bomb_${myGridX}_${myGridY}`;
+            
+            // すでに同じ場所に爆弾があるかチェック
+            if (gameState.bombs && gameState.bombs[bombId]) return;
+            
+            const now = Date.now();
+            roomRef.child("bombs").child(bombId).set({
+                id: bombId,
+                x: myGridX,
+                y: myGridY,
+                owner: myId,
+                explodeAt: now + 2500 // 2.5秒後に爆発
+            });
+
+            // 爆発タイマー (置いた本人が爆発処理を主導する)
+            setTimeout(() => {
+                executeExplosion(bombId, myGridX, myGridY);
+            }, 2500);
+        }
+
+        // 爆発処理と当たり判定
+        function executeExplosion(bombId, bx, by) {
+            roomRef.child("bombs").child(bombId).once("value", (snap) => {
+                if (!snap.exists()) return; // 処理済みならスキップ
+
+                // 爆弾データを削除し、視覚効果(flames)を一瞬出す
+                roomRef.child("bombs").child(bombId).remove();
+                
+                // 爆風の届く範囲の計算 (十字に1マス)
+                const targetTiles = [{x: bx, y: by}, {x: bx+1, y: by}, {x: bx-1, y: by}, {x: bx, y: by+1}, {x: bx, y: by-1}];
+                
+                let mapUpdate = {};
+                targetTiles.forEach(tile => {
+                    // 箱(2)があれば通路(0)にする
+                    if (gameState.map && gameState.map[tile.y] && gameState.map[tile.y][tile.x] === 2) {
+                        roomRef.child("map").child(tile.y).child(tile.x).set(0);
+                    }
+                    
+                    // プレイヤーの死亡判定
+                    if (gameState.players) {
+                        Object.values(gameState.players).forEach(p => {
+                            if (p.x === tile.x && p.y === tile.y && p.alive) {
+                                roomRef.child("players").child(p.id).update({ alive: false });
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
+        // 7. コントローラー・キーボード入力イベント
+        window.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowUp" || e.key === "w") move(0, -1);
+            if (e.key === "ArrowDown" || e.key === "s") move(0, 1);
+            if (e.key === "ArrowLeft" || e.key === "a") move(-1, 0);
+            if (e.key === "ArrowRight" || e.key === "d") move(1, 0);
+            if (e.key === " ") placeBomb();
+        });
+
+        document.getElementById("btn-up").addEventListener("touchstart", (e) => { e.preventDefault(); move(0, -1); });
+        document.getElementById("btn-down").addEventListener("touchstart", (e) => { e.preventDefault(); move(0, 1); });
+        document.getElementById("btn-left").addEventListener("touchstart", (e) => { e.preventDefault(); move(-1, 0); });
+        document.getElementById("btn-right").addEventListener("touchstart", (e) => { e.preventDefault(); move(1, 0); });
+        document.getElementById("bombBtn").addEventListener("touchstart", (e) => { e.preventDefault(); placeBomb(); });
+        
+        // PCでのクリックテスト用
+        document.getElementById("btn-up").addEventListener("click", () => move(0, -1));
+        document.getElementById("btn-down").addEventListener("click", () => move(0, 1));
+        document.getElementById("btn-left").addEventListener("click", () => move(-1, 0));
+        document.getElementById("btn-right").addEventListener("click", () => move(1, 0));
+        document.getElementById("bombBtn").addEventListener("click", placeBomb);
+
+        // 8. メイン描画ループ (Canvas描画)
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // マップの描画
+            if (gameState.map) {
+                for (let r = 0; r < ROWS; r++) {
+                    for (let c = 0; c < COLS; c++) {
+                        const tile = gameState.map[r][c];
+                        if (tile === 1) {
+                            ctx.fillStyle = "#777"; // 壊れない壁
+                            ctx.fillRect(c * TILE_SIZE, r * TILE_SIZE, TILE_SIZE - 1, TILE_SIZE - 1);
+                        } else if (tile === 2) {
+                            ctx.fillStyle = "#b55"; // 壊れる箱
+                            ctx.fillRect(c * TILE_SIZE, r * TILE_SIZE, TILE_SIZE - 1, TILE_SIZE - 1);
+                        }
+                    }
+                }
+            }
+
+            // 爆弾の描画
+            if (gameState.bombs) {
+                Object.values(gameState.bombs).forEach(b => {
+                    ctx.fillStyle = "#000";
+                    ctx.beginPath();
+                    ctx.arc(b.x * TILE_SIZE + TILE_SIZE/2, b.y * TILE_SIZE + TILE_SIZE/2, TILE_SIZE/2.5, 0, Math.PI * 2);
+                    ctx.fill();
+                    // 導火線の赤い点滅効果
+                    ctx.fillStyle = (Math.floor(Date.now() / 200) % 2 === 0) ? "#f00" : "#ff0";
+                    ctx.fillRect(b.x * TILE_SIZE + TILE_SIZE/2 - 2, b.y * TILE_SIZE + 2, 4, 4);
+                });
+            }
+
+            // プレイヤーの描画（線形補間アニメーション付き）
+            if (gameState.players) {
+                Object.values(gameState.players).forEach(p => {
+                    if (!p.alive) return;
+
+                    // 初めて見るプレイヤーなら補間座標を初期化
+                    if (!renderPlayers[p.id]) {
+                        renderPlayers[p.id] = { x: p.x * TILE_SIZE, y: p.y * TILE_SIZE };
+                    }
+
+                    // 目標座標 (Grid座標からPixel座標へ)
+                    const targetX = p.x * TILE_SIZE;
+                    const targetY = p.y * TILE_SIZE;
+
+                    // ラープ(補間)処理：現在の描画位置を目標位置にジワジワ近づける（ワープ防止）
+                    renderPlayers[p.id].x += (targetX - renderPlayers[p.id].x) * 0.3;
+                    renderPlayers[p.id].y += (targetY - renderPlayers[p.id].y) * 0.3;
+
+                    // 描画
+                    ctx.fillStyle = PLAYER_COLORS[p.slot - 1] || "#fff";
+                    ctx.beginPath();
+                    ctx.arc(renderPlayers[p.id].x + TILE_SIZE/2, renderPlayers[p.id].y + TILE_SIZE/2, TILE_SIZE/3, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // 文字表示 (P1, P2など)
+                    ctx.fillStyle = "#000";
+                    ctx.font = "bold 10px sans-serif";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText(p.name, renderPlayers[p.id].x + TILE_SIZE/2, renderPlayers[p.id].y + TILE_SIZE/2);
+                });
+            }
+
+            requestAnimationFrame(draw);
+        }
+
+        // ループ開始
+        draw();
+    </script>
+</body>
+</html>
