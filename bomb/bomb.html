@@ -116,7 +116,6 @@
         const PLAYER_COLORS = ["#ff4444", "#4444ff", "#44ff44", "#ffff44"];
         const START_POS = [{x:1,y:1}, {x:11,y:9}, {x:11,y:1}, {x:1,y:9}];
 
-        // 🛠️【修正】開幕の自爆を防ぐため、初期位置のL字以外をレンガ(2)で埋める正しいマップデータに修正
         const baseMap = [
             [1,1,1,1,1,1,1,1,1,1,1,1,1],
             [1,0,0,2,2,2,2,2,2,2,0,0,1],
@@ -392,26 +391,36 @@
             }
         });
 
-        // 🛠️【大修正】リスタート時に確実にすべてのデータを真っさらにして同期し直す
+        // 🛠️【修正】win!画面が絶対に消えるように、トランザクションを使用せず直接強制リセット更新をかけるように改修
         function restartGame() {
-            roomRef.transaction((currentData) => {
-                if (!currentData) return currentData;
-                currentData.map = baseMap;
-                currentData.bombs = {};
-                currentData.flames = {};
-                currentData.startTime = Date.now(); 
-                if (currentData.players && Object.keys(currentData.players).length > 0) {
-                    Object.keys(currentData.players).forEach(key => {
-                        const p = currentData.players[key];
-                        const pos = START_POS[p.slot - 1];
-                        p.alive = true; p.x = pos.x; p.y = pos.y; p.confuseUntil = 0;
-                    });
-                    currentData.status = Object.keys(currentData.players).length >= 2 ? "playing" : "waiting";
-                } else {
-                    currentData.status = "waiting";
-                }
-                return currentData;
+            if (!gameState.players) return;
+
+            let updatedPlayers = {};
+            Object.keys(gameState.players).forEach(key => {
+                const p = gameState.players[key];
+                const pos = START_POS[p.slot - 1];
+                updatedPlayers[key] = {
+                    ...p,
+                    alive: true,
+                    x: pos.x,
+                    y: pos.y,
+                    confuseUntil: 0,
+                    lastSeen: Date.now()
+                };
             });
+
+            const nextStatus = Object.keys(updatedPlayers).length >= 2 ? "playing" : "waiting";
+
+            // 全てを強制クリア＆上書き
+            roomRef.update({
+                status: nextStatus,
+                map: baseMap,
+                bombs: {},
+                flames: {},
+                startTime: Date.now(),
+                players: updatedPlayers
+            });
+
             stockH = false; stockV = false; stockC = false;
             nextBombH = false; nextBombV = false; isConfused = false;
             updateSkillButtonUI();
@@ -461,16 +470,22 @@
             }
             if (myBombCount >= 1) return; 
 
-            const bombId = `bomb_${myGridX}_${myGridY}`;
+            // 🛠️【修正】設置した「瞬間の」座標をローカル定数にガッチリと固定
+            const bombX = myGridX;
+            const bombY = myGridY;
+            const bombId = `bomb_${bombX}_${bombY}`;
+            
             if (gameState.bombs && gameState.bombs[bombId]) return;
             
             const now = Date.now();
             roomRef.child("bombs").child(bombId).set({
-                id: bombId, x: myGridX, y: myGridY, owner: myId, explodeAt: now + 2500, hPierce: nextBombH, vPierce: nextBombV
+                id: bombId, x: bombX, y: bombY, owner: myId, explodeAt: now + 2500, hPierce: nextBombH, vPierce: nextBombV
             });
             nextBombH = false; nextBombV = false;
             updateRoleState(gameState);
-            setTimeout(() => { executeExplosion(bombId, myGridX, myGridY); }, 2500);
+            
+            // 2.5秒後、自分がどこに動いていようが設置した場所（bombX, bombY）で爆発を発生させる
+            setTimeout(() => { executeExplosion(bombId, bombX, bombY); }, 2500);
         }
 
         function executeExplosion(bombId, bx, by) {
