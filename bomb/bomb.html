@@ -71,7 +71,7 @@
 
     <div id="canvas-container">
         <canvas id="gameCanvas" width="416" height="352"></canvas>
-        <div id="winScreen" onclick="restartGame()">
+        <div id="winScreen">
             <div id="winMessage">P1 WIN!</div>
             <div id="restartHint">画面タップで再スタート</div>
         </div>
@@ -130,7 +130,6 @@
             [1,1,1,1,1,1,1,1,1,1,1,1,1]
         ];
 
-        // 🌀 サドンデス用の外周埋め立てルートのインデックス座標
         const SUDDEN_BLOCKS = [];
         (function generateSuddenPath() {
             let top = 1, bottom = ROWS - 2, left = 1, right = COLS - 2;
@@ -199,10 +198,8 @@
             });
         }
 
-        // 🚪 タブを閉じる・リロード時の即時退出処理（ゾンビ化防止）
         window.addEventListener("beforeunload", () => {
             if (currentRole !== "spectator") {
-                // 同期的にFirebaseデータを削除
                 roomRef.child("players").child(myId).remove();
             }
         });
@@ -227,7 +224,6 @@
                 currentRole = "spectator";
                 const pCount = data.players ? Object.keys(data.players).length : 0;
                 
-                // 誰もいない、あるいは全員が放置状態（ゾンビ部屋）なら自動クリーンアップ
                 const now = Date.now();
                 const isZombieRoom = data.players && Object.values(data.players).every(p => !p.lastSeen || (now - p.lastSeen > 6000));
 
@@ -307,7 +303,6 @@
             });
         }
 
-        // ⏱️ タイマー＆サドンデス監視処理
         setInterval(() => {
             if (gameState.status !== "playing" || !gameState.startTime) return;
             
@@ -354,7 +349,6 @@
         roomRef.on("value", (snapshot) => {
             const data = snapshot.val();
             
-            // 🛑 【新設】プレイ途中等に誰もいなくなったら（または全員の通信が切れたら）盤面と状態を完全リセット
             if (!data || !data.players || Object.keys(data.players).length === 0) {
                 if (data && data.status !== "force_reset") {
                     roomRef.set({ status: "force_reset", map: baseMap, players: {}, bombs: {}, flames: {}, startTime: 0 });
@@ -362,7 +356,6 @@
                 return;
             }
 
-            // アクティブな（2秒ごとのlastSeenが生きている）プレイヤーが残っているかチェック
             const now = Date.now();
             const activePlayers = Object.values(data.players).filter(p => p.lastSeen && (now - p.lastSeen <= 6000));
             if (activePlayers.length === 0 && data.status !== "force_reset") {
@@ -422,6 +415,14 @@
             updateSkillButtonUI();
         }
 
+        // 🛑 【新設】勝敗画面（winScreen）をクリック、またはスマホでタッチしたときに再起動するイベントを設定
+        const winScreenEl = document.getElementById("winScreen");
+        winScreenEl.addEventListener("click", restartGame);
+        winScreenEl.addEventListener("touchstart", (e) => {
+            e.preventDefault(); // スマホのダブルタップズームなどを防止
+            restartGame();
+        });
+
         function move(origDx, origDy) {
             if (currentRole === "spectator" || !isAlive || gameState.status !== "playing") return;
             let dx = origDx; let dy = origDy;
@@ -431,6 +432,11 @@
             const nextY = myGridY + dy;
             if (!gameState.map || !gameState.map[nextY]) return;
             
+            const targetBombId = `bomb_${nextX}_${nextY}`;
+            if (gameState.bombs && gameState.bombs[targetBombId]) {
+                return; 
+            }
+
             const targetTile = gameState.map[nextY][nextX];
             if (targetTile === 0 || targetTile >= 3) {
                 myGridX = nextX; myGridY = nextY;
@@ -447,6 +453,13 @@
 
         function placeBomb() {
             if (currentRole === "spectator" || !isAlive || gameState.status !== "playing") return;
+            
+            let myBombCount = 0;
+            if (gameState.bombs) {
+                myBombCount = Object.values(gameState.bombs).filter(b => b.owner === myId).length;
+            }
+            if (myBombCount >= 1) return; 
+
             const bombId = `bomb_${myGridX}_${myGridY}`;
             if (gameState.bombs && gameState.bombs[bombId]) return;
             
@@ -466,27 +479,45 @@
                 roomRef.child("bombs").child(bombId).remove();
                 
                 let affectedTiles = [{x: bx, y: by}];
-                const dirs = [{x:1, y:0, type:'h'}, {x:-1, y:0, type:'h'}, {x:0, y:1, type:'v'}, {x:0, y:-1, type:'v'}];
+                const dirs = [
+                    {x: 1,  y: 0,  type: 'h'}, 
+                    {x: -1, y: 0,  type: 'h'}, 
+                    {x: 0,  y: 1,  type: 'v'}, 
+                    {x: 0,  y: -1, type: 'v'}  
+                ];
                 
-                dirs.forEach(dir => {
-                    let tx = bx + dir.x; let ty = by + dir.y;
-                    if (!gameState.map || !gameState.map[ty] || gameState.map[ty][tx] === undefined) return;
-                    const tileType = gameState.map[ty][tx];
-                    const isPierced = (dir.type === 'h' && bData.hPierce) || (dir.type === 'v' && bData.vPierce);
+                const BOMB_RANGE = 4;
 
-                    if (isPierced) {
-                        while (gameState.map[ty] && gameState.map[ty][tx] !== undefined && gameState.map[ty][tx] !== 1) {
-                            affectedTiles.push({x: tx, y: ty}); tx += dir.x; ty += dir.y;
+                dirs.forEach(dir => {
+                    const isPierced = (dir.type === 'h' && bData.hPierce) || (dir.type === 'v' && bData.vPierce);
+                    
+                    for (let i = 1; i <= BOMB_RANGE; i++) {
+                        let tx = bx + dir.x * i;
+                        let ty = by + dir.y * i;
+                        
+                        if (!gameState.map || !gameState.map[ty] || gameState.map[ty][tx] === undefined) break;
+                        
+                        const tileType = gameState.map[ty][tx];
+                        
+                        if (tileType === 1) {
+                            break;
+                        } else if (tileType === 2) {
+                            affectedTiles.push({x: tx, y: ty});
+                            if (!isPierced) {
+                                break;
+                            }
+                        } else {
+                            affectedTiles.push({x: tx, y: ty});
                         }
-                    } else {
-                        if (tileType !== 1) affectedTiles.push({x: tx, y: ty});
                     }
                 });
 
                 affectedTiles.forEach(tile => {
                     if (gameState.bombs) {
                         Object.values(gameState.bombs).forEach(otherBomb => {
-                            if (otherBomb.x === tile.x && otherBomb.y === tile.y) executeExplosion(otherBomb.id, otherBomb.x, otherBomb.y);
+                            if (otherBomb.x === tile.x && otherBomb.y === tile.y) {
+                                executeExplosion(otherBomb.id, otherBomb.x, otherBomb.y);
+                            }
                         });
                     }
                 });
@@ -500,7 +531,9 @@
                     }
                     if (gameState.players) {
                         Object.values(gameState.players).forEach(p => {
-                            if (p.x === tile.x && p.y === tile.y && p.alive) roomRef.child("players").child(p.id).update({ alive: false });
+                            if (p.x === tile.x && p.y === tile.y && p.alive) {
+                                roomRef.child("players").child(p.id).update({ alive: false });
+                            }
                         });
                     }
                     const flameId = `flame_${tile.x}_${tile.y}`;
