@@ -14,6 +14,7 @@ body{
     margin:0;
     padding:10px;
     font-family:sans-serif;
+    user-select: none;
 }
 
 #watcherConsole{
@@ -154,6 +155,101 @@ canvas{
     color:#ccc;
     margin-top:10px;
 }
+
+/* 【新規追加】カード詳細・使用確認モーダルUI設定 */
+#cardModal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.75);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    backdrop-filter: blur(4px);
+}
+.modalContent {
+    background: #004d40;
+    border: 4px solid #ffb300;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 340px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    color: #e0f2f1;
+}
+.modalCardImg {
+    width: 180px;
+    height: 240px;
+    border: 3px solid #ffb300;
+    border-radius: 8px;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    margin-bottom: 12px;
+}
+.modalTitle {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+.modalFlavor {
+    font-size: 12px;
+    font-style: italic;
+    color: #b2dfdb;
+    margin-bottom: 12px;
+    text-align: center;
+    line-height: 1.4;
+}
+.modalDesc {
+    background: rgba(0,0,0,0.3);
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #e0f2f1;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: justify;
+    margin-bottom: 15px;
+    border: 1px solid #00796b;
+}
+.modalBtns {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+.modalBtn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: center;
+}
+.btnCancel {
+    background: #757575;
+    color: white;
+}
+.btnCancel:hover {
+    background: #616161;
+}
+.btnUse {
+    background: #e65100;
+    color: white;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+.btnUse:hover {
+    background: #bf360c;
+}
 </style>
 </head>
 
@@ -174,6 +270,7 @@ canvas{
     <button id="cardWana" class="card-btn" title="罠：空きマスに設置、置いた駒を反転"></button>
     <button id="cardPass" class="card-btn" title="パス：次の相手のターンをスキップ"></button>
     <button id="cardHanten" class="card-btn" title="反転：置いてある駒を1つ反転"></button>
+    <button id="cardTako" class="card-btn" title="失踪：強制的に敗北します" style="display:none;"></button>
 </div>
 
 <button id="resetBtn" class="normal">リセット申請</button>
@@ -181,6 +278,19 @@ canvas{
 <div id="overlay" onclick="closeOverlay()">
     <div id="winnerText"></div>
     <span>画面をタップして新しくゲームを始める</span>
+</div>
+
+<div id="cardModal">
+  <div class="modalContent">
+    <div id="modalCardImg" class="modalCardImg"></div>
+    <div id="modalTitle" class="modalTitle"></div>
+    <div id="modalFlavor" class="modalFlavor"></div>
+    <div id="modalDesc" class="modalDesc"></div>
+    <div class="modalBtns">
+      <button id="modalCancelBtn" class="modalBtn btnCancel">戻る</button>
+      <button id="modalUseBtn" class="modalBtn btnUse">使用する</button>
+    </div>
+  </div>
 </div>
 
 <script type="module">
@@ -215,16 +325,19 @@ const CELL = 540 / 8;
 const cardImages = {
     wana:new Image(),
     pass:new Image(),
-    hanten:new Image()
+    hanten:new Image(),
+    tako:new Image()
 };
 
 cardImages.wana.src = "othello_img/wana.png";
 cardImages.pass.src = "othello_img/pass.png";
 cardImages.hanten.src = "othello_img/hanten.png";
+cardImages.tako.src = "othello_img/tako.png";
 
 cardImages.wana.onload = () => document.getElementById("cardWana").style.backgroundImage = `url('${cardImages.wana.src}')`;
 cardImages.pass.onload = () => document.getElementById("cardPass").style.backgroundImage = `url('${cardImages.pass.src}')`;
 cardImages.hanten.onload = () => document.getElementById("cardHanten").style.backgroundImage = `url('${cardImages.hanten.src}')`;
+cardImages.tako.onload = () => document.getElementById("cardTako").style.backgroundImage = `url('${cardImages.tako.src}')`;
 
 let state = {
     board:Array(64).fill(0),
@@ -257,6 +370,32 @@ let trapEffect = null;
 let skillEffect = null;   
 let lastSkillTs = 0;      
 
+// モーダル表示用に選択しているスキルのデータ管理
+let currentViewingCard = null;
+
+const cardModalData = {
+    wana: {
+        title: "秘術：罠",
+        flavor: "「潜ませし影の罠、踏み込みし者に絶望を。」",
+        desc: "盤面上の空きマスを1つ指定して罠を設置します。相手がそのマスに駒を置いた瞬間、その駒は強制的にあなたの色に反転します。"
+    },
+    pass: {
+        title: "秘術：パス",
+        flavor: "「時空を縛る凍土の鎖、敵の進撃を阻み停止せよ。」",
+        desc: "このターンあなたが駒を配置した後、次の相手のターンを強制的にスキップ（パス）させます。連続であなたの手番を繰り出せます。"
+    },
+    hanten: {
+        title: "秘術：反転",
+        flavor: "「因果の逆転。光は闇へ、闇は光へと裏返る。」",
+        desc: "盤面上に置いてある【相手の駒】を1つ指定します。その駒をひっくり返し、直接あなたの駒へと塗り替えます。"
+    },
+    tako: {
+        title: "終焉：失踪",
+        flavor: "「全てを呑み込む深海の大渦。……これにて終幕だ。」",
+        desc: "禁忌の術を発動します。広大な宇宙を巻き込む暗黒のビッグバンが盤面を破壊し、あなたが【強制的に敗北】します。"
+    }
+};
+
 const dirs = [
     [-1,-1],[-1,0],[-1,1],
     [0,-1],[0,1],
@@ -265,6 +404,15 @@ const dirs = [
 
 function canUseCards(){
     return state.moveCount >= 11;
+}
+
+function canUseTako(){
+    if(!myRole) return false;
+    const myColor = myRole === "black" ? 1 : 2;
+    const oppColor = myRole === "black" ? 2 : 1;
+    const myCount = state.board.filter(v => v === myColor).length;
+    const oppCount = state.board.filter(v => v === oppColor).length;
+    return myCount <= 10 && oppCount >= 25;
 }
 
 function triggerTrapEffect(x,y,color){
@@ -379,9 +527,14 @@ function drawSkillEffect(){
     if(!skillEffect) return;
 
     const elapsed = performance.now() - skillEffect.start;
-    const duration = 1500; 
+    // 【大強化】失踪（tako）のときだけ、演出時間を大幅に引き伸ばして激化させる（通常1.5秒、失踪のみ3.5秒）
+    const duration = skillEffect.type === "tako" ? 3500 : 1500; 
 
     if(elapsed >= duration){
+        if(skillEffect.type === "tako" && myRole && state.turn === myRole){
+            state.winner = (myRole === "black" ? "white" : "black");
+            set(ref(db,"othello_game"),state);
+        }
         skillEffect = null;
         return;
     }
@@ -389,25 +542,26 @@ function drawSkillEffect(){
     const progress = elapsed / duration;
     ctx.save();
 
-    let flashColor = "rgba(0,121,107,0.5)";
     let shadowColor = "rgba(255,255,255,0.8)";
     let textStr = "";
     let imgObj = null;
 
     if(skillEffect.type === "pass"){
-        flashColor = "rgba(33,150,243,0.5)"; 
         shadowColor = "rgba(33,150,243,0.8)";
         textStr = "PASS CARD USED!";
         imgObj = cardImages.pass;
     } else if(skillEffect.type === "hanten"){
-        flashColor = "rgba(255,152,0,0.5)"; 
         shadowColor = "rgba(255,152,0,0.8)";
         textStr = "FLIP CARD USED!";
         imgObj = cardImages.hanten;
+    } else if(skillEffect.type === "tako"){
+        shadowColor = "rgba(255,0,0,1)";
+        textStr = "💥 CRITICAL ERROR 💥";
+        imgObj = cardImages.tako;
     }
 
     const shockProgress = Math.min(progress * 2, 1);
-    if (shockProgress < 1) {
+    if (shockProgress < 1 && skillEffect.type !== "tako") {
         if(skillEffect.type === "pass"){
             ctx.fillStyle = `rgba(33,150,243,${0.4 * (1 - shockProgress)})`;
             ctx.fillRect(0, 0, 540, 540);
@@ -428,30 +582,115 @@ function drawSkillEffect(){
         }
     }
 
+    // ==========================================
+    // 【超激化!!】失踪（tako.png）専用の極限大爆発・画面破壊演出
+    // ==========================================
+    if(skillEffect.type === "tako"){
+        // 1. 段階的に狂っていく超強烈な画面シェイク
+        const frameCount = progress * 200;
+        const shakeAmp = progress < 0.3 ? 8 : (progress < 0.7 ? 22 : 45);
+        const shakeX = (Math.random() - 0.5) * shakeAmp;
+        const shakeY = (Math.random() - 0.5) * shakeAmp;
+        ctx.translate(shakeX, shakeY);
+
+        // 2. 赤・黒・紫ノイズの超高速フラッシュ（視覚的うるささMAX）
+        if(Math.floor(frameCount) % 3 === 0){
+            ctx.fillStyle = progress < 0.7 ? "rgba(255, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.7)";
+            ctx.fillRect(-50, -50, 640, 640);
+        }
+
+        // 3. 多層サイケデリックプラズマ衝撃波リング
+        for (let i = 0; i < 6; i++) {
+            const circleProg = (frameCount + i * 30) % 150;
+            const radius = (circleProg / 150) * 800;
+            const opacity = Math.max(0, 1 - (circleProg / 150));
+            ctx.beginPath();
+            ctx.arc(270, 270, radius, 0, Math.PI * 2);
+            const grad = ctx.createRadialGradient(270, 270, radius * 0.5, 270, 270, radius);
+            grad.addColorStop(0, "rgba(255,255,255,0)");
+            grad.addColorStop(0.4, `hsla(${(Date.now() / 2 + i * 60) % 360}, 100%, 60%, ${opacity * 0.9})`);
+            grad.addColorStop(0.8, `rgba(255, 30, 0, ${opacity})`);
+            grad.addColorStop(1, "rgba(0,0,0,0)");
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = 20;
+            ctx.stroke();
+        }
+
+        // 4. 全画面を滅ぼす超高速ビームレーザー放射
+        for (let i = 0; i < 80; i++) {
+            const angle = (i * 45.3) + (frameCount * 0.08);
+            const dist = progress * 1500;
+            const bx = 270 + Math.cos(angle) * dist;
+            const by = 270 + Math.sin(angle) * dist;
+            ctx.strokeStyle = `hsla(${(i * 20) % 360}, 100%, 50%, ${1 - progress})`;
+            ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.moveTo(270, 270); ctx.lineTo(bx, by); ctx.stroke();
+        }
+
+        // 5. 画面にひびが入るような白熱の稲妻カットイン
+        if(Math.floor(frameCount) % 10 < 3){
+            ctx.strokeStyle = "rgba(255,255,255,0.9)";
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.moveTo(Math.random() * 540, 0);
+            ctx.lineTo(Math.random() * 540, 180);
+            ctx.lineTo(Math.random() * 540, 360);
+            ctx.lineTo(Math.random() * 540, 540);
+            ctx.stroke();
+        }
+
+        // 6. システム崩壊の緊急警告テキストをオーバーレイ
+        if (progress > 0.2 && progress < 0.8 && Math.floor(frameCount) % 8 < 4) {
+            ctx.save();
+            ctx.font = "bold 32px sans-serif";
+            ctx.fillStyle = "#ff1744";
+            ctx.textAlign = "center";
+            ctx.shadowColor = "#000"; ctx.shadowBlur = 10;
+            ctx.fillText("⚠️ CORE MELTDOWN ⚠️", 270, 100);
+            ctx.fillText("💥 SYSTEM COLLAPSE 💥", 270, 460);
+            ctx.restore();
+        }
+
+        // 7. ラストの純白ホワイトアウト
+        if (progress > 0.9) {
+            ctx.fillStyle = `rgba(255,255,255, ${(progress - 0.9) / 0.1})`;
+            ctx.fillRect(-50, -50, 640, 640);
+        }
+    }
+
+    // イラストカード単体の基本ポップアップ演出（失踪時も中央に脈動しながら残す）
     if(imgObj && imgObj.complete) {
         let scale = 1;
         let alpha = 1;
         let bgAlpha = 0;
 
-        if (progress < 0.15) {
-            const popProgress = progress / 0.15;
-            scale = popProgress * 1.2;
-            bgAlpha = popProgress * 0.7;
-        } else if (progress < 0.25) {
-            const bounceProgress = (progress - 0.15) / 0.10;
-            scale = 1.2 - (bounceProgress * 0.2);
-            bgAlpha = 0.7;
-        } else if (progress > 0.8) {
-            const fadeProgress = (progress - 0.8) / 0.2;
-            alpha = 1 - fadeProgress;
-            bgAlpha = 0.7 * (1 - fadeProgress);
+        if (skillEffect.type === "tako") {
+            // Tako専用の脈動スケール
+            scale = 1.0 + Math.sin(progress * Math.PI * 5) * 0.15;
+            bgAlpha = 0.6;
         } else {
-            scale = 1;
-            bgAlpha = 0.7;
+            if (progress < 0.15) {
+                const popProgress = progress / 0.15;
+                scale = popProgress * 1.2;
+                bgAlpha = popProgress * 0.7;
+            } else if (progress < 0.25) {
+                const bounceProgress = (progress - 0.15) / 0.10;
+                scale = 1.2 - (bounceProgress * 0.2);
+                bgAlpha = 0.7;
+            } else if (progress > 0.8) {
+                const fadeProgress = (progress - 0.8) / 0.2;
+                alpha = 1 - fadeProgress;
+                bgAlpha = 0.7 * (1 - fadeProgress);
+            } else {
+                scale = 1;
+                bgAlpha = 0.7;
+            }
         }
 
-        ctx.fillStyle = `rgba(0, 0, 0, ${bgAlpha})`;
-        ctx.fillRect(0, 0, 540, 540);
+        if(skillEffect.type !== "tako") {
+            ctx.fillStyle = `rgba(0, 0, 0, ${bgAlpha})`;
+            ctx.fillRect(0, 0, 540, 540);
+        }
 
         ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
         ctx.font = `bold 36px sans-serif`;
@@ -538,12 +777,10 @@ function checkTurnEnd(currentColor){
     const nextColor = currentColor === 1 ? 2 : 1;
     const nextTurn = state.turn === "black" ? "white" : "black";
 
-    // 修正：パススキルが発動している場合
     if(state.skipNext){
 
-        state.skipNext = false; // フラグを消費
+        state.skipNext = false; 
 
-        // 自分が続けて打てるマスがある場合は、手番を変更せずに続行
         if(hasValidMoves(state.board,currentColor)){
             return;
         }
@@ -578,7 +815,7 @@ function endGame(){
 
 canvas.addEventListener("mousedown", e => {
 
-    if(state.winner) return;
+    if(state.winner || skillEffect?.type === "tako") return;
 
     if(myRole){
         const opponentId = myRole === "black"
@@ -693,59 +930,73 @@ canvas.addEventListener("mousedown", e => {
     set(ref(db,"othello_game"),state);
 });
 
+// 【変更箇所】各カードクリック時にconfirmの代わりに専用モーダル（アップ画面）を開く
+function openCardModal(cardKey) {
+    if(!canUseCards()) return;
+    if(!myRole || state.turn !== myRole) return;
+    if(cardKey !== "tako" && !state.cards[myRole][cardKey]) return;
+    if(cardKey === "tako" && !canUseTako()) return;
+
+    currentViewingCard = cardKey;
+    const data = cardModalData[cardKey];
+    
+    document.getElementById("modalCardImg").style.backgroundImage = `url('${cardImages[cardKey].src}')`;
+    document.getElementById("modalTitle").innerText = data.title;
+    document.getElementById("modalFlavor").innerText = data.flavor;
+    document.getElementById("modalDesc").innerText = data.desc;
+    
+    document.getElementById("cardModal").style.display = "flex";
+}
+
+document.getElementById("modalCancelBtn").addEventListener("click", () => {
+    document.getElementById("cardModal").style.display = "none";
+    currentViewingCard = null;
+});
+
+document.getElementById("modalUseBtn").addEventListener("click", () => {
+    document.getElementById("cardModal").style.display = "none";
+    const cardKey = currentViewingCard;
+    currentViewingCard = null;
+
+    if(!cardKey) return;
+
+    if(cardKey === "wana") {
+        activeSkill = "wana";
+        updateGameSystem();
+    } else if(cardKey === "hanten") {
+        activeSkill = "hanten";
+        updateGameSystem();
+    } else if(cardKey === "pass") {
+        state.cards[myRole].pass = false;
+        state.skipNext = true;
+        activeSkill = null;
+        state.activeSkillEffect = { type: "pass", ts: Date.now() };
+        set(ref(db,"othello_game"),state);
+    } else if(cardKey === "tako") {
+        activeSkill = null;
+        state.activeSkillEffect = { type: "tako", ts: Date.now() };
+        set(ref(db,"othello_game"),state);
+    }
+});
+
 document.getElementById("cardWana").addEventListener("click", () => {
-
-    if(!canUseCards()) return;
-
-    if(!myRole ||
-       state.turn !== myRole ||
-       !state.cards[myRole].wana) return;
-
-    activeSkill =
-        activeSkill === "wana"
-        ? null
-        : "wana";
-
-    updateGameSystem();
+    if (activeSkill === "wana") {
+        activeSkill = null;
+        updateGameSystem();
+    } else {
+        openCardModal("wana");
+    }
 });
-
-document.getElementById("cardPass").addEventListener("click", () => {
-
-    if(!canUseCards()) return;
-
-    if(!myRole ||
-       state.turn !== myRole ||
-       !state.cards[myRole].pass) return;
-
-    if(!confirm("パスカードを使用します。このターン石を置いた後、次の相手のターンをスキップしますか？")) return;
-
-    state.cards[myRole].pass = false;
-
-    // 修正：ここでは手番判定(checkTurnEnd)を行わず、フラグを立てて同期するだけにする
-    state.skipNext = true;
-
-    activeSkill = null;
-
-    state.activeSkillEffect = { type: "pass", ts: Date.now() };
-
-    set(ref(db,"othello_game"),state);
-});
-
+document.getElementById("cardPass").addEventListener("click", () => openCardModal("pass"));
 document.getElementById("cardHanten").addEventListener("click", () => {
-
-    if(!canUseCards()) return;
-
-    if(!myRole ||
-       state.turn !== myRole ||
-       !state.cards[myRole].hanten) return;
-
-    activeSkill =
-        activeSkill === "hanten"
-        ? null
-        : "hanten";
-
-    updateGameSystem();
+    if (activeSkill === "hanten") {
+        activeSkill = null;
+        updateGameSystem();
+    } else {
+        openCardModal("hanten");
+    }
 });
+document.getElementById("cardTako").addEventListener("click", () => openCardModal("tako"));
 
 document.getElementById("resetBtn").addEventListener("click", () => {
 
@@ -936,6 +1187,9 @@ function draw(isBlackOnline,isWhiteOnline){
     const btnHanten =
         document.getElementById("cardHanten");
 
+    const btnTako =
+        document.getElementById("cardTako");
+
     const cardsUnlocked = canUseCards();
 
     if(myRole &&
@@ -977,6 +1231,17 @@ function draw(isBlackOnline,isWhiteOnline){
         btnWana.classList.remove("active");
         btnPass.classList.remove("active");
         btnHanten.classList.remove("active");
+    }
+
+    if(myRole &&
+       state.turn === myRole &&
+       !state.winner &&
+       canUseTako()){
+        btnTako.style.display = "block";
+        btnTako.disabled = !cardsUnlocked;
+    }
+    else{
+        btnTako.style.display = "none";
     }
 
     const btn =
