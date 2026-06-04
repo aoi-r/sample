@@ -29,6 +29,16 @@
         }
         #winMessage { font-size: 32px; font-weight: bold; color: #ffd700; margin-bottom: 10px; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
         #restartHint { font-size: 14px; color: #aaa; animation: blink 1s infinite alternate; }
+
+        /* 🛠️ 接続待ち画面用のスタイルを追加 */
+        #waitingScreen {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75); display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 9; display: none;
+        }
+        #waitingMessage { font-size: 24px; font-weight: bold; color: #00ff00; text-shadow: 0 0 8px rgba(0,255,0,0.4); }
+        #waitingSub { font-size: 12px; color: #ccc; margin-top: 8px; animation: blink 1s infinite alternate; }
+
         @keyframes blink { 0% { opacity: 0.3; } 100% { opacity: 1; } }
 
         #controller { display: flex; justify-content: space-around; align-items: center; height: 40vh; padding: 10px; box-sizing: border-box; }
@@ -72,6 +82,10 @@
 
     <div id="canvas-container">
         <canvas id="gameCanvas" width="416" height="352"></canvas>
+        <div id="waitingScreen">
+            <div id="waitingMessage">対戦相手の接続待ち...</div>
+            <div id="waitingSub">他のプレイヤーが参加すると自動で始まります</div>
+        </div>
         <div id="winScreen">
             <div id="winMessage">P1 WIN!</div>
             <div id="restartHint">画面タップで再スタート</div>
@@ -200,9 +214,11 @@
                         id: myId, slot: slot, x: pos.x, y: pos.y, alive: true, name: "P" + slot, lastSeen: Date.now(), confuseUntil: 0
                     };
                     
-                    if (Object.keys(currentData.players).length >= 2 && (currentData.status === "waiting" || currentData.status === "result")) {
+                    if (Object.keys(currentData.players).length >= 2) {
                         currentData.status = "playing";
                         currentData.startTime = Date.now(); 
+                    } else {
+                        currentData.status = "waiting";
                     }
                 }
                 return currentData;
@@ -229,7 +245,8 @@
                 isConfused = me.confuseUntil && me.confuseUntil > Date.now();
 
                 let statusStr = `あなたは Player ${me.slot} です`;
-                if (!isAlive) statusStr += " (死亡)";
+                if (data.status === "waiting") statusStr = "対戦相手を待っています...";
+                else if (!isAlive) statusStr += " (死亡)";
                 else if (isConfused) statusStr += " 🌀【混乱中！】";
                 else if (nextBombH) statusStr += " 🚀【横充填】";
                 else if (nextBombV) statusStr += " 🛸【縦充填】";
@@ -262,7 +279,7 @@
         }
 
         function updateSkillButtonUI() {
-            if (currentRole === "spectator" || !isAlive) {
+            if (currentRole === "spectator" || !isAlive || gameState.status === "waiting") {
                 document.getElementById("skill-h").style.transform = "scale(0)";
                 document.getElementById("skill-v").style.transform = "scale(0)";
                 document.getElementById("skill-c").style.transform = "scale(0)";
@@ -373,10 +390,16 @@
             }
 
             const now = Date.now();
+            // 通信が有効なアクティブプレイヤーの数を数える
             const activePlayers = Object.values(data.players).filter(p => p.lastSeen && (now - p.lastSeen <= 6000));
-            if (activePlayers.length === 0 && data.status !== "force_reset" && data.status !== "waiting") {
-                roomRef.set({ status: "force_reset", map: baseMap, players: {}, bombs: "", flames: "", startTime: 0 });
-                return;
+            
+            // 🛠️【新規追加】相手が誰もいなくなったら強制的にリセット・待機状態にする
+            if (activePlayers.length <= 1 && data.status !== "waiting") {
+                roomRef.child("status").set("waiting");
+                roomRef.child("map").set(baseMap);
+                roomRef.child("bombs").set("");
+                roomRef.child("flames").set("");
+                return; 
             }
 
             gameState = data;
@@ -384,24 +407,32 @@
             
             const winScreen = document.getElementById("winScreen");
             const winMessage = document.getElementById("winMessage");
+            const waitingScreen = document.getElementById("waitingScreen");
 
-            if (data.status === "playing" && data.players) {
+            // 🛠️ 接続待ち・プレイ中・結果画面の表示切り替えを完全に制御
+            if (data.status === "waiting") {
+                waitingScreen.style.display = "flex";
+                winScreen.style.display = "none";
+                document.getElementById("timer-display").innerText = "2:00";
+            } else if (data.status === "playing" && data.players) {
+                waitingScreen.style.display = "none";
+                winScreen.style.display = "none";
+                
                 const alives = Object.values(data.players).filter(p => p.alive);
                 const totalPlayers = Object.keys(data.players).length;
 
-                // 🛠️【バグ修正】リスタート時の一瞬のラグによる暴走（フリング終了）を防止！
-                // 生存者が1人以下になったとき、純粋に「ゲーム中」であれば結果画面へと移行させる
                 if (totalPlayers >= 2 && alives.length <= 1) {
                     roomRef.child("status").set("result");
                 }
-                winScreen.style.display = "none";
             } else if (data.status === "result") {
+                waitingScreen.style.display = "none";
                 if (data.players) {
                     const alives = Object.values(data.players).filter(p => p.alive);
                     winMessage.innerText = alives.length === 1 ? `${alives[0].name} WIN!` : "DRAW (引き分け)";
                 }
                 winScreen.style.display = "flex";
             } else {
+                waitingScreen.style.display = "none";
                 winScreen.style.display = "none";
             }
         });
@@ -414,20 +445,13 @@
                 const p = gameState.players[key];
                 const pos = START_POS[p.slot - 1];
                 updatedPlayers[key] = {
-                    id: p.id,
-                    slot: p.slot,
-                    name: p.name,
-                    alive: true,
-                    x: pos.x,
-                    y: pos.y,
-                    confuseUntil: 0, 
-                    lastSeen: Date.now()
+                    id: p.id, slot: p.slot, name: p.name, alive: true, x: pos.x, y: pos.y, confuseUntil: 0, lastSeen: Date.now()
                 };
             });
 
+            // プレイヤーが2人以上いるときだけplayingにし、1人ならwaitingにする
             const nextStatus = Object.keys(updatedPlayers).length >= 2 ? "playing" : "waiting";
 
-            // 🛠️【バグ修正】位置情報・マップ・ゲーム状態(status)を「完全に同時」にリセットします
             roomRef.set({
                 status: nextStatus,
                 map: baseMap,
@@ -452,6 +476,7 @@
         });
 
         function move(origDx, origDy) {
+            // 🛠️ 接続待ち(waiting)の時は動けないようにロック
             if (currentRole === "spectator" || !isAlive || gameState.status !== "playing") return;
             let dx = origDx; let dy = origDy;
             if (isConfused) { dx = -origDx; dy = -origDy; }
