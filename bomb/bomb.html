@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Firebase Bomberman</title>
+    <title>Firebase Bomberman Ultimate</title>
     <style>
         body {
             margin: 0;
@@ -15,18 +15,68 @@
             overflow: hidden;
             user-select: none;
         }
-        #info {
-            height: 30px;
-            line-height: 30px;
+        #info-panel {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             font-size: 14px;
+        }
+        #takeoverBtn {
+            padding: 4px 8px;
+            background: #ff9800;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            display: none;
+        }
+        #canvas-container {
+            position: relative;
+            display: inline-block;
+            margin: 0 auto;
         }
         canvas {
             display: block;
-            margin: 0 auto;
             background: #333;
             max-width: 100vw;
             max-height: 50vh;
         }
+        /* 🏆 勝利画面オーバーレイ */
+        #winScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            display: none; /* 通常は非表示 */
+            cursor: pointer;
+        }
+        #winMessage {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255,215,0,0.5);
+        }
+        #restartHint {
+            font-size: 14px;
+            color: #aaa;
+            animation: blink 1s infinite alternate;
+        }
+        @keyframes blink {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
         /* スマホ用コントローラー */
         #controller {
             display: flex;
@@ -80,8 +130,18 @@
 </head>
 <body>
 
-    <div id="info">接続中...</div>
-    <canvas id="gameCanvas" width="416" height="352"></canvas>
+    <div id="info-panel">
+        <span id="info">接続中...</span>
+        <button id="takeoverBtn" onclick="tryTakeover()">動かない奴の席を奪う</button>
+    </div>
+
+    <div id="canvas-container">
+        <canvas id="gameCanvas" width="416" height="352"></canvas>
+        <div id="winScreen" onclick="restartGame()">
+            <div id="winMessage">P1 WIN!</div>
+            <div id="restartHint">画面タップで再スタート</div>
+        </div>
+    </div>
 
     <div id="controller">
         <div class="pad-container">
@@ -113,12 +173,10 @@
         const db = firebase.database();
         const roomRef = db.ref("bomber_room");
 
-        // 2. ゲーム定数
         const COLS = 13, ROWS = 11, TILE_SIZE = 32;
         const PLAYER_COLORS = ["#ff4444", "#4444ff", "#44ff44", "#ffff44"];
         const START_POS = [{x:1,y:1}, {x:11,y:9}, {x:11,y:1}, {x:1,y:9}];
 
-        // 初期マップ (1:壁, 2:壊れる箱, 0:通路)
         const baseMap = [
             [1,1,1,1,1,1,1,1,1,1,1,1,1],
             [1,0,0,2,2,2,2,2,2,2,0,0,1],
@@ -133,163 +191,223 @@
             [1,1,1,1,1,1,1,1,1,1,1,1,1]
         ];
 
-        // 3. ローカル状態管理
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
-        const myId = "user_" + Math.random().toString(36).substr(2, 9);
+        let myId = localStorage.getItem("bomber_myId");
+        if (!myId) {
+            myId = "user_" + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem("bomber_myId", myId);
+        }
         
-        let currentRole = "spectator"; // player1~4 または spectator
+        let currentRole = "spectator"; 
         let myGridX = 1, myGridY = 1;
         let isAlive = true;
-        let gameState = { status: "waiting", players: {}, bombs: {}, map: [] };
-        
-        // 滑らかな描画用の補間データ
+        let gameState = { status: "waiting", players: {}, bombs: {}, map: [], flames: {} };
         let renderPlayers = {};
 
-        // 4. ゲーム初期化・参加処理 (トランザクションで安全に席を確保)
-        roomRef.transaction((currentData) => {
-            if (!currentData) {
-                currentData = { status: "waiting", map: baseMap, players: {}, bombs: {} };
-            }
-            
-            // 既存プレイヤー数のカウント
-            const pCount = currentData.players ? Object.keys(currentData.players).length : 0;
-            
-            if (pCount < 4) {
-                // 空いているプレイヤー番号(1〜4)を探す
-                let slot = 1;
-                const existingSlots = Object.values(currentData.players).map(p => p.slot);
-                while(existingSlots.includes(slot)) slot++;
-
-                if (!currentData.players) currentData.players = {};
-                const pos = START_POS[slot - 1];
-                
-                currentData.players[myId] = {
-                    id: myId,
-                    slot: slot,
-                    x: pos.x,
-                    y: pos.y,
-                    alive: true,
-                    name: "P" + slot
-                };
-                
-                // 2人以上になったらステータスをプレイ中に
-                if (Object.keys(currentData.players).length >= 2 && currentData.status === "waiting") {
-                    currentData.status = "playing";
+        // 4. ゲーム参加処理
+        function joinGame() {
+            roomRef.transaction((currentData) => {
+                if (!currentData) {
+                    currentData = { status: "waiting", map: baseMap, players: {}, bombs: {}, flames: {} };
                 }
-            } else {
-                // 5人目以降は観戦
-                if (!currentData.spectators) currentData.spectators = {};
-                currentData.spectators[myId] = true;
-            }
-            return currentData;
-        }, (error, committed, snapshot) => {
-            if (committed) {
-                const data = snapshot.val();
-                if (data.players && data.players[myId]) {
-                    currentRole = "player" + data.players[myId].slot;
-                    myGridX = data.players[myId].x;
-                    myGridY = data.players[myId].y;
-                    document.getElementById("info").innerText = `あなたは Player ${data.players[myId].slot} です`;
-                } else {
-                    currentRole = "spectator";
-                    document.getElementById("info").innerText = "満員のため観戦モードです";
-                }
-            }
-        });
+                if (currentData.players && currentData.players[myId]) return currentData; 
 
-        // ログアウト・切断時のクリーンアップ
-        window.addEventListener("beforeunload", () => {
-            roomRef.child("players").child(myId).remove();
-            // プレイヤーが0人になったら部屋をリセット
-            roomRef.child("players").once("value", s => {
-                if(!s.exists()) roomRef.remove();
+                const pCount = currentData.players ? Object.keys(currentData.players).length : 0;
+                
+                if (pCount < 4) {
+                    let slot = 1;
+                    const existingSlots = Object.values(currentData.players).map(p => p.slot);
+                    while(existingSlots.includes(slot)) slot++;
+
+                    if (!currentData.players) currentData.players = {};
+                    const pos = START_POS[slot - 1];
+                    
+                    currentData.players[myId] = {
+                        id: myId, slot: slot, x: pos.x, y: pos.y, alive: true, name: "P" + slot, lastSeen: Date.now()
+                    };
+                    
+                    if (Object.keys(currentData.players).length >= 2 && currentData.status === "waiting") {
+                        currentData.status = "playing";
+                    }
+                }
+                return currentData;
+            }, (error, committed, snapshot) => {
+                if (committed) updateRoleState(snapshot.val());
             });
-        });
+        }
 
-        // 5. Firebase同期監視
+        function updateRoleState(data) {
+            if (!data) return;
+            if (data.players && data.players[myId]) {
+                const me = data.players[myId];
+                currentRole = "player" + me.slot;
+                myGridX = me.x;
+                myGridY = me.y;
+                isAlive = me.alive;
+                document.getElementById("info").innerText = `あなたは Player ${me.slot} です` + (isAlive ? "" : " (死亡)");
+                document.getElementById("takeoverBtn").style.display = "none";
+            } else {
+                currentRole = "spectator";
+                const pCount = data.players ? Object.keys(data.players).length : 0;
+                if (pCount < 4) {
+                    document.getElementById("info").innerText = "観戦中 (空き席あり。再試行中...)";
+                    document.getElementById("takeoverBtn").style.display = "none";
+                    setTimeout(joinGame, 1000);
+                } else {
+                    document.getElementById("info").innerText = "満員のため観戦中";
+                    document.getElementById("takeoverBtn").style.display = "inline-block";
+                }
+            }
+        }
+
+        setInterval(() => {
+            if (currentRole !== "spectator" && gameState.players && gameState.players[myId]) {
+                roomRef.child("players").child(myId).child("lastSeen").set(Date.now());
+            }
+        }, 2000);
+
+        function tryTakeover() {
+            if (currentRole !== "spectator") return;
+            const now = Date.now();
+            roomRef.transaction((currentData) => {
+                if (!currentData || !currentData.players) return currentData;
+                let zombieKey = null;
+                Object.keys(currentData.players).forEach(key => {
+                    const p = currentData.players[key];
+                    if (p.lastSeen && (now - p.lastSeen > 6000)) zombieKey = key; 
+                });
+                if (zombieKey) {
+                    const zombieData = currentData.players[zombieKey];
+                    currentData.players[myId] = { ...zombieData, id: myId, lastSeen: now };
+                    delete currentData.players[zombieKey];
+                } else {
+                    alert("動いていないプレイヤーは見つかりませんでした。");
+                }
+                return currentData;
+            }, (error, committed, snapshot) => {
+                if (committed) updateRoleState(snapshot.val());
+            });
+        }
+
+        // 5. Firebase同期監視と勝敗のUIリアルタイム制御
         roomRef.on("value", (snapshot) => {
             const data = snapshot.val();
             if (!data) return;
             gameState = data;
+            updateRoleState(data);
             
-            // 自分が死んでいないかチェック
-            if (data.players && data.players[myId]) {
-                isAlive = data.players[myId].alive;
-                if(!isAlive) document.getElementById("info").innerText = "ゲームオーバー（観戦中）";
-            }
-            
-            // 勝敗判定表示
+            const winScreen = document.getElementById("winScreen");
+            const winMessage = document.getElementById("winMessage");
+
+            // 生存者チェックと勝利画面表示
             if (data.status === "playing" && data.players) {
                 const alives = Object.values(data.players).filter(p => p.alive);
-                if (alives.length === 1) {
-                    document.getElementById("info").innerText = `勝者: ${alives[0].name}！`;
-                } else if (alives.length === 0) {
-                    document.getElementById("info").innerText = "引き分け！";
+                const totalPlayers = Object.keys(data.players).length;
+
+                // 2人以上参加していて、かつ生存者が1人（または相打ちで0人）になった瞬間
+                if (totalPlayers >= 2 && alives.length <= 1) {
+                    let resultText = "DRAW (引き分け)";
+                    if (alives.length === 1) {
+                        resultText = `${alives[0].name} WIN!`;
+                    }
+                    
+                    // 最初に検知した端末が部屋のステータスを一時的に "result" に変更
+                    roomRef.child("status").set("result");
+                    
+                    winMessage.innerText = resultText;
+                    winScreen.style.display = "flex";
                 }
+            } else if (data.status === "result") {
+                // 他の端末もステータス "result" を検知したら画面ロック＆勝利表示
+                if (data.players) {
+                    const alives = Object.values(data.players).filter(p => p.alive);
+                    winMessage.innerText = alives.length === 1 ? `${alives[0].name} WIN!` : "DRAW (引き分け)";
+                }
+                winScreen.style.display = "flex";
+            } else {
+                // waitingやplayingに戻ったら勝利画面を閉じる
+                winScreen.style.display = "none";
             }
         });
 
-        // 6. 移動・爆弾設置のロジック
+        // 🔄 試合リスタート処理 (トランザクションで安全に初期化)
+        function restartGame() {
+            roomRef.transaction((currentData) => {
+                if (!currentData) return currentData;
+
+                // マップのリセット
+                currentData.map = baseMap;
+                // 爆弾と炎の全消去
+                currentData.bombs = {};
+                currentData.flames = {};
+                
+                // 全プレイヤーのステータス初期化 (生存化、初期位置再配置)
+                if (currentData.players) {
+                    Object.keys(currentData.players).forEach(key => {
+                        const p = currentData.players[key];
+                        const pos = START_POS[p.slot - 1];
+                        p.alive = true;
+                        p.x = pos.x;
+                        p.y = pos.y;
+                    });
+                    
+                    // 2人以上いれば即プレイ開始、1人に減っていれば待機状態へ
+                    currentData.status = Object.keys(currentData.players).length >= 2 ? "playing" : "waiting";
+                } else {
+                    currentData.status = "waiting";
+                }
+                
+                return currentData;
+            });
+        }
+
+        // 6. 移動ロジック (ステータスがplayingの時のみ動ける)
         function move(dx, dy) {
             if (currentRole === "spectator" || !isAlive || gameState.status !== "playing") return;
-            
             const nextX = myGridX + dx;
             const nextY = myGridY + dy;
-            
-            // マップ配列の安全チェック
             if (!gameState.map || !gameState.map[nextY]) return;
             
-            // 壁・箱の衝突判定
             if (gameState.map[nextY][nextX] === 0) {
                 myGridX = nextX;
                 myGridY = nextY;
-                roomRef.child("players").child(myId).update({ x: myGridX, y: myGridY });
+                roomRef.child("players").child(myId).update({ x: myGridX, y: myGridY, lastSeen: Date.now() });
             }
         }
 
         function placeBomb() {
             if (currentRole === "spectator" || !isAlive || gameState.status !== "playing") return;
-            
             const bombId = `bomb_${myGridX}_${myGridY}`;
-            
-            // すでに同じ場所に爆弾があるかチェック
             if (gameState.bombs && gameState.bombs[bombId]) return;
             
             const now = Date.now();
             roomRef.child("bombs").child(bombId).set({
-                id: bombId,
-                x: myGridX,
-                y: myGridY,
-                owner: myId,
-                explodeAt: now + 2500 // 2.5秒後に爆発
+                id: bombId, x: myGridX, y: myGridY, owner: myId, explodeAt: now + 2500
             });
-
-            // 爆発タイマー (置いた本人が爆発処理を主導する)
-            setTimeout(() => {
-                executeExplosion(bombId, myGridX, myGridY);
-            }, 2500);
+            setTimeout(() => { executeExplosion(bombId, myGridX, myGridY); }, 2500);
         }
 
-        // 爆発処理と当たり判定
         function executeExplosion(bombId, bx, by) {
             roomRef.child("bombs").child(bombId).once("value", (snap) => {
-                if (!snap.exists()) return; // 処理済みならスキップ
-
-                // 爆弾データを削除し、視覚効果(flames)を一瞬出す
+                if (!snap.exists()) return;
                 roomRef.child("bombs").child(bombId).remove();
                 
-                // 爆風の届く範囲の計算 (十字に1マス)
-                const targetTiles = [{x: bx, y: by}, {x: bx+1, y: by}, {x: bx-1, y: by}, {x: bx, y: by+1}, {x: bx, y: by-1}];
+                let affectedTiles = [{x: bx, y: by}];
+                const dirs = [{x:1, y:0}, {x:-1, y:0}, {x:0, y:1}, {x:0, y:-1}];
                 
-                let mapUpdate = {};
-                targetTiles.forEach(tile => {
-                    // 箱(2)があれば通路(0)にする
-                    if (gameState.map && gameState.map[tile.y] && gameState.map[tile.y][tile.x] === 2) {
+                dirs.forEach(dir => {
+                    const tx = bx + dir.x;
+                    const ty = by + dir.y;
+                    if (gameState.map && gameState.map[ty] && gameState.map[ty][tx] !== undefined) {
+                        const tileType = gameState.map[ty][tx];
+                        if (tileType === 0) affectedTiles.push({x: tx, y: ty});
+                        else if (tileType === 2) affectedTiles.push({x: tx, y: ty});
+                    }
+                });
+
+                affectedTiles.forEach(tile => {
+                    if (gameState.map[tile.y][tile.x] === 2) {
                         roomRef.child("map").child(tile.y).child(tile.x).set(0);
                     }
-                    
-                    // プレイヤーの死亡判定
                     if (gameState.players) {
                         Object.values(gameState.players).forEach(p => {
                             if (p.x === tile.x && p.y === tile.y && p.alive) {
@@ -297,11 +415,14 @@
                             }
                         });
                     }
+                    const flameId = `flame_${tile.x}_${tile.y}`;
+                    roomRef.child("flames").child(flameId).set({x: tile.x, y: tile.y});
+                    setTimeout(() => { roomRef.child("flames").child(flameId).remove(); }, 500);
                 });
             });
         }
 
-        // 7. コントローラー・キーボード入力イベント
+        // 7. コントローラー・キーボード入力
         window.addEventListener("keydown", (e) => {
             if (e.key === "ArrowUp" || e.key === "w") move(0, -1);
             if (e.key === "ArrowDown" || e.key === "s") move(0, 1);
@@ -315,72 +436,71 @@
         document.getElementById("btn-left").addEventListener("touchstart", (e) => { e.preventDefault(); move(-1, 0); });
         document.getElementById("btn-right").addEventListener("touchstart", (e) => { e.preventDefault(); move(1, 0); });
         document.getElementById("bombBtn").addEventListener("touchstart", (e) => { e.preventDefault(); placeBomb(); });
-        
-        // PCでのクリックテスト用
+
         document.getElementById("btn-up").addEventListener("click", () => move(0, -1));
         document.getElementById("btn-down").addEventListener("click", () => move(0, 1));
         document.getElementById("btn-left").addEventListener("click", () => move(-1, 0));
         document.getElementById("btn-right").addEventListener("click", () => move(1, 0));
         document.getElementById("bombBtn").addEventListener("click", placeBomb);
 
-        // 8. メイン描画ループ (Canvas描画)
+        // 8. 描画ループ
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // マップの描画
             if (gameState.map) {
                 for (let r = 0; r < ROWS; r++) {
                     for (let c = 0; c < COLS; c++) {
                         const tile = gameState.map[r][c];
                         if (tile === 1) {
-                            ctx.fillStyle = "#777"; // 壊れない壁
+                            ctx.fillStyle = "#777"; 
                             ctx.fillRect(c * TILE_SIZE, r * TILE_SIZE, TILE_SIZE - 1, TILE_SIZE - 1);
                         } else if (tile === 2) {
-                            ctx.fillStyle = "#b55"; // 壊れる箱
+                            ctx.fillStyle = "#b55"; 
                             ctx.fillRect(c * TILE_SIZE, r * TILE_SIZE, TILE_SIZE - 1, TILE_SIZE - 1);
                         }
                     }
                 }
             }
 
-            // 爆弾の描画
+            if (gameState.flames) {
+                Object.values(gameState.flames).forEach(f => {
+                    ctx.fillStyle = "#ff5722";
+                    ctx.fillRect(f.x * TILE_SIZE, f.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                });
+            }
+
             if (gameState.bombs) {
                 Object.values(gameState.bombs).forEach(b => {
                     ctx.fillStyle = "#000";
                     ctx.beginPath();
                     ctx.arc(b.x * TILE_SIZE + TILE_SIZE/2, b.y * TILE_SIZE + TILE_SIZE/2, TILE_SIZE/2.5, 0, Math.PI * 2);
                     ctx.fill();
-                    // 導火線の赤い点滅効果
                     ctx.fillStyle = (Math.floor(Date.now() / 200) % 2 === 0) ? "#f00" : "#ff0";
                     ctx.fillRect(b.x * TILE_SIZE + TILE_SIZE/2 - 2, b.y * TILE_SIZE + 2, 4, 4);
                 });
             }
 
-            // プレイヤーの描画（線形補間アニメーション付き）
             if (gameState.players) {
                 Object.values(gameState.players).forEach(p => {
                     if (!p.alive) return;
 
-                    // 初めて見るプレイヤーなら補間座標を初期化
                     if (!renderPlayers[p.id]) {
                         renderPlayers[p.id] = { x: p.x * TILE_SIZE, y: p.y * TILE_SIZE };
                     }
 
-                    // 目標座標 (Grid座標からPixel座標へ)
                     const targetX = p.x * TILE_SIZE;
                     const targetY = p.y * TILE_SIZE;
-
-                    // ラープ(補間)処理：現在の描画位置を目標位置にジワジワ近づける（ワープ防止）
                     renderPlayers[p.id].x += (targetX - renderPlayers[p.id].x) * 0.3;
                     renderPlayers[p.id].y += (targetY - renderPlayers[p.id].y) * 0.3;
 
-                    // 描画
                     ctx.fillStyle = PLAYER_COLORS[p.slot - 1] || "#fff";
                     ctx.beginPath();
                     ctx.arc(renderPlayers[p.id].x + TILE_SIZE/2, renderPlayers[p.id].y + TILE_SIZE/2, TILE_SIZE/3, 0, Math.PI * 2);
                     ctx.fill();
 
-                    // 文字表示 (P1, P2など)
                     ctx.fillStyle = "#000";
                     ctx.font = "bold 10px sans-serif";
                     ctx.textAlign = "center";
@@ -392,7 +512,7 @@
             requestAnimationFrame(draw);
         }
 
-        // ループ開始
+        joinGame();
         draw();
     </script>
 </body>
