@@ -389,13 +389,13 @@
                 const alives = Object.values(data.players).filter(p => p.alive);
                 const totalPlayers = Object.keys(data.players).length;
 
-                // 🛠️【バグ修正】リスタート時に全員の位置情報がリセットされきる前のタイムラグによる誤作動を完全に防ぐ
+                // 🛠️【バグ修正】リスタート直後に全員が「alive: true」かつ「初期位置」に同期されるまで勝敗判定をスキップする
                 const isFullyReset = Object.values(data.players).every(p => {
                     const pos = START_POS[p.slot - 1];
-                    return !p.alive || (p.x === pos.x && p.y === pos.y);
+                    return p.alive === true && p.x === pos.x && p.y === pos.y;
                 });
 
-                if (totalPlayers >= 2 && alives.length <= 1 && isFullyReset) {
+                if (totalPlayers >= 2 && isFullyReset && alives.length <= 1) {
                     let resultText = "DRAW (引き分け)";
                     if (alives.length === 1) resultText = `${alives[0].name} WIN!`;
                     roomRef.child("status").set("result");
@@ -434,6 +434,7 @@
 
             const nextStatus = Object.keys(updatedPlayers).length >= 2 ? "playing" : "waiting";
 
+            // 🛠️【同期の安全強化】まずサーバー側をきれいに上書き
             roomRef.set({
                 status: nextStatus,
                 map: baseMap,
@@ -446,6 +447,9 @@
             stockH = false; stockV = false; stockC = false;
             nextBombH = false; nextBombV = false; isConfused = false;
             updateSkillButtonUI();
+            
+            // ローカル画面のWINスクリーンを即座に非表示にして先行してバグ感を消す
+            document.getElementById("winScreen").style.display = "none";
         }
 
         const winScreenEl = document.getElementById("winScreen");
@@ -514,6 +518,7 @@
                 const bData = snap.val();
                 roomRef.child("bombs").child(bombId).remove();
                 
+                // 🛠️【バグ修正】爆弾の中心マス(bx, by)をはじめから爆風リストに入れておく
                 let affectedTiles = [{x: bx, y: by}];
                 const dirs = [
                     {x: 1,  y: 0,  type: 'h'}, 
