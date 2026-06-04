@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Firebase Bomberman Tactical Edition</title>
+    <title>Firebase Bomberman SuddenDeath Edition</title>
     <style>
         body {
             margin: 0; padding: 0; background: #222; color: #fff;
@@ -12,6 +12,10 @@
         #info-panel {
             height: 40px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px;
         }
+        #timer-display {
+            font-weight: bold; padding: 2px 6px; background: #000; border-radius: 4px; color: #00ff00;
+        }
+        .sudden-alert { color: #ff3333 !important; animation: blink 0.5s infinite alternate; }
         #takeoverBtn {
             padding: 4px 8px; background: #ff9800; border: none; color: white; border-radius: 4px; font-weight: bold; cursor: pointer; display: none;
         }
@@ -27,7 +31,6 @@
         #restartHint { font-size: 14px; color: #aaa; animation: blink 1s infinite alternate; }
         @keyframes blink { 0% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        /* スマホ用コントローラーエリア */
         #controller { display: flex; justify-content: space-around; align-items: center; height: 40vh; padding: 10px; box-sizing: border-box; }
         .pad-container { position: relative; width: 150px; height: 150px; }
         .btn {
@@ -40,51 +43,28 @@
         #btn-right { top: 50px; left: 100px; }
         #btn-down  { top: 100px; left: 50px; }
         
-        /* 💣 爆弾＆スキルコンテナ */
-        .action-container {
-            position: relative;
-            width: 130px;
-            height: 130px;
-        }
+        .action-container { position: relative; width: 130px; height: 130px; }
         #bombBtn {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            width: 80px; height: 80px; background: #d32f2f; border: 3px solid #fff; border-radius: 50%;
-            font-size: 32px; color: white; cursor: pointer; box-shadow: 0 4px #9a0007;
-            z-index: 2;
+            position: absolute; bottom: 5px; right: 5px; width: 80px; height: 80px; background: #d32f2f; border: 3px solid #fff; border-radius: 50%;
+            font-size: 32px; color: white; cursor: pointer; box-shadow: 0 4px #9a0007; z-index: 2;
         }
         #bombBtn:active { transform: translateY(2px); box-shadow: 0 2px #9a0007; }
 
-        /* ✨ 拡張スキルボタン群（初期は非表示・スケール0） */
         .skill-btn {
-            position: absolute;
-            width: 44px; height: 44px;
-            border-radius: 50%;
-            border: 2px solid white;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 3px rgba(0,0,0,0.3);
-            transform: scale(0);
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 3;
+            position: absolute; width: 44px; height: 44px; border-radius: 50%; border: 2px solid white; color: white; font-size: 16px; font-weight: bold;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 3px rgba(0,0,0,0.3); transform: scale(0);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 3;
         }
         .skill-btn:active { transform: scale(0.9) !important; }
-        
-        /* 爆弾ボタンの周囲に配置 */
-        #skill-h { background: #00bcd4; top: 0; left: 0; }      /* 左上：横貫通 */
-        #skill-v { background: #e91e63; top: 0; left: 48px; }     /* 上：縦貫通 */
-        #skill-c { background: #9c27b0; top: 44px; left: 0; }    /* 左：混乱 */
+        #skill-h { background: #00bcd4; top: 0; left: 0; }      
+        #skill-v { background: #e91e63; top: 0; left: 48px; }     
+        #skill-c { background: #9c27b0; top: 44px; left: 0; }    
     </style>
 </head>
 <body>
 
     <div id="info-panel">
+        <span id="timer-display">2:00</span>
         <span id="info">接続中...</span>
         <button id="takeoverBtn" onclick="tryTakeover()">動かない奴の席を奪う</button>
     </div>
@@ -150,6 +130,26 @@
             [1,1,1,1,1,1,1,1,1,1,1,1,1]
         ];
 
+        // 🌀 サドンデス用の外周埋め立てルートのインデックス座標
+        const SUDDEN_BLOCKS = [];
+        (function generateSuddenPath() {
+            let top = 1, bottom = ROWS - 2, left = 1, right = COLS - 2;
+            while (top <= bottom && left <= right) {
+                for (let i = left; i <= right; i++) SUDDEN_BLOCKS.push({x: i, y: top});
+                top++;
+                for (let i = top; i <= bottom; i++) SUDDEN_BLOCKS.push({x: right, y: i});
+                right--;
+                if (top <= bottom) {
+                    for (let i = right; i >= left; i--) SUDDEN_BLOCKS.push({x: i, y: bottom});
+                    bottom--;
+                }
+                if (left <= right) {
+                    for (let i = bottom; i >= top; i--) SUDDEN_BLOCKS.push({x: left, y: i});
+                    left++;
+                }
+            }
+        })();
+
         let myId = localStorage.getItem("bomber_myId");
         if (!myId) {
             myId = "user_" + Math.random().toString(36).substr(2, 9);
@@ -159,23 +159,16 @@
         let currentRole = "spectator"; 
         let myGridX = 1, myGridY = 1;
         let isAlive = true;
-        let gameState = { status: "waiting", players: {}, bombs: {}, map: [], flames: {} };
+        let gameState = { status: "waiting", players: {}, bombs: {}, map: [], flames: {}, startTime: 0 };
         let renderPlayers = {};
 
-        // ストック状態 (trueで所持)
-        let stockH = false;
-        let stockV = false;
-        let stockC = false;
-
-        // 次に置く爆弾に乗せるバフ状態
-        let nextBombH = false;
-        let nextBombV = false;
-        let isConfused = false;
+        let stockH = false, stockV = false, stockC = false;
+        let nextBombH = false, nextBombV = false, isConfused = false;
 
         function joinGame() {
             roomRef.transaction((currentData) => {
-                if (!currentData) {
-                    currentData = { status: "waiting", map: baseMap, players: {}, bombs: {}, flames: {} };
+                if (!currentData || !currentData.map || currentData.status === "force_reset") {
+                    currentData = { status: "waiting", map: baseMap, players: {}, bombs: {}, flames: {}, startTime: 0 };
                 }
                 if (currentData.players && currentData.players[myId]) return currentData; 
 
@@ -191,13 +184,18 @@
                     currentData.players[myId] = {
                         id: myId, slot: slot, x: pos.x, y: pos.y, alive: true, name: "P" + slot, lastSeen: Date.now(), confuseUntil: 0
                     };
-                    if (Object.keys(currentData.players).length >= 2 && currentData.status === "waiting") {
+                    
+                    if (Object.keys(currentData.players).length >= 2 && (currentData.status === "waiting" || currentData.status === "result")) {
                         currentData.status = "playing";
+                        currentData.startTime = Date.now(); // ゲーム開始時刻を記録
                     }
                 }
                 return currentData;
             }, (error, committed, snapshot) => {
-                if (committed) updateRoleState(snapshot.val());
+                if (committed) {
+                    updateRoleState(snapshot.val());
+                    roomRef.child("players").child(myId).onDisconnect().remove();
+                }
             });
         }
 
@@ -206,17 +204,14 @@
             if (data.players && data.players[myId]) {
                 const me = data.players[myId];
                 currentRole = "player" + me.slot;
-                myGridX = me.x;
-                myGridY = me.y;
-                isAlive = me.alive;
-                
+                myGridX = me.x; myGridY = me.y; isAlive = me.alive;
                 isConfused = me.confuseUntil && me.confuseUntil > Date.now();
 
                 let statusStr = `あなたは Player ${me.slot} です`;
                 if (!isAlive) statusStr += " (死亡)";
                 else if (isConfused) statusStr += " 🌀【混乱中！】";
-                else if (nextBombH) statusStr += " 🚀【横充填完了】";
-                else if (nextBombV) statusStr += " 🛸【縦充填完了】";
+                else if (nextBombH) statusStr += " 🚀【横充填】";
+                else if (nextBombV) statusStr += " 🛸【縦充填】";
 
                 document.getElementById("info").innerText = statusStr;
                 document.getElementById("takeoverBtn").style.display = "none";
@@ -224,7 +219,7 @@
                 currentRole = "spectator";
                 const pCount = data.players ? Object.keys(data.players).length : 0;
                 if (pCount < 4) {
-                    document.getElementById("info").innerText = "観戦中 (空き席あり。再試行中...)";
+                    document.getElementById("info").innerText = "観戦中 (空き席あり...)";
                     document.getElementById("takeoverBtn").style.display = "none";
                     setTimeout(joinGame, 1000);
                 } else {
@@ -232,11 +227,9 @@
                     document.getElementById("takeoverBtn").style.display = "inline-block";
                 }
             }
-            // UI表示更新
             updateSkillButtonUI();
         }
 
-        // スキルボタンの出現・消滅アニメーション管理
         function updateSkillButtonUI() {
             if (currentRole === "spectator" || !isAlive) {
                 document.getElementById("skill-h").style.transform = "scale(0)";
@@ -249,29 +242,16 @@
             document.getElementById("skill-c").style.transform = stockC ? "scale(1)" : "scale(0)";
         }
 
-        // 🛑 任意タイミングでのスキル発動
         function activateSkill(type) {
             if (currentRole === "spectator" || !isAlive || gameState.status !== "playing") return;
-
-            if (type === 'h' && stockH) {
-                stockH = false;
-                nextBombH = true; // 次の爆弾を横貫通に
-                nextBombV = false;
-            } else if (type === 'v' && stockV) {
-                stockV = false;
-                nextBombV = true; // 次の爆弾を縦貫通に
-                nextBombH = false;
-            } else if (type === 'c' && stockC) {
+            if (type === 'h' && stockH) { stockH = false; nextBombH = true; nextBombV = false; }
+            else if (type === 'v' && stockV) { stockV = false; nextBombV = true; nextBombH = false; }
+            else if (type === 'c' && stockC) {
                 stockC = false;
-                // 🌀 混乱呪いは即座に相手全員へ直撃させる
                 const curseDuration = 5000;
                 roomRef.child("players").once("value", (snap) => {
                     let updates = {};
-                    snap.forEach(child => {
-                        if (child.key !== myId) {
-                            updates[`${child.key}/confuseUntil`] = Date.now() + curseDuration;
-                        }
-                    });
+                    snap.forEach(child => { if (child.key !== myId) updates[`${child.key}/confuseUntil`] = Date.now() + curseDuration; });
                     roomRef.child("players").update(updates);
                 });
             }
@@ -308,9 +288,64 @@
             });
         }
 
+        // ⏱️ タイマー＆サドンデス監視処理（1秒毎）
+        setInterval(() => {
+            if (gameState.status !== "playing" || !gameState.startTime) return;
+            
+            const elapsed = Math.floor((Date.now() - gameState.startTime) / 1000);
+            const totalDuration = 120; // 2分
+            const remaining = Math.max(0, totalDuration - elapsed);
+
+            // タイマー文字表示の変更
+            const m = Math.floor(remaining / 60);
+            const s = remaining % 60;
+            const timerEl = document.getElementById("timer-display");
+            timerEl.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+
+            if (remaining <= 60) {
+                timerEl.classList.add("sudden-alert");
+            } else {
+                timerEl.classList.remove("sudden-alert");
+            }
+
+            // ⚠️ 【新設】サドンデス：残り60秒未満なら、経過1秒ごとに1マス永久壁化していく
+            if (remaining < 60 && remaining > 0) {
+                const blockIndex = 60 - remaining - 1; // 0〜59マスの順
+                if (blockIndex < SUDDEN_BLOCKS.length) {
+                    const targetBlock = SUDDEN_BLOCKS[blockIndex];
+                    
+                    // 最初に気づいたホスト端末(または全端末で上書き)がFirebaseを安全に更新
+                    roomRef.child("map").child(targetBlock.y).child(targetBlock.x).once("value", (snap) => {
+                        if (snap.val() !== 1) {
+                            roomRef.child("map").child(targetBlock.y).child(targetBlock.x).set(1);
+                            // そのマスにプレイヤーがいたら即死
+                            if (gameState.players) {
+                                Object.values(gameState.players).forEach(p => {
+                                    if (p.x === targetBlock.x && p.y === targetBlock.y && p.alive) {
+                                        roomRef.child("players").child(p.id).update({ alive: false });
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+
+            // タイムアップ判定
+            if (remaining <= 0) {
+                roomRef.child("status").set("result");
+            }
+        }, 1000);
+
         roomRef.on("value", (snapshot) => {
             const data = snapshot.val();
-            if (!data) return;
+            if (!data || !data.players || Object.keys(data.players).length === 0) {
+                if (data && data.status !== "force_reset") {
+                    roomRef.set({ status: "force_reset", map: baseMap, players: {}, bombs: {}, flames: {}, startTime: 0 });
+                }
+                return;
+            }
+
             gameState = data;
             updateRoleState(data);
             
@@ -345,7 +380,8 @@
                 currentData.map = baseMap;
                 currentData.bombs = {};
                 currentData.flames = {};
-                if (currentData.players) {
+                currentData.startTime = Date.now(); // 再スタート時もタイマーリセット
+                if (currentData.players && Object.keys(currentData.players).length > 0) {
                     Object.keys(currentData.players).forEach(key => {
                         const p = currentData.players[key];
                         const pos = START_POS[p.slot - 1];
@@ -364,7 +400,6 @@
 
         function move(origDx, origDy) {
             if (currentRole === "spectator" || !isAlive || gameState.status !== "playing") return;
-            
             let dx = origDx; let dy = origDy;
             if (isConfused) { dx = -origDx; dy = -origDy; }
 
@@ -373,13 +408,9 @@
             if (!gameState.map || !gameState.map[nextY]) return;
             
             const targetTile = gameState.map[nextY][nextX];
-            
             if (targetTile === 0 || targetTile >= 3) {
-                myGridX = nextX;
-                myGridY = nextY;
-                
+                myGridX = nextX; myGridY = nextY;
                 if (targetTile >= 3) {
-                    // 拾ったら即時発動せず、ストックフラグを立てる
                     if (targetTile === 3) stockH = true;
                     if (targetTile === 4) stockV = true;
                     if (targetTile === 5) stockC = true;
@@ -396,20 +427,11 @@
             if (gameState.bombs && gameState.bombs[bombId]) return;
             
             const now = Date.now();
-            
-            // 充填中のバフを付与してFirebaseへ同期
             roomRef.child("bombs").child(bombId).set({
-                id: bombId, x: myGridX, y: myGridY, owner: myId,
-                explodeAt: now + 2500,
-                hPierce: nextBombH,
-                vPierce: nextBombV
+                id: bombId, x: myGridX, y: myGridY, owner: myId, explodeAt: now + 2500, hPierce: nextBombH, vPierce: nextBombV
             });
-
-            // バフを消費
-            nextBombH = false;
-            nextBombV = false;
+            nextBombH = false; nextBombV = false;
             updateRoleState(gameState);
-
             setTimeout(() => { executeExplosion(bombId, myGridX, myGridY); }, 2500);
         }
 
@@ -420,22 +442,17 @@
                 roomRef.child("bombs").child(bombId).remove();
                 
                 let affectedTiles = [{x: bx, y: by}];
-                const dirs = [
-                    {x:1, y:0, type:'h'}, {x:-1, y:0, type:'h'},
-                    {x:0, y:1, type:'v'}, {x:0, y:-1, type:'v'}
-                ];
+                const dirs = [{x:1, y:0, type:'h'}, {x:-1, y:0, type:'h'}, {x:0, y:1, type:'v'}, {x:0, y:-1, type:'v'}];
                 
                 dirs.forEach(dir => {
                     let tx = bx + dir.x; let ty = by + dir.y;
                     if (!gameState.map || !gameState.map[ty] || gameState.map[ty][tx] === undefined) return;
                     const tileType = gameState.map[ty][tx];
-                    
                     const isPierced = (dir.type === 'h' && bData.hPierce) || (dir.type === 'v' && bData.vPierce);
 
                     if (isPierced) {
                         while (gameState.map[ty] && gameState.map[ty][tx] !== undefined && gameState.map[ty][tx] !== 1) {
-                            affectedTiles.push({x: tx, y: ty});
-                            tx += dir.x; ty += dir.y;
+                            affectedTiles.push({x: tx, y: ty}); tx += dir.x; ty += dir.y;
                         }
                     } else {
                         if (tileType !== 1) affectedTiles.push({x: tx, y: ty});
@@ -445,9 +462,7 @@
                 affectedTiles.forEach(tile => {
                     if (gameState.bombs) {
                         Object.values(gameState.bombs).forEach(otherBomb => {
-                            if (otherBomb.x === tile.x && otherBomb.y === tile.y) {
-                                executeExplosion(otherBomb.id, otherBomb.x, otherBomb.y);
-                            }
+                            if (otherBomb.x === tile.x && otherBomb.y === tile.y) executeExplosion(otherBomb.id, otherBomb.x, otherBomb.y);
                         });
                     }
                 });
@@ -456,33 +471,28 @@
                     if (gameState.map[tile.y] && gameState.map[tile.y][tile.x] === 2) {
                         const rand = Math.random();
                         let newTileValue = 0;
-                        if (rand < 0.12) newTileValue = 3;     // 🚀
-                        else if (rand < 0.24) newTileValue = 4; // 🛸
-                        else if (rand < 0.35) newTileValue = 5; // 🌀
+                        if (rand < 0.12) newTileValue = 3; else if (rand < 0.24) newTileValue = 4; else if (rand < 0.35) newTileValue = 5;
                         roomRef.child("map").child(tile.y).child(tile.x).set(newTileValue);
                     }
                     if (gameState.players) {
                         Object.values(gameState.players).forEach(p => {
-                            if (p.x === tile.x && p.y === tile.y && p.alive) {
-                                roomRef.child("players").child(p.id).update({ alive: false });
-                            }
+                            if (p.x === tile.x && p.y === tile.y && p.alive) roomRef.child("players").child(p.id).update({ alive: false });
                         });
                     }
                     const flameId = `flame_${tile.x}_${tile.y}`;
-                    roomRef.child("flames").child(flameId).set({x: tile.x, y: tile.y});
+                    // 🔥 【新設】爆風消滅のフェード計算用に、爆発した絶対時刻（createdAt）を付与して保存
+                    roomRef.child("flames").child(flameId).set({x: tile.x, y: tile.y, createdAt: Date.now()});
                     setTimeout(() => { roomRef.child("flames").child(flameId).remove(); }, 500);
                 });
             });
         }
 
-        // 入力制御
         window.addEventListener("keydown", (e) => {
             if (e.key === "ArrowUp" || e.key === "w") move(0, -1);
             if (e.key === "ArrowDown" || e.key === "s") move(0, 1);
             if (e.key === "ArrowLeft" || e.key === "a") move(-1, 0);
             if (e.key === "ArrowRight" || e.key === "d") move(1, 0);
             if (e.key === " ") placeBomb();
-            // PC用ショートカット (1, 2, 3キーでストックスキル発動)
             if (e.key === "1") activateSkill('h');
             if (e.key === "2") activateSkill('v');
             if (e.key === "3") activateSkill('c');
@@ -505,6 +515,10 @@
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (!gameState.map || gameState.status === "force_reset") {
+                requestAnimationFrame(draw);
+                return;
+            }
             if (gameState.map) {
                 for (let r = 0; r < ROWS; r++) {
                     for (let c = 0; c < COLS; c++) {
@@ -527,9 +541,20 @@
                 }
             }
 
+            // 🔥 【改造】残りの生存時間を元に透明度（Alpha）をリアルタイム計算してフェードアウト描画
             if (gameState.flames) {
                 Object.values(gameState.flames).forEach(f => {
-                    ctx.fillStyle = "#ff5722"; ctx.fillRect(f.x * TILE_SIZE, f.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                    const aliveTime = Date.now() - f.createdAt; // 爆発してからの経過ミリ秒 (0〜500ms)
+                    const alpha = Math.max(0, 1 - (aliveTime / 500)); // 時間とともに 1.0 -> 0.0 に落ちる
+                    
+                    ctx.save();
+                    ctx.globalAlpha = alpha;
+                    // 中心を黄色、外側をオレンジにするグラデーションでリアルに
+                    ctx.fillStyle = "#ff5722";
+                    ctx.fillRect(f.x * TILE_SIZE, f.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                    ctx.fillStyle = "#ffeb3b";
+                    ctx.fillRect(f.x * TILE_SIZE + 4, f.y * TILE_SIZE + 4, TILE_SIZE - 8, TILE_SIZE - 8);
+                    ctx.restore();
                 });
             }
 
