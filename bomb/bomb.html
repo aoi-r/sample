@@ -213,7 +213,6 @@
                         id: myId, slot: slot, x: pos.x, y: pos.y, alive: true, name: "P" + slot, lastSeen: Date.now(), confuseUntil: 0
                     };
                     
-                    // 2人目が揃ったらここできちんと状態をplayingにする
                     const nowActiveCount = Object.values(currentData.players).filter(p => !p.lastSeen || (Date.now() - p.lastSeen <= 6000)).length;
                     if (nowActiveCount >= 2 && currentData.status === "waiting") {
                         currentData.status = "playing";
@@ -338,6 +337,7 @@
             });
         }
 
+        // ⏱️ タイマー＆サドンデス処理
         setInterval(() => {
             if (gameState.status !== "playing" || !gameState.startTime) return;
             
@@ -381,6 +381,7 @@
             }
         }, 1000);
 
+        // 🔄 Firebaseからのデータ同期（自動リセット競合バグを排除）
         roomRef.on("value", (snapshot) => {
             const data = snapshot.val();
             
@@ -389,26 +390,6 @@
                     roomRef.set({ status: "force_reset", map: baseMap, players: {}, bombs: "", flames: "", startTime: 0 });
                 }
                 return;
-            }
-
-            const now = Date.now();
-            const activePlayers = Object.values(data.players).filter(p => p.lastSeen && (now - p.lastSeen <= 6000));
-            
-            // 🛠️【バグ修正】トランザクションを使用して確実に1人以下になった時にリセットをかける
-            if ((data.status === "playing" || data.status === "result") && activePlayers.length <= 1) {
-                roomRef.transaction((currentData) => {
-                    if (!currentData) return currentData;
-                    const insideActive = currentData.players ? Object.values(currentData.players).filter(p => p.lastSeen && (Date.now() - p.lastSeen <= 6000)) : [];
-                    if (insideActive.length <= 1) {
-                        currentData.status = "waiting";
-                        currentData.map = baseMap;
-                        currentData.bombs = "";
-                        currentData.flames = "";
-                        currentData.startTime = 0;
-                    }
-                    return currentData;
-                });
-                return; 
             }
 
             gameState = data;
@@ -429,6 +410,7 @@
                 const alives = Object.values(data.players).filter(p => p.alive);
                 const totalPlayers = Object.keys(data.players).length;
 
+                // 生存者が1人以下になったら結果画面へ移行
                 if (totalPlayers >= 2 && alives.length <= 1) {
                     roomRef.child("status").set("result");
                 }
@@ -445,6 +427,7 @@
             }
         });
 
+        // 🛠️【バグ修正】確実な再スタート処理（タイマーの初期化漏れを完全解消）
         function restartGame() {
             if (!gameState || !gameState.players) return;
 
@@ -460,12 +443,12 @@
                     };
                 });
 
-                const activeCount = Object.values(updatedPlayers).filter(p => Date.now() - p.lastSeen <= 6000).length;
-                currentData.status = activeCount >= 2 ? "playing" : "waiting";
+                // 新しいゲーム状態をしっかりとセット
+                currentData.status = "playing";
                 currentData.map = baseMap;
                 currentData.bombs = "";
                 currentData.flames = "";
-                currentData.startTime = Date.now();
+                currentData.startTime = Date.now(); // 💥ここを完全に新しくすることでサドンデスを回避！
                 currentData.players = updatedPlayers;
                 
                 return currentData;
