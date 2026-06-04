@@ -337,7 +337,7 @@
             });
         }
 
-        // ⏱️ タイマー＆サドンデス処理
+        // ⏱️ タイマー＆サドンデス処理（潰されたときのゲーム終了・リザルト移行を追加）
         setInterval(() => {
             if (gameState.status !== "playing" || !gameState.startTime) return;
             
@@ -364,12 +364,24 @@
                     roomRef.child("map").child(targetBlock.y).child(targetBlock.x).once("value", (snap) => {
                         if (snap.val() !== 1) {
                             roomRef.child("map").child(targetBlock.y).child(targetBlock.x).set(1);
+                            
+                            // 壁が降ってきたタイミングでのプレイヤー死亡判定および勝敗チェック
                             if (gameState.players) {
+                                let aliveCount = 0;
                                 Object.values(gameState.players).forEach(p => {
                                     if (p.x === targetBlock.x && p.y === targetBlock.y && p.alive) {
                                         roomRef.child("players").child(p.id).update({ alive: false });
+                                    } else if (p.alive) {
+                                        // この壁で潰されなかった、かつ生存しているプレイヤーをカウント
+                                        if (!(p.x === targetBlock.x && p.y === targetBlock.y)) {
+                                            aliveCount++;
+                                        }
                                     }
                                 });
+                                // 壁に潰された結果、生存者が1人以下になった場合は即座にリザルト（結果画面）へ移行する
+                                if (aliveCount <= 1) {
+                                    roomRef.child("status").set("result");
+                                }
                             }
                         }
                     });
@@ -381,7 +393,7 @@
             }
         }, 1000);
 
-        // 🔄 Firebaseからのデータ同期（自動リセット競合バグを排除）
+        // 🔄 Firebaseからのデータ同期
         roomRef.on("value", (snapshot) => {
             const data = snapshot.val();
             
@@ -410,7 +422,7 @@
                 const alives = Object.values(data.players).filter(p => p.alive);
                 const totalPlayers = Object.keys(data.players).length;
 
-                // 生存者が1人以下になったら結果画面へ移行
+                // 通常の爆弾による決着での結果画面移行判定
                 if (totalPlayers >= 2 && alives.length <= 1) {
                     roomRef.child("status").set("result");
                 }
@@ -427,17 +439,20 @@
             }
         });
 
-        // 🛠️【バグ修正】確実な再スタート処理（タイマーの初期化漏れを完全解消）
+        // 🛠️ 確実な再スタート処理
         function restartGame() {
             if (!gameState || !gameState.players) return;
 
             roomRef.transaction((currentData) => {
-                if (!currentData || !currentData.players) return currentData;
+                if (!currentData) return currentData;
+                
+                // プレイヤー情報がない、もしくは強制初期化状態から復旧させるための安全処理
+                if (!currentData.players) currentData.players = {};
                 
                 let updatedPlayers = {};
                 Object.keys(currentData.players).forEach(key => {
                     const p = currentData.players[key];
-                    const pos = START_POS[p.slot - 1];
+                    const pos = START_POS[p.slot - 1] || {x: 1, y: 1};
                     updatedPlayers[key] = {
                         id: p.id, slot: p.slot, name: p.name, alive: true, x: pos.x, y: pos.y, confuseUntil: 0, lastSeen: Date.now()
                     };
@@ -448,7 +463,7 @@
                 currentData.map = baseMap;
                 currentData.bombs = "";
                 currentData.flames = "";
-                currentData.startTime = Date.now(); // 💥ここを完全に新しくすることでサドンデスを回避！
+                currentData.startTime = Date.now(); // 💥サドンデス時間を毎回クリア
                 currentData.players = updatedPlayers;
                 
                 return currentData;
