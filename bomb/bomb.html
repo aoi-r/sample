@@ -162,7 +162,9 @@
         
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-        const roomRef = db.ref("bomber_room");
+        
+        // 【修正】他のゲームや古いデータと衝突しないよう、完全に専用の新しいパスに変更
+        const roomRef = db.ref("bomb_v2_room");
 
         // 🗺️ マップ・グリッド定義
         const COLS = 13, ROWS = 11, TILE_SIZE = 32;
@@ -573,11 +575,9 @@
             }
 
             const targetTile = gameState.map[nextY][nextX];
-            // 【修正】3, 4, 5 (アイテムマス) への移動を、通路(0)と全く同じように滑らかに通れるように判定
             if (targetTile === 0 || targetTile === 3 || targetTile === 4 || targetTile === 5) {
                 myGridX = nextX; myGridY = nextY;
                 
-                // アイテムの取得処理自体もスムーズにその場で実行して同期
                 if (targetTile >= 3) {
                     if (targetTile === 3) stockH = true;
                     if (targetTile === 4) stockV = true;
@@ -651,7 +651,6 @@
                             affectedTiles.push({x: tx, y: ty});
                             if (!isPierced) break; 
                         } else {
-                            // 通路(0)のほか、アイテム(3, 4, 5)の時も爆風はそのまま直進して巻き込む
                             affectedTiles.push({x: tx, y: ty});
                         }
                     }
@@ -674,7 +673,6 @@
                         if (rand < 0.12) newTileValue = 3; else if (rand < 0.24) newTileValue = 4; else if (rand < 0.35) newTileValue = 5;
                         roomRef.child("map").child(tile.y).child(tile.x).set(newTileValue);
                     } 
-                    // 【追加】もし爆風が当たった場所に、すでに露出しているアイテム(3, 4, 5)があったら消滅（通路の0に上書き）させる
                     else if (gameState.map[tile.y] && (gameState.map[tile.y][tile.x] === 3 || gameState.map[tile.y][tile.x] === 4 || gameState.map[tile.y][tile.x] === 5)) {
                         roomRef.child("map").child(tile.y).child(tile.x).set(0);
                     }
