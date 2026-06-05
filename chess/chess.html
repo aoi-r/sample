@@ -122,7 +122,7 @@
     .promo-buttons button { background: #34495e; border: 2px solid #ecf0f1; border-radius: 8px; padding: 10px; color: white; cursor: pointer; display: flex; flex-direction: column; align-items: center; width: 80px; font-weight: bold; transition: 0.2s; }
     .promo-buttons button:hover { background: #2ecc71; border-color: #fff; }
 
-    /* 【新規】カード詳細確認モーダル（確認画面） */
+    /* カード詳細確認モーダル（確認画面） */
     #cardModal {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(0,0,0,0.85); display: none; flex-direction: column;
@@ -142,7 +142,7 @@
     #cardCancelBtn { background: #7f8c8d; color: white; }
     #cardCancelBtn:hover { background: #95a5a6; }
 
-    /* 【新規】カード発動時エフェクト用オーバーレイ */
+    /* カード発動時エフェクト用オーバーレイ */
     #effectOverlay {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(0,0,0,0.6); display: none; flex-direction: column;
@@ -285,13 +285,13 @@ let state = {
   invincibleTurn: null,
   doubleTurnReserved: false,
   brainwashedPawnKey: null,
-  activeEffect: null // 【新規】相手への演出同期用オブジェクト
+  activeEffect: null
 };
 let presence = {}; 
 let selected = { type: null, key: null };
 let lastResetReq = false;
 let myRole = null;
-let currentLocalEffectId = null; // ローカルで再生済みの演出ID
+let currentLocalEffectId = null;
 
 function isBlocked(p, tx, ty) {
   const dx = tx - p.x, dy = ty - p.y;
@@ -311,8 +311,8 @@ function canMove(p, tx, ty) {
   const target = Object.values(state.pieces || {}).find(piece => piece.x === tx && piece.y === ty);
   if (target && target.owner === p.owner) return false;
 
-  // 絶対防御の処理：キング以外かつ無敵ターンなら駒を取る移動を禁止
-  if (target && state.invincibleTurn === target.owner && target.type !== "king") {
+  // 【修正】絶対防御の処理：有効な文字列が入っている場合のみブロックを作動させる
+  if (target && state.invincibleTurn && state.invincibleTurn === target.owner && target.type !== "king") {
     return false;
   }
 
@@ -374,7 +374,6 @@ canvas.addEventListener("pointerdown", e => {
       state.cards[myRole].card3.used = true;
       state.brainwashedPawnKey = targetKey; 
       
-      // 演出トリガーの書き込み
       state.activeEffect = {
         id: Math.random().toString(36).slice(2),
         cardKey: "card3",
@@ -508,7 +507,7 @@ function initBoard(keepPlayers = false) {
     brainwashedPawnKey: null,
     activeEffect: null
   };
-  currentLocalEffectId = null; // リセット
+  currentLocalEffectId = null;
   set(ref(db, "chess_game"), newState);
 }
 
@@ -624,7 +623,6 @@ function draw(isWhiteOnline, isBlackOnline) {
   }
 }
 
-// 【新規】カード発動演出を画面に表示する関数
 function triggerCardEffectAnimation(cardKey, userName) {
   const overlay = document.getElementById("effectOverlay");
   const img = document.getElementById("effectCardImg");
@@ -641,11 +639,10 @@ function triggerCardEffectAnimation(cardKey, userName) {
   
   txt.innerText = `${sideName}が ${cardTitle} を発動！`;
   
-  // アニメーションをリセットして再再生
   overlay.style.display = "flex";
   const wrapper = overlay.querySelector('.effect-card-wrapper');
   wrapper.style.animation = 'none';
-  wrapper.offsetHeight; // リフローを起こしてアニメーションをリセット
+  wrapper.offsetHeight;
   wrapper.style.animation = 'cardCast 2.5s ease-in-out forwards';
   
   setTimeout(() => {
@@ -667,13 +664,11 @@ function updateGameSystem() {
     myRole = null;
   }
 
-  // 【新規】Firebase上の演出トリガーを監視してリアルタイム同期演出を実行
   if (state.activeEffect && state.activeEffect.id !== currentLocalEffectId) {
     currentLocalEffectId = state.activeEffect.id;
     triggerCardEffectAnimation(state.activeEffect.cardKey, state.activeEffect.user);
   }
 
-  // カードUI制御
   const cardArea = document.getElementById("cardArea");
   if (myRole && !state.winner) {
     cardArea.style.display = "block";
@@ -694,7 +689,6 @@ function updateGameSystem() {
       const btn = document.getElementById(`${cKey}Btn`);
       const isUsed = myCards && myCards[cKey] ? myCards[cKey].used : false;
 
-      // 古いインライン onclick の完全削除によるバグ防止
       btn.onclick = null;
 
       if (isUsed) {
@@ -713,7 +707,6 @@ function updateGameSystem() {
         btn.style.borderColor = "#27ae60";
         btn.style.background = "#2c3e50";
         
-        // 【新規】カードタップで大画面モーダルを開く
         btn.onclick = () => {
           if (state.turn !== myRole) return;
           
@@ -730,7 +723,7 @@ function updateGameSystem() {
           
           useBtn.onclick = () => {
             modal.style.display = "none";
-            if (state.turn !== myRole) return; // 二重防御
+            if (state.turn !== myRole) return;
 
             if (cKey === "card1") {
               state.cards[myRole].card1.used = true;
@@ -753,7 +746,6 @@ function updateGameSystem() {
               set(ref(db, "chess_game"), state);
             } 
             else if (cKey === "card3") {
-              // 洗脳カードのみ、発動後に「対象ポーン選択モード」へ移行
               selected = { type: 'card3_select' };
               draw(isWhiteOnline, isBlackOnline);
               updateGameSystem(); 
