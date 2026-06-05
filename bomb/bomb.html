@@ -78,7 +78,7 @@
 <body>
 
     <div id="info-panel">
-        <span id="timer-display">2:00</span>
+        <span id="timer-display">3:00</span>
         <button id="force-reset-btn" onclick="triggerManualReset()">部屋リセット</button>
         <span id="info">接続中...</span>
     </div>
@@ -164,6 +164,16 @@
         const db = firebase.database();
         const roomRef = db.ref("bomber_room");
 
+        // サーバー時刻同期用のオフセット値
+        let serverTimeOffset = 0;
+        db.ref(".info/serverTimeOffset").on("value", (snap) => {
+            serverTimeOffset = snap.val() || 0;
+        });
+
+        function getEstimatedServerTime() {
+            return Date.now() + serverTimeOffset;
+        }
+
         // 🗺️ マップ・グリッド定義
         const COLS = 13, ROWS = 11, TILE_SIZE = 32;
         const PLAYER_COLORS = ["#ff4444", "#4444ff", "#44ff44", "#ffff44"];
@@ -248,7 +258,7 @@
                     
                     if (nowActiveCount >= 2 && currentData.status === "waiting") {
                         currentData.status = "playing";
-                        currentData.startTime = Date.now();
+                        currentData.startTime = firebase.database.ServerValue.TIMESTAMP;
                         currentData.map = baseMap;
                         currentData.bombs = {};
                         currentData.flames = {};
@@ -270,7 +280,7 @@
                 const me = data.players[myId];
                 currentRole = "player" + me.slot;
                 myGridX = me.x; myGridY = me.y; isAlive = me.alive;
-                isConfused = me.confuseUntil && me.confuseUntil > Date.now();
+                isConfused = me.confuseUntil && me.confuseUntil > getEstimatedServerTime();
 
                 let statusStr = `あなたは Player ${me.slot} です`;
                 if (data.status === "waiting") statusStr = "対戦相手を待っています...";
@@ -320,7 +330,7 @@
                 const curseDuration = 5000;
                 roomRef.child("players").once("value", (snap) => {
                     let updates = {};
-                    snap.forEach(child => { if (child.key !== myId) updates[`${child.key}/confuseUntil`] = Date.now() + curseDuration; });
+                    snap.forEach(child => { if (child.key !== myId) updates[`${child.key}/confuseUntil`] = getEstimatedServerTime() + curseDuration; });
                     roomRef.child("players").update(updates);
                 });
             }
@@ -361,34 +371,36 @@
             }
         }
 
-        // 💥 【安全・強固】2人以上いる時でも絶対に崩壊しない部屋リセット
+        // 🚨 手動部屋リセット
         function triggerManualReset() {
-            document.getElementById("info").innerText = "リセット中...";
-            roomRef.set({
-                status: "waiting",
-                map: baseMap,
-                players: {},
-                bombs: {},
-                flames: {},
-                startTime: 0
-            }, (error) => {
-                if (!error) {
-                    stockH = false; stockV = false; stockC = false;
-                    nextBombH = false; nextBombV = false; isConfused = false;
-                    updateSkillButtonUI();
-                    setTimeout(joinGame, 300);
-                }
-            });
+            if (confirm("部屋を強制リセットしてロビーに戻しますか？")) {
+                roomRef.set({
+                    status: "waiting",
+                    map: baseMap,
+                    players: {},
+                    bombs: {},
+                    flames: {},
+                    startTime: 0
+                }, (error) => {
+                    if (!error) {
+                        stockH = false; stockV = false; stockC = false;
+                        nextBombH = false; nextBombV = false; isConfused = false;
+                        updateSkillButtonUI();
+                        setTimeout(joinGame, 300);
+                    }
+                });
+            }
         }
 
-        // ⏱️ タイマー＆サドンデスブロック処理 (1秒毎)
+        // ⏱️ タイマー＆サドンデスブロック処理 (全体3分、残り2分からサドンデス開始仕様)
         setInterval(() => {
             checkAndAutoTakeover();
 
             if (gameState.status !== "playing" || !gameState.startTime) return;
             
-            const elapsed = Math.floor((Date.now() - gameState.startTime) / 1000);
-            const totalDuration = 120; 
+            // 経過秒数計算
+            const elapsed = Math.floor((getEstimatedServerTime() - gameState.startTime) / 1000);
+            const totalDuration = 180; // 全体：180秒(3分)
             const remaining = Math.max(0, totalDuration - elapsed);
 
             const m = Math.floor(remaining / 60);
@@ -396,14 +408,17 @@
             const timerEl = document.getElementById("timer-display");
             timerEl.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
 
+            // 残り1分(60秒)を切ったらタイマーを赤点滅
             if (remaining <= 60) {
                 timerEl.classList.add("sudden-alert");
             } else {
                 timerEl.classList.remove("sudden-alert");
             }
 
-            if (remaining < 60 && remaining > 0) {
-                const blockIndex = 60 - remaining - 1; 
+            // サドンデス開始判定：残り2分(120秒)以下になったら開始
+            if (remaining < 120 && remaining > 0) {
+                // 120秒からカウントして何個目のブロックを埋めるか計算
+                const blockIndex = 120 - remaining - 1; 
                 if (blockIndex < SUDDEN_BLOCKS.length) {
                     const targetBlock = SUDDEN_BLOCKS[blockIndex];
                     
@@ -442,8 +457,7 @@
             
             if (!data || !data.players || Object.keys(data.players).length === 0) {
                 if (data && data.status !== "waiting") {
-                    document.getElementById("info").innerText = "部屋を再初期化中...";
-                    setTimeout(joinGame, 300);
+                    roomRef.set({ status: "waiting", map: baseMap, players: {}, bombs: {}, flames: {}, startTime: 0 });
                 }
                 return;
             }
@@ -458,7 +472,7 @@
             if (data.status === "waiting") {
                 waitingScreen.style.display = "flex";
                 winScreen.style.display = "none";
-                document.getElementById("timer-display").innerText = "2:00";
+                document.getElementById("timer-display").innerText = "3:00";
             } else if (data.status === "playing" && data.players) {
                 waitingScreen.style.display = "none";
                 winScreen.style.display = "none";
@@ -503,7 +517,7 @@
                 currentData.map = baseMap;
                 currentData.bombs = {};
                 currentData.flames = {};
-                currentData.startTime = Date.now(); 
+                currentData.startTime = firebase.database.ServerValue.TIMESTAMP; 
                 currentData.players = updatedPlayers;
                 
                 return currentData;
@@ -527,7 +541,7 @@
             restartGame();
         });
 
-        // 🏃‍♂️ 移動関数（【完全修正】1回の入力でそのマスに乗りながら即座に取得！）
+        // 🏃‍♂️ 移動関数 (1回の入力でそのマスに乗りながら即座に取得)
         function move(origDx, origDy) {
             if (currentRole === "spectator" || !isAlive || gameState.status !== "playing") return;
             let dx = origDx; let dy = origDy;
@@ -551,7 +565,6 @@
 
             const targetTile = gameState.map[nextY][nextX];
             
-            // 床（0）またはアイテム（3, 4, 5）のマスなら即座に完全移動
             if (targetTile === 0 || targetTile === 3 || targetTile === 4 || targetTile === 5) {
                 myGridX = nextX; 
                 myGridY = nextY;
@@ -562,7 +575,6 @@
                     if (targetTile === 5) stockC = true;
                     updateSkillButtonUI();
                     
-                    // 【ポイント】アイテム消去(床にする)と、プレイヤー移動の同期データを「完全に同時に一撃で」Firebaseに送信する
                     let updates = {};
                     updates[`map/${nextY}/${nextX}`] = 0;
                     updates[`players/${myId}`] = {
@@ -578,11 +590,9 @@
                     };
                     roomRef.update(updates);
                 } else {
-                    // 通常の床の移動
                     roomRef.child("players").child(myId).update({ x: myGridX, y: myGridY, dir: newDir, lastSeen: Date.now() });
                 }
             } else {
-                // 壁は向き変更のみ
                 roomRef.child("players").child(myId).update({ dir: newDir, lastSeen: Date.now() });
             }
         }
@@ -603,7 +613,7 @@
             
             if (gameState.bombs && gameState.bombs[bombId]) return;
             
-            const now = Date.now();
+            const now = getEstimatedServerTime();
             roomRef.child("bombs").child(bombId).set({
                 id: bombId, x: bombX, y: bombY, owner: myId, explodeAt: now + 2500, hPierce: nextBombH, vPierce: nextBombV
             });
