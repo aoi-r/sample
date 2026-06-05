@@ -17,6 +17,12 @@
         }
         .sudden-alert { color: #ff3333 !important; animation: blink 0.5s infinite alternate; }
 
+        #force-reset-btn {
+            background: #d32f2f; color: #fff; border: 1px solid #fff; border-radius: 4px;
+            padding: 2px 8px; font-size: 11px; cursor: pointer; font-weight: bold;
+        }
+        #force-reset-btn:active { background: #9a0007; }
+
         #canvas-container { position: relative; display: inline-block; margin: 0 auto; }
         canvas { display: block; background: #333; max-width: 100vw; max-height: 50vh; }
         
@@ -72,7 +78,8 @@
 <body>
 
     <div id="info-panel">
-        <span id="timer-display">2:00</span>
+        <span id="timer-display">4:00</span>
+        <button id="force-reset-btn" onclick="triggerManualReset()">部屋リセット</button>
         <span id="info">接続中...</span>
     </div>
 
@@ -212,7 +219,16 @@
         let stockH = false, stockV = false, stockC = false;
         let nextBombH = false, nextBombV = false, isConfused = false;
 
-        // 🤝 ルームへの参加処理（バグ修正・ゾンビ対策版トランザクション）
+        // 手動リセット命令
+        function triggerManualReset() {
+            roomRef.transaction((currentData) => {
+                return { status: "waiting", map: baseMap, players: {}, bombs: {}, flames: {}, startTime: 0 };
+            }, () => {
+                setTimeout(joinGame, 300);
+            });
+        }
+
+        // 🤝 ルームへの参加処理
         function joinGame() {
             const now = Date.now();
             roomRef.transaction((currentData) => {
@@ -221,7 +237,7 @@
                 }
                 if (!currentData.players) currentData.players = {};
 
-                // 【修正】一定時間更新のない「幽霊プレイヤー（ゾンビ）」をまずトランザクション内で即座に掃除
+                // 一定時間更新のない幽霊プレイヤーを削除
                 Object.keys(currentData.players).forEach(key => {
                     const p = currentData.players[key];
                     if (key !== myId && p.lastSeen && (now - p.lastSeen > 6000)) {
@@ -229,7 +245,6 @@
                     }
                 });
 
-                // 既に自分が登録されている場合はタイムスタンプを更新して維持
                 if (currentData.players[myId]) {
                     currentData.players[myId].lastSeen = now; 
                     return currentData; 
@@ -239,7 +254,6 @@
                 const pCount = activePlayers.length;
 
                 if (pCount < 4) {
-                    // 【修正】1Pの重複を防ぐため、既存のslot番号を確実にチェックして空き最小値を割り当てる
                     let slot = 1;
                     const existingSlots = activePlayers.map(p => p.slot);
                     while(existingSlots.includes(slot)) slot++;
@@ -249,7 +263,6 @@
                         id: myId, slot: slot, x: pos.x, y: pos.y, alive: true, name: "P" + slot, lastSeen: now, confuseUntil: 0, dir: "front"
                     };
                     
-                    // 参加後の人数で判定
                     const nextActiveCount = Object.values(currentData.players).length;
                     if (nextActiveCount >= 2 && currentData.status === "waiting") {
                         currentData.status = "playing";
@@ -263,13 +276,12 @@
             }, (error, committed, snapshot) => {
                 if (committed && snapshot.exists()) {
                     updateRoleState(snapshot.val());
-                    // 接続が切れたら確実にDBから削除する設定
                     roomRef.child("players").child(myId).onDisconnect().remove();
                 }
             });
         }
 
-        // 👤 ロール（観戦・プレイヤー）状態の同期
+        // 👤 ロール状態の同期
         function updateRoleState(data) {
             if (!data) return;
             if (data.players && data.players[myId]) {
@@ -309,7 +321,7 @@
             updateSkillButtonUI();
         }
 
-        // 💎 スキルボタンUIの可視化制御
+        // 💎 スキルボタンUI制御
         function updateSkillButtonUI() {
             if (currentRole === "spectator" || !isAlive || gameState.status === "waiting") {
                 document.getElementById("skill-h").style.transform = "scale(0)";
@@ -373,14 +385,28 @@
             }
         }
 
-        // ⏱️ タイマー＆サドンデスブロック処理 (1秒毎)
+        // ⏱️ タイマー＆サドンデス・強制部屋初期化チェック (1秒毎)
         setInterval(() => {
             checkAndAutoTakeover();
+
+            if (gameState.status === "playing" && gameState.players) {
+                const now = Date.now();
+                const aliveConnectedPlayers = Object.values(gameState.players).filter(p => {
+                    return p.lastSeen && (now - p.lastSeen <= 6000);
+                });
+
+                if (aliveConnectedPlayers.length <= 1) {
+                    roomRef.transaction((currentData) => {
+                        return { status: "waiting", map: baseMap, players: {}, bombs: {}, flames: {}, startTime: 0 };
+                    });
+                    return;
+                }
+            }
 
             if (gameState.status !== "playing" || !gameState.startTime) return;
             
             const elapsed = Math.floor((Date.now() - gameState.startTime) / 1000);
-            const totalDuration = 120; 
+            const totalDuration = 240; 
             const remaining = Math.max(0, totalDuration - elapsed);
 
             const m = Math.floor(remaining / 60);
@@ -394,7 +420,6 @@
                 timerEl.classList.remove("sudden-alert");
             }
 
-            // サドンデス壁埋め発動 (残り60秒未満)
             if (remaining < 60 && remaining > 0) {
                 const blockIndex = 60 - remaining - 1; 
                 if (blockIndex < SUDDEN_BLOCKS.length) {
@@ -452,7 +477,7 @@
             if (data.status === "waiting") {
                 waitingScreen.style.display = "flex";
                 winScreen.style.display = "none";
-                document.getElementById("timer-display").innerText = "2:00";
+                document.getElementById("timer-display").innerText = "4:00"; 
             } else if (data.status === "playing" && data.players) {
                 waitingScreen.style.display = "none";
                 winScreen.style.display = "none";
@@ -460,7 +485,6 @@
                 const alives = Object.values(data.players).filter(p => p.alive);
                 const totalPlayers = Object.keys(data.players).length;
 
-                // 2人以上接続していて、生き残りが1人以下ならゲーム終了
                 if (totalPlayers >= 2 && alives.length <= 1) {
                     roomRef.child("status").set("result");
                 }
@@ -477,13 +501,12 @@
             }
         });
 
-        // 🔄 ゲームのリスタート処理（一斉リスタートのバグ修正）
+        // 🔄 ゲームのリスタート処理
         function restartGame() {
             if (!gameState || !gameState.players) return;
 
             roomRef.transaction((currentData) => {
                 if (!currentData) return currentData;
-                // 【修正】もしすでに誰かがリスタート処理を済ませていたら、処理をスキップして競合を防ぐ
                 if (currentData.status === "playing" && Object.values(currentData.players).every(p => p.alive && p.x === START_POS[p.slot-1].x)) {
                     return currentData; 
                 }
@@ -550,8 +573,11 @@
             }
 
             const targetTile = gameState.map[nextY][nextX];
+            // 【修正】3, 4, 5 (アイテムマス) への移動を、通路(0)と全く同じように滑らかに通れるように判定
             if (targetTile === 0 || targetTile === 3 || targetTile === 4 || targetTile === 5) {
                 myGridX = nextX; myGridY = nextY;
+                
+                // アイテムの取得処理自体もスムーズにその場で実行して同期
                 if (targetTile >= 3) {
                     if (targetTile === 3) stockH = true;
                     if (targetTile === 4) stockV = true;
@@ -625,6 +651,7 @@
                             affectedTiles.push({x: tx, y: ty});
                             if (!isPierced) break; 
                         } else {
+                            // 通路(0)のほか、アイテム(3, 4, 5)の時も爆風はそのまま直進して巻き込む
                             affectedTiles.push({x: tx, y: ty});
                         }
                     }
@@ -646,7 +673,12 @@
                         let newTileValue = 0;
                         if (rand < 0.12) newTileValue = 3; else if (rand < 0.24) newTileValue = 4; else if (rand < 0.35) newTileValue = 5;
                         roomRef.child("map").child(tile.y).child(tile.x).set(newTileValue);
+                    } 
+                    // 【追加】もし爆風が当たった場所に、すでに露出しているアイテム(3, 4, 5)があったら消滅（通路の0に上書き）させる
+                    else if (gameState.map[tile.y] && (gameState.map[tile.y][tile.x] === 3 || gameState.map[tile.y][tile.x] === 4 || gameState.map[tile.y][tile.x] === 5)) {
+                        roomRef.child("map").child(tile.y).child(tile.x).set(0);
                     }
+
                     if (gameState.players) {
                         Object.values(gameState.players).forEach(p => {
                             if (p.x === tile.x && p.y === tile.y && p.alive) {
