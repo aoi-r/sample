@@ -212,40 +212,48 @@
         let stockH = false, stockV = false, stockC = false;
         let nextBombH = false, nextBombV = false, isConfused = false;
 
-        // 🤝 ルームへの参加処理（バグ修正版トランザクション）
+        // 🤝 ルームへの参加処理（バグ修正・ゾンビ対策版トランザクション）
         function joinGame() {
+            const now = Date.now();
             roomRef.transaction((currentData) => {
-                // データが全く存在しないか、強制リセット時はクリーンに初期化
                 if (!currentData || !currentData.map || currentData.status === "force_reset") {
                     currentData = { status: "waiting", map: baseMap, players: {}, bombs: {}, flames: {}, startTime: 0 };
                 }
-                
                 if (!currentData.players) currentData.players = {};
+
+                // 【修正】一定時間更新のない「幽霊プレイヤー（ゾンビ）」をまずトランザクション内で即座に掃除
+                Object.keys(currentData.players).forEach(key => {
+                    const p = currentData.players[key];
+                    if (key !== myId && p.lastSeen && (now - p.lastSeen > 6000)) {
+                        delete currentData.players[key];
+                    }
+                });
 
                 // 既に自分が登録されている場合はタイムスタンプを更新して維持
                 if (currentData.players[myId]) {
-                    currentData.players[myId].lastSeen = Date.now(); 
+                    currentData.players[myId].lastSeen = now; 
                     return currentData; 
                 }
 
-                const pCount = Object.keys(currentData.players).length;
+                const activePlayers = Object.values(currentData.players);
+                const pCount = activePlayers.length;
+
                 if (pCount < 4) {
+                    // 【修正】1Pの重複を防ぐため、既存のslot番号を確実にチェックして空き最小値を割り当てる
                     let slot = 1;
-                    const existingSlots = Object.values(currentData.players).map(p => p.slot);
+                    const existingSlots = activePlayers.map(p => p.slot);
                     while(existingSlots.includes(slot)) slot++;
 
                     const pos = START_POS[slot - 1];
                     currentData.players[myId] = {
-                        id: myId, slot: slot, x: pos.x, y: pos.y, alive: true, name: "P" + slot, lastSeen: Date.now(), confuseUntil: 0, dir: "front"
+                        id: myId, slot: slot, x: pos.x, y: pos.y, alive: true, name: "P" + slot, lastSeen: now, confuseUntil: 0, dir: "front"
                     };
                     
-                    // 現在アクティブなプレイヤー数を計算
-                    const nowActiveCount = Object.values(currentData.players).filter(p => !p.lastSeen || (Date.now() - p.lastSeen <= 6000)).length;
-                    
-                    // 2人以上揃ったらゲームスタート
-                    if (nowActiveCount >= 2 && currentData.status === "waiting") {
+                    // 参加後の人数で判定
+                    const nextActiveCount = Object.values(currentData.players).length;
+                    if (nextActiveCount >= 2 && currentData.status === "waiting") {
                         currentData.status = "playing";
-                        currentData.startTime = Date.now();
+                        currentData.startTime = now;
                         currentData.map = baseMap;
                         currentData.bombs = {};
                         currentData.flames = {};
@@ -255,6 +263,7 @@
             }, (error, committed, snapshot) => {
                 if (committed && snapshot.exists()) {
                     updateRoleState(snapshot.val());
+                    // 接続が切れたら確実にDBから削除する設定
                     roomRef.child("players").child(myId).onDisconnect().remove();
                 }
             });
@@ -468,19 +477,23 @@
             }
         });
 
-        // 🔄 ゲームのリスタート処理（タップバグ完全修正版）
+        // 🔄 ゲームのリスタート処理（一斉リスタートのバグ修正）
         function restartGame() {
             if (!gameState || !gameState.players) return;
 
             roomRef.transaction((currentData) => {
                 if (!currentData) return currentData;
+                // 【修正】もしすでに誰かがリスタート処理を済ませていたら、処理をスキップして競合を防ぐ
+                if (currentData.status === "playing" && Object.values(currentData.players).every(p => p.alive && p.x === START_POS[p.slot-1].x)) {
+                    return currentData; 
+                }
+
                 if (!currentData.players) currentData.players = {};
                 
                 let updatedPlayers = {};
                 Object.keys(currentData.players).forEach(key => {
                     const p = currentData.players[key];
                     const pos = START_POS[p.slot - 1] || {x: 1, y: 1};
-                    // 全員の生存フラグ、位置、向きをリセット
                     updatedPlayers[key] = {
                         id: p.id, slot: p.slot, name: p.name, alive: true, x: pos.x, y: pos.y, confuseUntil: 0, lastSeen: Date.now(), dir: "front"
                     };
@@ -496,7 +509,6 @@
                 return currentData;
             }, (err, committed) => {
                 if (committed) {
-                    // 古いデータベースデータを完全に除去してクリアにする
                     roomRef.child("bombs").remove();
                     roomRef.child("flames").remove();
                     
@@ -515,7 +527,7 @@
             restartGame();
         });
 
-        // 🏃‍♂️ 移動関数 (壁すり抜けバグ対策の厳密な判定版)
+        // 🏃‍♂️ 移動関数
         function move(origDx, origDy) {
             if (currentRole === "spectator" || !isAlive || gameState.status !== "playing") return;
             let dx = origDx; let dy = origDy;
