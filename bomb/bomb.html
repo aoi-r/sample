@@ -115,23 +115,15 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <script>
-        // 🖼️ アイテム画像のプリロード
         const itemImages = {};
         function preloadImages() {
-            const sources = {
-                3: 'bomb_img/横.png',
-                4: 'bomb_img/縦.png',
-                5: 'bomb_img/あべこべ.png'
-            };
+            const sources = { 3: 'bomb_img/横.png', 4: 'bomb_img/縦.png', 5: 'bomb_img/あべこべ.png' };
             for (let key in sources) {
-                const img = new Image();
-                img.src = sources[key];
-                itemImages[key] = img;
+                const img = new Image(); img.src = sources[key]; itemImages[key] = img;
             }
         }
         preloadImages();
 
-        // 🏃‍♂️ プレイヤー歩行画像のプリロード構造
         const playerImages = { 1: {}, 2: {}, 3: {}, 4: {} };
         function preloadPlayerImages() {
             const directions = ["front", "back", "left", "right"];
@@ -139,16 +131,13 @@
                 directions.forEach(dir => {
                     playerImages[p][dir] = [];
                     for (let frame = 1; frame <= 2; frame++) {
-                        const img = new Image();
-                        img.src = `bomb_img/player${p}/player_${dir}${frame}.png`;
-                        playerImages[p][dir][frame] = img;
+                        const img = new Image(); img.src = `bomb_img/player${p}/player_${dir}${frame}.png`; playerImages[p][dir][frame] = img;
                     }
                 });
             }
         }
         preloadPlayerImages();
 
-        // 🔥 Firebase設定
         const firebaseConfig = {
             apiKey: "AIzaSyDk7KNFdlp9zPtnixdNv96VtfKrELX1f8I",
             authDomain: "syogi-cee67.firebaseapp.com",
@@ -163,49 +152,33 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         
-        // 【修正】他のゲームや古いデータと衝突しないよう、完全に専用の新しいパスに変更
-        const roomRef = db.ref("bomb_v2_room");
+        // 【重要】完全に独立した新パス
+        const roomRef = db.ref("bomber_v3_main");
+        const presenceRef = db.ref("bomber_v3_presence");
 
-        // 🗺️ マップ・グリッド定義
         const COLS = 13, ROWS = 11, TILE_SIZE = 32;
         const PLAYER_COLORS = ["#ff4444", "#4444ff", "#44ff44", "#ffff44"];
         const START_POS = [{x:1,y:1}, {x:11,y:9}, {x:11,y:1}, {x:1,y:9}];
 
         const baseMap = [
-            [1,1,1,1,1,1,1,1,1,1,1,1,1],
-            [1,0,0,2,2,2,2,2,2,2,0,0,1],
-            [1,0,1,2,1,2,1,2,1,2,1,0,1],
-            [1,2,2,2,2,2,2,2,2,2,2,2,1],
-            [1,2,1,2,1,2,1,2,1,2,1,2,1],
-            [1,2,2,2,2,2,2,2,2,2,2,2,1],
-            [1,2,1,2,1,2,1,2,1,2,1,2,1],
-            [1,2,2,2,2,2,2,2,2,2,2,2,1],
-            [1,0,1,2,1,2,1,2,1,2,1,0,1],
-            [1,0,0,2,2,2,2,2,2,2,0,0,1],
-            [1,1,1,1,1,1,1,1,1,1,1,1,1]
+            [1,1,1,1,1,1,1,1,1,1,1,1,1], [1,0,0,2,2,2,2,2,2,2,0,0,1], [1,0,1,2,1,2,1,2,1,2,1,0,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,1], [1,2,1,2,1,2,1,2,1,2,1,2,1], [1,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,2,1,2,1,2,1,2,1,2,1,2,1], [1,2,2,2,2,2,2,2,2,2,2,2,1], [1,0,1,2,1,2,1,2,1,2,1,0,1],
+            [1,0,0,2,2,2,2,2,2,2,0,0,1], [1,1,1,1,1,1,1,1,1,1,1,1,1]
         ];
 
-        // 🕒 サドンデス用うずまき経路計算
         const SUDDEN_BLOCKS = [];
         (function generateSuddenPath() {
             let top = 1, bottom = ROWS - 2, left = 1, right = COLS - 2;
             while (top <= bottom && left <= right) {
-                for (let i = left; i <= right; i++) SUDDEN_BLOCKS.push({x: i, y: top});
-                top++;
-                for (let i = top; i <= bottom; i++) SUDDEN_BLOCKS.push({x: right, y: i});
-                right--;
-                if (top <= bottom) {
-                    for (let i = right; i >= left; i--) SUDDEN_BLOCKS.push({x: i, y: bottom});
-                    bottom--;
-                }
-                if (left <= right) {
-                    for (let i = bottom; i >= top; i--) SUDDEN_BLOCKS.push({x: left, y: i});
-                    left++;
-                }
+                for (let i = left; i <= right; i++) SUDDEN_BLOCKS.push({x: i, y: top}); top++;
+                for (let i = top; i <= bottom; i++) SUDDEN_BLOCKS.push({x: right, y: i}); right--;
+                if (top <= bottom) { for (let i = right; i >= left; i--) SUDDEN_BLOCKS.push({x: i, y: bottom}); bottom--; }
+                if (left <= right) { for (let i = bottom; i >= top; i--) SUDDEN_BLOCKS.push({x: left, y: i}); left++; }
             }
         })();
 
-        // 🆔 ユーザー識別
+        // 🆔 ユーザーIDの取得・生成
         let myId = localStorage.getItem("bomber_myId");
         if (!myId) {
             myId = "user_" + Math.random().toString(36).substr(2, 9);
@@ -217,58 +190,63 @@
         let isAlive = true;
         let gameState = { status: "waiting", players: {}, bombs: {}, map: [], flames: {}, startTime: 0 };
         let renderPlayers = {};
+        let activePresence = {};
 
         let stockH = false, stockV = false, stockC = false;
         let nextBombH = false, nextBombV = false, isConfused = false;
 
-        // 手動リセット命令
+        // 将棋方式の強固なプレゼンス（生存）管理
+        db.ref(".info/connected").on("value", (snap) => {
+            if (snap.val() === true) {
+                const con = presenceRef.child(myId);
+                con.onDisconnect().remove();
+                con.set(true);
+            }
+        });
+
+        presenceRef.on("value", (snap) => {
+            activePresence = snap.val() || {};
+        });
+
         function triggerManualReset() {
             roomRef.transaction((currentData) => {
                 return { status: "waiting", map: baseMap, players: {}, bombs: {}, flames: {}, startTime: 0 };
             }, () => {
-                setTimeout(joinGame, 300);
+                setTimeout(joinGame, 200);
             });
         }
 
-        // 🤝 ルームへの参加処理
         function joinGame() {
-            const now = Date.now();
             roomRef.transaction((currentData) => {
-                if (!currentData || !currentData.map || currentData.status === "force_reset") {
+                if (!currentData || !currentData.map) {
                     currentData = { status: "waiting", map: baseMap, players: {}, bombs: {}, flames: {}, startTime: 0 };
                 }
                 if (!currentData.players) currentData.players = {};
 
-                // 一定時間更新のない幽霊プレイヤーを削除
+                // 完全にオフラインになった不要なゾンビプレイヤーのみを掃除（通信ラグでの誤削除を防ぐ）
                 Object.keys(currentData.players).forEach(key => {
-                    const p = currentData.players[key];
-                    if (key !== myId && p.lastSeen && (now - p.lastSeen > 6000)) {
+                    if (key !== myId && !activePresence[key]) {
                         delete currentData.players[key];
                     }
                 });
 
-                if (currentData.players[myId]) {
-                    currentData.players[myId].lastSeen = now; 
-                    return currentData; 
-                }
+                if (currentData.players[myId]) return currentData;
 
                 const activePlayers = Object.values(currentData.players);
-                const pCount = activePlayers.length;
-
-                if (pCount < 4) {
+                if (activePlayers.length < 4) {
                     let slot = 1;
                     const existingSlots = activePlayers.map(p => p.slot);
                     while(existingSlots.includes(slot)) slot++;
 
                     const pos = START_POS[slot - 1];
                     currentData.players[myId] = {
-                        id: myId, slot: slot, x: pos.x, y: pos.y, alive: true, name: "P" + slot, lastSeen: now, confuseUntil: 0, dir: "front"
+                        id: myId, slot: slot, x: pos.x, y: pos.y, alive: true, name: "P" + slot, confuseUntil: 0, dir: "front"
                     };
                     
                     const nextActiveCount = Object.values(currentData.players).length;
                     if (nextActiveCount >= 2 && currentData.status === "waiting") {
                         currentData.status = "playing";
-                        currentData.startTime = now;
+                        currentData.startTime = Date.now();
                         currentData.map = baseMap;
                         currentData.bombs = {};
                         currentData.flames = {};
@@ -278,12 +256,10 @@
             }, (error, committed, snapshot) => {
                 if (committed && snapshot.exists()) {
                     updateRoleState(snapshot.val());
-                    roomRef.child("players").child(myId).onDisconnect().remove();
                 }
             });
         }
 
-        // 👤 ロール状態の同期
         function updateRoleState(data) {
             if (!data) return;
             if (data.players && data.players[myId]) {
@@ -303,27 +279,16 @@
             } else {
                 currentRole = "spectator";
                 const pCount = data.players ? Object.keys(data.players).length : 0;
-                const now = Date.now();
-                const isZombieRoom = data.players && Object.values(data.players).every(p => !p.lastSeen || (now - p.lastSeen > 6000));
-
-                if (pCount === 0 || isZombieRoom) {
-                    document.getElementById("info").innerText = "古い接続を掃除中...";
-                    roomRef.transaction((currentData) => {
-                        return { status: "force_reset", map: baseMap, players: {}, bombs: {}, flames: {}, startTime: 0 };
-                    }, () => {
-                        setTimeout(joinGame, 500);
-                    });
-                } else if (pCount < 4) {
-                    document.getElementById("info").innerText = "観戦中 (空き席あり...)";
-                    setTimeout(joinGame, 1000);
+                if (pCount === 0) {
+                    document.getElementById("info").innerText = "空き部屋です。入室中...";
+                    joinGame();
                 } else {
-                    document.getElementById("info").innerText = "満員のため観戦中";
+                    document.getElementById("info").innerText = "満員または観戦中";
                 }
             }
             updateSkillButtonUI();
         }
 
-        // 💎 スキルボタンUI制御
         function updateSkillButtonUI() {
             if (currentRole === "spectator" || !isAlive || gameState.status === "waiting") {
                 document.getElementById("skill-h").style.transform = "scale(0)";
@@ -336,7 +301,6 @@
             document.getElementById("skill-c").style.transform = stockC ? "scale(1)" : "scale(0)";
         }
 
-        // ⚡ スキル発動処理
         function activateSkill(type) {
             if (currentRole === "spectator" || !isAlive || gameState.status !== "playing") return;
             if (type === 'h' && stockH) { stockH = false; nextBombH = true; nextBombV = false; }
@@ -354,121 +318,45 @@
             updateRoleState(gameState);
         }
 
-        // 💓 生存信号(ハートビート)の送信
+        // サドンデス及びタイマー処理
         setInterval(() => {
-            if (currentRole !== "spectator" && gameState.players && gameState.players[myId]) {
-                roomRef.child("players").child(myId).child("lastSeen").set(Date.now());
-            }
-        }, 2000);
-
-        // 🤖 動いていないプレイヤー(ゾンビ)の自動乗っ取り
-        function checkAndAutoTakeover() {
-            if (currentRole !== "spectator") return;
-            const now = Date.now();
-            
-            if (gameState.players && Object.keys(gameState.players).length >= 4) {
-                roomRef.transaction((currentData) => {
-                    if (!currentData || !currentData.players) return currentData;
-                    let zombieKey = null;
-                    Object.keys(currentData.players).forEach(key => {
-                        const p = currentData.players[key];
-                        if (p.lastSeen && (now - p.lastSeen > 6000)) zombieKey = key; 
-                    });
-                    
-                    if (zombieKey) {
-                        const zombieData = currentData.players[zombieKey];
-                        currentData.players[myId] = { ...zombieData, id: myId, lastSeen: now, confuseUntil: 0 };
-                        delete currentData.players[zombieKey];
-                    }
-                    return currentData;
-                }, (error, committed, snapshot) => {
-                    if (committed && snapshot.exists()) updateRoleState(snapshot.val());
-                });
-            }
-        }
-
-        // ⏱️ タイマー＆サドンデス・強制部屋初期化チェック (1秒毎)
-        setInterval(() => {
-            checkAndAutoTakeover();
-
-            if (gameState.status === "playing" && gameState.players) {
-                const now = Date.now();
-                const aliveConnectedPlayers = Object.values(gameState.players).filter(p => {
-                    return p.lastSeen && (now - p.lastSeen <= 6000);
-                });
-
-                if (aliveConnectedPlayers.length <= 1) {
-                    roomRef.transaction((currentData) => {
-                        return { status: "waiting", map: baseMap, players: {}, bombs: {}, flames: {}, startTime: 0 };
-                    });
-                    return;
-                }
-            }
-
             if (gameState.status !== "playing" || !gameState.startTime) return;
             
             const elapsed = Math.floor((Date.now() - gameState.startTime) / 1000);
             const totalDuration = 240; 
             const remaining = Math.max(0, totalDuration - elapsed);
 
-            const m = Math.floor(remaining / 60);
-            const s = remaining % 60;
+            const m = Math.floor(remaining / 60); const s = remaining % 60;
             const timerEl = document.getElementById("timer-display");
             timerEl.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
 
-            if (remaining <= 60) {
-                timerEl.classList.add("sudden-alert");
-            } else {
-                timerEl.classList.remove("sudden-alert");
-            }
+            if (remaining <= 60) timerEl.classList.add("sudden-alert");
+            else timerEl.classList.remove("sudden-alert");
 
             if (remaining < 60 && remaining > 0) {
                 const blockIndex = 60 - remaining - 1; 
                 if (blockIndex < SUDDEN_BLOCKS.length) {
                     const targetBlock = SUDDEN_BLOCKS[blockIndex];
-                    
                     roomRef.child("map").child(targetBlock.y).child(targetBlock.x).once("value", (snap) => {
                         if (snap.val() !== 1) {
                             roomRef.child("map").child(targetBlock.y).child(targetBlock.x).set(1);
-                            
                             if (gameState.players) {
-                                let aliveCount = 0;
                                 Object.values(gameState.players).forEach(p => {
                                     if (p.x === targetBlock.x && p.y === targetBlock.y && p.alive) {
                                         roomRef.child("players").child(p.id).update({ alive: false });
-                                    } else if (p.alive) {
-                                        if (!(p.x === targetBlock.x && p.y === targetBlock.y)) {
-                                            aliveCount++;
-                                        }
                                     }
                                 });
-                                if (aliveCount <= 1) {
-                                    roomRef.child("status").set("result");
-                                }
                             }
                         }
                     });
                 }
             }
-
-            if (remaining <= 0) {
-                roomRef.child("status").set("result");
-            }
+            if (remaining <= 0) roomRef.child("status").set("result");
         }, 1000);
 
-        // 🔄 Firebaseからのリアルタイムデータ受信イベント
         roomRef.on("value", (snapshot) => {
             const data = snapshot.val();
-            
-            if (!data || !data.players || Object.keys(data.players).length === 0) {
-                if (data && data.status !== "force_reset" && data.status !== "waiting") {
-                    roomRef.transaction((currentData) => {
-                        return { status: "force_reset", map: baseMap, players: {}, bombs: {}, flames: {}, startTime: 0 };
-                    });
-                }
-                return;
-            }
-
+            if (!data) return;
             gameState = data;
             updateRoleState(data);
             
@@ -477,17 +365,12 @@
             const waitingScreen = document.getElementById("waitingScreen");
 
             if (data.status === "waiting") {
-                waitingScreen.style.display = "flex";
-                winScreen.style.display = "none";
+                waitingScreen.style.display = "flex"; winScreen.style.display = "none";
                 document.getElementById("timer-display").innerText = "4:00"; 
             } else if (data.status === "playing" && data.players) {
-                waitingScreen.style.display = "none";
-                winScreen.style.display = "none";
-                
+                waitingScreen.style.display = "none"; winScreen.style.display = "none";
                 const alives = Object.values(data.players).filter(p => p.alive);
-                const totalPlayers = Object.keys(data.players).length;
-
-                if (totalPlayers >= 2 && alives.length <= 1) {
+                if (Object.keys(data.players).length >= 2 && alives.length <= 1) {
                     roomRef.child("status").set("result");
                 }
             } else if (data.status === "result") {
@@ -497,127 +380,74 @@
                     winMessage.innerText = alives.length === 1 ? `${alives[0].name} WIN!` : "DRAW (引き分け)";
                 }
                 winScreen.style.display = "flex";
-            } else {
-                waitingScreen.style.display = "none";
-                winScreen.style.display = "none";
             }
         });
 
-        // 🔄 ゲームのリスタート処理
         function restartGame() {
             if (!gameState || !gameState.players) return;
-
             roomRef.transaction((currentData) => {
                 if (!currentData) return currentData;
-                if (currentData.status === "playing" && Object.values(currentData.players).every(p => p.alive && p.x === START_POS[p.slot-1].x)) {
-                    return currentData; 
-                }
-
                 if (!currentData.players) currentData.players = {};
                 
                 let updatedPlayers = {};
                 Object.keys(currentData.players).forEach(key => {
                     const p = currentData.players[key];
                     const pos = START_POS[p.slot - 1] || {x: 1, y: 1};
-                    updatedPlayers[key] = {
-                        id: p.id, slot: p.slot, name: p.name, alive: true, x: pos.x, y: pos.y, confuseUntil: 0, lastSeen: Date.now(), dir: "front"
-                    };
+                    updatedPlayers[key] = { id: p.id, slot: p.slot, name: p.name, alive: true, x: pos.x, y: pos.y, confuseUntil: 0, dir: "front" };
                 });
 
-                currentData.status = "playing";
-                currentData.map = baseMap;
-                currentData.bombs = {};
-                currentData.flames = {};
-                currentData.startTime = Date.now(); 
-                currentData.players = updatedPlayers;
-                
+                currentData.status = "playing"; currentData.map = baseMap; currentData.bombs = {}; currentData.flames = {}; currentData.startTime = Date.now(); currentData.players = updatedPlayers;
                 return currentData;
             }, (err, committed) => {
                 if (committed) {
-                    roomRef.child("bombs").remove();
-                    roomRef.child("flames").remove();
-                    
-                    stockH = false; stockV = false; stockC = false;
-                    nextBombH = false; nextBombV = false; isConfused = false;
+                    stockH = false; stockV = false; stockC = false; nextBombH = false; nextBombV = false; isConfused = false;
                     updateSkillButtonUI();
                     document.getElementById("winScreen").style.display = "none";
                 }
             });
         }
 
-        const winScreenEl = document.getElementById("winScreen");
-        winScreenEl.addEventListener("click", restartGame);
-        winScreenEl.addEventListener("touchstart", (e) => {
-            e.preventDefault(); 
-            restartGame();
-        });
+        document.getElementById("winScreen").addEventListener("click", restartGame);
 
-        // 🏃‍♂️ 移動関数
         function move(origDx, origDy) {
             if (currentRole === "spectator" || !isAlive || gameState.status !== "playing") return;
-            let dx = origDx; let dy = origDy;
-            if (isConfused) { dx = -origDx; dy = -origDy; }
+            let dx = origDx; let dy = origDy; if (isConfused) { dx = -origDx; dy = -origDy; }
 
             let newDir = "front";
-            if (dx > 0) newDir = "right";
-            else if (dx < 0) newDir = "left";
-            else if (dy > 0) newDir = "front";
-            else if (dy < 0) newDir = "back";
+            if (dx > 0) newDir = "right"; else if (dx < 0) newDir = "left"; else if (dy > 0) newDir = "front"; else if (dy < 0) newDir = "back";
 
-            const nextX = myGridX + dx;
-            const nextY = myGridY + dy;
-            
+            const nextX = myGridX + dx; const nextY = myGridY + dy;
             if (!gameState.map || !gameState.map[nextY] || gameState.map[nextY][nextX] === undefined) return;
-            
-            if (gameState.bombs && typeof gameState.bombs === "object") {
-                const targetBombId = `bomb_${nextX}_${nextY}`;
-                if (gameState.bombs[targetBombId]) return; 
-            }
+            if (gameState.bombs && gameState.bombs[`bomb_${nextX}_${nextY}`]) return;
 
             const targetTile = gameState.map[nextY][nextX];
             if (targetTile === 0 || targetTile === 3 || targetTile === 4 || targetTile === 5) {
                 myGridX = nextX; myGridY = nextY;
-                
                 if (targetTile >= 3) {
-                    if (targetTile === 3) stockH = true;
-                    if (targetTile === 4) stockV = true;
-                    if (targetTile === 5) stockC = true;
+                    if (targetTile === 3) stockH = true; if (targetTile === 4) stockV = true; if (targetTile === 5) stockC = true;
                     updateSkillButtonUI();
                     roomRef.child("map").child(nextY).child(nextX).set(0);
                 }
-                roomRef.child("players").child(myId).update({ x: myGridX, y: myGridY, dir: newDir, lastSeen: Date.now() });
+                roomRef.child("players").child(myId).update({ x: myGridX, y: myGridY, dir: newDir });
             } else {
-                roomRef.child("players").child(myId).update({ dir: newDir, lastSeen: Date.now() });
+                roomRef.child("players").child(myId).update({ dir: newDir });
             }
         }
 
-        // 💣 爆弾設置
         function placeBomb() {
             if (currentRole === "spectator" || !isAlive || gameState.status !== "playing") return;
-            
             let myBombCount = 0;
-            if (gameState.bombs && typeof gameState.bombs === "object") {
-                myBombCount = Object.values(gameState.bombs).filter(b => b.owner === myId).length;
-            }
+            if (gameState.bombs) myBombCount = Object.values(gameState.bombs).filter(b => b.owner === myId).length;
             if (myBombCount >= 1) return; 
 
-            const bombX = myGridX;
-            const bombY = myGridY;
-            const bombId = `bomb_${bombX}_${bombY}`;
-            
+            const bombX = myGridX; const bombY = myGridY; const bombId = `bomb_${bombX}_${bombY}`;
             if (gameState.bombs && gameState.bombs[bombId]) return;
             
-            const now = Date.now();
-            roomRef.child("bombs").child(bombId).set({
-                id: bombId, x: bombX, y: bombY, owner: myId, explodeAt: now + 2500, hPierce: nextBombH, vPierce: nextBombV
-            });
-            nextBombH = false; nextBombV = false;
-            updateRoleState(gameState);
-            
+            roomRef.child("bombs").child(bombId).set({ id: bombId, x: bombX, y: bombY, owner: myId, hPierce: nextBombH, vPierce: nextBombV });
+            nextBombH = false; nextBombV = false; updateRoleState(gameState);
             setTimeout(() => { executeExplosion(bombId, bombX, bombY); }, 2500);
         }
 
-        // 💥 爆発および誘爆ロジック
         function executeExplosion(bombId, bx, by) {
             roomRef.child("bombs").child(bombId).once("value", (snap) => {
                 if (!snap.exists()) return;
@@ -625,63 +455,41 @@
                 roomRef.child("bombs").child(bombId).remove();
                 
                 let affectedTiles = [{x: bx, y: by}];
-                const dirs = [
-                    {x: 1,  y: 0,  type: 'h'}, 
-                    {x: -1, y: 0,  type: 'h'}, 
-                    {x: 0,  y: 1,  type: 'v'}, 
-                    {x: 0,  y: -1, type: 'v'}  
-                ];
-                
+                const dirs = [{x: 1, y: 0, type: 'h'}, {x: -1, y: 0, type: 'h'}, {x: 0, y: 1, type: 'v'}, {x: 0, y: -1, type: 'v'}];
                 const BOMB_RANGE = 4;
 
                 dirs.forEach(dir => {
                     const isPierced = (dir.type === 'h' && bData.hPierce) || (dir.type === 'v' && bData.vPierce);
-                    
                     for (let i = 1; i <= BOMB_RANGE; i++) {
-                        let tx = bx + dir.x * i;
-                        let ty = by + dir.y * i;
-                        
+                        let tx = bx + dir.x * i; let ty = by + dir.y * i;
                         if (!gameState.map || !gameState.map[ty] || gameState.map[ty][tx] === undefined) break;
-                        
                         const tileType = gameState.map[ty][tx];
-                        
-                        if (tileType === 1) {
-                            break; 
-                        } else if (tileType === 2) {
-                            affectedTiles.push({x: tx, y: ty});
-                            if (!isPierced) break; 
-                        } else {
-                            affectedTiles.push({x: tx, y: ty});
-                        }
+                        if (tileType === 1) break; 
+                        else if (tileType === 2) { affectedTiles.push({x: tx, y: ty}); if (!isPierced) break; } 
+                        else { affectedTiles.push({x: tx, y: ty}); }
                     }
                 });
 
-                if (gameState.bombs && typeof gameState.bombs === "object") {
+                if (gameState.bombs) {
                     affectedTiles.forEach(tile => {
                         Object.values(gameState.bombs).forEach(otherBomb => {
-                            if (otherBomb.x === tile.x && otherBomb.y === tile.y) {
-                                executeExplosion(otherBomb.id, otherBomb.x, otherBomb.y);
-                            }
+                            if (otherBomb.x === tile.x && otherBomb.y === tile.y) executeExplosion(otherBomb.id, otherBomb.x, otherBomb.y);
                         });
                     });
                 }
 
                 affectedTiles.forEach(tile => {
                     if (gameState.map[tile.y] && gameState.map[tile.y][tile.x] === 2) {
-                        const rand = Math.random();
-                        let newTileValue = 0;
+                        const rand = Math.random(); let newTileValue = 0;
                         if (rand < 0.12) newTileValue = 3; else if (rand < 0.24) newTileValue = 4; else if (rand < 0.35) newTileValue = 5;
                         roomRef.child("map").child(tile.y).child(tile.x).set(newTileValue);
-                    } 
-                    else if (gameState.map[tile.y] && (gameState.map[tile.y][tile.x] === 3 || gameState.map[tile.y][tile.x] === 4 || gameState.map[tile.y][tile.x] === 5)) {
+                    } else if (gameState.map[tile.y] && (gameState.map[tile.y][tile.x] >= 3)) {
                         roomRef.child("map").child(tile.y).child(tile.x).set(0);
                     }
 
                     if (gameState.players) {
                         Object.values(gameState.players).forEach(p => {
-                            if (p.x === tile.x && p.y === tile.y && p.alive) {
-                                roomRef.child("players").child(p.id).update({ alive: false });
-                            }
+                            if (p.x === tile.x && p.y === tile.y && p.alive) roomRef.child("players").child(p.id).update({ alive: false });
                         });
                     }
                     const flameId = `flame_${tile.x}_${tile.y}`;
@@ -691,24 +499,11 @@
             });
         }
 
-        // ⌨️ キーボード操作
         window.addEventListener("keydown", (e) => {
-            if (e.key === "ArrowUp" || e.key === "w") move(0, -1);
-            if (e.key === "ArrowDown" || e.key === "s") move(0, 1);
-            if (e.key === "ArrowLeft" || e.key === "a") move(-1, 0);
-            if (e.key === "ArrowRight" || e.key === "d") move(1, 0);
-            if (e.key === " ") placeBomb();
-            if (e.key === "1") activateSkill('h');
-            if (e.key === "2") activateSkill('v');
-            if (e.key === "3") activateSkill('c');
+            if (e.key === "ArrowUp" || e.key === "w") move(0, -1); if (e.key === "ArrowDown" || e.key === "s") move(0, 1);
+            if (e.key === "ArrowLeft" || e.key === "a") move(-1, 0); if (e.key === "ArrowRight" || e.key === "d") move(1, 0);
+            if (e.key === " ") placeBomb(); if (e.key === "1") activateSkill('h'); if (e.key === "2") activateSkill('v'); if (e.key === "3") activateSkill('c');
         });
-
-        // 📱 タッチ・クリック操作
-        document.getElementById("btn-up").addEventListener("touchstart", (e) => { e.preventDefault(); move(0, -1); });
-        document.getElementById("btn-down").addEventListener("touchstart", (e) => { e.preventDefault(); move(0, 1); });
-        document.getElementById("btn-left").addEventListener("touchstart", (e) => { e.preventDefault(); move(-1, 0); });
-        document.getElementById("btn-right").addEventListener("touchstart", (e) => { e.preventDefault(); move(1, 0); });
-        document.getElementById("bombBtn").addEventListener("touchstart", (e) => { e.preventDefault(); placeBomb(); });
 
         document.getElementById("btn-up").addEventListener("click", () => move(0, -1));
         document.getElementById("btn-down").addEventListener("click", () => move(0, 1));
@@ -716,56 +511,37 @@
         document.getElementById("btn-right").addEventListener("click", () => move(1, 0));
         document.getElementById("bombBtn").addEventListener("click", placeBomb);
 
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
+        const canvas = document.getElementById("gameCanvas"); const ctx = canvas.getContext("2d");
 
-        // 🎨 描画ループ処理
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            if (!gameState.map || gameState.status === "force_reset") {
-                requestAnimationFrame(draw);
-                return;
-            }
+            if (!gameState.map) { requestAnimationFrame(draw); return; }
             
-            if (gameState.map) {
-                for (let r = 0; r < ROWS; r++) {
-                    for (let c = 0; c < COLS; c++) {
-                        const tile = gameState.map[r][c];
-                        if (tile === 1) {
-                            ctx.fillStyle = "#777"; ctx.fillRect(c * TILE_SIZE, r * TILE_SIZE, TILE_SIZE - 1, TILE_SIZE - 1);
-                        } else if (tile === 2) {
-                            ctx.fillStyle = "#b55"; ctx.fillRect(c * TILE_SIZE, r * TILE_SIZE, TILE_SIZE - 1, TILE_SIZE - 1);
-                        } else if (tile >= 3 && tile <= 5) {
-                            const img = itemImages[tile];
-                            if (img && img.complete) {
-                                ctx.drawImage(img, c * TILE_SIZE + 2, r * TILE_SIZE + 2, TILE_SIZE - 4, TILE_SIZE - 4);
-                            } else {
-                                ctx.fillStyle = tile === 3 ? "#00bcd4" : (tile === 4 ? "#e91e63" : "#9c27b0");
-                                ctx.fillRect(c * TILE_SIZE + 4, r * TILE_SIZE + 4, TILE_SIZE - 8, TILE_SIZE - 8);
-                            }
-                        }
+            for (let r = 0; r < ROWS; r++) {
+                for (let c = 0; c < COLS; c++) {
+                    const tile = gameState.map[r][c];
+                    if (tile === 1) { ctx.fillStyle = "#777"; ctx.fillRect(c * TILE_SIZE, r * TILE_SIZE, TILE_SIZE - 1, TILE_SIZE - 1); }
+                    else if (tile === 2) { ctx.fillStyle = "#b55"; ctx.fillRect(c * TILE_SIZE, r * TILE_SIZE, TILE_SIZE - 1, TILE_SIZE - 1); }
+                    else if (tile >= 3 && tile <= 5) {
+                        const img = itemImages[tile];
+                        if (img && img.complete) ctx.drawImage(img, c * TILE_SIZE + 2, r * TILE_SIZE + 2, TILE_SIZE - 4, TILE_SIZE - 4);
+                        else { ctx.fillStyle = tile === 3 ? "#00bcd4" : (tile === 4 ? "#e91e63" : "#9c27b0"); ctx.fillRect(c * TILE_SIZE + 4, r * TILE_SIZE + 4, TILE_SIZE - 8, TILE_SIZE - 8); }
                     }
                 }
             }
 
-            if (gameState.flames && typeof gameState.flames === "object") {
+            if (gameState.flames) {
                 Object.values(gameState.flames).forEach(f => {
-                    const aliveTime = Date.now() - f.createdAt; 
-                    const alpha = Math.max(0, 1 - (aliveTime / 500)); 
-                    ctx.save();
-                    ctx.globalAlpha = alpha;
-                    ctx.fillStyle = "#ff5722"; ctx.fillRect(f.x * TILE_SIZE, f.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-                    ctx.fillStyle = "#ffeb3b"; ctx.fillRect(f.x * TILE_SIZE + 4, f.y * TILE_SIZE + 4, TILE_SIZE - 8, TILE_SIZE - 8);
-                    ctx.restore();
+                    const alpha = Math.max(0, 1 - ((Date.now() - f.createdAt) / 500));
+                    ctx.save(); ctx.globalAlpha = alpha; ctx.fillStyle = "#ff5722"; ctx.fillRect(f.x * TILE_SIZE, f.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                    ctx.fillStyle = "#ffeb3b"; ctx.fillRect(f.x * TILE_SIZE + 4, f.y * TILE_SIZE + 4, TILE_SIZE - 8, TILE_SIZE - 8); ctx.restore();
                 });
             }
 
-            if (gameState.bombs && typeof gameState.bombs === "object") {
+            if (gameState.bombs) {
                 Object.values(gameState.bombs).forEach(b => {
                     ctx.fillStyle = b.hPierce ? "#00bcd4" : (b.vPierce ? "#e91e63" : "#000");
                     ctx.beginPath(); ctx.arc(b.x * TILE_SIZE + TILE_SIZE/2, b.y * TILE_SIZE + TILE_SIZE/2, TILE_SIZE/2.5, 0, Math.PI * 2); ctx.fill();
-                    ctx.fillStyle = (Math.floor(Date.now() / 200) % 2 === 0) ? "#f00" : "#ff0";
-                    ctx.fillRect(b.x * TILE_SIZE + TILE_SIZE/2 - 2, b.y * TILE_SIZE + 2, 4, 4);
                 });
             }
 
@@ -773,30 +549,22 @@
                 Object.values(gameState.players).forEach(p => {
                     if (!p.alive) return;
                     if (!renderPlayers[p.id]) renderPlayers[p.id] = { x: p.x * TILE_SIZE, y: p.y * TILE_SIZE };
-                    
-                    const targetX = p.x * TILE_SIZE; const targetY = p.y * TILE_SIZE;
-                    renderPlayers[p.id].x += (targetX - renderPlayers[p.id].x) * 0.3;
-                    renderPlayers[p.id].y += (targetY - renderPlayers[p.id].y) * 0.3;
+                    renderPlayers[p.id].x += (p.x * TILE_SIZE - renderPlayers[p.id].x) * 0.3;
+                    renderPlayers[p.id].y += (p.y * TILE_SIZE - renderPlayers[p.id].y) * 0.3;
 
                     const frameNum = (Math.floor(Date.now() / 250) % 2 + 1);
-                    const pSlot = p.slot || 1;
-                    const pDir = p.dir || "front"; 
-                    const pImg = playerImages[pSlot][pDir] ? playerImages[pSlot][pDir][frameNum] : null;
+                    const pImg = playerImages[p.slot || 1][p.dir || "front"] ? playerImages[p.slot || 1][p.dir || "front"][frameNum] : null;
 
-                    if (pImg && pImg.complete) {
-                        ctx.drawImage(pImg, renderPlayers[p.id].x, renderPlayers[p.id].y, TILE_SIZE, TILE_SIZE);
-                    } else {
-                        ctx.fillStyle = PLAYER_COLORS[pSlot - 1] || "#fff";
+                    if (pImg && pImg.complete) ctx.drawImage(pImg, renderPlayers[p.id].x, renderPlayers[p.id].y, TILE_SIZE, TILE_SIZE);
+                    else {
+                        ctx.fillStyle = PLAYER_COLORS[(p.slot || 1) - 1] || "#fff";
                         ctx.beginPath(); ctx.arc(renderPlayers[p.id].x + TILE_SIZE/2, renderPlayers[p.id].y + TILE_SIZE/2, TILE_SIZE/3, 0, Math.PI * 2); ctx.fill();
-                        ctx.fillStyle = "#000"; ctx.font = "bold 10px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-                        ctx.fillText(p.name, renderPlayers[p.id].x + TILE_SIZE/2, renderPlayers[p.id].y + TILE_SIZE/2);
                     }
                 });
             }
             requestAnimationFrame(draw);
         }
 
-        // 初期起動
         joinGame();
         draw();
     </script>
