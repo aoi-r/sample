@@ -392,15 +392,14 @@
             }
         }
 
-        // ⏱️ タイマー＆サドンデスブロック処理 (全体3分、残り2分からサドンデス開始仕様)
+        // ⏱️ タイマー＆サドンデスブロック処理
         setInterval(() => {
             checkAndAutoTakeover();
 
             if (gameState.status !== "playing" || !gameState.startTime) return;
             
-            // 経過秒数計算
             const elapsed = Math.floor((getEstimatedServerTime() - gameState.startTime) / 1000);
-            const totalDuration = 180; // 全体：180秒(3分)
+            const totalDuration = 180; // 3分
             const remaining = Math.max(0, totalDuration - elapsed);
 
             const m = Math.floor(remaining / 60);
@@ -408,16 +407,13 @@
             const timerEl = document.getElementById("timer-display");
             timerEl.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
 
-            // 残り1分(60秒)を切ったらタイマーを赤点滅
             if (remaining <= 60) {
                 timerEl.classList.add("sudden-alert");
             } else {
                 timerEl.classList.remove("sudden-alert");
             }
 
-            // サドンデス開始判定：残り2分(120秒)以下になったら開始
             if (remaining < 120 && remaining > 0) {
-                // 120秒からカウントして何個目のブロックを埋めるか計算
                 const blockIndex = 120 - remaining - 1; 
                 if (blockIndex < SUDDEN_BLOCKS.length) {
                     const targetBlock = SUDDEN_BLOCKS[blockIndex];
@@ -437,7 +433,8 @@
                                         }
                                     }
                                 });
-                                if (aliveCount <= 1) {
+                                // 1人の状態から自爆やサドンデスで死亡したケースも検知できるように修正
+                                if (aliveCount === 0 || (Object.keys(gameState.players).length >= 2 && aliveCount <= 1)) {
                                     roomRef.child("status").set("result");
                                 }
                             }
@@ -480,7 +477,8 @@
                 const alives = Object.values(data.players).filter(p => p.alive);
                 const totalPlayers = Object.keys(data.players).length;
 
-                if (totalPlayers >= 2 && alives.length <= 1) {
+                // 【バグ修正箇所】1人しかいない（相手が抜けた）場合でも、自分が死んだら(alivesが0になったら)即時リザルトへ移行
+                if (alives.length === 0 || (totalPlayers >= 2 && alives.length <= 1)) {
                     roomRef.child("status").set("result");
                 }
             } else if (data.status === "result") {
@@ -541,7 +539,7 @@
             restartGame();
         });
 
-        // 🏃‍♂️ 移動関数 (1回の入力でそのマスに乗りながら即座に取得)
+        // 🏃‍♂️ 移動関数
         function move(origDx, origDy) {
             if (currentRole === "spectator" || !isAlive || gameState.status !== "playing") return;
             let dx = origDx; let dy = origDy;
