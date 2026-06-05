@@ -1,0 +1,40 @@
+📝 新しい全方向2コマ生成プロンプト（眠たげな緑のスライム版）
+🟢 1. 正面（こちらに向かって移動）
+
+正面 1コマ目
+
+Full body portrait of a 2D game slime monster sprite with a distinct aloof and slightly sleepy expression, front-view, facing forward towards the camera. 1024x1024 resolution. Clean vector style, cel-shaded with crisp solid outlines, flat colors. Translucent, jelly-like green body with heavy-lidded eyes looking drowsily ahead, without a strong frown or smile. Pose: Normal round shape, resting comfortably. Pure solid white background.
+
+正面 2コマ目
+
+Full body portrait of the exact same green slime sprite with the same aloof and sleepy face, front-view, facing forward. 1024x1024 resolution. Clean vector style, cel-shaded. Green jelly body is slightly squished horizontally and stretched vertically, bouncing up in the air dynamically, maintaining the sleepy eyes. Pure solid white background.
+
+🔵 2. 右向き（右に向かって移動）
+
+右向き 1コマ目
+
+Full body portrait of the exact same green slime sprite with the same aloof and sleepy face, side-view, facing right. 1024x1024 resolution. Clean vector style, cel-shaded. Green jelly body in a normal round shape, moving calmly to the right. The visible sleepy, heavy-lidded eye is looking right. Pure solid white background.
+
+右向き 2コマ目
+
+Full body portrait of the exact same green slime sprite with the same aloof and sleepy face, side-view, facing right. 1024x1024 resolution. Clean vector style, cel-shaded. Green jelly body is leaning forward, stretched diagonally as it hops calmly to the right. Pure solid white background.
+
+🔴 3. 左向き（左に向かって移動）
+
+左向き 1コマ目
+
+Full body portrait of the exact same green slime sprite with the same aloof and sleepy face, side-view, facing left. 1024x1024 resolution. Clean vector style, cel-shaded. Green jelly body in a normal round shape, moving calmly to the left. The visible sleepy, heavy-lidded eye is looking left. Pure solid white background.
+
+左向き 2コマ目
+
+Full body portrait of the exact same green slime sprite with the same aloof and sleepy face, side-view, facing left. 1024x1024 resolution. Clean vector style, cel-shaded. Green jelly body is leaning forward, stretched diagonally as it hops calmly to the left. Pure solid white background.
+
+🟡 4. バック（奥に向かって移動）
+
+背面 1コマ目
+
+Full body portrait of the exact same green slime sprite, back-view, facing away from the camera showing its back. 1024x1024 resolution. Clean vector style, cel-shaded. Consistent translucent green jelly-like body. No eyes or face visible. Pose: Normal round shape from behind. Pure solid white background.
+
+背面 2コマ目
+
+Full body portrait of the exact same green slime sprite, back-view, facing away from the camera. 1024x1024 resolution. Clean vector style, cel-shaded. Green jelly body is squished and bouncing upward from behind. No eyes or face visible. Pure solid white background.

@@ -1,0 +1,40 @@
+📝 新しい全方向2コマ生成プロンプト（不気味な黒いスライム版）
+🟢 1. 正面（こちらに向かって移動）
+
+正面 1コマ目
+
+Full body portrait of a 2D game slime monster sprite with an unsettling, manic grin, front-view, facing forward towards the camera. 1024x1024 resolution. Clean vector style, cel-shaded with crisp solid outlines, flat colors. Translucent, jelly-like deep black body with a chaotic, non-symmetrical face: one normal round eye, one swirling eye, and a disturbingly wide, jagged grin with a drop of black drool. Pose: Normal round shape, resting. Pure solid white background.
+
+正面 2コマ目
+
+Full body portrait of the exact same deep black slime sprite with the same unsettling manic grin, front-view, facing forward. 1024x1024 resolution. Clean vector style, cel-shaded. Deep black jelly body is slightly squished horizontally and stretched vertically, bouncing up in the air dynamically, maintaining the chaotic eyes and grin. Pure solid white background.
+
+🔵 2. 右向き（右に向かって移動）
+
+右向き 1コマ目
+
+Full body portrait of the exact same deep black slime sprite with the same unsettling manic face, side-view, facing right. 1024x1024 resolution. Clean vector style, cel-shaded. Deep black jelly body in a normal round shape, moving calmly to the right. The visible chaotic eye and jagged grin are looking right. Pure solid white background.
+
+右向き 2コマ目
+
+Full body portrait of the exact same deep black slime sprite with the same unsettling manic face, side-view, facing right. 1024x1024 resolution. Clean vector style, cel-shaded. Deep black jelly body is leaning forward, stretched diagonally as it hops calmly to the right. The chaotic features are maintained. Pure solid white background.
+
+🔴 3. 左向き（左に向かって移動）
+
+左向き 1コマ目
+
+Full body portrait of the exact same deep black slime sprite with the same unsettling manic face, side-view, facing left. 1024x1024 resolution. Clean vector style, cel-shaded. Deep black jelly body in a normal round shape, moving calmly to the left. The visible chaotic eye and jagged grin are looking left. Pure solid white background.
+
+左向き 2コマ目
+
+Full body portrait of the exact same deep black slime sprite with the same unsettling manic face, side-view, facing left. 1024x1024 resolution. Clean vector style, cel-shaded. Deep black jelly body is leaning forward, stretched diagonally as it hops calmly to the left. Pure solid white background.
+
+🟡 4. バック（奥に向かって移動）
+
+背面 1コマ目
+
+Full body portrait of the exact same deep black slime sprite, back-view, facing away from the camera showing its back. 1024x1024 resolution. Clean vector style, cel-shaded. Consistent translucent deep black jelly-like body with a charcoal-like texture. No eyes or face visible. Pose: Normal round shape from behind. Pure solid white background.
+
+背面 2コマ目
+
+Full body portrait of the exact same deep black slime sprite, back-view, facing away from the camera. 1024x1024 resolution. Clean vector style, cel-shaded. Deep black jelly body is squished and bouncing upward from behind. No eyes or face visible. Pure solid white background.

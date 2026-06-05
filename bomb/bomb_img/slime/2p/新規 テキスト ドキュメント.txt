@@ -1,0 +1,39 @@
+🟢 1. 正面（こちらに向かって移動）
+
+正面 1コマ目
+
+Full body portrait of a 2D game slime monster sprite with a grumpy-looking face, front-view, facing forward towards the camera. 1024x1024 resolution. Clean vector style, cel-shaded with crisp solid outlines, flat colors. Deep, ruby-red clear jelly-like translucent body with a grumpy expression: two crossed round eyes and a severe frown. Pose: Normal round shape, resting comfortably. Pure solid white background.
+
+正面 2コマ目
+
+Full body portrait of the exact same 2D game slime monster sprite with the same grumpy face, front-view, facing forward. 1024x1024 resolution. Clean vector style, cel-shaded. Deep red clear jelly body is slightly squished horizontally and stretched vertically, bouncing up in the air dynamically. Pure solid white background.
+
+🔵 2. 右向き（右に向かって移動）
+
+右向き 1コマ目
+
+Full body portrait of the exact same 2D game slime monster sprite with the same grumpy face, side-view, facing right. 1024x1024 resolution. Clean vector style, cel-shaded. Deep red clear jelly body in a normal round shape, moving right. Pure solid white background.
+
+右向き 2コマ目
+
+Full body portrait of the exact same 2D game slime monster sprite with the same grumpy face, side-view, facing right. 1024x1024 resolution. Clean vector style, cel-shaded. Deep red clear jelly body is leaning forward into the right direction, stretched diagonally as it hops forward. Pure solid white background.
+
+🔴 3. 左向き（左に向かって移動）
+
+左向き 1コマ目
+
+Full body portrait of the exact same 2D game slime monster sprite with the same grumpy face, side-view, facing left. 1024x1024 resolution. Clean vector style, cel-shaded. Deep red clear jelly body in a normal round shape, moving left. Pure solid white background.
+
+左向き 2コマ目
+
+Full body portrait of the exact same 2D game slime monster sprite with the same grumpy face, side-view, facing left. 1024x1024 resolution. Clean vector style, cel-shaded. Deep red clear jelly body is leaning forward into the left direction, stretched diagonally as it hops forward. Pure solid white background.
+
+🟡 4. バック（奥に向かって移動）
+
+背面 1コマ目
+
+Full body portrait of the exact same 2D game slime monster sprite, back-view, facing away from the camera showing its back. 1024x1024 resolution. Clean vector style, cel-shaded. Deep red clear jelly-like translucent body. No eyes or face visible. Pose: Normal round shape from behind. Pure solid white background.
+
+背面 2コマ目
+
+Full body portrait of the exact same 2D game slime monster sprite, back-view, facing away from the camera. 1024x1024 resolution. Clean vector style, cel-shaded. Deep red clear jelly-like translucent body. No eyes or face visible. Pose (Squish animation): The blue jelly body is squished and bouncing upward from behind. Pure solid white background.
