@@ -361,7 +361,7 @@
             }
         }
 
-        // 💥 【バグ修正】2人以上いる時でも絶対に崩壊しない安全な手動部屋リセット
+        // 💥 【安全・強固】2人以上いる時でも絶対に崩壊しない部屋リセット
         function triggerManualReset() {
             document.getElementById("info").innerText = "リセット中...";
             roomRef.set({
@@ -373,7 +373,6 @@
                 startTime: 0
             }, (error) => {
                 if (!error) {
-                    // 確実にクリーンに再参加させる
                     stockH = false; stockV = false; stockC = false;
                     nextBombH = false; nextBombV = false; isConfused = false;
                     updateSkillButtonUI();
@@ -441,7 +440,6 @@
         roomRef.on("value", (snapshot) => {
             const data = snapshot.val();
             
-            // 【修正】もし他の誰かが部屋リセットしてデータが全削除（空）状態になっていたら、競合を防ぎ安全に自動リセット状態にする
             if (!data || !data.players || Object.keys(data.players).length === 0) {
                 if (data && data.status !== "waiting") {
                     document.getElementById("info").innerText = "部屋を再初期化中...";
@@ -529,7 +527,7 @@
             restartGame();
         });
 
-        // 🏃‍♂️ 移動関数（【バグ修正】アイテム乗り込み時の一歩止まる現象を完全に解消）
+        // 🏃‍♂️ 移動関数（【完全修正】1回の入力でそのマスに乗りながら即座に取得！）
         function move(origDx, origDy) {
             if (currentRole === "spectator" || !isAlive || gameState.status !== "playing") return;
             let dx = origDx; let dy = origDy;
@@ -553,9 +551,8 @@
 
             const targetTile = gameState.map[nextY][nextX];
             
-            // 通行可能な床（0）またはアイテム（3,4,5）の場合
+            // 床（0）またはアイテム（3, 4, 5）のマスなら即座に完全移動
             if (targetTile === 0 || targetTile === 3 || targetTile === 4 || targetTile === 5) {
-                // 先に自分のローカル位置を移動させる（これによって滑らかに入力した瞬間に進める）
                 myGridX = nextX; 
                 myGridY = nextY;
                 
@@ -564,14 +561,28 @@
                     if (targetTile === 4) stockV = true;
                     if (targetTile === 5) stockC = true;
                     updateSkillButtonUI();
-                    // アイテムを消す処理と同時に、自分の最新位置データをFirebaseに同期
-                    roomRef.child("map").child(nextY).child(nextX).set(0);
+                    
+                    // 【ポイント】アイテム消去(床にする)と、プレイヤー移動の同期データを「完全に同時に一撃で」Firebaseに送信する
+                    let updates = {};
+                    updates[`map/${nextY}/${nextX}`] = 0;
+                    updates[`players/${myId}`] = {
+                        id: myId,
+                        slot: parseInt(currentRole.replace("player", "")),
+                        x: myGridX,
+                        y: myGridY,
+                        dir: newDir,
+                        alive: isAlive,
+                        name: "P" + currentRole.replace("player", ""),
+                        lastSeen: Date.now(),
+                        confuseUntil: gameState.players[myId].confuseUntil || 0
+                    };
+                    roomRef.update(updates);
+                } else {
+                    // 通常の床の移動
+                    roomRef.child("players").child(myId).update({ x: myGridX, y: myGridY, dir: newDir, lastSeen: Date.now() });
                 }
-                
-                // 位置の同期処理を共通化することで遅延・足止めを完全に回避
-                roomRef.child("players").child(myId).update({ x: myGridX, y: myGridY, dir: newDir, lastSeen: Date.now() });
             } else {
-                // 壁にぶつかった場合は向きだけ変える
+                // 壁は向き変更のみ
                 roomRef.child("players").child(myId).update({ dir: newDir, lastSeen: Date.now() });
             }
         }
