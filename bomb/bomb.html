@@ -124,7 +124,7 @@
         }
         preloadImages();
 
-        // 🏃‍♂️ プレイヤー歩行画像のプリロード構造 (1〜4番プレイヤー × 4方向 × 2コマ)
+        // 🏃‍♂️ プレイヤー歩行画像のプリロード構造
         const playerImages = { 1: {}, 2: {}, 3: {}, 4: {} };
         function preloadPlayerImages() {
             const directions = ["front", "back", "left", "right"];
@@ -212,32 +212,37 @@
         let stockH = false, stockV = false, stockC = false;
         let nextBombH = false, nextBombV = false, isConfused = false;
 
-        // 🤝 ルームへの参加処理（安全なトランザクション型）
+        // 🤝 ルームへの参加処理（バグ修正版トランザクション）
         function joinGame() {
             roomRef.transaction((currentData) => {
+                // データが全く存在しないか、強制リセット時はクリーンに初期化
                 if (!currentData || !currentData.map || currentData.status === "force_reset") {
                     currentData = { status: "waiting", map: baseMap, players: {}, bombs: {}, flames: {}, startTime: 0 };
                 }
                 
-                if (currentData.players && currentData.players[myId]) {
+                if (!currentData.players) currentData.players = {};
+
+                // 既に自分が登録されている場合はタイムスタンプを更新して維持
+                if (currentData.players[myId]) {
                     currentData.players[myId].lastSeen = Date.now(); 
                     return currentData; 
                 }
 
-                const pCount = currentData.players ? Object.keys(currentData.players).length : 0;
+                const pCount = Object.keys(currentData.players).length;
                 if (pCount < 4) {
                     let slot = 1;
                     const existingSlots = Object.values(currentData.players).map(p => p.slot);
                     while(existingSlots.includes(slot)) slot++;
 
-                    if (!currentData.players) currentData.players = {};
                     const pos = START_POS[slot - 1];
-                    
                     currentData.players[myId] = {
                         id: myId, slot: slot, x: pos.x, y: pos.y, alive: true, name: "P" + slot, lastSeen: Date.now(), confuseUntil: 0, dir: "front"
                     };
                     
+                    // 現在アクティブなプレイヤー数を計算
                     const nowActiveCount = Object.values(currentData.players).filter(p => !p.lastSeen || (Date.now() - p.lastSeen <= 6000)).length;
+                    
+                    // 2人以上揃ったらゲームスタート
                     if (nowActiveCount >= 2 && currentData.status === "waiting") {
                         currentData.status = "playing";
                         currentData.startTime = Date.now();
@@ -289,7 +294,7 @@
                     document.getElementById("info").innerText = "観戦中 (空き席あり...)";
                     setTimeout(joinGame, 1000);
                 } else {
-                    document.getElementById("info").innerText = "満員のため観戦中 (放置プレイヤーがいたら自動で入れ替わります)";
+                    document.getElementById("info").innerText = "満員のため観戦中";
                 }
             }
             updateSkillButtonUI();
@@ -446,6 +451,7 @@
                 const alives = Object.values(data.players).filter(p => p.alive);
                 const totalPlayers = Object.keys(data.players).length;
 
+                // 2人以上接続していて、生き残りが1人以下ならゲーム終了
                 if (totalPlayers >= 2 && alives.length <= 1) {
                     roomRef.child("status").set("result");
                 }
@@ -462,7 +468,7 @@
             }
         });
 
-        // 🔄 ゲームのリスタート処理（クリーンアップ完全版）
+        // 🔄 ゲームのリスタート処理（タップバグ完全修正版）
         function restartGame() {
             if (!gameState || !gameState.players) return;
 
@@ -474,6 +480,7 @@
                 Object.keys(currentData.players).forEach(key => {
                     const p = currentData.players[key];
                     const pos = START_POS[p.slot - 1] || {x: 1, y: 1};
+                    // 全員の生存フラグ、位置、向きをリセット
                     updatedPlayers[key] = {
                         id: p.id, slot: p.slot, name: p.name, alive: true, x: pos.x, y: pos.y, confuseUntil: 0, lastSeen: Date.now(), dir: "front"
                     };
@@ -489,6 +496,10 @@
                 return currentData;
             }, (err, committed) => {
                 if (committed) {
+                    // 古いデータベースデータを完全に除去してクリアにする
+                    roomRef.child("bombs").remove();
+                    roomRef.child("flames").remove();
+                    
                     stockH = false; stockV = false; stockC = false;
                     nextBombH = false; nextBombV = false; isConfused = false;
                     updateSkillButtonUI();
@@ -510,7 +521,6 @@
             let dx = origDx; let dy = origDy;
             if (isConfused) { dx = -origDx; dy = -origDy; }
 
-            // 🧭 移動方向に応じてキャラクターの向き(dir)を算出して保持
             let newDir = "front";
             if (dx > 0) newDir = "right";
             else if (dx < 0) newDir = "left";
@@ -520,17 +530,14 @@
             const nextX = myGridX + dx;
             const nextY = myGridY + dy;
             
-            // マップ範囲外チェック
             if (!gameState.map || !gameState.map[nextY] || gameState.map[nextY][nextX] === undefined) return;
             
-            // 爆弾との衝突判定
             if (gameState.bombs && typeof gameState.bombs === "object") {
                 const targetBombId = `bomb_${nextX}_${nextY}`;
                 if (gameState.bombs[targetBombId]) return; 
             }
 
             const targetTile = gameState.map[nextY][nextX];
-            // 厳密に床(0)またはアイテム(3,4,5)のみ通過可能にする
             if (targetTile === 0 || targetTile === 3 || targetTile === 4 || targetTile === 5) {
                 myGridX = nextX; myGridY = nextY;
                 if (targetTile >= 3) {
@@ -542,7 +549,6 @@
                 }
                 roomRef.child("players").child(myId).update({ x: myGridX, y: myGridY, dir: newDir, lastSeen: Date.now() });
             } else {
-                // 壁に引っかかった場合でも、向いた方向だけはFirebaseに送信してグラフィックを同期
                 roomRef.child("players").child(myId).update({ dir: newDir, lastSeen: Date.now() });
             }
         }
@@ -602,17 +608,16 @@
                         const tileType = gameState.map[ty][tx];
                         
                         if (tileType === 1) {
-                            break; // 固い壁は貫通不可
+                            break; 
                         } else if (tileType === 2) {
                             affectedTiles.push({x: tx, y: ty});
-                            if (!isPierced) break; // 貫通スキルが無ければブロックで止まる
+                            if (!isPierced) break; 
                         } else {
                             affectedTiles.push({x: tx, y: ty});
                         }
                     }
                 });
 
-                // 連鎖の誘爆チェック
                 if (gameState.bombs && typeof gameState.bombs === "object") {
                     affectedTiles.forEach(tile => {
                         Object.values(gameState.bombs).forEach(otherBomb => {
@@ -623,7 +628,6 @@
                     });
                 }
 
-                // 爆風展開＆判定処理
                 affectedTiles.forEach(tile => {
                     if (gameState.map[tile.y] && gameState.map[tile.y][tile.x] === 2) {
                         const rand = Math.random();
@@ -681,7 +685,6 @@
                 return;
             }
             
-            // 1. マップとアイテムの描画
             if (gameState.map) {
                 for (let r = 0; r < ROWS; r++) {
                     for (let c = 0; c < COLS; c++) {
@@ -703,7 +706,6 @@
                 }
             }
 
-            // 2. 爆風(Flame)の描画 (フェードアウト演出付き)
             if (gameState.flames && typeof gameState.flames === "object") {
                 Object.values(gameState.flames).forEach(f => {
                     const aliveTime = Date.now() - f.createdAt; 
@@ -716,7 +718,6 @@
                 });
             }
 
-            // 3. 爆弾(Bomb)の描画 (スキル色と点滅演出)
             if (gameState.bombs && typeof gameState.bombs === "object") {
                 Object.values(gameState.bombs).forEach(b => {
                     ctx.fillStyle = b.hPierce ? "#00bcd4" : (b.vPierce ? "#e91e63" : "#000");
@@ -726,18 +727,15 @@
                 });
             }
 
-            // 4. プレイヤーの描画 (常時足踏みアニメーション)
             if (gameState.players) {
                 Object.values(gameState.players).forEach(p => {
                     if (!p.alive) return;
                     if (!renderPlayers[p.id]) renderPlayers[p.id] = { x: p.x * TILE_SIZE, y: p.y * TILE_SIZE };
                     
-                    // 滑らかな移動補間
                     const targetX = p.x * TILE_SIZE; const targetY = p.y * TILE_SIZE;
                     renderPlayers[p.id].x += (targetX - renderPlayers[p.id].x) * 0.3;
                     renderPlayers[p.id].y += (targetY - renderPlayers[p.id].y) * 0.3;
 
-                    // 🏃‍♂️【常時足踏み】移動している・止まっているに関わらず、時間経過（250ミリ秒ごと）で1コマ目と2コマ目を無限ループ
                     const frameNum = (Math.floor(Date.now() / 250) % 2 + 1);
                     const pSlot = p.slot || 1;
                     const pDir = p.dir || "front"; 
@@ -746,7 +744,6 @@
                     if (pImg && pImg.complete) {
                         ctx.drawImage(pImg, renderPlayers[p.id].x, renderPlayers[p.id].y, TILE_SIZE, TILE_SIZE);
                     } else {
-                        // 万が一画像が読み込めない場合の円形フォールバック（名前表示付き）
                         ctx.fillStyle = PLAYER_COLORS[pSlot - 1] || "#fff";
                         ctx.beginPath(); ctx.arc(renderPlayers[p.id].x + TILE_SIZE/2, renderPlayers[p.id].y + TILE_SIZE/2, TILE_SIZE/3, 0, Math.PI * 2); ctx.fill();
                         ctx.fillStyle = "#000"; ctx.font = "bold 10px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
