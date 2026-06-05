@@ -119,8 +119,9 @@
 
     #promotionOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; font-size: 20px; font-weight: bold; z-index: 20; }
     .promo-buttons { display: flex; gap: 15px; margin-top: 20px; }
-    .promo-buttons button { background: #34495e; border: 2px solid #ecf0f1; border-radius: 8px; padding: 10px; color: white; cursor: pointer; display: flex; flex-direction: column; align-items: center; width: 80px; font-weight: bold; transition: 0.2s; }
+    .promo-buttons button { background: #34495e; border: 2px solid #ecf0f1; border-radius: 8px; padding: 10px; color: white; cursor: pointer; display: flex; flex-direction: column; align-items: center; width: 85px; font-weight: bold; transition: 0.2s; }
     .promo-buttons button:hover { background: #2ecc71; border-color: #fff; }
+    .promo-buttons button img { width: 50px; height: 50px; object-fit: contain; margin-bottom: 5px; }
 
     #cardModal {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -269,6 +270,37 @@ document.addEventListener('touchend', (e) => {
   lastTouchEnd = now;
 }, { passive: false });
 
+// 【新規】駒画像のファイル名マッピングとプリロード処理
+const pieceImages = {};
+const pieceFileNames = {
+  white: { pawn: "白ぽーん.png", rook: "白るーく", knight: "白ないと.png", bishop: "白びしょっぷ.png", queen: "白くいーん.png", king: "白きんぐ.png" },
+  black: { pawn: "黒ぽーん.png", rook: "黒るーく.png", knight: "黒ないと.png", bishop: "黒びしょっぷ.png", queen: "黒くいーん.png", king: "黒きんぐ.png" }
+};
+
+// 画像オブジェクトを生成して一挙にロード
+for (const color in pieceFileNames) {
+  pieceImages[color] = {};
+  for (const type in pieceFileNames[color]) {
+    const img = new Image();
+    // 拡張子 .png が最初から付いているものと付いていないもの（白るーく等）のブレを吸収
+    let filename = pieceFileNames[color][type];
+    if (!filename.endsWith(".png")) {
+      filename += ".png";
+    }
+    img.src = `img/${filename}`;
+    pieceImages[color][type] = img;
+    // 画像ロード完了時に盤面を再描画
+    img.onload = () => {
+      if (state && state.pieces) {
+        const isWhiteOnline = state.whiteId ? (presence[state.whiteId] === true) : false;
+        const isBlackOnline = state.blackId ? (presence[state.blackId] === true) : false;
+        draw(isWhiteOnline, isBlackOnline);
+      }
+    };
+  }
+}
+
+// 画像の読み込みに失敗した場合や未用意の駒のための従来の文字フォールバック
 const uPieces = {
     white: { pawn: "♙", rook: "♖", knight: "♘", bishop: "♗", queen: "♕", king: "♔" },
     black: { pawn: "♟", rook: "♜", knight: "♞", bishop: "♝", queen: "♛", king: "♚" }
@@ -291,7 +323,7 @@ let state = {
   doubleTurnReserved: false,
   brainwashedPawnKey: null,
   activeEffect: null,
-  cardUsedThisTurn: false // 【新規】このターン中にすでにカードを使ったかどうかのフラグ
+  cardUsedThisTurn: false
 };
 let presence = {}; 
 let selected = { type: null, key: null };
@@ -378,7 +410,7 @@ canvas.addEventListener("pointerdown", e => {
       p.owner = myRole;
       state.cards[myRole].card3.used = true;
       state.brainwashedPawnKey = targetKey; 
-      state.cardUsedThisTurn = true; // 【新規】カード使用フラグを立てる
+      state.cardUsedThisTurn = true;
       
       state.activeEffect = {
         id: Math.random().toString(36).slice(2),
@@ -429,7 +461,6 @@ canvas.addEventListener("pointerdown", e => {
         state.brainwashedPawnKey = null; 
       }
 
-      // 【新規】手番が切り替わるタイミングで、カード使用制限フラグをリセットする
       state.cardUsedThisTurn = false; 
 
       if (state.doubleTurnReserved) {
@@ -461,14 +492,24 @@ canvas.addEventListener("pointerdown", e => {
       options.forEach(opt => {
           const btn = document.createElement('button');
           const isWhite = p.owner === 'white';
-          const char = uPieces[p.owner][opt.type];
-
-          btn.innerHTML = `
-              <div style="font-size: 45px; color: ${isWhite ? '#ffffff' : '#000000'}; text-shadow: ${isWhite ? '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000' : 'none'}; line-height: 1.2;">
-                  ${char}
-              </div>
-              <div>${opt.label}</div>
-          `;
+          
+          // 【修正】昇格ポップアップ内もテキストではなく画像を表示
+          const imgObj = pieceImages[p.owner][opt.type];
+          if (imgObj && imgObj.complete && imgObj.naturalWidth !== 0) {
+              btn.innerHTML = `
+                  <img src="${imgObj.src}" alt="${opt.label}">
+                  <div>${opt.label}</div>
+              `;
+          } else {
+              // 画像の読み込みが間に合わなかった場合のバックアップ
+              const char = uPieces[p.owner][opt.type];
+              btn.innerHTML = `
+                  <div style="font-size: 35px; color: ${isWhite ? '#ffffff' : '#000000'}; text-shadow: ${isWhite ? '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000' : 'none'}; line-height: 1.2;">
+                      ${char}
+                  </div>
+                  <div>${opt.label}</div>
+              `;
+          }
           btn.onclick = () => finalizeMove(opt.type);
           promoButtonsContainer.appendChild(btn);
       });
@@ -515,7 +556,7 @@ function initBoard(keepPlayers = false) {
     doubleTurnReserved: false,
     brainwashedPawnKey: null,
     activeEffect: null,
-    cardUsedThisTurn: false // 【新規】初期化
+    cardUsedThisTurn: false
   };
   currentLocalEffectId = null;
   set(ref(db, "chess_game"), newState);
@@ -556,11 +597,6 @@ function draw(isWhiteOnline, isBlackOnline) {
       }
     }
   }
-  
-  const fontSize = Math.floor(CELL * 0.73);
-  ctx.font = `bold ${fontSize}px sans-serif`;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
 
   for (const k in (state.pieces || {})) {
     const p = state.pieces[k]; 
@@ -573,20 +609,27 @@ function draw(isWhiteOnline, isBlackOnline) {
     ctx.translate(p.x * CELL + CELL/2, p.y * CELL + CELL/2);
     if (p.owner === "black") ctx.rotate(Math.PI);
     
-    const char = uPieces[p.owner][p.type];
+    // 【修正】従来のテキスト描画から画像描画処理へ変更
+    const imgObj = pieceImages[p.owner][p.type];
     
-    if (p.owner === "white") {
-        ctx.fillStyle = "#ffffff";
-        ctx.strokeStyle = "#000000";
-        ctx.lineWidth = size * 0.003;
-        ctx.strokeText(char, 0, 2);
-        ctx.fillText(char, 0, 2);
+    // 画像が正常にロードできている場合は画像を描画
+    if (imgObj && imgObj.complete && imgObj.naturalWidth !== 0) {
+      const imgSize = CELL * 0.85; // マス目に合わせて少し余白を持たせる
+      ctx.drawImage(imgObj, -imgSize / 2, -imgSize / 2, imgSize, imgSize);
     } else {
-        ctx.fillStyle = "#000000";
-        ctx.strokeStyle = "rgba(255,255,255,0.5)";
-        ctx.lineWidth = size * 0.0016;
-        ctx.strokeText(char, 0, 2);
-        ctx.fillText(char, 0, 2);
+      // 万が一画像がない、あるいはロードエラーの際はフォールバックとして従来の文字を出す
+      const fontSize = Math.floor(CELL * 0.73);
+      ctx.font = `bold ${fontSize}px sans-serif`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      const char = uPieces[p.owner][p.type];
+      if (p.owner === "white") {
+          ctx.fillStyle = "#ffffff"; ctx.strokeStyle = "#000000"; ctx.lineWidth = size * 0.003;
+          ctx.strokeText(char, 0, 2); ctx.fillText(char, 0, 2);
+      } else {
+          ctx.fillStyle = "#000000"; ctx.strokeStyle = "rgba(255,255,255,0.5)"; ctx.lineWidth = size * 0.0016;
+          ctx.strokeText(char, 0, 2); ctx.fillText(char, 0, 2);
+      }
     }
 
     if (selected.key === k && selected.type === 'board') { 
@@ -711,7 +754,6 @@ function updateGameSystem() {
     const isMyTurn = state.turn === myRole;
     const opponentId = myRole === "white" ? state.blackId : state.whiteId;
     
-    // 【修正】自分の手番、かつ相手がいて、さらに「このターンまだカードを使っていない」場合のみ使用可能
     const canUseCard = isMyTurn && opponentId && !state.cardUsedThisTurn; 
 
     ["card1", "card2", "card3"].forEach((cKey) => {
@@ -726,7 +768,6 @@ function updateGameSystem() {
         btn.style.borderColor = "#7f8c8d";
         btn.style.background = "#1a252f";
       } else if (!canUseCard && selected.type !== 'card3_select') {
-        // すでに別のカードを使ったターン、または相手のターン時は暗転させてロック
         btn.disabled = true;
         btn.style.opacity = "0.5";
         btn.style.borderColor = "#ecf0f1";
@@ -758,7 +799,7 @@ function updateGameSystem() {
             if (cKey === "card1") {
               state.cards[myRole].card1.used = true;
               state.doubleTurnReserved = true; 
-              state.cardUsedThisTurn = true; // 【新規】使用フラグをON
+              state.cardUsedThisTurn = true; 
               state.activeEffect = {
                 id: Math.random().toString(36).slice(2),
                 cardKey: "card1",
@@ -769,7 +810,7 @@ function updateGameSystem() {
             else if (cKey === "card2") {
               state.cards[myRole].card2.used = true;
               state.invincibleTurn = myRole; 
-              state.cardUsedThisTurn = true; // 【新規】使用フラグをON
+              state.cardUsedThisTurn = true; 
               state.activeEffect = {
                 id: Math.random().toString(36).slice(2),
                 cardKey: "card2",
@@ -800,7 +841,6 @@ function updateGameSystem() {
         updateGameSystem();
       };
     } else if (state.cardUsedThisTurn) {
-      // 【新規】カード使用後のアナウンス表示
       cardTitle.innerText = "🔒 このターンはすでに作戦を実行しました";
       cardTitle.style.color = "#e67e22";
     } else {
@@ -843,7 +883,6 @@ function updateGameSystem() {
       joinBtn.style.display = "none"; 
     }
   } else {
-    watcherConsole.none;
     watcherConsole.style.display = "none";
   }
   
