@@ -9,7 +9,11 @@
     "maxHeroStarterCards": 1
   },
   "classRule": "選択した職業カード + 共通カードのみ使用可能。職業変更時は選択中デッキをリセット。",
-  "heroRule": "ヒーローはプルダウン選択ではなく、ヒーローカードを1枚デッキに編成して使用する。使用後にヒーロースキル/派生カードへ進化・変化していく。",
+  "heroRule": {
+    "deckHeroCards": "allowed_zero_or_more",
+    "sameCardLimit": "legend_rule_applies_one_copy_for_same_hero_card",
+    "reason": "ヒーローカードは使用後にヒーロースキルを有効化し、最初の手札に必ず来るカードとして扱う。複数種類投入による初手圧迫はデメリットとして許容。"
+  },
   "exchangeRule": "交換所カードはデッキ編成可能。使用時に手札のコインを選択して消費し、枚数に応じて効果が変わる。最低必要枚数未満なら使用不可。",
   "nonDeckCards": [
     {
@@ -1528,5 +1532,19 @@
     "totalCards": 1580,
     "deckBuildable": 1497,
     "nonDeck": 83
+  },
+  "version": "v5_hero_unlimited_image_guarded",
+  "imagePolicy": {
+    "source": "https://gameconductor.com/dqrivals/card",
+    "imageUrlPattern": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_{officialId}.jpg",
+    "validation": "カード詳細ページの「名称」とローカルカード名が一致した場合のみ画像を確定採用。説明文/コスト/カテゴリも照合して officialMatchConfidence を付ける。",
+    "removedQuestionableImages": [
+      {
+        "id": "card_0ba93ecf",
+        "name": "サラマンダー",
+        "oldImageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1146.jpg",
+        "reason": "needsOfficialImageReview"
+      }
+    ]
   }
 }

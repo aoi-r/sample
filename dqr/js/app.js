@@ -183,8 +183,14 @@ function renderDeck(){
       row.appendChild(minus); list.appendChild(row);
     }
   }
-  const heroCard = deckCards.find(x => x.card.cardType === 'ヒーロー')?.card;
-  if(heroCard){ const hero = (state.heroes.heroes || []).find(h => h.starterCardId === heroCard.id); state.selectedHeroId = hero?.heroId || ''; $('hero-status').textContent = heroCard.name; } else { state.selectedHeroId = ''; $('hero-status').textContent = '未投入'; }
+  const heroCards = deckCards.filter(x => x.card.cardType === 'ヒーロー');
+  if(heroCards.length){
+    state.selectedHeroId = heroCards.map(x => { const hero = (state.heroes.heroes || []).find(h => h.starterCardId === x.card.id); return hero?.heroId || x.card.id; }).join(',');
+    $('hero-status').textContent = heroCards.map(x => `${x.card.name}×${x.count}`).join(' / ');
+  } else {
+    state.selectedHeroId = '';
+    $('hero-status').textContent = '未投入';
+  }
   $('deck-count').textContent = deckTotal();
   $('deck-hero-count').textContent = deckCards.filter(x => x.card.cardType === 'ヒーロー').reduce((s,x)=>s+x.count,0);
   $('deck-legend-count').textContent = deckCards.filter(x => isLegend(x.card)).reduce((s,x)=>s+x.count,0);
@@ -205,7 +211,7 @@ function renderAll(){ renderCards(); renderDeck(); }
 function byId(id){ return state.allCards.find(c => c.id === id); }
 function deckTotal(){ return [...state.deck.values()].reduce((a,b)=>a+b,0); }
 function isLegend(card){ return String(card.rarity || '').includes('レジェンド'); }
-function maxCopies(card){ return (isLegend(card) || card.cardType === 'ヒーロー') ? 1 : 2; }
+function maxCopies(card){ return isLegend(card) ? 1 : 2; }
 function normalize(s){ return String(s || '').toLowerCase().replace(/[\s　]+/g,''); }
 
 function canAdd(card){
@@ -213,10 +219,6 @@ function canAdd(card){
   if(deckTotal() >= 30) return {ok:false, reason:'30枚上限'};
   const count = state.deck.get(card.id) || 0;
   if(count >= maxCopies(card)) return {ok:false, reason:'同名上限'};
-  if(card.cardType === 'ヒーロー'){
-    const hasHero = [...state.deck.entries()].some(([id,c]) => c > 0 && byId(id)?.cardType === 'ヒーロー');
-    if(hasHero && count === 0) return {ok:false, reason:'ヒーローは1種類まで'};
-  }
   return {ok:true};
 }
 function addCard(card){ const check = canAdd(card); if(!check.ok) return toast(check.reason, false); state.deck.set(card.id, (state.deck.get(card.id)||0)+1); renderAll(); }
@@ -234,15 +236,13 @@ function validateDeck(){
     if(card.flags?.deckBuildable === false) messages.push(`${card.name} はデッキ編成不可カードです。`);
     if(!(classes.includes('共通') || classes.includes(state.selectedClass))) messages.push(`${card.name} は ${state.selectedClass} で使えません。`);
   }
-  const heroTotal = [...state.deck.entries()].filter(([id,c]) => byId(id)?.cardType === 'ヒーロー').reduce((s,[,c])=>s+c,0);
-  if(heroTotal > 1) messages.push('ヒーローは1枚までです。');
   if(!messages.length) messages.push('保存できます。');
   return {ok: messages.length === 1 && messages[0] === '保存できます。', messages};
 }
 
 function makeDeckPayload(){
   const cards = [...state.deck.entries()].map(([cardId,count]) => { const c = byId(cardId); return { cardId, name:c?.name, count, cost:c?.cost, rarity:c?.rarity, cardType:c?.cardType }; });
-  return { deckName: $('deck-name').value.trim() || '新しいデッキ', className: state.selectedClass, heroId: state.selectedHeroId || '', cards, total: deckTotal(), username: state.username, deviceId: state.deviceId, updatedAtLocal: new Date().toISOString(), schemaVersion: 'dqr.userDeck.v2' };
+  return { deckName: $('deck-name').value.trim() || '新しいデッキ', className: state.selectedClass, heroId: state.selectedHeroId || '', cards, total: deckTotal(), username: state.username, deviceId: state.deviceId, updatedAtLocal: new Date().toISOString(), schemaVersion: 'dqr.userDeck.v3_hero_unlimited' };
 }
 
 async function saveDeck(){
