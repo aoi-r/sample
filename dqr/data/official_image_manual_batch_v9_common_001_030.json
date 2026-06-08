@@ -1,0 +1,191 @@
+{
+  "schemaVersion": "1.0.0",
+  "batch": "v9_common_001_030",
+  "source": "https://gameconductor.com/dqrivals/card",
+  "method": "公式DBの一覧リンク順と詳細ページ名称を見て、カード名が一致したものだけ official.imageVerified=true にした。",
+  "verifiedCount": 30,
+  "verifiedCards": [
+    {
+      "officialId": 1,
+      "name": "スライム",
+      "cardId": "card_63cf084a",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1.jpg"
+    },
+    {
+      "officialId": 2,
+      "name": "スライムベス",
+      "cardId": "card_8c934c3d",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_2.jpg"
+    },
+    {
+      "officialId": 3,
+      "name": "メラゴースト",
+      "cardId": "card_a7a6eabe",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_3.jpg"
+    },
+    {
+      "officialId": 4,
+      "name": "スライムつむり",
+      "cardId": "card_20ad0865",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_4.jpg"
+    },
+    {
+      "officialId": 5,
+      "name": "ファーラット",
+      "cardId": "card_1244e07b",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_5.jpg"
+    },
+    {
+      "officialId": 6,
+      "name": "いっかくうさぎ",
+      "cardId": "card_358aa630",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_6.jpg"
+    },
+    {
+      "officialId": 7,
+      "name": "シールドこぞう",
+      "cardId": "card_55f66785",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_7.jpg"
+    },
+    {
+      "officialId": 8,
+      "name": "リザードマン",
+      "cardId": "card_85b5c424",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_8.jpg"
+    },
+    {
+      "officialId": 9,
+      "name": "くさった死体",
+      "cardId": "card_e96efcff",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_9.jpg"
+    },
+    {
+      "officialId": 10,
+      "name": "バードファイター",
+      "cardId": "card_bcebacb6",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_10.jpg"
+    },
+    {
+      "officialId": 11,
+      "name": "リビングスタチュー",
+      "cardId": "card_88bf04ae",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_11.jpg"
+    },
+    {
+      "officialId": 12,
+      "name": "りゅうき兵",
+      "cardId": "card_d02ff3e5",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_12.jpg"
+    },
+    {
+      "officialId": 13,
+      "name": "ストーンマン",
+      "cardId": "card_c99c6450",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_13.jpg"
+    },
+    {
+      "officialId": 14,
+      "name": "バアルゼブブ",
+      "cardId": "card_14ea7bec",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_14.jpg"
+    },
+    {
+      "officialId": 15,
+      "name": "キラーアーマー",
+      "cardId": "card_0996b970",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_15.jpg"
+    },
+    {
+      "officialId": 16,
+      "name": "ブラッドハンド",
+      "cardId": "card_849c9084",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_16.jpg"
+    },
+    {
+      "officialId": 17,
+      "name": "テラノライナー",
+      "cardId": "card_3ced797c",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_17.jpg"
+    },
+    {
+      "officialId": 18,
+      "name": "おにこんぼう",
+      "cardId": "card_9f518d14",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_18.jpg"
+    },
+    {
+      "officialId": 19,
+      "name": "メタルスライム",
+      "cardId": "card_d40564aa",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_19.jpg"
+    },
+    {
+      "officialId": 20,
+      "name": "わらいぶくろ",
+      "cardId": "card_08f55531",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_20.jpg"
+    },
+    {
+      "officialId": 21,
+      "name": "スライムナイト",
+      "cardId": "card_cfe42222",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_21.jpg"
+    },
+    {
+      "officialId": 22,
+      "name": "なげきムーン",
+      "cardId": "card_48ea99fd",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_22.jpg"
+    },
+    {
+      "officialId": 23,
+      "name": "ツンドラキー",
+      "cardId": "card_d5baebad",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_23.jpg"
+    },
+    {
+      "officialId": 24,
+      "name": "ぐんたいガニ",
+      "cardId": "card_11ddc5e0",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_24.jpg"
+    },
+    {
+      "officialId": 25,
+      "name": "バイキングソウル",
+      "cardId": "card_6d44771b",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_25.jpg"
+    },
+    {
+      "officialId": 26,
+      "name": "キラーパンサー",
+      "cardId": "card_1df09d65",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_26.jpg"
+    },
+    {
+      "officialId": 27,
+      "name": "プリーストナイト",
+      "cardId": "card_d0a61d1f",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_27.jpg"
+    },
+    {
+      "officialId": 28,
+      "name": "シールドオーガ",
+      "cardId": "card_83cf917e",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_28.jpg"
+    },
+    {
+      "officialId": 29,
+      "name": "アックスドラゴン",
+      "cardId": "card_7902521c",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_29.jpg"
+    },
+    {
+      "officialId": 30,
+      "name": "レッドアーチャー",
+      "cardId": "card_56b8d468",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_30.jpg"
+    }
+  ],
+  "missingInLocalJson": [],
+  "nextStartOfficialId": 31
+}

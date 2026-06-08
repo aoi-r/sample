@@ -68,12 +68,16 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 1,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/1",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1.jpg",
+        "imageVerified": true,
+        "verifiedName": "スライム",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1.jpg"
     },
     {
       "id": "card_8c934c3d",
@@ -110,11 +114,16 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 2,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/2",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_2.jpg",
+        "imageVerified": true,
+        "verifiedName": "スライムベス",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_2.jpg"
     },
     {
       "id": "card_a7a6eabe",
@@ -149,11 +158,16 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 3,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/3",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_3.jpg",
+        "imageVerified": true,
+        "verifiedName": "メラゴースト",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_3.jpg"
     },
     {
       "id": "card_20ad0865",
@@ -194,11 +208,16 @@
         "mech_12"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 4,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/4",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_4.jpg",
+        "imageVerified": true,
+        "verifiedName": "スライムつむり",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_4.jpg"
     },
     {
       "id": "card_1244e07b",
@@ -233,11 +252,16 @@
         "mech_09"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 5,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/5",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_5.jpg",
+        "imageVerified": true,
+        "verifiedName": "ファーラット",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_5.jpg"
     },
     {
       "id": "card_358aa630",
@@ -272,11 +296,16 @@
         "mech_09"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 6,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/6",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_6.jpg",
+        "imageVerified": true,
+        "verifiedName": "いっかくうさぎ",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_6.jpg"
     },
     {
       "id": "card_55f66785",
@@ -311,11 +340,16 @@
         "mech_12"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 7,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/7",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_7.jpg",
+        "imageVerified": true,
+        "verifiedName": "シールドこぞう",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_7.jpg"
     },
     {
       "id": "card_85b5c424",
@@ -352,11 +386,16 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 8,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/8",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_8.jpg",
+        "imageVerified": true,
+        "verifiedName": "リザードマン",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_8.jpg"
     },
     {
       "id": "card_e96efcff",
@@ -397,11 +436,16 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 9,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/9",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_9.jpg",
+        "imageVerified": true,
+        "verifiedName": "くさった死体",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_9.jpg"
     },
     {
       "id": "card_bcebacb6",
@@ -432,11 +476,16 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 10,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/10",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_10.jpg",
+        "imageVerified": true,
+        "verifiedName": "バードファイター",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_10.jpg"
     },
     {
       "id": "card_88bf04ae",
@@ -471,11 +520,16 @@
         "mech_12"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 11,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/11",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_11.jpg",
+        "imageVerified": true,
+        "verifiedName": "リビングスタチュー",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_11.jpg"
     },
     {
       "id": "card_d02ff3e5",
@@ -512,11 +566,16 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 12,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/12",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_12.jpg",
+        "imageVerified": true,
+        "verifiedName": "りゅうき兵",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_12.jpg"
     },
     {
       "id": "card_c99c6450",
@@ -551,11 +610,16 @@
         "mech_12"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 13,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/13",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_13.jpg",
+        "imageVerified": true,
+        "verifiedName": "ストーンマン",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_13.jpg"
     },
     {
       "id": "card_14ea7bec",
@@ -590,11 +654,16 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 14,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/14",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_14.jpg",
+        "imageVerified": true,
+        "verifiedName": "バアルゼブブ",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_14.jpg"
     },
     {
       "id": "card_0996b970",
@@ -625,11 +694,16 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 15,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/15",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_15.jpg",
+        "imageVerified": true,
+        "verifiedName": "キラーアーマー",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_15.jpg"
     },
     {
       "id": "card_849c9084",
@@ -670,11 +744,16 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 16,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/16",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_16.jpg",
+        "imageVerified": true,
+        "verifiedName": "ブラッドハンド",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_16.jpg"
     },
     {
       "id": "card_3ced797c",
@@ -715,11 +794,16 @@
         "mech_09"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 17,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/17",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_17.jpg",
+        "imageVerified": true,
+        "verifiedName": "テラノライナー",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_17.jpg"
     },
     {
       "id": "card_9f518d14",
@@ -756,11 +840,16 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 18,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/18",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_18.jpg",
+        "imageVerified": true,
+        "verifiedName": "おにこんぼう",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_18.jpg"
     },
     {
       "id": "card_d40564aa",
@@ -801,11 +890,16 @@
         "mech_14"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 19,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/19",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_19.jpg",
+        "imageVerified": true,
+        "verifiedName": "メタルスライム",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_19.jpg"
     },
     {
       "id": "card_08f55531",
@@ -840,11 +934,16 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 20,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/20",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_20.jpg",
+        "imageVerified": true,
+        "verifiedName": "わらいぶくろ",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_20.jpg"
     },
     {
       "id": "card_cfe42222",
@@ -885,11 +984,16 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 21,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/21",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_21.jpg",
+        "imageVerified": true,
+        "verifiedName": "スライムナイト",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_21.jpg"
     },
     {
       "id": "card_48ea99fd",
@@ -926,11 +1030,16 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 22,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/22",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_22.jpg",
+        "imageVerified": true,
+        "verifiedName": "なげきムーン",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_22.jpg"
     },
     {
       "id": "card_d5baebad",
@@ -965,11 +1074,16 @@
         "mech_01"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 23,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/23",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_23.jpg",
+        "imageVerified": true,
+        "verifiedName": "ツンドラキー",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_23.jpg"
     },
     {
       "id": "card_11ddc5e0",
@@ -1000,11 +1114,16 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 24,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/24",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_24.jpg",
+        "imageVerified": true,
+        "verifiedName": "ぐんたいガニ",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_24.jpg"
     },
     {
       "id": "card_6d44771b",
@@ -1041,11 +1160,16 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 25,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/25",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_25.jpg",
+        "imageVerified": true,
+        "verifiedName": "バイキングソウル",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_25.jpg"
     },
     {
       "id": "card_1df09d65",
@@ -1082,11 +1206,16 @@
         "mech_09"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 26,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/26",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_26.jpg",
+        "imageVerified": true,
+        "verifiedName": "キラーパンサー",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_26.jpg"
     },
     {
       "id": "card_d0a61d1f",
@@ -1121,11 +1250,16 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 27,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/27",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_27.jpg",
+        "imageVerified": true,
+        "verifiedName": "プリーストナイト",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_27.jpg"
     },
     {
       "id": "card_83cf917e",
@@ -1162,11 +1296,16 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 28,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/28",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_28.jpg",
+        "imageVerified": true,
+        "verifiedName": "シールドオーガ",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_28.jpg"
     },
     {
       "id": "card_7902521c",
@@ -1207,11 +1346,16 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 29,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/29",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_29.jpg",
+        "imageVerified": true,
+        "verifiedName": "アックスドラゴン",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_29.jpg"
     },
     {
       "id": "card_56b8d468",
@@ -1248,11 +1392,16 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
-      }
+        "source": "gameconductor",
+        "officialId": 30,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/30",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_30.jpg",
+        "imageVerified": true,
+        "verifiedName": "レッドアーチャー",
+        "verificationMethod": "manual_open_detail_page_name_match",
+        "verifiedBatch": "v9_common_001_030"
+      },
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_30.jpg"
     },
     {
       "id": "card_471ba4e7",
@@ -17596,10 +17745,10 @@
         "officialId": 1212,
         "verifiedName": "天空の花嫁デボラ",
         "nameVerified": true,
-        "imageVerified": true,
+        "imageVerified": false,
         "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1212",
-        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1212.jpg",
-        "syncMethod": "manual_verified_from_detail_page"
+        "syncMethod": "manual_verified_from_detail_page",
+        "previousImageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1212.jpg"
       }
     },
     {

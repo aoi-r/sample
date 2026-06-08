@@ -97,3 +97,8 @@ node tools/sync_official_gameconductor.mjs
 このスクリプトは公式DBの `https://gameconductor.com/dqrivals/card` から各カードの `<a href="/dqrivals/c/d/{id}">カード名</a>` を取得し、詳細ページの `名称` がローカルJSONの `name` と完全一致した場合だけ `https://gameconductor.com/dqrivals/wp-content/uploads/card_img_{id}.jpg` を採用します。
 
 つまり、デボラにくらやみにゅうどうの画像が付くような事故は、同期条件上起きないようにしています。
+
+
+## v9 manual image batch
+
+公式DBを1枚ずつ確認する方式に切り替え。v9_common_001_030 では公式ID 1〜30（スライム〜レッドアーチャー）だけ画像表示を許可。その他の画像は誤表示防止のため非表示。
