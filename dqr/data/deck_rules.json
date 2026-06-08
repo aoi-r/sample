@@ -9,2677 +9,1359 @@
     "maxHeroStarterCards": 1
   },
   "classRule": "選択した職業カード + 共通カードのみ使用可能。職業変更時は選択中デッキをリセット。",
-  "heroRule": "ヒーローカードは0枚でも複数枚でも編成可能。同名はレジェンド1枚制限。",
+  "heroRule": "ヒーローカードは0枚でも複数種類でも編成可能。同名レジェンドは1枚まで。使用後に得るヒーロースキルカードは編成不可。",
   "exchangeRule": "交換所カードはデッキ編成可能。使用時に手札のコインを選択して消費し、枚数に応じて効果が変わる。最低必要枚数未満なら使用不可。",
   "nonDeckCards": [
     {
-      "cardId": "card_bcec1ffe",
       "name": "氷塊",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 1,
-      "attack": 0,
-      "hp": 5,
-      "rarity": "ノーマル",
-      "text": "攻撃できない。 お互いのターン終了時このユニットに1ダメージを与える",
+      "cardId": "card_bcec1ffe",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_022dd77d",
       "name": "犬",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 1,
-      "attack": 1,
-      "hp": 1,
-      "rarity": "ノーマル",
-      "text": "",
+      "cardId": "card_022dd77d",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_a8f40292",
       "name": "うまのふん",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 1,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "なにもおこらない",
+      "cardId": "card_a8f40292",
       "reason": [
         "manual_non_deck",
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/685",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_e992bbd7",
       "name": "エッチな本",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 1,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "スーパーレア",
-      "text": "ランダムな敵3体を次のターン終了時まで攻撃不能にする",
+      "cardId": "card_e992bbd7",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_4f6e6bb5",
       "name": "屍騎軍王ゾルデ・影",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 3,
-      "attack": 2,
-      "hp": 2,
-      "rarity": "スーパーレア",
-      "text": "このユニットを除くゾンビ系の味方ユニットの攻撃力+1",
+      "cardId": "card_4f6e6bb5",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_58e57516",
       "name": "オルゴ・デミーラ:第2形態",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 5,
-      "attack": 3,
-      "hp": 5,
-      "rarity": "レジェンドレア",
-      "text": "2回攻撃　死亡時：オルゴ・デミーラは第3形態に変身して自分の手札に加わる",
+      "cardId": "card_58e57516",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/688",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_a707a36b",
       "name": "オルゴ・デミーラ:第3形態",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 6,
-      "attack": 6,
-      "hp": 3,
-      "rarity": "レジェンドレア",
-      "text": "召喚時：このユニットを除く全てのユニットに2ダメージ。 死亡時：オルゴ・デミーラは第4形態に変身した自分の手札に加わる",
+      "cardId": "card_a707a36b",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/689",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_f68f0568",
       "name": "オルゴ・デミーラ第4形態",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 7,
-      "attack": 3,
-      "hp": 9,
-      "rarity": "レジェンドレア",
-      "text": "におうだち、攻撃対象の上下にいるユニットにもダメージを与える",
+      "cardId": "card_f68f0568",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/690",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_b9db6020",
       "name": "エステラ・竜化の術",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 9,
-      "attack": 2,
-      "hp": 8,
-      "rarity": "レジェンドレア",
-      "text": "超貫通、速攻、におうだち：対戦中に死亡したドラゴン系の味方ユニットの数だけ攻撃力が上がる。",
+      "cardId": "card_b9db6020",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_54261440",
       "name": "シルバーオーブ",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 3,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "スーパーレア",
-      "text": "オーブ以外の味方1マスの地形をオーブに変える。カードを1枚引く。このカードはコピーすることができない。",
+      "cardId": "card_54261440",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_2fcee116",
       "name": "レッドオーブ",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 3,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "スーパーレア",
-      "text": "オーブ以外の味方1マスの地形をオーブに変える。カードを1枚引く。このカードはコピーすることができない。",
+      "cardId": "card_2fcee116",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_312ad25f",
       "name": "イエローオーブ",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 3,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "スーパーレア",
-      "text": "オーブ以外の味方1マスの地形をオーブに変える。カードを1枚引く。このカードはコピーすることができない。",
+      "cardId": "card_312ad25f",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_e523e883",
       "name": "パープルオーブ",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 3,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "スーパーレア",
-      "text": "オーブ以外の味方1マスの地形をオーブに変える。カードを1枚引く。このカードはコピーすることができない。",
+      "cardId": "card_e523e883",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_d403b1ec",
       "name": "ブルーオーブ",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 3,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "スーパーレア",
-      "text": "オーブ以外の味方1マスの地形をオーブに変える。カードを1枚引く。このカードはコピーすることができない。",
+      "cardId": "card_d403b1ec",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_133775ea",
       "name": "グリーンオーブ",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 3,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "スーパーレア",
-      "text": "オーブ以外の味方1マスの地形をオーブに変える。カードを1枚引く。このカードはコピーすることができない。",
+      "cardId": "card_133775ea",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_2f514990",
       "name": "ルドマンからの贈り物",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 1,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レア",
-      "text": "ユニット1体にHP+2と「特技ダメージを受けない」を付与する。カードを1枚引く。",
+      "cardId": "card_2f514990",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_63ede83e",
       "name": "ネルゲルの配下",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 3,
-      "attack": 3,
-      "hp": 3,
-      "rarity": "レア",
-      "text": "におうだち",
+      "cardId": "card_63ede83e",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_bfee27e7",
       "name": "シードッグ",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 5,
-      "attack": 2,
-      "hp": 2,
-      "rarity": "ノーマル",
-      "text": "",
+      "cardId": "card_bfee27e7",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_b0b64660",
       "name": "バベルボブル",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 7,
-      "attack": 7,
-      "hp": 10,
-      "rarity": "スーパーレア",
-      "text": "速攻、2回攻撃",
+      "cardId": "card_b0b64660",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_040cf04f",
       "name": "王女の愛",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 1,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "スーパーレア",
-      "text": "味方リーダーのテンション+3",
+      "cardId": "card_040cf04f",
       "reason": [
         "manual_non_deck",
         "manual_obtain_only_system_card"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_a18379ec",
       "name": "光の玉",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 4,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "スーパーレア",
-      "text": "闇の衣を持つ全ての敵を封印する",
+      "cardId": "card_a18379ec",
       "reason": [
-        "zoma_counter_token"
+        "zoma_counter_token",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "zoma_counter_token",
-        "sourceCardName": "ゾーマ",
-        "obtainTiming": "ゾーマ召喚時、相手のデッキの一番上に置かれる"
-      },
-      "official": {
-        "site": "gameconductor",
-        "officialId": "726",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/726",
-        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_726.jpg",
-        "imageVerified": true,
-        "nameVerified": true,
-        "buildScore": 0,
-        "arenaScore": 0,
-        "category": "トークン",
-        "sourceNote": "manual_verified_from_gameconductor_detail"
-      }
+      "category": "zoma_counter_token",
+      "generatedBy": [
+        {
+          "type": "zoma_counter_token",
+          "sourceCardName": "ゾーマ",
+          "obtainTiming": "ゾーマ召喚時、相手のデッキの一番上に置かれる"
+        },
+        "大魔王ゾーマ"
+      ]
     },
     {
-      "cardId": "card_9de9cca3",
       "name": "竜王一閃",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 1,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "必殺技、敵ユニット1体に7ダメージを与える",
+      "cardId": "card_9de9cca3",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "ロトの血を引く者"
+      ]
     },
     {
-      "cardId": "card_5ba21d92",
       "name": "王女救出",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 2,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "敵ユニット1体に2ダメージを与える。 レベル3にレベルアップした時王女の愛を手札に加える",
+      "cardId": "card_5ba21d92",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "ロトの血を引く者"
+      ]
     },
     {
-      "cardId": "card_f9f18c64",
       "name": "小さな相棒",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "味方リーダーがテンションスキルを使う度カードを1枚引く この効果は条件を満たすと自動的に発動する",
+      "cardId": "card_f9f18c64",
       "reason": [
         "hero_skill_passive_or_auto_effect",
         "manual_obtain_only_system_card"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_2e2c9193",
       "name": "挑戦!バトルロード",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "スキルブーストを持つカードを使用した後テンション+1 この効果は条件を満たすと自動的に発動する",
+      "cardId": "card_2e2c9193",
       "reason": [
         "hero_skill_passive_or_auto_effect",
         "manual_obtain_only_system_card"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_0d5bde5a",
       "name": "姫君との結婚",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 11,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "この対戦の間自分のターン開始時テンション+3、さらにカードを1枚引く、スキルブースト:コスト-1",
+      "cardId": "card_0d5bde5a",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "天空の花嫁共通"
+      ]
     },
     {
-      "cardId": "card_c087818a",
       "name": "なかまとの出会い",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 1,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "自分のデッキから冒険者カードを1枚加える",
+      "cardId": "card_c087818a",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "勇者エイト"
+      ]
     },
     {
-      "cardId": "card_80d81e5c",
       "name": "天空への挑戦",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 2,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "自分のデッキから特技カードまたは武器カードを1枚引く",
+      "cardId": "card_80d81e5c",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "天空の花嫁フローラ",
+        "天空の花嫁ビアンカ"
+      ]
     },
     {
-      "cardId": "card_fb82c9ff",
       "name": "導かれし者たち",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 9,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "自分の手札にある全ての冒険者カードのコストを0にする",
+      "cardId": "card_fb82c9ff",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "勇者エイト",
+        "勇者イレブン"
+      ]
     },
     {
-      "cardId": "card_90bace01",
       "name": "やさしき祈り",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "自分がコスト2以上の特技カードを使う度MPを1回復 この効果は条件を満たすと自動的に発動する。",
+      "cardId": "card_90bace01",
       "reason": [
         "hero_skill_passive_or_auto_effect",
         "manual_obtain_only_system_card"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/913",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_32047aee",
       "name": "魔力共鳴",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "自分がコスト2以上の特技カードを使う度カードを1枚引く。この効果は条件を満たすと自動的に発動する。",
+      "cardId": "card_32047aee",
       "reason": [
         "hero_skill_passive_or_auto_effect",
         "manual_obtain_only_system_card"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/914",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_a46f42bf",
       "name": "ついげき",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "味方リーダーが攻撃する度敵リーダーに2ダメージ。この効果は条件を満たすと自動的に発動する。",
+      "cardId": "card_a46f42bf",
       "reason": [
         "hero_skill_passive_or_auto_effect",
         "manual_obtain_only_system_card"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_6149abb9",
       "name": "勇敢な魂",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "味方リーダーが攻撃する度テンション+1。この効果は条件を満たすと自動的に発動する。",
+      "cardId": "card_6149abb9",
       "reason": [
         "hero_skill_passive_or_auto_effect",
         "manual_obtain_only_system_card"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_66ffa151",
       "name": "勇者の雷",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 3,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "ランダムな敵1体に2ダメージ。このターン中味方リーダーが攻撃していた場合代わりに4ダメージ",
+      "cardId": "card_66ffa151",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "ロトの血を引く者",
+        "レックス"
+      ]
     },
     {
-      "cardId": "card_846d91e8",
       "name": "眠れる勇者",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "自分のターン中味方の冒険者が場に出た後カードを1枚引く。 この効果は条件を満たすと自動的に発動する。",
+      "cardId": "card_846d91e8",
       "reason": [
         "hero_skill_passive_or_auto_effect",
         "manual_obtain_only_system_card"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_d4598f73",
       "name": "破邪の秘技・勇者の眼",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 1,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "自分のデッキの上からカードを3枚見る。1枚を手札に加え、残りをデッキの下に戻す。 ヒーロースキルがランダムな別の破邪の秘技になる。",
+      "cardId": "card_d4598f73",
       "reason": [
         "hero_evolution_skill_card",
         "hero_skill_evolution_or_branch",
         "manual_non_deck",
-        "token_or_hero_skill_derived_prefix"
+        "token_or_hero_skill_derived_prefix",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "勇者姫アンルシア"
+      ]
     },
     {
-      "cardId": "card_5357b154",
       "name": "破邪の秘技・勇者の心",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 1,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "味方リーダーのテンション+3。 ヒーロースキルがランダムな別の破邪の秘技になる。",
+      "cardId": "card_5357b154",
       "reason": [
         "hero_evolution_skill_card",
         "hero_skill_evolution_or_branch",
         "manual_non_deck",
-        "token_or_hero_skill_derived_prefix"
+        "token_or_hero_skill_derived_prefix",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "勇者姫アンルシア"
+      ]
     },
     {
-      "cardId": "card_4cc999a9",
       "name": "破邪の秘技・勇者の光",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 1,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "敵1体を次のターン終了時まで攻撃不能にする。 ヒーロースキルがランダムな別の破邪の秘技になる。",
+      "cardId": "card_4cc999a9",
       "reason": [
         "hero_evolution_skill_card",
         "hero_skill_evolution_or_branch",
         "manual_non_deck",
-        "token_or_hero_skill_derived_prefix"
+        "token_or_hero_skill_derived_prefix",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "勇者姫アンルシア"
+      ]
     },
     {
-      "cardId": "card_189f0ab3",
       "name": "破邪の秘技の会得",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 3,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "ユニット1体に6ダメージ。ヒーロースキルがランダムな破邪の秘技になる。",
+      "cardId": "card_189f0ab3",
       "reason": [
         "hero_evolution_skill_card",
         "hero_skill_evolution_or_branch",
         "manual_non_deck",
-        "token_or_hero_skill_derived_prefix"
+        "token_or_hero_skill_derived_prefix",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "勇者姫アンルシア"
+      ]
     },
     {
-      "cardId": "card_618dd613",
       "name": "破邪の秘技・勇者の盾",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 3,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "全ての味方に「次のターン終了時まで受けるダメージ-2」を付与する。 ヒーロースキルがランダムな別の破邪の秘技になる。",
+      "cardId": "card_618dd613",
       "reason": [
         "hero_evolution_skill_card",
         "hero_skill_evolution_or_branch",
         "manual_non_deck",
-        "token_or_hero_skill_derived_prefix"
+        "token_or_hero_skill_derived_prefix",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "勇者姫アンルシア"
+      ]
     },
     {
-      "cardId": "card_7758b044",
       "name": "覚醒の光",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 2,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "自分のデッキと手札と場の冒険者を+1/+1する",
+      "cardId": "card_7758b044",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "ビルド"
+      ]
     },
     {
-      "cardId": "card_67bea35a",
       "name": "銅のカードパック",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 2,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "以下の割合で抽選された4枚のカードを手札に加える 4枚全て：ノーマル50%、レア40%、スーパーレア9%、レジェンドレア1%",
+      "cardId": "card_67bea35a",
       "reason": [
-        "roxanne_card_pack_token"
+        "roxanne_card_pack_token",
+        "roxanne_pack_token",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "roxanne_card_pack_token",
-        "sourceCardName": "ロクサーヌ",
-        "obtainTiming": "ロクサーヌ召喚時に選んで手札に加える"
-      },
-      "official": {
-        "site": "gameconductor",
-        "officialId": "1026",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1026",
-        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1026.jpg",
-        "imageVerified": true,
-        "nameVerified": true,
-        "buildScore": 0,
-        "arenaScore": 0,
-        "category": "トークン",
-        "sourceNote": "manual_verified_from_gameconductor_detail"
-      }
+      "category": "roxanne_pack_token",
+      "generatedBy": [
+        {
+          "type": "roxanne_card_pack_token",
+          "sourceCardName": "ロクサーヌ",
+          "obtainTiming": "ロクサーヌ召喚時に選んで手札に加える"
+        },
+        "ロクサーヌ"
+      ]
     },
     {
-      "cardId": "card_2a2c02e9",
       "name": "銀のカードパック",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 2,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レア",
-      "text": "以下の割合で抽選された3枚のカードを手札に加える。3枚全て：ノーマル20%、レア20%、スーパーレア50%、レジェンドレア10%",
+      "cardId": "card_2a2c02e9",
       "reason": [
-        "roxanne_card_pack_token"
+        "roxanne_card_pack_token",
+        "roxanne_pack_token",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "roxanne_card_pack_token",
-        "sourceCardName": "ロクサーヌ",
-        "obtainTiming": "ロクサーヌ召喚時に選んで手札に加える"
-      },
-      "official": {
-        "site": "gameconductor",
-        "officialId": "1028",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1028",
-        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1028.jpg",
-        "imageVerified": true,
-        "nameVerified": true,
-        "buildScore": 0,
-        "arenaScore": 0,
-        "category": "トークン",
-        "sourceNote": "manual_verified_from_gameconductor_detail"
-      }
+      "category": "roxanne_pack_token",
+      "generatedBy": [
+        {
+          "type": "roxanne_card_pack_token",
+          "sourceCardName": "ロクサーヌ",
+          "obtainTiming": "ロクサーヌ召喚時に選んで手札に加える"
+        },
+        "ロクサーヌ"
+      ]
     },
     {
-      "cardId": "card_22d234e5",
       "name": "金のカードパック",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 2,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "スーパーレア",
-      "text": "以下の割合で抽選された2枚のカードを手札に加える。1枚目：レジェドレア100%、2枚目、レア20%、スーパーレア30%、レジェンドレア50%",
+      "cardId": "card_22d234e5",
       "reason": [
-        "roxanne_card_pack_token"
+        "roxanne_card_pack_token",
+        "roxanne_pack_token",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "roxanne_card_pack_token",
-        "sourceCardName": "ロクサーヌ",
-        "obtainTiming": "ロクサーヌ召喚時に選んで手札に加える"
-      },
-      "official": {
-        "site": "gameconductor",
-        "officialId": "1031",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1031",
-        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1031.jpg",
-        "imageVerified": true,
-        "nameVerified": true,
-        "buildScore": 0,
-        "arenaScore": 0,
-        "category": "トークン",
-        "sourceNote": "manual_verified_from_gameconductor_detail"
-      }
+      "category": "roxanne_pack_token",
+      "generatedBy": [
+        {
+          "type": "roxanne_card_pack_token",
+          "sourceCardName": "ロクサーヌ",
+          "obtainTiming": "ロクサーヌ召喚時に選んで手札に加える"
+        },
+        "ロクサーヌ"
+      ]
     },
     {
-      "cardId": "card_c92b4cda",
       "name": "はい",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "選択したプレイヤーは敗北する",
+      "cardId": "card_c92b4cda",
       "reason": [
         "manual_non_deck",
         "manual_obtain_only_system_card"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_f9015853",
       "name": "いいえ",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "ランダムな敵1体に4ダメージ、このユニットは「相手のターン開始時ランダムな敵1体に4ダメージ」を得る",
+      "cardId": "card_f9015853",
       "reason": [
         "manual_non_deck",
         "manual_obtain_only_system_card"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_42e36f4a",
       "name": "滅びこそ我が喜び",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "ユニット1体に4ダメージ。カードを1枚引く。この効果は自分の手札に魔王系カードがある場合にのみ使用できる。",
+      "cardId": "card_42e36f4a",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "officialId": "1035",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1035",
-        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1035.jpg",
-        "imageVerified": true,
-        "nameVerified": true,
-        "buildScore": 0,
-        "arenaScore": 0,
-        "category": "トークン",
-        "sourceNote": "manual_verified_from_gameconductor_detail"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "大魔王ゾーマ"
+      ]
     },
     {
-      "cardId": "card_bbfca125",
       "name": "我が腕の中で息絶えるがいい",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "必殺技、全てを滅ぼす者ゾーマを手札に1枚加える。この効果は自分の場と手札に全てを滅ぼす者ゾーマが存在しない場合に使用できる",
+      "cardId": "card_bbfca125",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "officialId": "1036",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1036",
-        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1036.jpg",
-        "imageVerified": true,
-        "nameVerified": true,
-        "buildScore": 0,
-        "arenaScore": 0,
-        "category": "トークン",
-        "sourceNote": "manual_verified_from_gameconductor_detail"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "魔王系ヒーロー"
+      ]
     },
     {
-      "cardId": "card_ad14a2eb",
       "name": "死にゆく者こそ美しい",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 6,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "全ての敵ユニットを封印した後それらのユニットに3ダメージ。この効果は自分の手札に魔王系カードがある場合にのみ使用できる。",
+      "cardId": "card_ad14a2eb",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "officialId": "1039",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1039",
-        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1039.jpg",
-        "imageVerified": true,
-        "nameVerified": true,
-        "buildScore": 0,
-        "arenaScore": 0,
-        "category": "トークン",
-        "sourceNote": "manual_verified_from_gameconductor_detail"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "大魔王ゾーマ"
+      ]
     },
     {
-      "cardId": "card_19a6922d",
       "name": "コイン",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "味方1体のBETを発動させる",
+      "cardId": "card_19a6922d",
       "reason": [
         "manual_non_deck",
         "coin_resource_card"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_43e14174",
       "name": "癒しをあなたに",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "味方リーダーのHPを2回復。カードを1枚引く",
+      "cardId": "card_43e14174",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "天空の花嫁フローラ"
+      ]
     },
     {
-      "cardId": "card_4f889204",
       "name": "贈り物をみんなに",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 1,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "味方ユニット1体にHP+1と「次の相手のターン終了時まで特技ダメージを受けない」を付与する",
+      "cardId": "card_4f889204",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "天空の花嫁ビアンカ"
+      ]
     },
     {
-      "cardId": "card_b7c7bfc4",
       "name": "裁きを彼らに",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 6,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "必殺技：すべての敵に3ダメージ",
+      "cardId": "card_b7c7bfc4",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "大魔王ゾーマ"
+      ]
     },
     {
-      "cardId": "card_138b3534",
       "name": "家族の絆",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 10,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "次の自分のターン開始時味方リーダーは「この対戦の間自分が手札を使う度敵リーダーに2ダメージ」を得る",
+      "cardId": "card_138b3534",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "勇者エイト"
+      ]
     },
     {
-      "cardId": "card_3b346d69",
       "name": "スペシャルコイン",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "スーパーレア",
-      "text": "全ての味方のBETが発動する。このカードはコインとしても扱う",
+      "cardId": "card_3b346d69",
       "reason": [
         "manual_non_deck",
         "official_zero_score_generated_or_system",
         "coin_resource_card"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1216",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_35df1a02",
       "name": "この手に切り札を",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "自分のデッキからBETを持つカードを1枚手札に加える",
+      "cardId": "card_35df1a02",
       "reason": [
         "hero_evolution_skill_card",
         "hero_skill_deborah_related",
         "manual_non_deck",
-        "official_zero_score_generated_or_system"
+        "official_zero_score_generated_or_system",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1217",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "天空の花嫁デボラ"
+      ]
     },
     {
-      "cardId": "card_1019e573",
       "name": "アゲていくわよ",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "味方のBETが発動した後味方リーダーのテンション+1、この効果は条件を満たすと自動的に発動する",
+      "cardId": "card_1019e573",
       "reason": [
         "hero_evolution_skill_card",
         "hero_skill_passive_or_auto_effect",
-        "official_zero_score_generated_or_system"
+        "official_zero_score_generated_or_system",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1218",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "天空の花嫁デボラ"
+      ]
     },
     {
-      "cardId": "card_a9667a86",
       "name": "小魚への施し",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 3,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "コイン1〜4枚を以下の確率で手札に加える。1枚30%、2枚40%、3枚20%、4枚10%",
+      "cardId": "card_a9667a86",
       "reason": [
         "hero_evolution_skill_card",
         "hero_skill_deborah_related",
         "manual_non_deck",
-        "official_zero_score_generated_or_system"
+        "official_zero_score_generated_or_system",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1221",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "天空の花嫁デボラ"
+      ]
     },
     {
-      "cardId": "card_321de02f",
       "name": "王子の覚悟",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 1,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "敵1体に1ダメージ、自分のデッキに特技カードが無いならこのヒーロースキルのコスト-1、さらに使用後すぐにレベル2になる",
+      "cardId": "card_321de02f",
       "reason": [
         "hero_skill_evolution_or_branch",
         "manual_non_deck",
         "manual_obtain_only_system_card"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_1aa890f0",
       "name": "紋章を探す旅",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 1,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "対象にできる敵ユニットがいる間敵リーダーを対象にできない。敵1体に2ダメージ、その後このヒーロースキルのコスト+1、ダメージ+1",
+      "cardId": "card_1aa890f0",
       "reason": [
         "hero_skill_evolution_or_branch",
         "manual_non_deck",
         "manual_obtain_only_system_card"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_afa6175b",
       "name": "破壊神との決戦",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 3,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "対象にできる敵ユニットがいる間敵リーダーを対象にできない。敵1体に1ダメージ、その後 ダメージが1に戻る。自分が特技以外の手札を使う度ダメージ+1",
+      "cardId": "card_afa6175b",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "少年シドー"
+      ]
     },
     {
-      "cardId": "card_dbf04d8c",
       "name": "悲しげな犬",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "自分がコスト1以上の特技カードを使う度カードを1枚引く。この効果は条件を満たすと自動的に発動する",
+      "cardId": "card_dbf04d8c",
       "reason": [
         "hero_skill_passive_or_auto_effect",
         "manual_obtain_only_system_card"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_bf5916e1",
       "name": "精霊ルビスの加護",
-      "classes": [
-        "共通"
-      ],
-      "cardType": "トークン",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "自分がコスト3以上の特技を使った後 そのコストにより以下の効果が自動的に発動する コスト3以上:MP1回復、コスト5以上:テンション+1、コスト7以上:カードを1枚引く",
+      "cardId": "card_bf5916e1",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "タバサ"
+      ]
     },
     {
-      "cardId": "card_76c0a472",
       "name": "こんぼう",
-      "classes": [
-        "戦士"
-      ],
-      "cardType": "ユニット",
-      "cost": 1,
-      "attack": 2,
-      "hp": 1,
-      "rarity": "ノーマル",
-      "text": "",
+      "cardId": "card_76c0a472",
       "reason": [
         "official_zero_score_generated_or_system",
-        "transformation_or_evolution_result"
+        "transformation_or_evolution_result",
+        "generated_weapon"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "generated_weapon",
+      "generatedBy": [
+        "救援のドラキー/武器未装備時など"
+      ]
     },
     {
-      "cardId": "card_2c7e834e",
       "name": "パパスの剣",
-      "classes": [
-        "戦士"
-      ],
-      "cardType": "ユニット",
-      "cost": 4,
-      "attack": 4,
-      "hp": 2,
-      "rarity": "スーパーレア",
-      "text": "",
+      "cardId": "card_2c7e834e",
       "reason": [
-        "official_zero_score_generated_or_system"
+        "official_zero_score_generated_or_system",
+        "deathrattle_weapon"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "deathrattle_weapon",
+      "generatedBy": [
+        "パパス"
+      ]
     },
     {
-      "cardId": "card_2404a9f4",
+      "name": "ホイミン",
+      "cardId": "card_47295620",
+      "reason": [
+        "summoned_token"
+      ],
+      "category": "summoned_token",
+      "generatedBy": [
+        "ライアン"
+      ]
+    },
+    {
       "name": "モンスターマスター",
-      "classes": [
-        "戦士"
-      ],
-      "cardType": "トークン",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "「青い闘魂スラぼう」「豪腕王アントン」「韋駄天のドラまさ」からランダムに1体出す",
+      "cardId": "card_2404a9f4",
       "reason": [
         "changed_tension_skill_card",
         "changed_tension_skill_result",
         "hero_evolution_skill_card",
         "manual_non_deck",
-        "official_zero_score_generated_or_system"
+        "official_zero_score_generated_or_system",
+        "changed_tension_skill",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/896",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
-      }
+      "category": "changed_tension_skill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "少年テリー"
+      ]
     },
     {
-      "cardId": "card_f9087fd7",
       "name": "豪腕王アントン",
-      "classes": [
-        "戦士"
-      ],
-      "cardType": "ユニット",
-      "cost": 3,
-      "attack": 2,
-      "hp": 4,
-      "rarity": "スーパーレア",
-      "text": "絶好調、貫通、におうだち、このユニットが絶好調状態なら攻撃力+2を得る",
+      "cardId": "card_f9087fd7",
       "reason": [
         "generated_by_changed_tension_skill",
         "manual_non_deck",
-        "official_zero_score_generated_or_system"
+        "official_zero_score_generated_or_system",
+        "summoned_token"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/897",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
-      }
+      "category": "summoned_token",
+      "generatedBy": [
+        "モンスターマスター"
+      ]
     },
     {
-      "cardId": "card_41616b9f",
       "name": "韋駄天のドラまさ",
-      "classes": [
-        "戦士"
-      ],
-      "cardType": "ユニット",
-      "cost": 3,
-      "attack": 2,
-      "hp": 3,
-      "rarity": "スーパーレア",
-      "text": "絶好調、速攻、ねらい撃ち このユニットが敵リーダーを攻撃した時絶好調状態ならカードを1枚引く",
+      "cardId": "card_41616b9f",
       "reason": [
         "generated_by_changed_tension_skill",
         "manual_non_deck",
-        "official_zero_score_generated_or_system"
+        "official_zero_score_generated_or_system",
+        "summoned_token"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/898",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
-      }
+      "category": "summoned_token",
+      "generatedBy": [
+        "モンスターマスター"
+      ]
     },
     {
-      "cardId": "card_188b5598",
       "name": "青い闘魂スラぼう",
-      "classes": [
-        "戦士"
-      ],
-      "cardType": "ユニット",
-      "cost": 3,
-      "attack": 3,
-      "hp": 2,
-      "rarity": "スーパーレア",
-      "text": "絶好調、自分のターン終了時このユニットが絶好調状態ならランダムな敵1体に3ダメージ",
+      "cardId": "card_188b5598",
       "reason": [
         "generated_by_changed_tension_skill",
         "manual_non_deck",
-        "official_zero_score_generated_or_system"
+        "official_zero_score_generated_or_system",
+        "summoned_token"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/899",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
-      }
+      "category": "summoned_token",
+      "generatedBy": [
+        "モンスターマスター"
+      ]
     },
     {
-      "cardId": "card_d35930e1",
+      "name": "夢と現実の再会",
+      "cardId": "card_bf650963",
+      "reason": [
+        "mudo_token"
+      ],
+      "category": "mudo_token",
+      "generatedBy": [
+        "ムドー"
+      ]
+    },
+    {
+      "name": "ドラゴンシールド",
+      "cardId": "card_9b096ce0",
+      "reason": [
+        "exchange_reward"
+      ],
+      "category": "exchange_reward",
+      "generatedBy": [
+        "戦士の交換所"
+      ]
+    },
+    {
       "name": "闇のクリスタル",
-      "classes": [
-        "魔法使い"
-      ],
-      "cardType": "ユニット",
-      "cost": 3,
-      "attack": 0,
-      "hp": 3,
-      "rarity": "スーパーレア",
-      "text": "攻撃できない。自分のターン終了時このユニットの正面にいる全ての敵ユニットと敵リーダーに2ダメージ。",
+      "cardId": "card_d35930e1",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_219999f4",
       "name": "ももいろ三姉妹",
-      "classes": [
-        "魔法使い"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 1,
-      "hp": 1,
-      "rarity": "",
-      "text": "",
+      "cardId": "card_219999f4",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_f80e421c",
       "name": "わたしのとくいわざ",
-      "classes": [
-        "魔法使い"
-      ],
-      "cardType": "トークン",
-      "cost": 1,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "ユニット1体に2ダメージ",
+      "cardId": "card_f80e421c",
       "reason": [
-        "hero_evolution_skill_card"
+        "hero_evolution_skill_card",
+        "hero_skill_progression_card",
+        "official_token_category"
       ],
-      "generatedBy": {
-        "type": "heroEvolutionOrHeroSkill",
-        "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": "heroSkill",
+      "generatedBy": [
+        {
+          "type": "heroEvolutionOrHeroSkill",
+          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
+        },
+        "勇者ソロ"
+      ]
     },
     {
-      "cardId": "card_c05416f1",
       "name": "マッスルアニマル",
-      "classes": [
-        "武闘家"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 1,
-      "hp": 1,
-      "rarity": "ノーマル",
-      "text": "",
+      "cardId": "card_c05416f1",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_2f9f7e7c",
       "name": "武術:飛び蹴り",
-      "classes": [
-        "武闘家"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "ユニット１体の位置を前後入れ替える",
+      "cardId": "card_2f9f7e7c",
       "reason": [
         "generated_token_prefix",
         "token_or_hero_skill_derived_prefix"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_2c9322d6",
       "name": "武術:ストレートパンチ",
-      "classes": [
-        "武闘家"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "１ダメージを与える",
+      "cardId": "card_2c9322d6",
       "reason": [
         "generated_token_prefix",
         "token_or_hero_skill_derived_prefix"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_51be9348",
       "name": "武術:精神統一",
-      "classes": [
-        "武闘家"
-      ],
-      "cardType": "ユニット",
-      "cost": 1,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "カードを１枚引く",
+      "cardId": "card_51be9348",
       "reason": [
         "generated_token_prefix",
         "token_or_hero_skill_derived_prefix"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_41ba8d52",
       "name": "灼熱とうこん討ち",
-      "classes": [
-        "武闘家"
-      ],
-      "cardType": "トークン",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "敵1体に2ダメージ。このテンションスキルで対象のユニットが死亡した場合味方リーダーのテンションを+1して武器カード1枚を手札に加える",
+      "cardId": "card_41ba8d52",
       "reason": [
         "changed_tension_skill_card",
         "changed_tension_skill_result",
         "hero_evolution_skill_card",
-        "manual_non_deck"
+        "manual_non_deck",
+        "official_token_category"
       ],
+      "category": "token",
       "generatedBy": {
         "type": "heroEvolutionOrHeroSkill",
         "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
       }
     },
     {
-      "cardId": "card_4feadef0",
       "name": "竜戦士の装具",
-      "classes": [
-        "僧侶"
-      ],
-      "cardType": "ユニット",
-      "cost": 4,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "スーパーレア",
-      "text": "味方リーダーのHPを8回復。味方リーダーのテンションスキルを英雄竜の祝福に変える",
+      "cardId": "card_4feadef0",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/693",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_5095257f",
       "name": "英雄竜の祝福",
-      "classes": [
-        "僧侶"
-      ],
-      "cardType": "トークン",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "",
-      "text": "味方全体のHPを3回復する。ランダムなドラゴン系の味方ユニット1体を復活させる",
+      "cardId": "card_5095257f",
       "reason": [
         "changed_tension_skill_card",
         "changed_tension_skill_result",
         "hero_evolution_skill_card",
         "manual_non_deck",
-        "official_zero_score_generated_or_system"
+        "official_zero_score_generated_or_system",
+        "official_token_category"
       ],
+      "category": "token",
       "generatedBy": {
         "type": "heroEvolutionOrHeroSkill",
         "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/694",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
       }
     },
     {
-      "cardId": "card_2cb4a0a1",
       "name": "はさみくわがた",
-      "classes": [
-        "商人"
-      ],
-      "cardType": "ユニット",
-      "cost": 1,
-      "attack": 2,
-      "hp": 2,
-      "rarity": "レア",
-      "text": "におうだち",
+      "cardId": "card_2cb4a0a1",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_3dbf85fa",
       "name": "きりかぶこぞう",
-      "classes": [
-        "商人"
-      ],
-      "cardType": "ユニット",
-      "cost": 3,
-      "attack": 1,
-      "hp": 1,
-      "rarity": "ノーマル",
-      "text": "",
+      "cardId": "card_3dbf85fa",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_cd19e6cb",
       "name": "あらくれ",
-      "classes": [
-        "商人"
-      ],
-      "cardType": "ユニット",
-      "cost": 3,
-      "attack": 3,
-      "hp": 1,
-      "rarity": "レア",
-      "text": "速攻",
+      "cardId": "card_cd19e6cb",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_ce558ab3",
       "name": "道具:ちからのたね",
-      "classes": [
-        "商人"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "商人のテンションスキルや特技カードで３種類の道具カードのうちからランダムで加わるうちの一枚。",
+      "cardId": "card_ce558ab3",
       "reason": [
         "generated_token_prefix",
         "token_or_hero_skill_derived_prefix"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_4551fa99",
       "name": "道具:いのちのきのみ",
-      "classes": [
-        "商人"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "ユニット1体のHP+1",
+      "cardId": "card_4551fa99",
       "reason": [
         "generated_token_prefix",
         "token_or_hero_skill_derived_prefix"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_ece92ef0",
       "name": "道具:しあわせのたね",
-      "classes": [
-        "商人"
-      ],
-      "cardType": "ユニット",
-      "cost": 1,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "ユニット1体を+1/+1",
+      "cardId": "card_ece92ef0",
       "reason": [
         "generated_token_prefix",
         "token_or_hero_skill_derived_prefix"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_2cdcf87d",
       "name": "道具:大きなパン",
-      "classes": [
-        "商人"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "このターン中に「大きなパン」を使用していないならこのターン中MPが1増える",
+      "cardId": "card_2cdcf87d",
       "reason": [
         "generated_token_prefix",
         "token_or_hero_skill_derived_prefix"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_020b67d1",
       "name": "道具:弟切草",
-      "classes": [
-        "商人"
-      ],
-      "cardType": "ユニット",
-      "cost": 1,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "HPを3回復",
+      "cardId": "card_020b67d1",
       "reason": [
         "generated_token_prefix",
         "token_or_hero_skill_derived_prefix"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_e6268038",
       "name": "道具:火炎草",
-      "classes": [
-        "商人"
-      ],
-      "cardType": "ユニット",
-      "cost": 2,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "ユニット1体に3ダメージ",
+      "cardId": "card_e6268038",
       "reason": [
         "generated_token_prefix",
         "token_or_hero_skill_derived_prefix"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_00fd6be5",
       "name": "てふだをふやしたい",
-      "classes": [
-        "占い師"
-      ],
-      "cardType": "ユニット",
-      "cost": 8,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "自分の手札が7枚になるようにカードを引く",
+      "cardId": "card_00fd6be5",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_4c6e21f8",
       "name": "ドラゴンをだしやすくしたい",
-      "classes": [
-        "占い師"
-      ],
-      "cardType": "ユニット",
-      "cost": 8,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "自分の手札にあるドラゴン系のユニットカードのコスト-5",
+      "cardId": "card_4c6e21f8",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_a49acf5e",
       "name": "ドラゴンをつよくしたい",
-      "classes": [
-        "占い師"
-      ],
-      "cardType": "ユニット",
-      "cost": 8,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "パワフルバッジ：ドラゴン系の味方ユニットを+2/+2",
+      "cardId": "card_a49acf5e",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_8d7524ea",
       "name": "エッチなほんがよみたい",
-      "classes": [
-        "占い師"
-      ],
-      "cardType": "ユニット",
-      "cost": 8,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "レジェンドレア",
-      "text": "自分の手札にエッチな本を加える",
+      "cardId": "card_8d7524ea",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_de2ffa5f",
       "name": "竜の導き",
-      "classes": [
-        "占い師"
-      ],
-      "cardType": "トークン",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "",
-      "text": "自分のデッキからドラゴン系のユニットカードをランダムに1枚手札に加える。 そのカードのコストを−１。",
+      "cardId": "card_de2ffa5f",
       "reason": [
         "changed_tension_skill_card",
         "changed_tension_skill_result",
         "hero_evolution_skill_card",
         "manual_non_deck",
-        "official_zero_score_generated_or_system"
+        "official_zero_score_generated_or_system",
+        "official_token_category"
       ],
+      "category": "token",
       "generatedBy": {
         "type": "heroEvolutionOrHeroSkill",
         "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/700",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
       }
     },
     {
-      "cardId": "card_7a08b71e",
       "name": "ヘルガーディアン",
-      "classes": [
-        "占い師"
-      ],
-      "cardType": "ユニット",
-      "cost": 5,
-      "attack": 4,
-      "hp": 4,
-      "rarity": "ノーマル",
-      "text": "",
+      "cardId": "card_7a08b71e",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_e317fe90",
       "name": "マーニャ:ドラゴラム",
-      "classes": [
-        "占い師"
-      ],
-      "cardType": "ユニット",
-      "cost": 6,
-      "attack": 6,
-      "hp": 6,
-      "rarity": "レジェンドレア",
-      "text": "このユニットは攻撃できない。自分のターン終了時ランダムな横一列にいる全ての敵ユニットと敵リーダーに4ダメージ",
+      "cardId": "card_e317fe90",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_649eb3ba",
       "name": "ホースデビル",
-      "classes": [
-        "占い師"
-      ],
-      "cardType": "ユニット",
-      "cost": 4,
-      "attack": 4,
-      "hp": 4,
-      "rarity": "ノーマル",
-      "text": "",
+      "cardId": "card_649eb3ba",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_09281b83",
       "name": "アンデッドマン",
-      "classes": [
-        "魔剣士"
-      ],
-      "cardType": "ユニット",
-      "cost": 1,
-      "attack": 1,
-      "hp": 2,
-      "rarity": "ノーマル",
-      "text": "",
+      "cardId": "card_09281b83",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_a2c506cd",
       "name": "死者の目覚め",
-      "classes": [
-        "魔剣士"
-      ],
-      "cardType": "トークン",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "",
-      "text": "3/3のミイラおとこを出す",
+      "cardId": "card_a2c506cd",
       "reason": [
         "changed_tension_skill_card",
         "changed_tension_skill_result",
         "hero_evolution_skill_card",
         "manual_non_deck",
-        "official_zero_score_generated_or_system"
+        "official_zero_score_generated_or_system",
+        "official_token_category"
       ],
+      "category": "token",
       "generatedBy": {
         "type": "heroEvolutionOrHeroSkill",
         "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-      },
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/701",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
       }
     },
     {
-      "cardId": "card_5c962cf6",
       "name": "アイアンアント",
-      "classes": [
-        "魔剣士"
-      ],
-      "cardType": "ユニット",
-      "cost": 1,
-      "attack": 0,
-      "hp": 1,
-      "rarity": "ノーマル",
-      "text": "攻撃時：このターン中攻撃力+1",
+      "cardId": "card_5c962cf6",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_2afd4475",
       "name": "モグラの子分",
-      "classes": [
-        "魔剣士"
-      ],
-      "cardType": "ユニット",
-      "cost": 3,
-      "attack": 1,
-      "hp": 1,
-      "rarity": "レア",
-      "text": "速攻、ターン終了時このユニットは死亡する、スキルブースト：攻撃力+1",
+      "cardId": "card_2afd4475",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_867ccc35",
       "name": "ドルマゲスの分身",
-      "classes": [
-        "魔剣士"
-      ],
-      "cardType": "ユニット",
-      "cost": 1,
-      "attack": 1,
-      "hp": 1,
-      "rarity": "レア",
-      "text": "",
+      "cardId": "card_867ccc35",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_ad112c5f",
       "name": "恐怖のツメ",
-      "classes": [
-        "魔剣士"
-      ],
-      "cardType": "ユニット",
-      "cost": 9,
-      "attack": 6,
-      "hp": 3,
-      "rarity": "レア",
-      "text": "",
+      "cardId": "card_ad112c5f",
       "reason": [
         "official_zero_score_generated_or_system"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_252601dd",
       "name": "タマゴ",
-      "classes": [
-        "魔剣士"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "全ての敵に３ダメージ。相手がタマゴを選んだ場合こうの効果は発動しない。",
+      "cardId": "card_252601dd",
       "reason": [
         "manual_non_deck",
         "manual_obtain_only_system_card"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_1c5c5c71",
       "name": "ニワトリ",
-      "classes": [
-        "魔剣士"
-      ],
-      "cardType": "ユニット",
-      "cost": 0,
-      "attack": 0,
-      "hp": 0,
-      "rarity": "ノーマル",
-      "text": "敵リーダーに3ダメージ。カードを２枚引く。 相手がニワトリを選んだ場合この効果は発動しない。",
+      "cardId": "card_1c5c5c71",
       "reason": [
         "manual_non_deck",
         "manual_obtain_only_system_card"
       ],
-      "generatedBy": null,
-      "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "not_synced"
-      }
+      "category": null,
+      "generatedBy": []
     },
     {
-      "cardId": "card_0ba93ecf",
       "name": "サラマンダー",
-      "classes": [
-        "僧侶"
-      ],
-      "cardType": "ユニット",
-      "cost": 8,
-      "attack": 8,
-      "hp": 8,
-      "rarity": "スーパーレア",
-      "text": "超貫通",
+      "cardId": "card_0ba93ecf",
       "reason": [
         "manual_non_deck",
         "official_zero_score_generated_or_system",
-        "transformation_or_evolution_result"
+        "transformation_or_evolution_result",
+        "evolved_card"
       ],
-      "generatedBy": {
-        "fromCardName": "ベビーサラマンダー",
-        "condition": "BETを4回行うと進化"
-      },
-      "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1146",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "removed_until_name_verified"
-      }
+      "category": "evolved_card",
+      "generatedBy": [
+        {
+          "fromCardName": "ベビーサラマンダー",
+          "condition": "BETを4回行うと進化"
+        },
+        "ベビーサラマンダー"
+      ]
     }
   ],
   "exchangeCards": [
@@ -2887,5 +1569,6 @@
       }
     ]
   },
-  "officialImagePolicy": "gameconductorの詳細ページで名称一致を確認した画像のみ表示。前版の未検証URLは表示しない。"
+  "officialImagePolicy": "gameconductorの詳細ページで名称一致を確認した画像のみ表示。前版の未検証URLは表示しない。",
+  "strictNonDeckRule": "cardTypeがトークン、またはflags.deckBuildable=falseのカードはデッキ作成画面に表示しない。"
 }

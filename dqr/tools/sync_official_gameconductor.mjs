@@ -1,77 +1,136 @@
-#!/usr/bin/env node
-/**
- * Sync GameConductor official card pages safely.
- * Usage: node tools/sync_official_gameconductor.mjs
- *
- * This script fetches https://gameconductor.com/dqrivals/card,
- * extracts every <a href="/dqrivals/c/d/{id}">name</a>, then opens each detail page.
- * It only writes official.imageUrl when the detail page's 名称 exactly matches cards.json's name.
- */
-import fs from 'node:fs/promises';
-const ROOT = new URL('..', import.meta.url);
-const cardsPath = new URL('../data/cards.json', import.meta.url);
-const listUrl = 'https://gameconductor.com/dqrivals/card';
-const base = 'https://gameconductor.com';
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-function clean(s){ return String(s||'').replace(/\s+/g,' ').trim(); }
-function stripTags(s){ return clean(String(s||'').replace(/<[^>]+>/g,' ')); }
-function extractField(html, label){
-  const re = new RegExp(`${label}\\s*([^<\\n]+)`, 'u');
-  const m = stripTags(html).match(re);
-  return m ? clean(m[1]) : '';
-}
+import fs from "node:fs/promises";
+import path from "node:path";
+
+const ROOT = path.resolve(process.cwd());
+const cardsPath = path.join(ROOT, "data", "cards.json");
+const listUrl = "https://gameconductor.com/dqrivals/card";
+const base = "https://gameconductor.com";
+
+const normalize = (s="") => s.replace(/\s+/g, "").replace(/[：:]/g, ":").replace(/[、，]/g, ",").trim();
+const stripTags = (s="") => s.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<style[\s\S]*?<\/style>/g, "").replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&#039;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, " ").trim();
+
 async function fetchText(url){
-  const r = await fetch(url, {headers:{'user-agent':'Mozilla/5.0 DQR private deckbuilder sync'}});
-  if(!r.ok) throw new Error(`${r.status} ${url}`);
-  return await r.text();
+  const res = await fetch(url, { headers: { "user-agent": "DQR local sync script" }});
+  if(!res.ok) throw new Error(`${res.status} ${url}`);
+  return await res.text();
 }
-const data = JSON.parse(await fs.readFile(cardsPath, 'utf8'));
-const byName = new Map(data.cards.map(c => [c.name, c]));
-const listHtml = await fetchText(listUrl);
-const linkRe = /<a[^>]+href=["']([^"']*\/dqrivals\/c\/d\/(\d+)[^"']*)["'][^>]*>(.*?)<\/a>/gisu;
-const officialRows = [];
-let m;
-while((m = linkRe.exec(listHtml))){
-  const href = m[1].startsWith('http') ? m[1] : base + m[1];
-  const officialId = m[2];
-  const name = stripTags(m[3]);
-  if(name && byName.has(name)) officialRows.push({name, officialId, href});
+
+function extractOfficialLinks(html){
+  const rx = /<a\s+[^>]*href=["'](\/dqrivals\/c\/d\/(\d+))["'][^>]*>([\s\S]*?)<\/a>/g;
+  const out = new Map();
+  let m;
+  while((m = rx.exec(html))){
+    const name = stripTags(m[3]);
+    if(!name || name.includes("Home") || name.includes("全カード一覧")) continue;
+    const officialId = Number(m[2]);
+    if(!out.has(`${officialId}:${name}`)) out.set(`${officialId}:${name}`, { officialId, name, url: base + m[1] });
+  }
+  return [...out.values()];
 }
-const report = {listUrl, totalCards:data.cards.length, listMatches:officialRows.length, verified:[], notFoundInList:[], mismatches:[], errors:[]};
-for(const c of data.cards){
-  c.official = {site:'gameconductor', imageVerified:false, nameVerified:false, imageStatus:'not_synced'};
+
+function extractField(text, label){
+  const idx = text.indexOf(label);
+  if(idx < 0) return "";
+  let rest = text.slice(idx + label.length).trim();
+  const labels = ["名称", "構築評価", "闘技場評価", "カード画像", "リーダー", "カードパック", "コスト", "カテゴリ", "レアリティ", "種族", "攻撃力", "HP", "効果", "考察"];
+  let end = rest.length;
+  for(const l of labels){
+    const p = rest.indexOf(" " + l + " ");
+    if(p > 0) end = Math.min(end, p);
+  }
+  return rest.slice(0,end).trim();
 }
-for(let i=0;i<officialRows.length;i++){
-  const row = officialRows[i];
-  const c = byName.get(row.name);
+
+async function detail(link){
+  const html = await fetchText(link.url);
+  const text = stripTags(html);
+  const name = extractField(text, "名称") || link.name;
+  const imageMatch = html.match(/https?:\/\/[^"']*card_img_\d+\.jpg|\/dqrivals\/wp-content\/uploads\/card_img_\d+\.jpg|\/wp-content\/uploads\/card_img_\d+\.jpg/);
+  const imageUrl = imageMatch ? (imageMatch[0].startsWith("http") ? imageMatch[0] : base + imageMatch[0]) : `${base}/dqrivals/wp-content/uploads/card_img_${link.officialId}.jpg`;
+  return {
+    ...link,
+    verifiedName: name,
+    imageUrl,
+    leader: extractField(text, "リーダー"),
+    pack: extractField(text, "カードパック"),
+    category: extractField(text, "カテゴリ"),
+    rarity: extractField(text, "レアリティ"),
+    cost: Number(extractField(text, "コスト")) || 0,
+    attack: Number(extractField(text, "攻撃力")) || 0,
+    hp: Number(extractField(text, "HP")) || 0,
+    effect: extractField(text, "効果"),
+    constructionScore: Number((extractField(text, "構築評価").match(/\d+/)||[0])[0]),
+    arenaScore: Number((extractField(text, "闘技場評価").match(/\d+/)||[0])[0])
+  };
+}
+
+function scoreMatch(local, off){
+  let score = 0;
+  if(local.name === off.verifiedName) score += 100;
+  if(Number(local.cost||0) === Number(off.cost||0)) score += 10;
+  if(Number(local.attack||0) === Number(off.attack||0)) score += 5;
+  if(Number(local.hp||0) === Number(off.hp||0)) score += 5;
+  if(normalize(local.text||"") && normalize(off.effect||"") && normalize(local.text||"") === normalize(off.effect||"")) score += 40;
+  if(local.rarity && off.rarity && local.rarity === off.rarity) score += 10;
+  return score;
+}
+
+const raw = JSON.parse(await fs.readFile(cardsPath, "utf8"));
+const cards = raw.cards;
+const byName = new Map();
+for(const c of cards){
+  if(!byName.has(c.name)) byName.set(c.name, []);
+  byName.get(c.name).push(c);
+}
+
+const html = await fetchText(listUrl);
+const links = extractOfficialLinks(html);
+console.log(`official links: ${links.length}`);
+
+const report = { matched: [], ambiguous: [], missing: [], errors: [] };
+let i = 0;
+for(const link of links){
+  i++;
   try{
-    await sleep(120);
-    const html = await fetchText(row.href);
-    const detailName = extractField(html, '名称');
-    const buildScore = extractField(html, '構築評価').match(/\d+/)?.[0] ?? null;
-    const arenaScore = extractField(html, '闘技場評価').match(/\d+/)?.[0] ?? null;
-    const category = extractField(html, 'カテゴリ');
-    if(detailName === c.name){
-      c.official = {
-        site:'gameconductor', officialId:row.officialId, cardPageUrl:row.href,
-        imageUrl:`https://gameconductor.com/dqrivals/wp-content/uploads/card_img_${row.officialId}.jpg`,
-        imageVerified:true, nameVerified:true,
-        buildScore: buildScore ? Number(buildScore) : null,
-        arenaScore: arenaScore ? Number(arenaScore) : null,
-        category,
-        imageStatus:'verified_by_detail_name_match'
-      };
-      report.verified.push({name:c.name, officialId:row.officialId});
-    }else{
-      report.mismatches.push({localName:c.name, listName:row.name, detailName, officialId:row.officialId, href:row.href});
+    const off = await detail(link);
+    const candidates = byName.get(off.verifiedName) || byName.get(link.name) || [];
+    if(!candidates.length){ report.missing.push(off); continue; }
+    candidates.sort((a,b)=>scoreMatch(b,off)-scoreMatch(a,off));
+    const best = candidates[0];
+    const bestScore = scoreMatch(best, off);
+    const secondScore = candidates[1] ? scoreMatch(candidates[1], off) : -1;
+    if(bestScore < 100 || secondScore === bestScore){
+      report.ambiguous.push({ official: off, candidates: candidates.map(c=>({ id:c.id, name:c.name, text:c.text, score:scoreMatch(c,off) })) });
+      continue;
     }
-  }catch(e){ report.errors.push({name:row.name, officialId:row.officialId, error:String(e)}); }
-  if(i%50===0) console.log(`checked ${i}/${officialRows.length}`);
+    best.official = {
+      site: "gameconductor",
+      officialId: off.officialId,
+      verifiedName: off.verifiedName,
+      nameVerified: true,
+      imageVerified: true,
+      cardPageUrl: off.url,
+      imageUrl: off.imageUrl,
+      constructionScore: off.constructionScore,
+      arenaScore: off.arenaScore,
+      leader: off.leader,
+      pack: off.pack,
+      category: off.category,
+      rarity: off.rarity,
+      syncMethod: "detail_page_exact_name_plus_stats"
+    };
+    if(off.category === "トークン"){
+      best.cardType = "トークン";
+      best.flags = best.flags || {};
+      best.flags.deckBuildable = false;
+      best.flags.obtainOnly = true;
+      best.flags.generatedOrEvolved = true;
+      best.flags.deckBuildRuleReason = [...new Set([...(best.flags.deckBuildRuleReason||[]), "official_token_category"])] ;
+    }
+    report.matched.push({ cardId: best.id, name: best.name, officialId: off.officialId });
+  }catch(e){ report.errors.push({ link, error: String(e) }); }
+  if(i % 50 === 0) console.log(`${i}/${links.length}`);
 }
-for(const c of data.cards){
-  if(!c.official?.nameVerified) report.notFoundInList.push({name:c.name,id:c.id});
-}
-await fs.writeFile(cardsPath, JSON.stringify(data,null,2));
-await fs.writeFile(new URL('../data/official_sync_report.json', import.meta.url), JSON.stringify(report,null,2));
-console.log(`verified images: ${report.verified.length}/${data.cards.length}`);
-console.log('wrote data/official_sync_report.json');
+await fs.writeFile(cardsPath, JSON.stringify(raw, null, 2), "utf8");
+await fs.writeFile(path.join(ROOT, "data", "official_sync_report.json"), JSON.stringify(report, null, 2), "utf8");
+console.log(`matched=${report.matched.length} ambiguous=${report.ambiguous.length} missing=${report.missing.length} errors=${report.errors.length}`);

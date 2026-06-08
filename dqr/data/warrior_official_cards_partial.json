@@ -1,0 +1,177 @@
+{
+  "schemaVersion": "1.0.0",
+  "type": "dqr.officialWarriorCards.partial",
+  "source": "user provided list from gameconductor warrior filter",
+  "cards": [
+    {
+      "name": "カメレオンマン",
+      "cost": 1,
+      "attack": 1,
+      "hp": 2,
+      "text": "味方リーダーが攻撃する度攻撃力+1",
+      "constructionScore": 70,
+      "arenaScore": 65,
+      "rarity": "ノーマル"
+    },
+    {
+      "name": "しっぷう突き",
+      "cost": 1,
+      "attack": 0,
+      "hp": 0,
+      "text": "ユニット1体に1ダメージ。 そのユニットが既にダメージを受けている場合代わりに3ダメージ",
+      "constructionScore": 55,
+      "arenaScore": 55,
+      "rarity": "ノーマル"
+    },
+    {
+      "name": "やいばくだき",
+      "cost": 2,
+      "attack": 0,
+      "hp": 0,
+      "text": "ユニット1体に2ダメージを与えた後攻撃力-3",
+      "constructionScore": 65,
+      "arenaScore": 70,
+      "rarity": "ノーマル"
+    },
+    {
+      "name": "はがねのつるぎ",
+      "cost": 2,
+      "attack": 2,
+      "hp": 2,
+      "text": "",
+      "constructionScore": 65,
+      "arenaScore": 70,
+      "rarity": "ノーマル"
+    },
+    {
+      "name": "剣を求めて",
+      "cost": 1,
+      "attack": 0,
+      "hp": 0,
+      "text": "自分のデッキから武器カードを1枚引く",
+      "constructionScore": 60,
+      "arenaScore": 60,
+      "rarity": "レア"
+    },
+    {
+      "name": "とうろうへい",
+      "cost": 2,
+      "attack": 3,
+      "hp": 1,
+      "text": "召喚時：このターン中味方リーダーの攻撃力+1",
+      "constructionScore": 60,
+      "arenaScore": 65,
+      "rarity": "レア"
+    },
+    {
+      "name": "ぼうれい剣士",
+      "cost": 3,
+      "attack": 5,
+      "hp": 1,
+      "text": "死亡時：前後にいる味方ユニットの攻撃力+2",
+      "constructionScore": 30,
+      "arenaScore": 50,
+      "rarity": "レア"
+    },
+    {
+      "name": "きせきのつるぎ",
+      "cost": 4,
+      "attack": 3,
+      "hp": 2,
+      "text": "ダメージを与えた時味方リーダーのHPを3回復",
+      "constructionScore": 85,
+      "arenaScore": 85,
+      "rarity": "レア"
+    },
+    {
+      "name": "こんぼう",
+      "cost": 1,
+      "attack": 2,
+      "hp": 1,
+      "text": "",
+      "constructionScore": 0,
+      "arenaScore": 0,
+      "rarity": "ノーマル"
+    },
+    {
+      "name": "パパスの剣",
+      "cost": 4,
+      "attack": 4,
+      "hp": 2,
+      "text": "",
+      "constructionScore": 0,
+      "arenaScore": 0,
+      "rarity": "スーパーレア"
+    },
+    {
+      "name": "少年テリー",
+      "cost": 2,
+      "attack": 2,
+      "hp": 2,
+      "text": "召喚時：味方リーダーのテンションスキルをモンスターマスターに変える",
+      "constructionScore": 65,
+      "arenaScore": 65,
+      "rarity": "レジェンドレア"
+    },
+    {
+      "name": "モンスターマスター",
+      "cost": 0,
+      "attack": 0,
+      "hp": 0,
+      "text": "「青い闘魂スラぼう」「豪腕王アントン」「韋駄天のドラまさ」からランダムに1体出す",
+      "constructionScore": 0,
+      "arenaScore": 0,
+      "rarity": "ノーマル"
+    },
+    {
+      "name": "豪腕王アントン",
+      "cost": 3,
+      "attack": 2,
+      "hp": 4,
+      "text": "絶好調、貫通、におうだち、このユニットが絶好調状態なら攻撃力+2を得る",
+      "constructionScore": 0,
+      "arenaScore": 0,
+      "rarity": "スーパーレア"
+    },
+    {
+      "name": "韋駄天のドラまさ",
+      "cost": 3,
+      "attack": 2,
+      "hp": 3,
+      "text": "絶好調、速攻、ねらい撃ち このユニットが敵リーダーを攻撃した時絶好調状態ならカードを1枚引く",
+      "constructionScore": 0,
+      "arenaScore": 0,
+      "rarity": "スーパーレア"
+    },
+    {
+      "name": "青い闘魂スラぼう",
+      "cost": 3,
+      "attack": 3,
+      "hp": 2,
+      "text": "絶好調、自分のターン終了時このユニットが絶好調状態ならランダムな敵1体に3ダメージ",
+      "constructionScore": 0,
+      "arenaScore": 0,
+      "rarity": "スーパーレア"
+    },
+    {
+      "name": "夢と現実の再会",
+      "cost": 0,
+      "attack": 0,
+      "hp": 0,
+      "text": "カードを1枚引く。自分の手札にある全てのカードの石化状態を解除した後コストを0にする。",
+      "constructionScore": 0,
+      "arenaScore": 0,
+      "rarity": "ノーマル"
+    },
+    {
+      "name": "ドラゴンシールド",
+      "cost": 2,
+      "attack": 0,
+      "hp": 0,
+      "text": "全ての味方に「次のターン終了時まで受けるダメージ-1」を付与する。この対戦中に味方リーダーが攻撃した回数分受けるダメージ-1",
+      "constructionScore": 0,
+      "arenaScore": 0,
+      "rarity": "スーパーレア"
+    }
+  ]
+}

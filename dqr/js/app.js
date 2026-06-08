@@ -53,7 +53,7 @@ async function loadData(){
   state.systems = systems; state.strategies = strategies; state.choices = choices; state.coin = coin;
   state.dungeons = dungeons; state.fortune = fortune; state.heroes = heroes; state.exchanges = exchanges; state.generatedCards = generatedCards;
   state.allCards = cards.cards || [];
-  state.cards = state.allCards.filter(c => c.flags?.deckBuildable !== false);
+  state.cards = state.allCards.filter(c => c.flags?.deckBuildable !== false && c.cardType !== "トークン");
   state.classes = (cards.classes || fallbackClasses).filter(c => c !== '共通');
   state.cardTypes = cards.cardTypes || [...new Set(state.cards.map(c => c.cardType).filter(Boolean))];
   state.rarities = [...new Set(state.cards.map(c => c.rarity).filter(Boolean))];

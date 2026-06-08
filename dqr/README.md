@@ -72,3 +72,12 @@ Firebase未設定でも、デッキはブラウザ内に保存されます。
 - 公式画像は `official.imageVerified === true` のカードだけ表示します。前版のようにIDだけで雑に当てた画像は表示しません。
 - 全画像を補完する場合は、ネット接続できるローカル環境で `node tools/sync_official_gameconductor.mjs` を実行してください。GameConductorの一覧ページの `<a href>` と詳細ページの「名称」を照合し、一致したカードだけ `imageUrl` を入れます。
 - ヒーローカードは0枚でも複数枚でも編成可能です。ヒーロースキル/進化後の特殊カードは `flags.deckBuildable=false` です。
+
+
+## v7 notes
+
+- ヒーローカードは0枚でも複数種類でも編成可能です。
+- ヒーローカード使用後に出るヒーロースキル・レベルアップ後カードは `data/hero_skill_cards.json` に分離し、デッキ編成不可にしています。
+- デッキ作成画面では `flags.deckBuildable === false` または `cardType === "トークン"` のカードを表示しません。
+- 画像は `official.imageVerified === true` かつ `official.verifiedName === card.name` のものだけ表示します。間違った画像を出すより、未同期画像は非表示にしています。
+- 完全画像同期は `node tools/sync_official_gameconductor.mjs` をプロジェクトルートで実行してください。公式DBのaタグ→詳細ページ名称→カード画像を照合してから反映します。
