@@ -114,3 +114,8 @@ node tools/sync_official_gameconductor.mjs
 - レポート: `data/official_image_manual_batch_v10_common_001_163.json`
 
 この範囲外の共通カード、ヒーローカード、各職業カードは、誤画像防止のため未検証画像は非表示のままです。
+
+
+## v11 update
+- 戦士カード 164〜305 を公式DB順で画像URL対応
+- 追加レポート: data/official_image_manual_batch_v11_warrior_164_305.json

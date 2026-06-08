@@ -21974,14 +21974,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync",
-        "constructionScore": 70,
-        "arenaScore": 65,
-        "rarity": "ノーマル",
-        "syncSource": "user_provided_warrior_official_list"
+        "source": "gameconductor",
+        "officialId": 164,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/164",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_164.jpg",
+        "imageVerified": true,
+        "verifiedName": "カメレオンマン",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22017,14 +22017,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync",
-        "constructionScore": 55,
-        "arenaScore": 55,
-        "rarity": "ノーマル",
-        "syncSource": "user_provided_warrior_official_list"
+        "source": "gameconductor",
+        "officialId": 165,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/165",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_165.jpg",
+        "imageVerified": true,
+        "verifiedName": "しっぷう突き",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22060,14 +22060,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync",
-        "constructionScore": 65,
-        "arenaScore": 70,
-        "rarity": "ノーマル",
-        "syncSource": "user_provided_warrior_official_list"
+        "source": "gameconductor",
+        "officialId": 166,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/166",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_166.jpg",
+        "imageVerified": true,
+        "verifiedName": "やいばくだき",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22107,14 +22107,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync",
-        "constructionScore": 65,
-        "arenaScore": 70,
-        "rarity": "ノーマル",
-        "syncSource": "user_provided_warrior_official_list"
+        "source": "gameconductor",
+        "officialId": 167,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/167",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_167.jpg",
+        "imageVerified": true,
+        "verifiedName": "はがねのつるぎ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22150,14 +22150,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync",
-        "constructionScore": 60,
-        "arenaScore": 60,
-        "rarity": "レア",
-        "syncSource": "user_provided_warrior_official_list"
+        "source": "gameconductor",
+        "officialId": 168,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/168",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_168.jpg",
+        "imageVerified": true,
+        "verifiedName": "剣を求めて",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22193,14 +22193,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync",
-        "constructionScore": 60,
-        "arenaScore": 65,
-        "rarity": "レア",
-        "syncSource": "user_provided_warrior_official_list"
+        "source": "gameconductor",
+        "officialId": 169,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/169",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_169.jpg",
+        "imageVerified": true,
+        "verifiedName": "とうろうへい",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22242,14 +22242,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync",
-        "constructionScore": 30,
-        "arenaScore": 50,
-        "rarity": "レア",
-        "syncSource": "user_provided_warrior_official_list"
+        "source": "gameconductor",
+        "officialId": 170,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/170",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_170.jpg",
+        "imageVerified": true,
+        "verifiedName": "ぼうれい剣士",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22289,14 +22289,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync",
-        "constructionScore": 85,
-        "arenaScore": 85,
-        "rarity": "レア",
-        "syncSource": "user_provided_warrior_official_list"
+        "source": "gameconductor",
+        "officialId": 171,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/171",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_171.jpg",
+        "imageVerified": true,
+        "verifiedName": "きせきのつるぎ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22332,10 +22332,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 172,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/172",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_172.jpg",
+        "imageVerified": true,
+        "verifiedName": "はやぶさ斬り",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22371,10 +22375,14 @@
         "mech_04"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 173,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/173",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_173.jpg",
+        "imageVerified": true,
+        "verifiedName": "メタッピー",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22406,10 +22414,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 174,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/174",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_174.jpg",
+        "imageVerified": true,
+        "verifiedName": "ひとくいサーベル",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22445,10 +22457,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 175,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/175",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_175.jpg",
+        "imageVerified": true,
+        "verifiedName": "まじん斬り",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22484,10 +22500,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 176,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/176",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_176.jpg",
+        "imageVerified": true,
+        "verifiedName": "しんくう斬り",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22523,10 +22543,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 177,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/177",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_177.jpg",
+        "imageVerified": true,
+        "verifiedName": "じごくのもんばん",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22558,10 +22582,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 178,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/178",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_178.jpg",
+        "imageVerified": true,
+        "verifiedName": "さんぞくウルフ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22597,10 +22625,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 179,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/179",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_179.jpg",
+        "imageVerified": true,
+        "verifiedName": "もろば斬り",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22636,10 +22668,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 180,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/180",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_180.jpg",
+        "imageVerified": true,
+        "verifiedName": "かばう",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22671,10 +22707,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 181,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/181",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_181.jpg",
+        "imageVerified": true,
+        "verifiedName": "ブラウニー",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22710,10 +22750,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 182,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/182",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_182.jpg",
+        "imageVerified": true,
+        "verifiedName": "剣の手入れ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22749,10 +22793,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 183,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/183",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_183.jpg",
+        "imageVerified": true,
+        "verifiedName": "ギガスラッシュ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22784,10 +22832,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 184,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/184",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_184.jpg",
+        "imageVerified": true,
+        "verifiedName": "たてまじん",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22833,10 +22885,14 @@
         "mech_09"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 185,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/185",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_185.jpg",
+        "imageVerified": true,
+        "verifiedName": "しにがみきぞく",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22868,10 +22924,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 186,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/186",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_186.jpg",
+        "imageVerified": true,
+        "verifiedName": "おにこぞう",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22909,10 +22969,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 187,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/187",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_187.jpg",
+        "imageVerified": true,
+        "verifiedName": "ドラゴンソルジャー",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22948,10 +23012,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 188,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/188",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_188.jpg",
+        "imageVerified": true,
+        "verifiedName": "ギガブレイク",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -22987,10 +23055,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 189,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/189",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_189.jpg",
+        "imageVerified": true,
+        "verifiedName": "からくりしょうぐん",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23030,10 +23102,14 @@
         "mech_10"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 190,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/190",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_190.jpg",
+        "imageVerified": true,
+        "verifiedName": "ジゴスパーク",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23073,10 +23149,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 191,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/191",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_191.jpg",
+        "imageVerified": true,
+        "verifiedName": "雷鳴の剣",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23118,10 +23198,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 192,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/192",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_192.jpg",
+        "imageVerified": true,
+        "verifiedName": "パパス",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23157,10 +23241,14 @@
         "mech_07"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 193,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/193",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_193.jpg",
+        "imageVerified": true,
+        "verifiedName": "アトラス",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23196,10 +23284,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 194,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/194",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_194.jpg",
+        "imageVerified": true,
+        "verifiedName": "孤高の剣技",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23237,10 +23329,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 195,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/195",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_195.jpg",
+        "imageVerified": true,
+        "verifiedName": "アイアンクック",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23282,10 +23378,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 196,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/196",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_196.jpg",
+        "imageVerified": true,
+        "verifiedName": "ボーンファイター",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23329,10 +23429,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 197,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/197",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_197.jpg",
+        "imageVerified": true,
+        "verifiedName": "はじゃのつるぎ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23364,10 +23468,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 198,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/198",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_198.jpg",
+        "imageVerified": true,
+        "verifiedName": "くびかりぞく",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23407,10 +23515,14 @@
         "mech_22"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 199,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/199",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_199.jpg",
+        "imageVerified": true,
+        "verifiedName": "ビッグシールド",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23452,10 +23564,14 @@
         "mech_12"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 200,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/200",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_200.jpg",
+        "imageVerified": true,
+        "verifiedName": "デュラン",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23495,10 +23611,14 @@
         "mech_22"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 201,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/201",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_201.jpg",
+        "imageVerified": true,
+        "verifiedName": "神速の剣圧",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23534,10 +23654,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 202,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/202",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_202.jpg",
+        "imageVerified": true,
+        "verifiedName": "オクトセントリー",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23581,10 +23705,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 203,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/203",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_203.jpg",
+        "imageVerified": true,
+        "verifiedName": "ダークランサー",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23628,10 +23756,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 204,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/204",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_204.jpg",
+        "imageVerified": true,
+        "verifiedName": "グレイグ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23667,10 +23799,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 205,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/205",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_205.jpg",
+        "imageVerified": true,
+        "verifiedName": "牙王ゴースネル",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23710,10 +23846,14 @@
         "mech_26"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 206,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/206",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_206.jpg",
+        "imageVerified": true,
+        "verifiedName": "剣神の領域",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23751,10 +23891,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 207,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/207",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_207.jpg",
+        "imageVerified": true,
+        "verifiedName": "ズッキーニャ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23790,10 +23934,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 208,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/208",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_208.jpg",
+        "imageVerified": true,
+        "verifiedName": "かえん斬り",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23829,10 +23977,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 209,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/209",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_209.jpg",
+        "imageVerified": true,
+        "verifiedName": "ネクロバルサ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23872,10 +24024,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 210,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/210",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_210.jpg",
+        "imageVerified": true,
+        "verifiedName": "さんぞくのサーベル",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23911,10 +24067,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 211,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/211",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_211.jpg",
+        "imageVerified": true,
+        "verifiedName": "凌駕する力",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23952,10 +24112,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 212,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/212",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_212.jpg",
+        "imageVerified": true,
+        "verifiedName": "サタンメイル",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -23991,10 +24155,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 213,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/213",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_213.jpg",
+        "imageVerified": true,
+        "verifiedName": "おしゃれなバンダナ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24030,10 +24198,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 214,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/214",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_214.jpg",
+        "imageVerified": true,
+        "verifiedName": "剣の錬成",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24077,10 +24249,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 215,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/215",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_215.jpg",
+        "imageVerified": true,
+        "verifiedName": "ヘルオーディン",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24120,10 +24296,14 @@
         "mech_21"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 216,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/216",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_216.jpg",
+        "imageVerified": true,
+        "verifiedName": "剣豪の闘志",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24155,10 +24335,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 217,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/217",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_217.jpg",
+        "imageVerified": true,
+        "verifiedName": "ガスト",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24196,10 +24380,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 218,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/218",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_218.jpg",
+        "imageVerified": true,
+        "verifiedName": "ゾンビマスター",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24241,10 +24429,14 @@
         "mech_09"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 219,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/219",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_219.jpg",
+        "imageVerified": true,
+        "verifiedName": "黒騎士レオコーン",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24276,10 +24468,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 220,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/220",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_220.jpg",
+        "imageVerified": true,
+        "verifiedName": "背水のかまえ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24317,10 +24513,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 221,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/221",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_221.jpg",
+        "imageVerified": true,
+        "verifiedName": "大怨霊マアモン",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24360,10 +24560,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 222,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/222",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_222.jpg",
+        "imageVerified": true,
+        "verifiedName": "じごくのサーベル",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24405,10 +24609,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 223,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/223",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_223.jpg",
+        "imageVerified": true,
+        "verifiedName": "ことだまつかい",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24448,14 +24656,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync",
-        "constructionScore": 0,
-        "arenaScore": 0,
-        "rarity": "ノーマル",
-        "syncSource": "user_provided_warrior_official_list"
+        "source": "gameconductor",
+        "officialId": 224,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/224",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_224.jpg",
+        "imageVerified": true,
+        "verifiedName": "こんぼう",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       },
       "generatedBy": [
         "救援のドラキー/武器未装備時など"
@@ -24498,14 +24706,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync",
-        "constructionScore": 0,
-        "arenaScore": 0,
-        "rarity": "スーパーレア",
-        "syncSource": "user_provided_warrior_official_list"
+        "source": "gameconductor",
+        "officialId": 225,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/225",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_225.jpg",
+        "imageVerified": true,
+        "verifiedName": "パパスの剣",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       },
       "generatedBy": [
         "パパス"
@@ -24553,10 +24761,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 226,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/226",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_226.jpg",
+        "imageVerified": true,
+        "verifiedName": "ライアン",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24600,10 +24812,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 227,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/227",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_227.jpg",
+        "imageVerified": true,
+        "verifiedName": "ホイミン",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       },
       "generatedBy": [
         "ライアン"
@@ -24651,10 +24867,14 @@
         "mech_11"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 228,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/228",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_228.jpg",
+        "imageVerified": true,
+        "verifiedName": "はやぶさの剣",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24693,10 +24913,14 @@
         "heroSystemId": "hero_ref_323a52c8"
       },
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 229,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/229",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_229.jpg",
+        "imageVerified": true,
+        "verifiedName": "パプリカン",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24736,10 +24960,14 @@
         "mech_12"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 230,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/230",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_230.jpg",
+        "imageVerified": true,
+        "verifiedName": "大ぼうぎょ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24779,10 +25007,14 @@
         "mech_10"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 231,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/231",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_231.jpg",
+        "imageVerified": true,
+        "verifiedName": "やいばのボディ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24821,10 +25053,14 @@
         "heroSystemId": "hero_ref_bb64b1fa"
       },
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 232,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/232",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_232.jpg",
+        "imageVerified": true,
+        "verifiedName": "ブラッドソード",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24864,10 +25100,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 233,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/233",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_233.jpg",
+        "imageVerified": true,
+        "verifiedName": "突撃命令",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24903,10 +25143,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 234,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/234",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_234.jpg",
+        "imageVerified": true,
+        "verifiedName": "かばうの心得",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24948,10 +25192,14 @@
         "mech_15"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 235,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/235",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_235.jpg",
+        "imageVerified": true,
+        "verifiedName": "エビルスピリッツ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -24990,10 +25238,14 @@
         "heroSystemId": "hero_ref_3e5f67b1"
       },
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 236,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/236",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_236.jpg",
+        "imageVerified": true,
+        "verifiedName": "デビルアーマー",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -25033,10 +25285,14 @@
         "mech_35"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 237,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/237",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_237.jpg",
+        "imageVerified": true,
+        "verifiedName": "青い閃光",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -25072,10 +25328,14 @@
         "mech_35"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 238,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/238",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_238.jpg",
+        "imageVerified": true,
+        "verifiedName": "ケムケムベス",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -25111,10 +25371,14 @@
         "mech_35"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 239,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/239",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_239.jpg",
+        "imageVerified": true,
+        "verifiedName": "じごくのハサミ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -25159,15 +25423,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/895",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync",
-        "constructionScore": 65,
-        "arenaScore": 65,
-        "rarity": "レジェンドレア",
-        "syncSource": "user_provided_warrior_official_list"
+        "source": "gameconductor",
+        "officialId": 240,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/240",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_240.jpg",
+        "imageVerified": true,
+        "verifiedName": "少年テリー",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -25214,15 +25477,14 @@
         "deckRuleNote": "テンションスキル変更カードによって使えるようになるスキル本体。通常デッキには編成しない。"
       },
       "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/896",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync",
-        "constructionScore": 0,
-        "arenaScore": 0,
-        "rarity": "ノーマル",
-        "syncSource": "user_provided_warrior_official_list"
+        "source": "gameconductor",
+        "officialId": 241,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/241",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_241.jpg",
+        "imageVerified": true,
+        "verifiedName": "モンスターマスター",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       },
       "generatedBy": [
         {
@@ -25283,15 +25545,14 @@
         "relatedSource": "モンスターマスター"
       },
       "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/897",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync",
-        "constructionScore": 0,
-        "arenaScore": 0,
-        "rarity": "スーパーレア",
-        "syncSource": "user_provided_warrior_official_list"
+        "source": "gameconductor",
+        "officialId": 242,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/242",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_242.jpg",
+        "imageVerified": true,
+        "verifiedName": "豪腕王アントン",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       },
       "generatedBy": [
         "モンスターマスター"
@@ -25348,15 +25609,14 @@
         "relatedSource": "モンスターマスター"
       },
       "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/898",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync",
-        "constructionScore": 0,
-        "arenaScore": 0,
-        "rarity": "スーパーレア",
-        "syncSource": "user_provided_warrior_official_list"
+        "source": "gameconductor",
+        "officialId": 243,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/243",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_243.jpg",
+        "imageVerified": true,
+        "verifiedName": "韋駄天のドラまさ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       },
       "generatedBy": [
         "モンスターマスター"
@@ -25415,15 +25675,14 @@
         "relatedSource": "モンスターマスター"
       },
       "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/899",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync",
-        "constructionScore": 0,
-        "arenaScore": 0,
-        "rarity": "スーパーレア",
-        "syncSource": "user_provided_warrior_official_list"
+        "source": "gameconductor",
+        "officialId": 244,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/244",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_244.jpg",
+        "imageVerified": true,
+        "verifiedName": "青い闘魂スラぼう",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       },
       "generatedBy": [
         "モンスターマスター"
@@ -25463,10 +25722,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 245,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/245",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_245.jpg",
+        "imageVerified": true,
+        "verifiedName": "みなごろし",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -25502,10 +25765,14 @@
         "mech_35"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 246,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/246",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_246.jpg",
+        "imageVerified": true,
+        "verifiedName": "おおありくい",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -25549,10 +25816,14 @@
         "mech_35"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 247,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/247",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_247.jpg",
+        "imageVerified": true,
+        "verifiedName": "兵士長の剣",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -25588,10 +25859,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 248,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/248",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_248.jpg",
+        "imageVerified": true,
+        "verifiedName": "ダンスニードル",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -25627,10 +25902,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 249,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/249",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_249.jpg",
+        "imageVerified": true,
+        "verifiedName": "孤軍奮闘",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -25666,10 +25945,14 @@
         "mech_35"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 250,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/250",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_250.jpg",
+        "imageVerified": true,
+        "verifiedName": "ブルサベージ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -25709,10 +25992,14 @@
         "mech_10"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 251,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/251",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_251.jpg",
+        "imageVerified": true,
+        "verifiedName": "ミラクルブレイド",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -25748,10 +26035,14 @@
         "mech_35"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 252,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/252",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_252.jpg",
+        "imageVerified": true,
+        "verifiedName": "ウパソルジャー",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -25795,10 +26086,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 253,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/253",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_253.jpg",
+        "imageVerified": true,
+        "verifiedName": "いなずまのけん",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -25836,10 +26131,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 254,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/254",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_254.jpg",
+        "imageVerified": true,
+        "verifiedName": "ムドー",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -25877,14 +26176,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync",
-        "constructionScore": 0,
-        "arenaScore": 0,
-        "rarity": "ノーマル",
-        "syncSource": "user_provided_warrior_official_list"
+        "source": "gameconductor",
+        "officialId": 255,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/255",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_255.jpg",
+        "imageVerified": true,
+        "verifiedName": "夢と現実の再会",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       },
       "generatedBy": [
         "ムドー"
@@ -25926,10 +26225,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 256,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/256",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_256.jpg",
+        "imageVerified": true,
+        "verifiedName": "ニセたいこう",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -25969,10 +26272,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 257,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/257",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_257.jpg",
+        "imageVerified": true,
+        "verifiedName": "じごくのやいば",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26010,10 +26317,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 258,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/258",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_258.jpg",
+        "imageVerified": true,
+        "verifiedName": "ヘルビースト",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26049,10 +26360,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 259,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/259",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_259.jpg",
+        "imageVerified": true,
+        "verifiedName": "ギュメイ将軍",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26088,10 +26403,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 260,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/260",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_260.jpg",
+        "imageVerified": true,
+        "verifiedName": "しんくうは",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26127,10 +26446,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 261,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/261",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_261.jpg",
+        "imageVerified": true,
+        "verifiedName": "力への渇望",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26172,10 +26495,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 262,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/262",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_262.jpg",
+        "imageVerified": true,
+        "verifiedName": "ナイトリッチ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26218,10 +26545,14 @@
         "coinId": "coin_b97f0efa"
       },
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 263,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/263",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_263.jpg",
+        "imageVerified": true,
+        "verifiedName": "ギズモ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26257,10 +26588,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 264,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/264",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_264.jpg",
+        "imageVerified": true,
+        "verifiedName": "シールドアタック",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26303,10 +26638,14 @@
         "coinId": "coin_6b5c2fff"
       },
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 265,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/265",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_265.jpg",
+        "imageVerified": true,
+        "verifiedName": "おまもりコイン",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26348,11 +26687,14 @@
         "deckRuleCorrection": "交換所は通常のデッキ編成カード。使用時に手札のコインを消費し、所持コイン枚数が最低必要枚数未満なら使用不可。"
       },
       "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1147",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 266,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/266",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_266.jpg",
+        "imageVerified": true,
+        "verifiedName": "戦士の交換所",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26388,10 +26730,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 267,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/267",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_267.jpg",
+        "imageVerified": true,
+        "verifiedName": "新たなチカラへの対価",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26429,15 +26775,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1149",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync",
-        "constructionScore": 0,
-        "arenaScore": 0,
-        "rarity": "スーパーレア",
-        "syncSource": "user_provided_warrior_official_list"
+        "source": "gameconductor",
+        "officialId": 268,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/268",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_268.jpg",
+        "imageVerified": true,
+        "verifiedName": "ドラゴンシールド",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       },
       "generatedBy": [
         "戦士の交換所"
@@ -26490,10 +26835,14 @@
         "coinId": "coin_1f692562"
       },
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 269,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/269",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_269.jpg",
+        "imageVerified": true,
+        "verifiedName": "まかいファイター",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26529,10 +26878,14 @@
         "mech_02"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 270,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/270",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_270.jpg",
+        "imageVerified": true,
+        "verifiedName": "ローズバトラー",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26564,10 +26917,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 271,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/271",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_271.jpg",
+        "imageVerified": true,
+        "verifiedName": "ランタンこぞう",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26610,10 +26967,14 @@
         "coinId": "coin_401da4ac"
       },
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 272,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/272",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_272.jpg",
+        "imageVerified": true,
+        "verifiedName": "ファイアボール",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26666,10 +27027,14 @@
         "coinId": "coin_78663752"
       },
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 273,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/273",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_273.jpg",
+        "imageVerified": true,
+        "verifiedName": "突風の剣",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26718,10 +27083,14 @@
         "coinId": "coin_bcc259c3"
       },
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 274,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/274",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_274.jpg",
+        "imageVerified": true,
+        "verifiedName": "アイラ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26765,10 +27134,14 @@
         "mech_09"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 275,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/275",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_275.jpg",
+        "imageVerified": true,
+        "verifiedName": "アルゴリザード",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26806,10 +27179,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 276,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/276",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_276.jpg",
+        "imageVerified": true,
+        "verifiedName": "ファーリス王子",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26853,10 +27230,14 @@
         "mech_41"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 277,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/277",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_277.jpg",
+        "imageVerified": true,
+        "verifiedName": "ナイトキング",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26896,10 +27277,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 278,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/278",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_278.jpg",
+        "imageVerified": true,
+        "verifiedName": "いなずまビリー",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26943,10 +27328,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 279,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/279",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_279.jpg",
+        "imageVerified": true,
+        "verifiedName": "プラチナソード",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -26990,10 +27379,14 @@
         "mech_41"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 280,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/280",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_280.jpg",
+        "imageVerified": true,
+        "verifiedName": "最後の砦の英雄グレイグ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27029,10 +27422,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 281,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/281",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_281.jpg",
+        "imageVerified": true,
+        "verifiedName": "稲妻雷光斬",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27073,10 +27470,14 @@
         "heroSystemId": "hero_ref_2bd0e286"
       },
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 282,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/282",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_282.jpg",
+        "imageVerified": true,
+        "verifiedName": "キングムーチョ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27112,10 +27513,14 @@
         "mech_09"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 283,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/283",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_283.jpg",
+        "imageVerified": true,
+        "verifiedName": "マッドファルコン",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27155,10 +27560,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 284,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/284",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_284.jpg",
+        "imageVerified": true,
+        "verifiedName": "キラーG",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27198,10 +27607,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 285,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/285",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_285.jpg",
+        "imageVerified": true,
+        "verifiedName": "武器屋",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27245,10 +27658,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 286,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/286",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_286.jpg",
+        "imageVerified": true,
+        "verifiedName": "メルビン",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27314,10 +27731,14 @@
         "strategyApplyMode": "chooseOneAndGrant"
       },
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 287,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/287",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_287.jpg",
+        "imageVerified": true,
+        "verifiedName": "魔法の剣",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27375,10 +27796,14 @@
         "strategyApplyMode": "chooseOneAndGrant"
       },
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 288,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/288",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_288.jpg",
+        "imageVerified": true,
+        "verifiedName": "修練のたてまじん",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27414,10 +27839,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 289,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/289",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_289.jpg",
+        "imageVerified": true,
+        "verifiedName": "ファラリスブル",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27449,10 +27878,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 290,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/290",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_290.jpg",
+        "imageVerified": true,
+        "verifiedName": "レッドサイクロン",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27488,10 +27921,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 291,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/291",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_291.jpg",
+        "imageVerified": true,
+        "verifiedName": "ムチおとこ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27529,10 +27966,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 292,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/292",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_292.jpg",
+        "imageVerified": true,
+        "verifiedName": "ドランゴ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27570,10 +28011,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 293,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/293",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_293.jpg",
+        "imageVerified": true,
+        "verifiedName": "悪霊の神々アトラス",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27615,10 +28060,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 294,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/294",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_294.jpg",
+        "imageVerified": true,
+        "verifiedName": "突貫のしにがみきぞく",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27654,10 +28103,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 295,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/295",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_295.jpg",
+        "imageVerified": true,
+        "verifiedName": "闇に堕ちたチカラ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27696,10 +28149,14 @@
         "choiceId": "choice_95bfd439"
       },
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 296,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/296",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_296.jpg",
+        "imageVerified": true,
+        "verifiedName": "救援のドラキー",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27743,10 +28200,14 @@
         "mech_22"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 297,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/297",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_297.jpg",
+        "imageVerified": true,
+        "verifiedName": "戦士の剣",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27788,10 +28249,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 298,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/298",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_298.jpg",
+        "imageVerified": true,
+        "verifiedName": "テラノザース",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27829,10 +28294,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 299,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/299",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_299.jpg",
+        "imageVerified": true,
+        "verifiedName": "魔王の書",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27876,10 +28345,14 @@
         "mech_09"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 300,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/300",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_300.jpg",
+        "imageVerified": true,
+        "verifiedName": "りゅうせんし",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27921,10 +28394,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 301,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/301",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_301.jpg",
+        "imageVerified": true,
+        "verifiedName": "流浪のヒューザ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -27962,10 +28439,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 302,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/302",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_302.jpg",
+        "imageVerified": true,
+        "verifiedName": "ゴールデンドラゴン",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -28003,10 +28484,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 303,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/303",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_303.jpg",
+        "imageVerified": true,
+        "verifiedName": "オリハルゴン",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -28038,10 +28523,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 304,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/304",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_304.jpg",
+        "imageVerified": true,
+        "verifiedName": "グリーンシザー",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
@@ -28085,10 +28574,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 305,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/305",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_305.jpg",
+        "imageVerified": true,
+        "verifiedName": "ローシュ",
+        "verificationMethod": "manual-official-list-order-warrior-block",
+        "verificationNote": "公式DB全カード一覧の戦士ブロック順とローカルJSONの戦士カード順を照合して付与。公式詳細URLは /c/d/{officialId}。"
       }
     },
     {
