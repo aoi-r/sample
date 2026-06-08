@@ -1,0 +1,575 @@
+{
+  "schemaVersion": "1.0.0",
+  "type": "dqr.deck_build_rules",
+  "description": "公式寄せのデッキ編成可否ルール。cards.json の flags.deckBuildable に反映済み。",
+  "summary": {
+    "totalCards": 1580,
+    "deckBuildableCards": 1539,
+    "nonDeckCards": 41,
+    "changedToNonDeckInThisPass": 41,
+    "fixedHeroCardTypes": 3
+  },
+  "fixedHeroCardTypes": [
+    {
+      "cardId": "card_82e59f32",
+      "name": "勇者エイト",
+      "from": "ユニット",
+      "to": "ヒーロー"
+    },
+    {
+      "cardId": "card_51f4f83e",
+      "name": "天空の花嫁ビアンカ",
+      "from": "ユニット",
+      "to": "ヒーロー"
+    },
+    {
+      "cardId": "card_796cac42",
+      "name": "天空の花嫁デボラ",
+      "from": "ユニット",
+      "to": "ヒーロー"
+    }
+  ],
+  "nonDeckCards": [
+    {
+      "cardId": "card_a8f40292",
+      "name": "うまのふん",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "reason": [
+        "manual_non_deck"
+      ],
+      "text": "なにもおこらない"
+    },
+    {
+      "cardId": "card_040cf04f",
+      "name": "王女の愛",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "reason": [
+        "manual_non_deck"
+      ],
+      "text": "味方リーダーのテンション+3"
+    },
+    {
+      "cardId": "card_f9f18c64",
+      "name": "小さな相棒",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "reason": [
+        "hero_skill_passive_or_auto_effect"
+      ],
+      "text": "味方リーダーがテンションスキルを使う度カードを1枚引く この効果は条件を満たすと自動的に発動する"
+    },
+    {
+      "cardId": "card_2e2c9193",
+      "name": "挑戦!バトルロード",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "reason": [
+        "hero_skill_passive_or_auto_effect"
+      ],
+      "text": "スキルブーストを持つカードを使用した後テンション+1 この効果は条件を満たすと自動的に発動する"
+    },
+    {
+      "cardId": "card_90bace01",
+      "name": "やさしき祈り",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "reason": [
+        "hero_skill_passive_or_auto_effect"
+      ],
+      "text": "自分がコスト2以上の特技カードを使う度MPを1回復 この効果は条件を満たすと自動的に発動する。"
+    },
+    {
+      "cardId": "card_32047aee",
+      "name": "魔力共鳴",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "reason": [
+        "hero_skill_passive_or_auto_effect"
+      ],
+      "text": "自分がコスト2以上の特技カードを使う度カードを1枚引く。この効果は条件を満たすと自動的に発動する。"
+    },
+    {
+      "cardId": "card_a46f42bf",
+      "name": "ついげき",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "reason": [
+        "hero_skill_passive_or_auto_effect"
+      ],
+      "text": "味方リーダーが攻撃する度敵リーダーに2ダメージ。この効果は条件を満たすと自動的に発動する。"
+    },
+    {
+      "cardId": "card_6149abb9",
+      "name": "勇敢な魂",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "reason": [
+        "hero_skill_passive_or_auto_effect"
+      ],
+      "text": "味方リーダーが攻撃する度テンション+1。この効果は条件を満たすと自動的に発動する。"
+    },
+    {
+      "cardId": "card_846d91e8",
+      "name": "眠れる勇者",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "reason": [
+        "hero_skill_passive_or_auto_effect"
+      ],
+      "text": "自分のターン中味方の冒険者が場に出た後カードを1枚引く。 この効果は条件を満たすと自動的に発動する。"
+    },
+    {
+      "cardId": "card_d4598f73",
+      "name": "破邪の秘技・勇者の眼",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "reason": [
+        "hero_skill_evolution_or_branch",
+        "manual_non_deck"
+      ],
+      "text": "自分のデッキの上からカードを3枚見る。1枚を手札に加え、残りをデッキの下に戻す。 ヒーロースキルがランダムな別の破邪の秘技になる。"
+    },
+    {
+      "cardId": "card_5357b154",
+      "name": "破邪の秘技・勇者の心",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "reason": [
+        "hero_skill_evolution_or_branch",
+        "manual_non_deck"
+      ],
+      "text": "味方リーダーのテンション+3。 ヒーロースキルがランダムな別の破邪の秘技になる。"
+    },
+    {
+      "cardId": "card_4cc999a9",
+      "name": "破邪の秘技・勇者の光",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "reason": [
+        "hero_skill_evolution_or_branch",
+        "manual_non_deck"
+      ],
+      "text": "敵1体を次のターン終了時まで攻撃不能にする。 ヒーロースキルがランダムな別の破邪の秘技になる。"
+    },
+    {
+      "cardId": "card_189f0ab3",
+      "name": "破邪の秘技の会得",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "reason": [
+        "hero_skill_evolution_or_branch",
+        "manual_non_deck"
+      ],
+      "text": "ユニット1体に6ダメージ。ヒーロースキルがランダムな破邪の秘技になる。"
+    },
+    {
+      "cardId": "card_618dd613",
+      "name": "破邪の秘技・勇者の盾",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "reason": [
+        "hero_skill_evolution_or_branch",
+        "manual_non_deck"
+      ],
+      "text": "全ての味方に「次のターン終了時まで受けるダメージ-2」を付与する。 ヒーロースキルがランダムな別の破邪の秘技になる。"
+    },
+    {
+      "cardId": "card_c92b4cda",
+      "name": "はい",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "reason": [
+        "manual_non_deck"
+      ],
+      "text": "選択したプレイヤーは敗北する"
+    },
+    {
+      "cardId": "card_f9015853",
+      "name": "いいえ",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "reason": [
+        "manual_non_deck"
+      ],
+      "text": "ランダムな敵1体に4ダメージ、このユニットは「相手のターン開始時ランダムな敵1体に4ダメージ」を得る"
+    },
+    {
+      "cardId": "card_19a6922d",
+      "name": "コイン",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "reason": [
+        "manual_non_deck"
+      ],
+      "text": "味方1体のBETを発動させる"
+    },
+    {
+      "cardId": "card_3b346d69",
+      "name": "スペシャルコイン",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "reason": [
+        "manual_non_deck"
+      ],
+      "text": "全ての味方のBETが発動する。このカードはコインとしても扱う"
+    },
+    {
+      "cardId": "card_1019e573",
+      "name": "アゲていくわよ",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "reason": [
+        "hero_skill_passive_or_auto_effect"
+      ],
+      "text": "味方のBETが発動した後味方リーダーのテンション+1、この効果は条件を満たすと自動的に発動する"
+    },
+    {
+      "cardId": "card_321de02f",
+      "name": "王子の覚悟",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "reason": [
+        "hero_skill_evolution_or_branch",
+        "manual_non_deck"
+      ],
+      "text": "敵1体に1ダメージ、自分のデッキに特技カードが無いならこのヒーロースキルのコスト-1、さらに使用後すぐにレベル2になる"
+    },
+    {
+      "cardId": "card_1aa890f0",
+      "name": "紋章を探す旅",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "reason": [
+        "hero_skill_evolution_or_branch",
+        "manual_non_deck"
+      ],
+      "text": "対象にできる敵ユニットがいる間敵リーダーを対象にできない。敵1体に2ダメージ、その後このヒーロースキルのコスト+1、ダメージ+1"
+    },
+    {
+      "cardId": "card_dbf04d8c",
+      "name": "悲しげな犬",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "reason": [
+        "hero_skill_passive_or_auto_effect"
+      ],
+      "text": "自分がコスト1以上の特技カードを使う度カードを1枚引く。この効果は条件を満たすと自動的に発動する"
+    },
+    {
+      "cardId": "card_964be980",
+      "name": "戦士の交換所",
+      "classes": [
+        "戦士"
+      ],
+      "cardType": "特技",
+      "rarity": "レア",
+      "reason": [
+        "coin_exchange_shop_system_card"
+      ],
+      "text": "手札のコインを消費して以下の景品と交換する。1枚：おしゃれなバンダナ、2枚：コスト3のはやぶさの剣、3枚：ドラゴンシールド その後カードを1枚引く"
+    },
+    {
+      "cardId": "card_66466d1d",
+      "name": "魔法使いの交換所",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "特技",
+      "rarity": "レア",
+      "reason": [
+        "coin_exchange_shop_system_card"
+      ],
+      "text": "手札のコインを消費して以下の景品と交換する。1枚：まものの呼び笛、2枚：コスト6のスライムの心、3枚：グリンガムのムチ、その後　カードを1枚引く"
+    },
+    {
+      "cardId": "card_2f9f7e7c",
+      "name": "武術:飛び蹴り",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "reason": [
+        "generated_token_prefix"
+      ],
+      "text": "ユニット１体の位置を前後入れ替える"
+    },
+    {
+      "cardId": "card_2c9322d6",
+      "name": "武術:ストレートパンチ",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "reason": [
+        "generated_token_prefix"
+      ],
+      "text": "１ダメージを与える"
+    },
+    {
+      "cardId": "card_51be9348",
+      "name": "武術:精神統一",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "reason": [
+        "generated_token_prefix"
+      ],
+      "text": "カードを１枚引く"
+    },
+    {
+      "cardId": "card_41758536",
+      "name": "武闘家の交換所",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "特技",
+      "rarity": "レア",
+      "reason": [
+        "coin_exchange_shop_system_card"
+      ],
+      "text": "手札のコインを消費して以下の景品と交換する。1枚：ちからの指輪 、2枚:コスト3のシルバークロー、3枚：ほしふるうでわ その後カードを1枚引く"
+    },
+    {
+      "cardId": "card_86f8054a",
+      "name": "僧侶の交換所",
+      "classes": [
+        "僧侶"
+      ],
+      "cardType": "特技",
+      "rarity": "レア",
+      "reason": [
+        "coin_exchange_shop_system_card"
+      ],
+      "text": "手札のコインを消費して以下の景品と交換する。1枚:福音の杖、2枚:コスト2のエロスの弓、3枚：しんぴのよろい その後カードを1枚引く"
+    },
+    {
+      "cardId": "card_ce558ab3",
+      "name": "道具:ちからのたね",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "reason": [
+        "generated_token_prefix"
+      ],
+      "text": "商人のテンションスキルや特技カードで３種類の道具カードのうちからランダムで加わるうちの一枚。"
+    },
+    {
+      "cardId": "card_4551fa99",
+      "name": "道具:いのちのきのみ",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "reason": [
+        "generated_token_prefix"
+      ],
+      "text": "ユニット1体のHP+1"
+    },
+    {
+      "cardId": "card_ece92ef0",
+      "name": "道具:しあわせのたね",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "reason": [
+        "generated_token_prefix"
+      ],
+      "text": "ユニット1体を+1/+1"
+    },
+    {
+      "cardId": "card_2cdcf87d",
+      "name": "道具:大きなパン",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "reason": [
+        "generated_token_prefix"
+      ],
+      "text": "このターン中に「大きなパン」を使用していないならこのターン中MPが1増える"
+    },
+    {
+      "cardId": "card_020b67d1",
+      "name": "道具:弟切草",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "reason": [
+        "generated_token_prefix"
+      ],
+      "text": "HPを3回復"
+    },
+    {
+      "cardId": "card_e6268038",
+      "name": "道具:火炎草",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "reason": [
+        "generated_token_prefix"
+      ],
+      "text": "ユニット1体に3ダメージ"
+    },
+    {
+      "cardId": "card_821071fd",
+      "name": "商人の交換所",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "特技",
+      "rarity": "レア",
+      "reason": [
+        "coin_exchange_shop_system_card"
+      ],
+      "text": "手札のコインを消費して以下の景品と交換する。1枚:超ちからのたね、2枚:コスト2のバシルーラの杖、3枚:ブレッドハンド その後カードを1枚引く"
+    },
+    {
+      "cardId": "card_d57862d2",
+      "name": "占い師の交換所",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "rarity": "レア",
+      "reason": [
+        "coin_exchange_shop_system_card"
+      ],
+      "text": "手札のコインを消費して以下の景品と交換する。1枚:銀のタロット、2枚:コスト3の太陽のタロット、3枚:いのりのゆびわ その後カードを1枚引く"
+    },
+    {
+      "cardId": "card_252601dd",
+      "name": "タマゴ",
+      "classes": [
+        "魔剣士"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "reason": [
+        "manual_non_deck"
+      ],
+      "text": "全ての敵に３ダメージ。相手がタマゴを選んだ場合こうの効果は発動しない。"
+    },
+    {
+      "cardId": "card_1c5c5c71",
+      "name": "ニワトリ",
+      "classes": [
+        "魔剣士"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "reason": [
+        "manual_non_deck"
+      ],
+      "text": "敵リーダーに3ダメージ。カードを２枚引く。 相手がニワトリを選んだ場合この効果は発動しない。"
+    },
+    {
+      "cardId": "card_4bc06754",
+      "name": "魔剣士の交換所",
+      "classes": [
+        "魔剣士"
+      ],
+      "cardType": "特技",
+      "rarity": "レア",
+      "reason": [
+        "coin_exchange_shop_system_card"
+      ],
+      "text": "手札のコインを消費して以下の景品と交換する。1枚:冥府の刃、2枚:せかいじゅのは、3枚：メタルキングの剣 その後 カードを1枚引く"
+    },
+    {
+      "cardId": "card_0ba93ecf",
+      "name": "サラマンダー",
+      "classes": [
+        "僧侶"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "reason": [
+        "manual_non_deck"
+      ],
+      "text": "超貫通"
+    }
+  ],
+  "howToOverride": "誤判定があれば、このJSONの cardId/name を見て cards.json の flags.deckBuildable を true/false に修正する。"
+}

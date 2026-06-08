@@ -35,3 +35,10 @@ Firebase未設定でも、デッキはブラウザ内に保存されます。
 - 30枚デッキ
 - 同名2枚、レジェンド/ヒーロー1枚制限
 - デッキ保存、削除、読込、JSON出力
+
+
+## デッキ編成可否の整理
+
+`data/cards.json` は全カードを保持しますが、デッキ作成画面では `flags.deckBuildable !== false` のカードだけを表示・選択します。
+効果で取得するカード、進化後カード、ヒーロースキル派生、道具/コインなどは `flags.deckBuildable: false` にしています。
+判定一覧は `data/deck_rules.json` に出力しています。誤判定があれば、該当カードの `flags.deckBuildable` を手修正してください。

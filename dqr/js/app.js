@@ -4,7 +4,7 @@ import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gsta
 import { getDatabase, ref, set, push, remove, onValue, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js';
 
 const state = {
-  cards: [], systems: {}, strategies: {}, choices: {}, coin: {}, dungeons: {}, fortune: {}, heroes: {},
+  cards: [], allCards: [], systems: {}, strategies: {}, choices: {}, coin: {}, dungeons: {}, fortune: {}, heroes: {},
   classes: [], cardTypes: [], rarities: [], userDecks: {},
   username: localStorage.getItem('dqr_username') || '',
   deviceId: localStorage.getItem('dqr_device_id') || crypto.randomUUID(),
@@ -50,7 +50,8 @@ async function loadData(){
   ]);
   state.systems = systems; state.strategies = strategies; state.choices = choices; state.coin = coin;
   state.dungeons = dungeons; state.fortune = fortune; state.heroes = heroes;
-  state.cards = (cards.cards || []).filter(c => c.flags?.deckBuildable !== false);
+  state.allCards = cards.cards || [];
+  state.cards = state.allCards.filter(c => c.flags?.deckBuildable !== false);
   state.classes = (cards.classes || fallbackClasses).filter(c => c !== '共通');
   state.cardTypes = cards.cardTypes || [...new Set(state.cards.map(c => c.cardType).filter(Boolean))];
   state.rarities = [...new Set(state.cards.map(c => c.rarity).filter(Boolean))];
@@ -199,7 +200,7 @@ function renderCurve(deckCards){
 }
 
 function renderAll(){ renderCards(); renderDeck(); }
-function byId(id){ return state.cards.find(c => c.id === id); }
+function byId(id){ return state.allCards.find(c => c.id === id); }
 function deckTotal(){ return [...state.deck.values()].reduce((a,b)=>a+b,0); }
 function isLegend(card){ return String(card.rarity || '').includes('レジェンド'); }
 function maxCopies(card){ return (isLegend(card) || card.cardType === 'ヒーロー') ? 1 : 2; }
@@ -228,6 +229,7 @@ function validateDeck(){
     const card = byId(id); if(!card) continue;
     if(count > maxCopies(card)) messages.push(`${card.name} は上限${maxCopies(card)}枚です。`);
     const classes = card.classes || [];
+    if(card.flags?.deckBuildable === false) messages.push(`${card.name} はデッキ編成不可カードです。`);
     if(!(classes.includes('共通') || classes.includes(state.selectedClass))) messages.push(`${card.name} は ${state.selectedClass} で使えません。`);
   }
   const heroTotal = [...state.deck.entries()].filter(([id,c]) => byId(id)?.cardType === 'ヒーロー').reduce((s,[,c])=>s+c,0);
@@ -293,7 +295,9 @@ function showCardDetail(card){
   $('card-modal').showModal();
 }
 function baseDetail(card){
-  return `<div class="detail-block"><h4>カード情報</h4><p>コスト: ${card.cost ?? '-'} / 種類: ${escapeHtml(card.cardType || '')} / レア: ${escapeHtml(card.rarity || '')}</p><p>職業: ${escapeHtml((card.classes||[]).join('・'))}</p><p>系統: ${escapeHtml((card.tribes||[]).join('・') || 'なし')}</p><p>${escapeHtml(card.text || '—')}</p><p>${(card.keywords||[]).map(k=>`<span class="chip">${escapeHtml(k)}</span>`).join(' ')}</p></div>`;
+  const buildable = card.flags?.deckBuildable === false ? 'デッキ編成不可 / 効果で取得・進化・システム用' : 'デッキ編成可';
+  const reason = card.flags?.deckBuildRuleReason ? `<p>整理理由: ${escapeHtml(card.flags.deckBuildRuleReason.join(' / '))}</p>` : '';
+  return `<div class="detail-block"><h4>カード情報</h4><p><b>${buildable}</b></p>${reason}<p>コスト: ${card.cost ?? '-'} / 種類: ${escapeHtml(card.cardType || '')} / レア: ${escapeHtml(card.rarity || '')}</p><p>職業: ${escapeHtml((card.classes||[]).join('・'))}</p><p>系統: ${escapeHtml((card.tribes||[]).join('・') || 'なし')}</p><p>${escapeHtml(card.text || '—')}</p><p>${(card.keywords||[]).map(k=>`<span class="chip">${escapeHtml(k)}</span>`).join(' ')}</p></div>`;
 }
 function relatedDetail(card){
   const blocks = [];
