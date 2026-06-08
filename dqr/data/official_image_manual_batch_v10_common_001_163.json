@@ -1,0 +1,2133 @@
+{
+  "schemaVersion": "1.0.0",
+  "type": "official_image_manual_batch",
+  "source": "https://gameconductor.com/dqrivals/card",
+  "scope": "official common base block / official IDs 1-163",
+  "method": "公式DB全カード一覧の先頭から戦士カード「カメレオンマン」直前までを共通カードブロックとして照合。詳細ページURLと画像URLは officialId を用いる。",
+  "verifiedCount": 163,
+  "range": {
+    "fromOfficialId": 1,
+    "toOfficialId": 163
+  },
+  "cards": [
+    {
+      "officialId": 1,
+      "name": "スライム",
+      "cardId": "card_63cf084a",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 2,
+      "name": "スライムベス",
+      "cardId": "card_8c934c3d",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/2",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_2.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 3,
+      "name": "メラゴースト",
+      "cardId": "card_a7a6eabe",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/3",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_3.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 4,
+      "name": "スライムつむり",
+      "cardId": "card_20ad0865",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/4",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_4.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 5,
+      "name": "ファーラット",
+      "cardId": "card_1244e07b",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/5",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_5.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 6,
+      "name": "いっかくうさぎ",
+      "cardId": "card_358aa630",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/6",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_6.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 7,
+      "name": "シールドこぞう",
+      "cardId": "card_55f66785",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/7",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_7.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 8,
+      "name": "リザードマン",
+      "cardId": "card_85b5c424",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/8",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_8.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 9,
+      "name": "くさった死体",
+      "cardId": "card_e96efcff",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/9",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_9.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 10,
+      "name": "バードファイター",
+      "cardId": "card_bcebacb6",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/10",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_10.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 11,
+      "name": "リビングスタチュー",
+      "cardId": "card_88bf04ae",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/11",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_11.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 12,
+      "name": "りゅうき兵",
+      "cardId": "card_d02ff3e5",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/12",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_12.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 13,
+      "name": "ストーンマン",
+      "cardId": "card_c99c6450",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/13",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_13.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 14,
+      "name": "バアルゼブブ",
+      "cardId": "card_14ea7bec",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/14",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_14.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 15,
+      "name": "キラーアーマー",
+      "cardId": "card_0996b970",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/15",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_15.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 16,
+      "name": "ブラッドハンド",
+      "cardId": "card_849c9084",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/16",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_16.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 17,
+      "name": "テラノライナー",
+      "cardId": "card_3ced797c",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/17",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_17.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 18,
+      "name": "おにこんぼう",
+      "cardId": "card_9f518d14",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/18",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_18.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 19,
+      "name": "メタルスライム",
+      "cardId": "card_d40564aa",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/19",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_19.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 20,
+      "name": "わらいぶくろ",
+      "cardId": "card_08f55531",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/20",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_20.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 21,
+      "name": "スライムナイト",
+      "cardId": "card_cfe42222",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/21",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_21.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 22,
+      "name": "なげきムーン",
+      "cardId": "card_48ea99fd",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/22",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_22.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 23,
+      "name": "ツンドラキー",
+      "cardId": "card_d5baebad",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/23",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_23.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 24,
+      "name": "ぐんたいガニ",
+      "cardId": "card_11ddc5e0",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/24",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_24.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 25,
+      "name": "バイキングソウル",
+      "cardId": "card_6d44771b",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/25",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_25.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 26,
+      "name": "キラーパンサー",
+      "cardId": "card_1df09d65",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/26",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_26.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 27,
+      "name": "プリーストナイト",
+      "cardId": "card_d0a61d1f",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/27",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_27.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 28,
+      "name": "シールドオーガ",
+      "cardId": "card_83cf917e",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/28",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_28.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 29,
+      "name": "アックスドラゴン",
+      "cardId": "card_7902521c",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/29",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_29.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 30,
+      "name": "レッドアーチャー",
+      "cardId": "card_56b8d468",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/30",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_30.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 31,
+      "name": "ドラキー",
+      "cardId": "card_471ba4e7",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/31",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_31.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 32,
+      "name": "バブルスライム",
+      "cardId": "card_d8e3589a",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/32",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_32.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 33,
+      "name": "いたずらもぐら",
+      "cardId": "card_c762fb53",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/33",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_33.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 34,
+      "name": "ゴースト",
+      "cardId": "card_f78f7523",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/34",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_34.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 35,
+      "name": "おばけキャンドル",
+      "cardId": "card_1322ef2c",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/35",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_35.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 36,
+      "name": "モーモン",
+      "cardId": "card_4af3d843",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/36",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_36.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 37,
+      "name": "おばけヒトデ",
+      "cardId": "card_dd2f4cdc",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/37",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_37.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 38,
+      "name": "おおくちばし",
+      "cardId": "card_4d7fa9dd",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/38",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_38.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 39,
+      "name": "ゆめにゅうどう",
+      "cardId": "card_521e84df",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/39",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_39.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 40,
+      "name": "メラリザード",
+      "cardId": "card_833eefb3",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/40",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_40.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 41,
+      "name": "オニオーン",
+      "cardId": "card_95f69f39",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/41",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_41.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 42,
+      "name": "ホイップゴースト",
+      "cardId": "card_b7e4faf1",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/42",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_42.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 43,
+      "name": "シャドー",
+      "cardId": "card_a3c69ccc",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/43",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_43.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 44,
+      "name": "ホイミスライム",
+      "cardId": "card_bab58015",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/44",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_44.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 45,
+      "name": "しにがみ",
+      "cardId": "card_c1e90290",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/45",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_45.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 46,
+      "name": "じんめんじゅ",
+      "cardId": "card_2924b5f1",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/46",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_46.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 47,
+      "name": "サーベルきつね",
+      "cardId": "card_3fedcfee",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/47",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_47.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 48,
+      "name": "オーク",
+      "cardId": "card_671af643",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/48",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_48.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 49,
+      "name": "おばけキノコ",
+      "cardId": "card_8085ed25",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/49",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_49.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 50,
+      "name": "フレイム",
+      "cardId": "card_579c3018",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/50",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_50.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 51,
+      "name": "たけやりへい",
+      "cardId": "card_7d555473",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/51",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_51.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 52,
+      "name": "プークプック",
+      "cardId": "card_d00c0ca1",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/52",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_52.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 53,
+      "name": "リップス",
+      "cardId": "card_321ac34f",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/53",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_53.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 54,
+      "name": "おおきづち",
+      "cardId": "card_3229f48c",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/54",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_54.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 55,
+      "name": "ドロヌーバ",
+      "cardId": "card_f4f27478",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/55",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_55.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 56,
+      "name": "おむつっこり",
+      "cardId": "card_bb48dcae",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/56",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_56.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 57,
+      "name": "どくイモムシ",
+      "cardId": "card_73c78940",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/57",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_57.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 58,
+      "name": "ももんじゃ",
+      "cardId": "card_8585fce5",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/58",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_58.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 59,
+      "name": "ナスビナーラ",
+      "cardId": "card_993f78a7",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/59",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_59.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 60,
+      "name": "ヘルコンドル",
+      "cardId": "card_7d611f88",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/60",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_60.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 61,
+      "name": "イエローシックル",
+      "cardId": "card_21ed9677",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/61",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_61.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 62,
+      "name": "よるのていおう",
+      "cardId": "card_768acf21",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/62",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_62.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 63,
+      "name": "マドハンド",
+      "cardId": "card_a7a355ee",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/63",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_63.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 64,
+      "name": "さまようたましい",
+      "cardId": "card_cf9a2c0e",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/64",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_64.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 65,
+      "name": "ミミック",
+      "cardId": "card_42d3e59b",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/65",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_65.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 66,
+      "name": "ゴーレム",
+      "cardId": "card_5b3cd328",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/66",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_66.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 67,
+      "name": "ダッシュラン",
+      "cardId": "card_1d7c1c73",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/67",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_67.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 68,
+      "name": "あやしいかげ",
+      "cardId": "card_7fae1780",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/68",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_68.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 69,
+      "name": "ホークマン",
+      "cardId": "card_ffdb7171",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/69",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_69.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 70,
+      "name": "マポレーナ",
+      "cardId": "card_62320064",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/70",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_70.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 71,
+      "name": "ミケまどう",
+      "cardId": "card_1deadf61",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/71",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_71.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 72,
+      "name": "ボーンナイト",
+      "cardId": "card_637fcf8d",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/72",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_72.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 73,
+      "name": "からくりだいみょう",
+      "cardId": "card_789e3a72",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/73",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_73.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 74,
+      "name": "フェアリードラゴン",
+      "cardId": "card_7786b90f",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/74",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_74.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 75,
+      "name": "ふくまねき",
+      "cardId": "card_caf3ccae",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/75",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_75.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 76,
+      "name": "グリゴンダンス",
+      "cardId": "card_deb61fbf",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/76",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_76.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 77,
+      "name": "サイレス",
+      "cardId": "card_dd4e120b",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/77",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_77.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 78,
+      "name": "グール",
+      "cardId": "card_f35349de",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/78",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_78.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 79,
+      "name": "きとうし",
+      "cardId": "card_bbd9ea7b",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/79",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_79.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 80,
+      "name": "あらくれチャッピー",
+      "cardId": "card_1e6a7f8a",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/80",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_80.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 81,
+      "name": "亡者のひとだま",
+      "cardId": "card_f2cfa870",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/81",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_81.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 82,
+      "name": "ひくいどり",
+      "cardId": "card_839263c1",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/82",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_82.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 83,
+      "name": "しにがみのきし",
+      "cardId": "card_864a0e6c",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/83",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_83.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 84,
+      "name": "トロル",
+      "cardId": "card_4392279e",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/84",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_84.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 85,
+      "name": "かげのきし",
+      "cardId": "card_d90b9d85",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/85",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_85.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 86,
+      "name": "ガメゴン",
+      "cardId": "card_34442b7d",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/86",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_86.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 87,
+      "name": "ホロゴースト",
+      "cardId": "card_6e980110",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/87",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_87.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 88,
+      "name": "ブラックルーン",
+      "cardId": "card_8df130e3",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/88",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_88.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "ノーマル",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 89,
+      "name": "ねこまどう",
+      "cardId": "card_1fab9780",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/89",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_89.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 90,
+      "name": "リリパット",
+      "cardId": "card_bbedc445",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/90",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_90.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 91,
+      "name": "プチアーノン",
+      "cardId": "card_71a4559c",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/91",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_91.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 92,
+      "name": "あばれこまいぬ",
+      "cardId": "card_205cdb83",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/92",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_92.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 93,
+      "name": "キメラ",
+      "cardId": "card_f9b880a8",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/93",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_93.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 94,
+      "name": "メーダ",
+      "cardId": "card_2b331264",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/94",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_94.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 95,
+      "name": "コープスフライ",
+      "cardId": "card_5ec15c8d",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/95",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_95.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 96,
+      "name": "くしざしツインズ",
+      "cardId": "card_c45c254d",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/96",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_96.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 97,
+      "name": "トドマン",
+      "cardId": "card_9e85ced2",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/97",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_97.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 98,
+      "name": "ガチャコッコ",
+      "cardId": "card_75d17a3b",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/98",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_98.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 99,
+      "name": "はぐれメタル",
+      "cardId": "card_94168f26",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/99",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_99.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 100,
+      "name": "スライムタワー",
+      "cardId": "card_0a0e15fb",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/100",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_100.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 101,
+      "name": "ドラゴンキッズ",
+      "cardId": "card_03d5f244",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/101",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_101.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 102,
+      "name": "アローインプ",
+      "cardId": "card_f337a875",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/102",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_102.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 103,
+      "name": "メガザルロック",
+      "cardId": "card_48f96c44",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/103",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_103.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 104,
+      "name": "つららスライム",
+      "cardId": "card_052480b4",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/104",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_104.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 105,
+      "name": "メタルハンター",
+      "cardId": "card_f3e5436e",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/105",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_105.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 106,
+      "name": "どろにんぎょう",
+      "cardId": "card_191bb601",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/106",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_106.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 107,
+      "name": "ジャガーメイジ",
+      "cardId": "card_0f3ff099",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/107",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_107.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 108,
+      "name": "キャットバット",
+      "cardId": "card_90f17009",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/108",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_108.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 109,
+      "name": "コサックシープ",
+      "cardId": "card_13db3095",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/109",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_109.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 110,
+      "name": "じんめんガエル",
+      "cardId": "card_390c2e74",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/110",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_110.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 111,
+      "name": "ドラキーマ",
+      "cardId": "card_1acdd672",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/111",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_111.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 112,
+      "name": "クイーンスライム",
+      "cardId": "card_1d7c86bb",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/112",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_112.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 113,
+      "name": "ブルベリーノ",
+      "cardId": "card_efc24be5",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/113",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_113.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 114,
+      "name": "メッサーラ",
+      "cardId": "card_f8b1a025",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/114",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_114.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 115,
+      "name": "オークキング",
+      "cardId": "card_43b1333a",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/115",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_115.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 116,
+      "name": "シルバーデビル",
+      "cardId": "card_f8c88241",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/116",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_116.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 117,
+      "name": "メタルライダー",
+      "cardId": "card_9a92bd30",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/117",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_117.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 118,
+      "name": "コングヘッド",
+      "cardId": "card_dd118670",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/118",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_118.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 119,
+      "name": "バリクナジャ",
+      "cardId": "card_12edc6c3",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/119",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_119.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 120,
+      "name": "うごくせきぞう",
+      "cardId": "card_c0e5dcc1",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/120",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_120.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 121,
+      "name": "エリミネーター",
+      "cardId": "card_6b11ada1",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/121",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_121.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 122,
+      "name": "マミー",
+      "cardId": "card_f929b37f",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/122",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_122.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 123,
+      "name": "ゴールドオーク",
+      "cardId": "card_3410ad27",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/123",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_123.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 124,
+      "name": "バトルレックス",
+      "cardId": "card_93e4c47b",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/124",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_124.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 125,
+      "name": "けがれの渦",
+      "cardId": "card_d7429ebd",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/125",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_125.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 126,
+      "name": "さまようよろい",
+      "cardId": "card_8e319e73",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/126",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_126.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 127,
+      "name": "バロンナイト",
+      "cardId": "card_761099e5",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/127",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_127.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 128,
+      "name": "ブラックチャック",
+      "cardId": "card_4354b98d",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/128",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_128.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 129,
+      "name": "ヘルゴースト",
+      "cardId": "card_071c8ce4",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/129",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_129.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 130,
+      "name": "エビルホーク",
+      "cardId": "card_e85d03e0",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/130",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_130.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 131,
+      "name": "バーサーカー",
+      "cardId": "card_8878b609",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/131",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_131.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 132,
+      "name": "ばくだん岩",
+      "cardId": "card_fab92693",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/132",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_132.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 133,
+      "name": "ワイトキング",
+      "cardId": "card_5be2f7e5",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/133",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_133.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 134,
+      "name": "キングスライム",
+      "cardId": "card_46e8c68f",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/134",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_134.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 135,
+      "name": "メタルキング",
+      "cardId": "card_7be4965e",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/135",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_135.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 136,
+      "name": "ギガンテス",
+      "cardId": "card_cd99fcfb",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/136",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_136.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 137,
+      "name": "ランプのまじん",
+      "cardId": "card_adb8f2c2",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/137",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_137.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 138,
+      "name": "じごくのつかい",
+      "cardId": "card_f15d10ad",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/138",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_138.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 139,
+      "name": "アンクルホーン",
+      "cardId": "card_0957dc83",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/139",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_139.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 140,
+      "name": "ドラゴンゾンビ",
+      "cardId": "card_6dc91dab",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/140",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_140.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 141,
+      "name": "トロルキング",
+      "cardId": "card_888c9f47",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/141",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_141.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 142,
+      "name": "グレイトドラゴン",
+      "cardId": "card_fede32d5",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/142",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_142.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 143,
+      "name": "バラモスゾンビ",
+      "cardId": "card_d9eaae6c",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/143",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_143.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 144,
+      "name": "キングリザード",
+      "cardId": "card_7e4b289c",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/144",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_144.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "スーパーレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 145,
+      "name": "わたぼう",
+      "cardId": "card_e462792f",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/145",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_145.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 146,
+      "name": "ドラゴン",
+      "cardId": "card_ba8c67df",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/146",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_146.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 147,
+      "name": "ヒューザ",
+      "cardId": "card_21f64a28",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/147",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_147.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 148,
+      "name": "ゴールデンスライム",
+      "cardId": "card_6633e37a",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/148",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_148.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 149,
+      "name": "カミュ",
+      "cardId": "card_0e6ffe6c",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/149",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_149.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 150,
+      "name": "アンルシア",
+      "cardId": "card_80caa95f",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/150",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_150.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 151,
+      "name": "ラヴィエル",
+      "cardId": "card_ee31da4a",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/151",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_151.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 152,
+      "name": "ガボ",
+      "cardId": "card_4fffad50",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/152",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_152.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 153,
+      "name": "ドラゴンガイア",
+      "cardId": "card_36833618",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/153",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_153.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 154,
+      "name": "エスターク",
+      "cardId": "card_9a345999",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/154",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_154.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 155,
+      "name": "やまたのおろち",
+      "cardId": "card_aa5be628",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/155",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_155.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 156,
+      "name": "ハーゴン",
+      "cardId": "card_1876b15e",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/156",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_156.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 157,
+      "name": "マルティナ",
+      "cardId": "card_595112e0",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/157",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_157.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 158,
+      "name": "バルザック",
+      "cardId": "card_e3f0dbe1",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/158",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_158.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 159,
+      "name": "りゅうおう",
+      "cardId": "card_74b5ecf8",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/159",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_159.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 160,
+      "name": "バラモス",
+      "cardId": "card_494e86cf",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/160",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_160.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 161,
+      "name": "グラコス",
+      "cardId": "card_da6452c0",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/161",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_161.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 162,
+      "name": "シドー",
+      "cardId": "card_22190279",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/162",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_162.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    },
+    {
+      "officialId": 163,
+      "name": "ゾーマ",
+      "cardId": "card_c30bd47a",
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/163",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_163.jpg",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "rarity": "レジェンドレア",
+      "deckBuildable": true
+    }
+  ]
+}

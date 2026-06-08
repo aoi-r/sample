@@ -102,3 +102,15 @@ node tools/sync_official_gameconductor.mjs
 ## v9 manual image batch
 
 公式DBを1枚ずつ確認する方式に切り替え。v9_common_001_030 では公式ID 1〜30（スライム〜レッドアーチャー）だけ画像表示を許可。その他の画像は誤表示防止のため非表示。
+
+
+## v10 画像手動照合: 共通カード先頭ブロック
+
+公式DB `https://gameconductor.com/dqrivals/card` の先頭共通カードブロック、公式ID 1〜163 を画像照合済みにしました。
+
+- 対象: スライム〜ゾーマ
+- 照合方式: 公式DB一覧のカードリンク順と、ローカルJSONの共通カード順を照合
+- 表示条件: `official.imageVerified === true` かつ `official.verifiedName === card.name`
+- レポート: `data/official_image_manual_batch_v10_common_001_163.json`
+
+この範囲外の共通カード、ヒーローカード、各職業カードは、誤画像防止のため未検証画像は非表示のままです。

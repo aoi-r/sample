@@ -74,8 +74,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1.jpg",
         "imageVerified": true,
         "verifiedName": "スライム",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1.jpg"
     },
@@ -120,8 +120,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_2.jpg",
         "imageVerified": true,
         "verifiedName": "スライムベス",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_2.jpg"
     },
@@ -164,8 +164,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_3.jpg",
         "imageVerified": true,
         "verifiedName": "メラゴースト",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_3.jpg"
     },
@@ -214,8 +214,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_4.jpg",
         "imageVerified": true,
         "verifiedName": "スライムつむり",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_4.jpg"
     },
@@ -258,8 +258,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_5.jpg",
         "imageVerified": true,
         "verifiedName": "ファーラット",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_5.jpg"
     },
@@ -302,8 +302,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_6.jpg",
         "imageVerified": true,
         "verifiedName": "いっかくうさぎ",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_6.jpg"
     },
@@ -346,8 +346,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_7.jpg",
         "imageVerified": true,
         "verifiedName": "シールドこぞう",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_7.jpg"
     },
@@ -392,8 +392,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_8.jpg",
         "imageVerified": true,
         "verifiedName": "リザードマン",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_8.jpg"
     },
@@ -442,8 +442,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_9.jpg",
         "imageVerified": true,
         "verifiedName": "くさった死体",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_9.jpg"
     },
@@ -482,8 +482,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_10.jpg",
         "imageVerified": true,
         "verifiedName": "バードファイター",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_10.jpg"
     },
@@ -526,8 +526,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_11.jpg",
         "imageVerified": true,
         "verifiedName": "リビングスタチュー",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_11.jpg"
     },
@@ -572,8 +572,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_12.jpg",
         "imageVerified": true,
         "verifiedName": "りゅうき兵",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_12.jpg"
     },
@@ -616,8 +616,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_13.jpg",
         "imageVerified": true,
         "verifiedName": "ストーンマン",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_13.jpg"
     },
@@ -660,8 +660,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_14.jpg",
         "imageVerified": true,
         "verifiedName": "バアルゼブブ",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_14.jpg"
     },
@@ -700,8 +700,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_15.jpg",
         "imageVerified": true,
         "verifiedName": "キラーアーマー",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_15.jpg"
     },
@@ -750,8 +750,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_16.jpg",
         "imageVerified": true,
         "verifiedName": "ブラッドハンド",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_16.jpg"
     },
@@ -800,8 +800,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_17.jpg",
         "imageVerified": true,
         "verifiedName": "テラノライナー",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_17.jpg"
     },
@@ -846,8 +846,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_18.jpg",
         "imageVerified": true,
         "verifiedName": "おにこんぼう",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_18.jpg"
     },
@@ -896,8 +896,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_19.jpg",
         "imageVerified": true,
         "verifiedName": "メタルスライム",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_19.jpg"
     },
@@ -940,8 +940,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_20.jpg",
         "imageVerified": true,
         "verifiedName": "わらいぶくろ",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_20.jpg"
     },
@@ -990,8 +990,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_21.jpg",
         "imageVerified": true,
         "verifiedName": "スライムナイト",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_21.jpg"
     },
@@ -1036,8 +1036,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_22.jpg",
         "imageVerified": true,
         "verifiedName": "なげきムーン",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_22.jpg"
     },
@@ -1080,8 +1080,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_23.jpg",
         "imageVerified": true,
         "verifiedName": "ツンドラキー",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_23.jpg"
     },
@@ -1120,8 +1120,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_24.jpg",
         "imageVerified": true,
         "verifiedName": "ぐんたいガニ",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_24.jpg"
     },
@@ -1166,8 +1166,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_25.jpg",
         "imageVerified": true,
         "verifiedName": "バイキングソウル",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_25.jpg"
     },
@@ -1212,8 +1212,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_26.jpg",
         "imageVerified": true,
         "verifiedName": "キラーパンサー",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_26.jpg"
     },
@@ -1256,8 +1256,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_27.jpg",
         "imageVerified": true,
         "verifiedName": "プリーストナイト",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_27.jpg"
     },
@@ -1302,8 +1302,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_28.jpg",
         "imageVerified": true,
         "verifiedName": "シールドオーガ",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_28.jpg"
     },
@@ -1352,8 +1352,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_29.jpg",
         "imageVerified": true,
         "verifiedName": "アックスドラゴン",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_29.jpg"
     },
@@ -1398,8 +1398,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_30.jpg",
         "imageVerified": true,
         "verifiedName": "レッドアーチャー",
-        "verificationMethod": "manual_open_detail_page_name_match",
-        "verifiedBatch": "v9_common_001_030"
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       },
       "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_30.jpg"
     },
@@ -1436,10 +1436,14 @@
         "mech_01"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 31,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/31",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_31.jpg",
+        "imageVerified": true,
+        "verifiedName": "ドラキー",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -1481,10 +1485,14 @@
         "mech_02"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 32,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/32",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_32.jpg",
+        "imageVerified": true,
+        "verifiedName": "バブルスライム",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -1520,10 +1528,14 @@
         "mech_04"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 33,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/33",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_33.jpg",
+        "imageVerified": true,
+        "verifiedName": "いたずらもぐら",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -1561,10 +1573,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 34,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/34",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_34.jpg",
+        "imageVerified": true,
+        "verifiedName": "ゴースト",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -1600,10 +1616,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 35,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/35",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_35.jpg",
+        "imageVerified": true,
+        "verifiedName": "おばけキャンドル",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -1635,10 +1655,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 36,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/36",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_36.jpg",
+        "imageVerified": true,
+        "verifiedName": "モーモン",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -1674,10 +1698,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 37,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/37",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_37.jpg",
+        "imageVerified": true,
+        "verifiedName": "おばけヒトデ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -1713,10 +1741,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 38,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/38",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_38.jpg",
+        "imageVerified": true,
+        "verifiedName": "おおくちばし",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -1752,10 +1784,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 39,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/39",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_39.jpg",
+        "imageVerified": true,
+        "verifiedName": "ゆめにゅうどう",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -1797,10 +1833,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 40,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/40",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_40.jpg",
+        "imageVerified": true,
+        "verifiedName": "メラリザード",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -1836,10 +1876,14 @@
         "mech_04"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 41,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/41",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_41.jpg",
+        "imageVerified": true,
+        "verifiedName": "オニオーン",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -1875,10 +1919,14 @@
         "mech_07"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 42,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/42",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_42.jpg",
+        "imageVerified": true,
+        "verifiedName": "ホイップゴースト",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -1910,10 +1958,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 43,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/43",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_43.jpg",
+        "imageVerified": true,
+        "verifiedName": "シャドー",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -1951,10 +2003,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 44,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/44",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_44.jpg",
+        "imageVerified": true,
+        "verifiedName": "ホイミスライム",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -1996,10 +2052,14 @@
         "mech_11"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 45,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/45",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_45.jpg",
+        "imageVerified": true,
+        "verifiedName": "しにがみ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2031,10 +2091,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 46,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/46",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_46.jpg",
+        "imageVerified": true,
+        "verifiedName": "じんめんじゅ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2066,10 +2130,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 47,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/47",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_47.jpg",
+        "imageVerified": true,
+        "verifiedName": "サーベルきつね",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2105,10 +2173,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 48,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/48",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_48.jpg",
+        "imageVerified": true,
+        "verifiedName": "オーク",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2144,10 +2216,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 49,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/49",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_49.jpg",
+        "imageVerified": true,
+        "verifiedName": "おばけキノコ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2179,10 +2255,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 50,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/50",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_50.jpg",
+        "imageVerified": true,
+        "verifiedName": "フレイム",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2218,10 +2298,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 51,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/51",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_51.jpg",
+        "imageVerified": true,
+        "verifiedName": "たけやりへい",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2253,10 +2337,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 52,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/52",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_52.jpg",
+        "imageVerified": true,
+        "verifiedName": "プークプック",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2288,10 +2376,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 53,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/53",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_53.jpg",
+        "imageVerified": true,
+        "verifiedName": "リップス",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2327,10 +2419,14 @@
         "mech_04"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 54,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/54",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_54.jpg",
+        "imageVerified": true,
+        "verifiedName": "おおきづち",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2366,10 +2462,14 @@
         "mech_15"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 55,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/55",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_55.jpg",
+        "imageVerified": true,
+        "verifiedName": "ドロヌーバ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2405,10 +2505,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 56,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/56",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_56.jpg",
+        "imageVerified": true,
+        "verifiedName": "おむつっこり",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2446,10 +2550,14 @@
         "mech_02"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 57,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/57",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_57.jpg",
+        "imageVerified": true,
+        "verifiedName": "どくイモムシ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2485,10 +2593,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 58,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/58",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_58.jpg",
+        "imageVerified": true,
+        "verifiedName": "ももんじゃ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2524,10 +2636,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 59,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/59",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_59.jpg",
+        "imageVerified": true,
+        "verifiedName": "ナスビナーラ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2563,10 +2679,14 @@
         "mech_01"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 60,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/60",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_60.jpg",
+        "imageVerified": true,
+        "verifiedName": "ヘルコンドル",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2598,10 +2718,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 61,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/61",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_61.jpg",
+        "imageVerified": true,
+        "verifiedName": "イエローシックル",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2637,10 +2761,14 @@
         "mech_04"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 62,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/62",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_62.jpg",
+        "imageVerified": true,
+        "verifiedName": "よるのていおう",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2682,10 +2810,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 63,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/63",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_63.jpg",
+        "imageVerified": true,
+        "verifiedName": "マドハンド",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2721,10 +2853,14 @@
         "mech_07"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 64,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/64",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_64.jpg",
+        "imageVerified": true,
+        "verifiedName": "さまようたましい",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2760,10 +2896,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 65,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/65",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_65.jpg",
+        "imageVerified": true,
+        "verifiedName": "ミミック",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2799,10 +2939,14 @@
         "mech_12"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 66,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/66",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_66.jpg",
+        "imageVerified": true,
+        "verifiedName": "ゴーレム",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2844,10 +2988,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 67,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/67",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_67.jpg",
+        "imageVerified": true,
+        "verifiedName": "ダッシュラン",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2883,10 +3031,14 @@
         "mech_15"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 68,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/68",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_68.jpg",
+        "imageVerified": true,
+        "verifiedName": "あやしいかげ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2922,10 +3074,14 @@
         "mech_01"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 69,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/69",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_69.jpg",
+        "imageVerified": true,
+        "verifiedName": "ホークマン",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -2961,10 +3117,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 70,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/70",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_70.jpg",
+        "imageVerified": true,
+        "verifiedName": "マポレーナ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3000,10 +3160,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 71,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/71",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_71.jpg",
+        "imageVerified": true,
+        "verifiedName": "ミケまどう",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3045,10 +3209,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 72,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/72",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_72.jpg",
+        "imageVerified": true,
+        "verifiedName": "ボーンナイト",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3084,10 +3252,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 73,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/73",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_73.jpg",
+        "imageVerified": true,
+        "verifiedName": "からくりだいみょう",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3129,10 +3301,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 74,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/74",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_74.jpg",
+        "imageVerified": true,
+        "verifiedName": "フェアリードラゴン",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3168,10 +3344,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 75,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/75",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_75.jpg",
+        "imageVerified": true,
+        "verifiedName": "ふくまねき",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3207,10 +3387,14 @@
         "mech_04"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 76,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/76",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_76.jpg",
+        "imageVerified": true,
+        "verifiedName": "グリゴンダンス",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3248,10 +3432,14 @@
         "mech_16"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 77,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/77",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_77.jpg",
+        "imageVerified": true,
+        "verifiedName": "サイレス",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3293,10 +3481,14 @@
         "mech_02"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 78,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/78",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_78.jpg",
+        "imageVerified": true,
+        "verifiedName": "グール",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3332,10 +3524,14 @@
         "mech_08"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 79,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/79",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_79.jpg",
+        "imageVerified": true,
+        "verifiedName": "きとうし",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3371,10 +3567,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 80,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/80",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_80.jpg",
+        "imageVerified": true,
+        "verifiedName": "あらくれチャッピー",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3406,10 +3606,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 81,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/81",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_81.jpg",
+        "imageVerified": true,
+        "verifiedName": "亡者のひとだま",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3445,10 +3649,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 82,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/82",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_82.jpg",
+        "imageVerified": true,
+        "verifiedName": "ひくいどり",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3484,10 +3692,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 83,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/83",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_83.jpg",
+        "imageVerified": true,
+        "verifiedName": "しにがみのきし",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3519,10 +3731,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 84,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/84",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_84.jpg",
+        "imageVerified": true,
+        "verifiedName": "トロル",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3564,10 +3780,14 @@
         "mech_15"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 85,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/85",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_85.jpg",
+        "imageVerified": true,
+        "verifiedName": "かげのきし",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3609,10 +3829,14 @@
         "mech_12"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 86,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/86",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_86.jpg",
+        "imageVerified": true,
+        "verifiedName": "ガメゴン",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3648,10 +3872,14 @@
         "mech_15"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 87,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/87",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_87.jpg",
+        "imageVerified": true,
+        "verifiedName": "ホロゴースト",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3687,10 +3915,14 @@
         "mech_08"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 88,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/88",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_88.jpg",
+        "imageVerified": true,
+        "verifiedName": "ブラックルーン",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3722,10 +3954,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 89,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/89",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_89.jpg",
+        "imageVerified": true,
+        "verifiedName": "ねこまどう",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3757,10 +3993,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 90,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/90",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_90.jpg",
+        "imageVerified": true,
+        "verifiedName": "リリパット",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3796,10 +4036,14 @@
         "mech_07"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 91,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/91",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_91.jpg",
+        "imageVerified": true,
+        "verifiedName": "プチアーノン",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3835,10 +4079,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 92,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/92",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_92.jpg",
+        "imageVerified": true,
+        "verifiedName": "あばれこまいぬ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3874,10 +4122,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 93,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/93",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_93.jpg",
+        "imageVerified": true,
+        "verifiedName": "キメラ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3909,10 +4161,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 94,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/94",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_94.jpg",
+        "imageVerified": true,
+        "verifiedName": "メーダ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3950,10 +4206,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 95,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/95",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_95.jpg",
+        "imageVerified": true,
+        "verifiedName": "コープスフライ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -3985,10 +4245,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 96,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/96",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_96.jpg",
+        "imageVerified": true,
+        "verifiedName": "くしざしツインズ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4020,10 +4284,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 97,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/97",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_97.jpg",
+        "imageVerified": true,
+        "verifiedName": "トドマン",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4061,10 +4329,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 98,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/98",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_98.jpg",
+        "imageVerified": true,
+        "verifiedName": "ガチャコッコ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4108,10 +4380,14 @@
         "mech_09"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 99,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/99",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_99.jpg",
+        "imageVerified": true,
+        "verifiedName": "はぐれメタル",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4153,10 +4429,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 100,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/100",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_100.jpg",
+        "imageVerified": true,
+        "verifiedName": "スライムタワー",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4198,10 +4478,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 101,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/101",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_101.jpg",
+        "imageVerified": true,
+        "verifiedName": "ドラゴンキッズ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4233,10 +4517,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 102,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/102",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_102.jpg",
+        "imageVerified": true,
+        "verifiedName": "アローインプ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4272,10 +4560,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 103,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/103",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_103.jpg",
+        "imageVerified": true,
+        "verifiedName": "メガザルロック",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4317,10 +4609,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 104,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/104",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_104.jpg",
+        "imageVerified": true,
+        "verifiedName": "つららスライム",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4358,10 +4654,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 105,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/105",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_105.jpg",
+        "imageVerified": true,
+        "verifiedName": "メタルハンター",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4397,10 +4697,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 106,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/106",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_106.jpg",
+        "imageVerified": true,
+        "verifiedName": "どろにんぎょう",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4436,10 +4740,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 107,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/107",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_107.jpg",
+        "imageVerified": true,
+        "verifiedName": "ジャガーメイジ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4475,10 +4783,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 108,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/108",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_108.jpg",
+        "imageVerified": true,
+        "verifiedName": "キャットバット",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4514,10 +4826,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 109,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/109",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_109.jpg",
+        "imageVerified": true,
+        "verifiedName": "コサックシープ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4549,10 +4865,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 110,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/110",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_110.jpg",
+        "imageVerified": true,
+        "verifiedName": "じんめんガエル",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4588,10 +4908,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 111,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/111",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_111.jpg",
+        "imageVerified": true,
+        "verifiedName": "ドラキーマ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4629,10 +4953,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 112,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/112",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_112.jpg",
+        "imageVerified": true,
+        "verifiedName": "クイーンスライム",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4668,10 +4996,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 113,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/113",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_113.jpg",
+        "imageVerified": true,
+        "verifiedName": "ブルベリーノ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4707,10 +5039,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 114,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/114",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_114.jpg",
+        "imageVerified": true,
+        "verifiedName": "メッサーラ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4748,10 +5084,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 115,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/115",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_115.jpg",
+        "imageVerified": true,
+        "verifiedName": "オークキング",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4789,10 +5129,14 @@
         "mech_11"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 116,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/116",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_116.jpg",
+        "imageVerified": true,
+        "verifiedName": "シルバーデビル",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4836,10 +5180,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 117,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/117",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_117.jpg",
+        "imageVerified": true,
+        "verifiedName": "メタルライダー",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4871,10 +5219,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 118,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/118",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_118.jpg",
+        "imageVerified": true,
+        "verifiedName": "コングヘッド",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4906,10 +5258,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 119,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/119",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_119.jpg",
+        "imageVerified": true,
+        "verifiedName": "バリクナジャ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4941,10 +5297,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 120,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/120",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_120.jpg",
+        "imageVerified": true,
+        "verifiedName": "うごくせきぞう",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -4976,10 +5336,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 121,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/121",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_121.jpg",
+        "imageVerified": true,
+        "verifiedName": "エリミネーター",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5021,10 +5385,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 122,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/122",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_122.jpg",
+        "imageVerified": true,
+        "verifiedName": "マミー",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5060,10 +5428,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 123,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/123",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_123.jpg",
+        "imageVerified": true,
+        "verifiedName": "ゴールドオーク",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5105,10 +5477,14 @@
         "mech_07"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 124,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/124",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_124.jpg",
+        "imageVerified": true,
+        "verifiedName": "バトルレックス",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5148,10 +5524,14 @@
         "mech_02"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 125,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/125",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_125.jpg",
+        "imageVerified": true,
+        "verifiedName": "けがれの渦",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5187,10 +5567,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 126,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/126",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_126.jpg",
+        "imageVerified": true,
+        "verifiedName": "さまようよろい",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5222,10 +5606,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 127,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/127",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_127.jpg",
+        "imageVerified": true,
+        "verifiedName": "バロンナイト",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5257,10 +5645,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 128,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/128",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_128.jpg",
+        "imageVerified": true,
+        "verifiedName": "ブラックチャック",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5298,10 +5690,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 129,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/129",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_129.jpg",
+        "imageVerified": true,
+        "verifiedName": "ヘルゴースト",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5339,10 +5735,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 130,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/130",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_130.jpg",
+        "imageVerified": true,
+        "verifiedName": "エビルホーク",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5374,10 +5774,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 131,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/131",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_131.jpg",
+        "imageVerified": true,
+        "verifiedName": "バーサーカー",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5413,10 +5817,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 132,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/132",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_132.jpg",
+        "imageVerified": true,
+        "verifiedName": "ばくだん岩",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5454,10 +5862,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 133,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/133",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_133.jpg",
+        "imageVerified": true,
+        "verifiedName": "ワイトキング",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5499,10 +5911,14 @@
         "mech_04"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 134,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/134",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_134.jpg",
+        "imageVerified": true,
+        "verifiedName": "キングスライム",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5548,10 +5964,14 @@
         "mech_09"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 135,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/135",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_135.jpg",
+        "imageVerified": true,
+        "verifiedName": "メタルキング",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5587,10 +6007,14 @@
         "mech_07"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 136,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/136",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_136.jpg",
+        "imageVerified": true,
+        "verifiedName": "ギガンテス",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5626,10 +6050,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 137,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/137",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_137.jpg",
+        "imageVerified": true,
+        "verifiedName": "ランプのまじん",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5661,10 +6089,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 138,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/138",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_138.jpg",
+        "imageVerified": true,
+        "verifiedName": "じごくのつかい",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5700,10 +6132,14 @@
         "mech_04"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 139,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/139",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_139.jpg",
+        "imageVerified": true,
+        "verifiedName": "アンクルホーン",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5745,10 +6181,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 140,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/140",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_140.jpg",
+        "imageVerified": true,
+        "verifiedName": "ドラゴンゾンビ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5780,10 +6220,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 141,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/141",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_141.jpg",
+        "imageVerified": true,
+        "verifiedName": "トロルキング",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5825,10 +6269,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 142,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/142",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_142.jpg",
+        "imageVerified": true,
+        "verifiedName": "グレイトドラゴン",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5866,10 +6314,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 143,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/143",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_143.jpg",
+        "imageVerified": true,
+        "verifiedName": "バラモスゾンビ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5907,10 +6359,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 144,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/144",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_144.jpg",
+        "imageVerified": true,
+        "verifiedName": "キングリザード",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5942,10 +6398,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 145,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/145",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_145.jpg",
+        "imageVerified": true,
+        "verifiedName": "わたぼう",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -5987,10 +6447,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 146,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/146",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_146.jpg",
+        "imageVerified": true,
+        "verifiedName": "ドラゴン",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -6028,10 +6492,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 147,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/147",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_147.jpg",
+        "imageVerified": true,
+        "verifiedName": "ヒューザ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -6073,10 +6541,14 @@
         "mech_14"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 148,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/148",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_148.jpg",
+        "imageVerified": true,
+        "verifiedName": "ゴールデンスライム",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -6118,10 +6590,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 149,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/149",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_149.jpg",
+        "imageVerified": true,
+        "verifiedName": "カミュ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -6163,10 +6639,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 150,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/150",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_150.jpg",
+        "imageVerified": true,
+        "verifiedName": "アンルシア",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -6208,10 +6688,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 151,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/151",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_151.jpg",
+        "imageVerified": true,
+        "verifiedName": "ラヴィエル",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -6255,10 +6739,14 @@
         "mech_09"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 152,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/152",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_152.jpg",
+        "imageVerified": true,
+        "verifiedName": "ガボ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -6300,10 +6788,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 153,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/153",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_153.jpg",
+        "imageVerified": true,
+        "verifiedName": "ドラゴンガイア",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -6341,10 +6833,14 @@
       "keywords": [],
       "mechanicIds": [],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 154,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/154",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_154.jpg",
+        "imageVerified": true,
+        "verifiedName": "エスターク",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -6386,10 +6882,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 155,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/155",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_155.jpg",
+        "imageVerified": true,
+        "verifiedName": "やまたのおろち",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -6431,10 +6931,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 156,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/156",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_156.jpg",
+        "imageVerified": true,
+        "verifiedName": "ハーゴン",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -6476,10 +6980,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 157,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/157",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_157.jpg",
+        "imageVerified": true,
+        "verifiedName": "マルティナ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -6515,10 +7023,14 @@
         "mech_06"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 158,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/158",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_158.jpg",
+        "imageVerified": true,
+        "verifiedName": "バルザック",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -6560,10 +7072,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 159,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/159",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_159.jpg",
+        "imageVerified": true,
+        "verifiedName": "りゅうおう",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -6607,10 +7123,14 @@
         "mech_05"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 160,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/160",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_160.jpg",
+        "imageVerified": true,
+        "verifiedName": "バラモス",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -6652,10 +7172,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 161,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/161",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_161.jpg",
+        "imageVerified": true,
+        "verifiedName": "グラコス",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -6697,10 +7221,14 @@
         "mech_03"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 162,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/162",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_162.jpg",
+        "imageVerified": true,
+        "verifiedName": "シドー",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
@@ -6744,10 +7272,14 @@
         "mech_17"
       ],
       "official": {
-        "site": "gameconductor",
-        "imageVerified": false,
-        "nameVerified": false,
-        "imageStatus": "hidden_until_official_exact_name_sync"
+        "source": "gameconductor",
+        "officialId": 163,
+        "detailUrl": "https://gameconductor.com/dqrivals/c/d/163",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_163.jpg",
+        "imageVerified": true,
+        "verifiedName": "ゾーマ",
+        "verificationMethod": "manual-official-list-order-common-base-block",
+        "verificationNote": "公式DB全カード一覧の先頭共通ブロックとローカルJSONの共通カード順を照合。公式リンクIDは詳細URLの /c/d/{officialId} に対応。"
       }
     },
     {
