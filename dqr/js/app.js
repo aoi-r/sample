@@ -137,6 +137,10 @@ function visibleCards(){
   }).sort((a,b) => (a.cost ?? 0) - (b.cost ?? 0) || String(a.name).localeCompare(String(b.name),'ja'));
 }
 
+function getOfficialImage(card){
+  return card.official?.imageVerified === true && card.official?.imageUrl ? card.official.imageUrl : '';
+}
+
 function renderCards(){
   const grid = $('card-grid'); grid.innerHTML = '';
   if(!state.selectedClass){ $('card-count-label').textContent = 'まず職業を選択してください。'; return; }
@@ -147,7 +151,7 @@ function renderCards(){
     const node = tpl.content.firstElementChild.cloneNode(true);
     node.querySelector('.cost').textContent = card.cost ?? '-';
     node.querySelector('.name').textContent = card.name;
-    const imgUrl = card.official?.imageUrl;
+    const imgUrl = getOfficialImage(card);
     if(imgUrl){
       const img = document.createElement('img');
       img.className = 'card-thumb'; img.loading = 'lazy'; img.src = imgUrl; img.alt = card.name;
@@ -300,7 +304,8 @@ function baseDetail(card){
   const buildable = card.flags?.deckBuildable === false ? 'デッキ編成不可 / 効果で取得・進化・システム用' : 'デッキ編成可';
   const reason = card.flags?.deckBuildRuleReason ? `<p>整理理由: ${escapeHtml(card.flags.deckBuildRuleReason.join(' / '))}</p>` : '';
   const official = card.official?.cardPageUrl ? `<p><a href="${escapeHtml(card.official.cardPageUrl)}" target="_blank" rel="noreferrer">公式DBページを開く</a></p>` : '';
-  const img = card.official?.imageUrl ? `<img class="detail-card-image" src="${escapeHtml(card.official.imageUrl)}" alt="${escapeHtml(card.name)}" onerror="this.remove()">` : '';
+  const safeImgUrl = getOfficialImage(card);
+  const img = safeImgUrl ? `<img class="detail-card-image" src="${escapeHtml(safeImgUrl)}" alt="${escapeHtml(card.name)}" onerror="this.remove()">` : '';
   return `<div class="detail-block"><h4>カード情報</h4>${img}<p><b>${buildable}</b></p>${reason}${official}<p>コスト: ${card.cost ?? '-'} / 種類: ${escapeHtml(card.cardType || '')} / レア: ${escapeHtml(card.rarity || '')}</p><p>職業: ${escapeHtml((card.classes||[]).join('・'))}</p><p>系統: ${escapeHtml((card.tribes||[]).join('・') || 'なし')}</p><p>${escapeHtml(card.text || '—')}</p><p>${(card.keywords||[]).map(k=>`<span class="chip">${escapeHtml(k)}</span>`).join(' ')}</p></div>`;
 }
 function relatedDetail(card){

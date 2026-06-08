@@ -1,0 +1,589 @@
+{
+  "schemaVersion": "1.0.0",
+  "type": "dqr.heroSkillAndGeneratedCards",
+  "note": "通常デッキに入らず、ヒーローカードの進化/レベルアップ後やカード効果で使用可能になるカードの整理。",
+  "rules": {
+    "heroStarterDeckRule": "ヒーローカード本体は0枚でも複数枚でも編成可能。同名レジェンドは1枚制限。",
+    "heroSkillCardDeckRule": "ヒーロースキル/進化後に出る特殊カードは編成不可。",
+    "roxannePackRule": "銅・銀・金のカードパックはロクサーヌ召喚時に選んで手札に加える。",
+    "lightOrbRule": "光の玉はゾーマ召喚時に相手のデッキの一番上に置かれる対策トークン。"
+  },
+  "heroSkillCards": [
+    {
+      "name": "我が腕の中で息絶えるがいい",
+      "cardId": "card_bbfca125",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "必殺技、全てを滅ぼす者ゾーマを手札に1枚加える。この効果は自分の場と手札に全てを滅ぼす者ゾーマが存在しない場合に使用できる",
+      "official": {
+        "site": "gameconductor",
+        "officialId": "1036",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1036",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1036.jpg",
+        "imageVerified": true,
+        "nameVerified": true,
+        "buildScore": 0,
+        "arenaScore": 0,
+        "category": "トークン",
+        "sourceNote": "manual_verified_from_gameconductor_detail"
+      }
+    },
+    {
+      "name": "精霊ルビスの加護",
+      "cardId": "card_bf5916e1",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "自分がコスト3以上の特技を使った後 そのコストにより以下の効果が自動的に発動する コスト3以上:MP1回復、コスト5以上:テンション+1、コスト7以上:カードを1枚引く",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "滅びこそ我が喜び",
+      "cardId": "card_42e36f4a",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "ユニット1体に4ダメージ。カードを1枚引く。この効果は自分の手札に魔王系カードがある場合にのみ使用できる。",
+      "official": {
+        "site": "gameconductor",
+        "officialId": "1035",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1035",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1035.jpg",
+        "imageVerified": true,
+        "nameVerified": true,
+        "buildScore": 0,
+        "arenaScore": 0,
+        "category": "トークン",
+        "sourceNote": "manual_verified_from_gameconductor_detail"
+      }
+    },
+    {
+      "name": "癒しをあなたに",
+      "cardId": "card_43e14174",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "味方リーダーのHPを2回復。カードを1枚引く",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "なかまとの出会い",
+      "cardId": "card_c087818a",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "自分のデッキから冒険者カードを1枚加える",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "わたしのとくいわざ",
+      "cardId": "card_f80e421c",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "ユニット1体に2ダメージ",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "贈り物をみんなに",
+      "cardId": "card_4f889204",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "味方ユニット1体にHP+1と「次の相手のターン終了時まで特技ダメージを受けない」を付与する",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "竜王一閃",
+      "cardId": "card_9de9cca3",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "必殺技、敵ユニット1体に7ダメージを与える",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "覚醒の光",
+      "cardId": "card_7758b044",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "自分のデッキと手札と場の冒険者を+1/+1する",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "王女救出",
+      "cardId": "card_5ba21d92",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "敵ユニット1体に2ダメージを与える。 レベル3にレベルアップした時王女の愛を手札に加える",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "天空への挑戦",
+      "cardId": "card_80d81e5c",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "自分のデッキから特技カードまたは武器カードを1枚引く",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "破壊神との決戦",
+      "cardId": "card_afa6175b",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "対象にできる敵ユニットがいる間敵リーダーを対象にできない。敵1体に1ダメージ、その後 ダメージが1に戻る。自分が特技以外の手札を使う度ダメージ+1",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "勇者の雷",
+      "cardId": "card_66ffa151",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "ランダムな敵1体に2ダメージ。このターン中味方リーダーが攻撃していた場合代わりに4ダメージ",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "裁きを彼らに",
+      "cardId": "card_b7c7bfc4",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "必殺技：すべての敵に3ダメージ",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "死にゆく者こそ美しい",
+      "cardId": "card_ad14a2eb",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "全ての敵ユニットを封印した後それらのユニットに3ダメージ。この効果は自分の手札に魔王系カードがある場合にのみ使用できる。",
+      "official": {
+        "site": "gameconductor",
+        "officialId": "1039",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1039",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1039.jpg",
+        "imageVerified": true,
+        "nameVerified": true,
+        "buildScore": 0,
+        "arenaScore": 0,
+        "category": "トークン",
+        "sourceNote": "manual_verified_from_gameconductor_detail"
+      }
+    },
+    {
+      "name": "導かれし者たち",
+      "cardId": "card_fb82c9ff",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "自分の手札にある全ての冒険者カードのコストを0にする",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "家族の絆",
+      "cardId": "card_138b3534",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "次の自分のターン開始時味方リーダーは「この対戦の間自分が手札を使う度敵リーダーに2ダメージ」を得る",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "姫君との結婚",
+      "cardId": "card_0d5bde5a",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "この対戦の間自分のターン開始時テンション+3、さらにカードを1枚引く、スキルブースト:コスト-1",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "この手に切り札を",
+      "cardId": "card_35df1a02",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "自分のデッキからBETを持つカードを1枚手札に加える",
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1217",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "removed_until_name_verified"
+      }
+    },
+    {
+      "name": "アゲていくわよ",
+      "cardId": "card_1019e573",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "味方のBETが発動した後味方リーダーのテンション+1、この効果は条件を満たすと自動的に発動する",
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1218",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "removed_until_name_verified"
+      }
+    },
+    {
+      "name": "小魚への施し",
+      "cardId": "card_a9667a86",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "コイン1〜4枚を以下の確率で手札に加える。1枚30%、2枚40%、3枚20%、4枚10%",
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1221",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "removed_until_name_verified"
+      }
+    },
+    {
+      "name": "破邪の秘技・勇者の眼",
+      "cardId": "card_d4598f73",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "自分のデッキの上からカードを3枚見る。1枚を手札に加え、残りをデッキの下に戻す。 ヒーロースキルがランダムな別の破邪の秘技になる。",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "破邪の秘技・勇者の心",
+      "cardId": "card_5357b154",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "味方リーダーのテンション+3。 ヒーロースキルがランダムな別の破邪の秘技になる。",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "破邪の秘技・勇者の光",
+      "cardId": "card_4cc999a9",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "敵1体を次のターン終了時まで攻撃不能にする。 ヒーロースキルがランダムな別の破邪の秘技になる。",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "破邪の秘技の会得",
+      "cardId": "card_189f0ab3",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "ユニット1体に6ダメージ。ヒーロースキルがランダムな破邪の秘技になる。",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "破邪の秘技・勇者の盾",
+      "cardId": "card_618dd613",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "全ての味方に「次のターン終了時まで受けるダメージ-2」を付与する。 ヒーロースキルがランダムな別の破邪の秘技になる。",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "モンスターマスター",
+      "cardId": "card_2404a9f4",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "「青い闘魂スラぼう」「豪腕王アントン」「韋駄天のドラまさ」からランダムに1体出す",
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/896",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "removed_until_name_verified"
+      }
+    },
+    {
+      "name": "灼熱とうこん討ち",
+      "cardId": "card_41ba8d52",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "敵1体に2ダメージ。このテンションスキルで対象のユニットが死亡した場合味方リーダーのテンションを+1して武器カード1枚を手札に加える",
+      "official": {
+        "site": "gameconductor",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "not_synced"
+      }
+    },
+    {
+      "name": "英雄竜の祝福",
+      "cardId": "card_5095257f",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "味方全体のHPを3回復する。ランダムなドラゴン系の味方ユニット1体を復活させる",
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/694",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "removed_until_name_verified"
+      }
+    },
+    {
+      "name": "竜の導き",
+      "cardId": "card_de2ffa5f",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "自分のデッキからドラゴン系のユニットカードをランダムに1枚手札に加える。 そのカードのコストを−１。",
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/700",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "removed_until_name_verified"
+      }
+    },
+    {
+      "name": "死者の目覚め",
+      "cardId": "card_a2c506cd",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "obtainOnly": true,
+      "source": "hero_evolution_or_hero_skill",
+      "text": "3/3のミイラおとこを出す",
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/701",
+        "imageVerified": false,
+        "nameVerified": false,
+        "imageStatus": "removed_until_name_verified"
+      }
+    }
+  ],
+  "generatedByCard": [
+    {
+      "name": "光の玉",
+      "cardId": "card_a18379ec",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "sourceCardName": "ゾーマ",
+      "obtainTiming": "ゾーマ召喚時、相手のデッキの一番上に置かれる",
+      "text": "闇の衣を持つ全ての敵を封印する",
+      "official": {
+        "site": "gameconductor",
+        "officialId": "726",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/726",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_726.jpg",
+        "imageVerified": true,
+        "nameVerified": true,
+        "buildScore": 0,
+        "arenaScore": 0,
+        "category": "トークン",
+        "sourceNote": "manual_verified_from_gameconductor_detail"
+      }
+    },
+    {
+      "name": "銅のカードパック",
+      "cardId": "card_67bea35a",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "sourceCardName": "ロクサーヌ",
+      "obtainTiming": "ロクサーヌ召喚時に選んで手札に加える",
+      "text": "以下の割合で抽選された4枚のカードを手札に加える 4枚全て：ノーマル50%、レア40%、スーパーレア9%、レジェンドレア1%",
+      "official": {
+        "site": "gameconductor",
+        "officialId": "1026",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1026",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1026.jpg",
+        "imageVerified": true,
+        "nameVerified": true,
+        "buildScore": 0,
+        "arenaScore": 0,
+        "category": "トークン",
+        "sourceNote": "manual_verified_from_gameconductor_detail"
+      }
+    },
+    {
+      "name": "銀のカードパック",
+      "cardId": "card_2a2c02e9",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "sourceCardName": "ロクサーヌ",
+      "obtainTiming": "ロクサーヌ召喚時に選んで手札に加える",
+      "text": "以下の割合で抽選された3枚のカードを手札に加える。3枚全て：ノーマル20%、レア20%、スーパーレア50%、レジェンドレア10%",
+      "official": {
+        "site": "gameconductor",
+        "officialId": "1028",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1028",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1028.jpg",
+        "imageVerified": true,
+        "nameVerified": true,
+        "buildScore": 0,
+        "arenaScore": 0,
+        "category": "トークン",
+        "sourceNote": "manual_verified_from_gameconductor_detail"
+      }
+    },
+    {
+      "name": "金のカードパック",
+      "cardId": "card_22d234e5",
+      "existsInCardsJson": true,
+      "deckBuildable": false,
+      "sourceCardName": "ロクサーヌ",
+      "obtainTiming": "ロクサーヌ召喚時に選んで手札に加える",
+      "text": "以下の割合で抽選された2枚のカードを手札に加える。1枚目：レジェドレア100%、2枚目、レア20%、スーパーレア30%、レジェンドレア50%",
+      "official": {
+        "site": "gameconductor",
+        "officialId": "1031",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1031",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1031.jpg",
+        "imageVerified": true,
+        "nameVerified": true,
+        "buildScore": 0,
+        "arenaScore": 0,
+        "category": "トークン",
+        "sourceNote": "manual_verified_from_gameconductor_detail"
+      }
+    }
+  ]
+}
