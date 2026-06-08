@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "1.0.0",
+  "type": "dqr.dungeons",
+  "cards": [
+    {
+      "cardId": "card_19999023",
+      "name": "沼地の洞くつ",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "建物",
+      "text": "ダンジョン(耐久値5で踏破）、自分のターン終了時隣接している味方ユニットがいるなら耐久値+1、踏破時:王女の愛1枚を手札に加える",
+      "dungeonId": "dungeon_27db1c20",
+      "clearDurability": 5,
+      "progressConditionText": "ダンジョン(耐久値5で踏破)、自分のターン終了時隣接している味方ユニットがいるなら耐久値+1",
+      "completionEffectText": "王女の愛1枚を手札に加える",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_1c821e42",
+      "name": "守りのほこら",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "建物",
+      "text": "ダンジョン(耐久値5で踏破)、味方リーダーが攻撃した後耐久値+1、踏破時:ランダムなコスト4のユニットをこの場所に出しにおうだちを付与する",
+      "dungeonId": "dungeon_1bf2af33",
+      "clearDurability": 5,
+      "progressConditionText": "ダンジョン(耐久値5で踏破)、味方リーダーが攻撃した後耐久値+1",
+      "completionEffectText": "ランダムなコスト4のユニットをこの場所に出しにおうだちを付与する",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_79cc5068",
+      "name": "仙人のほら穴",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "建物",
+      "text": "ダンジョン(耐久値13で踏破)、コスト1〜8の中から使用していないコストの特技を使用すると耐久値+2、踏破時:ドルマドン1枚を手札に加える",
+      "dungeonId": "dungeon_0cd38e6a",
+      "clearDurability": 13,
+      "progressConditionText": "ダンジョン(耐久値13で踏破)、コスト1〜8の中から使用していないコストの特技を使用すると耐久値+2",
+      "completionEffectText": "ドルマドン1枚を手札に加える",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_fbbeab37",
+      "name": "ピラミッド",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "建物",
+      "text": "ダンジョン(耐久値11で踏破)、自分が武闘家のカードを使う度耐久値+1、踏破時：おうごんのつめ1枚を手札に加える。3/3のミイラおとこを2体出す",
+      "dungeonId": "dungeon_9d321591",
+      "clearDurability": 11,
+      "progressConditionText": "ダンジョン(耐久値11で踏破)、自分が武闘家のカードを使う度耐久値+1",
+      "completionEffectText": "おうごんのつめ1枚を手札に加える。3/3のミイラおとこを2体出す",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_12c0c735",
+      "name": "ロンダルキアへの洞くつ",
+      "classes": [
+        "僧侶"
+      ],
+      "cardType": "建物",
+      "text": "ダンジョン（耐久値7で踏破)、テンションリンク:耐久値+1、踏破時：ランダムなコスト2のユニットを3体出し速攻を与える",
+      "dungeonId": "dungeon_20b4821d",
+      "clearDurability": 7,
+      "progressConditionText": "ダンジョン(耐久値7で踏破)、テンションリンク:耐久値+1",
+      "completionEffectText": "ランダムなコスト2のユニットを3体出し速攻を与える",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_2f73a37d",
+      "name": "不思議のダンジョン",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "建物",
+      "text": "ダンジョン(耐久値9で踏破)、味方ユニットが場に出る度耐久値+1、踏破時：しあわせの箱1枚を手札に加える",
+      "dungeonId": "dungeon_0df0d4d9",
+      "clearDurability": 9,
+      "progressConditionText": "ダンジョン(耐久値9で踏破)、味方ユニットが場に出る度耐久値+1",
+      "completionEffectText": "しあわせの箱1枚を手札に加える",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_de982b53",
+      "name": "炎のほこら",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "建物",
+      "text": "ダンジョン（耐久値7で踏破)、自分が占いカードを使う度耐久値+1、踏破時:占い三人衆を1枚ずつ手札に加えそれらのコストを1にする",
+      "dungeonId": "dungeon_c0066cb0",
+      "clearDurability": 7,
+      "progressConditionText": "ダンジョン(耐久値7で踏破)、自分が占いカードを使う度耐久値+1",
+      "completionEffectText": "占い三人衆を1枚ずつ手札に加えそれらのコストを1にする",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_dfb14f49",
+      "name": "アンデッドガーデン",
+      "classes": [
+        "魔剣士"
+      ],
+      "cardType": "建物",
+      "text": "ダンジョン(耐久値13で踏破)、味方ユニットが死亡する度 耐久値+1 自分の最大MPが8以上なら代わりに耐久値+2、踏破時:自分の最大MPが15になる カードを2枚引く",
+      "dungeonId": "dungeon_595f323a",
+      "clearDurability": 13,
+      "progressConditionText": "ダンジョン(耐久値13で踏破)、味方ユニットが死亡する度 耐久値+1 自分の最大MPが8以上なら代わりに耐久値+2",
+      "completionEffectText": "自分の最大MPが15になる カードを2枚引く",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_a1ebcdb5",
+      "name": "デルカダール地下水路",
+      "classes": [
+        "盗賊"
+      ],
+      "cardType": "建物",
+      "text": "ダンジョン(耐久値8で踏破)、味方が攻撃した後 耐久値+1、踏破時:カードを3枚引く",
+      "dungeonId": "dungeon_77abee26",
+      "clearDurability": 8,
+      "progressConditionText": "ダンジョン(耐久値8で踏破)、味方が攻撃した後 耐久値+1",
+      "completionEffectText": "カードを3枚引く",
+      "needsReview": false
+    }
+  ],
+  "index": {
+    "byCardId": {
+      "card_19999023": "dungeon_27db1c20",
+      "card_1c821e42": "dungeon_1bf2af33",
+      "card_79cc5068": "dungeon_0cd38e6a",
+      "card_fbbeab37": "dungeon_9d321591",
+      "card_12c0c735": "dungeon_20b4821d",
+      "card_2f73a37d": "dungeon_0df0d4d9",
+      "card_de982b53": "dungeon_c0066cb0",
+      "card_dfb14f49": "dungeon_595f323a",
+      "card_a1ebcdb5": "dungeon_77abee26"
+    }
+  }
+}

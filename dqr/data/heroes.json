@@ -1,0 +1,909 @@
+{
+  "schemaVersion": "1.0.0",
+  "type": "dqr.heroes",
+  "note": "ヒーロー始動カードとヒーロースキル関連カードを本文から抽出。各ヒーロースキルのレベル別詳細は本文に無いものがあるため skills は手動補完前提。",
+  "heroes": [
+    {
+      "heroId": "hero_9a9a695a",
+      "name": "ロトの血を引く者",
+      "starterCardId": "card_1e4de00f",
+      "starterCardName": "ロトの血を引く者",
+      "skillKind": "ヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    },
+    {
+      "heroId": "hero_6ef0a82c",
+      "name": "勇者エイト",
+      "starterCardId": "card_82e59f32",
+      "starterCardName": "勇者エイト",
+      "skillKind": "ヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    },
+    {
+      "heroId": "hero_9c372a50",
+      "name": "勇者ソロ",
+      "starterCardId": "card_b0cb8fe8",
+      "starterCardName": "勇者ソロ",
+      "skillKind": "ヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    },
+    {
+      "heroId": "hero_05b9d253",
+      "name": "レックス",
+      "starterCardId": "card_10321754",
+      "starterCardName": "レックス",
+      "skillKind": "ヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    },
+    {
+      "heroId": "hero_a43908cd",
+      "name": "タバサ",
+      "starterCardId": "card_851ec231",
+      "starterCardName": "タバサ",
+      "skillKind": "ヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    },
+    {
+      "heroId": "hero_b3457052",
+      "name": "勇者姫アンルシア",
+      "starterCardId": "card_36b9696d",
+      "starterCardName": "勇者姫アンルシア",
+      "skillKind": "ヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    },
+    {
+      "heroId": "hero_084aa20a",
+      "name": "大魔王ゾーマ",
+      "starterCardId": "card_a9c23817",
+      "starterCardName": "大魔王ゾーマ",
+      "skillKind": "アンチヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    },
+    {
+      "heroId": "hero_07cd3f0b",
+      "name": "天空の花嫁フローラ",
+      "starterCardId": "card_794289cd",
+      "starterCardName": "天空の花嫁フローラ",
+      "skillKind": "ヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    },
+    {
+      "heroId": "hero_e10ef9ff",
+      "name": "天空の花嫁ビアンカ",
+      "starterCardId": "card_51f4f83e",
+      "starterCardName": "天空の花嫁ビアンカ",
+      "skillKind": "ヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    },
+    {
+      "heroId": "hero_f31fb4b0",
+      "name": "天空の花嫁デボラ",
+      "starterCardId": "card_796cac42",
+      "starterCardName": "天空の花嫁デボラ",
+      "skillKind": "ヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    },
+    {
+      "heroId": "hero_ec4757a6",
+      "name": "ビルド",
+      "starterCardId": "card_00506ea3",
+      "starterCardName": "ビルド",
+      "skillKind": "ヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    },
+    {
+      "heroId": "hero_7f4edd85",
+      "name": "少年シドー",
+      "starterCardId": "card_90410d54",
+      "starterCardName": "少年シドー",
+      "skillKind": "ヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    },
+    {
+      "heroId": "hero_5695fb21",
+      "name": "勇者イレブン",
+      "starterCardId": "card_1d3ad0d4",
+      "starterCardName": "勇者イレブン",
+      "skillKind": "ヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    },
+    {
+      "heroId": "hero_19f916b4",
+      "name": "ローレシアの王子",
+      "starterCardId": "card_7487ea39",
+      "starterCardName": "ローレシアの王子",
+      "skillKind": "ヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    },
+    {
+      "heroId": "hero_3485698e",
+      "name": "ムーンブルクの王女",
+      "starterCardId": "card_909b374d",
+      "starterCardName": "ムーンブルクの王女",
+      "skillKind": "ヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    },
+    {
+      "heroId": "hero_2d4c9ccd",
+      "name": "守り人ナイン",
+      "starterCardId": "card_d22aee70",
+      "starterCardName": "守り人ナイン",
+      "skillKind": "ヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    },
+    {
+      "heroId": "hero_f6139d24",
+      "name": "勇者レック",
+      "starterCardId": "card_550b977c",
+      "starterCardName": "勇者レック",
+      "skillKind": "ヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    },
+    {
+      "heroId": "hero_f4b87ef1",
+      "name": "伝説の勇者",
+      "starterCardId": "card_ee97d74d",
+      "starterCardName": "伝説の勇者",
+      "skillKind": "ヒーロースキル",
+      "skills": [],
+      "needsSkillDataReview": true
+    }
+  ],
+  "relatedCards": [
+    {
+      "cardId": "card_836a79fd",
+      "name": "シーゴーレム",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：味方ヒーローがいる場合HP+2とにおうだちを得る",
+      "heroSystemId": "hero_ref_e3889cee",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_4d7940de",
+      "name": "ピッキー",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "いずれかのプレイヤーのヒーロースキルが発動する度両プレイヤーはカードを1枚引く",
+      "heroSystemId": "hero_ref_b88f7f00",
+      "relation": "related",
+      "heroName": "いずれかのプレイヤー",
+      "skillKind": "ヒーロースキル"
+    },
+    {
+      "cardId": "card_e3e69707",
+      "name": "まほうじじい",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "味方ヒーローのヒーロースキルはコストが1下がる",
+      "heroSystemId": "hero_ref_4df98b33",
+      "relation": "related",
+      "heroName": "味方ヒーロー",
+      "skillKind": "ヒーロースキル"
+    },
+    {
+      "cardId": "card_1158ea6f",
+      "name": "ホワイトビート",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "ヒーロースキルを1ターンに2回まで発動できるようになる",
+      "heroSystemId": "hero_ref_ed7c705f",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_d05b74e8",
+      "name": "エビルアップル",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "味方のヒーロースキルが発動したターン中手札にあるこのユニットのコスト-2",
+      "heroSystemId": "hero_ref_9eca316e",
+      "relation": "related",
+      "heroName": "味方",
+      "skillKind": "ヒーロースキル"
+    },
+    {
+      "cardId": "card_d1581a32",
+      "name": "はしりとかげ",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "いずれかのプレイヤーのヒーロースキルが発動した後味方リーダーを3回復",
+      "heroSystemId": "hero_ref_14ed409c",
+      "relation": "related",
+      "heroName": "いずれかのプレイヤー",
+      "skillKind": "ヒーロースキル"
+    },
+    {
+      "cardId": "card_aef91017",
+      "name": "ムーンフェイス",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：敵ヒーローのレベルを1下げる",
+      "heroSystemId": "hero_ref_7840524c",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_503c148f",
+      "name": "メドーサボール",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "味方ヒーローのヒーロースキルが発動した後自分のデッキからシンクロを持つカードを1枚引く",
+      "heroSystemId": "hero_ref_7257adb0",
+      "relation": "related",
+      "heroName": "味方ヒーロー",
+      "skillKind": "ヒーロースキル"
+    },
+    {
+      "cardId": "card_d4598f73",
+      "name": "破邪の秘技・勇者の眼",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "自分のデッキの上からカードを3枚見る。1枚を手札に加え、残りをデッキの下に戻す。 ヒーロースキルがランダムな別の破邪の秘技になる。",
+      "heroSystemId": "hero_ref_165a95c6",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_5357b154",
+      "name": "破邪の秘技・勇者の心",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "味方リーダーのテンション+3。 ヒーロースキルがランダムな別の破邪の秘技になる。",
+      "heroSystemId": "hero_ref_f4fad9c5",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_4cc999a9",
+      "name": "破邪の秘技・勇者の光",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "敵1体を次のターン終了時まで攻撃不能にする。 ヒーロースキルがランダムな別の破邪の秘技になる。",
+      "heroSystemId": "hero_ref_e4b24ed3",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_189f0ab3",
+      "name": "破邪の秘技の会得",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "ユニット1体に6ダメージ。ヒーロースキルがランダムな破邪の秘技になる。",
+      "heroSystemId": "hero_ref_48b4b8c0",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_618dd613",
+      "name": "破邪の秘技・勇者の盾",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "全ての味方に「次のターン終了時まで受けるダメージ-2」を付与する。 ヒーロースキルがランダムな別の破邪の秘技になる。",
+      "heroSystemId": "hero_ref_5ff3b526",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_0f94fe18",
+      "name": "グレイトボンバー",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "におうだち、死亡時：味方ヒーローがいるなら全てのユニットに2ダメージ",
+      "heroSystemId": "hero_ref_eede6b2f",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_72848502",
+      "name": "くらやみにゅうどう",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:次の相手のターン中敵のヒーロースキルは使用できず発動もしない",
+      "heroSystemId": "hero_ref_72b057bf",
+      "relation": "related",
+      "heroName": "召喚時:次の相手のターン中敵",
+      "skillKind": "ヒーロースキル"
+    },
+    {
+      "cardId": "card_a0c085e2",
+      "name": "劇場",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "建物",
+      "text": "おうえん、自分が必殺技を持つカードか必殺技を持つヒーロースキルを使用した後カードを1枚引く。自分のターン終了時耐久値-1。",
+      "heroSystemId": "hero_ref_55de7323",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_c3063bd9",
+      "name": "フォレストマスター",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：味方ヒーローがいない場合このターン中、次に使用する英雄カードのコスト-3。味方ヒーローがいる場合+1/+1",
+      "heroSystemId": "hero_ref_ce8c193e",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_321de02f",
+      "name": "王子の覚悟",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "敵1体に1ダメージ、自分のデッキに特技カードが無いならこのヒーロースキルのコスト-1、さらに使用後すぐにレベル2になる",
+      "heroSystemId": "hero_ref_9e2117d7",
+      "relation": "related",
+      "heroName": "敵1体に1ダメージ、自分のデッキに特技カードが無いならこ",
+      "skillKind": "ヒーロースキル"
+    },
+    {
+      "cardId": "card_1aa890f0",
+      "name": "紋章を探す旅",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "対象にできる敵ユニットがいる間敵リーダーを対象にできない。敵1体に2ダメージ、その後このヒーロースキルのコスト+1、ダメージ+1",
+      "heroSystemId": "hero_ref_2946aff9",
+      "relation": "related",
+      "heroName": "対象にできる敵ユニットがいる間敵リーダーを対象にできない。敵1体に2ダメージ、その後こ",
+      "skillKind": "ヒーロースキル"
+    },
+    {
+      "cardId": "card_822981d8",
+      "name": "サマルトリアの王子",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ヒーロー",
+      "text": "サマルトリアの王子のヒーロースキルが使えるようになる。このカードは最初の手札と初回のカードの入れ替えの時手札に来ない",
+      "heroSystemId": "hero_ref_5d7ff297",
+      "relation": "related",
+      "heroName": "サマルトリアの王子",
+      "skillKind": "ヒーロースキル"
+    },
+    {
+      "cardId": "card_6ad406a8",
+      "name": "白煙のホワイトビート",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:次の相手のターン終了時までステルスを得る。味方のヒーロースキルを2回まで発動できるようになる",
+      "heroSystemId": "hero_ref_4a412e09",
+      "relation": "related",
+      "heroName": "召喚時:次の相手のターン終了時までステルスを得る。味方",
+      "skillKind": "ヒーロースキル"
+    },
+    {
+      "cardId": "card_51e3a4ad",
+      "name": "パプリカン",
+      "classes": [
+        "戦士"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：味方ヒーローがいる場合装備中の武器を+1/+1",
+      "heroSystemId": "hero_ref_323a52c8",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_d7077797",
+      "name": "ブラッドソード",
+      "classes": [
+        "戦士"
+      ],
+      "cardType": "ユニット",
+      "text": "死亡時：味方ヒーローがいる場合自分のデッキからコスト2以下の武器を装備する。",
+      "heroSystemId": "hero_ref_bb64b1fa",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_6ebbbeb0",
+      "name": "デビルアーマー",
+      "classes": [
+        "戦士"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：味方ヒーローがいる場合手札にあるランダムな武器を装備する",
+      "heroSystemId": "hero_ref_3e5f67b1",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_d13dbf79",
+      "name": "キングムーチョ",
+      "classes": [
+        "戦士"
+      ],
+      "cardType": "ユニット",
+      "text": "におうだち、召喚時：味方ヒーローがいる場合味方リーダーが装備中の武器を+1/+1",
+      "heroSystemId": "hero_ref_2bd0e286",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_87f4d7ac",
+      "name": "メイジももんじゃ",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：味方ヒーローがいる場合ヒャドを手札に加える",
+      "heroSystemId": "hero_ref_1dedf876",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_33613a86",
+      "name": "ラリホービートル",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：味方ヒーローがいる場合敵ユニット1体を次のターン終了時まで攻撃不能にする。",
+      "heroSystemId": "hero_ref_f1b0f783",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_c1272903",
+      "name": "ヒャドの極意",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "特技",
+      "text": "ヒャド1枚を手札に加える。味方ヒーローがいる場合代わりに2枚加える",
+      "heroSystemId": "hero_ref_6828dbbf",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_f9120cf5",
+      "name": "アークマージ",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "ユニット",
+      "text": "この対戦の間ヒーロースキルが発動した回数分攻撃力+1を得る。このユニットの攻撃力が5以上の場合さらに特技ダメージ+2を得る。",
+      "heroSystemId": "hero_ref_32e8fbd1",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_8ffda489",
+      "name": "ピオリム",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "特技",
+      "text": "このターン中ヒーロースキルを2回発動できる。 カードを1枚引く",
+      "heroSystemId": "hero_ref_997196c0",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_513a64ec",
+      "name": "魔導召喚",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "特技",
+      "text": "5/4のスノーホムンクルスを1体出す。味方ヒーローがいる場合代わりにそのレベルに合わせて1体出す",
+      "heroSystemId": "hero_ref_953d13b3",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_6546b092",
+      "name": "ミニデーモン",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：味方ヒーローがいる場合自分のデッキからコスト2の特技カードをランダムに1枚引く",
+      "heroSystemId": "hero_ref_deb451d3",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_2fac5ab9",
+      "name": "クイーンモーモン",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "ユニット",
+      "text": "味方ヒーローがいる場合自分のターン中味方リーダーの攻撃力+2",
+      "heroSystemId": "hero_ref_9cc150a1",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_bd1c41e5",
+      "name": "プラズママウス",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "ユニット",
+      "text": "味方ヒーローがいる場合速攻を得る",
+      "heroSystemId": "hero_ref_8388ad90",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_895d67be",
+      "name": "ほのおのせんし",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：前列に召喚した場合味方ヒーローがいるなら１マス前にいる敵ユニットに4ダメージ",
+      "heroSystemId": "hero_ref_11bf49a7",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_4879b13c",
+      "name": "ウィングタイガー",
+      "classes": [
+        "僧侶"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：味方ヒーローがいる場合敵ユニット1体の攻撃力を-2",
+      "heroSystemId": "hero_ref_eeac75f3",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_3e373c4a",
+      "name": "スーパーテンツク",
+      "classes": [
+        "僧侶"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:味方ヒーローがいる場合自分のデッキから武器カードまたは必殺技を持つカードを手札に加える。",
+      "heroSystemId": "hero_ref_3a705561",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_f503ba07",
+      "name": "おおドラキー",
+      "classes": [
+        "僧侶"
+      ],
+      "cardType": "ユニット",
+      "text": "ねらい撃ち、召喚時：味方ヒーローがいる場合2/1のドラキーを1体出す",
+      "heroSystemId": "hero_ref_8f4a9bff",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_3e5ba706",
+      "name": "ケンタラウス",
+      "classes": [
+        "僧侶"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：味方ヒーローがいる場合このターン中味方リーダーは攻撃力+1を得る",
+      "heroSystemId": "hero_ref_ce9fb785",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_6fa5d265",
+      "name": "アイアンナイト",
+      "classes": [
+        "僧侶"
+      ],
+      "cardType": "ユニット",
+      "text": "におうだち、死亡時：ランダムな味方ユニット1体を味方ヒーローのレベルの数分+1/+1",
+      "heroSystemId": "hero_ref_15026e0e",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_8837928e",
+      "name": "ニードルラッシュ",
+      "classes": [
+        "僧侶"
+      ],
+      "cardType": "特技",
+      "text": "ランダムな敵ユニット1体を死亡させる。味方ヒーローのレベルの数分コスト-1",
+      "heroSystemId": "hero_ref_eed04c37",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_d6a7e4f6",
+      "name": "かれくさネズミ",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "ユニット",
+      "text": "味方ヒーローのヒーロースキルが発動する度メタルスライムを1体出す",
+      "heroSystemId": "hero_ref_108ce0e8",
+      "relation": "related",
+      "heroName": "味方ヒーロー",
+      "skillKind": "ヒーロースキル"
+    },
+    {
+      "cardId": "card_62a3fe56",
+      "name": "トンブレロ",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：味方ヒーローがいる場合味方ユニット1体を+2/+2",
+      "heroSystemId": "hero_ref_4c9605cd",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_0ca59650",
+      "name": "デスパロット",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "ユニット",
+      "text": "味方ヒーローのヒーロースキルが発動した後道具カード2枚を手札に加える",
+      "heroSystemId": "hero_ref_69b12f3b",
+      "relation": "related",
+      "heroName": "味方ヒーロー",
+      "skillKind": "ヒーロースキル"
+    },
+    {
+      "cardId": "card_8e278c93",
+      "name": "超しあわせのたね",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "特技",
+      "text": "ユニット1体を+1/+1する。味方ヒーローがいる場合代わりにそのレベルの数分+1/+1する",
+      "heroSystemId": "hero_ref_5d1a4828",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_c45094d3",
+      "name": "ヘンリー",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "ユニット",
+      "text": "シンクロ：(1)HP+1、(2)味方のヒーロースキルのコストは1下がる、(3)味方のヒーロースキルを1ターンに2回まで発動できる",
+      "heroSystemId": "hero_ref_d7d3f580",
+      "relation": "related",
+      "heroName": "シンクロ:(1)HP+1、(2)味方",
+      "skillKind": "ヒーロースキル"
+    },
+    {
+      "cardId": "card_b1d3a142",
+      "name": "なぞの神官",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "味方ヒーローがいる場合占いカードのコスト-1",
+      "heroSystemId": "hero_ref_8e5bdcff",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_7f903bbc",
+      "name": "サイコロン",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：味方ヒーローがいる場合合計5ダメージをこのユニット以外のランダムなユニットに割り振る",
+      "heroSystemId": "hero_ref_4899cf56",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_7148c5d6",
+      "name": "とげこんぼう",
+      "classes": [
+        "魔剣士"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：味方ヒーローがいる場合味方リーダーのテンション+2",
+      "heroSystemId": "hero_ref_01435d9c",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_286c12aa",
+      "name": "メイデンドール",
+      "classes": [
+        "魔剣士"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：味方ヒーローがいる場合敵ユニット1体を-2/-2",
+      "heroSystemId": "hero_ref_60b91f20",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    },
+    {
+      "cardId": "card_6af2a50e",
+      "name": "暗黒の縛鎖",
+      "classes": [
+        "魔剣士"
+      ],
+      "cardType": "特技",
+      "text": "ユニット1体を-6/-6。味方ヒーローのレベルの数分コスト-1。",
+      "heroSystemId": "hero_ref_0a75e58d",
+      "relation": "related",
+      "heroName": null,
+      "skillKind": null
+    }
+  ],
+  "index": {
+    "byStarterCardId": {
+      "card_1e4de00f": "hero_9a9a695a",
+      "card_82e59f32": "hero_6ef0a82c",
+      "card_b0cb8fe8": "hero_9c372a50",
+      "card_10321754": "hero_05b9d253",
+      "card_851ec231": "hero_a43908cd",
+      "card_36b9696d": "hero_b3457052",
+      "card_a9c23817": "hero_084aa20a",
+      "card_794289cd": "hero_07cd3f0b",
+      "card_51f4f83e": "hero_e10ef9ff",
+      "card_796cac42": "hero_f31fb4b0",
+      "card_00506ea3": "hero_ec4757a6",
+      "card_90410d54": "hero_7f4edd85",
+      "card_1d3ad0d4": "hero_5695fb21",
+      "card_7487ea39": "hero_19f916b4",
+      "card_909b374d": "hero_3485698e",
+      "card_d22aee70": "hero_2d4c9ccd",
+      "card_550b977c": "hero_f6139d24",
+      "card_ee97d74d": "hero_f4b87ef1"
+    },
+    "relatedCardIds": [
+      "card_836a79fd",
+      "card_4d7940de",
+      "card_e3e69707",
+      "card_1158ea6f",
+      "card_d05b74e8",
+      "card_d1581a32",
+      "card_aef91017",
+      "card_503c148f",
+      "card_d4598f73",
+      "card_5357b154",
+      "card_4cc999a9",
+      "card_189f0ab3",
+      "card_618dd613",
+      "card_0f94fe18",
+      "card_72848502",
+      "card_a0c085e2",
+      "card_c3063bd9",
+      "card_321de02f",
+      "card_1aa890f0",
+      "card_822981d8",
+      "card_6ad406a8",
+      "card_51e3a4ad",
+      "card_d7077797",
+      "card_6ebbbeb0",
+      "card_d13dbf79",
+      "card_87f4d7ac",
+      "card_33613a86",
+      "card_c1272903",
+      "card_f9120cf5",
+      "card_8ffda489",
+      "card_513a64ec",
+      "card_6546b092",
+      "card_2fac5ab9",
+      "card_bd1c41e5",
+      "card_895d67be",
+      "card_4879b13c",
+      "card_3e373c4a",
+      "card_f503ba07",
+      "card_3e5ba706",
+      "card_6fa5d265",
+      "card_8837928e",
+      "card_d6a7e4f6",
+      "card_62a3fe56",
+      "card_0ca59650",
+      "card_8e278c93",
+      "card_c45094d3",
+      "card_b1d3a142",
+      "card_7f903bbc",
+      "card_7148c5d6",
+      "card_286c12aa",
+      "card_6af2a50e"
+    ]
+  }
+}

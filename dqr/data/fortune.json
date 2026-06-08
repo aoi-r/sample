@@ -1,0 +1,931 @@
+{
+  "schemaVersion": "1.0.0",
+  "type": "dqr.fortune",
+  "cards": [
+    {
+      "cardId": "card_14926367",
+      "name": "デスファレーナ",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "占い：(1)攻撃力+2、(2)HP+2",
+      "fortuneId": "fortune_e69c6a68",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "攻撃力+2"
+        },
+        {
+          "optionNo": 2,
+          "text": "HP+2"
+        }
+      ],
+      "rawAfterKeyword": "(1)攻撃力+2、(2)HP+2",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_7052acf3",
+      "name": "節制のタロット",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い:(1)1/1のスライムを2体出す、(2)カードを1枚引く",
+      "fortuneId": "fortune_5066b23d",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "1/1のスライムを2体出す"
+        },
+        {
+          "optionNo": 2,
+          "text": "カードを1枚引く"
+        }
+      ],
+      "rawAfterKeyword": "(1)1/1のスライムを2体出す、(2)カードを1枚引く",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_d8835650",
+      "name": "太陽のタロット",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い：(1)全ての敵ユニットに2ダメージ、(2)味方リーダーのHPを7回復",
+      "fortuneId": "fortune_7f2d3f74",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "全ての敵ユニットに2ダメージ"
+        },
+        {
+          "optionNo": 2,
+          "text": "味方リーダーのHPを7回復"
+        }
+      ],
+      "rawAfterKeyword": "(1)全ての敵ユニットに2ダメージ、(2)味方リーダーのHPを7回復",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_028880ce",
+      "name": "星のタロット",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い：(1)カードを2枚引く(2)におうだち3/3ビッグフェイスを出す",
+      "fortuneId": "fortune_6df43e8c",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "カードを2枚引く"
+        },
+        {
+          "optionNo": 2,
+          "text": "におうだち3/3ビッグフェイスを出す"
+        }
+      ],
+      "rawAfterKeyword": "(1)カードを2枚引く(2)におうだち3/3ビッグフェイスを出す",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_2f9c499f",
+      "name": "塔のタロット",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い：(1)ユニット1体のHPを1にする、(2)ユニット1体に1ダメージを与えた後カードを1枚引く",
+      "fortuneId": "fortune_a36a7552",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "ユニット1体のHPを1にする"
+        },
+        {
+          "optionNo": 2,
+          "text": "ユニット1体に1ダメージを与えた後カードを1枚引く"
+        }
+      ],
+      "rawAfterKeyword": "(1)ユニット1体のHPを1にする、(2)ユニット1体に1ダメージを与えた後カードを1枚引く",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_700c487c",
+      "name": "皇帝のタロット",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い：(1)ユニット1体を+2/+3、(2)ユニット1体に速攻と貫通を付与",
+      "fortuneId": "fortune_e3cfa523",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "ユニット1体を+2/+3"
+        },
+        {
+          "optionNo": 2,
+          "text": "ユニット1体に速攻と貫通を付与"
+        }
+      ],
+      "rawAfterKeyword": "(1)ユニット1体を+2/+3、(2)ユニット1体に速攻と貫通を付与",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_d329867b",
+      "name": "パペットこぞう",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "占い：(1)味方リーダーのテンション-1、(2)+1/+1を得る",
+      "fortuneId": "fortune_e0f654a6",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "味方リーダーのテンション-1"
+        },
+        {
+          "optionNo": 2,
+          "text": "+1/+1を得る"
+        }
+      ],
+      "rawAfterKeyword": "(1)味方リーダーのテンション-1、(2)+1/+1を得る",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_0fb5ba79",
+      "name": "エビルドライブ",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "占い：(1)カードを1枚引く、(2)攻撃力+3",
+      "fortuneId": "fortune_e3bb75fb",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "カードを1枚引く"
+        },
+        {
+          "optionNo": 2,
+          "text": "攻撃力+3"
+        }
+      ],
+      "rawAfterKeyword": "(1)カードを1枚引く、(2)攻撃力+3",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_725483e4",
+      "name": "おばけトマト",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "占い：(1)敵ユニット1体の攻撃力を1にする、(2)敵ユニット1体のHPを1にする",
+      "fortuneId": "fortune_b304d0eb",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "敵ユニット1体の攻撃力を1にする"
+        },
+        {
+          "optionNo": 2,
+          "text": "敵ユニット1体のHPを1にする"
+        }
+      ],
+      "rawAfterKeyword": "(1)敵ユニット1体の攻撃力を1にする、(2)敵ユニット1体のHPを1にする",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_a3f1284b",
+      "name": "隠者のタロット",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い:(1)ユニットのコピーを自分の手札に加える、(2)ユニット1体を1/1のスライムに返信",
+      "fortuneId": "fortune_5d4075c3",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "ユニットのコピーを自分の手札に加える"
+        },
+        {
+          "optionNo": 2,
+          "text": "ユニット1体を1/1のスライムに返信"
+        }
+      ],
+      "rawAfterKeyword": "(1)ユニットのコピーを自分の手札に加える、(2)ユニット1体を1/1のスライムに返信",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_5f6a5488",
+      "name": "ダイス・ド・デビル",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "占い：(1)1/1のスライムを出す、(2)4/4のホースデビルを出す",
+      "fortuneId": "fortune_a6c103a1",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "1/1のスライムを出す"
+        },
+        {
+          "optionNo": 2,
+          "text": "4/4のホースデビルを出す"
+        }
+      ],
+      "rawAfterKeyword": "(1)1/1のスライムを出す、(2)4/4のホースデビルを出す",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_4b2ece59",
+      "name": "悪魔のタロット",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い：(1)全ての敵ユニットに4ダメージ、(2)4/4のホースデビルを2体出す",
+      "fortuneId": "fortune_e732a409",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "全ての敵ユニットに4ダメージ"
+        },
+        {
+          "optionNo": 2,
+          "text": "4/4のホースデビルを2体出す"
+        }
+      ],
+      "rawAfterKeyword": "(1)全ての敵ユニットに4ダメージ、(2)4/4のホースデビルを2体出す",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_ec0b6371",
+      "name": "ジュリアンテ",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "占い：(1)他の全ての味方ユニット+2/+2、(2)ランダムな敵3体を次のターン攻撃不能にする",
+      "fortuneId": "fortune_e34898f9",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "他の全ての味方ユニット+2/+2"
+        },
+        {
+          "optionNo": 2,
+          "text": "ランダムな敵3体を次のターン攻撃不能にする"
+        }
+      ],
+      "rawAfterKeyword": "(1)他の全ての味方ユニット+2/+2、(2)ランダムな敵3体を次のターン攻撃不能にする",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_e084603d",
+      "name": "あばれうしどり",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "占い：①攻撃力+1と貫通を得る、②速攻を得る",
+      "fortuneId": "fortune_27d19686",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "攻撃力+1と貫通を得る"
+        },
+        {
+          "optionNo": 2,
+          "text": "速攻を得る"
+        }
+      ],
+      "rawAfterKeyword": "1攻撃力+1と貫通を得る、2速攻を得る",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_582b846a",
+      "name": "愚者のタロット",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い:①全ての敵ユニットの攻撃力を1にする②全ての敵ユニットのHPを1にする",
+      "fortuneId": "fortune_f7a3c467",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [],
+      "rawAfterKeyword": "1全ての敵ユニットの攻撃力を1にする2全ての敵ユニットのHPを1にする",
+      "needsReview": true
+    },
+    {
+      "cardId": "card_5944a72f",
+      "name": "魔術師のタロット",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い：①デッキの一番上のカードのコスト-3 ②デッキの一番上のカードを手札に加える。さらにそのコピー1枚を手札に加える",
+      "fortuneId": "fortune_41d2c89e",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "デッキの一番上のカードのコスト-3"
+        },
+        {
+          "optionNo": 2,
+          "text": "デッキの一番上のカードを手札に加える。さらにそのコピー1枚を手札に加える"
+        }
+      ],
+      "rawAfterKeyword": "1デッキの一番上のカードのコスト-3 2デッキの一番上のカードを手札に加える。さらにそのコピー1枚を手札に加える",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_fe1e824d",
+      "name": "戦車のタロット",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い:①全てのユニットに1ダメージ、②ランダムな敵1体に3ダメージ",
+      "fortuneId": "fortune_5920b21c",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "全てのユニットに1ダメージ"
+        },
+        {
+          "optionNo": 2,
+          "text": "ランダムな敵1体に3ダメージ"
+        }
+      ],
+      "rawAfterKeyword": "1全てのユニットに1ダメージ、2ランダムな敵1体に3ダメージ",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_23d5d5f7",
+      "name": "力のタロット",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い：①全ての味方ユニットの攻撃力+1、②ランダムな味方ユニット1体を+3/+2",
+      "fortuneId": "fortune_79562a9a",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "全ての味方ユニットの攻撃力+1"
+        },
+        {
+          "optionNo": 2,
+          "text": "ランダムな味方ユニット1体を+3/+2"
+        }
+      ],
+      "rawAfterKeyword": "1全ての味方ユニットの攻撃力+1、2ランダムな味方ユニット1体を+3/+2",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_2331f997",
+      "name": "キースドラゴン",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "占い：①味方リーダーのHPを5回復、②正面にいる全ての敵ユニットに2ダメージ",
+      "fortuneId": "fortune_b5c5a4ab",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "味方リーダーのHPを5回復"
+        },
+        {
+          "optionNo": 2,
+          "text": "正面にいる全ての敵ユニットに2ダメージ"
+        }
+      ],
+      "rawAfterKeyword": "1味方リーダーのHPを5回復、2正面にいる全ての敵ユニットに2ダメージ",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_1f7d61c0",
+      "name": "審判のタロット",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "占い：①カードを1枚引く、②味方リーダーのHPを2回復",
+      "fortuneId": "fortune_ed90c0f3",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "カードを1枚引く"
+        },
+        {
+          "optionNo": 2,
+          "text": "味方リーダーのHPを2回復"
+        }
+      ],
+      "rawAfterKeyword": "1カードを1枚引く、2味方リーダーのHPを2回復",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_1ac5e9c5",
+      "name": "バルーンコール",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い：①におうだち、2/3のプヨンターゲットを出す。②速攻 1/1のバブリンを2体出す",
+      "fortuneId": "fortune_2ec740ba",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "におうだち"
+        },
+        {
+          "optionNo": 2,
+          "text": "/3のプヨンターゲットを出す"
+        },
+        {
+          "optionNo": 2,
+          "text": "速攻"
+        },
+        {
+          "optionNo": 1,
+          "text": "/1のバブリンを2体出す"
+        }
+      ],
+      "rawAfterKeyword": "1におうだち、2/3のプヨンターゲットを出す。2速攻 1/1のバブリンを2体出す",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_02ebd665",
+      "name": "ブルホーク",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "占い:①自分のデッキから占いカードを1枚手札に加える ② 味方リーダーのテンション+2",
+      "fortuneId": "fortune_deef6a4d",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "自分のデッキから占いカードを1枚手札に加える"
+        },
+        {
+          "optionNo": 2,
+          "text": "味方リーダーのテンション+2"
+        }
+      ],
+      "rawAfterKeyword": "1自分のデッキから占いカードを1枚手札に加える 2 味方リーダーのテンション+2",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_a743e254",
+      "name": "召竜の儀式",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い:①7/7のダースドラゴンを出す ②3/3のいばらドラゴンを3体出す",
+      "fortuneId": "fortune_2e4ac269",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [],
+      "rawAfterKeyword": "17/7のダースドラゴンを出す 23/3のいばらドラゴンを3体出す",
+      "needsReview": true
+    },
+    {
+      "cardId": "card_73ecbde1",
+      "name": "メタルドラゴン",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "絶好調、占い：①自分のデッキからコスト2以下の絶好調を持つユニットを2体出す、②絶好調を持つ全ての味方ユニットを+1/+1",
+      "fortuneId": "fortune_44f09699",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "自分のデッキからコスト2以下の絶好調を持つユニットを2体出す"
+        },
+        {
+          "optionNo": 2,
+          "text": "絶好調を持つ全ての味方ユニットを+1/+1"
+        }
+      ],
+      "rawAfterKeyword": "1自分のデッキからコスト2以下の絶好調を持つユニットを2体出す、2絶好調を持つ全ての味方ユニットを+1/+1",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_91dfea63",
+      "name": "恋人のタロット",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い：①全ての味方ユニットを+2/+2、②全ての味方ユニットを絶好調状態に戻して+1/+1",
+      "fortuneId": "fortune_54950dd3",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "全ての味方ユニットを+2/+2"
+        },
+        {
+          "optionNo": 2,
+          "text": "全ての味方ユニットを絶好調状態に戻して+1/+1"
+        }
+      ],
+      "rawAfterKeyword": "1全ての味方ユニットを+2/+2、2全ての味方ユニットを絶好調状態に戻して+1/+1",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_6fcffda8",
+      "name": "リゼロッタ&ルコリア",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "占い：①この対戦中に死亡したランダムな味方ユニットを2枚手札に加える、②自分の手札とデッキの攻撃力2以下のユニットカードを+1/+1する",
+      "fortuneId": "fortune_bce42d24",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "この対戦中に死亡したランダムな味方ユニットを2枚手札に加える"
+        },
+        {
+          "optionNo": 2,
+          "text": "自分の手札とデッキの攻撃力2以下のユニットカードを+1/+1する"
+        }
+      ],
+      "rawAfterKeyword": "1この対戦中に死亡したランダムな味方ユニットを2枚手札に加える、2自分の手札とデッキの攻撃力2以下のユニットカードを+1/+1する",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_d2b7c014",
+      "name": "あくましんかん",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "占い：(1)「死亡時：この場所に復活する」を得る(2)におうだちHP+1",
+      "fortuneId": "fortune_a13fb8dd",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "「死亡時:この場所に復活する」を得る"
+        },
+        {
+          "optionNo": 2,
+          "text": "におうだちHP+1"
+        }
+      ],
+      "rawAfterKeyword": "(1)「死亡時:この場所に復活する」を得る(2)におうだちHP+1",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_1de531ec",
+      "name": "死神のタロット",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い：①全てのユニットに3ダメージ、②：2/2のナイトウィスプを3体出す",
+      "fortuneId": "fortune_134861fc",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "全てのユニットに3ダメージ"
+        },
+        {
+          "optionNo": 2,
+          "text": "2/2のナイトウィスプを3体出す"
+        }
+      ],
+      "rawAfterKeyword": "1全てのユニットに3ダメージ、2:2/2のナイトウィスプを3体出す",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_f9180cb7",
+      "name": "たまねぎマン",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "占い：①ユニット1体の攻撃力を2にする②：ユニット1体のHPを2にする",
+      "fortuneId": "fortune_a4adce11",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [],
+      "rawAfterKeyword": "1ユニット1体の攻撃力を2にする2:ユニット1体のHPを2にする",
+      "needsReview": true
+    },
+    {
+      "cardId": "card_59727aad",
+      "name": "教皇のタロット",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い：①全ての味方のHPを5回復、②全て飲み方に「次の相手のターン終了時まで戦闘ダメージとデッキ切れによるダメージのみ受ける」を付与する",
+      "fortuneId": "fortune_e0512cda",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "全ての味方のHPを5回復"
+        },
+        {
+          "optionNo": 2,
+          "text": "全て飲み方に「次の相手のターン終了時まで戦闘ダメージとデッキ切れによるダメージのみ受ける」を付与する"
+        }
+      ],
+      "rawAfterKeyword": "1全ての味方のHPを5回復、2全て飲み方に「次の相手のターン終了時まで戦闘ダメージとデッキ切れによるダメージのみ受ける」を付与する",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_16835f67",
+      "name": "エドガンの錬金術",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い：(1)GET(2)、(2)0/1のサボテンゴールド1体出す。その後手札にあるコインの枚数分+1/+1",
+      "fortuneId": "fortune_abb09521",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "GET"
+        },
+        {
+          "optionNo": 2,
+          "text": ""
+        },
+        {
+          "optionNo": 2,
+          "text": "0/1のサボテンゴールド1体出す。その後手札にあるコインの枚数分+1/+1"
+        }
+      ],
+      "rawAfterKeyword": "(1)GET(2)、(2)0/1のサボテンゴールド1体出す。その後手札にあるコインの枚数分+1/+1",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_b32cf4aa",
+      "name": "あばれ足鳥",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "占い:(1)速攻と貫通を得る、(2)+1/+1",
+      "fortuneId": "fortune_0ec38988",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "速攻と貫通を得る"
+        },
+        {
+          "optionNo": 2,
+          "text": "+1/+1"
+        }
+      ],
+      "rawAfterKeyword": "(1)速攻と貫通を得る、(2)+1/+1",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_97548726",
+      "name": "かみかぜ",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "おうえん、占い:(1)合計3ダメージをランダムな敵ユニットに割り振る(2)ランダムなコスト2のユニットを1体出す",
+      "fortuneId": "fortune_e90a9efa",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "合計3ダメージをランダムな敵ユニットに割り振る"
+        },
+        {
+          "optionNo": 2,
+          "text": "ランダムなコスト2のユニットを1体出す"
+        }
+      ],
+      "rawAfterKeyword": "(1)合計3ダメージをランダムな敵ユニットに割り振る(2)ランダムなコスト2のユニットを1体出す",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_884157d9",
+      "name": "逆転への兆し",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い：(1)全てのユニットを1/1にする(2)ランダムなコスト3のユニットを2体出す",
+      "fortuneId": "fortune_339b2053",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "全てのユニットを1/1にする"
+        },
+        {
+          "optionNo": 2,
+          "text": "ランダムなコスト3のユニットを2体出す"
+        }
+      ],
+      "rawAfterKeyword": "(1)全てのユニットを1/1にする(2)ランダムなコスト3のユニットを2体出す",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_d39b2341",
+      "name": "ヘラクライザー",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "におうだち、自分がデッキからカードを手札に加える度ランダムな敵1体に2ダメージ、占い：(1)カードを1枚引く、(2)味方リーダーのテンション+2",
+      "fortuneId": "fortune_5f952605",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "カードを1枚引く"
+        },
+        {
+          "optionNo": 2,
+          "text": "味方リーダーのテンション+2"
+        }
+      ],
+      "rawAfterKeyword": "(1)カードを1枚引く、(2)味方リーダーのテンション+2",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_a753c7d2",
+      "name": "未熟なベビーサタン",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "占い：(1)イオナズンを唱える、(2)メガンテを唱える",
+      "fortuneId": "fortune_def50de2",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "イオナズンを唱える"
+        },
+        {
+          "optionNo": 2,
+          "text": "メガンテを唱える"
+        }
+      ],
+      "rawAfterKeyword": "(1)イオナズンを唱える、(2)メガンテを唱える",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_fa51cb1d",
+      "name": "ビッグボック",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "占い:(1)味方リーダーのテンション+1、このユニットのHP+1、(2)味方リーダーのテンション+2",
+      "fortuneId": "fortune_47324934",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "味方リーダーのテンション+1、このユニットのHP+1"
+        },
+        {
+          "optionNo": 2,
+          "text": "味方リーダーのテンション+2"
+        }
+      ],
+      "rawAfterKeyword": "(1)味方リーダーのテンション+1、このユニットのHP+1、(2)味方リーダーのテンション+2",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_8bc0d225",
+      "name": "テーブル・ターニング",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い:(1)4/4のホースデビルを2体出す(2)2/2のモーモンを4体出す",
+      "fortuneId": "fortune_91c70a0e",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "4/4のホースデビルを2体出す"
+        },
+        {
+          "optionNo": 2,
+          "text": "2/2のモーモンを4体出す"
+        }
+      ],
+      "rawAfterKeyword": "(1)4/4のホースデビルを2体出す(2)2/2のモーモンを4体出す",
+      "needsReview": false
+    },
+    {
+      "cardId": "card_19b11529",
+      "name": "暴将 黒竜丸",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "占い:(1)他の全ての味方ユニットを4/4にする(2)全ての敵ユニットに3ダメージ",
+      "fortuneId": "fortune_04fbacdf",
+      "mode": "random_or_hit_choice_or_superhit_both",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "他の全ての味方ユニットを4/4にする"
+        },
+        {
+          "optionNo": 2,
+          "text": "全ての敵ユニットに3ダメージ"
+        }
+      ],
+      "rawAfterKeyword": "(1)他の全ての味方ユニットを4/4にする(2)全ての敵ユニットに3ダメージ",
+      "needsReview": false
+    }
+  ],
+  "index": {
+    "byCardId": {
+      "card_14926367": "fortune_e69c6a68",
+      "card_7052acf3": "fortune_5066b23d",
+      "card_d8835650": "fortune_7f2d3f74",
+      "card_028880ce": "fortune_6df43e8c",
+      "card_2f9c499f": "fortune_a36a7552",
+      "card_700c487c": "fortune_e3cfa523",
+      "card_d329867b": "fortune_e0f654a6",
+      "card_0fb5ba79": "fortune_e3bb75fb",
+      "card_725483e4": "fortune_b304d0eb",
+      "card_a3f1284b": "fortune_5d4075c3",
+      "card_5f6a5488": "fortune_a6c103a1",
+      "card_4b2ece59": "fortune_e732a409",
+      "card_ec0b6371": "fortune_e34898f9",
+      "card_e084603d": "fortune_27d19686",
+      "card_582b846a": "fortune_f7a3c467",
+      "card_5944a72f": "fortune_41d2c89e",
+      "card_fe1e824d": "fortune_5920b21c",
+      "card_23d5d5f7": "fortune_79562a9a",
+      "card_2331f997": "fortune_b5c5a4ab",
+      "card_1f7d61c0": "fortune_ed90c0f3",
+      "card_1ac5e9c5": "fortune_2ec740ba",
+      "card_02ebd665": "fortune_deef6a4d",
+      "card_a743e254": "fortune_2e4ac269",
+      "card_73ecbde1": "fortune_44f09699",
+      "card_91dfea63": "fortune_54950dd3",
+      "card_6fcffda8": "fortune_bce42d24",
+      "card_d2b7c014": "fortune_a13fb8dd",
+      "card_1de531ec": "fortune_134861fc",
+      "card_f9180cb7": "fortune_a4adce11",
+      "card_59727aad": "fortune_e0512cda",
+      "card_16835f67": "fortune_abb09521",
+      "card_b32cf4aa": "fortune_0ec38988",
+      "card_97548726": "fortune_e90a9efa",
+      "card_884157d9": "fortune_339b2053",
+      "card_d39b2341": "fortune_5f952605",
+      "card_a753c7d2": "fortune_def50de2",
+      "card_fa51cb1d": "fortune_47324934",
+      "card_8bc0d225": "fortune_91c70a0e",
+      "card_19b11529": "fortune_04fbacdf"
+    }
+  }
+}

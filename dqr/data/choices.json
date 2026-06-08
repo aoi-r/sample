@@ -1,0 +1,252 @@
+{
+  "schemaVersion": "1.0.0",
+  "type": "dqr.choices",
+  "cards": [
+    {
+      "cardId": "card_5fe00f1a",
+      "name": "ダークプラネット",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "選択：・ダンジョンではない敵建物１つの耐久値を2にする。・ダンジョンではない敵建物1つの耐久値を-2",
+      "choiceId": "choice_a3f4a3ab",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "ダンジョンではない敵建物1つの耐久値を2にする"
+        },
+        {
+          "optionNo": 2,
+          "text": "ダンジョンではない敵建物1つの耐久値を-2"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "cardId": "card_ae365a29",
+      "name": "ひぐらしそう",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "選択：・コスト1のランダムなユニットカードを手札に1枚加える・コスト3のランダムな特技カードを手札に1枚加える",
+      "choiceId": "choice_19ebaf6d",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "コスト1のランダムなユニットカードを手札に1枚加える"
+        },
+        {
+          "optionNo": 2,
+          "text": "コスト3のランダムな特技カードを手札に1枚加える"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "cardId": "card_0c103e46",
+      "name": "ヌーデビル",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "選択：・攻撃力+4・正面にいる全ての敵ユニットに2ダメージ",
+      "choiceId": "choice_db0f42e8",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "攻撃力+4"
+        },
+        {
+          "optionNo": 2,
+          "text": "正面にいる全ての敵ユニットに2ダメージ"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "cardId": "card_1b26c04f",
+      "name": "旅立ちの王女",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "選択：・全てのユニットに1ダメージ・特技カードをランダムに1枚手札に加える。このターン中使った特技カードのコストの合計分コストが減る",
+      "choiceId": "choice_a1c201c0",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "全てのユニットに1ダメージ"
+        },
+        {
+          "optionNo": 2,
+          "text": "特技カードをランダムに1枚手札に加える。このターン中使った特技カードのコストの合計分コストが減る"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "cardId": "card_b1b3f587",
+      "name": "救援のドラキー",
+      "classes": [
+        "戦士"
+      ],
+      "cardType": "ユニット",
+      "text": "選択：・2/1のこんぼう1枚を手札に加える。・このターン中味方リーダーが受けるダメージ-3",
+      "choiceId": "choice_95bfd439",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "2/1のこんぼう1枚を手札に加える"
+        },
+        {
+          "optionNo": 2,
+          "text": "このターン中味方リーダーが受けるダメージ-3"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "cardId": "card_7323a25d",
+      "name": "まじょ",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "ユニット",
+      "text": "選択：・魔法使いの特技カードをランダムに1枚手札に加える・魔力の息吹を1枚手札に加える",
+      "choiceId": "choice_1c5572f4",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "魔法使いの特技カードをランダムに1枚手札に加える"
+        },
+        {
+          "optionNo": 2,
+          "text": "魔力の息吹を1枚手札に加える"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "cardId": "card_165a5930",
+      "name": "乙女の気まぐれ",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "特技",
+      "text": "選択：ユニット1体に4ダメージ、・ユニット1体に2ダメージ、カードを1枚引く",
+      "choiceId": "choice_5d4c0111",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "ユニット1体に4ダメージ"
+        },
+        {
+          "optionNo": 2,
+          "text": "ユニット1体に2ダメージ、カードを1枚引く"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "cardId": "card_1ee8d46f",
+      "name": "ジャミ&ゴンズ",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "ユニット",
+      "text": "選択：・HP-2 カードを1枚引く、敵リーダーに2ダメージ・攻撃力-2 におうだちを得る、味方リーダーのテンション+1",
+      "choiceId": "choice_9189a519",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "HP-2 カードを1枚引く、敵リーダーに2ダメージ"
+        },
+        {
+          "optionNo": 2,
+          "text": "攻撃力-2 におうだちを得る、味方リーダーのテンション+1"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "cardId": "card_e7d0bd0d",
+      "name": "キラークリムゾン",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "ユニット",
+      "text": "選択:・味方リーダーのテンション+2・コスト2のはがねのそろばん1枚を手札に加える",
+      "choiceId": "choice_21ccd316",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "味方リーダーのテンション+2"
+        },
+        {
+          "optionNo": 2,
+          "text": "コスト2のはがねのそろばん1枚を手札に加える"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "cardId": "card_96d212c9",
+      "name": "スラリンガル",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "ユニット",
+      "text": "貫通、選択:+1/+1と速攻とこのターン中「敵リーダーを攻撃できずダメージを受けない」を得る。・このターンの終了時攻撃力とHPが2倍になる",
+      "choiceId": "choice_9959dddc",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "+1/+1と速攻とこのターン中「敵リーダーを攻撃できずダメージを受けない」を得る"
+        },
+        {
+          "optionNo": 2,
+          "text": "このターンの終了時攻撃力とHPが2倍になる"
+        }
+      ],
+      "needsReview": false
+    },
+    {
+      "cardId": "card_e4512ec7",
+      "name": "魔王への忠誠",
+      "classes": [
+        "魔剣士"
+      ],
+      "cardType": "特技",
+      "text": "おうえん、選択：・１貫通 2/1のがいこつへいを１体出す 味方リーダーのMPを2回復 ・ におうだち2/４のスケアフレイルを1体出す",
+      "choiceId": "choice_8d38e006",
+      "options": [
+        {
+          "optionNo": 1,
+          "text": "1貫通 2/1のがいこつへいを1体出す 味方リーダーのMPを2回復"
+        },
+        {
+          "optionNo": 2,
+          "text": "におうだち2/4のスケアフレイルを1体出す"
+        }
+      ],
+      "needsReview": false
+    }
+  ],
+  "index": {
+    "byCardId": {
+      "card_5fe00f1a": "choice_a3f4a3ab",
+      "card_ae365a29": "choice_19ebaf6d",
+      "card_0c103e46": "choice_db0f42e8",
+      "card_1b26c04f": "choice_a1c201c0",
+      "card_b1b3f587": "choice_95bfd439",
+      "card_7323a25d": "choice_1c5572f4",
+      "card_165a5930": "choice_5d4c0111",
+      "card_1ee8d46f": "choice_9189a519",
+      "card_e7d0bd0d": "choice_21ccd316",
+      "card_96d212c9": "choice_9959dddc",
+      "card_e4512ec7": "choice_8d38e006"
+    }
+  }
+}

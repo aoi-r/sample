@@ -1,0 +1,1424 @@
+{
+  "schemaVersion": "1.0.0",
+  "type": "dqr.coin",
+  "resources": {
+    "coin": {
+      "id": "coin",
+      "name": "コイン",
+      "cardName": "コイン",
+      "effect": "味方1体のBETを発動させる"
+    }
+  },
+  "cards": [
+    {
+      "cardId": "card_19a6922d",
+      "name": "コイン",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "味方1体のBETを発動させる",
+      "coinId": "coin_227a0d68",
+      "get": [],
+      "bet": {
+        "exists": true,
+        "effectText": "を発動させる"
+      },
+      "isCoinCard": true,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_0375fb61",
+      "name": "ベホイミスライム",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "死亡時：GET(1)、BET：1ターンに1回のみ味方リーダーのHPを2回復",
+      "coinId": "coin_877d1d0a",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "死亡時:GET(1)、BET:1ターンに1回のみ味方リーダーのHPを2回復"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "1ターンに1回のみ味方リーダーのHPを2回復"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_5fffa5b0",
+      "name": "ダークペルシャ",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:敵ユニットが3体以上いる場合GET(1)、BET:全てのユニットに1ダメージ",
+      "coinId": "coin_a9d8a0b1",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:敵ユニットが3体以上いる場合GET(1)、BET:全てのユニットに1ダメージ"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "全てのユニットに1ダメージ"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_362fd329",
+      "name": "ミリオンゼニー",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "BET:「死亡時：GET(2)」を得る 自分のターン終了時GET(1)",
+      "coinId": "coin_b5ada816",
+      "get": [
+        {
+          "amount": 2,
+          "contextText": "BET:「死亡時:GET(2)」を得る 自分のターン終了時GET(1)"
+        },
+        {
+          "amount": 1,
+          "contextText": "BET:「死亡時:GET(2)」を得る 自分のターン終了時GET(1)"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "「死亡時:GET(2)」を得る 自分のターン終了時GET(1)"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_e936ad83",
+      "name": "サイクロプス",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：GET(1) BET：におうだちを持つランダムな敵ユニット1体に4ダメージ",
+      "coinId": "coin_64141d83",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1) BET:におうだちを持つランダムな敵ユニット1体に4ダメージ"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "におうだちを持つランダムな敵ユニット1体に4ダメージ"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_40d4b786",
+      "name": "キラースコップ",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:お互いのデッキのランダムなユニットカード1枚を比べ 自分の方がコストが高いならGET(1)、BET:攻撃力+1",
+      "coinId": "coin_2d3658a5",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:お互いのデッキのランダムなユニットカード1枚を比べ 自分の方がコストが高いならGET(1)、BET:攻撃力+1"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "攻撃力+1"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_1a59d46e",
+      "name": "だいおうイカ",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "死亡時:GET(2)",
+      "coinId": "coin_3611e4d1",
+      "get": [
+        {
+          "amount": 2,
+          "contextText": "死亡時:GET(2)"
+        }
+      ],
+      "bet": {
+        "exists": false,
+        "effectText": ""
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_a23db7e5",
+      "name": "ゴールデントーテム",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "メタルボディ、このユニットがダメージを受ける度GET(1)",
+      "coinId": "coin_efae2d11",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "このユニットがダメージを受ける度GET(1)"
+        }
+      ],
+      "bet": {
+        "exists": false,
+        "effectText": ""
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_3b346d69",
+      "name": "スペシャルコイン",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "全ての味方のBETが発動する。このカードはコインとしても扱う",
+      "coinId": "coin_50451a28",
+      "get": [],
+      "bet": {
+        "exists": true,
+        "effectText": "が発動する。このカードはコインとしても扱う"
+      },
+      "isCoinCard": true,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_35df1a02",
+      "name": "この手に切り札を",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "自分のデッキからBETを持つカードを1枚手札に加える",
+      "coinId": "coin_2e2e3f75",
+      "get": [],
+      "bet": {
+        "exists": true,
+        "effectText": "を持つカードを1枚手札に加える"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_1019e573",
+      "name": "アゲていくわよ",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "味方のBETが発動した後味方リーダーのテンション+1、この効果は条件を満たすと自動的に発動する",
+      "coinId": "coin_2638fead",
+      "get": [],
+      "bet": {
+        "exists": true,
+        "effectText": "が発動した後味方リーダーのテンション+1、この効果は条件を満たすと自動的に発動する"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_0baef237",
+      "name": "かっちゅうアリ",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "BET:1ターンに1回のみ+1/+1、自分のターン終了時にGET(1)、この効果は1度しか発動しない",
+      "coinId": "coin_9f3ada55",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "自分のターン終了時にGET(1)、この効果は1度しか発動しない"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "1ターンに1回のみ+1/+1、自分のターン終了時にGET(1)、この効果は1度しか発動しない"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_11641207",
+      "name": "ジラフマスター",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "攻撃時:GET(1)、BET:以下の効果からランダムに1つ発動する (1)攻撃力+1 (2)HP+1 (3)このターン中2回攻撃を得る",
+      "coinId": "coin_cfe78113",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "攻撃時:GET(1)、BET:以下の効果からランダムに1つ発動する (1)攻撃力+1 (2)HP+1 (3)このターン中2回攻撃を得る"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "以下の効果からランダムに1つ発動する (1)攻撃力+1 (2)HP+1 (3)このターン中2回攻撃を得る"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_20e15c48",
+      "name": "マデサゴーラ",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "自分のターン終了時：スペシャルコイン1枚を手札に加える。BET:自分のデッキからBETを持つカードを1枚引く",
+      "coinId": "coin_487a4f99",
+      "get": [],
+      "bet": {
+        "exists": true,
+        "effectText": "自分のデッキからBETを持つカードを1枚引く"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_55de0a88",
+      "name": "スロットマジーン",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "攻撃時:GET(1)、BET:両プレイヤーはカードを1枚引く",
+      "coinId": "coin_e38edb24",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "攻撃時:GET(1)、BET:両プレイヤーはカードを1枚引く"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "両プレイヤーはカードを1枚引く"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_8b1c0efd",
+      "name": "ウルベア魔神兵",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "ねらい撃ち、召喚時:GET(2)、BET:このユニットの攻撃力をランダムに1〜4増やす",
+      "coinId": "coin_7ae81986",
+      "get": [
+        {
+          "amount": 2,
+          "contextText": "召喚時:GET(2)、BET:このユニットの攻撃力をランダムに1〜4増やす"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "このユニットの攻撃力をランダムに1〜4増やす"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_78ce20c1",
+      "name": "ギズモ",
+      "classes": [
+        "戦士"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：GET(1) BET:正面にいる全ての敵ユニットに1ダメージ",
+      "coinId": "coin_b97f0efa",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1) BET:正面にいる全ての敵ユニットに1ダメージ"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "正面にいる全ての敵ユニットに1ダメージ"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_2cf0bf32",
+      "name": "おまもりコイン",
+      "classes": [
+        "戦士"
+      ],
+      "cardType": "特技",
+      "text": "GET(1)、その後、次の相手のターン終了時まで自分の手札にあるコインの枚数分味方リーダーが受けるダメージ-1",
+      "coinId": "coin_6b5c2fff",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "GET(1)、その後、次の相手のターン終了時まで自分の手札にあるコインの枚数分味方リーダーが受けるダメージ-1"
+        }
+      ],
+      "bet": {
+        "exists": false,
+        "effectText": ""
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_63b92c04",
+      "name": "まかいファイター",
+      "classes": [
+        "戦士"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：GET(1)、BET：このターン中味方リーダーの攻撃力+1、このBETが4回発動する度まかいファイターを1体だす",
+      "coinId": "coin_1f692562",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、BET:このターン中味方リーダーの攻撃力+1、このBETが4回発動する度まかいファイターを1体だす"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "このターン中味方リーダーの攻撃力+1、このBETが4回発動する度まかいファイターを1体だす"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_297ab628",
+      "name": "ファイアボール",
+      "classes": [
+        "戦士"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:GET(1)、BET:このターン中味方リーダーが受けるダメージ-5",
+      "coinId": "coin_401da4ac",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、BET:このターン中味方リーダーが受けるダメージ-5"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "このターン中味方リーダーが受けるダメージ-5"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_204eddbd",
+      "name": "突風の剣",
+      "classes": [
+        "戦士"
+      ],
+      "cardType": "武器",
+      "text": "貫通、召喚時:GET(1)、BET:全ての敵ユニットを1マス上に移動させる",
+      "coinId": "coin_78663752",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、BET:全ての敵ユニットを1マス上に移動させる"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "全ての敵ユニットを1マス上に移動させる"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_71e6a494",
+      "name": "アイラ",
+      "classes": [
+        "戦士"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:GET(2)、BET:ランダムな武器を味方リーダーに装備する",
+      "coinId": "coin_bcc259c3",
+      "get": [
+        {
+          "amount": 2,
+          "contextText": "召喚時:GET(2)、BET:ランダムな武器を味方リーダーに装備する"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "ランダムな武器を味方リーダーに装備する"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_65206277",
+      "name": "レモンキング",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "ユニット",
+      "text": "攻撃時：GET(1)、BET：スライムを2体出す。他のスライム系の味方ユニットが死亡した後敵リーダーに1ダメージ",
+      "coinId": "coin_b0b03e05",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "攻撃時:GET(1)、BET:スライムを2体出す"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "スライムを2体出す。他のスライム系の味方ユニットが死亡した後敵リーダーに1ダメージ"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_d9510db5",
+      "name": "モンスターコイン",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "特技",
+      "text": "GET(2)、その後、自分の手札にあるコインの枚数と同じコストを持つランダムなユニット1体を出す。",
+      "coinId": "coin_00d9adcf",
+      "get": [
+        {
+          "amount": 2,
+          "contextText": "GET(2)、その後、自分の手札にあるコインの枚数と同じコストを持つランダムなユニット1体を出す"
+        }
+      ],
+      "bet": {
+        "exists": false,
+        "effectText": ""
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_4437acfa",
+      "name": "クラーゴン",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "ユニット",
+      "text": "BET：以下の効果からこのおターンに発動していないものがランダムに1つ発動する。(1)全ての敵に1ダメージ、(2)ランダムな敵1体に2ダメージ、(3)敵リーダーに3ダメージ",
+      "coinId": "coin_8a45b6c8",
+      "get": [],
+      "bet": {
+        "exists": true,
+        "effectText": "以下の効果からこのおターンに発動していないものがランダムに1つ発動する。(1)全ての敵に1ダメージ、(2)ランダムな敵1体に2ダメージ、(3)敵リーダーに3ダメージ"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_d757a3cd",
+      "name": "ボックススライム",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：GET(1)、BET：以下の効果からランダムに1つ発動する。(1):カードを1枚引く、(2):HP+1、(3):味方リーダーのテンション+1",
+      "coinId": "coin_d0df3ff3",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、BET:以下の効果からランダムに1つ発動する"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "以下の効果からランダムに1つ発動する。(1):カードを1枚引く、(2):HP+1、(3):味方リーダーのテンション+1"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_b3d0e530",
+      "name": "ぶちスライム",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:GET (1)、BET:攻撃力+1、死亡時:このユニットの攻撃力の数分1/1のスライムを出す",
+      "coinId": "coin_d46ae192",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET (1)、BET:攻撃力+1、死亡時:このユニットの攻撃力の数分1/1のスライムを出す"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "攻撃力+1、死亡時:このユニットの攻撃力の数分1/1のスライムを出す"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_6429b153",
+      "name": "少女マリベル",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:GET(2)、BET:このターン中次に使う特技カードのコスト-2",
+      "coinId": "coin_3b0dfbe3",
+      "get": [
+        {
+          "amount": 2,
+          "contextText": "召喚時:GET(2)、BET:このターン中次に使う特技カードのコスト-2"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "このターン中次に使う特技カードのコスト-2"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_90ff25ad",
+      "name": "アサシンクロー",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：GET(1)、BET：武術カード1枚を手札に加える",
+      "coinId": "coin_46b059c2",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、BET:武術カード1枚を手札に加える"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "武術カード1枚を手札に加える"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_6ad49a58",
+      "name": "ギガデーモン",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "ユニット",
+      "text": "こうげきできない、BET：速攻と「このターン中攻撃可能になる」を得る。自分のターン終了時GET(1)",
+      "coinId": "coin_97f6820b",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "自分のターン終了時GET(1)"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "速攻と「このターン中攻撃可能になる」を得る。自分のターン終了時GET(1)"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_8ae971ee",
+      "name": "カンダタこぶん",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:GET(1)、BET:このターン中次に使用するテンションカードのコストは0になる",
+      "coinId": "coin_aadb0053",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、BET:このターン中次に使用するテンションカードのコストは0になる"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "このターン中次に使用するテンションカードのコストは0になる"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_23fa1f42",
+      "name": "サキュバスウィンク",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "特技",
+      "text": "味方リーダーのHPを5回復、その後GET(1)",
+      "coinId": "coin_4145cc5e",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "その後GET(1)"
+        }
+      ],
+      "bet": {
+        "exists": false,
+        "effectText": ""
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_a5cfea29",
+      "name": "ゴレオン将軍",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "ユニット",
+      "text": "スキルリンク：GET(1)、BET:攻撃力+1、自分がコインを使う度味方リーダーのテンション+1",
+      "coinId": "coin_5d3b14cd",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "スキルリンク:GET(1)、BET:攻撃力+1、自分がコインを使う度味方リーダーのテンション+1"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "攻撃力+1、自分がコインを使う度味方リーダーのテンション+1"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_f7af8484",
+      "name": "ゴルゴンゾーラ",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:GET(1)、BET:このユニットのHPを3回復",
+      "coinId": "coin_a7289804",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、BET:このユニットのHPを3回復"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "このユニットのHPを3回復"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_c504381c",
+      "name": "きりかぶおばけ",
+      "classes": [
+        "僧侶"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：GET(1)、BET:1ターンに1回のみ他のランダムな味方ユニット1体のHP+2",
+      "coinId": "coin_704b0770",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、BET:1ターンに1回のみ他のランダムな味方ユニット1体のHP+2"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "1ターンに1回のみ他のランダムな味方ユニット1体のHP+2"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_140b92ae",
+      "name": "転生の祈り",
+      "classes": [
+        "僧侶"
+      ],
+      "cardType": "特技",
+      "text": "GET(1)、その後手札のコインの枚数以下にコストを持つ。この対戦中に死亡した敵ユニットの中からコストが最大のもの1体を味方として復活させる",
+      "coinId": "coin_f69e27fa",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "GET(1)、その後手札のコインの枚数以下にコストを持つ"
+        }
+      ],
+      "bet": {
+        "exists": false,
+        "effectText": ""
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_44e719fd",
+      "name": "クラウンヘッド",
+      "classes": [
+        "僧侶"
+      ],
+      "cardType": "ユニット",
+      "text": "におうだち、召喚時：GET(1)、BET：1ターンに1回のみHP+1と「次の相手のターン終了時まで受けるダメージ-1」を得る。",
+      "coinId": "coin_9c3ab765",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、BET:1ターンに1回のみHP+1と「次の相手のターン終了時まで受けるダメージ-1」を得る"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "1ターンに1回のみHP+1と「次の相手のターン終了時まで受けるダメージ-1」を得る。"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_41be5300",
+      "name": "ベビーサラマンダ",
+      "classes": [
+        "僧侶"
+      ],
+      "cardType": "ユニット",
+      "text": "攻撃時：GET(1)、BET:攻撃力+1、このBETが4回発動した後超貫通8/8のサラマンダーに変身する",
+      "coinId": "coin_372d3303",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "攻撃時:GET(1)、BET:攻撃力+1、このBETが4回発動した後超貫通8/8のサラマンダーに変身する"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "攻撃力+1、このBETが4回発動した後超貫通8/8のサラマンダーに変身する"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_57348016",
+      "name": "チャゴス王子",
+      "classes": [
+        "僧侶"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:GET(1)、BET:速攻を得る。このユニットは敵の攻撃対象になった時手札に戻る",
+      "coinId": "coin_b523493e",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、BET:速攻を得る"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "速攻を得る。このユニットは敵の攻撃対象になった時手札に戻る"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_1959447b",
+      "name": "むげんの弓",
+      "classes": [
+        "僧侶"
+      ],
+      "cardType": "武器",
+      "text": "反撃ダメージを受けない。BET:耐久力+1、自分のターン終了時GET(1)",
+      "coinId": "coin_40f1d9c3",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "自分のターン終了時GET(1)"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "耐久力+1、自分のターン終了時GET(1)"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_0a9eb550",
+      "name": "マグマロン",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：GET(1)、BET:攻撃力+1と「次の相手のターン終了時まで効果の対象にならない」を得る",
+      "coinId": "coin_f4f3a6cc",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、BET:攻撃力+1と「次の相手のターン終了時まで効果の対象にならない」を得る"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "攻撃力+1と「次の相手のターン終了時まで効果の対象にならない」を得る"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_0728d656",
+      "name": "福招きのそろばん",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "武器",
+      "text": "召喚時&この武器が壊れた時:GET(1)、BET:耐久力-1してカードを1毎引く",
+      "coinId": "coin_132204c9",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時&この武器が壊れた時:GET(1)、BET:耐久力-1してカードを1毎引く"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "耐久力-1してカードを1毎引く"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_0a952d0b",
+      "name": "ルドマン",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "ユニット",
+      "text": "BET:道具カード1枚を手札に加える。味方のBETが4回発動する度自分のデッキから3コスト以下のユニット1体を出す。自分のターン終了時GET(1)",
+      "coinId": "coin_0a7f519d",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "自分のターン終了時GET(1)"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "道具カード1枚を手札に加える。味方のBETが4回発動する度自分のデッキから3コスト以下のユニット1体を出す。自分のターン終了時GET(1)"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_e529f564",
+      "name": "コインのたね",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "特技",
+      "text": "ユニット1体の攻撃力+1、その後GET(1)",
+      "coinId": "coin_6e38a2bf",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "その後GET(1)"
+        }
+      ],
+      "bet": {
+        "exists": false,
+        "effectText": ""
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_36fe0d52",
+      "name": "まだらイチョウ",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "ユニット",
+      "text": "BET:1/2のブラックタヌーを1体出す。このBETが3回発動する度他の全ての味方ユニットを+1/+1",
+      "coinId": "coin_1faf94ab",
+      "get": [],
+      "bet": {
+        "exists": true,
+        "effectText": "1/2のブラックタヌーを1体出す。このBETが3回発動する度他の全ての味方ユニットを+1/+1"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_ea5d50ab",
+      "name": "ぷちメタル",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "ユニット",
+      "text": "メタルボディ、BET:1ターンに1回のみ攻撃力+1と速攻を得る、自分のターン終了時GET(1)、この効果は一度しか発動しない",
+      "coinId": "coin_79140106",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "自分のターン終了時GET(1)、この効果は一度しか発動しない"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "1ターンに1回のみ攻撃力+1と速攻を得る、自分のターン終了時GET(1)、この効果は一度しか発動しない"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_16835f67",
+      "name": "エドガンの錬金術",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "占い：(1)GET(2)、(2)0/1のサボテンゴールド1体出す。その後手札にあるコインの枚数分+1/+1",
+      "coinId": "coin_abb09521",
+      "get": [
+        {
+          "amount": 2,
+          "contextText": "占い:(1)GET(2)、(2)0/1のサボテンゴールド1体出す"
+        }
+      ],
+      "bet": {
+        "exists": false,
+        "effectText": ""
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_9e2953ce",
+      "name": "悪夢のルーレット",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "特技",
+      "text": "GET(1)、その後コインの枚数と同じ数のランダムな敵ユニットのHPを1にする",
+      "coinId": "coin_28457273",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "GET(1)、その後コインの枚数と同じ数のランダムな敵ユニットのHPを1にする"
+        }
+      ],
+      "bet": {
+        "exists": false,
+        "effectText": ""
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_c0de3c42",
+      "name": "インプ",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:GET(1)、BET:1ターンに1回のみ自分のデッキの一番上のカードのコストが偶数なら敵リーダーに2ダメージ",
+      "coinId": "coin_5e870ff7",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、BET:1ターンに1回のみ自分のデッキの一番上のカードのコストが偶数なら敵リーダーに2ダメージ"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "1ターンに1回のみ自分のデッキの一番上のカードのコストが偶数なら敵リーダーに2ダメージ"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_ca4d3bc7",
+      "name": "ルバンカ",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "におうだち、召喚時：自分のデッキの一番上のカードのコストが偶数ならGET(2)、BET:HP+1",
+      "coinId": "coin_42041709",
+      "get": [
+        {
+          "amount": 2,
+          "contextText": "召喚時:自分のデッキの一番上のカードのコストが偶数ならGET(2)、BET:HP+1"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "HP+1"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_d8cdcd29",
+      "name": "賢者ルシェンダ",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:GET(1)、BET:自分のデッキの一番上のカードが偶数のコストのユニットならそれを場に出す。それ以外の場合は手札に加える。",
+      "coinId": "coin_7ac7270e",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、BET:自分のデッキの一番上のカードが偶数のコストのユニットならそれを場に出す"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "自分のデッキの一番上のカードが偶数のコストのユニットならそれを場に出す。それ以外の場合は手札に加える。"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_09ae440c",
+      "name": "デビルパピヨン",
+      "classes": [
+        "魔剣士"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：GET(1)、BET：ランダムな敵ユニット1体を毒にする",
+      "coinId": "coin_7a242bb2",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、BET:ランダムな敵ユニット1体を毒にする"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "ランダムな敵ユニット1体を毒にする"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_e688c923",
+      "name": "ダークモーモン",
+      "classes": [
+        "魔剣士"
+      ],
+      "cardType": "ユニット",
+      "text": "自分のターン終了時GET(1)、BET:お互いのリーダーのテンション+1",
+      "coinId": "coin_c96d4169",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "自分のターン終了時GET(1)、BET:お互いのリーダーのテンション+1"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "お互いのリーダーのテンション+1"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_2ba7df45",
+      "name": "魔勇者アンルシア",
+      "classes": [
+        "魔剣士"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:GET(1)、BET:正面にいるランダムな敵ユニット1体を-3/-3",
+      "coinId": "coin_454cd35e",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、BET:正面にいるランダムな敵ユニット1体を-3/-3"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "正面にいるランダムな敵ユニット1体を-3/-3"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_78e2da92",
+      "name": "どくどくビンゴ",
+      "classes": [
+        "魔剣士"
+      ],
+      "cardType": "特技",
+      "text": "GET(1)、その後 手札にあるコインの枚数分ランダムな敵ユニットを毒にする",
+      "coinId": "coin_7f4890e2",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "GET(1)、その後 手札にあるコインの枚数分ランダムな敵ユニットを毒にする"
+        }
+      ],
+      "bet": {
+        "exists": false,
+        "effectText": ""
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_84e08b43",
+      "name": "黄金兵長",
+      "classes": [
+        "魔剣士"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:GET(1)、攻撃時:敵リーダーに味方のピサロナイトの数と同じダメージを与える。BET:ピサロナイトを1体出す",
+      "coinId": "coin_28b7875a",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、攻撃時:敵リーダーに味方のピサロナイトの数と同じダメージを与える"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "ピサロナイトを1体出す"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_5f8af18a",
+      "name": "強欲なミミック",
+      "classes": [
+        "盗賊"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：GET(1)、BET:攻撃力+1、死亡時:このユニットの攻撃力が4以上ならレジェンドレアカードを手札に1枚加える",
+      "coinId": "coin_0165ca7c",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、BET:攻撃力+1、死亡時:このユニットの攻撃力が4以上ならレジェンドレアカードを手札に1枚加える"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "攻撃力+1、死亡時:このユニットの攻撃力が4以上ならレジェンドレアカードを手札に1枚加える"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    },
+    {
+      "cardId": "card_6b52ddbd",
+      "name": "しゃくねつのツメ",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "武器",
+      "text": "召喚時:GET(1)、BET:全てのユニットにこの武器の耐久力と同じダメージを与える。この武器を破壊する",
+      "coinId": "coin_f3262ccc",
+      "get": [
+        {
+          "amount": 1,
+          "contextText": "召喚時:GET(1)、BET:全てのユニットにこの武器の耐久力と同じダメージを与える"
+        }
+      ],
+      "bet": {
+        "exists": true,
+        "effectText": "全てのユニットにこの武器の耐久力と同じダメージを与える。この武器を破壊する"
+      },
+      "isCoinCard": false,
+      "needsReview": false
+    }
+  ],
+  "index": {
+    "byCardId": {
+      "card_19a6922d": "coin_227a0d68",
+      "card_0375fb61": "coin_877d1d0a",
+      "card_5fffa5b0": "coin_a9d8a0b1",
+      "card_362fd329": "coin_b5ada816",
+      "card_e936ad83": "coin_64141d83",
+      "card_40d4b786": "coin_2d3658a5",
+      "card_1a59d46e": "coin_3611e4d1",
+      "card_a23db7e5": "coin_efae2d11",
+      "card_3b346d69": "coin_50451a28",
+      "card_35df1a02": "coin_2e2e3f75",
+      "card_1019e573": "coin_2638fead",
+      "card_0baef237": "coin_9f3ada55",
+      "card_11641207": "coin_cfe78113",
+      "card_20e15c48": "coin_487a4f99",
+      "card_55de0a88": "coin_e38edb24",
+      "card_8b1c0efd": "coin_7ae81986",
+      "card_78ce20c1": "coin_b97f0efa",
+      "card_2cf0bf32": "coin_6b5c2fff",
+      "card_63b92c04": "coin_1f692562",
+      "card_297ab628": "coin_401da4ac",
+      "card_204eddbd": "coin_78663752",
+      "card_71e6a494": "coin_bcc259c3",
+      "card_65206277": "coin_b0b03e05",
+      "card_d9510db5": "coin_00d9adcf",
+      "card_4437acfa": "coin_8a45b6c8",
+      "card_d757a3cd": "coin_d0df3ff3",
+      "card_b3d0e530": "coin_d46ae192",
+      "card_6429b153": "coin_3b0dfbe3",
+      "card_90ff25ad": "coin_46b059c2",
+      "card_6ad49a58": "coin_97f6820b",
+      "card_8ae971ee": "coin_aadb0053",
+      "card_23fa1f42": "coin_4145cc5e",
+      "card_a5cfea29": "coin_5d3b14cd",
+      "card_f7af8484": "coin_a7289804",
+      "card_c504381c": "coin_704b0770",
+      "card_140b92ae": "coin_f69e27fa",
+      "card_44e719fd": "coin_9c3ab765",
+      "card_41be5300": "coin_372d3303",
+      "card_57348016": "coin_b523493e",
+      "card_1959447b": "coin_40f1d9c3",
+      "card_0a9eb550": "coin_f4f3a6cc",
+      "card_0728d656": "coin_132204c9",
+      "card_0a952d0b": "coin_0a7f519d",
+      "card_e529f564": "coin_6e38a2bf",
+      "card_36fe0d52": "coin_1faf94ab",
+      "card_ea5d50ab": "coin_79140106",
+      "card_16835f67": "coin_abb09521",
+      "card_9e2953ce": "coin_28457273",
+      "card_c0de3c42": "coin_5e870ff7",
+      "card_ca4d3bc7": "coin_42041709",
+      "card_d8cdcd29": "coin_7ac7270e",
+      "card_09ae440c": "coin_7a242bb2",
+      "card_e688c923": "coin_c96d4169",
+      "card_2ba7df45": "coin_454cd35e",
+      "card_78e2da92": "coin_7f4890e2",
+      "card_84e08b43": "coin_28b7875a",
+      "card_5f8af18a": "coin_0165ca7c",
+      "card_6b52ddbd": "coin_f3262ccc"
+    },
+    "getCardIds": [
+      "card_0375fb61",
+      "card_5fffa5b0",
+      "card_362fd329",
+      "card_e936ad83",
+      "card_40d4b786",
+      "card_1a59d46e",
+      "card_a23db7e5",
+      "card_0baef237",
+      "card_11641207",
+      "card_55de0a88",
+      "card_8b1c0efd",
+      "card_78ce20c1",
+      "card_2cf0bf32",
+      "card_63b92c04",
+      "card_297ab628",
+      "card_204eddbd",
+      "card_71e6a494",
+      "card_65206277",
+      "card_d9510db5",
+      "card_d757a3cd",
+      "card_b3d0e530",
+      "card_6429b153",
+      "card_90ff25ad",
+      "card_6ad49a58",
+      "card_8ae971ee",
+      "card_23fa1f42",
+      "card_a5cfea29",
+      "card_f7af8484",
+      "card_c504381c",
+      "card_140b92ae",
+      "card_44e719fd",
+      "card_41be5300",
+      "card_57348016",
+      "card_1959447b",
+      "card_0a9eb550",
+      "card_0728d656",
+      "card_0a952d0b",
+      "card_e529f564",
+      "card_ea5d50ab",
+      "card_16835f67",
+      "card_9e2953ce",
+      "card_c0de3c42",
+      "card_ca4d3bc7",
+      "card_d8cdcd29",
+      "card_09ae440c",
+      "card_e688c923",
+      "card_2ba7df45",
+      "card_78e2da92",
+      "card_84e08b43",
+      "card_5f8af18a",
+      "card_6b52ddbd"
+    ],
+    "betCardIds": [
+      "card_19a6922d",
+      "card_0375fb61",
+      "card_5fffa5b0",
+      "card_362fd329",
+      "card_e936ad83",
+      "card_40d4b786",
+      "card_3b346d69",
+      "card_35df1a02",
+      "card_1019e573",
+      "card_0baef237",
+      "card_11641207",
+      "card_20e15c48",
+      "card_55de0a88",
+      "card_8b1c0efd",
+      "card_78ce20c1",
+      "card_63b92c04",
+      "card_297ab628",
+      "card_204eddbd",
+      "card_71e6a494",
+      "card_65206277",
+      "card_4437acfa",
+      "card_d757a3cd",
+      "card_b3d0e530",
+      "card_6429b153",
+      "card_90ff25ad",
+      "card_6ad49a58",
+      "card_8ae971ee",
+      "card_a5cfea29",
+      "card_f7af8484",
+      "card_c504381c",
+      "card_44e719fd",
+      "card_41be5300",
+      "card_57348016",
+      "card_1959447b",
+      "card_0a9eb550",
+      "card_0728d656",
+      "card_0a952d0b",
+      "card_36fe0d52",
+      "card_ea5d50ab",
+      "card_c0de3c42",
+      "card_ca4d3bc7",
+      "card_d8cdcd29",
+      "card_09ae440c",
+      "card_e688c923",
+      "card_2ba7df45",
+      "card_84e08b43",
+      "card_5f8af18a",
+      "card_6b52ddbd"
+    ]
+  }
+}

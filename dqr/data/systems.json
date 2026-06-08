@@ -1,0 +1,4077 @@
+{
+  "schemaVersion": "1.1.0",
+  "sourceCardJson": "dqr_cards_deckbuilder_v5_strategy_complete.json",
+  "generatedFor": "deckbuilder_and_battle_engine",
+  "systems": {
+    "strategies": {
+      "schemaVersion": "1.1.0",
+      "type": "dqr.strategies",
+      "note": "「さくせん」10種類の候補効果を組み込み済み。カード側は strategy_pool_default を参照し、使用時にランダム3択から1つ選んで対象ユニットへ付与する。",
+      "pools": {
+        "default": {
+          "id": "strategy_pool_default",
+          "name": "さくせん共通プール",
+          "selectionCount": 3,
+          "applyMode": "chooseOneAndGrant",
+          "candidates": [
+            {
+              "id": "strategy_gangan_ikouze",
+              "name": "ガンガンいこうぜ",
+              "displayText": "攻撃力+2",
+              "effectText": "このユニットの攻撃力を+2する",
+              "effect": {
+                "type": "buff",
+                "target": "self",
+                "attack": 2,
+                "hp": 0,
+                "duration": "permanent"
+              }
+            },
+            {
+              "id": "strategy_inochi_daijini",
+              "name": "いのちだいじに",
+              "displayText": "HP+2",
+              "effectText": "このユニットのHPを+2する",
+              "effect": {
+                "type": "buff",
+                "target": "self",
+                "attack": 0,
+                "hp": 2,
+                "duration": "permanent"
+              }
+            },
+            {
+              "id": "strategy_batchiri_ganbare",
+              "name": "バッチリがんばれ",
+              "displayText": "攻撃力+1/HP+1",
+              "effectText": "このユニットの攻撃力とHPを+1する",
+              "effect": {
+                "type": "buff",
+                "target": "self",
+                "attack": 1,
+                "hp": 1,
+                "duration": "permanent"
+              }
+            },
+            {
+              "id": "strategy_kokode_mattete",
+              "name": "ここでまってて",
+              "displayText": "におうだち",
+              "effectText": "このユニットに におうだち を付与する",
+              "effect": {
+                "type": "grantKeyword",
+                "target": "self",
+                "keyword": "におうだち",
+                "mechanicId": "mech_12",
+                "duration": "permanent"
+              }
+            },
+            {
+              "id": "strategy_katteni_shitene",
+              "name": "かってにしてね",
+              "displayText": "特技ダメージを受けない",
+              "effectText": "このユニットは特技ダメージを受けない",
+              "effect": {
+                "type": "grantImmunity",
+                "target": "self",
+                "immunity": "spellDamage",
+                "duration": "permanent"
+              }
+            },
+            {
+              "id": "strategy_tonikaku_nigete",
+              "name": "とにかくにげて",
+              "displayText": "攻撃力-1/HP+3",
+              "effectText": "このユニットの攻撃力を-1し、HPを+3する",
+              "effect": {
+                "type": "buff",
+                "target": "self",
+                "attack": -1,
+                "hp": 3,
+                "duration": "permanent"
+              }
+            },
+            {
+              "id": "strategy_senryoku_ubae",
+              "name": "せんりょくうばえ",
+              "displayText": "このユニットに戦闘ダメージを与えたユニットは死亡する",
+              "effectText": "このユニットに戦闘ダメージを与えたユニットを死亡させる",
+              "effect": {
+                "type": "grantTriggeredAbility",
+                "target": "self",
+                "trigger": "afterThisUnitTakesCombatDamage",
+                "action": {
+                  "type": "destroy",
+                  "target": "damageSourceUnit"
+                },
+                "duration": "permanent"
+              }
+            },
+            {
+              "id": "strategy_tension_tamero",
+              "name": "テンションためろ",
+              "displayText": "死亡時：テンション+1",
+              "effectText": "このユニットの死亡時、味方リーダーのテンションを+1する",
+              "effect": {
+                "type": "grantDeathrattle",
+                "target": "self",
+                "action": {
+                  "type": "gainTension",
+                  "target": "friendlyLeader",
+                  "amount": 1
+                },
+                "duration": "permanent"
+              }
+            },
+            {
+              "id": "strategy_support_tanomuzo",
+              "name": "サポートたのむぞ",
+              "displayText": "死亡時：カードを1枚引く",
+              "effectText": "このユニットの死亡時、カードを1枚引く",
+              "effect": {
+                "type": "grantDeathrattle",
+                "target": "self",
+                "action": {
+                  "type": "drawCards",
+                  "target": "friendlyLeader",
+                  "count": 1
+                },
+                "duration": "permanent"
+              }
+            },
+            {
+              "id": "strategy_leader_wo_kaifuku",
+              "name": "リーダーをかいふく！",
+              "displayText": "死亡時：味方リーダーのHPを3回復",
+              "effectText": "このユニットの死亡時、味方リーダーのHPを3回復する",
+              "effect": {
+                "type": "grantDeathrattle",
+                "target": "self",
+                "action": {
+                  "type": "heal",
+                  "target": "friendlyLeader",
+                  "amount": 3
+                },
+                "duration": "permanent"
+              }
+            }
+          ],
+          "manualDataRequired": false,
+          "selectionMethod": "randomWithoutReplacement",
+          "target": "unitSpecifiedByCardText"
+        }
+      },
+      "cards": [
+        {
+          "cardId": "card_1e2e4b2a",
+          "name": "テールイーター",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:このユニットにさくせんを出す",
+          "strategyApplications": 1,
+          "targetHint": "このユニット"
+        },
+        {
+          "cardId": "card_1f0ddb6c",
+          "name": "エルギオス",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "ねらい撃ち、召喚時：このユニットに4回さくせんを出す",
+          "strategyApplications": 4,
+          "targetHint": "このユニット"
+        },
+        {
+          "cardId": "card_6f20cd44",
+          "name": "バブルキング",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：味方ユニット1体にさくせんを出す。このユニットが戦闘ダメージを与えたユニットを毒にする。",
+          "strategyApplications": 1,
+          "targetHint": "味方ユニット1体"
+        },
+        {
+          "cardId": "card_ae660737",
+          "name": "魔法の剣",
+          "classes": [
+            "戦士"
+          ],
+          "cardType": "武器",
+          "text": "召喚時：貫通を持つ味方ユニット1体にさくせんを出す",
+          "strategyApplications": 1,
+          "targetHint": "味方ユニット1体"
+        },
+        {
+          "cardId": "card_fb3d75b3",
+          "name": "修練のたてまじん",
+          "classes": [
+            "戦士"
+          ],
+          "cardType": "ユニット",
+          "text": "におうだち、召喚時：味方リーダーが武器を装備している場合このユニットにさくせんを出す",
+          "strategyApplications": 1,
+          "targetHint": "このユニット"
+        },
+        {
+          "cardId": "card_c8b44f81",
+          "name": "飛翔のガーゴイル",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "ユニット",
+          "text": "おうえん、ねらい撃ち、召喚時：自分の手札に特技カードがあるならこのユニットにさくせんを出す",
+          "strategyApplications": 1,
+          "targetHint": "このユニット"
+        },
+        {
+          "cardId": "card_37c6d619",
+          "name": "ジャイアントバット",
+          "classes": [
+            "武闘家"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：このユニットにさくせんを出す。自分のターン中このユニットが戦闘ダメージを与えた敵を次のターン終了時まで攻撃不能にする",
+          "strategyApplications": 1,
+          "targetHint": "このユニット"
+        },
+        {
+          "cardId": "card_9a8f3b7f",
+          "name": "メタッツ",
+          "classes": [
+            "武闘家"
+          ],
+          "cardType": "ユニット",
+          "text": "メタルボディ、速攻、召喚時：味方建物があるならこのユニットにさくせんを出す",
+          "strategyApplications": 1,
+          "targetHint": "このユニット"
+        },
+        {
+          "cardId": "card_50186816",
+          "name": "百獣の王キングレオ",
+          "classes": [
+            "武闘家"
+          ],
+          "cardType": "ユニット",
+          "text": "速攻、この対戦中に自分が味方にさくせんを出した回数分手札のこのカードのコスト-1",
+          "strategyApplications": 1,
+          "targetHint": "本文参照"
+        },
+        {
+          "cardId": "card_b2641ee7",
+          "name": "追撃のキラーマシン",
+          "classes": [
+            "武闘家"
+          ],
+          "cardType": "ユニット",
+          "text": "2回攻撃、召喚時:このユニットにさくせんを出す。自分がさくせんを出した後、1ターンに2回までランダムな敵ユニット1体に2ダメージ",
+          "strategyApplications": 1,
+          "targetHint": "このユニット"
+        },
+        {
+          "cardId": "card_15820bca",
+          "name": "強奪のくびかりぞく",
+          "classes": [
+            "僧侶"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：味方リーダーのテンションが2以上あるならこのユニットにさくせんを出す。このユニットの攻撃で敵ユニットが死亡する度カードを1枚引く",
+          "strategyApplications": 1,
+          "targetHint": "このユニット"
+        },
+        {
+          "cardId": "card_90378248",
+          "name": "さくせんがえ",
+          "classes": [
+            "商人"
+          ],
+          "cardType": "特技",
+          "text": "縦一列にいる全ての味方ユニットにさくせんを出す",
+          "strategyApplications": 1,
+          "targetHint": "本文参照"
+        },
+        {
+          "cardId": "card_bf35ede9",
+          "name": "マペットマン",
+          "classes": [
+            "商人"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：味方ユニット1体にさくせんを出す",
+          "strategyApplications": 1,
+          "targetHint": "味方ユニット1体"
+        },
+        {
+          "cardId": "card_83fe681d",
+          "name": "キラーマシン2",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "2回攻撃、召喚時:このユニットにさくせんを出す。耐戦中に味方建物が3つ以上出ていたら、代わりに2回さくせんを出し、出たさくせんの効果全てを得る",
+          "strategyApplications": 2,
+          "targetHint": "このユニット"
+        },
+        {
+          "cardId": "card_3ffe81c0",
+          "name": "オーガソルジャー",
+          "classes": [
+            "魔剣士"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：全てのピサロナイトにさくせんを出す",
+          "strategyApplications": 1,
+          "targetHint": "全てのピサロナイト"
+        },
+        {
+          "cardId": "card_83b14001",
+          "name": "ようがんげんじん",
+          "classes": [
+            "盗賊"
+          ],
+          "cardType": "ユニット",
+          "text": "ステルス、召喚時：このユニットにさくせんを出す",
+          "strategyApplications": 1,
+          "targetHint": "このユニット"
+        },
+        {
+          "cardId": "card_97d4fedd",
+          "name": "さんぞくのカシラ",
+          "classes": [
+            "盗賊"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:このユニットは消滅しさんぞく兵、さんぞくマージ、さんぞく、エテポンゲを出しそれらにさくせんを出す",
+          "strategyApplications": 1,
+          "targetHint": "このユニット"
+        }
+      ],
+      "index": {
+        "byCardId": {
+          "card_1e2e4b2a": "strategy_pool_default",
+          "card_1f0ddb6c": "strategy_pool_default",
+          "card_6f20cd44": "strategy_pool_default",
+          "card_ae660737": "strategy_pool_default",
+          "card_fb3d75b3": "strategy_pool_default",
+          "card_c8b44f81": "strategy_pool_default",
+          "card_37c6d619": "strategy_pool_default",
+          "card_9a8f3b7f": "strategy_pool_default",
+          "card_50186816": "strategy_pool_default",
+          "card_b2641ee7": "strategy_pool_default",
+          "card_15820bca": "strategy_pool_default",
+          "card_90378248": "strategy_pool_default",
+          "card_bf35ede9": "strategy_pool_default",
+          "card_83fe681d": "strategy_pool_default",
+          "card_3ffe81c0": "strategy_pool_default",
+          "card_83b14001": "strategy_pool_default",
+          "card_97d4fedd": "strategy_pool_default"
+        }
+      },
+      "candidateIndex": {
+        "strategy_gangan_ikouze": "ガンガンいこうぜ",
+        "strategy_inochi_daijini": "いのちだいじに",
+        "strategy_batchiri_ganbare": "バッチリがんばれ",
+        "strategy_kokode_mattete": "ここでまってて",
+        "strategy_katteni_shitene": "かってにしてね",
+        "strategy_tonikaku_nigete": "とにかくにげて",
+        "strategy_senryoku_ubae": "せんりょくうばえ",
+        "strategy_tension_tamero": "テンションためろ",
+        "strategy_support_tanomuzo": "サポートたのむぞ",
+        "strategy_leader_wo_kaifuku": "リーダーをかいふく！"
+      },
+      "stats": {
+        "candidateCount": 10,
+        "cardCount": 17
+      }
+    },
+    "fortune": {
+      "schemaVersion": "1.0.0",
+      "type": "dqr.fortune",
+      "cards": [
+        {
+          "cardId": "card_14926367",
+          "name": "デスファレーナ",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "占い：(1)攻撃力+2、(2)HP+2",
+          "fortuneId": "fortune_e69c6a68",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "攻撃力+2"
+            },
+            {
+              "optionNo": 2,
+              "text": "HP+2"
+            }
+          ],
+          "rawAfterKeyword": "(1)攻撃力+2、(2)HP+2",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_7052acf3",
+          "name": "節制のタロット",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い:(1)1/1のスライムを2体出す、(2)カードを1枚引く",
+          "fortuneId": "fortune_5066b23d",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "1/1のスライムを2体出す"
+            },
+            {
+              "optionNo": 2,
+              "text": "カードを1枚引く"
+            }
+          ],
+          "rawAfterKeyword": "(1)1/1のスライムを2体出す、(2)カードを1枚引く",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_d8835650",
+          "name": "太陽のタロット",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い：(1)全ての敵ユニットに2ダメージ、(2)味方リーダーのHPを7回復",
+          "fortuneId": "fortune_7f2d3f74",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "全ての敵ユニットに2ダメージ"
+            },
+            {
+              "optionNo": 2,
+              "text": "味方リーダーのHPを7回復"
+            }
+          ],
+          "rawAfterKeyword": "(1)全ての敵ユニットに2ダメージ、(2)味方リーダーのHPを7回復",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_028880ce",
+          "name": "星のタロット",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い：(1)カードを2枚引く(2)におうだち3/3ビッグフェイスを出す",
+          "fortuneId": "fortune_6df43e8c",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "カードを2枚引く"
+            },
+            {
+              "optionNo": 2,
+              "text": "におうだち3/3ビッグフェイスを出す"
+            }
+          ],
+          "rawAfterKeyword": "(1)カードを2枚引く(2)におうだち3/3ビッグフェイスを出す",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_2f9c499f",
+          "name": "塔のタロット",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い：(1)ユニット1体のHPを1にする、(2)ユニット1体に1ダメージを与えた後カードを1枚引く",
+          "fortuneId": "fortune_a36a7552",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "ユニット1体のHPを1にする"
+            },
+            {
+              "optionNo": 2,
+              "text": "ユニット1体に1ダメージを与えた後カードを1枚引く"
+            }
+          ],
+          "rawAfterKeyword": "(1)ユニット1体のHPを1にする、(2)ユニット1体に1ダメージを与えた後カードを1枚引く",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_700c487c",
+          "name": "皇帝のタロット",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い：(1)ユニット1体を+2/+3、(2)ユニット1体に速攻と貫通を付与",
+          "fortuneId": "fortune_e3cfa523",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "ユニット1体を+2/+3"
+            },
+            {
+              "optionNo": 2,
+              "text": "ユニット1体に速攻と貫通を付与"
+            }
+          ],
+          "rawAfterKeyword": "(1)ユニット1体を+2/+3、(2)ユニット1体に速攻と貫通を付与",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_d329867b",
+          "name": "パペットこぞう",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "占い：(1)味方リーダーのテンション-1、(2)+1/+1を得る",
+          "fortuneId": "fortune_e0f654a6",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "味方リーダーのテンション-1"
+            },
+            {
+              "optionNo": 2,
+              "text": "+1/+1を得る"
+            }
+          ],
+          "rawAfterKeyword": "(1)味方リーダーのテンション-1、(2)+1/+1を得る",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_0fb5ba79",
+          "name": "エビルドライブ",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "占い：(1)カードを1枚引く、(2)攻撃力+3",
+          "fortuneId": "fortune_e3bb75fb",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "カードを1枚引く"
+            },
+            {
+              "optionNo": 2,
+              "text": "攻撃力+3"
+            }
+          ],
+          "rawAfterKeyword": "(1)カードを1枚引く、(2)攻撃力+3",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_725483e4",
+          "name": "おばけトマト",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "占い：(1)敵ユニット1体の攻撃力を1にする、(2)敵ユニット1体のHPを1にする",
+          "fortuneId": "fortune_b304d0eb",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "敵ユニット1体の攻撃力を1にする"
+            },
+            {
+              "optionNo": 2,
+              "text": "敵ユニット1体のHPを1にする"
+            }
+          ],
+          "rawAfterKeyword": "(1)敵ユニット1体の攻撃力を1にする、(2)敵ユニット1体のHPを1にする",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_a3f1284b",
+          "name": "隠者のタロット",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い:(1)ユニットのコピーを自分の手札に加える、(2)ユニット1体を1/1のスライムに返信",
+          "fortuneId": "fortune_5d4075c3",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "ユニットのコピーを自分の手札に加える"
+            },
+            {
+              "optionNo": 2,
+              "text": "ユニット1体を1/1のスライムに返信"
+            }
+          ],
+          "rawAfterKeyword": "(1)ユニットのコピーを自分の手札に加える、(2)ユニット1体を1/1のスライムに返信",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_5f6a5488",
+          "name": "ダイス・ド・デビル",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "占い：(1)1/1のスライムを出す、(2)4/4のホースデビルを出す",
+          "fortuneId": "fortune_a6c103a1",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "1/1のスライムを出す"
+            },
+            {
+              "optionNo": 2,
+              "text": "4/4のホースデビルを出す"
+            }
+          ],
+          "rawAfterKeyword": "(1)1/1のスライムを出す、(2)4/4のホースデビルを出す",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_4b2ece59",
+          "name": "悪魔のタロット",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い：(1)全ての敵ユニットに4ダメージ、(2)4/4のホースデビルを2体出す",
+          "fortuneId": "fortune_e732a409",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "全ての敵ユニットに4ダメージ"
+            },
+            {
+              "optionNo": 2,
+              "text": "4/4のホースデビルを2体出す"
+            }
+          ],
+          "rawAfterKeyword": "(1)全ての敵ユニットに4ダメージ、(2)4/4のホースデビルを2体出す",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_ec0b6371",
+          "name": "ジュリアンテ",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "占い：(1)他の全ての味方ユニット+2/+2、(2)ランダムな敵3体を次のターン攻撃不能にする",
+          "fortuneId": "fortune_e34898f9",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "他の全ての味方ユニット+2/+2"
+            },
+            {
+              "optionNo": 2,
+              "text": "ランダムな敵3体を次のターン攻撃不能にする"
+            }
+          ],
+          "rawAfterKeyword": "(1)他の全ての味方ユニット+2/+2、(2)ランダムな敵3体を次のターン攻撃不能にする",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_e084603d",
+          "name": "あばれうしどり",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "占い：①攻撃力+1と貫通を得る、②速攻を得る",
+          "fortuneId": "fortune_27d19686",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "攻撃力+1と貫通を得る"
+            },
+            {
+              "optionNo": 2,
+              "text": "速攻を得る"
+            }
+          ],
+          "rawAfterKeyword": "1攻撃力+1と貫通を得る、2速攻を得る",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_582b846a",
+          "name": "愚者のタロット",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い:①全ての敵ユニットの攻撃力を1にする②全ての敵ユニットのHPを1にする",
+          "fortuneId": "fortune_f7a3c467",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [],
+          "rawAfterKeyword": "1全ての敵ユニットの攻撃力を1にする2全ての敵ユニットのHPを1にする",
+          "needsReview": true
+        },
+        {
+          "cardId": "card_5944a72f",
+          "name": "魔術師のタロット",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い：①デッキの一番上のカードのコスト-3 ②デッキの一番上のカードを手札に加える。さらにそのコピー1枚を手札に加える",
+          "fortuneId": "fortune_41d2c89e",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "デッキの一番上のカードのコスト-3"
+            },
+            {
+              "optionNo": 2,
+              "text": "デッキの一番上のカードを手札に加える。さらにそのコピー1枚を手札に加える"
+            }
+          ],
+          "rawAfterKeyword": "1デッキの一番上のカードのコスト-3 2デッキの一番上のカードを手札に加える。さらにそのコピー1枚を手札に加える",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_fe1e824d",
+          "name": "戦車のタロット",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い:①全てのユニットに1ダメージ、②ランダムな敵1体に3ダメージ",
+          "fortuneId": "fortune_5920b21c",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "全てのユニットに1ダメージ"
+            },
+            {
+              "optionNo": 2,
+              "text": "ランダムな敵1体に3ダメージ"
+            }
+          ],
+          "rawAfterKeyword": "1全てのユニットに1ダメージ、2ランダムな敵1体に3ダメージ",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_23d5d5f7",
+          "name": "力のタロット",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い：①全ての味方ユニットの攻撃力+1、②ランダムな味方ユニット1体を+3/+2",
+          "fortuneId": "fortune_79562a9a",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "全ての味方ユニットの攻撃力+1"
+            },
+            {
+              "optionNo": 2,
+              "text": "ランダムな味方ユニット1体を+3/+2"
+            }
+          ],
+          "rawAfterKeyword": "1全ての味方ユニットの攻撃力+1、2ランダムな味方ユニット1体を+3/+2",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_2331f997",
+          "name": "キースドラゴン",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "占い：①味方リーダーのHPを5回復、②正面にいる全ての敵ユニットに2ダメージ",
+          "fortuneId": "fortune_b5c5a4ab",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "味方リーダーのHPを5回復"
+            },
+            {
+              "optionNo": 2,
+              "text": "正面にいる全ての敵ユニットに2ダメージ"
+            }
+          ],
+          "rawAfterKeyword": "1味方リーダーのHPを5回復、2正面にいる全ての敵ユニットに2ダメージ",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_1f7d61c0",
+          "name": "審判のタロット",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "占い：①カードを1枚引く、②味方リーダーのHPを2回復",
+          "fortuneId": "fortune_ed90c0f3",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "カードを1枚引く"
+            },
+            {
+              "optionNo": 2,
+              "text": "味方リーダーのHPを2回復"
+            }
+          ],
+          "rawAfterKeyword": "1カードを1枚引く、2味方リーダーのHPを2回復",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_1ac5e9c5",
+          "name": "バルーンコール",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い：①におうだち、2/3のプヨンターゲットを出す。②速攻 1/1のバブリンを2体出す",
+          "fortuneId": "fortune_2ec740ba",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "におうだち"
+            },
+            {
+              "optionNo": 2,
+              "text": "/3のプヨンターゲットを出す"
+            },
+            {
+              "optionNo": 2,
+              "text": "速攻"
+            },
+            {
+              "optionNo": 1,
+              "text": "/1のバブリンを2体出す"
+            }
+          ],
+          "rawAfterKeyword": "1におうだち、2/3のプヨンターゲットを出す。2速攻 1/1のバブリンを2体出す",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_02ebd665",
+          "name": "ブルホーク",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "占い:①自分のデッキから占いカードを1枚手札に加える ② 味方リーダーのテンション+2",
+          "fortuneId": "fortune_deef6a4d",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "自分のデッキから占いカードを1枚手札に加える"
+            },
+            {
+              "optionNo": 2,
+              "text": "味方リーダーのテンション+2"
+            }
+          ],
+          "rawAfterKeyword": "1自分のデッキから占いカードを1枚手札に加える 2 味方リーダーのテンション+2",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_a743e254",
+          "name": "召竜の儀式",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い:①7/7のダースドラゴンを出す ②3/3のいばらドラゴンを3体出す",
+          "fortuneId": "fortune_2e4ac269",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [],
+          "rawAfterKeyword": "17/7のダースドラゴンを出す 23/3のいばらドラゴンを3体出す",
+          "needsReview": true
+        },
+        {
+          "cardId": "card_73ecbde1",
+          "name": "メタルドラゴン",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "絶好調、占い：①自分のデッキからコスト2以下の絶好調を持つユニットを2体出す、②絶好調を持つ全ての味方ユニットを+1/+1",
+          "fortuneId": "fortune_44f09699",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "自分のデッキからコスト2以下の絶好調を持つユニットを2体出す"
+            },
+            {
+              "optionNo": 2,
+              "text": "絶好調を持つ全ての味方ユニットを+1/+1"
+            }
+          ],
+          "rawAfterKeyword": "1自分のデッキからコスト2以下の絶好調を持つユニットを2体出す、2絶好調を持つ全ての味方ユニットを+1/+1",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_91dfea63",
+          "name": "恋人のタロット",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い：①全ての味方ユニットを+2/+2、②全ての味方ユニットを絶好調状態に戻して+1/+1",
+          "fortuneId": "fortune_54950dd3",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "全ての味方ユニットを+2/+2"
+            },
+            {
+              "optionNo": 2,
+              "text": "全ての味方ユニットを絶好調状態に戻して+1/+1"
+            }
+          ],
+          "rawAfterKeyword": "1全ての味方ユニットを+2/+2、2全ての味方ユニットを絶好調状態に戻して+1/+1",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_6fcffda8",
+          "name": "リゼロッタ&ルコリア",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "占い：①この対戦中に死亡したランダムな味方ユニットを2枚手札に加える、②自分の手札とデッキの攻撃力2以下のユニットカードを+1/+1する",
+          "fortuneId": "fortune_bce42d24",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "この対戦中に死亡したランダムな味方ユニットを2枚手札に加える"
+            },
+            {
+              "optionNo": 2,
+              "text": "自分の手札とデッキの攻撃力2以下のユニットカードを+1/+1する"
+            }
+          ],
+          "rawAfterKeyword": "1この対戦中に死亡したランダムな味方ユニットを2枚手札に加える、2自分の手札とデッキの攻撃力2以下のユニットカードを+1/+1する",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_d2b7c014",
+          "name": "あくましんかん",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "占い：(1)「死亡時：この場所に復活する」を得る(2)におうだちHP+1",
+          "fortuneId": "fortune_a13fb8dd",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "「死亡時:この場所に復活する」を得る"
+            },
+            {
+              "optionNo": 2,
+              "text": "におうだちHP+1"
+            }
+          ],
+          "rawAfterKeyword": "(1)「死亡時:この場所に復活する」を得る(2)におうだちHP+1",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_1de531ec",
+          "name": "死神のタロット",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い：①全てのユニットに3ダメージ、②：2/2のナイトウィスプを3体出す",
+          "fortuneId": "fortune_134861fc",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "全てのユニットに3ダメージ"
+            },
+            {
+              "optionNo": 2,
+              "text": "2/2のナイトウィスプを3体出す"
+            }
+          ],
+          "rawAfterKeyword": "1全てのユニットに3ダメージ、2:2/2のナイトウィスプを3体出す",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_f9180cb7",
+          "name": "たまねぎマン",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "占い：①ユニット1体の攻撃力を2にする②：ユニット1体のHPを2にする",
+          "fortuneId": "fortune_a4adce11",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [],
+          "rawAfterKeyword": "1ユニット1体の攻撃力を2にする2:ユニット1体のHPを2にする",
+          "needsReview": true
+        },
+        {
+          "cardId": "card_59727aad",
+          "name": "教皇のタロット",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い：①全ての味方のHPを5回復、②全て飲み方に「次の相手のターン終了時まで戦闘ダメージとデッキ切れによるダメージのみ受ける」を付与する",
+          "fortuneId": "fortune_e0512cda",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "全ての味方のHPを5回復"
+            },
+            {
+              "optionNo": 2,
+              "text": "全て飲み方に「次の相手のターン終了時まで戦闘ダメージとデッキ切れによるダメージのみ受ける」を付与する"
+            }
+          ],
+          "rawAfterKeyword": "1全ての味方のHPを5回復、2全て飲み方に「次の相手のターン終了時まで戦闘ダメージとデッキ切れによるダメージのみ受ける」を付与する",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_16835f67",
+          "name": "エドガンの錬金術",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い：(1)GET(2)、(2)0/1のサボテンゴールド1体出す。その後手札にあるコインの枚数分+1/+1",
+          "fortuneId": "fortune_abb09521",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "GET"
+            },
+            {
+              "optionNo": 2,
+              "text": ""
+            },
+            {
+              "optionNo": 2,
+              "text": "0/1のサボテンゴールド1体出す。その後手札にあるコインの枚数分+1/+1"
+            }
+          ],
+          "rawAfterKeyword": "(1)GET(2)、(2)0/1のサボテンゴールド1体出す。その後手札にあるコインの枚数分+1/+1",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_b32cf4aa",
+          "name": "あばれ足鳥",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "占い:(1)速攻と貫通を得る、(2)+1/+1",
+          "fortuneId": "fortune_0ec38988",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "速攻と貫通を得る"
+            },
+            {
+              "optionNo": 2,
+              "text": "+1/+1"
+            }
+          ],
+          "rawAfterKeyword": "(1)速攻と貫通を得る、(2)+1/+1",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_97548726",
+          "name": "かみかぜ",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "おうえん、占い:(1)合計3ダメージをランダムな敵ユニットに割り振る(2)ランダムなコスト2のユニットを1体出す",
+          "fortuneId": "fortune_e90a9efa",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "合計3ダメージをランダムな敵ユニットに割り振る"
+            },
+            {
+              "optionNo": 2,
+              "text": "ランダムなコスト2のユニットを1体出す"
+            }
+          ],
+          "rawAfterKeyword": "(1)合計3ダメージをランダムな敵ユニットに割り振る(2)ランダムなコスト2のユニットを1体出す",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_884157d9",
+          "name": "逆転への兆し",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い：(1)全てのユニットを1/1にする(2)ランダムなコスト3のユニットを2体出す",
+          "fortuneId": "fortune_339b2053",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "全てのユニットを1/1にする"
+            },
+            {
+              "optionNo": 2,
+              "text": "ランダムなコスト3のユニットを2体出す"
+            }
+          ],
+          "rawAfterKeyword": "(1)全てのユニットを1/1にする(2)ランダムなコスト3のユニットを2体出す",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_d39b2341",
+          "name": "ヘラクライザー",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "におうだち、自分がデッキからカードを手札に加える度ランダムな敵1体に2ダメージ、占い：(1)カードを1枚引く、(2)味方リーダーのテンション+2",
+          "fortuneId": "fortune_5f952605",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "カードを1枚引く"
+            },
+            {
+              "optionNo": 2,
+              "text": "味方リーダーのテンション+2"
+            }
+          ],
+          "rawAfterKeyword": "(1)カードを1枚引く、(2)味方リーダーのテンション+2",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_a753c7d2",
+          "name": "未熟なベビーサタン",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "占い：(1)イオナズンを唱える、(2)メガンテを唱える",
+          "fortuneId": "fortune_def50de2",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "イオナズンを唱える"
+            },
+            {
+              "optionNo": 2,
+              "text": "メガンテを唱える"
+            }
+          ],
+          "rawAfterKeyword": "(1)イオナズンを唱える、(2)メガンテを唱える",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_fa51cb1d",
+          "name": "ビッグボック",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "占い:(1)味方リーダーのテンション+1、このユニットのHP+1、(2)味方リーダーのテンション+2",
+          "fortuneId": "fortune_47324934",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "味方リーダーのテンション+1、このユニットのHP+1"
+            },
+            {
+              "optionNo": 2,
+              "text": "味方リーダーのテンション+2"
+            }
+          ],
+          "rawAfterKeyword": "(1)味方リーダーのテンション+1、このユニットのHP+1、(2)味方リーダーのテンション+2",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_8bc0d225",
+          "name": "テーブル・ターニング",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い:(1)4/4のホースデビルを2体出す(2)2/2のモーモンを4体出す",
+          "fortuneId": "fortune_91c70a0e",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "4/4のホースデビルを2体出す"
+            },
+            {
+              "optionNo": 2,
+              "text": "2/2のモーモンを4体出す"
+            }
+          ],
+          "rawAfterKeyword": "(1)4/4のホースデビルを2体出す(2)2/2のモーモンを4体出す",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_19b11529",
+          "name": "暴将 黒竜丸",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "占い:(1)他の全ての味方ユニットを4/4にする(2)全ての敵ユニットに3ダメージ",
+          "fortuneId": "fortune_04fbacdf",
+          "mode": "random_or_hit_choice_or_superhit_both",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "他の全ての味方ユニットを4/4にする"
+            },
+            {
+              "optionNo": 2,
+              "text": "全ての敵ユニットに3ダメージ"
+            }
+          ],
+          "rawAfterKeyword": "(1)他の全ての味方ユニットを4/4にする(2)全ての敵ユニットに3ダメージ",
+          "needsReview": false
+        }
+      ],
+      "index": {
+        "byCardId": {
+          "card_14926367": "fortune_e69c6a68",
+          "card_7052acf3": "fortune_5066b23d",
+          "card_d8835650": "fortune_7f2d3f74",
+          "card_028880ce": "fortune_6df43e8c",
+          "card_2f9c499f": "fortune_a36a7552",
+          "card_700c487c": "fortune_e3cfa523",
+          "card_d329867b": "fortune_e0f654a6",
+          "card_0fb5ba79": "fortune_e3bb75fb",
+          "card_725483e4": "fortune_b304d0eb",
+          "card_a3f1284b": "fortune_5d4075c3",
+          "card_5f6a5488": "fortune_a6c103a1",
+          "card_4b2ece59": "fortune_e732a409",
+          "card_ec0b6371": "fortune_e34898f9",
+          "card_e084603d": "fortune_27d19686",
+          "card_582b846a": "fortune_f7a3c467",
+          "card_5944a72f": "fortune_41d2c89e",
+          "card_fe1e824d": "fortune_5920b21c",
+          "card_23d5d5f7": "fortune_79562a9a",
+          "card_2331f997": "fortune_b5c5a4ab",
+          "card_1f7d61c0": "fortune_ed90c0f3",
+          "card_1ac5e9c5": "fortune_2ec740ba",
+          "card_02ebd665": "fortune_deef6a4d",
+          "card_a743e254": "fortune_2e4ac269",
+          "card_73ecbde1": "fortune_44f09699",
+          "card_91dfea63": "fortune_54950dd3",
+          "card_6fcffda8": "fortune_bce42d24",
+          "card_d2b7c014": "fortune_a13fb8dd",
+          "card_1de531ec": "fortune_134861fc",
+          "card_f9180cb7": "fortune_a4adce11",
+          "card_59727aad": "fortune_e0512cda",
+          "card_16835f67": "fortune_abb09521",
+          "card_b32cf4aa": "fortune_0ec38988",
+          "card_97548726": "fortune_e90a9efa",
+          "card_884157d9": "fortune_339b2053",
+          "card_d39b2341": "fortune_5f952605",
+          "card_a753c7d2": "fortune_def50de2",
+          "card_fa51cb1d": "fortune_47324934",
+          "card_8bc0d225": "fortune_91c70a0e",
+          "card_19b11529": "fortune_04fbacdf"
+        }
+      }
+    },
+    "choices": {
+      "schemaVersion": "1.0.0",
+      "type": "dqr.choices",
+      "cards": [
+        {
+          "cardId": "card_5fe00f1a",
+          "name": "ダークプラネット",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "選択：・ダンジョンではない敵建物１つの耐久値を2にする。・ダンジョンではない敵建物1つの耐久値を-2",
+          "choiceId": "choice_a3f4a3ab",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "ダンジョンではない敵建物1つの耐久値を2にする"
+            },
+            {
+              "optionNo": 2,
+              "text": "ダンジョンではない敵建物1つの耐久値を-2"
+            }
+          ],
+          "needsReview": false
+        },
+        {
+          "cardId": "card_ae365a29",
+          "name": "ひぐらしそう",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "選択：・コスト1のランダムなユニットカードを手札に1枚加える・コスト3のランダムな特技カードを手札に1枚加える",
+          "choiceId": "choice_19ebaf6d",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "コスト1のランダムなユニットカードを手札に1枚加える"
+            },
+            {
+              "optionNo": 2,
+              "text": "コスト3のランダムな特技カードを手札に1枚加える"
+            }
+          ],
+          "needsReview": false
+        },
+        {
+          "cardId": "card_0c103e46",
+          "name": "ヌーデビル",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "選択：・攻撃力+4・正面にいる全ての敵ユニットに2ダメージ",
+          "choiceId": "choice_db0f42e8",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "攻撃力+4"
+            },
+            {
+              "optionNo": 2,
+              "text": "正面にいる全ての敵ユニットに2ダメージ"
+            }
+          ],
+          "needsReview": false
+        },
+        {
+          "cardId": "card_1b26c04f",
+          "name": "旅立ちの王女",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "選択：・全てのユニットに1ダメージ・特技カードをランダムに1枚手札に加える。このターン中使った特技カードのコストの合計分コストが減る",
+          "choiceId": "choice_a1c201c0",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "全てのユニットに1ダメージ"
+            },
+            {
+              "optionNo": 2,
+              "text": "特技カードをランダムに1枚手札に加える。このターン中使った特技カードのコストの合計分コストが減る"
+            }
+          ],
+          "needsReview": false
+        },
+        {
+          "cardId": "card_b1b3f587",
+          "name": "救援のドラキー",
+          "classes": [
+            "戦士"
+          ],
+          "cardType": "ユニット",
+          "text": "選択：・2/1のこんぼう1枚を手札に加える。・このターン中味方リーダーが受けるダメージ-3",
+          "choiceId": "choice_95bfd439",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "2/1のこんぼう1枚を手札に加える"
+            },
+            {
+              "optionNo": 2,
+              "text": "このターン中味方リーダーが受けるダメージ-3"
+            }
+          ],
+          "needsReview": false
+        },
+        {
+          "cardId": "card_7323a25d",
+          "name": "まじょ",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "ユニット",
+          "text": "選択：・魔法使いの特技カードをランダムに1枚手札に加える・魔力の息吹を1枚手札に加える",
+          "choiceId": "choice_1c5572f4",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "魔法使いの特技カードをランダムに1枚手札に加える"
+            },
+            {
+              "optionNo": 2,
+              "text": "魔力の息吹を1枚手札に加える"
+            }
+          ],
+          "needsReview": false
+        },
+        {
+          "cardId": "card_165a5930",
+          "name": "乙女の気まぐれ",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "特技",
+          "text": "選択：ユニット1体に4ダメージ、・ユニット1体に2ダメージ、カードを1枚引く",
+          "choiceId": "choice_5d4c0111",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "ユニット1体に4ダメージ"
+            },
+            {
+              "optionNo": 2,
+              "text": "ユニット1体に2ダメージ、カードを1枚引く"
+            }
+          ],
+          "needsReview": false
+        },
+        {
+          "cardId": "card_1ee8d46f",
+          "name": "ジャミ&ゴンズ",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "ユニット",
+          "text": "選択：・HP-2 カードを1枚引く、敵リーダーに2ダメージ・攻撃力-2 におうだちを得る、味方リーダーのテンション+1",
+          "choiceId": "choice_9189a519",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "HP-2 カードを1枚引く、敵リーダーに2ダメージ"
+            },
+            {
+              "optionNo": 2,
+              "text": "攻撃力-2 におうだちを得る、味方リーダーのテンション+1"
+            }
+          ],
+          "needsReview": false
+        },
+        {
+          "cardId": "card_e7d0bd0d",
+          "name": "キラークリムゾン",
+          "classes": [
+            "商人"
+          ],
+          "cardType": "ユニット",
+          "text": "選択:・味方リーダーのテンション+2・コスト2のはがねのそろばん1枚を手札に加える",
+          "choiceId": "choice_21ccd316",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "味方リーダーのテンション+2"
+            },
+            {
+              "optionNo": 2,
+              "text": "コスト2のはがねのそろばん1枚を手札に加える"
+            }
+          ],
+          "needsReview": false
+        },
+        {
+          "cardId": "card_96d212c9",
+          "name": "スラリンガル",
+          "classes": [
+            "商人"
+          ],
+          "cardType": "ユニット",
+          "text": "貫通、選択:+1/+1と速攻とこのターン中「敵リーダーを攻撃できずダメージを受けない」を得る。・このターンの終了時攻撃力とHPが2倍になる",
+          "choiceId": "choice_9959dddc",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "+1/+1と速攻とこのターン中「敵リーダーを攻撃できずダメージを受けない」を得る"
+            },
+            {
+              "optionNo": 2,
+              "text": "このターンの終了時攻撃力とHPが2倍になる"
+            }
+          ],
+          "needsReview": false
+        },
+        {
+          "cardId": "card_e4512ec7",
+          "name": "魔王への忠誠",
+          "classes": [
+            "魔剣士"
+          ],
+          "cardType": "特技",
+          "text": "おうえん、選択：・１貫通 2/1のがいこつへいを１体出す 味方リーダーのMPを2回復 ・ におうだち2/４のスケアフレイルを1体出す",
+          "choiceId": "choice_8d38e006",
+          "options": [
+            {
+              "optionNo": 1,
+              "text": "1貫通 2/1のがいこつへいを1体出す 味方リーダーのMPを2回復"
+            },
+            {
+              "optionNo": 2,
+              "text": "におうだち2/4のスケアフレイルを1体出す"
+            }
+          ],
+          "needsReview": false
+        }
+      ],
+      "index": {
+        "byCardId": {
+          "card_5fe00f1a": "choice_a3f4a3ab",
+          "card_ae365a29": "choice_19ebaf6d",
+          "card_0c103e46": "choice_db0f42e8",
+          "card_1b26c04f": "choice_a1c201c0",
+          "card_b1b3f587": "choice_95bfd439",
+          "card_7323a25d": "choice_1c5572f4",
+          "card_165a5930": "choice_5d4c0111",
+          "card_1ee8d46f": "choice_9189a519",
+          "card_e7d0bd0d": "choice_21ccd316",
+          "card_96d212c9": "choice_9959dddc",
+          "card_e4512ec7": "choice_8d38e006"
+        }
+      }
+    },
+    "dungeons": {
+      "schemaVersion": "1.0.0",
+      "type": "dqr.dungeons",
+      "cards": [
+        {
+          "cardId": "card_19999023",
+          "name": "沼地の洞くつ",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "建物",
+          "text": "ダンジョン(耐久値5で踏破）、自分のターン終了時隣接している味方ユニットがいるなら耐久値+1、踏破時:王女の愛1枚を手札に加える",
+          "dungeonId": "dungeon_27db1c20",
+          "clearDurability": 5,
+          "progressConditionText": "ダンジョン(耐久値5で踏破)、自分のターン終了時隣接している味方ユニットがいるなら耐久値+1",
+          "completionEffectText": "王女の愛1枚を手札に加える",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_1c821e42",
+          "name": "守りのほこら",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "建物",
+          "text": "ダンジョン(耐久値5で踏破)、味方リーダーが攻撃した後耐久値+1、踏破時:ランダムなコスト4のユニットをこの場所に出しにおうだちを付与する",
+          "dungeonId": "dungeon_1bf2af33",
+          "clearDurability": 5,
+          "progressConditionText": "ダンジョン(耐久値5で踏破)、味方リーダーが攻撃した後耐久値+1",
+          "completionEffectText": "ランダムなコスト4のユニットをこの場所に出しにおうだちを付与する",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_79cc5068",
+          "name": "仙人のほら穴",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "建物",
+          "text": "ダンジョン(耐久値13で踏破)、コスト1〜8の中から使用していないコストの特技を使用すると耐久値+2、踏破時:ドルマドン1枚を手札に加える",
+          "dungeonId": "dungeon_0cd38e6a",
+          "clearDurability": 13,
+          "progressConditionText": "ダンジョン(耐久値13で踏破)、コスト1〜8の中から使用していないコストの特技を使用すると耐久値+2",
+          "completionEffectText": "ドルマドン1枚を手札に加える",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_fbbeab37",
+          "name": "ピラミッド",
+          "classes": [
+            "武闘家"
+          ],
+          "cardType": "建物",
+          "text": "ダンジョン(耐久値11で踏破)、自分が武闘家のカードを使う度耐久値+1、踏破時：おうごんのつめ1枚を手札に加える。3/3のミイラおとこを2体出す",
+          "dungeonId": "dungeon_9d321591",
+          "clearDurability": 11,
+          "progressConditionText": "ダンジョン(耐久値11で踏破)、自分が武闘家のカードを使う度耐久値+1",
+          "completionEffectText": "おうごんのつめ1枚を手札に加える。3/3のミイラおとこを2体出す",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_12c0c735",
+          "name": "ロンダルキアへの洞くつ",
+          "classes": [
+            "僧侶"
+          ],
+          "cardType": "建物",
+          "text": "ダンジョン（耐久値7で踏破)、テンションリンク:耐久値+1、踏破時：ランダムなコスト2のユニットを3体出し速攻を与える",
+          "dungeonId": "dungeon_20b4821d",
+          "clearDurability": 7,
+          "progressConditionText": "ダンジョン(耐久値7で踏破)、テンションリンク:耐久値+1",
+          "completionEffectText": "ランダムなコスト2のユニットを3体出し速攻を与える",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_2f73a37d",
+          "name": "不思議のダンジョン",
+          "classes": [
+            "商人"
+          ],
+          "cardType": "建物",
+          "text": "ダンジョン(耐久値9で踏破)、味方ユニットが場に出る度耐久値+1、踏破時：しあわせの箱1枚を手札に加える",
+          "dungeonId": "dungeon_0df0d4d9",
+          "clearDurability": 9,
+          "progressConditionText": "ダンジョン(耐久値9で踏破)、味方ユニットが場に出る度耐久値+1",
+          "completionEffectText": "しあわせの箱1枚を手札に加える",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_de982b53",
+          "name": "炎のほこら",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "建物",
+          "text": "ダンジョン（耐久値7で踏破)、自分が占いカードを使う度耐久値+1、踏破時:占い三人衆を1枚ずつ手札に加えそれらのコストを1にする",
+          "dungeonId": "dungeon_c0066cb0",
+          "clearDurability": 7,
+          "progressConditionText": "ダンジョン(耐久値7で踏破)、自分が占いカードを使う度耐久値+1",
+          "completionEffectText": "占い三人衆を1枚ずつ手札に加えそれらのコストを1にする",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_dfb14f49",
+          "name": "アンデッドガーデン",
+          "classes": [
+            "魔剣士"
+          ],
+          "cardType": "建物",
+          "text": "ダンジョン(耐久値13で踏破)、味方ユニットが死亡する度 耐久値+1 自分の最大MPが8以上なら代わりに耐久値+2、踏破時:自分の最大MPが15になる カードを2枚引く",
+          "dungeonId": "dungeon_595f323a",
+          "clearDurability": 13,
+          "progressConditionText": "ダンジョン(耐久値13で踏破)、味方ユニットが死亡する度 耐久値+1 自分の最大MPが8以上なら代わりに耐久値+2",
+          "completionEffectText": "自分の最大MPが15になる カードを2枚引く",
+          "needsReview": false
+        },
+        {
+          "cardId": "card_a1ebcdb5",
+          "name": "デルカダール地下水路",
+          "classes": [
+            "盗賊"
+          ],
+          "cardType": "建物",
+          "text": "ダンジョン(耐久値8で踏破)、味方が攻撃した後 耐久値+1、踏破時:カードを3枚引く",
+          "dungeonId": "dungeon_77abee26",
+          "clearDurability": 8,
+          "progressConditionText": "ダンジョン(耐久値8で踏破)、味方が攻撃した後 耐久値+1",
+          "completionEffectText": "カードを3枚引く",
+          "needsReview": false
+        }
+      ],
+      "index": {
+        "byCardId": {
+          "card_19999023": "dungeon_27db1c20",
+          "card_1c821e42": "dungeon_1bf2af33",
+          "card_79cc5068": "dungeon_0cd38e6a",
+          "card_fbbeab37": "dungeon_9d321591",
+          "card_12c0c735": "dungeon_20b4821d",
+          "card_2f73a37d": "dungeon_0df0d4d9",
+          "card_de982b53": "dungeon_c0066cb0",
+          "card_dfb14f49": "dungeon_595f323a",
+          "card_a1ebcdb5": "dungeon_77abee26"
+        }
+      }
+    },
+    "heroes": {
+      "schemaVersion": "1.0.0",
+      "type": "dqr.heroes",
+      "note": "ヒーロー始動カードとヒーロースキル関連カードを本文から抽出。各ヒーロースキルのレベル別詳細は本文に無いものがあるため skills は手動補完前提。",
+      "heroes": [
+        {
+          "heroId": "hero_9a9a695a",
+          "name": "ロトの血を引く者",
+          "starterCardId": "card_1e4de00f",
+          "starterCardName": "ロトの血を引く者",
+          "skillKind": "ヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        },
+        {
+          "heroId": "hero_6ef0a82c",
+          "name": "勇者エイト",
+          "starterCardId": "card_82e59f32",
+          "starterCardName": "勇者エイト",
+          "skillKind": "ヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        },
+        {
+          "heroId": "hero_9c372a50",
+          "name": "勇者ソロ",
+          "starterCardId": "card_b0cb8fe8",
+          "starterCardName": "勇者ソロ",
+          "skillKind": "ヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        },
+        {
+          "heroId": "hero_05b9d253",
+          "name": "レックス",
+          "starterCardId": "card_10321754",
+          "starterCardName": "レックス",
+          "skillKind": "ヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        },
+        {
+          "heroId": "hero_a43908cd",
+          "name": "タバサ",
+          "starterCardId": "card_851ec231",
+          "starterCardName": "タバサ",
+          "skillKind": "ヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        },
+        {
+          "heroId": "hero_b3457052",
+          "name": "勇者姫アンルシア",
+          "starterCardId": "card_36b9696d",
+          "starterCardName": "勇者姫アンルシア",
+          "skillKind": "ヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        },
+        {
+          "heroId": "hero_084aa20a",
+          "name": "大魔王ゾーマ",
+          "starterCardId": "card_a9c23817",
+          "starterCardName": "大魔王ゾーマ",
+          "skillKind": "アンチヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        },
+        {
+          "heroId": "hero_07cd3f0b",
+          "name": "天空の花嫁フローラ",
+          "starterCardId": "card_794289cd",
+          "starterCardName": "天空の花嫁フローラ",
+          "skillKind": "ヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        },
+        {
+          "heroId": "hero_e10ef9ff",
+          "name": "天空の花嫁ビアンカ",
+          "starterCardId": "card_51f4f83e",
+          "starterCardName": "天空の花嫁ビアンカ",
+          "skillKind": "ヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        },
+        {
+          "heroId": "hero_f31fb4b0",
+          "name": "天空の花嫁デボラ",
+          "starterCardId": "card_796cac42",
+          "starterCardName": "天空の花嫁デボラ",
+          "skillKind": "ヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        },
+        {
+          "heroId": "hero_ec4757a6",
+          "name": "ビルド",
+          "starterCardId": "card_00506ea3",
+          "starterCardName": "ビルド",
+          "skillKind": "ヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        },
+        {
+          "heroId": "hero_7f4edd85",
+          "name": "少年シドー",
+          "starterCardId": "card_90410d54",
+          "starterCardName": "少年シドー",
+          "skillKind": "ヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        },
+        {
+          "heroId": "hero_5695fb21",
+          "name": "勇者イレブン",
+          "starterCardId": "card_1d3ad0d4",
+          "starterCardName": "勇者イレブン",
+          "skillKind": "ヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        },
+        {
+          "heroId": "hero_19f916b4",
+          "name": "ローレシアの王子",
+          "starterCardId": "card_7487ea39",
+          "starterCardName": "ローレシアの王子",
+          "skillKind": "ヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        },
+        {
+          "heroId": "hero_3485698e",
+          "name": "ムーンブルクの王女",
+          "starterCardId": "card_909b374d",
+          "starterCardName": "ムーンブルクの王女",
+          "skillKind": "ヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        },
+        {
+          "heroId": "hero_2d4c9ccd",
+          "name": "守り人ナイン",
+          "starterCardId": "card_d22aee70",
+          "starterCardName": "守り人ナイン",
+          "skillKind": "ヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        },
+        {
+          "heroId": "hero_f6139d24",
+          "name": "勇者レック",
+          "starterCardId": "card_550b977c",
+          "starterCardName": "勇者レック",
+          "skillKind": "ヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        },
+        {
+          "heroId": "hero_f4b87ef1",
+          "name": "伝説の勇者",
+          "starterCardId": "card_ee97d74d",
+          "starterCardName": "伝説の勇者",
+          "skillKind": "ヒーロースキル",
+          "skills": [],
+          "needsSkillDataReview": true
+        }
+      ],
+      "relatedCards": [
+        {
+          "cardId": "card_836a79fd",
+          "name": "シーゴーレム",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：味方ヒーローがいる場合HP+2とにおうだちを得る",
+          "heroSystemId": "hero_ref_e3889cee",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_4d7940de",
+          "name": "ピッキー",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "いずれかのプレイヤーのヒーロースキルが発動する度両プレイヤーはカードを1枚引く",
+          "heroSystemId": "hero_ref_b88f7f00",
+          "relation": "related",
+          "heroName": "いずれかのプレイヤー",
+          "skillKind": "ヒーロースキル"
+        },
+        {
+          "cardId": "card_e3e69707",
+          "name": "まほうじじい",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "味方ヒーローのヒーロースキルはコストが1下がる",
+          "heroSystemId": "hero_ref_4df98b33",
+          "relation": "related",
+          "heroName": "味方ヒーロー",
+          "skillKind": "ヒーロースキル"
+        },
+        {
+          "cardId": "card_1158ea6f",
+          "name": "ホワイトビート",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "ヒーロースキルを1ターンに2回まで発動できるようになる",
+          "heroSystemId": "hero_ref_ed7c705f",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_d05b74e8",
+          "name": "エビルアップル",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "味方のヒーロースキルが発動したターン中手札にあるこのユニットのコスト-2",
+          "heroSystemId": "hero_ref_9eca316e",
+          "relation": "related",
+          "heroName": "味方",
+          "skillKind": "ヒーロースキル"
+        },
+        {
+          "cardId": "card_d1581a32",
+          "name": "はしりとかげ",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "いずれかのプレイヤーのヒーロースキルが発動した後味方リーダーを3回復",
+          "heroSystemId": "hero_ref_14ed409c",
+          "relation": "related",
+          "heroName": "いずれかのプレイヤー",
+          "skillKind": "ヒーロースキル"
+        },
+        {
+          "cardId": "card_aef91017",
+          "name": "ムーンフェイス",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：敵ヒーローのレベルを1下げる",
+          "heroSystemId": "hero_ref_7840524c",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_503c148f",
+          "name": "メドーサボール",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "味方ヒーローのヒーロースキルが発動した後自分のデッキからシンクロを持つカードを1枚引く",
+          "heroSystemId": "hero_ref_7257adb0",
+          "relation": "related",
+          "heroName": "味方ヒーロー",
+          "skillKind": "ヒーロースキル"
+        },
+        {
+          "cardId": "card_d4598f73",
+          "name": "破邪の秘技・勇者の眼",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "自分のデッキの上からカードを3枚見る。1枚を手札に加え、残りをデッキの下に戻す。 ヒーロースキルがランダムな別の破邪の秘技になる。",
+          "heroSystemId": "hero_ref_165a95c6",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_5357b154",
+          "name": "破邪の秘技・勇者の心",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "味方リーダーのテンション+3。 ヒーロースキルがランダムな別の破邪の秘技になる。",
+          "heroSystemId": "hero_ref_f4fad9c5",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_4cc999a9",
+          "name": "破邪の秘技・勇者の光",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "敵1体を次のターン終了時まで攻撃不能にする。 ヒーロースキルがランダムな別の破邪の秘技になる。",
+          "heroSystemId": "hero_ref_e4b24ed3",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_189f0ab3",
+          "name": "破邪の秘技の会得",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "ユニット1体に6ダメージ。ヒーロースキルがランダムな破邪の秘技になる。",
+          "heroSystemId": "hero_ref_48b4b8c0",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_618dd613",
+          "name": "破邪の秘技・勇者の盾",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "全ての味方に「次のターン終了時まで受けるダメージ-2」を付与する。 ヒーロースキルがランダムな別の破邪の秘技になる。",
+          "heroSystemId": "hero_ref_5ff3b526",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_0f94fe18",
+          "name": "グレイトボンバー",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "におうだち、死亡時：味方ヒーローがいるなら全てのユニットに2ダメージ",
+          "heroSystemId": "hero_ref_eede6b2f",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_72848502",
+          "name": "くらやみにゅうどう",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:次の相手のターン中敵のヒーロースキルは使用できず発動もしない",
+          "heroSystemId": "hero_ref_72b057bf",
+          "relation": "related",
+          "heroName": "召喚時:次の相手のターン中敵",
+          "skillKind": "ヒーロースキル"
+        },
+        {
+          "cardId": "card_a0c085e2",
+          "name": "劇場",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "建物",
+          "text": "おうえん、自分が必殺技を持つカードか必殺技を持つヒーロースキルを使用した後カードを1枚引く。自分のターン終了時耐久値-1。",
+          "heroSystemId": "hero_ref_55de7323",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_c3063bd9",
+          "name": "フォレストマスター",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：味方ヒーローがいない場合このターン中、次に使用する英雄カードのコスト-3。味方ヒーローがいる場合+1/+1",
+          "heroSystemId": "hero_ref_ce8c193e",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_321de02f",
+          "name": "王子の覚悟",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "敵1体に1ダメージ、自分のデッキに特技カードが無いならこのヒーロースキルのコスト-1、さらに使用後すぐにレベル2になる",
+          "heroSystemId": "hero_ref_9e2117d7",
+          "relation": "related",
+          "heroName": "敵1体に1ダメージ、自分のデッキに特技カードが無いならこ",
+          "skillKind": "ヒーロースキル"
+        },
+        {
+          "cardId": "card_1aa890f0",
+          "name": "紋章を探す旅",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "対象にできる敵ユニットがいる間敵リーダーを対象にできない。敵1体に2ダメージ、その後このヒーロースキルのコスト+1、ダメージ+1",
+          "heroSystemId": "hero_ref_2946aff9",
+          "relation": "related",
+          "heroName": "対象にできる敵ユニットがいる間敵リーダーを対象にできない。敵1体に2ダメージ、その後こ",
+          "skillKind": "ヒーロースキル"
+        },
+        {
+          "cardId": "card_822981d8",
+          "name": "サマルトリアの王子",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ヒーロー",
+          "text": "サマルトリアの王子のヒーロースキルが使えるようになる。このカードは最初の手札と初回のカードの入れ替えの時手札に来ない",
+          "heroSystemId": "hero_ref_5d7ff297",
+          "relation": "related",
+          "heroName": "サマルトリアの王子",
+          "skillKind": "ヒーロースキル"
+        },
+        {
+          "cardId": "card_6ad406a8",
+          "name": "白煙のホワイトビート",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:次の相手のターン終了時までステルスを得る。味方のヒーロースキルを2回まで発動できるようになる",
+          "heroSystemId": "hero_ref_4a412e09",
+          "relation": "related",
+          "heroName": "召喚時:次の相手のターン終了時までステルスを得る。味方",
+          "skillKind": "ヒーロースキル"
+        },
+        {
+          "cardId": "card_51e3a4ad",
+          "name": "パプリカン",
+          "classes": [
+            "戦士"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：味方ヒーローがいる場合装備中の武器を+1/+1",
+          "heroSystemId": "hero_ref_323a52c8",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_d7077797",
+          "name": "ブラッドソード",
+          "classes": [
+            "戦士"
+          ],
+          "cardType": "ユニット",
+          "text": "死亡時：味方ヒーローがいる場合自分のデッキからコスト2以下の武器を装備する。",
+          "heroSystemId": "hero_ref_bb64b1fa",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_6ebbbeb0",
+          "name": "デビルアーマー",
+          "classes": [
+            "戦士"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：味方ヒーローがいる場合手札にあるランダムな武器を装備する",
+          "heroSystemId": "hero_ref_3e5f67b1",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_d13dbf79",
+          "name": "キングムーチョ",
+          "classes": [
+            "戦士"
+          ],
+          "cardType": "ユニット",
+          "text": "におうだち、召喚時：味方ヒーローがいる場合味方リーダーが装備中の武器を+1/+1",
+          "heroSystemId": "hero_ref_2bd0e286",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_87f4d7ac",
+          "name": "メイジももんじゃ",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：味方ヒーローがいる場合ヒャドを手札に加える",
+          "heroSystemId": "hero_ref_1dedf876",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_33613a86",
+          "name": "ラリホービートル",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：味方ヒーローがいる場合敵ユニット1体を次のターン終了時まで攻撃不能にする。",
+          "heroSystemId": "hero_ref_f1b0f783",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_c1272903",
+          "name": "ヒャドの極意",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "特技",
+          "text": "ヒャド1枚を手札に加える。味方ヒーローがいる場合代わりに2枚加える",
+          "heroSystemId": "hero_ref_6828dbbf",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_f9120cf5",
+          "name": "アークマージ",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "ユニット",
+          "text": "この対戦の間ヒーロースキルが発動した回数分攻撃力+1を得る。このユニットの攻撃力が5以上の場合さらに特技ダメージ+2を得る。",
+          "heroSystemId": "hero_ref_32e8fbd1",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_8ffda489",
+          "name": "ピオリム",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "特技",
+          "text": "このターン中ヒーロースキルを2回発動できる。 カードを1枚引く",
+          "heroSystemId": "hero_ref_997196c0",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_513a64ec",
+          "name": "魔導召喚",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "特技",
+          "text": "5/4のスノーホムンクルスを1体出す。味方ヒーローがいる場合代わりにそのレベルに合わせて1体出す",
+          "heroSystemId": "hero_ref_953d13b3",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_6546b092",
+          "name": "ミニデーモン",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：味方ヒーローがいる場合自分のデッキからコスト2の特技カードをランダムに1枚引く",
+          "heroSystemId": "hero_ref_deb451d3",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_2fac5ab9",
+          "name": "クイーンモーモン",
+          "classes": [
+            "武闘家"
+          ],
+          "cardType": "ユニット",
+          "text": "味方ヒーローがいる場合自分のターン中味方リーダーの攻撃力+2",
+          "heroSystemId": "hero_ref_9cc150a1",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_bd1c41e5",
+          "name": "プラズママウス",
+          "classes": [
+            "武闘家"
+          ],
+          "cardType": "ユニット",
+          "text": "味方ヒーローがいる場合速攻を得る",
+          "heroSystemId": "hero_ref_8388ad90",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_895d67be",
+          "name": "ほのおのせんし",
+          "classes": [
+            "武闘家"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：前列に召喚した場合味方ヒーローがいるなら１マス前にいる敵ユニットに4ダメージ",
+          "heroSystemId": "hero_ref_11bf49a7",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_4879b13c",
+          "name": "ウィングタイガー",
+          "classes": [
+            "僧侶"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：味方ヒーローがいる場合敵ユニット1体の攻撃力を-2",
+          "heroSystemId": "hero_ref_eeac75f3",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_3e373c4a",
+          "name": "スーパーテンツク",
+          "classes": [
+            "僧侶"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:味方ヒーローがいる場合自分のデッキから武器カードまたは必殺技を持つカードを手札に加える。",
+          "heroSystemId": "hero_ref_3a705561",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_f503ba07",
+          "name": "おおドラキー",
+          "classes": [
+            "僧侶"
+          ],
+          "cardType": "ユニット",
+          "text": "ねらい撃ち、召喚時：味方ヒーローがいる場合2/1のドラキーを1体出す",
+          "heroSystemId": "hero_ref_8f4a9bff",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_3e5ba706",
+          "name": "ケンタラウス",
+          "classes": [
+            "僧侶"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：味方ヒーローがいる場合このターン中味方リーダーは攻撃力+1を得る",
+          "heroSystemId": "hero_ref_ce9fb785",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_6fa5d265",
+          "name": "アイアンナイト",
+          "classes": [
+            "僧侶"
+          ],
+          "cardType": "ユニット",
+          "text": "におうだち、死亡時：ランダムな味方ユニット1体を味方ヒーローのレベルの数分+1/+1",
+          "heroSystemId": "hero_ref_15026e0e",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_8837928e",
+          "name": "ニードルラッシュ",
+          "classes": [
+            "僧侶"
+          ],
+          "cardType": "特技",
+          "text": "ランダムな敵ユニット1体を死亡させる。味方ヒーローのレベルの数分コスト-1",
+          "heroSystemId": "hero_ref_eed04c37",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_d6a7e4f6",
+          "name": "かれくさネズミ",
+          "classes": [
+            "商人"
+          ],
+          "cardType": "ユニット",
+          "text": "味方ヒーローのヒーロースキルが発動する度メタルスライムを1体出す",
+          "heroSystemId": "hero_ref_108ce0e8",
+          "relation": "related",
+          "heroName": "味方ヒーロー",
+          "skillKind": "ヒーロースキル"
+        },
+        {
+          "cardId": "card_62a3fe56",
+          "name": "トンブレロ",
+          "classes": [
+            "商人"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：味方ヒーローがいる場合味方ユニット1体を+2/+2",
+          "heroSystemId": "hero_ref_4c9605cd",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_0ca59650",
+          "name": "デスパロット",
+          "classes": [
+            "商人"
+          ],
+          "cardType": "ユニット",
+          "text": "味方ヒーローのヒーロースキルが発動した後道具カード2枚を手札に加える",
+          "heroSystemId": "hero_ref_69b12f3b",
+          "relation": "related",
+          "heroName": "味方ヒーロー",
+          "skillKind": "ヒーロースキル"
+        },
+        {
+          "cardId": "card_8e278c93",
+          "name": "超しあわせのたね",
+          "classes": [
+            "商人"
+          ],
+          "cardType": "特技",
+          "text": "ユニット1体を+1/+1する。味方ヒーローがいる場合代わりにそのレベルの数分+1/+1する",
+          "heroSystemId": "hero_ref_5d1a4828",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_c45094d3",
+          "name": "ヘンリー",
+          "classes": [
+            "商人"
+          ],
+          "cardType": "ユニット",
+          "text": "シンクロ：(1)HP+1、(2)味方のヒーロースキルのコストは1下がる、(3)味方のヒーロースキルを1ターンに2回まで発動できる",
+          "heroSystemId": "hero_ref_d7d3f580",
+          "relation": "related",
+          "heroName": "シンクロ:(1)HP+1、(2)味方",
+          "skillKind": "ヒーロースキル"
+        },
+        {
+          "cardId": "card_b1d3a142",
+          "name": "なぞの神官",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "味方ヒーローがいる場合占いカードのコスト-1",
+          "heroSystemId": "hero_ref_8e5bdcff",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_7f903bbc",
+          "name": "サイコロン",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：味方ヒーローがいる場合合計5ダメージをこのユニット以外のランダムなユニットに割り振る",
+          "heroSystemId": "hero_ref_4899cf56",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_7148c5d6",
+          "name": "とげこんぼう",
+          "classes": [
+            "魔剣士"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：味方ヒーローがいる場合味方リーダーのテンション+2",
+          "heroSystemId": "hero_ref_01435d9c",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_286c12aa",
+          "name": "メイデンドール",
+          "classes": [
+            "魔剣士"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：味方ヒーローがいる場合敵ユニット1体を-2/-2",
+          "heroSystemId": "hero_ref_60b91f20",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        },
+        {
+          "cardId": "card_6af2a50e",
+          "name": "暗黒の縛鎖",
+          "classes": [
+            "魔剣士"
+          ],
+          "cardType": "特技",
+          "text": "ユニット1体を-6/-6。味方ヒーローのレベルの数分コスト-1。",
+          "heroSystemId": "hero_ref_0a75e58d",
+          "relation": "related",
+          "heroName": null,
+          "skillKind": null
+        }
+      ],
+      "index": {
+        "byStarterCardId": {
+          "card_1e4de00f": "hero_9a9a695a",
+          "card_82e59f32": "hero_6ef0a82c",
+          "card_b0cb8fe8": "hero_9c372a50",
+          "card_10321754": "hero_05b9d253",
+          "card_851ec231": "hero_a43908cd",
+          "card_36b9696d": "hero_b3457052",
+          "card_a9c23817": "hero_084aa20a",
+          "card_794289cd": "hero_07cd3f0b",
+          "card_51f4f83e": "hero_e10ef9ff",
+          "card_796cac42": "hero_f31fb4b0",
+          "card_00506ea3": "hero_ec4757a6",
+          "card_90410d54": "hero_7f4edd85",
+          "card_1d3ad0d4": "hero_5695fb21",
+          "card_7487ea39": "hero_19f916b4",
+          "card_909b374d": "hero_3485698e",
+          "card_d22aee70": "hero_2d4c9ccd",
+          "card_550b977c": "hero_f6139d24",
+          "card_ee97d74d": "hero_f4b87ef1"
+        },
+        "relatedCardIds": [
+          "card_836a79fd",
+          "card_4d7940de",
+          "card_e3e69707",
+          "card_1158ea6f",
+          "card_d05b74e8",
+          "card_d1581a32",
+          "card_aef91017",
+          "card_503c148f",
+          "card_d4598f73",
+          "card_5357b154",
+          "card_4cc999a9",
+          "card_189f0ab3",
+          "card_618dd613",
+          "card_0f94fe18",
+          "card_72848502",
+          "card_a0c085e2",
+          "card_c3063bd9",
+          "card_321de02f",
+          "card_1aa890f0",
+          "card_822981d8",
+          "card_6ad406a8",
+          "card_51e3a4ad",
+          "card_d7077797",
+          "card_6ebbbeb0",
+          "card_d13dbf79",
+          "card_87f4d7ac",
+          "card_33613a86",
+          "card_c1272903",
+          "card_f9120cf5",
+          "card_8ffda489",
+          "card_513a64ec",
+          "card_6546b092",
+          "card_2fac5ab9",
+          "card_bd1c41e5",
+          "card_895d67be",
+          "card_4879b13c",
+          "card_3e373c4a",
+          "card_f503ba07",
+          "card_3e5ba706",
+          "card_6fa5d265",
+          "card_8837928e",
+          "card_d6a7e4f6",
+          "card_62a3fe56",
+          "card_0ca59650",
+          "card_8e278c93",
+          "card_c45094d3",
+          "card_b1d3a142",
+          "card_7f903bbc",
+          "card_7148c5d6",
+          "card_286c12aa",
+          "card_6af2a50e"
+        ]
+      }
+    },
+    "coin": {
+      "schemaVersion": "1.0.0",
+      "type": "dqr.coin",
+      "resources": {
+        "coin": {
+          "id": "coin",
+          "name": "コイン",
+          "cardName": "コイン",
+          "effect": "味方1体のBETを発動させる"
+        }
+      },
+      "cards": [
+        {
+          "cardId": "card_19a6922d",
+          "name": "コイン",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "味方1体のBETを発動させる",
+          "coinId": "coin_227a0d68",
+          "get": [],
+          "bet": {
+            "exists": true,
+            "effectText": "を発動させる"
+          },
+          "isCoinCard": true,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_0375fb61",
+          "name": "ベホイミスライム",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "死亡時：GET(1)、BET：1ターンに1回のみ味方リーダーのHPを2回復",
+          "coinId": "coin_877d1d0a",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "死亡時:GET(1)、BET:1ターンに1回のみ味方リーダーのHPを2回復"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "1ターンに1回のみ味方リーダーのHPを2回復"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_5fffa5b0",
+          "name": "ダークペルシャ",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:敵ユニットが3体以上いる場合GET(1)、BET:全てのユニットに1ダメージ",
+          "coinId": "coin_a9d8a0b1",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:敵ユニットが3体以上いる場合GET(1)、BET:全てのユニットに1ダメージ"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "全てのユニットに1ダメージ"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_362fd329",
+          "name": "ミリオンゼニー",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "BET:「死亡時：GET(2)」を得る 自分のターン終了時GET(1)",
+          "coinId": "coin_b5ada816",
+          "get": [
+            {
+              "amount": 2,
+              "contextText": "BET:「死亡時:GET(2)」を得る 自分のターン終了時GET(1)"
+            },
+            {
+              "amount": 1,
+              "contextText": "BET:「死亡時:GET(2)」を得る 自分のターン終了時GET(1)"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "「死亡時:GET(2)」を得る 自分のターン終了時GET(1)"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_e936ad83",
+          "name": "サイクロプス",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：GET(1) BET：におうだちを持つランダムな敵ユニット1体に4ダメージ",
+          "coinId": "coin_64141d83",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1) BET:におうだちを持つランダムな敵ユニット1体に4ダメージ"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "におうだちを持つランダムな敵ユニット1体に4ダメージ"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_40d4b786",
+          "name": "キラースコップ",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:お互いのデッキのランダムなユニットカード1枚を比べ 自分の方がコストが高いならGET(1)、BET:攻撃力+1",
+          "coinId": "coin_2d3658a5",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:お互いのデッキのランダムなユニットカード1枚を比べ 自分の方がコストが高いならGET(1)、BET:攻撃力+1"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "攻撃力+1"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_1a59d46e",
+          "name": "だいおうイカ",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "死亡時:GET(2)",
+          "coinId": "coin_3611e4d1",
+          "get": [
+            {
+              "amount": 2,
+              "contextText": "死亡時:GET(2)"
+            }
+          ],
+          "bet": {
+            "exists": false,
+            "effectText": ""
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_a23db7e5",
+          "name": "ゴールデントーテム",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "メタルボディ、このユニットがダメージを受ける度GET(1)",
+          "coinId": "coin_efae2d11",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "このユニットがダメージを受ける度GET(1)"
+            }
+          ],
+          "bet": {
+            "exists": false,
+            "effectText": ""
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_3b346d69",
+          "name": "スペシャルコイン",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "全ての味方のBETが発動する。このカードはコインとしても扱う",
+          "coinId": "coin_50451a28",
+          "get": [],
+          "bet": {
+            "exists": true,
+            "effectText": "が発動する。このカードはコインとしても扱う"
+          },
+          "isCoinCard": true,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_35df1a02",
+          "name": "この手に切り札を",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "自分のデッキからBETを持つカードを1枚手札に加える",
+          "coinId": "coin_2e2e3f75",
+          "get": [],
+          "bet": {
+            "exists": true,
+            "effectText": "を持つカードを1枚手札に加える"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_1019e573",
+          "name": "アゲていくわよ",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "味方のBETが発動した後味方リーダーのテンション+1、この効果は条件を満たすと自動的に発動する",
+          "coinId": "coin_2638fead",
+          "get": [],
+          "bet": {
+            "exists": true,
+            "effectText": "が発動した後味方リーダーのテンション+1、この効果は条件を満たすと自動的に発動する"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_0baef237",
+          "name": "かっちゅうアリ",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "BET:1ターンに1回のみ+1/+1、自分のターン終了時にGET(1)、この効果は1度しか発動しない",
+          "coinId": "coin_9f3ada55",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "自分のターン終了時にGET(1)、この効果は1度しか発動しない"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "1ターンに1回のみ+1/+1、自分のターン終了時にGET(1)、この効果は1度しか発動しない"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_11641207",
+          "name": "ジラフマスター",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "攻撃時:GET(1)、BET:以下の効果からランダムに1つ発動する (1)攻撃力+1 (2)HP+1 (3)このターン中2回攻撃を得る",
+          "coinId": "coin_cfe78113",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "攻撃時:GET(1)、BET:以下の効果からランダムに1つ発動する (1)攻撃力+1 (2)HP+1 (3)このターン中2回攻撃を得る"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "以下の効果からランダムに1つ発動する (1)攻撃力+1 (2)HP+1 (3)このターン中2回攻撃を得る"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_20e15c48",
+          "name": "マデサゴーラ",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "自分のターン終了時：スペシャルコイン1枚を手札に加える。BET:自分のデッキからBETを持つカードを1枚引く",
+          "coinId": "coin_487a4f99",
+          "get": [],
+          "bet": {
+            "exists": true,
+            "effectText": "自分のデッキからBETを持つカードを1枚引く"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_55de0a88",
+          "name": "スロットマジーン",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "攻撃時:GET(1)、BET:両プレイヤーはカードを1枚引く",
+          "coinId": "coin_e38edb24",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "攻撃時:GET(1)、BET:両プレイヤーはカードを1枚引く"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "両プレイヤーはカードを1枚引く"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_8b1c0efd",
+          "name": "ウルベア魔神兵",
+          "classes": [
+            "共通"
+          ],
+          "cardType": "ユニット",
+          "text": "ねらい撃ち、召喚時:GET(2)、BET:このユニットの攻撃力をランダムに1〜4増やす",
+          "coinId": "coin_7ae81986",
+          "get": [
+            {
+              "amount": 2,
+              "contextText": "召喚時:GET(2)、BET:このユニットの攻撃力をランダムに1〜4増やす"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "このユニットの攻撃力をランダムに1〜4増やす"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_78ce20c1",
+          "name": "ギズモ",
+          "classes": [
+            "戦士"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：GET(1) BET:正面にいる全ての敵ユニットに1ダメージ",
+          "coinId": "coin_b97f0efa",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1) BET:正面にいる全ての敵ユニットに1ダメージ"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "正面にいる全ての敵ユニットに1ダメージ"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_2cf0bf32",
+          "name": "おまもりコイン",
+          "classes": [
+            "戦士"
+          ],
+          "cardType": "特技",
+          "text": "GET(1)、その後、次の相手のターン終了時まで自分の手札にあるコインの枚数分味方リーダーが受けるダメージ-1",
+          "coinId": "coin_6b5c2fff",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "GET(1)、その後、次の相手のターン終了時まで自分の手札にあるコインの枚数分味方リーダーが受けるダメージ-1"
+            }
+          ],
+          "bet": {
+            "exists": false,
+            "effectText": ""
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_63b92c04",
+          "name": "まかいファイター",
+          "classes": [
+            "戦士"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：GET(1)、BET：このターン中味方リーダーの攻撃力+1、このBETが4回発動する度まかいファイターを1体だす",
+          "coinId": "coin_1f692562",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、BET:このターン中味方リーダーの攻撃力+1、このBETが4回発動する度まかいファイターを1体だす"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "このターン中味方リーダーの攻撃力+1、このBETが4回発動する度まかいファイターを1体だす"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_297ab628",
+          "name": "ファイアボール",
+          "classes": [
+            "戦士"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:GET(1)、BET:このターン中味方リーダーが受けるダメージ-5",
+          "coinId": "coin_401da4ac",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、BET:このターン中味方リーダーが受けるダメージ-5"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "このターン中味方リーダーが受けるダメージ-5"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_204eddbd",
+          "name": "突風の剣",
+          "classes": [
+            "戦士"
+          ],
+          "cardType": "武器",
+          "text": "貫通、召喚時:GET(1)、BET:全ての敵ユニットを1マス上に移動させる",
+          "coinId": "coin_78663752",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、BET:全ての敵ユニットを1マス上に移動させる"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "全ての敵ユニットを1マス上に移動させる"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_71e6a494",
+          "name": "アイラ",
+          "classes": [
+            "戦士"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:GET(2)、BET:ランダムな武器を味方リーダーに装備する",
+          "coinId": "coin_bcc259c3",
+          "get": [
+            {
+              "amount": 2,
+              "contextText": "召喚時:GET(2)、BET:ランダムな武器を味方リーダーに装備する"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "ランダムな武器を味方リーダーに装備する"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_65206277",
+          "name": "レモンキング",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "ユニット",
+          "text": "攻撃時：GET(1)、BET：スライムを2体出す。他のスライム系の味方ユニットが死亡した後敵リーダーに1ダメージ",
+          "coinId": "coin_b0b03e05",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "攻撃時:GET(1)、BET:スライムを2体出す"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "スライムを2体出す。他のスライム系の味方ユニットが死亡した後敵リーダーに1ダメージ"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_d9510db5",
+          "name": "モンスターコイン",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "特技",
+          "text": "GET(2)、その後、自分の手札にあるコインの枚数と同じコストを持つランダムなユニット1体を出す。",
+          "coinId": "coin_00d9adcf",
+          "get": [
+            {
+              "amount": 2,
+              "contextText": "GET(2)、その後、自分の手札にあるコインの枚数と同じコストを持つランダムなユニット1体を出す"
+            }
+          ],
+          "bet": {
+            "exists": false,
+            "effectText": ""
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_4437acfa",
+          "name": "クラーゴン",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "ユニット",
+          "text": "BET：以下の効果からこのおターンに発動していないものがランダムに1つ発動する。(1)全ての敵に1ダメージ、(2)ランダムな敵1体に2ダメージ、(3)敵リーダーに3ダメージ",
+          "coinId": "coin_8a45b6c8",
+          "get": [],
+          "bet": {
+            "exists": true,
+            "effectText": "以下の効果からこのおターンに発動していないものがランダムに1つ発動する。(1)全ての敵に1ダメージ、(2)ランダムな敵1体に2ダメージ、(3)敵リーダーに3ダメージ"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_d757a3cd",
+          "name": "ボックススライム",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：GET(1)、BET：以下の効果からランダムに1つ発動する。(1):カードを1枚引く、(2):HP+1、(3):味方リーダーのテンション+1",
+          "coinId": "coin_d0df3ff3",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、BET:以下の効果からランダムに1つ発動する"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "以下の効果からランダムに1つ発動する。(1):カードを1枚引く、(2):HP+1、(3):味方リーダーのテンション+1"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_b3d0e530",
+          "name": "ぶちスライム",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:GET (1)、BET:攻撃力+1、死亡時:このユニットの攻撃力の数分1/1のスライムを出す",
+          "coinId": "coin_d46ae192",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET (1)、BET:攻撃力+1、死亡時:このユニットの攻撃力の数分1/1のスライムを出す"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "攻撃力+1、死亡時:このユニットの攻撃力の数分1/1のスライムを出す"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_6429b153",
+          "name": "少女マリベル",
+          "classes": [
+            "魔法使い"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:GET(2)、BET:このターン中次に使う特技カードのコスト-2",
+          "coinId": "coin_3b0dfbe3",
+          "get": [
+            {
+              "amount": 2,
+              "contextText": "召喚時:GET(2)、BET:このターン中次に使う特技カードのコスト-2"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "このターン中次に使う特技カードのコスト-2"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_90ff25ad",
+          "name": "アサシンクロー",
+          "classes": [
+            "武闘家"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：GET(1)、BET：武術カード1枚を手札に加える",
+          "coinId": "coin_46b059c2",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、BET:武術カード1枚を手札に加える"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "武術カード1枚を手札に加える"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_6ad49a58",
+          "name": "ギガデーモン",
+          "classes": [
+            "武闘家"
+          ],
+          "cardType": "ユニット",
+          "text": "こうげきできない、BET：速攻と「このターン中攻撃可能になる」を得る。自分のターン終了時GET(1)",
+          "coinId": "coin_97f6820b",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "自分のターン終了時GET(1)"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "速攻と「このターン中攻撃可能になる」を得る。自分のターン終了時GET(1)"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_8ae971ee",
+          "name": "カンダタこぶん",
+          "classes": [
+            "武闘家"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:GET(1)、BET:このターン中次に使用するテンションカードのコストは0になる",
+          "coinId": "coin_aadb0053",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、BET:このターン中次に使用するテンションカードのコストは0になる"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "このターン中次に使用するテンションカードのコストは0になる"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_23fa1f42",
+          "name": "サキュバスウィンク",
+          "classes": [
+            "武闘家"
+          ],
+          "cardType": "特技",
+          "text": "味方リーダーのHPを5回復、その後GET(1)",
+          "coinId": "coin_4145cc5e",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "その後GET(1)"
+            }
+          ],
+          "bet": {
+            "exists": false,
+            "effectText": ""
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_a5cfea29",
+          "name": "ゴレオン将軍",
+          "classes": [
+            "武闘家"
+          ],
+          "cardType": "ユニット",
+          "text": "スキルリンク：GET(1)、BET:攻撃力+1、自分がコインを使う度味方リーダーのテンション+1",
+          "coinId": "coin_5d3b14cd",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "スキルリンク:GET(1)、BET:攻撃力+1、自分がコインを使う度味方リーダーのテンション+1"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "攻撃力+1、自分がコインを使う度味方リーダーのテンション+1"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_f7af8484",
+          "name": "ゴルゴンゾーラ",
+          "classes": [
+            "武闘家"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:GET(1)、BET:このユニットのHPを3回復",
+          "coinId": "coin_a7289804",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、BET:このユニットのHPを3回復"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "このユニットのHPを3回復"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_c504381c",
+          "name": "きりかぶおばけ",
+          "classes": [
+            "僧侶"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：GET(1)、BET:1ターンに1回のみ他のランダムな味方ユニット1体のHP+2",
+          "coinId": "coin_704b0770",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、BET:1ターンに1回のみ他のランダムな味方ユニット1体のHP+2"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "1ターンに1回のみ他のランダムな味方ユニット1体のHP+2"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_140b92ae",
+          "name": "転生の祈り",
+          "classes": [
+            "僧侶"
+          ],
+          "cardType": "特技",
+          "text": "GET(1)、その後手札のコインの枚数以下にコストを持つ。この対戦中に死亡した敵ユニットの中からコストが最大のもの1体を味方として復活させる",
+          "coinId": "coin_f69e27fa",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "GET(1)、その後手札のコインの枚数以下にコストを持つ"
+            }
+          ],
+          "bet": {
+            "exists": false,
+            "effectText": ""
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_44e719fd",
+          "name": "クラウンヘッド",
+          "classes": [
+            "僧侶"
+          ],
+          "cardType": "ユニット",
+          "text": "におうだち、召喚時：GET(1)、BET：1ターンに1回のみHP+1と「次の相手のターン終了時まで受けるダメージ-1」を得る。",
+          "coinId": "coin_9c3ab765",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、BET:1ターンに1回のみHP+1と「次の相手のターン終了時まで受けるダメージ-1」を得る"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "1ターンに1回のみHP+1と「次の相手のターン終了時まで受けるダメージ-1」を得る。"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_41be5300",
+          "name": "ベビーサラマンダ",
+          "classes": [
+            "僧侶"
+          ],
+          "cardType": "ユニット",
+          "text": "攻撃時：GET(1)、BET:攻撃力+1、このBETが4回発動した後超貫通8/8のサラマンダーに変身する",
+          "coinId": "coin_372d3303",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "攻撃時:GET(1)、BET:攻撃力+1、このBETが4回発動した後超貫通8/8のサラマンダーに変身する"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "攻撃力+1、このBETが4回発動した後超貫通8/8のサラマンダーに変身する"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_57348016",
+          "name": "チャゴス王子",
+          "classes": [
+            "僧侶"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:GET(1)、BET:速攻を得る。このユニットは敵の攻撃対象になった時手札に戻る",
+          "coinId": "coin_b523493e",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、BET:速攻を得る"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "速攻を得る。このユニットは敵の攻撃対象になった時手札に戻る"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_1959447b",
+          "name": "むげんの弓",
+          "classes": [
+            "僧侶"
+          ],
+          "cardType": "武器",
+          "text": "反撃ダメージを受けない。BET:耐久力+1、自分のターン終了時GET(1)",
+          "coinId": "coin_40f1d9c3",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "自分のターン終了時GET(1)"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "耐久力+1、自分のターン終了時GET(1)"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_0a9eb550",
+          "name": "マグマロン",
+          "classes": [
+            "商人"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：GET(1)、BET:攻撃力+1と「次の相手のターン終了時まで効果の対象にならない」を得る",
+          "coinId": "coin_f4f3a6cc",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、BET:攻撃力+1と「次の相手のターン終了時まで効果の対象にならない」を得る"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "攻撃力+1と「次の相手のターン終了時まで効果の対象にならない」を得る"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_0728d656",
+          "name": "福招きのそろばん",
+          "classes": [
+            "商人"
+          ],
+          "cardType": "武器",
+          "text": "召喚時&この武器が壊れた時:GET(1)、BET:耐久力-1してカードを1毎引く",
+          "coinId": "coin_132204c9",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時&この武器が壊れた時:GET(1)、BET:耐久力-1してカードを1毎引く"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "耐久力-1してカードを1毎引く"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_0a952d0b",
+          "name": "ルドマン",
+          "classes": [
+            "商人"
+          ],
+          "cardType": "ユニット",
+          "text": "BET:道具カード1枚を手札に加える。味方のBETが4回発動する度自分のデッキから3コスト以下のユニット1体を出す。自分のターン終了時GET(1)",
+          "coinId": "coin_0a7f519d",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "自分のターン終了時GET(1)"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "道具カード1枚を手札に加える。味方のBETが4回発動する度自分のデッキから3コスト以下のユニット1体を出す。自分のターン終了時GET(1)"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_e529f564",
+          "name": "コインのたね",
+          "classes": [
+            "商人"
+          ],
+          "cardType": "特技",
+          "text": "ユニット1体の攻撃力+1、その後GET(1)",
+          "coinId": "coin_6e38a2bf",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "その後GET(1)"
+            }
+          ],
+          "bet": {
+            "exists": false,
+            "effectText": ""
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_36fe0d52",
+          "name": "まだらイチョウ",
+          "classes": [
+            "商人"
+          ],
+          "cardType": "ユニット",
+          "text": "BET:1/2のブラックタヌーを1体出す。このBETが3回発動する度他の全ての味方ユニットを+1/+1",
+          "coinId": "coin_1faf94ab",
+          "get": [],
+          "bet": {
+            "exists": true,
+            "effectText": "1/2のブラックタヌーを1体出す。このBETが3回発動する度他の全ての味方ユニットを+1/+1"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_ea5d50ab",
+          "name": "ぷちメタル",
+          "classes": [
+            "商人"
+          ],
+          "cardType": "ユニット",
+          "text": "メタルボディ、BET:1ターンに1回のみ攻撃力+1と速攻を得る、自分のターン終了時GET(1)、この効果は一度しか発動しない",
+          "coinId": "coin_79140106",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "自分のターン終了時GET(1)、この効果は一度しか発動しない"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "1ターンに1回のみ攻撃力+1と速攻を得る、自分のターン終了時GET(1)、この効果は一度しか発動しない"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_16835f67",
+          "name": "エドガンの錬金術",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "占い：(1)GET(2)、(2)0/1のサボテンゴールド1体出す。その後手札にあるコインの枚数分+1/+1",
+          "coinId": "coin_abb09521",
+          "get": [
+            {
+              "amount": 2,
+              "contextText": "占い:(1)GET(2)、(2)0/1のサボテンゴールド1体出す"
+            }
+          ],
+          "bet": {
+            "exists": false,
+            "effectText": ""
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_9e2953ce",
+          "name": "悪夢のルーレット",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "特技",
+          "text": "GET(1)、その後コインの枚数と同じ数のランダムな敵ユニットのHPを1にする",
+          "coinId": "coin_28457273",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "GET(1)、その後コインの枚数と同じ数のランダムな敵ユニットのHPを1にする"
+            }
+          ],
+          "bet": {
+            "exists": false,
+            "effectText": ""
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_c0de3c42",
+          "name": "インプ",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:GET(1)、BET:1ターンに1回のみ自分のデッキの一番上のカードのコストが偶数なら敵リーダーに2ダメージ",
+          "coinId": "coin_5e870ff7",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、BET:1ターンに1回のみ自分のデッキの一番上のカードのコストが偶数なら敵リーダーに2ダメージ"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "1ターンに1回のみ自分のデッキの一番上のカードのコストが偶数なら敵リーダーに2ダメージ"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_ca4d3bc7",
+          "name": "ルバンカ",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "におうだち、召喚時：自分のデッキの一番上のカードのコストが偶数ならGET(2)、BET:HP+1",
+          "coinId": "coin_42041709",
+          "get": [
+            {
+              "amount": 2,
+              "contextText": "召喚時:自分のデッキの一番上のカードのコストが偶数ならGET(2)、BET:HP+1"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "HP+1"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_d8cdcd29",
+          "name": "賢者ルシェンダ",
+          "classes": [
+            "占い師"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:GET(1)、BET:自分のデッキの一番上のカードが偶数のコストのユニットならそれを場に出す。それ以外の場合は手札に加える。",
+          "coinId": "coin_7ac7270e",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、BET:自分のデッキの一番上のカードが偶数のコストのユニットならそれを場に出す"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "自分のデッキの一番上のカードが偶数のコストのユニットならそれを場に出す。それ以外の場合は手札に加える。"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_09ae440c",
+          "name": "デビルパピヨン",
+          "classes": [
+            "魔剣士"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：GET(1)、BET：ランダムな敵ユニット1体を毒にする",
+          "coinId": "coin_7a242bb2",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、BET:ランダムな敵ユニット1体を毒にする"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "ランダムな敵ユニット1体を毒にする"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_e688c923",
+          "name": "ダークモーモン",
+          "classes": [
+            "魔剣士"
+          ],
+          "cardType": "ユニット",
+          "text": "自分のターン終了時GET(1)、BET:お互いのリーダーのテンション+1",
+          "coinId": "coin_c96d4169",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "自分のターン終了時GET(1)、BET:お互いのリーダーのテンション+1"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "お互いのリーダーのテンション+1"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_2ba7df45",
+          "name": "魔勇者アンルシア",
+          "classes": [
+            "魔剣士"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:GET(1)、BET:正面にいるランダムな敵ユニット1体を-3/-3",
+          "coinId": "coin_454cd35e",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、BET:正面にいるランダムな敵ユニット1体を-3/-3"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "正面にいるランダムな敵ユニット1体を-3/-3"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_78e2da92",
+          "name": "どくどくビンゴ",
+          "classes": [
+            "魔剣士"
+          ],
+          "cardType": "特技",
+          "text": "GET(1)、その後 手札にあるコインの枚数分ランダムな敵ユニットを毒にする",
+          "coinId": "coin_7f4890e2",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "GET(1)、その後 手札にあるコインの枚数分ランダムな敵ユニットを毒にする"
+            }
+          ],
+          "bet": {
+            "exists": false,
+            "effectText": ""
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_84e08b43",
+          "name": "黄金兵長",
+          "classes": [
+            "魔剣士"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時:GET(1)、攻撃時:敵リーダーに味方のピサロナイトの数と同じダメージを与える。BET:ピサロナイトを1体出す",
+          "coinId": "coin_28b7875a",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、攻撃時:敵リーダーに味方のピサロナイトの数と同じダメージを与える"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "ピサロナイトを1体出す"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_5f8af18a",
+          "name": "強欲なミミック",
+          "classes": [
+            "盗賊"
+          ],
+          "cardType": "ユニット",
+          "text": "召喚時：GET(1)、BET:攻撃力+1、死亡時:このユニットの攻撃力が4以上ならレジェンドレアカードを手札に1枚加える",
+          "coinId": "coin_0165ca7c",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、BET:攻撃力+1、死亡時:このユニットの攻撃力が4以上ならレジェンドレアカードを手札に1枚加える"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "攻撃力+1、死亡時:このユニットの攻撃力が4以上ならレジェンドレアカードを手札に1枚加える"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        },
+        {
+          "cardId": "card_6b52ddbd",
+          "name": "しゃくねつのツメ",
+          "classes": [
+            "武闘家"
+          ],
+          "cardType": "武器",
+          "text": "召喚時:GET(1)、BET:全てのユニットにこの武器の耐久力と同じダメージを与える。この武器を破壊する",
+          "coinId": "coin_f3262ccc",
+          "get": [
+            {
+              "amount": 1,
+              "contextText": "召喚時:GET(1)、BET:全てのユニットにこの武器の耐久力と同じダメージを与える"
+            }
+          ],
+          "bet": {
+            "exists": true,
+            "effectText": "全てのユニットにこの武器の耐久力と同じダメージを与える。この武器を破壊する"
+          },
+          "isCoinCard": false,
+          "needsReview": false
+        }
+      ],
+      "index": {
+        "byCardId": {
+          "card_19a6922d": "coin_227a0d68",
+          "card_0375fb61": "coin_877d1d0a",
+          "card_5fffa5b0": "coin_a9d8a0b1",
+          "card_362fd329": "coin_b5ada816",
+          "card_e936ad83": "coin_64141d83",
+          "card_40d4b786": "coin_2d3658a5",
+          "card_1a59d46e": "coin_3611e4d1",
+          "card_a23db7e5": "coin_efae2d11",
+          "card_3b346d69": "coin_50451a28",
+          "card_35df1a02": "coin_2e2e3f75",
+          "card_1019e573": "coin_2638fead",
+          "card_0baef237": "coin_9f3ada55",
+          "card_11641207": "coin_cfe78113",
+          "card_20e15c48": "coin_487a4f99",
+          "card_55de0a88": "coin_e38edb24",
+          "card_8b1c0efd": "coin_7ae81986",
+          "card_78ce20c1": "coin_b97f0efa",
+          "card_2cf0bf32": "coin_6b5c2fff",
+          "card_63b92c04": "coin_1f692562",
+          "card_297ab628": "coin_401da4ac",
+          "card_204eddbd": "coin_78663752",
+          "card_71e6a494": "coin_bcc259c3",
+          "card_65206277": "coin_b0b03e05",
+          "card_d9510db5": "coin_00d9adcf",
+          "card_4437acfa": "coin_8a45b6c8",
+          "card_d757a3cd": "coin_d0df3ff3",
+          "card_b3d0e530": "coin_d46ae192",
+          "card_6429b153": "coin_3b0dfbe3",
+          "card_90ff25ad": "coin_46b059c2",
+          "card_6ad49a58": "coin_97f6820b",
+          "card_8ae971ee": "coin_aadb0053",
+          "card_23fa1f42": "coin_4145cc5e",
+          "card_a5cfea29": "coin_5d3b14cd",
+          "card_f7af8484": "coin_a7289804",
+          "card_c504381c": "coin_704b0770",
+          "card_140b92ae": "coin_f69e27fa",
+          "card_44e719fd": "coin_9c3ab765",
+          "card_41be5300": "coin_372d3303",
+          "card_57348016": "coin_b523493e",
+          "card_1959447b": "coin_40f1d9c3",
+          "card_0a9eb550": "coin_f4f3a6cc",
+          "card_0728d656": "coin_132204c9",
+          "card_0a952d0b": "coin_0a7f519d",
+          "card_e529f564": "coin_6e38a2bf",
+          "card_36fe0d52": "coin_1faf94ab",
+          "card_ea5d50ab": "coin_79140106",
+          "card_16835f67": "coin_abb09521",
+          "card_9e2953ce": "coin_28457273",
+          "card_c0de3c42": "coin_5e870ff7",
+          "card_ca4d3bc7": "coin_42041709",
+          "card_d8cdcd29": "coin_7ac7270e",
+          "card_09ae440c": "coin_7a242bb2",
+          "card_e688c923": "coin_c96d4169",
+          "card_2ba7df45": "coin_454cd35e",
+          "card_78e2da92": "coin_7f4890e2",
+          "card_84e08b43": "coin_28b7875a",
+          "card_5f8af18a": "coin_0165ca7c",
+          "card_6b52ddbd": "coin_f3262ccc"
+        },
+        "getCardIds": [
+          "card_0375fb61",
+          "card_5fffa5b0",
+          "card_362fd329",
+          "card_e936ad83",
+          "card_40d4b786",
+          "card_1a59d46e",
+          "card_a23db7e5",
+          "card_0baef237",
+          "card_11641207",
+          "card_55de0a88",
+          "card_8b1c0efd",
+          "card_78ce20c1",
+          "card_2cf0bf32",
+          "card_63b92c04",
+          "card_297ab628",
+          "card_204eddbd",
+          "card_71e6a494",
+          "card_65206277",
+          "card_d9510db5",
+          "card_d757a3cd",
+          "card_b3d0e530",
+          "card_6429b153",
+          "card_90ff25ad",
+          "card_6ad49a58",
+          "card_8ae971ee",
+          "card_23fa1f42",
+          "card_a5cfea29",
+          "card_f7af8484",
+          "card_c504381c",
+          "card_140b92ae",
+          "card_44e719fd",
+          "card_41be5300",
+          "card_57348016",
+          "card_1959447b",
+          "card_0a9eb550",
+          "card_0728d656",
+          "card_0a952d0b",
+          "card_e529f564",
+          "card_ea5d50ab",
+          "card_16835f67",
+          "card_9e2953ce",
+          "card_c0de3c42",
+          "card_ca4d3bc7",
+          "card_d8cdcd29",
+          "card_09ae440c",
+          "card_e688c923",
+          "card_2ba7df45",
+          "card_78e2da92",
+          "card_84e08b43",
+          "card_5f8af18a",
+          "card_6b52ddbd"
+        ],
+        "betCardIds": [
+          "card_19a6922d",
+          "card_0375fb61",
+          "card_5fffa5b0",
+          "card_362fd329",
+          "card_e936ad83",
+          "card_40d4b786",
+          "card_3b346d69",
+          "card_35df1a02",
+          "card_1019e573",
+          "card_0baef237",
+          "card_11641207",
+          "card_20e15c48",
+          "card_55de0a88",
+          "card_8b1c0efd",
+          "card_78ce20c1",
+          "card_63b92c04",
+          "card_297ab628",
+          "card_204eddbd",
+          "card_71e6a494",
+          "card_65206277",
+          "card_4437acfa",
+          "card_d757a3cd",
+          "card_b3d0e530",
+          "card_6429b153",
+          "card_90ff25ad",
+          "card_6ad49a58",
+          "card_8ae971ee",
+          "card_a5cfea29",
+          "card_f7af8484",
+          "card_c504381c",
+          "card_44e719fd",
+          "card_41be5300",
+          "card_57348016",
+          "card_1959447b",
+          "card_0a9eb550",
+          "card_0728d656",
+          "card_0a952d0b",
+          "card_36fe0d52",
+          "card_ea5d50ab",
+          "card_c0de3c42",
+          "card_ca4d3bc7",
+          "card_d8cdcd29",
+          "card_09ae440c",
+          "card_e688c923",
+          "card_2ba7df45",
+          "card_84e08b43",
+          "card_5f8af18a",
+          "card_6b52ddbd"
+        ]
+      }
+    }
+  },
+  "stats": {
+    "strategies": {
+      "cards": 17,
+      "candidates": 10
+    },
+    "fortune": {
+      "cards": 39
+    },
+    "choices": {
+      "cards": 11
+    },
+    "dungeons": {
+      "cards": 9
+    },
+    "heroes": {
+      "heroes": 18,
+      "relatedCards": 51
+    },
+    "coin": {
+      "cards": 58,
+      "getCards": 51,
+      "betCards": 48
+    }
+  }
+}

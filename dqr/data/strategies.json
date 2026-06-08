@@ -1,0 +1,385 @@
+{
+  "schemaVersion": "1.1.0",
+  "type": "dqr.strategies",
+  "note": "「さくせん」10種類の候補効果を組み込み済み。カード側は strategy_pool_default を参照し、使用時にランダム3択から1つ選んで対象ユニットへ付与する。",
+  "pools": {
+    "default": {
+      "id": "strategy_pool_default",
+      "name": "さくせん共通プール",
+      "selectionCount": 3,
+      "applyMode": "chooseOneAndGrant",
+      "candidates": [
+        {
+          "id": "strategy_gangan_ikouze",
+          "name": "ガンガンいこうぜ",
+          "displayText": "攻撃力+2",
+          "effectText": "このユニットの攻撃力を+2する",
+          "effect": {
+            "type": "buff",
+            "target": "self",
+            "attack": 2,
+            "hp": 0,
+            "duration": "permanent"
+          }
+        },
+        {
+          "id": "strategy_inochi_daijini",
+          "name": "いのちだいじに",
+          "displayText": "HP+2",
+          "effectText": "このユニットのHPを+2する",
+          "effect": {
+            "type": "buff",
+            "target": "self",
+            "attack": 0,
+            "hp": 2,
+            "duration": "permanent"
+          }
+        },
+        {
+          "id": "strategy_batchiri_ganbare",
+          "name": "バッチリがんばれ",
+          "displayText": "攻撃力+1/HP+1",
+          "effectText": "このユニットの攻撃力とHPを+1する",
+          "effect": {
+            "type": "buff",
+            "target": "self",
+            "attack": 1,
+            "hp": 1,
+            "duration": "permanent"
+          }
+        },
+        {
+          "id": "strategy_kokode_mattete",
+          "name": "ここでまってて",
+          "displayText": "におうだち",
+          "effectText": "このユニットに におうだち を付与する",
+          "effect": {
+            "type": "grantKeyword",
+            "target": "self",
+            "keyword": "におうだち",
+            "mechanicId": "mech_12",
+            "duration": "permanent"
+          }
+        },
+        {
+          "id": "strategy_katteni_shitene",
+          "name": "かってにしてね",
+          "displayText": "特技ダメージを受けない",
+          "effectText": "このユニットは特技ダメージを受けない",
+          "effect": {
+            "type": "grantImmunity",
+            "target": "self",
+            "immunity": "spellDamage",
+            "duration": "permanent"
+          }
+        },
+        {
+          "id": "strategy_tonikaku_nigete",
+          "name": "とにかくにげて",
+          "displayText": "攻撃力-1/HP+3",
+          "effectText": "このユニットの攻撃力を-1し、HPを+3する",
+          "effect": {
+            "type": "buff",
+            "target": "self",
+            "attack": -1,
+            "hp": 3,
+            "duration": "permanent"
+          }
+        },
+        {
+          "id": "strategy_senryoku_ubae",
+          "name": "せんりょくうばえ",
+          "displayText": "このユニットに戦闘ダメージを与えたユニットは死亡する",
+          "effectText": "このユニットに戦闘ダメージを与えたユニットを死亡させる",
+          "effect": {
+            "type": "grantTriggeredAbility",
+            "target": "self",
+            "trigger": "afterThisUnitTakesCombatDamage",
+            "action": {
+              "type": "destroy",
+              "target": "damageSourceUnit"
+            },
+            "duration": "permanent"
+          }
+        },
+        {
+          "id": "strategy_tension_tamero",
+          "name": "テンションためろ",
+          "displayText": "死亡時：テンション+1",
+          "effectText": "このユニットの死亡時、味方リーダーのテンションを+1する",
+          "effect": {
+            "type": "grantDeathrattle",
+            "target": "self",
+            "action": {
+              "type": "gainTension",
+              "target": "friendlyLeader",
+              "amount": 1
+            },
+            "duration": "permanent"
+          }
+        },
+        {
+          "id": "strategy_support_tanomuzo",
+          "name": "サポートたのむぞ",
+          "displayText": "死亡時：カードを1枚引く",
+          "effectText": "このユニットの死亡時、カードを1枚引く",
+          "effect": {
+            "type": "grantDeathrattle",
+            "target": "self",
+            "action": {
+              "type": "drawCards",
+              "target": "friendlyLeader",
+              "count": 1
+            },
+            "duration": "permanent"
+          }
+        },
+        {
+          "id": "strategy_leader_wo_kaifuku",
+          "name": "リーダーをかいふく！",
+          "displayText": "死亡時：味方リーダーのHPを3回復",
+          "effectText": "このユニットの死亡時、味方リーダーのHPを3回復する",
+          "effect": {
+            "type": "grantDeathrattle",
+            "target": "self",
+            "action": {
+              "type": "heal",
+              "target": "friendlyLeader",
+              "amount": 3
+            },
+            "duration": "permanent"
+          }
+        }
+      ],
+      "manualDataRequired": false,
+      "selectionMethod": "randomWithoutReplacement",
+      "target": "unitSpecifiedByCardText"
+    }
+  },
+  "cards": [
+    {
+      "cardId": "card_1e2e4b2a",
+      "name": "テールイーター",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:このユニットにさくせんを出す",
+      "strategyApplications": 1,
+      "targetHint": "このユニット"
+    },
+    {
+      "cardId": "card_1f0ddb6c",
+      "name": "エルギオス",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "ねらい撃ち、召喚時：このユニットに4回さくせんを出す",
+      "strategyApplications": 4,
+      "targetHint": "このユニット"
+    },
+    {
+      "cardId": "card_6f20cd44",
+      "name": "バブルキング",
+      "classes": [
+        "共通"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：味方ユニット1体にさくせんを出す。このユニットが戦闘ダメージを与えたユニットを毒にする。",
+      "strategyApplications": 1,
+      "targetHint": "味方ユニット1体"
+    },
+    {
+      "cardId": "card_ae660737",
+      "name": "魔法の剣",
+      "classes": [
+        "戦士"
+      ],
+      "cardType": "武器",
+      "text": "召喚時：貫通を持つ味方ユニット1体にさくせんを出す",
+      "strategyApplications": 1,
+      "targetHint": "味方ユニット1体"
+    },
+    {
+      "cardId": "card_fb3d75b3",
+      "name": "修練のたてまじん",
+      "classes": [
+        "戦士"
+      ],
+      "cardType": "ユニット",
+      "text": "におうだち、召喚時：味方リーダーが武器を装備している場合このユニットにさくせんを出す",
+      "strategyApplications": 1,
+      "targetHint": "このユニット"
+    },
+    {
+      "cardId": "card_c8b44f81",
+      "name": "飛翔のガーゴイル",
+      "classes": [
+        "魔法使い"
+      ],
+      "cardType": "ユニット",
+      "text": "おうえん、ねらい撃ち、召喚時：自分の手札に特技カードがあるならこのユニットにさくせんを出す",
+      "strategyApplications": 1,
+      "targetHint": "このユニット"
+    },
+    {
+      "cardId": "card_37c6d619",
+      "name": "ジャイアントバット",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：このユニットにさくせんを出す。自分のターン中このユニットが戦闘ダメージを与えた敵を次のターン終了時まで攻撃不能にする",
+      "strategyApplications": 1,
+      "targetHint": "このユニット"
+    },
+    {
+      "cardId": "card_9a8f3b7f",
+      "name": "メタッツ",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "ユニット",
+      "text": "メタルボディ、速攻、召喚時：味方建物があるならこのユニットにさくせんを出す",
+      "strategyApplications": 1,
+      "targetHint": "このユニット"
+    },
+    {
+      "cardId": "card_50186816",
+      "name": "百獣の王キングレオ",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "ユニット",
+      "text": "速攻、この対戦中に自分が味方にさくせんを出した回数分手札のこのカードのコスト-1",
+      "strategyApplications": 1,
+      "targetHint": "本文参照"
+    },
+    {
+      "cardId": "card_b2641ee7",
+      "name": "追撃のキラーマシン",
+      "classes": [
+        "武闘家"
+      ],
+      "cardType": "ユニット",
+      "text": "2回攻撃、召喚時:このユニットにさくせんを出す。自分がさくせんを出した後、1ターンに2回までランダムな敵ユニット1体に2ダメージ",
+      "strategyApplications": 1,
+      "targetHint": "このユニット"
+    },
+    {
+      "cardId": "card_15820bca",
+      "name": "強奪のくびかりぞく",
+      "classes": [
+        "僧侶"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：味方リーダーのテンションが2以上あるならこのユニットにさくせんを出す。このユニットの攻撃で敵ユニットが死亡する度カードを1枚引く",
+      "strategyApplications": 1,
+      "targetHint": "このユニット"
+    },
+    {
+      "cardId": "card_90378248",
+      "name": "さくせんがえ",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "特技",
+      "text": "縦一列にいる全ての味方ユニットにさくせんを出す",
+      "strategyApplications": 1,
+      "targetHint": "本文参照"
+    },
+    {
+      "cardId": "card_bf35ede9",
+      "name": "マペットマン",
+      "classes": [
+        "商人"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：味方ユニット1体にさくせんを出す",
+      "strategyApplications": 1,
+      "targetHint": "味方ユニット1体"
+    },
+    {
+      "cardId": "card_83fe681d",
+      "name": "キラーマシン2",
+      "classes": [
+        "占い師"
+      ],
+      "cardType": "ユニット",
+      "text": "2回攻撃、召喚時:このユニットにさくせんを出す。耐戦中に味方建物が3つ以上出ていたら、代わりに2回さくせんを出し、出たさくせんの効果全てを得る",
+      "strategyApplications": 2,
+      "targetHint": "このユニット"
+    },
+    {
+      "cardId": "card_3ffe81c0",
+      "name": "オーガソルジャー",
+      "classes": [
+        "魔剣士"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時：全てのピサロナイトにさくせんを出す",
+      "strategyApplications": 1,
+      "targetHint": "全てのピサロナイト"
+    },
+    {
+      "cardId": "card_83b14001",
+      "name": "ようがんげんじん",
+      "classes": [
+        "盗賊"
+      ],
+      "cardType": "ユニット",
+      "text": "ステルス、召喚時：このユニットにさくせんを出す",
+      "strategyApplications": 1,
+      "targetHint": "このユニット"
+    },
+    {
+      "cardId": "card_97d4fedd",
+      "name": "さんぞくのカシラ",
+      "classes": [
+        "盗賊"
+      ],
+      "cardType": "ユニット",
+      "text": "召喚時:このユニットは消滅しさんぞく兵、さんぞくマージ、さんぞく、エテポンゲを出しそれらにさくせんを出す",
+      "strategyApplications": 1,
+      "targetHint": "このユニット"
+    }
+  ],
+  "index": {
+    "byCardId": {
+      "card_1e2e4b2a": "strategy_pool_default",
+      "card_1f0ddb6c": "strategy_pool_default",
+      "card_6f20cd44": "strategy_pool_default",
+      "card_ae660737": "strategy_pool_default",
+      "card_fb3d75b3": "strategy_pool_default",
+      "card_c8b44f81": "strategy_pool_default",
+      "card_37c6d619": "strategy_pool_default",
+      "card_9a8f3b7f": "strategy_pool_default",
+      "card_50186816": "strategy_pool_default",
+      "card_b2641ee7": "strategy_pool_default",
+      "card_15820bca": "strategy_pool_default",
+      "card_90378248": "strategy_pool_default",
+      "card_bf35ede9": "strategy_pool_default",
+      "card_83fe681d": "strategy_pool_default",
+      "card_3ffe81c0": "strategy_pool_default",
+      "card_83b14001": "strategy_pool_default",
+      "card_97d4fedd": "strategy_pool_default"
+    }
+  },
+  "candidateIndex": {
+    "strategy_gangan_ikouze": "ガンガンいこうぜ",
+    "strategy_inochi_daijini": "いのちだいじに",
+    "strategy_batchiri_ganbare": "バッチリがんばれ",
+    "strategy_kokode_mattete": "ここでまってて",
+    "strategy_katteni_shitene": "かってにしてね",
+    "strategy_tonikaku_nigete": "とにかくにげて",
+    "strategy_senryoku_ubae": "せんりょくうばえ",
+    "strategy_tension_tamero": "テンションためろ",
+    "strategy_support_tanomuzo": "サポートたのむぞ",
+    "strategy_leader_wo_kaifuku": "リーダーをかいふく！"
+  },
+  "stats": {
+    "candidateCount": 10,
+    "cardCount": 17
+  }
+}
