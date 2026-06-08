@@ -1,0 +1,7 @@
+{
+  "version": "v13-warrior-user-link-map",
+  "baselinePreserved": "common_001_163",
+  "warriorUpdatedCount": 142,
+  "warriorMissingCount": 0,
+  "note": "戦士カード画像をユーザー提供の公式DB詳細リンクで再マッピング。"
+}

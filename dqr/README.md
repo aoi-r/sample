@@ -119,3 +119,16 @@ node tools/sync_official_gameconductor.mjs
 ## v11 update
 - 戦士カード 164〜305 を公式DB順で画像URL対応
 - 追加レポート: data/official_image_manual_batch_v11_warrior_164_305.json
+
+
+## v12 update
+- 戦士画像が反映されない場合への対策として、data/*.json の読み込みにキャッシュ回避を追加。
+- fetch は `cache: 'no-store'` と `?v=v12-warrior-images-cache-bust` を使用。
+- カード画像の img に `referrerPolicy='no-referrer'` を追加。
+
+
+## v13 update
+- 共通カード001〜163は確定済みベースラインとして保持。
+- 戦士カード画像を、ユーザー提供の公式DB詳細リンク一覧に基づいて再マッピング。
+- 追加レポート: `data/official_image_manual_batch_v13_warrior_user_links.json`
+- `DATA_VERSION = v13-warrior-user-link-map` でキャッシュ回避。

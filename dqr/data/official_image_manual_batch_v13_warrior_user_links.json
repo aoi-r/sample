@@ -1,0 +1,1323 @@
+{
+  "batch": "warrior_user_link_map_v13",
+  "class": "戦士",
+  "baselinePreserved": "common_001_163",
+  "updatedCount": 142,
+  "warriorCardCount": 142,
+  "missingCount": 0,
+  "missing": [],
+  "aliasCorrections": [
+    {
+      "localName": "ネクロバルサ",
+      "providedName": "ネクロパルサ",
+      "officialId": 506
+    },
+    {
+      "localName": "さんぞくのサーベル",
+      "providedName": "さんぞうのサーベル",
+      "officialId": 548
+    },
+    {
+      "localName": "夢と現実の再会",
+      "providedName": "夢と現実の再開",
+      "officialId": 1011
+    },
+    {
+      "localName": "闇に堕ちたチカラ",
+      "providedName": "闇に落ちたチカラ",
+      "officialId": 1480
+    },
+    {
+      "localName": "オリハルゴン",
+      "providedName": "オリハルコン",
+      "officialId": 1489
+    }
+  ],
+  "manualCorrections": [
+    {
+      "name": "はやぶさの剣",
+      "reason": "ユーザー貼付ではパパスの剣と同じ /714 だったため、公式一覧で確認できる /753 に修正。",
+      "officialId": 753
+    }
+  ],
+  "cards": [
+    {
+      "name": "カメレオンマン",
+      "providedName": "カメレオンマン",
+      "officialId": 164,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/164",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_164.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "しっぷう突き",
+      "providedName": "しっぷう突き",
+      "officialId": 165,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/165",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_165.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "やいばくだき",
+      "providedName": "やいばくだき",
+      "officialId": 166,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/166",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_166.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "はがねのつるぎ",
+      "providedName": "はがねのつるぎ",
+      "officialId": 167,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/167",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_167.jpg",
+      "deckBuildable": true,
+      "cardType": "武器"
+    },
+    {
+      "name": "剣を求めて",
+      "providedName": "剣を求めて",
+      "officialId": 168,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/168",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_168.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "とうろうへい",
+      "providedName": "とうろうへい",
+      "officialId": 169,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/169",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_169.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ぼうれい剣士",
+      "providedName": "ぼうれい剣士",
+      "officialId": 170,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/170",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_170.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "きせきのつるぎ",
+      "providedName": "きせきのつるぎ",
+      "officialId": 171,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/171",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_171.jpg",
+      "deckBuildable": true,
+      "cardType": "武器"
+    },
+    {
+      "name": "はやぶさ斬り",
+      "providedName": "はやぶさ斬り",
+      "officialId": 172,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/172",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_172.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "メタッピー",
+      "providedName": "メタッピー",
+      "officialId": 173,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/173",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_173.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ひとくいサーベル",
+      "providedName": "ひとくいサーベル",
+      "officialId": 174,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/174",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_174.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "まじん斬り",
+      "providedName": "まじん斬り",
+      "officialId": 175,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/175",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_175.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "しんくう斬り",
+      "providedName": "しんくう斬り",
+      "officialId": 176,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/176",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_176.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "じごくのもんばん",
+      "providedName": "じごくのもんばん",
+      "officialId": 177,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/177",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_177.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "さんぞくウルフ",
+      "providedName": "さんぞくウルフ",
+      "officialId": 178,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/178",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_178.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "もろば斬り",
+      "providedName": "もろば斬り",
+      "officialId": 179,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/179",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_179.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "かばう",
+      "providedName": "かばう",
+      "officialId": 180,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/180",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_180.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "ブラウニー",
+      "providedName": "ブラウニー",
+      "officialId": 181,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/181",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_181.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "剣の手入れ",
+      "providedName": "剣の手入れ",
+      "officialId": 182,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/182",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_182.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "ギガスラッシュ",
+      "providedName": "ギガスラッシュ",
+      "officialId": 183,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/183",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_183.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "たてまじん",
+      "providedName": "たてまじん",
+      "officialId": 184,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/184",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_184.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "しにがみきぞく",
+      "providedName": "しにがみきぞく",
+      "officialId": 185,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/185",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_185.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "おにこぞう",
+      "providedName": "おにこぞう",
+      "officialId": 186,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/186",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_186.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ドラゴンソルジャー",
+      "providedName": "ドラゴンソルジャー",
+      "officialId": 187,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/187",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_187.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ギガブレイク",
+      "providedName": "ギガブレイク",
+      "officialId": 188,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/188",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_188.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "からくりしょうぐん",
+      "providedName": "からくりしょうぐん",
+      "officialId": 189,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/189",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_189.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ジゴスパーク",
+      "providedName": "ジゴスパーク",
+      "officialId": 190,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/190",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_190.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "雷鳴の剣",
+      "providedName": "雷鳴の剣",
+      "officialId": 191,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/191",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_191.jpg",
+      "deckBuildable": true,
+      "cardType": "武器"
+    },
+    {
+      "name": "パパス",
+      "providedName": "パパス",
+      "officialId": 192,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/192",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_192.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "アトラス",
+      "providedName": "アトラス",
+      "officialId": 193,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/193",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_193.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "孤高の剣技",
+      "providedName": "孤高の剣技",
+      "officialId": 385,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/385",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_385.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "アイアンクック",
+      "providedName": "アイアンクック",
+      "officialId": 392,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/392",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_392.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ボーンファイター",
+      "providedName": "ボーンファイター",
+      "officialId": 396,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/396",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_396.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "はじゃのつるぎ",
+      "providedName": "はじゃのつるぎ",
+      "officialId": 426,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/426",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_426.jpg",
+      "deckBuildable": true,
+      "cardType": "武器"
+    },
+    {
+      "name": "くびかりぞく",
+      "providedName": "くびかりぞく",
+      "officialId": 427,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/427",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_427.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ビッグシールド",
+      "providedName": "ビッグシールド",
+      "officialId": 431,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/431",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_431.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "デュラン",
+      "providedName": "デュラン",
+      "officialId": 456,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/456",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_456.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "神速の剣圧",
+      "providedName": "神速の剣圧",
+      "officialId": 457,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/457",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_457.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "オクトセントリー",
+      "providedName": "オクトセントリー",
+      "officialId": 458,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/458",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_458.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ダークランサー",
+      "providedName": "ダークランサー",
+      "officialId": 459,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/459",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_459.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "グレイグ",
+      "providedName": "グレイグ",
+      "officialId": 475,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/475",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_475.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "牙王ゴースネル",
+      "providedName": "牙王ゴースネル",
+      "officialId": 476,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/476",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_476.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "剣神の領域",
+      "providedName": "剣神の領域",
+      "officialId": 498,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/498",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_498.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "ズッキーニャ",
+      "providedName": "ズッキーニャ",
+      "officialId": 504,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/504",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_504.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "かえん斬り",
+      "providedName": "かえん斬り",
+      "officialId": 505,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/505",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_505.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "ネクロバルサ",
+      "providedName": "ネクロパルサ",
+      "officialId": 506,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/506",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_506.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "さんぞくのサーベル",
+      "providedName": "さんぞうのサーベル",
+      "officialId": 548,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/548",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_548.jpg",
+      "deckBuildable": true,
+      "cardType": "武器"
+    },
+    {
+      "name": "凌駕する力",
+      "providedName": "凌駕する力",
+      "officialId": 549,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/549",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_549.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "サタンメイル",
+      "providedName": "サタンメイル",
+      "officialId": 550,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/550",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_550.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "おしゃれなバンダナ",
+      "providedName": "おしゃれなバンダナ",
+      "officialId": 551,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/551",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_551.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "剣の錬成",
+      "providedName": "剣の錬成",
+      "officialId": 581,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/581",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_581.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "ヘルオーディン",
+      "providedName": "ヘルオーディン",
+      "officialId": 593,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/593",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_593.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "剣豪の闘志",
+      "providedName": "剣豪の闘志",
+      "officialId": 607,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/607",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_607.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "ガスト",
+      "providedName": "ガスト",
+      "officialId": 608,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/608",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_608.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ゾンビマスター",
+      "providedName": "ゾンビマスター",
+      "officialId": 609,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/609",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_609.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "黒騎士レオコーン",
+      "providedName": "黒騎士レオコーン",
+      "officialId": 610,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/610",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_610.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "背水のかまえ",
+      "providedName": "背水のかまえ",
+      "officialId": 648,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/648",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_648.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "大怨霊マアモン",
+      "providedName": "大怨霊マアモン",
+      "officialId": 649,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/649",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_649.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "じごくのサーベル",
+      "providedName": "じごくのサーベル",
+      "officialId": 650,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/650",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_650.jpg",
+      "deckBuildable": true,
+      "cardType": "武器"
+    },
+    {
+      "name": "ことだまつかい",
+      "providedName": "ことだまつかい",
+      "officialId": 651,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/651",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_651.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "こんぼう",
+      "providedName": "こんぼう",
+      "officialId": 713,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/713",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_713.jpg",
+      "deckBuildable": false,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "パパスの剣",
+      "providedName": "パパスの剣",
+      "officialId": 714,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/714",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_714.jpg",
+      "deckBuildable": false,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ライアン",
+      "providedName": "ライアン",
+      "officialId": 738,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/738",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_738.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ホイミン",
+      "providedName": "ホイミン",
+      "officialId": 739,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/739",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_739.jpg",
+      "deckBuildable": false,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "はやぶさの剣",
+      "providedName": "はやぶさの剣",
+      "officialId": 753,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/753",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_753.jpg",
+      "deckBuildable": true,
+      "cardType": "武器"
+    },
+    {
+      "name": "パプリカン",
+      "providedName": "パプリカン",
+      "officialId": 756,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/756",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_756.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "大ぼうぎょ",
+      "providedName": "大ぼうぎょ",
+      "officialId": 763,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/763",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_763.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "やいばのボディ",
+      "providedName": "やいばのボディ",
+      "officialId": 777,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/777",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_777.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "ブラッドソード",
+      "providedName": "ブラッドソード",
+      "officialId": 794,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/794",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_794.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "突撃命令",
+      "providedName": "突撃命令",
+      "officialId": 795,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/795",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_795.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "かばうの心得",
+      "providedName": "かばうの心得",
+      "officialId": 821,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/821",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_821.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "エビルスピリッツ",
+      "providedName": "エビルスピリッツ",
+      "officialId": 838,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/838",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_838.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "デビルアーマー",
+      "providedName": "デビルアーマー",
+      "officialId": 839,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/839",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_839.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "青い閃光",
+      "providedName": "青い閃光",
+      "officialId": 865,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/865",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_865.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "ケムケムベス",
+      "providedName": "ケムケムベス",
+      "officialId": 866,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/866",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_866.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "じごくのハサミ",
+      "providedName": "じごくのハサミ",
+      "officialId": 867,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/867",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_867.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "少年テリー",
+      "providedName": "少年テリー",
+      "officialId": 888,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/888",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_888.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "モンスターマスター",
+      "providedName": "モンスターマスター",
+      "officialId": 889,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/889",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_889.jpg",
+      "deckBuildable": false,
+      "cardType": "トークン"
+    },
+    {
+      "name": "豪腕王アントン",
+      "providedName": "豪腕王アントン",
+      "officialId": 890,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/890",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_890.jpg",
+      "deckBuildable": false,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "韋駄天のドラまさ",
+      "providedName": "韋駄天のドラまさ",
+      "officialId": 891,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/891",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_891.jpg",
+      "deckBuildable": false,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "青い闘魂スラぼう",
+      "providedName": "青い闘魂スラぼう",
+      "officialId": 892,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/892",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_892.jpg",
+      "deckBuildable": false,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "みなごろし",
+      "providedName": "みなごろし",
+      "officialId": 894,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/894",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_894.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "おおありくい",
+      "providedName": "おおありくい",
+      "officialId": 921,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/921",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_921.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "兵士長の剣",
+      "providedName": "兵士長の剣",
+      "officialId": 922,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/922",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_922.jpg",
+      "deckBuildable": true,
+      "cardType": "武器"
+    },
+    {
+      "name": "ダンスニードル",
+      "providedName": "ダンスニードル",
+      "officialId": 948,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/948",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_948.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "孤軍奮闘",
+      "providedName": "孤軍奮闘",
+      "officialId": 949,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/949",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_949.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "ブルサベージ",
+      "providedName": "ブルサベージ",
+      "officialId": 950,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/950",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_950.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ミラクルブレイド",
+      "providedName": "ミラクルブレイド",
+      "officialId": 986,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/986",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_986.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "ウパソルジャー",
+      "providedName": "ウパソルジャー",
+      "officialId": 987,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/987",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_987.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "いなずまのけん",
+      "providedName": "いなずまのけん",
+      "officialId": 988,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/988",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_988.jpg",
+      "deckBuildable": true,
+      "cardType": "武器"
+    },
+    {
+      "name": "ムドー",
+      "providedName": "ムドー",
+      "officialId": 1010,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1010",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1010.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "夢と現実の再会",
+      "providedName": "夢と現実の再開",
+      "officialId": 1011,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1011",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1011.jpg",
+      "deckBuildable": false,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ニセたいこう",
+      "providedName": "ニセたいこう",
+      "officialId": 1022,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1022",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1022.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "じごくのやいば",
+      "providedName": "じごくのやいば",
+      "officialId": 1041,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1041",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1041.jpg",
+      "deckBuildable": true,
+      "cardType": "武器"
+    },
+    {
+      "name": "ヘルビースト",
+      "providedName": "ヘルビースト",
+      "officialId": 1042,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1042",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1042.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ギュメイ将軍",
+      "providedName": "ギュメイ将軍",
+      "officialId": 1065,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1065",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1065.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "しんくうは",
+      "providedName": "しんくうは",
+      "officialId": 1077,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1077",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1077.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "力への渇望",
+      "providedName": "力への渇望",
+      "officialId": 1078,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1078",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1078.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "ナイトリッチ",
+      "providedName": "ナイトリッチ",
+      "officialId": 1079,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1079",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1079.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ギズモ",
+      "providedName": "ギズモ",
+      "officialId": 1099,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1099",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1099.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "シールドアタック",
+      "providedName": "シールドアタック",
+      "officialId": 1100,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1100",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1100.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "おまもりコイン",
+      "providedName": "おまもりコイン",
+      "officialId": 1101,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1101",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1101.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "戦士の交換所",
+      "providedName": "戦士の交換所",
+      "officialId": 1140,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1140",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1140.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "新たなチカラへの対価",
+      "providedName": "新たなチカラへの対価",
+      "officialId": 1141,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1141",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1141.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "ドラゴンシールド",
+      "providedName": "ドラゴンシールド",
+      "officialId": 1142,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1142",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1142.jpg",
+      "deckBuildable": false,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "まかいファイター",
+      "providedName": "まかいファイター",
+      "officialId": 1143,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1143",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1143.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ローズバトラー",
+      "providedName": "ローズバトラー",
+      "officialId": 1177,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1177",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1177.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ランタンこぞう",
+      "providedName": "ランタンこぞう",
+      "officialId": 1183,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1183",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1183.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ファイアボール",
+      "providedName": "ファイアボール",
+      "officialId": 1184,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1184",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1184.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "突風の剣",
+      "providedName": "突風の剣",
+      "officialId": 1185,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1185",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1185.jpg",
+      "deckBuildable": true,
+      "cardType": "武器"
+    },
+    {
+      "name": "アイラ",
+      "providedName": "アイラ",
+      "officialId": 1186,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1186",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1186.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "アルゴリザード",
+      "providedName": "アルゴリザード",
+      "officialId": 1246,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1246",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1246.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ファーリス王子",
+      "providedName": "ファーリス王子",
+      "officialId": 1247,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1247",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1247.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ナイトキング",
+      "providedName": "ナイトキング",
+      "officialId": 1248,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1248",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1248.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "いなずまビリー",
+      "providedName": "いなずまビリー",
+      "officialId": 1249,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1249",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1249.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "プラチナソード",
+      "providedName": "プラチナソード",
+      "officialId": 1250,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1250",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1250.jpg",
+      "deckBuildable": true,
+      "cardType": "武器"
+    },
+    {
+      "name": "最後の砦の英雄グレイグ",
+      "providedName": "最後の砦の英雄グレイグ",
+      "officialId": 1251,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1251",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1251.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "稲妻雷光斬",
+      "providedName": "稲妻雷光斬",
+      "officialId": 1252,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1252",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1252.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "キングムーチョ",
+      "providedName": "キングムーチョ",
+      "officialId": 1253,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1253",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1253.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "マッドファルコン",
+      "providedName": "マッドファルコン",
+      "officialId": 1254,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1254",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1254.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "キラーG",
+      "providedName": "キラーG",
+      "officialId": 1341,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1341",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1341.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "武器屋",
+      "providedName": "武器屋",
+      "officialId": 1342,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1342",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1342.jpg",
+      "deckBuildable": true,
+      "cardType": "建物"
+    },
+    {
+      "name": "メルビン",
+      "providedName": "メルビン",
+      "officialId": 1343,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1343",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1343.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "魔法の剣",
+      "providedName": "魔法の剣",
+      "officialId": 1344,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1344",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1344.jpg",
+      "deckBuildable": true,
+      "cardType": "武器"
+    },
+    {
+      "name": "修練のたてまじん",
+      "providedName": "修練のたてまじん",
+      "officialId": 1345,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1345",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1345.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ファラリスブル",
+      "providedName": "ファラリスブル",
+      "officialId": 1346,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1346",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1346.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "レッドサイクロン",
+      "providedName": "レッドサイクロン",
+      "officialId": 1347,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1347",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1347.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ムチおとこ",
+      "providedName": "ムチおとこ",
+      "officialId": 1348,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1348",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1348.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ドランゴ",
+      "providedName": "ドランゴ",
+      "officialId": 1349,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1349",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1349.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "悪霊の神々アトラス",
+      "providedName": "悪霊の神々アトラス",
+      "officialId": 1443,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1443",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1443.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "突貫のしにがみきぞく",
+      "providedName": "突貫のしにがみきぞく",
+      "officialId": 1446,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1446",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1446.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "闇に堕ちたチカラ",
+      "providedName": "闇に落ちたチカラ",
+      "officialId": 1480,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1480",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1480.jpg",
+      "deckBuildable": true,
+      "cardType": "特技"
+    },
+    {
+      "name": "救援のドラキー",
+      "providedName": "救援のドラキー",
+      "officialId": 1482,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1482",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1482.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "戦士の剣",
+      "providedName": "戦士の剣",
+      "officialId": 1483,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1483",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1483.jpg",
+      "deckBuildable": true,
+      "cardType": "武器"
+    },
+    {
+      "name": "テラノザース",
+      "providedName": "テラノザース",
+      "officialId": 1484,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1484",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1484.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "魔王の書",
+      "providedName": "魔王の書",
+      "officialId": 1485,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1485",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1485.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "りゅうせんし",
+      "providedName": "りゅうせんし",
+      "officialId": 1486,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1486",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1486.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "流浪のヒューザ",
+      "providedName": "流浪のヒューザ",
+      "officialId": 1487,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1487",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1487.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ゴールデンドラゴン",
+      "providedName": "ゴールデンドラゴン",
+      "officialId": 1488,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1488",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1488.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "オリハルゴン",
+      "providedName": "オリハルコン",
+      "officialId": 1489,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1489",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1489.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "グリーンシザー",
+      "providedName": "グリーンシザー",
+      "officialId": 1561,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1561",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1561.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    },
+    {
+      "name": "ローシュ",
+      "providedName": "ローシュ",
+      "officialId": 1562,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1562",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1562.jpg",
+      "deckBuildable": true,
+      "cardType": "ユニット"
+    }
+  ]
+}

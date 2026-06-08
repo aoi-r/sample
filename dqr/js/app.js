@@ -16,6 +16,7 @@ localStorage.setItem('dqr_device_id', state.deviceId);
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
+const DATA_VERSION = 'v13-warrior-user-link-map';
 
 init().catch(err => {
   console.error(err);
@@ -33,7 +34,7 @@ async function init(){
 }
 
 async function loadJson(path, fallback = {}){
-  try{ const r = await fetch(path); if(!r.ok) throw new Error(`${path}: ${r.status}`); return await r.json(); }
+  try{ const r = await fetch(`${path}?v=${encodeURIComponent(DATA_VERSION)}`, { cache: 'no-store' }); if(!r.ok) throw new Error(`${path}: ${r.status}`); return await r.json(); }
   catch(e){ console.warn(e); return fallback; }
 }
 
@@ -154,7 +155,7 @@ function renderCards(){
     const imgUrl = getOfficialImage(card);
     if(imgUrl){
       const img = document.createElement('img');
-      img.className = 'card-thumb'; img.loading = 'lazy'; img.src = imgUrl; img.alt = card.name;
+      img.className = 'card-thumb'; img.loading = 'lazy'; img.referrerPolicy = 'no-referrer'; img.src = imgUrl; img.alt = card.name;
       img.onerror = () => img.remove();
       node.prepend(img);
     }
