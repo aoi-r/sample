@@ -81,3 +81,19 @@ Firebase未設定でも、デッキはブラウザ内に保存されます。
 - デッキ作成画面では `flags.deckBuildable === false` または `cardType === "トークン"` のカードを表示しません。
 - 画像は `official.imageVerified === true` かつ `official.verifiedName === card.name` のものだけ表示します。間違った画像を出すより、未同期画像は非表示にしています。
 - 完全画像同期は `node tools/sync_official_gameconductor.mjs` をプロジェクトルートで実行してください。公式DBのaタグ→詳細ページ名称→カード画像を照合してから反映します。
+
+
+## 画像について（v8）
+
+誤画像を出さないため、`cards.json` では `official.imageVerified === true` かつ `official.verifiedName === card.name` の画像だけ表示します。
+未同期カードは画像なしで表示されます。
+
+完全同期はプロジェクトルートで以下を実行してください。
+
+```bash
+node tools/sync_official_gameconductor.mjs
+```
+
+このスクリプトは公式DBの `https://gameconductor.com/dqrivals/card` から各カードの `<a href="/dqrivals/c/d/{id}">カード名</a>` を取得し、詳細ページの `名称` がローカルJSONの `name` と完全一致した場合だけ `https://gameconductor.com/dqrivals/wp-content/uploads/card_img_{id}.jpg` を採用します。
+
+つまり、デボラにくらやみにゅうどうの画像が付くような事故は、同期条件上起きないようにしています。

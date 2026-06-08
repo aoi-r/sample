@@ -1,136 +1,165 @@
-import fs from "node:fs/promises";
-import path from "node:path";
+#!/usr/bin/env node
+/**
+ * Official GameConductor sync for DQR deckbuilder.
+ *
+ * Usage:
+ *   node tools/sync_official_gameconductor.mjs
+ *
+ * What it does:
+ *   1. Fetches https://gameconductor.com/dqrivals/card
+ *   2. Extracts every <a href="/dqrivals/c/d/{id}">card name</a> from the official list.
+ *   3. Opens each matched detail page.
+ *   4. Applies official.imageUrl ONLY when the detail page's 名称 exactly matches local cards.json name.
+ *   5. Sets deckBuildable=false for official category トークン, except cards explicitly overridden in deck_rules.json.
+ *
+ * This script intentionally prefers missing images over wrong images.
+ */
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
-const ROOT = path.resolve(process.cwd());
-const cardsPath = path.join(ROOT, "data", "cards.json");
-const listUrl = "https://gameconductor.com/dqrivals/card";
-const base = "https://gameconductor.com";
+const ROOT = process.cwd();
+const cardsPath = path.join(ROOT, 'data', 'cards.json');
+const rulesPath = path.join(ROOT, 'data', 'deck_rules.json');
+const reportPath = path.join(ROOT, 'data', 'official_sync_report.json');
+const mapPath = path.join(ROOT, 'data', 'official_image_map.json');
+const BASE = 'https://gameconductor.com';
+const LIST_URL = `${BASE}/dqrivals/card`;
 
-const normalize = (s="") => s.replace(/\s+/g, "").replace(/[：:]/g, ":").replace(/[、，]/g, ",").trim();
-const stripTags = (s="") => s.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<style[\s\S]*?<\/style>/g, "").replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&#039;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, " ").trim();
-
-async function fetchText(url){
-  const res = await fetch(url, { headers: { "user-agent": "DQR local sync script" }});
-  if(!res.ok) throw new Error(`${res.status} ${url}`);
+function stripTags(html) {
+  return html.replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&#038;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+function norm(s) {
+  return String(s ?? '')
+    .replace(/\s+/g, '')
+    .replace(/[：]/g, ':')
+    .replace(/[－−]/g, '-')
+    .trim();
+}
+function extractField(text, label, nextLabels) {
+  const start = text.indexOf(label);
+  if (start < 0) return '';
+  let from = start + label.length;
+  let to = text.length;
+  for (const n of nextLabels) {
+    const p = text.indexOf(n, from);
+    if (p >= 0 && p < to) to = p;
+  }
+  return text.slice(from, to).trim();
+}
+async function fetchText(url) {
+  const res = await fetch(url, { headers: { 'user-agent': 'Mozilla/5.0 DQR private deckbuilder sync' } });
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText} ${url}`);
   return await res.text();
 }
+async function main() {
+  const cardsJson = JSON.parse(await fs.readFile(cardsPath, 'utf8'));
+  let rules = {};
+  try { rules = JSON.parse(await fs.readFile(rulesPath, 'utf8')); } catch {}
+  const explicitDeckable = new Set((rules.forceDeckBuildableNames || rules.deckBuildableNames || []).map(norm));
+  const explicitNonDeck = new Set((rules.forceNonDeckBuildableNames || []).map(norm));
 
-function extractOfficialLinks(html){
-  const rx = /<a\s+[^>]*href=["'](\/dqrivals\/c\/d\/(\d+))["'][^>]*>([\s\S]*?)<\/a>/g;
-  const out = new Map();
+  console.log('Fetching official list:', LIST_URL);
+  const listHtml = await fetchText(LIST_URL);
+  const linkRe = /<a\s+[^>]*href=["'](\/dqrivals\/c\/d\/(\d+))["'][^>]*>([\s\S]*?)<\/a>/gi;
+  const byName = new Map();
   let m;
-  while((m = rx.exec(html))){
+  while ((m = linkRe.exec(listHtml))) {
+    const officialId = m[2];
     const name = stripTags(m[3]);
-    if(!name || name.includes("Home") || name.includes("全カード一覧")) continue;
-    const officialId = Number(m[2]);
-    if(!out.has(`${officialId}:${name}`)) out.set(`${officialId}:${name}`, { officialId, name, url: base + m[1] });
+    if (!name || name === '全カード一覧') continue;
+    const key = norm(name);
+    if (!byName.has(key)) byName.set(key, []);
+    byName.get(key).push({ officialId, name, pageUrl: `${BASE}/dqrivals/c/d/${officialId}` });
   }
-  return [...out.values()];
-}
+  console.log('Official anchors:', byName.size);
 
-function extractField(text, label){
-  const idx = text.indexOf(label);
-  if(idx < 0) return "";
-  let rest = text.slice(idx + label.length).trim();
-  const labels = ["名称", "構築評価", "闘技場評価", "カード画像", "リーダー", "カードパック", "コスト", "カテゴリ", "レアリティ", "種族", "攻撃力", "HP", "効果", "考察"];
-  let end = rest.length;
-  for(const l of labels){
-    const p = rest.indexOf(" " + l + " ");
-    if(p > 0) end = Math.min(end, p);
-  }
-  return rest.slice(0,end).trim();
-}
+  const report = { generatedAt: new Date().toISOString(), matched: [], unmatched: [], ambiguous: [], failed: [] };
+  const imageMap = {};
 
-async function detail(link){
-  const html = await fetchText(link.url);
-  const text = stripTags(html);
-  const name = extractField(text, "名称") || link.name;
-  const imageMatch = html.match(/https?:\/\/[^"']*card_img_\d+\.jpg|\/dqrivals\/wp-content\/uploads\/card_img_\d+\.jpg|\/wp-content\/uploads\/card_img_\d+\.jpg/);
-  const imageUrl = imageMatch ? (imageMatch[0].startsWith("http") ? imageMatch[0] : base + imageMatch[0]) : `${base}/dqrivals/wp-content/uploads/card_img_${link.officialId}.jpg`;
-  return {
-    ...link,
-    verifiedName: name,
-    imageUrl,
-    leader: extractField(text, "リーダー"),
-    pack: extractField(text, "カードパック"),
-    category: extractField(text, "カテゴリ"),
-    rarity: extractField(text, "レアリティ"),
-    cost: Number(extractField(text, "コスト")) || 0,
-    attack: Number(extractField(text, "攻撃力")) || 0,
-    hp: Number(extractField(text, "HP")) || 0,
-    effect: extractField(text, "効果"),
-    constructionScore: Number((extractField(text, "構築評価").match(/\d+/)||[0])[0]),
-    arenaScore: Number((extractField(text, "闘技場評価").match(/\d+/)||[0])[0])
-  };
-}
-
-function scoreMatch(local, off){
-  let score = 0;
-  if(local.name === off.verifiedName) score += 100;
-  if(Number(local.cost||0) === Number(off.cost||0)) score += 10;
-  if(Number(local.attack||0) === Number(off.attack||0)) score += 5;
-  if(Number(local.hp||0) === Number(off.hp||0)) score += 5;
-  if(normalize(local.text||"") && normalize(off.effect||"") && normalize(local.text||"") === normalize(off.effect||"")) score += 40;
-  if(local.rarity && off.rarity && local.rarity === off.rarity) score += 10;
-  return score;
-}
-
-const raw = JSON.parse(await fs.readFile(cardsPath, "utf8"));
-const cards = raw.cards;
-const byName = new Map();
-for(const c of cards){
-  if(!byName.has(c.name)) byName.set(c.name, []);
-  byName.get(c.name).push(c);
-}
-
-const html = await fetchText(listUrl);
-const links = extractOfficialLinks(html);
-console.log(`official links: ${links.length}`);
-
-const report = { matched: [], ambiguous: [], missing: [], errors: [] };
-let i = 0;
-for(const link of links){
-  i++;
-  try{
-    const off = await detail(link);
-    const candidates = byName.get(off.verifiedName) || byName.get(link.name) || [];
-    if(!candidates.length){ report.missing.push(off); continue; }
-    candidates.sort((a,b)=>scoreMatch(b,off)-scoreMatch(a,off));
-    const best = candidates[0];
-    const bestScore = scoreMatch(best, off);
-    const secondScore = candidates[1] ? scoreMatch(candidates[1], off) : -1;
-    if(bestScore < 100 || secondScore === bestScore){
-      report.ambiguous.push({ official: off, candidates: candidates.map(c=>({ id:c.id, name:c.name, text:c.text, score:scoreMatch(c,off) })) });
+  for (const card of cardsJson.cards) {
+    const key = norm(card.name);
+    const hits = byName.get(key) || [];
+    if (!hits.length) {
+      card.official = { ...(card.official || {}), imageVerified: false, nameVerified: false, imageStatus: 'not_found_in_official_list_by_exact_name' };
+      report.unmatched.push({ id: card.id, name: card.name });
       continue;
     }
-    best.official = {
-      site: "gameconductor",
-      officialId: off.officialId,
-      verifiedName: off.verifiedName,
+    // If duplicates exist, pick the one whose detail page exact name + basic stats best match.
+    let best = null;
+    let bestScore = -1;
+    for (const hit of hits) {
+      try {
+        const html = await fetchText(hit.pageUrl);
+        const text = stripTags(html);
+        const officialName = extractField(text, '名称', ['構築評価', '闘技場評価', 'カード画像', 'リーダー']);
+        if (norm(officialName) !== key) continue;
+        const cost = extractField(text, 'コスト', ['カテゴリ', 'レアリティ']);
+        const category = extractField(text, 'カテゴリ', ['レアリティ', '分解で', '生成に']);
+        const rarity = extractField(text, 'レアリティ', ['分解で', '生成に', '種族', '攻撃力', 'HP', '効果']);
+        const atk = extractField(text, '攻撃力', ['HP', '効果', '考察']);
+        const hp = extractField(text, 'HP', ['効果', '考察']);
+        const effect = extractField(text, '効果', ['考察', 'カード評価点数の基準']);
+        let score = 10;
+        if (String(card.cost ?? '') === cost) score += 3;
+        if (String(card.attack ?? '') === atk) score += 1;
+        if (String(card.hp ?? '') === hp) score += 1;
+        if (norm(card.text || '') && norm(effect).includes(norm(card.text || '').slice(0, 20))) score += 3;
+        if (norm(card.rarity || '') === norm(rarity)) score += 1;
+        if (score > bestScore) {
+          bestScore = score;
+          best = { ...hit, officialName, cost, category, rarity, atk, hp, effect, score };
+        }
+      } catch (e) {
+        report.failed.push({ id: card.id, name: card.name, pageUrl: hit.pageUrl, error: String(e.message || e) });
+      }
+    }
+    if (!best) {
+      report.ambiguous.push({ id: card.id, name: card.name, hits });
+      card.official = { ...(card.official || {}), imageVerified: false, nameVerified: false, imageStatus: 'official_list_hit_but_detail_name_not_verified' };
+      continue;
+    }
+    const imageUrl = `${BASE}/dqrivals/wp-content/uploads/card_img_${best.officialId}.jpg`;
+    card.official = {
+      ...(card.official || {}),
+      site: 'gameconductor',
+      officialId: best.officialId,
+      verifiedName: best.officialName,
       nameVerified: true,
       imageVerified: true,
-      cardPageUrl: off.url,
-      imageUrl: off.imageUrl,
-      constructionScore: off.constructionScore,
-      arenaScore: off.arenaScore,
-      leader: off.leader,
-      pack: off.pack,
-      category: off.category,
-      rarity: off.rarity,
-      syncMethod: "detail_page_exact_name_plus_stats"
+      cardPageUrl: best.pageUrl,
+      imageUrl,
+      category: best.category,
+      rarity: best.rarity || card.rarity,
+      officialEffect: best.effect,
+      syncScore: best.score,
+      syncMethod: 'official_anchor_and_detail_exact_name_match'
     };
-    if(off.category === "トークン"){
-      best.cardType = "トークン";
-      best.flags = best.flags || {};
-      best.flags.deckBuildable = false;
-      best.flags.obtainOnly = true;
-      best.flags.generatedOrEvolved = true;
-      best.flags.deckBuildRuleReason = [...new Set([...(best.flags.deckBuildRuleReason||[]), "official_token_category"])] ;
+    imageMap[card.name] = { officialId: best.officialId, imageUrl, cardPageUrl: best.pageUrl };
+    if (norm(best.category) === norm('トークン') && !explicitDeckable.has(key)) {
+      card.flags = { ...(card.flags || {}), deckBuildable: false };
+      card.cardType = 'トークン';
+      card.generatedKind = card.generatedKind || 'official_token';
     }
-    report.matched.push({ cardId: best.id, name: best.name, officialId: off.officialId });
-  }catch(e){ report.errors.push({ link, error: String(e) }); }
-  if(i % 50 === 0) console.log(`${i}/${links.length}`);
+    if (explicitNonDeck.has(key)) {
+      card.flags = { ...(card.flags || {}), deckBuildable: false };
+    }
+    report.matched.push({ id: card.id, name: card.name, officialId: best.officialId, imageUrl, category: best.category, score: best.score });
+  }
+
+  await fs.writeFile(cardsPath, JSON.stringify(cardsJson, null, 2), 'utf8');
+  await fs.writeFile(mapPath, JSON.stringify(imageMap, null, 2), 'utf8');
+  await fs.writeFile(reportPath, JSON.stringify(report, null, 2), 'utf8');
+  console.log(`Done. matched=${report.matched.length} unmatched=${report.unmatched.length} ambiguous=${report.ambiguous.length} failed=${report.failed.length}`);
+  console.log('Wrote:', cardsPath, mapPath, reportPath);
 }
-await fs.writeFile(cardsPath, JSON.stringify(raw, null, 2), "utf8");
-await fs.writeFile(path.join(ROOT, "data", "official_sync_report.json"), JSON.stringify(report, null, 2), "utf8");
-console.log(`matched=${report.matched.length} ambiguous=${report.ambiguous.length} missing=${report.missing.length} errors=${report.errors.length}`);
+
+main().catch(err => { console.error(err); process.exit(1); });
