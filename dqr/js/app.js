@@ -4,7 +4,7 @@ import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gsta
 import { getDatabase, ref, set, push, remove, onValue, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js';
 
 const state = {
-  cards: [], allCards: [], systems: {}, strategies: {}, choices: {}, coin: {}, dungeons: {}, fortune: {}, heroes: {},
+  cards: [], allCards: [], systems: {}, strategies: {}, choices: {}, coin: {}, dungeons: {}, fortune: {}, heroes: {}, exchanges: {}, generatedCards: {},
   classes: [], cardTypes: [], rarities: [], userDecks: {},
   username: localStorage.getItem('dqr_username') || '',
   deviceId: localStorage.getItem('dqr_device_id') || crypto.randomUUID(),
@@ -38,7 +38,7 @@ async function loadJson(path, fallback = {}){
 }
 
 async function loadData(){
-  const [cards, systems, strategies, choices, coin, dungeons, fortune, heroes] = await Promise.all([
+  const [cards, systems, strategies, choices, coin, dungeons, fortune, heroes, exchanges, generatedCards] = await Promise.all([
     loadJson('./data/cards.json', {cards: []}),
     loadJson('./data/systems.json', {}),
     loadJson('./data/strategies.json', {}),
@@ -46,10 +46,12 @@ async function loadData(){
     loadJson('./data/coin.json', {cards: []}),
     loadJson('./data/dungeons.json', {cards: []}),
     loadJson('./data/fortune.json', {cards: []}),
-    loadJson('./data/heroes.json', {heroes: [], relatedCards: []})
+    loadJson('./data/heroes.json', {heroes: [], relatedCards: []}),
+    loadJson('./data/exchanges.json', {cards: []}),
+    loadJson('./data/generated_cards.json', {cards: []})
   ]);
   state.systems = systems; state.strategies = strategies; state.choices = choices; state.coin = coin;
-  state.dungeons = dungeons; state.fortune = fortune; state.heroes = heroes;
+  state.dungeons = dungeons; state.fortune = fortune; state.heroes = heroes; state.exchanges = exchanges; state.generatedCards = generatedCards;
   state.allCards = cards.cards || [];
   state.cards = state.allCards.filter(c => c.flags?.deckBuildable !== false);
   state.classes = (cards.classes || fallbackClasses).filter(c => c !== '共通');
@@ -83,9 +85,8 @@ function bindEvents(){
   $('open-battle').addEventListener('click', () => show('battle'));
   document.querySelectorAll('.back-menu').forEach(b => b.addEventListener('click', () => show('menu')));
   $('class-select').addEventListener('change', e => changeClass(e.target.value));
-  $('hero-select').addEventListener('change', e => { state.selectedHeroId = e.target.value; renderDeck(); });
   ['search-input','type-filter','cost-filter','rarity-filter'].forEach(id => $(id).addEventListener('input', renderCards));
-  $('clear-deck').addEventListener('click', () => { state.deck.clear(); state.selectedHeroId=''; $('hero-select').value=''; renderAll(); });
+  $('clear-deck').addEventListener('click', () => { state.deck.clear(); state.selectedHeroId=''; renderAll(); });
   $('save-deck').addEventListener('click', saveDeck);
   $('export-deck').addEventListener('click', exportDeck);
   $('import-deck').addEventListener('change', importDeck);
@@ -98,15 +99,9 @@ function fillControls(){
   for(let i=0;i<=12;i++) $('cost-filter').add(new Option(String(i), String(i)));
   $('cost-filter').add(new Option('13以上', '13+'));
   for(const r of state.rarities) $('rarity-filter').add(new Option(r, r));
-  fillHeroSelect();
 }
 
-function fillHeroSelect(){
-  const sel = $('hero-select');
-  sel.innerHTML = '<option value="">なし</option>';
-  for(const h of (state.heroes.heroes || [])) sel.add(new Option(h.name, h.heroId));
-  sel.value = state.selectedHeroId || '';
-}
+function fillHeroSelect(){}
 
 function saveUsername(){
   const name = $('username-input').value.trim();
@@ -124,7 +119,7 @@ function updateLoginStatus(){
 function show(name){ screens.forEach(s => $(`screen-${s}`).classList.toggle('active', s === name)); updateLoginStatus(); }
 
 function changeClass(next){
-  if(next !== state.selectedClass && state.deck.size){ state.deck.clear(); state.selectedHeroId=''; $('hero-select').value=''; toast('職業を変更したのでデッキをリセットしました。'); }
+  if(next !== state.selectedClass && state.deck.size){ state.deck.clear(); state.selectedHeroId=''; toast('職業を変更したのでデッキをリセットしました。'); }
   state.selectedClass = next; renderAll();
 }
 
@@ -152,6 +147,13 @@ function renderCards(){
     const node = tpl.content.firstElementChild.cloneNode(true);
     node.querySelector('.cost').textContent = card.cost ?? '-';
     node.querySelector('.name').textContent = card.name;
+    const imgUrl = card.official?.imageUrl;
+    if(imgUrl){
+      const img = document.createElement('img');
+      img.className = 'card-thumb'; img.loading = 'lazy'; img.src = imgUrl; img.alt = card.name;
+      img.onerror = () => img.remove();
+      node.prepend(img);
+    }
     node.querySelector('.owned').textContent = count ? `×${count}` : '';
     node.querySelector('.card-meta').textContent = `${card.cardType || ''} / ${(card.classes||[]).join('・')} / ${card.rarity || ''}`;
     node.querySelector('.card-text').textContent = card.text || '—';
@@ -182,7 +184,7 @@ function renderDeck(){
     }
   }
   const heroCard = deckCards.find(x => x.card.cardType === 'ヒーロー')?.card;
-  if(heroCard){ const hero = (state.heroes.heroes || []).find(h => h.starterCardId === heroCard.id); if(hero){ state.selectedHeroId = hero.heroId; $('hero-select').value = hero.heroId; } }
+  if(heroCard){ const hero = (state.heroes.heroes || []).find(h => h.starterCardId === heroCard.id); state.selectedHeroId = hero?.heroId || ''; $('hero-status').textContent = heroCard.name; } else { state.selectedHeroId = ''; $('hero-status').textContent = '未投入'; }
   $('deck-count').textContent = deckTotal();
   $('deck-hero-count').textContent = deckCards.filter(x => x.card.cardType === 'ヒーロー').reduce((s,x)=>s+x.count,0);
   $('deck-legend-count').textContent = deckCards.filter(x => isLegend(x.card)).reduce((s,x)=>s+x.count,0);
@@ -281,7 +283,7 @@ async function deleteDeck(id){
 }
 function loadDeck(data){
   if(data.className){ state.selectedClass = data.className; $('class-select').value = data.className; }
-  state.selectedHeroId = data.heroId || ''; $('hero-select').value = state.selectedHeroId;
+  state.selectedHeroId = data.heroId || '';
   state.deck.clear(); for(const item of data.cards || []) state.deck.set(item.cardId, item.count || 1);
   $('deck-name').value = data.deckName || ''; renderAll(); toast('デッキを読み込みました。');
 }
@@ -297,7 +299,9 @@ function showCardDetail(card){
 function baseDetail(card){
   const buildable = card.flags?.deckBuildable === false ? 'デッキ編成不可 / 効果で取得・進化・システム用' : 'デッキ編成可';
   const reason = card.flags?.deckBuildRuleReason ? `<p>整理理由: ${escapeHtml(card.flags.deckBuildRuleReason.join(' / '))}</p>` : '';
-  return `<div class="detail-block"><h4>カード情報</h4><p><b>${buildable}</b></p>${reason}<p>コスト: ${card.cost ?? '-'} / 種類: ${escapeHtml(card.cardType || '')} / レア: ${escapeHtml(card.rarity || '')}</p><p>職業: ${escapeHtml((card.classes||[]).join('・'))}</p><p>系統: ${escapeHtml((card.tribes||[]).join('・') || 'なし')}</p><p>${escapeHtml(card.text || '—')}</p><p>${(card.keywords||[]).map(k=>`<span class="chip">${escapeHtml(k)}</span>`).join(' ')}</p></div>`;
+  const official = card.official?.cardPageUrl ? `<p><a href="${escapeHtml(card.official.cardPageUrl)}" target="_blank" rel="noreferrer">公式DBページを開く</a></p>` : '';
+  const img = card.official?.imageUrl ? `<img class="detail-card-image" src="${escapeHtml(card.official.imageUrl)}" alt="${escapeHtml(card.name)}" onerror="this.remove()">` : '';
+  return `<div class="detail-block"><h4>カード情報</h4>${img}<p><b>${buildable}</b></p>${reason}${official}<p>コスト: ${card.cost ?? '-'} / 種類: ${escapeHtml(card.cardType || '')} / レア: ${escapeHtml(card.rarity || '')}</p><p>職業: ${escapeHtml((card.classes||[]).join('・'))}</p><p>系統: ${escapeHtml((card.tribes||[]).join('・') || 'なし')}</p><p>${escapeHtml(card.text || '—')}</p><p>${(card.keywords||[]).map(k=>`<span class="chip">${escapeHtml(k)}</span>`).join(' ')}</p></div>`;
 }
 function relatedDetail(card){
   const blocks = [];
@@ -305,6 +309,7 @@ function relatedDetail(card){
   const choice = findByCard(state.choices.cards, card.id); if(choice) blocks.push(block('選択', choice.options.map(o => `<div class="option">${o.optionNo}: ${escapeHtml(o.text)}</div>`).join('')));
   const dungeon = findByCard(state.dungeons.cards, card.id); if(dungeon) blocks.push(block('ダンジョン', `<p>踏破耐久値: ${dungeon.clearDurability ?? '-'}</p><p>条件: ${escapeHtml(dungeon.progressConditionText || '')}</p><p>踏破時: ${escapeHtml(dungeon.completionEffectText || '')}</p>`));
   const coin = findByCard(state.coin.cards, card.id); if(coin) blocks.push(block('コイン / GET・BET', `<p>GET: ${escapeHtml((coin.get||[]).map(g=>g.amount).join(', ') || 'なし')}</p><p>BET: ${escapeHtml(coin.bet?.effectText || 'なし')}</p>`));
+  const exchange = findByCard(state.exchanges.cards, card.id) || findByCard(state.systems?.systems?.exchanges?.cards, card.id); if(exchange) blocks.push(block('交換所', `<p>${escapeHtml(exchange.usageRule || '')}</p><p>最低必要コイン: ${exchange.minimumCoinCost ?? '-'}</p>${(exchange.options||[]).map(o=>`<div class="option">${o.coinCost}枚: ${escapeHtml(o.effectText)}</div>`).join('')}<p>その後: ${escapeHtml(exchange.afterEffectText || '')}</p>`));
   const hero = (state.heroes.heroes || []).find(h => h.starterCardId === card.id); if(hero) blocks.push(block('ヒーロー', `<p>${escapeHtml(hero.name)}</p><p>${escapeHtml(hero.skillKind || '')}</p><p>${hero.needsSkillDataReview ? 'スキル詳細は後で補完予定' : ''}</p>`));
   const strategyCards = state.strategies.cards || state.systems?.systems?.strategies?.cards || [];
   const strat = findByCard(strategyCards, card.id); if(strat){ const pool = state.strategies.pools?.default || state.systems?.systems?.strategies?.pools?.default; blocks.push(block('さくせん', `<p>${escapeHtml(strat.targetHint || '対象ユニット')}</p>${(pool?.candidates||[]).map(c=>`<div class="option"><b>${escapeHtml(c.name)}</b>: ${escapeHtml(c.displayText || c.effectText)}</div>`).join('')}`)); }

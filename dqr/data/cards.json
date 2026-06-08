@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "deckbuilder-card-json-v6",
+  "schemaVersion": "deckbuilder-card-json-v6-official-rules-partial",
   "source": "dqr_sample.xlsx",
-  "generatedFor": "official_like_deck_builder",
+  "generatedFor": "deck_builder_official_rules_v3",
   "columns": {
     "識別用": "id, name, sourceSheets, sheetRows, classes, cardType, tribes",
     "表示用": "name, cost, attack, hp, text, rarity",
@@ -66,7 +66,13 @@
       "tribeKey": "スライム",
       "searchText": "スライム  ノーマル ユニット 共通 スライム",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_8c934c3d",
@@ -8717,7 +8723,12 @@
         "共通": 254
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -8746,7 +8757,12 @@
         "共通": 255
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -8779,14 +8795,21 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "manual_non_deck"
+          "manual_non_deck",
+          "official_zero_score_generated_or_system"
         ]
       },
       "classKey": "共通",
       "tribeKey": "",
       "searchText": "うまのふん なにもおこらない ノーマル ユニット 共通",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/685",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_685.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_e992bbd7",
@@ -8809,7 +8832,12 @@
         "共通": 257
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -8844,7 +8872,12 @@
         "モンスター(ゾンビ)": 48
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "ゾンビ",
@@ -8879,7 +8912,12 @@
         "モンスター(魔王系)": 16
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "魔王系",
@@ -8891,7 +8929,13 @@
       "mechanicIds": [
         "mech_11",
         "mech_05"
-      ]
+      ],
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/688",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_688.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_a707a36b",
@@ -8920,7 +8964,12 @@
         "モンスター(魔王系)": 17
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "魔王系",
@@ -8932,7 +8981,13 @@
       "mechanicIds": [
         "mech_03",
         "mech_05"
-      ]
+      ],
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/689",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_689.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_f68f0568",
@@ -8961,7 +9016,12 @@
         "モンスター(魔王系)": 18
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "魔王系",
@@ -8971,7 +9031,13 @@
       ],
       "mechanicIds": [
         "mech_12"
-      ]
+      ],
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/690",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_690.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_b9db6020",
@@ -9000,7 +9066,12 @@
         "モンスター(ドラゴン)": 34
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "ドラゴン",
@@ -9037,7 +9108,12 @@
         "共通": 263
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -9066,7 +9142,12 @@
         "共通": 264
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -9095,7 +9176,12 @@
         "共通": 265
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -9124,7 +9210,12 @@
         "共通": 266
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -9153,7 +9244,12 @@
         "共通": 267
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -9182,7 +9278,12 @@
         "共通": 268
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -9211,7 +9312,12 @@
         "共通": 269
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -9240,7 +9346,12 @@
         "共通": 272
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -9273,7 +9384,12 @@
         "共通": 271
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -9302,7 +9418,12 @@
         "共通": 273
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -9370,7 +9491,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "manual_non_deck"
+          "manual_non_deck",
+          "manual_obtain_only_system_card"
         ]
       },
       "classKey": "共通",
@@ -10030,7 +10152,10 @@
         "共通": 295
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "official_hero_starter_card"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -10295,7 +10420,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "hero_skill_passive_or_auto_effect"
+          "hero_skill_passive_or_auto_effect",
+          "manual_obtain_only_system_card"
         ]
       },
       "classKey": "共通",
@@ -10329,7 +10455,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "hero_skill_passive_or_auto_effect"
+          "hero_skill_passive_or_auto_effect",
+          "manual_obtain_only_system_card"
         ]
       },
       "classKey": "共通",
@@ -10536,7 +10663,10 @@
         "ヒーローカード": 2
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "official_hero_starter_card"
+        ]
       },
       "assetHint": {
         "x": 90,
@@ -11223,7 +11353,10 @@
         "ヒーローカード": 3
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "official_hero_starter_card"
+        ]
       },
       "assetHint": {
         "x": 85,
@@ -11236,6 +11369,12 @@
       "mechanicIds": [],
       "systemRefs": {
         "heroId": "hero_05b9d253"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/911",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_911.jpg",
+        "needsOfficialImageReview": false
       }
     },
     {
@@ -11263,7 +11402,10 @@
         "ヒーローカード": 4
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "official_hero_starter_card"
+        ]
       },
       "assetHint": {
         "x": 100,
@@ -11276,6 +11418,12 @@
       "mechanicIds": [],
       "systemRefs": {
         "heroId": "hero_a43908cd"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/912",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_912.jpg",
+        "needsOfficialImageReview": false
       }
     },
     {
@@ -11303,14 +11451,21 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "hero_skill_passive_or_auto_effect"
+          "hero_skill_passive_or_auto_effect",
+          "manual_obtain_only_system_card"
         ]
       },
       "classKey": "共通",
       "tribeKey": "",
       "searchText": "やさしき祈り 自分がコスト2以上の特技カードを使う度MPを1回復 この効果は条件を満たすと自動的に発動する。 レジェンドレア ユニット 共通",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/913",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_913.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_32047aee",
@@ -11337,14 +11492,21 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "hero_skill_passive_or_auto_effect"
+          "hero_skill_passive_or_auto_effect",
+          "manual_obtain_only_system_card"
         ]
       },
       "classKey": "共通",
       "tribeKey": "",
       "searchText": "魔力共鳴 自分がコスト2以上の特技カードを使う度カードを1枚引く。この効果は条件を満たすと自動的に発動する。 レジェンドレア ユニット 共通",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/914",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_914.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_4e6fd6c2",
@@ -11400,7 +11562,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "hero_skill_passive_or_auto_effect"
+          "hero_skill_passive_or_auto_effect",
+          "manual_obtain_only_system_card"
         ]
       },
       "classKey": "共通",
@@ -11434,7 +11597,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "hero_skill_passive_or_auto_effect"
+          "hero_skill_passive_or_auto_effect",
+          "manual_obtain_only_system_card"
         ]
       },
       "classKey": "共通",
@@ -12383,7 +12547,10 @@
         "ヒーローカード": 5
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "official_hero_starter_card"
+        ]
       },
       "assetHint": {
         "x": 95,
@@ -12423,7 +12590,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "hero_skill_passive_or_auto_effect"
+          "hero_skill_passive_or_auto_effect",
+          "manual_obtain_only_system_card"
         ]
       },
       "classKey": "共通",
@@ -12458,7 +12626,8 @@
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
           "hero_skill_evolution_or_branch",
-          "manual_non_deck"
+          "manual_non_deck",
+          "token_or_hero_skill_derived_prefix"
         ]
       },
       "classKey": "共通",
@@ -12496,7 +12665,8 @@
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
           "hero_skill_evolution_or_branch",
-          "manual_non_deck"
+          "manual_non_deck",
+          "token_or_hero_skill_derived_prefix"
         ]
       },
       "classKey": "共通",
@@ -12534,7 +12704,8 @@
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
           "hero_skill_evolution_or_branch",
-          "manual_non_deck"
+          "manual_non_deck",
+          "token_or_hero_skill_derived_prefix"
         ]
       },
       "classKey": "共通",
@@ -12572,7 +12743,8 @@
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
           "hero_skill_evolution_or_branch",
-          "manual_non_deck"
+          "manual_non_deck",
+          "token_or_hero_skill_derived_prefix"
         ]
       },
       "classKey": "共通",
@@ -12610,7 +12782,8 @@
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
           "hero_skill_evolution_or_branch",
-          "manual_non_deck"
+          "manual_non_deck",
+          "token_or_hero_skill_derived_prefix"
         ]
       },
       "classKey": "共通",
@@ -13049,7 +13222,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "manual_non_deck"
+          "manual_non_deck",
+          "manual_obtain_only_system_card"
         ]
       },
       "classKey": "共通",
@@ -13087,7 +13261,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "manual_non_deck"
+          "manual_non_deck",
+          "manual_obtain_only_system_card"
         ]
       },
       "classKey": "共通",
@@ -13183,7 +13358,10 @@
         "ヒーローカード": 6
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "official_hero_starter_card"
+        ]
       },
       "assetHint": {
         "x": 80,
@@ -13574,7 +13752,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "manual_non_deck"
+          "manual_non_deck",
+          "coin_resource_card"
         ]
       },
       "classKey": "共通",
@@ -13706,7 +13885,10 @@
         "ヒーローカード": 7
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "official_hero_starter_card"
+        ]
       },
       "assetHint": {
         "x": 100,
@@ -13804,7 +13986,10 @@
         "共通": 404
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "official_hero_starter_card"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -14333,7 +14518,9 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "manual_non_deck"
+          "manual_non_deck",
+          "official_zero_score_generated_or_system",
+          "coin_resource_card"
         ]
       },
       "classKey": "共通",
@@ -14347,6 +14534,12 @@
       ],
       "systemRefs": {
         "coinId": "coin_50451a28"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1216",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1216.jpg",
+        "needsOfficialImageReview": false
       }
     },
     {
@@ -14370,7 +14563,14 @@
         "共通": 419
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "hero_skill_deborah_related",
+          "manual_non_deck",
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -14383,6 +14583,16 @@
       ],
       "systemRefs": {
         "coinId": "coin_2e2e3f75"
+      },
+      "notes": {
+        "deckRuleNote": "天空の花嫁デボラ使用後に利用可能になるヒーロー関連カード。通常デッキには編成しない。",
+        "relatedSource": "天空の花嫁デボラ"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1217",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1217.jpg",
+        "needsOfficialImageReview": false
       }
     },
     {
@@ -14410,7 +14620,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "hero_skill_passive_or_auto_effect"
+          "hero_skill_passive_or_auto_effect",
+          "official_zero_score_generated_or_system"
         ]
       },
       "classKey": "共通",
@@ -14424,6 +14635,12 @@
       ],
       "systemRefs": {
         "coinId": "coin_2638fead"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1218",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1218.jpg",
+        "needsOfficialImageReview": false
       }
     },
     {
@@ -14447,7 +14664,10 @@
         "共通": 421
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "official_hero_starter_card"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -14457,7 +14677,13 @@
       "systemRefs": {
         "heroId": "hero_f31fb4b0"
       },
-      "originalCardType": "ユニット"
+      "originalCardType": "ユニット",
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1219",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1219.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_0baef237",
@@ -14518,13 +14744,30 @@
         "共通": 423
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "hero_skill_deborah_related",
+          "manual_non_deck",
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
       "searchText": "小魚への施し コイン1〜4枚を以下の確率で手札に加える。1枚30%、2枚40%、3枚20%、4枚10% レジェンドレア ユニット 共通",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "notes": {
+        "deckRuleNote": "天空の花嫁デボラ関連のヒーロー派生カードとして整理。通常デッキには編成しない。",
+        "relatedSource": "天空の花嫁デボラ"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1221",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1221.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_5b82d953",
@@ -14966,7 +15209,10 @@
         "ヒーローカード": 9
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "official_hero_starter_card"
+        ]
       },
       "assetHint": {
         "x": 85,
@@ -15120,7 +15366,10 @@
         "ヒーローカード": 10
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "official_hero_starter_card"
+        ]
       },
       "assetHint": {
         "x": 85,
@@ -16870,7 +17119,10 @@
         "ヒーローカード": 11
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "official_hero_starter_card"
+        ]
       },
       "assetHint": {
         "x": 90,
@@ -16911,7 +17163,8 @@
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
           "hero_skill_evolution_or_branch",
-          "manual_non_deck"
+          "manual_non_deck",
+          "manual_obtain_only_system_card"
         ]
       },
       "classKey": "共通",
@@ -16949,7 +17202,8 @@
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
           "hero_skill_evolution_or_branch",
-          "manual_non_deck"
+          "manual_non_deck",
+          "manual_obtain_only_system_card"
         ]
       },
       "classKey": "共通",
@@ -17055,7 +17309,10 @@
         "ヒーローカード": 13
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "official_hero_starter_card"
+        ]
       },
       "assetHint": {
         "x": 85,
@@ -17095,7 +17352,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "hero_skill_passive_or_auto_effect"
+          "hero_skill_passive_or_auto_effect",
+          "manual_obtain_only_system_card"
         ]
       },
       "classKey": "共通",
@@ -17275,7 +17533,10 @@
         "ヒーローカード": 14
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "official_hero_starter_card"
+        ]
       },
       "assetHint": {
         "x": 95,
@@ -17315,7 +17576,10 @@
         "ヒーローカード": 15
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "official_hero_starter_card"
+        ]
       },
       "assetHint": {
         "x": 90,
@@ -17498,7 +17762,10 @@
         "ヒーローカード": 16
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "official_hero_starter_card"
+        ]
       },
       "assetHint": {
         "x": 90,
@@ -19608,7 +19875,13 @@
         "戦士": 61
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system",
+          "transformation_or_evolution_result"
+        ]
       },
       "classKey": "戦士",
       "tribeKey": "",
@@ -19637,7 +19910,12 @@
         "戦士": 62
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "戦士",
       "tribeKey": "",
@@ -20183,7 +20461,10 @@
         "モンスター(冒険者)": 35
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "tension_skill_changer_card"
+        ]
       },
       "classKey": "戦士",
       "tribeKey": "冒険者",
@@ -20193,7 +20474,13 @@
       ],
       "mechanicIds": [
         "mech_03"
-      ]
+      ],
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/895",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_895.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_2404a9f4",
@@ -20216,13 +20503,30 @@
         "戦士": 78
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "changed_tension_skill_card",
+          "manual_non_deck",
+          "official_zero_score_generated_or_system",
+          "changed_tension_skill_result"
+        ]
       },
       "classKey": "戦士",
       "tribeKey": "",
       "searchText": "モンスターマスター 「青い闘魂スラぼう」「豪腕王アントン」「韋駄天のドラまさ」からランダムに1体出す ノーマル ユニット 戦士",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "notes": {
+        "deckRuleNote": "テンションスキル変更カードによって使えるようになるスキル本体。通常デッキには編成しない。"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/896",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_896.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_f9087fd7",
@@ -20245,7 +20549,14 @@
         "戦士": 79
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "generated_by_changed_tension_skill",
+          "manual_non_deck",
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "戦士",
       "tribeKey": "",
@@ -20259,7 +20570,17 @@
         "mech_12",
         "mech_35",
         "mech_06"
-      ]
+      ],
+      "notes": {
+        "deckRuleNote": "モンスターマスターからランダムに場へ出る生成ユニット。通常デッキには編成しない。",
+        "relatedSource": "モンスターマスター"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/897",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_897.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_41616b9f",
@@ -20282,7 +20603,14 @@
         "戦士": 80
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "generated_by_changed_tension_skill",
+          "manual_non_deck",
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "戦士",
       "tribeKey": "",
@@ -20296,7 +20624,17 @@
         "mech_01",
         "mech_35",
         "mech_09"
-      ]
+      ],
+      "notes": {
+        "deckRuleNote": "モンスターマスターからランダムに場へ出る生成ユニット。通常デッキには編成しない。",
+        "relatedSource": "モンスターマスター"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/898",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_898.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_188b5598",
@@ -20325,7 +20663,14 @@
         "モンスター(スライム)": 37
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "generated_by_changed_tension_skill",
+          "manual_non_deck",
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "戦士",
       "tribeKey": "スライム",
@@ -20335,7 +20680,17 @@
       ],
       "mechanicIds": [
         "mech_35"
-      ]
+      ],
+      "notes": {
+        "deckRuleNote": "モンスターマスターからランダムに場へ出る生成ユニット。通常デッキには編成しない。",
+        "relatedSource": "モンスターマスター"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/899",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_899.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_7c6baf41",
@@ -21101,18 +21456,25 @@
         "特技一覧(職業全て)": 273
       },
       "flags": {
-        "deckBuildable": false,
-        "obtainOnly": true,
-        "generatedOrEvolved": true,
+        "deckBuildable": true,
         "deckBuildRuleReason": [
-          "coin_exchange_shop_system_card"
+          "official_exchange_card_usable_from_deck"
         ]
       },
       "classKey": "戦士",
       "tribeKey": "",
       "searchText": "戦士の交換所 手札のコインを消費して以下の景品と交換する。1枚：おしゃれなバンダナ、2枚：コスト3のはやぶさの剣、3枚：ドラゴンシールド その後カードを1枚引く レア 特技 戦士",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "notes": {
+        "deckRuleCorrection": "交換所は通常のデッキ編成カード。使用時に手札のコインを消費し、所持コイン枚数が最低必要枚数未満なら使用不可。"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1147",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1147.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_816e9972",
@@ -21174,7 +21536,13 @@
       "tribeKey": "",
       "searchText": "ドラゴンシールド 全ての味方に「次のターン終了時まで受けるダメージ-1」を付与する。この対戦中に味方リーダーが攻撃した回数分受けるダメージ-1 スーパーレア ユニット 戦士",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1149",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1149.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_63b92c04",
@@ -24680,7 +25048,12 @@
         "魔法使い": 61
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "魔法使い",
       "tribeKey": "",
@@ -24715,7 +25088,12 @@
         "モンスター(スライム)": 30
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "魔法使い",
       "tribeKey": "スライム",
@@ -26059,18 +26437,25 @@
         "特技一覧(職業全て)": 275
       },
       "flags": {
-        "deckBuildable": false,
-        "obtainOnly": true,
-        "generatedOrEvolved": true,
+        "deckBuildable": true,
         "deckBuildRuleReason": [
-          "coin_exchange_shop_system_card"
+          "official_exchange_card_usable_from_deck"
         ]
       },
       "classKey": "魔法使い",
       "tribeKey": "",
       "searchText": "魔法使いの交換所 手札のコインを消費して以下の景品と交換する。1枚：まものの呼び笛、2枚：コスト6のスライムの心、3枚：グリンガムのムチ、その後　カードを1枚引く レア 特技 魔法使い",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "notes": {
+        "deckRuleCorrection": "交換所は通常のデッキ編成カード。使用時に手札のコインを消費し、所持コイン枚数が最低必要枚数未満なら使用不可。"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1151",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1151.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_d757a3cd",
@@ -29616,7 +30001,12 @@
         "武闘家": 61
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "武闘家",
       "tribeKey": "",
@@ -29649,7 +30039,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "generated_token_prefix"
+          "generated_token_prefix",
+          "token_or_hero_skill_derived_prefix"
         ]
       },
       "classKey": "武闘家",
@@ -29683,7 +30074,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "generated_token_prefix"
+          "generated_token_prefix",
+          "token_or_hero_skill_derived_prefix"
         ]
       },
       "classKey": "武闘家",
@@ -29717,7 +30109,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "generated_token_prefix"
+          "generated_token_prefix",
+          "token_or_hero_skill_derived_prefix"
         ]
       },
       "classKey": "武闘家",
@@ -30974,18 +31367,25 @@
         "特技一覧(職業全て)": 276
       },
       "flags": {
-        "deckBuildable": false,
-        "obtainOnly": true,
-        "generatedOrEvolved": true,
+        "deckBuildable": true,
         "deckBuildRuleReason": [
-          "coin_exchange_shop_system_card"
+          "official_exchange_card_usable_from_deck"
         ]
       },
       "classKey": "武闘家",
       "tribeKey": "",
       "searchText": "武闘家の交換所 手札のコインを消費して以下の景品と交換する。1枚：ちからの指輪 、2枚:コスト3のシルバークロー、3枚：ほしふるうでわ その後カードを1枚引く レア 特技 武闘家",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "notes": {
+        "deckRuleCorrection": "交換所は通常のデッキ編成カード。使用時に手札のコインを消費し、所持コイン枚数が最低必要枚数未満なら使用不可。"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1155",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1155.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_8ae971ee",
@@ -31100,7 +31500,13 @@
       "mechanicIds": [
         "mech_11",
         "mech_09"
-      ]
+      ],
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1158",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1158.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_a5cfea29",
@@ -31569,7 +31975,10 @@
         "モンスター(冒険者)": 55
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "tension_skill_changer_card"
+        ]
       },
       "classKey": "武闘家",
       "tribeKey": "冒険者",
@@ -31963,13 +32372,23 @@
         "武闘家": 125
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "changed_tension_skill_card",
+          "manual_non_deck",
+          "changed_tension_skill_result"
+        ]
       },
       "classKey": "武闘家",
       "tribeKey": "",
       "searchText": "灼熱とうこん討ち 敵1体に2ダメージ。このテンションスキルで対象のユニットが死亡した場合味方リーダーのテンションを+1して武器カード1枚を手札に加える ノーマル ユニット 武闘家",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "notes": {
+        "deckRuleNote": "テンションスキル変更カードによって使えるようになるスキル本体。通常デッキには編成しない。"
+      }
     },
     {
       "id": "card_50186816",
@@ -34597,13 +35016,24 @@
         "僧侶": 61
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "僧侶",
       "tribeKey": "",
       "searchText": "竜戦士の装具 味方リーダーのHPを8回復。味方リーダーのテンションスキルを英雄竜の祝福に変える スーパーレア ユニット 僧侶",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/693",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_693.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_5095257f",
@@ -34626,13 +35056,30 @@
         "僧侶": 62
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "changed_tension_skill_card",
+          "manual_non_deck",
+          "official_zero_score_generated_or_system",
+          "changed_tension_skill_result"
+        ]
       },
       "classKey": "僧侶",
       "tribeKey": "",
       "searchText": "英雄竜の祝福 味方全体のHPを3回復する。ランダムなドラゴン系の味方ユニット1体を復活させる  ユニット 僧侶",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "notes": {
+        "deckRuleNote": "テンションスキル変更カードによって使えるようになるスキル本体。通常デッキには編成しない。"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/694",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_694.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_4879b13c",
@@ -35954,6 +36401,12 @@
       ],
       "systemRefs": {
         "coinId": "coin_372d3303"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1146",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1146.jpg",
+        "needsOfficialImageReview": false
       }
     },
     {
@@ -35981,18 +36434,25 @@
         "特技一覧(職業全て)": 278
       },
       "flags": {
-        "deckBuildable": false,
-        "obtainOnly": true,
-        "generatedOrEvolved": true,
+        "deckBuildable": true,
         "deckBuildRuleReason": [
-          "coin_exchange_shop_system_card"
+          "official_exchange_card_usable_from_deck"
         ]
       },
       "classKey": "僧侶",
       "tribeKey": "",
       "searchText": "僧侶の交換所 手札のコインを消費して以下の景品と交換する。1枚:福音の杖、2枚:コスト2のエロスの弓、3枚：しんぴのよろい その後カードを1枚引く レア 特技 僧侶",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "notes": {
+        "deckRuleCorrection": "交換所は通常のデッキ編成カード。使用時に手札のコインを消費し、所持コイン枚数が最低必要枚数未満なら使用不可。"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1159",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1159.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_a2e4dad1",
@@ -37404,7 +37864,10 @@
         "モンスター(スライム)": 61
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "tension_skill_changer_card"
+        ]
       },
       "classKey": "僧侶",
       "tribeKey": "スライム",
@@ -39644,7 +40107,12 @@
         "商人": 61
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "商人",
       "tribeKey": "",
@@ -39677,7 +40145,12 @@
         "商人": 62
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "商人",
       "tribeKey": "",
@@ -39706,7 +40179,12 @@
         "商人": 63
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "商人",
       "tribeKey": "",
@@ -39743,7 +40221,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "generated_token_prefix"
+          "generated_token_prefix",
+          "token_or_hero_skill_derived_prefix"
         ]
       },
       "classKey": "商人",
@@ -39777,7 +40256,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "generated_token_prefix"
+          "generated_token_prefix",
+          "token_or_hero_skill_derived_prefix"
         ]
       },
       "classKey": "商人",
@@ -39811,7 +40291,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "generated_token_prefix"
+          "generated_token_prefix",
+          "token_or_hero_skill_derived_prefix"
         ]
       },
       "classKey": "商人",
@@ -40396,7 +40877,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "generated_token_prefix"
+          "generated_token_prefix",
+          "token_or_hero_skill_derived_prefix"
         ]
       },
       "classKey": "商人",
@@ -40430,7 +40912,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "generated_token_prefix"
+          "generated_token_prefix",
+          "token_or_hero_skill_derived_prefix"
         ]
       },
       "classKey": "商人",
@@ -40464,7 +40947,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "generated_token_prefix"
+          "generated_token_prefix",
+          "token_or_hero_skill_derived_prefix"
         ]
       },
       "classKey": "商人",
@@ -41201,18 +41685,19 @@
         "特技一覧(職業全て)": 280
       },
       "flags": {
-        "deckBuildable": false,
-        "obtainOnly": true,
-        "generatedOrEvolved": true,
+        "deckBuildable": true,
         "deckBuildRuleReason": [
-          "coin_exchange_shop_system_card"
+          "official_exchange_card_usable_from_deck"
         ]
       },
       "classKey": "商人",
       "tribeKey": "",
       "searchText": "商人の交換所 手札のコインを消費して以下の景品と交換する。1枚:超ちからのたね、2枚:コスト2のバシルーラの杖、3枚:ブレッドハンド その後カードを1枚引く レア 特技 商人",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "notes": {
+        "deckRuleCorrection": "交換所は通常のデッキ編成カード。使用時に手札のコインを消費し、所持コイン枚数が最低必要枚数未満なら使用不可。"
+      }
     },
     {
       "id": "card_e529f564",
@@ -44845,7 +45330,10 @@
         "モンスター(ドラゴン)": 32
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "tension_skill_changer_card"
+        ]
       },
       "classKey": "占い師",
       "tribeKey": "ドラゴン",
@@ -44920,7 +45408,12 @@
         "占い師": 61
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "占い師",
       "tribeKey": "",
@@ -44949,7 +45442,12 @@
         "占い師": 62
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "占い師",
       "tribeKey": "",
@@ -44978,7 +45476,12 @@
         "占い師": 63
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "占い師",
       "tribeKey": "",
@@ -45007,7 +45510,12 @@
         "占い師": 64
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "占い師",
       "tribeKey": "",
@@ -45036,13 +45544,30 @@
         "占い師": 65
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "changed_tension_skill_card",
+          "manual_non_deck",
+          "official_zero_score_generated_or_system",
+          "changed_tension_skill_result"
+        ]
       },
       "classKey": "占い師",
       "tribeKey": "",
       "searchText": "竜の導き 自分のデッキからドラゴン系のユニットカードをランダムに1枚手札に加える。 そのカードのコストを−１。  ユニット 占い師",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "notes": {
+        "deckRuleNote": "テンションスキル変更カードによって使えるようになるスキル本体。通常デッキには編成しない。"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/700",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_700.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_7a08b71e",
@@ -45071,7 +45596,12 @@
         "モンスター(ゾンビ)": 50
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "占い師",
       "tribeKey": "ゾンビ",
@@ -45106,7 +45636,12 @@
         "モンスター(ドラゴン)": 35
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "占い師",
       "tribeKey": "ドラゴン",
@@ -45135,7 +45670,12 @@
         "占い師": 68
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "占い師",
       "tribeKey": "",
@@ -46827,11 +47367,9 @@
         "特技一覧(職業全て)": 282
       },
       "flags": {
-        "deckBuildable": false,
-        "obtainOnly": true,
-        "generatedOrEvolved": true,
+        "deckBuildable": true,
         "deckBuildRuleReason": [
-          "coin_exchange_shop_system_card"
+          "official_exchange_card_usable_from_deck"
         ]
       },
       "classKey": "占い師",
@@ -46842,7 +47380,10 @@
       ],
       "mechanicIds": [
         "mech_13"
-      ]
+      ],
+      "notes": {
+        "deckRuleCorrection": "交換所は通常のデッキ編成カード。使用時に手札のコインを消費し、所持コイン枚数が最低必要枚数未満なら使用不可。"
+      }
     },
     {
       "id": "card_4ab4223a",
@@ -50359,7 +50900,10 @@
         "モンスター(ゾンビ)": 46
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "deckBuildRuleReason": [
+          "tension_skill_changer_card"
+        ]
       },
       "classKey": "魔剣士",
       "tribeKey": "ゾンビ",
@@ -50466,7 +51010,12 @@
         "モンスター(ゾンビ)": 49
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "魔剣士",
       "tribeKey": "ゾンビ",
@@ -50495,13 +51044,30 @@
         "魔剣士": 62
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "changed_tension_skill_card",
+          "manual_non_deck",
+          "official_zero_score_generated_or_system",
+          "changed_tension_skill_result"
+        ]
       },
       "classKey": "魔剣士",
       "tribeKey": "",
       "searchText": "死者の目覚め 3/3のミイラおとこを出す  ユニット 魔剣士",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "notes": {
+        "deckRuleNote": "テンションスキル変更カードによって使えるようになるスキル本体。通常デッキには編成しない。"
+      },
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/701",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_701.jpg",
+        "needsOfficialImageReview": false
+      }
     },
     {
       "id": "card_5c962cf6",
@@ -50524,7 +51090,12 @@
         "魔剣士": 63
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "魔剣士",
       "tribeKey": "",
@@ -50557,7 +51128,12 @@
         "魔剣士": 64
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "魔剣士",
       "tribeKey": "",
@@ -50592,7 +51168,12 @@
         "魔剣士": 65
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "魔剣士",
       "tribeKey": "",
@@ -50621,7 +51202,12 @@
         "魔剣士": 66
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "official_zero_score_generated_or_system"
+        ]
       },
       "classKey": "魔剣士",
       "tribeKey": "",
@@ -51878,7 +52464,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "manual_non_deck"
+          "manual_non_deck",
+          "manual_obtain_only_system_card"
         ]
       },
       "classKey": "魔剣士",
@@ -51912,7 +52499,8 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "manual_non_deck"
+          "manual_non_deck",
+          "manual_obtain_only_system_card"
         ]
       },
       "classKey": "魔剣士",
@@ -52211,18 +52799,19 @@
         "特技一覧(職業全て)": 283
       },
       "flags": {
-        "deckBuildable": false,
-        "obtainOnly": true,
-        "generatedOrEvolved": true,
+        "deckBuildable": true,
         "deckBuildRuleReason": [
-          "coin_exchange_shop_system_card"
+          "official_exchange_card_usable_from_deck"
         ]
       },
       "classKey": "魔剣士",
       "tribeKey": "",
       "searchText": "魔剣士の交換所 手札のコインを消費して以下の景品と交換する。1枚:冥府の刃、2枚:せかいじゅのは、3枚：メタルキングの剣 その後 カードを1枚引く レア 特技 魔剣士",
       "keywords": [],
-      "mechanicIds": []
+      "mechanicIds": [],
+      "notes": {
+        "deckRuleCorrection": "交換所は通常のデッキ編成カード。使用時に手札のコインを消費し、所持コイン枚数が最低必要枚数未満なら使用不可。"
+      }
     },
     {
       "id": "card_0a7fca19",
@@ -55902,7 +56491,9 @@
         "generatedOrEvolved": true,
         "obtainOnly": true,
         "deckBuildRuleReason": [
-          "manual_non_deck"
+          "manual_non_deck",
+          "official_zero_score_generated_or_system",
+          "transformation_or_evolution_result"
         ]
       },
       "classKey": "僧侶",
@@ -55920,7 +56511,13 @@
       ],
       "mechanicIds": [
         "mech_34"
-      ]
+      ],
+      "official": {
+        "site": "gameconductor",
+        "cardPageUrl": "https://gameconductor.com/dqrivals/c/d/1146",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1146.jpg",
+        "needsOfficialImageReview": true
+      }
     }
   ],
   "index": {
@@ -67689,5 +68286,11 @@
       "changedToNonDeckInThisPass": 41,
       "fixedHeroCardTypes": 3
     }
-  }
+  },
+  "deckRuleSummary": {
+    "totalCards": 1580,
+    "deckBuildable": 1536,
+    "nonDeckBuildable": 44
+  },
+  "officialSource": "https://gameconductor.com/dqrivals/card"
 }

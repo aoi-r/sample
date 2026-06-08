@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "1.0.0",
+  "type": "dqr.official_sync_notes",
+  "sourceUrl": "https://gameconductor.com/dqrivals/card",
+  "implemented": [
+    "公式DBの全カード一覧は構築点数・闘技場点数・カテゴリ検索を持つため、構築点数0の生成/派生カードをdeckBuildable=falseに反映",
+    "公式DBのカード詳細ページにカード画像があり、画像URLは https://gameconductor.com/dqrivals/wp-content/uploads/card_img_{officialId}.jpg の形で参照できることを確認",
+    "ヒーローカードはデッキ投入カードとして扱い、ヒーロースキル派生カードは編成不可にする",
+    "交換所カードは通常使用可能カードとして編成可能。交換後の景品・派生カードは生成カード扱い"
+  ],
+  "knownLimitations": [
+    "現在の環境では公式DB全1580件の個別ページを一括ダウンロードできないため、公式ID/画像URLは確認済みカードから部分付与",
+    "tools/sync_official_gameconductor.mjs をローカルで実行すると公式DBを巡回して officialId, 画像URL, カテゴリ, 構築点数を補完できる"
+  ]
+}

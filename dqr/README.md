@@ -42,3 +42,19 @@ Firebase未設定でも、デッキはブラウザ内に保存されます。
 `data/cards.json` は全カードを保持しますが、デッキ作成画面では `flags.deckBuildable !== false` のカードだけを表示・選択します。
 効果で取得するカード、進化後カード、ヒーロースキル派生、道具/コインなどは `flags.deckBuildable: false` にしています。
 判定一覧は `data/deck_rules.json` に出力しています。誤判定があれば、該当カードの `flags.deckBuildable` を手修正してください。
+
+
+## v3 deck rules
+
+- 交換所カードは通常どおりデッキ編成可能に戻しました。使用時は手札のコインを選択・消費し、枚数に応じた効果を処理します。最低必要コイン未満なら使用不可です。
+- ヒーローはプルダウン選択ではなく、ヒーローカードを1枚デッキに編成します。
+- ヒーロースキル派生、変更後テンションスキル本体、生成ユニットは `flags.deckBuildable=false` としてカードDBには残しつつデッキ作成画面から除外しています。
+- 交換所の構造化データは `data/exchanges.json` と `data/deck_rules.json` に入っています。
+
+
+## v4: 公式DB寄せのカード整理
+
+- `data/generated_cards.json` に「効果取得・進化後・ヒーロースキル派生・トークン」扱いのカードを分離しました。
+- `cards.json` の `flags.deckBuildable === false` はデッキ作成画面に出ませんが、バトル実装時には参照できます。
+- 一部カードに `official.imageUrl` を追加し、カード詳細/一覧で公式DB画像を外部参照表示します。
+- 公式DBの全件補完は `node tools/sync_official_gameconductor.mjs` で実行できます。

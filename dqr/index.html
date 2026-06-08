@@ -51,7 +51,7 @@
         <button class="back-menu ghost">← メニュー</button>
         <div>
           <h2>デッキ作成</h2>
-          <p id="deck-rule-summary">職業カード + 共通カード / 公式寄せの編成可能カードのみ / 30枚 / 同名2枚まで / レジェンド・ヒーローは1枚まで</p>
+          <p id="deck-rule-summary">職業カード + 共通カード / ヒーローはカードとして投入 / 交換所は編成可 / 30枚 / 同名2枚まで</p>
         </div>
         <div class="save-status" id="save-status">未保存</div>
       </header>
@@ -66,8 +66,8 @@
           <p class="hint">職業を変えると、選択中のカードはリセットされます。</p>
 
           <label>ヒーロー</label>
-          <select id="hero-select"><option value="">なし</option></select>
-          <p class="hint">ヒーローカードをデッキに入れると自動で反映します。</p>
+          <div id="hero-status" class="hero-status">未投入</div>
+          <p class="hint">ヒーローはプルダウン選択ではなく、ヒーローカードを1枚デッキに入れます。</p>
 
           <div class="deck-stats">
             <div><span id="deck-count">0</span><small>/30</small></div>
