@@ -1,0 +1,740 @@
+[
+  {
+    "id": "N-001",
+    "name": "スライム",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 1,
+    "attack": 1,
+    "hp": 2,
+    "traits": ["slime"],
+    "effects": [],
+    "score": [0, 11, 60, 50]
+  },
+  {
+    "id": "N-002",
+    "name": "スライムベス",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 1,
+    "attack": 2,
+    "hp": 1,
+    "traits": ["slime"],
+    "effects": [],
+    "score": [3, 0, 50, 50]
+  },
+  {
+    "id": "N-003",
+    "name": "メラゴースト",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 1,
+    "attack": 1,
+    "hp": 1,
+    "traits": [],
+    "effects": [
+      {
+        "trigger": "on_play",
+        "type": "damage",
+        "target": "any",
+        "value": 1,
+        "description": "召喚時：1ダメージを与える"
+      }
+    ],
+    "score": [9, 0, 75, 50]
+  },
+  {
+    "id": "N-004",
+    "name": "スライムつむり",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 1,
+    "attack": 1,
+    "hp": 2,
+    "traits": ["slime"],
+    "effects": [
+      {
+        "trigger": "constant",
+        "type": "block",
+        "description": "におうだち"
+      }
+    ],
+    "score": [5, 0, 50, 50]
+  },
+  {
+    "id": "N-005",
+    "name": "ファーラット",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 1,
+    "attack": 1,
+    "hp": 1,
+    "traits": [],
+    "effects": [
+      {
+        "trigger": "constant",
+        "type": "agility",
+        "description": "速攻"
+      }
+    ],
+    "score": [5, 5, 50, 0]
+  },
+  {
+    "id": "N-006",
+    "name": "いっかくうさぎ",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 2,
+    "attack": 2,
+    "hp": 1,
+    "traits": [],
+    "effects": [
+      {
+        "trigger": "constant",
+        "type": "agility",
+        "description": "速攻"
+      }
+    ],
+    "score": [5, 5, 62, 0]
+  },
+  {
+    "id": "N-007",
+    "name": "シールドこぞう",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 2,
+    "attack": 2,
+    "hp": 2,
+    "traits": [],
+    "effects": [
+      {
+        "trigger": "constant",
+        "type": "block",
+        "description": "におうだち"
+      }
+    ],
+    "score": [2, 0, 50, 50]
+  },
+  {
+    "id": "N-008",
+    "name": "リザードマン",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 2,
+    "attack": 3,
+    "hp": 2,
+    "traits": [],
+    "effects": [],
+    "score": [3, 5, 62, 0]
+  },
+  {
+    "id": "N-009",
+    "name": "くさった死体",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 3,
+    "attack": 3,
+    "hp": 3,
+    "traits": ["zombie"],
+    "effects": [
+      {
+        "trigger": "on_play",
+        "type": "destroy_weapon",
+        "target": "enemy_leader",
+        "description": "召喚時：敵リーダーの武器を破壊する"
+      }
+    ],
+    "score": [5, 5, 65, 0]
+  },
+  {
+    "id": "N-010",
+    "name": "バードファイター",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 3,
+    "attack": 4,
+    "hp": 3,
+    "traits": [],
+    "effects": [],
+    "score": [3, 5, 60, 0]
+  },
+  {
+    "id": "N-011",
+    "name": "リビングスタチュー",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 4,
+    "attack": 3,
+    "hp": 5,
+    "traits": ["material"],
+    "effects": [
+      {
+        "trigger": "constant",
+        "type": "block",
+        "description": "におうだち"
+      }
+    ],
+    "score": [5, 0, 70, 0]
+  },
+  {
+    "id": "N-012",
+    "name": "りゅうき兵",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 4,
+    "attack": 4,
+    "hp": 5,
+    "traits": ["dragon"],
+    "effects": [],
+    "score": [7, 0, 70, 70]
+  },
+  {
+    "id": "N-013",
+    "name": "ストーンマン",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 5,
+    "attack": 6,
+    "hp": 4,
+    "traits": ["material"],
+    "effects": [
+      {
+        "trigger": "constant",
+        "type": "block",
+        "description": "におうだち"
+      }
+    ],
+    "score": [3, 0, 55, 0]
+  },
+  {
+    "id": "N-014",
+    "name": "バアルゼブブ",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 5,
+    "attack": 5,
+    "hp": 3,
+    "traits": ["demon"],
+    "effects": [
+      {
+        "trigger": "on_play",
+        "type": "damage",
+        "target": "enemy_leader",
+        "value": 3,
+        "description": "召喚時：敵リーダーに3ダメージ"
+      }
+    ],
+    "score": [7, 0, 62, 0]
+  },
+  {
+    "id": "N-015",
+    "name": "キラーアーマー",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 6,
+    "attack": 6,
+    "hp": 7,
+    "traits": ["material"],
+    "effects": [],
+    "score": [4, 0, 65, 0]
+  },
+  {
+    "id": "N-016",
+    "name": "ブラッドハンド",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 6,
+    "attack": 2,
+    "hp": 2,
+    "traits": ["zombie"],
+    "effects": [
+      {
+        "trigger": "on_play",
+        "type": "spawn_adjacent",
+        "card_name": "ブラッドハンド",
+        "description": "召喚時：このユニットの上下にブラッドハンドを出す"
+      }
+    ],
+    "score": [6, 0, 55, 0]
+  },
+  {
+    "id": "N-017",
+    "name": "テラノライナー",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 7,
+    "attack": 5,
+    "hp": 2,
+    "traits": ["dragon"],
+    "effects": [
+      {
+        "trigger": "constant",
+        "type": "agility",
+        "description": "速攻"
+      }
+    ],
+    "score": [5, 5, 60, 0]
+  },
+  {
+    "id": "N-018",
+    "name": "おにこんぼう",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 7,
+    "attack": 7,
+    "hp": 7,
+    "traits": ["demon"],
+    "effects": [],
+    "score": [3, 0, 55, 0]
+  },
+  {
+    "id": "N-019",
+    "name": "メタルスライム",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": 2,
+    "attack": 1,
+    "hp": 2,
+    "traits": ["slime", "metal"],
+    "effects": [
+      {
+        "trigger": "constant",
+        "type": "metal_body",
+        "description": "メタルボディ"
+      }
+    ],
+    "score": [5, 5, 50, 0]
+  },
+  {
+    "id": "N-020",
+    "name": "わらいぶくろ",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": 2,
+    "attack": 1,
+    "hp": 2,
+    "traits": ["material"],
+    "effects": [
+      {
+        "trigger": "on_play",
+        "type": "draw",
+        "value": 1,
+        "description": "召喚時：カードを1枚引く"
+      }
+    ],
+    "score": [7, 0, 65, 0]
+  },
+  {
+    "id": "N-021",
+    "name": "スライムナイト",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": 3,
+    "attack": 2,
+    "hp": 2,
+    "traits": ["slime"],
+    "effects": [
+      {
+        "trigger": "on_death",
+        "type": "spawn_this_slot",
+        "card_name": "スライム",
+        "description": "死亡時：1/1のスライムをこのマスに出す"
+      }
+    ],
+    "score": [5, 5, 60, 0]
+  },
+  {
+    "id": "N-022",
+    "name": "なげきムーン",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": 3,
+    "attack": 3,
+    "hp": 2,
+    "traits": ["material"],
+    "effects": [
+      {
+        "trigger": "on_play",
+        "condition": "leader_hp_under_15",
+        "type": "buff_and_pierce",
+        "value": {"attack": 2, "hp": 2},
+        "description": "召喚時：味方リーダーのHPが15以下の場合+2/+2と貫通を得る"
+      }
+    ],
+    "score": [6, 0, 62, 0]
+  },
+  {
+    "id": "N-023",
+    "name": "ツンドラキー",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": 3,
+    "attack": 3,
+    "hp": 3,
+    "traits": ["bird"],
+    "effects": [
+      {
+        "trigger": "constant",
+        "condition": "leader_hp_above_20",
+        "type": "buff_and_snipe",
+        "description": "味方リーダーのHPが20以上の間攻撃力+2とねらい撃ちを得る"
+      }
+    ],
+    "score": [6, 0, 62, 0]
+  },
+  {
+    "id": "N-024",
+    "name": "ぐんたいガニ",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": 4,
+    "attack": 3,
+    "hp": 3,
+    "traits": ["nature"],
+    "effects": [
+      {
+        "trigger": "turn_start",
+        "type": "spawn_front_back",
+        "card_name": "ぐんたいガニ",
+        "description": "自分のターン開始時このユニットの前後にぐんたいガニを出す"
+      }
+    ],
+    "score": [4, 0, 60, 0]
+  },
+  {
+    "id": "N-025",
+    "name": "バイキングソウル",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": 4,
+    "attack": 2,
+    "hp": 6,
+    "traits": ["zombie"],
+    "effects": [
+      {
+        "trigger": "combat",
+        "condition": "front_target",
+        "type": "temp_buff",
+        "value": {"attack": 3},
+        "description": "正面にいるユニットと戦闘をする場合このターン中攻撃力+3"
+      }
+    ],
+    "score": [5, 5, 60, 0]
+  },
+  {
+    "id": "N-026",
+    "name": "キラーパンサー",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": 4,
+    "attack": 4,
+    "hp": 4,
+    "traits": ["nature"],
+    "effects": [
+      {
+        "trigger": "on_play",
+        "condition": "enemy_units_above_3",
+        "type": "gain_agility",
+        "description": "召喚時：敵ユニットが3体以上いる場合速攻を得る"
+      }
+    ],
+    "score": [6, 5, 70, 0]
+  },
+  {
+    "id": "N-027",
+    "name": "プリーストナイト",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": 4,
+    "attack": 3,
+    "hp": 5,
+    "traits": [],
+    "effects": [
+      {
+        "trigger": "on_play",
+        "type": "heal_random_damaged_ally",
+        "value": 3,
+        "description": "召喚時：ダメージを受けているランダムな味方1体のHPを3回復"
+      }
+    ],
+    "score": [6, 5, 65, 0]
+  },
+  {
+    "id": "N-028",
+    "name": "シールドオーガ",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": 4,
+    "attack": 4,
+    "hp": 4,
+    "traits": [],
+    "effects": [
+      {
+        "trigger": "on_play",
+        "condition": "leader_hp_under_15",
+        "type": "buff_and_block",
+        "value": {"attack": 2, "hp": 2},
+        "description": "召喚時：味方リーダーのHPが15以下の場合+2/+2とにおうだちを得る"
+      }
+    ],
+    "score": [7, 0, 70, 0]
+  },
+  {
+    "id": "N-029",
+    "name": "アックスドラゴン",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": 5,
+    "attack": 5,
+    "hp": 3,
+    "traits": ["dragon"],
+    "effects": [
+      {
+        "trigger": "on_play",
+        "type": "damage_and_debuff",
+        "target": "unit",
+        "value": 1,
+        "debuff": "double_damage",
+        "description": "ユニット1体に1ダメージを与えた後「受けるダメージ2倍」を付与する"
+      }
+    ],
+    "score": [4, 0, 60, 0]
+  },
+  {
+    "id": "N-030",
+    "name": "レッドアーチャー",
+    "type": "unit",
+    "rarity": "rare",
+    "cost": 5,
+    "attack": 3,
+    "hp": 6,
+    "traits": [],
+    "effects": [
+      {
+        "trigger": "on_play",
+        "condition": "leader_hp_above_20",
+        "type": "buff_and_snipe",
+        "value": {"attack": 2},
+        "description": "召喚時：味方リーダーのHPが20以上の場合このユニットは攻撃力+2とねらい撃ちを得る"
+      }
+    ],
+    "score": [6, 0, 60, 0]
+  },
+  {
+    "id": "N-031",
+    "name": "ドラキー",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 1,
+    "attack": 2,
+    "hp": 1,
+    "traits": ["bird"],
+    "effects": [
+      {
+        "trigger": "constant",
+        "type": "snipe",
+        "description": "ねらい撃ち"
+      }
+    ],
+    "score": [3, 5, 50, 0]
+  },
+  {
+    "id": "N-032",
+    "name": "バブルスライム",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 1,
+    "attack": 2,
+    "hp": 1,
+    "traits": ["slime"],
+    "effects": [
+      {
+        "trigger": "on_deal_damage",
+        "type": "poison",
+        "description": "ダメージを与えたユニットを毒にする"
+      }
+    ],
+    "score": [5, 0, 50, 0]
+  },
+  {
+    "id": "N-033",
+    "name": "いたずらもぐら",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 1,
+    "attack": 1,
+    "hp": 1,
+    "traits": ["nature"],
+    "effects": [
+      {
+        "trigger": "tension_link",
+        "type": "buff",
+        "value": {"attack": 1},
+        "description": "テンションリンク：攻撃力+1"
+      }
+    ],
+    "score": [5, 5, 55, 0]
+  },
+  {
+    "id": "N-034",
+    "name": "ゴースト",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 1,
+    "attack": 2,
+    "hp": 1,
+    "traits": ["zombie"],
+    "effects": [
+      {
+        "trigger": "constant",
+        "type": "untargetable_until_attack",
+        "description": "自身が攻撃するまで敵の攻撃や効果の対象にならない"
+      }
+    ],
+    "score": [6, 7, 67, 0]
+  },
+  {
+    "id": "N-035",
+    "name": "おばけキャンドル",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 1,
+    "attack": 2,
+    "hp": 1,
+    "traits": ["material"],
+    "effects": [
+      {
+        "trigger": "on_death",
+        "type": "damage_random_enemy",
+        "value": 1,
+        "description": "死亡時：ランダムな敵1体に1ダメージ"
+      }
+    ],
+    "score": [7, 0, 67, 0]
+  },
+  {
+    "id": "N-036",
+    "name": "モーモン",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 1,
+    "attack": 2,
+    "hp": 2,
+    "traits": ["nature"],
+    "effects": [],
+    "score": [9, 0, 75, 0]
+  },
+  {
+    "id": "N-037",
+    "name": "おばけヒトデ",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 1,
+    "attack": 1,
+    "hp": 1,
+    "traits": ["nature"],
+    "effects": [
+      {
+        "trigger": "on_death",
+        "type": "buff_random_ally_unit",
+        "value": {"attack": 2},
+        "description": "死亡時：ランダムな味方ユニット1体の攻撃力+2"
+      }
+    ],
+    "score": [3, 0, 45, 0]
+  },
+  {
+    "id": "N-038",
+    "name": "おおくちばし",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 1,
+    "attack": 2,
+    "hp": 1,
+    "traits": ["bird"],
+    "effects": [
+      {
+        "trigger": "on_play",
+        "type": "damage_back_row",
+        "value": 1,
+        "description": "召喚時：後列にいるユニット1体に1ダメージ"
+      }
+    ],
+    "score": [6, 0, 60, 0]
+  },
+  {
+    "id": "N-039",
+    "name": "ゆめにゅうどう",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 1,
+    "attack": 2,
+    "hp": 1,
+    "traits": ["demon"],
+    "effects": [
+      {
+        "trigger": "on_play",
+        "type": "move_row_front",
+        "target": "back_row_unit",
+        "description": "召喚時：後列にいるユニット1体を前列に移動させる"
+      }
+    ],
+    "score": [4, 0, 55, 0]
+  },
+  {
+    "id": "N-040",
+    "name": "メラリザード",
+    "type": "unit",
+    "rarity": "normal",
+    "cost": 1,
+    "attack": 1,
+    "hp": 2,
+    "traits": ["dragon"],
+    "effects": [
+      {
+        "trigger": "constant",
+        "type": "pierce",
+        "description": "貫通"
+      }
+    ],
+    "score": [3, 5, 35, 35]
+  },
+  {
+    "id": "N-041",
+    "name": "ゾーマ",
+    "type": "unit",
+    "rarity": "legend",
+    "cost": 9,
+    "attack": 10,
+    "hp": 10,
+    "traits": ["demon_king"],
+    "effects": [
+      {
+        "trigger": "on_play",
+        "type": "gain_dark_robe",
+        "extra_effect": "insert_light_ball_enemy_deck",
+        "description": "召喚時：闇の衣を得る。相手デッキの一番上に光の玉が置かれる"
+      }
+    ],
+    "score": [7, 0, 80, 0]
+  },
+  {
+    "id": "N-042",
+    "name": "ロトの血を引く者",
+    "type": "hero",
+    "rarity": "legend",
+    "cost": 1,
+    "attack": 0,
+    "hp": 0,
+    "traits": ["hero"],
+    "effects": [
+      {
+        "trigger": "start_of_game",
+        "type": "enable_hero_skill",
+        "description": "ロトの血を引く者のヒーロースキルを使えるようになる。このカードは最初の手札に必ず来る。"
+      }
+    ],
+    "score": [8, 0, 100, 0]
+  }
+]
+

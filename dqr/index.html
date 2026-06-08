@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DQ ライバルズ 自作プロジェクト</title>
+    <style>
+        body { font-family: sans-serif; background: #222; color: #fff; padding: 20px; }
+        .screen { display: none; border: 1px solid #444; padding: 20px; border-radius: 8px; background: #333; max-width: 800px; margin: 0 auto; }
+        .active { display: block; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px; font-size: 16px; margin: 5px; }
+        button:disabled { background: #555; cursor: not-allowed; }
+        input, select { padding: 8px; font-size: 16px; margin: 5px; }
+        .card-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; max-height: 400px; overflow-y: auto; margin-top: 15px; background: #111; padding: 10px; }
+        .card-item { border: 1px solid #555; padding: 8px; border-radius: 4px; background: #222; cursor: pointer; }
+        .deck-summary { background: #444; padding: 10px; border-radius: 4px; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <div id="screen-title" class="screen active">
+        <h1>ドラゴンクエスト ライバルズ (自作版)</h1>
+        <p>ログイン状態: <span id="auth-status">接続中...</span></p>
+        <div id="title-actions" style="display:none;">
+            <p>ユーザー名: <span id="username-display"></span></p>
+            <button onclick="switchScreen('screen-menu')">スタート</button>
+        </div>
+    </div>
+
+    <div id="screen-menu" class="screen">
+        <h2>メインメニュー</h2>
+        <button onclick="openDeckEditor()">デッキ作成・保存</button>
+        <button onclick="startMatching()">対人戦マッチング開始</button>
+        <br><br>
+        <button onclick="switchScreen('screen-title')" style="background:#555;">タイトルに戻る</button>
+    </div>
+
+    <div id="screen-deck" class="screen">
+        <h2>デッキ編成</h2>
+        <label>リーダー（職業）: 
+            <select id="deck-class-select" onchange="filterCards()">
+                <option value="戦士">戦士 (テリー)</option>
+                <option value="魔法使い">魔法使い (ゼシカ)</option>
+                <option value="武闘家">武闘家 (アリーナ)</option>
+                <option value="僧侶">僧侶 (ククール)</option>
+                <option value="商人">商人 (トルネコ)</option>
+                <option value="占い師">占い師 (ミネア)</option>
+                <option value="魔剣士">魔剣士 (ピサロ)</option>
+                <option value="盗賊">盗賊 (カミュ)</option>
+            </select>
+        </label>
+        <br>
+        <input type="text" id="deck-name-input" value="マイデッキ" placeholder="デッキ名を入力">
+        <button onclick="saveDeckAndReturn()">デッキを保存して戻る</button>
+        
+        <div class="deck-summary">
+            <h3>現在のデッキ内データ (<span id="deck-count">0</span> / 30 枚)</h3>
+            <div id="current-deck-list"></div>
+        </div>
+
+        <h3>カードライブラリ (クリックでデッキに追加、右クリックで削除)</h3>
+        <div id="card-library" class="card-list"></div>
+    </div>
+
+    <div id="screen-match" class="screen">
+        <h2>対戦モード</h2>
+        <div id="match-status" style="font-size:18px; color:#ffc107;">マッチング相手を探しています...</div>
+        <div id="battle-area" style="display:none; margin-top:20px;">
+            <h3>バトルフィールド (簡易ログ)</h3>
+            <div id="battle-log" style="background:#111; padding:15px; height:250px; overflow-y:auto; font-family:monospace; font-size:14px; border:1px solid #555;"></div>
+            <p>※同期ロジック検証用。ここにDQRの3x2盤面UIや操作コマンドが紐付きます。</p>
+            <button onclick="leaveMatch()" style="background:#dc3545;">降参して終了</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getDatabase, ref, set, push, onValue, runTransaction, off } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Firebaseの設定
+        const firebaseConfig = {
+            apiKey: "AIzaSyB6S4IQVx0ChAmwrHwsHPOTCdvJFd-4nOo",
+            authDomain: "dqr-sample.firebaseapp.com",
+            databaseURL: "https://dqr-sample-default-rtdb.firebaseio.com",
+            projectId: "dqr-sample",
+            storageBucket: "dqr-sample.firebasestorage.app",
+            messagingSenderId: "280875301053",
+            appId: "1:280875301053:web:54bdf81304230c2394dfd4",
+            measurementId: "G-YV92WVDVKD"
+        };
+
+        // アプリ初期化
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const rtdb = getDatabase(app);
+
+        // グローバル状態管理
+        let currentUser = null;
+        let masterCards = [];
+        let currentDeck = []; // { card: obj, count: num }
+        let currentRoomRef = null;
+
+        // 起動時にjsonカードデータを取得
+        async function loadCardData() {
+            try {
+                const response = await fetch('./dqr_cards.json');
+                masterCards = await response.json();
+                console.log("Card Data Loaded:", masterCards.length, "cards");
+            } catch (e) {
+                console.error("Failed to load json file. Make sure it's in the same directory.", e);
+            }
+        }
+
+        // FirebaseAuthの監視
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('auth-status').innerText = "ログイン完了";
+                document.getElementById('username-display').innerText = `プレイヤー_${user.uid.substring(0, 5)}`;
+                document.getElementById('title-actions').style.display = 'block';
+                
+                // Firestoreにユーザー初期データを保存
+                await setDoc(doc(db, "users", user.uid), {
+                    username: `プレイヤー_${user.uid.substring(0, 5)}`,
+                    lastLogin: new Date()
+                }, { merge: true });
+
+            } else {
+                document.getElementById('auth-status').innerText = "認証処理中...";
+                signInAnonymously(auth).catch(console.error);
+            }
+        });
+
+        // 画面切り替えロジック
+        window.switchScreen = function(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        };
+
+        // --- デッキエディターロジック ---
+        window.openDeckEditor = async function() {
+            switchScreen('screen-deck');
+            currentDeck = [];
+            
+            // 既存の保存済みデッキがあればFirestoreからロード(簡易的に最新1つ)
+            const deckDoc = await getDoc(doc(db, "users", currentUser.uid, "decks", "main_deck"));
+            if (deckDoc.exists()) {
+                const data = deckDoc.data();
+                document.getElementById('deck-class-select').value = data.class;
+                document.getElementById('deck-name-input').value = data.name;
+                // 保存用ID配列から復元する処理は本実装で追加
+            }
+            filterCards();
+        };
+
+        window.filterCards = function() {
+            const selectedClass = document.getElementById('deck-class-select').value;
+            const libraryDiv = document.getElementById('card-library');
+            libraryDiv.innerHTML = '';
+
+            // 選択した職業のカード or 共通カード のみを抽出
+            const filtered = masterCards.filter(c => c.Class === selectedClass || c.Class === "共通");
+            
+            filtered.forEach(card => {
+                const item = document.createElement('div');
+                item.className = 'card-item';
+                item.innerText = `[${card.Class}] ${card.Name} (Cost:${card.Cost}) [${card.Rarity}]`;
+                item.onclick = () => addCardToDeck(card);
+                item.oncontextmenu = (e) => { e.preventDefault(); removeCardFromDeck(card); };
+                libraryDiv.appendChild(item);
+            });
+            updateDeckUI();
+        };
+
+        function addCardToDeck(card) {
+            const totalCount = currentDeck.reduce((sum, item) => sum + item.count, 0);
+            if (totalCount >= 30) {
+                alert("デッキは30枚が上限です！");
+                return;
+            }
+
+            const existing = currentDeck.find(item => item.card.Name === card.Name);
+            const maxAllowed = card.Rarity === "レジェンドレア" ? 1 : 2;
+
+            if (existing) {
+                if (existing.count >= maxAllowed) {
+                    alert(`${card.Rarity}は同名カードを最大 ${maxAllowed} 枚しか入れられません。`);
+                    return;
+                }
+                existing.count++;
+            } else {
+                currentDeck.push({ card: card, count: 1 });
+            }
+            updateDeckUI();
+        }
+
+        function removeCardFromDeck(card) {
+            const index = currentDeck.findIndex(item => item.card.Name === card.Name);
+            if (index > -1) {
+                currentDeck[index].count--;
+                if (currentDeck[index].count <= 0) {
+                    currentDeck.splice(index, 1);
+                }
+            }
+            updateDeckUI();
+        }
+
+        function updateDeckUI() {
+            const totalCount = currentDeck.reduce((sum, item) => sum + item.count, 0);
+            document.getElementById('deck-count').innerText = totalCount;
+
+            const listDiv = document.getElementById('current-deck-list');
+            listDiv.innerHTML = currentDeck.map(item => 
+                `<span>${item.card.Name} x${item.count}</span>`
+            ).join(' | ') || 'カードが選択されていません';
+        }
+
+        window.saveDeckAndReturn = async function() {
+            const totalCount = currentDeck.reduce((sum, item) => sum + item.count, 0);
+            if (totalCount !== 30) {
+                alert("本家のルールに則り、デッキ枚数は必ず『30枚ちょうど』にする必要があります！");
+                return;
+            }
+
+            // Firestoreへ保存
+            const deckData = {
+                name: document.getElementById('deck-name-input').value,
+                class: document.getElementById('deck-class-select').value,
+                cards: currentDeck.map(item => ({ name: item.card.Name, count: item.count })),
+                updatedAt: new Date()
+            };
+
+            await setDoc(doc(db, "users", currentUser.uid, "decks", "main_deck"), deckData);
+            alert("デッキを保存しました！");
+            switchScreen('screen-menu');
+        };
+
+        // --- リアルタイム対戦マッチングロジック (Realtime DB) ---
+        window.startMatching = function() {
+            switchScreen('screen-match');
+            document.getElementById('match-status').innerText = "対戦相手を探しています...";
+            document.getElementById('battle-area').style.display = 'none';
+            document.getElementById('battle-log').innerHTML = '';
+
+            const matchQueueRef = ref(rtdb, 'matchmaking_queue');
+            
+            // トランザクション処理で、待機室に誰かいるか確認して部屋を建てる
+            runTransaction(matchQueueRef, (currentQueue) => {
+                if (currentQueue && currentQueue.waitingPlayerId) {
+                    // 先に待っているプレイヤーがいる場合、そのプレイヤーと部屋を作って自身はキューから抜ける
+                    const hostId = currentQueue.waitingPlayerId;
+                    if (hostId === currentUser.uid) return currentQueue; // 自身の重複防止
+                    
+                    const roomId = `room_${hostId}_vs_${currentUser.uid}`;
+                    // 部屋を初期化（DQRベースのステート生成）
+                    const roomInitialState = {
+                        status: "playing",
+                        turnCount: 1,
+                        activePlayerId: hostId, // ホストがとりあえず先攻
+                        players: {}
+                    };
+                    roomInitialState.players[hostId] = { hp: 25, mpMax: 1, mpCurrent: 1, tension: 0 };
+                    roomInitialState.players[currentUser.uid] = { hp: 25, mpMax: 0, mpCurrent: 0, tension: 0 }; // 後攻はターン開始時に1になる
+                    
+                    set(ref(rtdb, `rooms/${roomId}`), roomInitialState);
+                    
+                    // キューをクリアし、新設したRoomIDを返す
+                    return { roomId: roomId, waitingPlayerId: null };
+                } else {
+                    // 自分が最初の待機者の場合、キューに自身のIDを入れる
+                    return { waitingPlayerId: currentUser.uid, roomId: null };
+                }
+            }).then((result) => {
+                // 返ってきたルームの状態を監視
+                listenToMatchQueue();
+            });
+        };
+
+        function listenToMatchQueue() {
+            // マッチングが成功したか検知するために、キュー内のroomId更新をリッスン
+            const matchQueueRef = ref(rtdb, 'matchmaking_queue');
+            onValue(matchQueueRef, (snapshot) => {
+                const data = snapshot.val();
+                if (data && data.roomId) {
+                    // ルームが作成されたら、該当ルームに入る
+                    if (data.roomId.includes(currentUser.uid)) {
+                        enterRoom(data.roomId);
+                    }
+                }
+            });
+        }
+
+        function enterRoom(roomId) {
+            // マッチング検知をオフにする
+            off(ref(rtdb, 'matchmaking_queue'));
+
+            currentRoomRef = ref(rtdb, `rooms/${roomId}`);
+            document.getElementById('match-status').innerText = "マッチング成立！バトル開始！";
+            document.getElementById('battle-area').style.display = 'block';
+
+            // ルームデータのリアルタイム同期
+            onValue(currentRoomRef, (snapshot) => {
+                const room = snapshot.val();
+                if (!room) return;
+
+                if (room.status === "finished") {
+                    logToBattle("対戦が終了しました。");
+                    return;
+                }
+
+                // 状態をログとして画面に吐き出す (同期の確認)
+                const isMyTurn = room.activePlayerId === currentUser.uid;
+                const turnUser = isMyTurn ? "あなた" : "相手";
+                
+                let logText = `[ターン ${room.turnCount}] 現在の手番: ${turnUser}\n`;
+                for (let pid in room.players) {
+                    const p = room.players[pid];
+                    const label = pid === currentUser.uid ? "あなた" : "相手";
+                    logText += ` > ${label}: HP ${p.hp} | MP ${p.mpCurrent}/${p.mpMax} | テンション:${p.tension}/3\n`;
+                }
+                logText += `----------------------------------------\n`;
+                logToBattle(logText);
+            });
+        }
+
+        function logToBattle(text) {
+            const logDiv = document.getElementById('battle-log');
+            logDiv.innerHTML += text.replace(/\n/g, '<br>');
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        window.leaveMatch = function() {
+            if (currentRoomRef) {
+                set(currentRoomRef, null); // ルームの削除、またはステートをfinishedに更新
+                off(currentRoomRef);
+            }
+            switchScreen('screen-menu');
+        };
+
+        // 初期ロード実行
+        loadCardData();
+
+    </script>
+</body>
+</html>
