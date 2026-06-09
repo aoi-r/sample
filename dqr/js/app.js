@@ -4,19 +4,40 @@ import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gsta
 import { getDatabase, ref, set, push, remove, onValue, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js';
 
 const state = {
-  cards: [], allCards: [], systems: {}, strategies: {}, choices: {}, coin: {}, dungeons: {}, fortune: {}, heroes: {}, exchanges: {}, generatedCards: {},
+  cards: [], allCards: [], systems: {}, strategies: {}, choices: {}, coin: {}, dungeons: {}, fortune: {}, heroes: {}, exchanges: {}, generatedCards: {}, tensionSystem: {},
   classes: [], cardTypes: [], rarities: [], userDecks: {},
   username: localStorage.getItem('dqr_username') || '',
+  playerId: localStorage.getItem('dqr_player_id') || '',
   deviceId: localStorage.getItem('dqr_device_id') || crypto.randomUUID(),
   selectedClass: '', selectedHeroId: '', deck: new Map(),
+  battle: { selectedDeckId: '', selectedDeck: null, matchId: '', roomId: '', game: null },
   firebase: { enabled: false, app: null, auth: null, db: null, uid: null }
 };
 localStorage.setItem('dqr_device_id', state.deviceId);
 
+function normalizePlayerId(id){
+  return String(id || '').trim().replace(/[.#$\[\]\/]/g, '_').slice(0, 32);
+}
+
+function hasPlayerId(){
+  return !!state.playerId;
+}
+
+function setPlayerIdentity(playerId, displayName){
+  const id = normalizePlayerId(playerId);
+  if(!id) return false;
+  state.playerId = id;
+  state.username = String(displayName || '').trim() || id;
+  localStorage.setItem('dqr_player_id', state.playerId);
+  localStorage.setItem('dqr_username', state.username);
+  return true;
+}
+
+
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v22-landscape-single-row-cards';
+const DATA_VERSION = 'v24-playerid-battle-scaffold';
 
 init().catch(err => {
   console.error(err);
@@ -39,7 +60,7 @@ async function loadJson(path, fallback = {}){
 }
 
 async function loadData(){
-  const [cards, systems, strategies, choices, coin, dungeons, fortune, heroes, exchanges, generatedCards] = await Promise.all([
+  const [cards, systems, strategies, choices, coin, dungeons, fortune, heroes, exchanges, generatedCards, tensionSystem] = await Promise.all([
     loadJson('./data/cards.json', {cards: []}),
     loadJson('./data/systems.json', {}),
     loadJson('./data/strategies.json', {}),
@@ -49,10 +70,11 @@ async function loadData(){
     loadJson('./data/fortune.json', {cards: []}),
     loadJson('./data/heroes.json', {heroes: [], relatedCards: []}),
     loadJson('./data/exchanges.json', {cards: []}),
-    loadJson('./data/generated_cards.json', {cards: []})
+    loadJson('./data/generated_cards.json', {cards: []}),
+    loadJson('./data/tension_system.json', {})
   ]);
   state.systems = systems; state.strategies = strategies; state.choices = choices; state.coin = coin;
-  state.dungeons = dungeons; state.fortune = fortune; state.heroes = heroes; state.exchanges = exchanges; state.generatedCards = generatedCards;
+  state.dungeons = dungeons; state.fortune = fortune; state.heroes = heroes; state.exchanges = exchanges; state.generatedCards = generatedCards; state.tensionSystem = tensionSystem;
   state.allCards = cards.cards || [];
   state.cards = state.allCards.filter(c => c.flags?.deckBuildable !== false && c.cardType !== "トークン");
   state.classes = (cards.classes || fallbackClasses).filter(c => c !== '共通');
@@ -93,12 +115,14 @@ async function tryLandscapeMode(){
 }
 
 function bindEvents(){
-  document.querySelector('.tap-start').addEventListener('click', async () => { await tryLandscapeMode(); show('user'); });
-  document.querySelector('.tap-start').addEventListener('keydown', e => { if(e.key === 'Enter') show('user'); });
+  document.querySelector('.tap-start').addEventListener('click', async () => { await tryLandscapeMode(); show(hasPlayerId() ? 'menu' : 'user'); });
+  document.querySelector('.tap-start').addEventListener('keydown', async e => { if(e.key === 'Enter'){ await tryLandscapeMode(); show(hasPlayerId() ? 'menu' : 'user'); } });
   $('username-ok').addEventListener('click', saveUsername);
+  const changeUsername = $('change-username');
+  if(changeUsername) changeUsername.addEventListener('click', () => show('user'));
   $('username-input').addEventListener('keydown', e => { if(e.key === 'Enter') saveUsername(); });
   $('open-deckbuilder').addEventListener('click', () => { show('deckbuilder'); renderAll(); });
-  $('open-battle').addEventListener('click', () => show('battle'));
+  $('open-battle').addEventListener('click', () => { show('battle'); renderBattleDeckList(); });
   document.querySelectorAll('.back-menu').forEach(b => b.addEventListener('click', () => show('menu')));
   $('class-select').addEventListener('change', e => changeClass(e.target.value));
   ['search-input','type-filter','cost-filter','rarity-filter'].forEach(id => $(id).addEventListener('input', renderCards));
@@ -117,6 +141,14 @@ function bindEvents(){
   $('save-deck').addEventListener('click', saveDeck);
   $('export-deck').addEventListener('click', exportDeck);
   $('import-deck').addEventListener('change', importDeck);
+  const battleModalClose = $('battle-deck-modal-close');
+  if(battleModalClose) battleModalClose.addEventListener('click', () => $('battle-deck-modal').close());
+  const startMatchBtn = $('start-match');
+  if(startMatchBtn) startMatchBtn.addEventListener('click', startMatch);
+  const tensionBtn = $('tension-button');
+  if(tensionBtn) tensionBtn.addEventListener('click', useOrChargeTension);
+  const endTurnBtn = $('end-turn');
+  if(endTurnBtn) endTurnBtn.addEventListener('click', endTurn);
   $('modal-close').addEventListener('click', () => $('card-modal').close());
 }
 
@@ -131,19 +163,29 @@ function fillControls(){
 function fillHeroSelect(){}
 
 function saveUsername(){
-  const name = $('username-input').value.trim();
-  if(!name) return toast('ユーザ名を入力してください。', false);
-  state.username = name; localStorage.setItem('dqr_username', name);
-  updateLoginStatus(); show('menu');
+  const id = $('player-id-input')?.value || state.playerId;
+  const name = $('username-input')?.value || id;
+  if(!setPlayerIdentity(id, name)){
+    return toast('プレイヤーIDを入力してください。', false);
+  }
+  updateLoginStatus();
+  subscribeFirebaseDecks();
+  show('menu');
 }
 
 function updateLoginStatus(){
-  $('welcome-title').textContent = `${state.username || 'プレイヤー'} さん`;
-  const uid = state.firebase.uid ? `Firebase接続済み / uid: ${state.firebase.uid.slice(0,8)}…` : 'Firebase未接続または設定待ち';
-  $('login-status').textContent = `${uid} / device: ${state.deviceId.slice(0,8)}…`;
+  $('welcome-title').textContent = `${state.username || state.playerId || 'プレイヤー'} さん`;
+  const uid = state.firebase.uid ? `Firebase匿名接続 / uid: ${state.firebase.uid.slice(0,8)}…` : 'Firebase未接続または設定待ち';
+  $('login-status').textContent = `${uid} / playerId: ${state.playerId || '未設定'} / 端末ID: ${state.deviceId.slice(0,8)}…`;
+  if($('player-id-input')) $('player-id-input').value = state.playerId || '';
+  if($('username-input')) $('username-input').value = state.username || '';
 }
 
-function show(name){ screens.forEach(s => $(`screen-${s}`).classList.toggle('active', s === name)); updateLoginStatus(); }
+function show(name){
+  if(['menu','deckbuilder','battle'].includes(name) && !hasPlayerId()) name = 'user';
+  screens.forEach(s => $(`screen-${s}`).classList.toggle('active', s === name));
+  updateLoginStatus();
+}
 
 function changeClass(next){
   if(next !== state.selectedClass && state.deck.size){ state.deck.clear(); state.selectedHeroId=''; toast('職業を変更したのでデッキをリセットしました。'); }
@@ -211,8 +253,10 @@ function renderDeck(){
       const row = document.createElement('div'); row.className='selected-row';
       const miniImg = getOfficialImage(card);
       row.innerHTML = `${miniImg ? `<img class="selected-card-mini-thumb" src="${escapeHtml(miniImg)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span>${card.cost ?? '-'} ${escapeHtml(card.name)}</span><strong>×${count}</strong>`;
-      const minus = document.createElement('button'); minus.textContent='−'; minus.onclick=()=>removeCard(card.id);
-      row.appendChild(minus); list.appendChild(row);
+      const minus = document.createElement('button'); minus.textContent='−'; minus.onclick=(e)=>{ e.stopPropagation(); removeCard(card.id); };
+      const plus = document.createElement('button'); plus.textContent='＋'; plus.onclick=(e)=>{ e.stopPropagation(); addCard(card); };
+      plus.disabled = !canAdd(card).ok;
+      row.append(minus, plus); list.appendChild(row);
     }
   }
   const heroCards = deckCards.filter(x => x.card.cardType === 'ヒーロー');
@@ -277,12 +321,13 @@ function makeDeckPayload(){
   return { deckName: $('deck-name').value.trim() || '新しいデッキ', className: state.selectedClass, heroId: state.selectedHeroId || '', cards, total: deckTotal(), username: state.username, deviceId: state.deviceId, updatedAtLocal: new Date().toISOString(), schemaVersion: 'dqr.userDeck.v3_hero_unlimited' };
 }
 
-async function saveDeck(){
+async async function saveDeck(){
+  if(!hasPlayerId()) return show('user');
   const validation = validateDeck(); if(!validation.ok) return toast('まだ保存できません。枚数や職業を確認してね。', false);
   const payload = makeDeckPayload();
   const localId = `local_${Date.now()}`; saveLocalDeck(localId, payload);
   if(state.firebase.enabled && state.firebase.uid && state.firebase.db){
-    const newRef = push(ref(state.firebase.db, `users/${state.firebase.uid}/decks`));
+    const newRef = push(ref(state.firebase.db, `players/${state.playerId}/decks`));
     await set(newRef, { ...payload, updatedAt: serverTimestamp() });
     $('save-status').textContent = 'Firebase保存済み'; toast('Firebaseに保存しました。', true);
   }else{ $('save-status').textContent = 'ローカル保存済み'; toast('Firebase未設定なのでブラウザに保存しました。', true); }
@@ -292,8 +337,8 @@ async function saveDeck(){
 function saveLocalDeck(id, payload){ const all = JSON.parse(localStorage.getItem('dqr_decks') || '{}'); all[id] = payload; localStorage.setItem('dqr_decks', JSON.stringify(all)); state.userDecks = all; }
 function loadLocalDecks(){ state.userDecks = JSON.parse(localStorage.getItem('dqr_decks') || '{}'); renderSavedDecks(); }
 function subscribeFirebaseDecks(){
-  if(!state.firebase.enabled || !state.firebase.uid || !state.firebase.db) return;
-  onValue(ref(state.firebase.db, `users/${state.firebase.uid}/decks`), snap => { state.firebaseDecks = snap.val() || {}; renderSavedDecks(); });
+  if(!state.firebase.enabled || !state.playerId || !state.firebase.db) return;
+  onValue(ref(state.firebase.db, `players/${state.playerId}/decks`), snap => { state.firebaseDecks = snap.val() || {}; renderSavedDecks(); if($('battle-deck-list')) renderBattleDeckList(); });
 }
 function renderSavedDecks(){
   const box = $('saved-decks'); if(!box) return;
@@ -310,7 +355,7 @@ function renderSavedDecks(){
 }
 async function deleteDeck(id){
   const all = JSON.parse(localStorage.getItem('dqr_decks') || '{}'); delete all[id]; localStorage.setItem('dqr_decks', JSON.stringify(all)); state.userDecks = all;
-  if(state.firebase.enabled && state.firebase.uid && state.firebase.db && !id.startsWith('local_')) await remove(ref(state.firebase.db, `users/${state.firebase.uid}/decks/${id}`));
+  if(state.firebase.enabled && state.firebase.uid && state.firebase.db && !id.startsWith('local_')) await remove(ref(state.firebase.db, `players/${state.playerId}/decks/${id}`));
   renderSavedDecks();
 }
 function loadDeck(data){
@@ -319,6 +364,189 @@ function loadDeck(data){
   state.deck.clear(); for(const item of data.cards || []) state.deck.set(item.cardId, item.count || 1);
   $('deck-name').value = data.deckName || ''; renderAll(); toast('デッキを読み込みました。');
 }
+
+function getAllSavedDeckEntries(){
+  const merged = {...(state.userDecks || {}), ...(state.firebaseDecks || {})};
+  return Object.entries(merged).sort((a,b)=>String(b[1].updatedAtLocal||'').localeCompare(String(a[1].updatedAtLocal||'')));
+}
+
+function renderBattleDeckList(){
+  const box = $('battle-deck-list');
+  if(!box) return;
+  const entries = getAllSavedDeckEntries().filter(([id, deck]) => deck && Number(deck.total || 0) === 30);
+  if(!entries.length){
+    box.className = 'battle-deck-list empty';
+    box.textContent = '30枚完成済みの保存デッキがありません。先にデッキ作成で保存してください。';
+    return;
+  }
+  box.className = 'battle-deck-list';
+  box.innerHTML = '';
+  for(const [id, deck] of entries){
+    const row = document.createElement('button');
+    row.className = `battle-deck-card ${state.battle.selectedDeckId === id ? 'selected' : ''}`;
+    const hero = (deck.cards || []).map(x => byId(x.cardId)).filter(c => c?.cardType === 'ヒーロー').map(c => c.name).join(' / ') || 'ヒーローなし';
+    row.innerHTML = `<strong>${escapeHtml(deck.deckName || '無名デッキ')}</strong><span>${escapeHtml(deck.className || '')} / ${deck.total || 0}枚</span><small>${escapeHtml(hero)}</small>`;
+    row.addEventListener('click', () => openBattleDeckModal(id, deck));
+    box.appendChild(row);
+  }
+}
+
+function openBattleDeckModal(id, deck){
+  const body = $('battle-deck-modal-body');
+  state.battle.previewDeckId = id;
+  state.battle.previewDeck = deck;
+  $('battle-deck-modal-title').textContent = deck.deckName || 'デッキ確認';
+  const cards = (deck.cards || []).map(x => ({...x, card: byId(x.cardId)})).filter(x => x.card);
+  body.innerHTML = `
+    <div class="detail-block">
+      <h4>${escapeHtml(deck.className || '')} / ${deck.total || 0}枚</h4>
+      <p>${escapeHtml(deck.deckName || '')}</p>
+    </div>
+    <div class="battle-deck-preview-list">
+      ${cards.map(x => {
+        const img = getOfficialImage(x.card);
+        return `<div class="battle-preview-row">${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(x.card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span>${escapeHtml(x.card.name)}</span><b>×${x.count}</b></div>`;
+      }).join('')}
+    </div>
+    <button id="confirm-battle-deck" class="primary">このデッキでバトルへ</button>
+  `;
+  $('confirm-battle-deck').addEventListener('click', () => {
+    state.battle.selectedDeckId = id;
+    state.battle.selectedDeck = deck;
+    $('selected-battle-deck-label').textContent = `選択中: ${deck.deckName || '無名デッキ'} / ${deck.className || ''}`;
+    $('battle-deck-modal').close();
+    renderBattleDeckList();
+  });
+  $('battle-deck-modal').showModal();
+}
+
+function makeRoomId(matchId){
+  return normalizePlayerId(matchId).toLowerCase();
+}
+
+async function startMatch(){
+  if(!state.battle.selectedDeck) return toast('先にデッキを選択してください。', false);
+  const matchId = $('match-id-input').value.trim();
+  if(!matchId) return toast('合言葉IDを入力してください。', false);
+  state.battle.matchId = matchId;
+  state.battle.roomId = makeRoomId(matchId);
+  initLocalBattleGame();
+  if(state.firebase.enabled && state.firebase.db){
+    try{
+      const roomRef = ref(state.firebase.db, `rooms/${state.battle.roomId}/players/${state.playerId}`);
+      await set(roomRef, {
+        playerId: state.playerId,
+        displayName: state.username,
+        deckName: state.battle.selectedDeck.deckName,
+        className: state.battle.selectedDeck.className,
+        joinedAt: serverTimestamp()
+      });
+    }catch(e){ console.warn(e); }
+  }
+  $('battle-setup').classList.add('hidden');
+  $('battle-arena').classList.remove('hidden');
+  $('battle-status').textContent = `入室: ${matchId}`;
+  renderBattleArena();
+}
+
+function initLocalBattleGame(){
+  const deck = state.battle.selectedDeck;
+  const className = deck.className || '戦士';
+  state.battle.game = {
+    className,
+    turn: 1,
+    player: {
+      hp: 25,
+      maxMp: 1,
+      mp: 1,
+      tension: 0,
+      tensionSkillUsedThisTurn: false,
+      leaderSkill: getBaseTensionSkill(className),
+      hand: expandDeckCards(deck).slice(0, 5),
+      board: Array(6).fill(null)
+    },
+    enemy: {
+      hp: 25,
+      maxMp: 1,
+      mp: 1,
+      tension: 0,
+      board: Array(6).fill(null)
+    }
+  };
+}
+
+function expandDeckCards(deck){
+  const arr = [];
+  for(const item of deck.cards || []){
+    for(let i=0; i<Number(item.count || 0); i++) arr.push(item.cardId);
+  }
+  return arr;
+}
+
+function getBaseTensionSkill(className){
+  const skills = state.tensionSystem?.leaderSkills || [];
+  return skills.find(s => s.class === className) || null;
+}
+
+function renderBattleArena(){
+  const game = state.battle.game;
+  if(!game) return;
+  $('player-hp').textContent = game.player.hp;
+  $('enemy-hp').textContent = game.enemy.hp;
+  $('player-mp').textContent = `${game.player.mp}/${game.player.maxMp}`;
+  $('enemy-mp').textContent = `${game.enemy.mp}/${game.enemy.maxMp}`;
+  renderTension();
+  const hand = $('player-hand');
+  hand.innerHTML = '';
+  for(const id of game.player.hand){
+    const card = byId(id);
+    if(!card) continue;
+    const btn = document.createElement('button');
+    btn.className = 'hand-card';
+    const img = getOfficialImage(card);
+    btn.innerHTML = `${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span>${escapeHtml(card.name)}</span>`;
+    btn.addEventListener('click', () => toast('カード使用処理は次フェーズで実装します。'));
+    hand.appendChild(btn);
+  }
+}
+
+function renderTension(){
+  const game = state.battle.game;
+  if(!game) return;
+  const pips = [...$('tension-pips').querySelectorAll('i')];
+  pips.forEach((p, i) => p.classList.toggle('on', i < game.player.tension));
+  $('tension-button').classList.toggle('ready', game.player.tension >= 3);
+  $('tension-button').title = game.player.tension >= 3 ? `テンションスキル: ${game.player.leaderSkill?.skillName || ''}` : 'テンションをためる';
+}
+
+function useOrChargeTension(){
+  const game = state.battle.game;
+  if(!game) return;
+  if(game.player.tension >= 3){
+    toast(`${game.player.leaderSkill?.skillName || 'テンションスキル'}を使用。効果処理は次フェーズで実装します。`, true);
+    game.player.tension = 0;
+    game.player.tensionSkillUsedThisTurn = true;
+  }else{
+    if(game.player.mp < 1) return toast('MPが足りません。', false);
+    if(game.player.tensionSkillUsedThisTurn) return toast('このターンは既にテンション操作済みです。', false);
+    game.player.mp -= 1;
+    game.player.tension = Math.min(3, game.player.tension + 1);
+    game.player.tensionSkillUsedThisTurn = true;
+  }
+  renderBattleArena();
+}
+
+function endTurn(){
+  const game = state.battle.game;
+  if(!game) return;
+  game.turn += 1;
+  game.player.maxMp = Math.min(10, game.player.maxMp + 1);
+  game.player.mp = game.player.maxMp;
+  game.player.tensionSkillUsedThisTurn = false;
+  toast(`ターン${game.turn}: MPが${game.player.mp}になりました。`, true);
+  renderBattleArena();
+}
+
 function exportDeck(){ const payload = makeDeckPayload(); const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${payload.deckName || 'deck'}.json`; a.click(); URL.revokeObjectURL(a.href); }
 async function importDeck(e){ const file = e.target.files?.[0]; if(!file) return; loadDeck(JSON.parse(await file.text())); }
 

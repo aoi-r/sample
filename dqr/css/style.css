@@ -1247,3 +1247,332 @@
     flex-basis:138px;
   }
 }
+
+
+/* v23 auto player id */
+#username-skip{margin-top:10px;width:100%}
+@media (min-width: 721px){
+  .menu-buttons:has(#change-username){
+    grid-template-columns:1fr 1fr 1fr;
+  }
+}
+@media (max-width:720px){
+  #change-username{
+    font-size:16px;
+    padding:14px;
+  }
+}
+
+
+/* v24: player ID login, deck row +/- and battle scaffold */
+.small-panel label{
+  display:block;
+  font-weight:900;
+  margin:12px 0 4px;
+}
+
+.menu-buttons:has(#change-username){
+  grid-template-columns:1fr 1fr 1fr;
+}
+
+.selected-row{
+  cursor:pointer;
+}
+.selected-row button:disabled{
+  opacity:.35;
+}
+.selected-card-mini-thumb{
+  display:none;
+}
+
+/* Battle setup */
+.battle-screen{
+  min-height:100vh;
+  background:radial-gradient(circle at top,#28365c,#101522 55%,#080b12);
+}
+.battle-layout{
+  padding:16px;
+}
+.battle-setup{
+  display:grid;
+  grid-template-columns:1.3fr .7fr;
+  gap:16px;
+}
+.battle-block{
+  background:rgba(24,33,53,.9);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:16px;
+}
+.battle-block h3{
+  margin:0 0 8px;
+  color:var(--accent);
+}
+.battle-deck-list{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  padding:10px 2px 14px;
+}
+.battle-deck-list.empty{
+  display:block;
+  color:var(--muted);
+}
+.battle-deck-card{
+  flex:0 0 240px;
+  text-align:left;
+  color:var(--ink);
+  background:linear-gradient(180deg,#24304c,#111827);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:14px;
+  display:grid;
+  gap:6px;
+}
+.battle-deck-card.selected{
+  border-color:var(--accent);
+  box-shadow:0 0 0 2px rgba(245,198,75,.25);
+}
+.battle-deck-card strong{
+  font-size:18px;
+}
+.battle-deck-card span,
+.battle-deck-card small{
+  color:var(--muted);
+}
+.match-block{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.hidden{display:none!important}
+.battle-deck-preview-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:8px;
+}
+.battle-preview-row{
+  display:grid;
+  grid-template-columns:36px 1fr auto;
+  gap:8px;
+  align-items:center;
+  background:#101827;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:6px;
+}
+.battle-preview-row img{
+  width:36px;
+  height:50px;
+  object-fit:cover;
+  object-position:top;
+  border-radius:5px;
+}
+
+/* Battle arena */
+.battle-arena{
+  height:calc(100vh - 94px);
+  display:grid;
+  grid-template-rows:auto 1fr auto 122px;
+  gap:8px;
+  background:linear-gradient(180deg,#263b69,#16233d 45%,#101827);
+  border:2px solid rgba(226,194,111,.55);
+  border-radius:22px;
+  padding:12px;
+  overflow:hidden;
+}
+.enemy-hud,.player-hud{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.enemy-hud{justify-content:flex-end}
+.player-hud{justify-content:flex-start}
+.leader-name{
+  font-weight:900;
+  color:#fff2bb;
+}
+.hp-pill,.mp-pill{
+  padding:6px 10px;
+  border-radius:999px;
+  background:#0d1424;
+  border:1px solid rgba(255,255,255,.18);
+  font-weight:900;
+}
+.hp-pill b{color:#93e29b}
+.mp-pill b{color:#70d6ff}
+
+.arena-field{
+  position:relative;
+  display:grid;
+  grid-template-columns:130px 1fr 130px;
+  align-items:center;
+  gap:18px;
+  min-height:0;
+  background:
+    radial-gradient(circle at center, rgba(224,190,118,.38), rgba(100,63,32,.35) 45%, rgba(38,85,62,.5) 100%),
+    #35583f;
+  border-radius:22px;
+  border:2px solid rgba(255,255,255,.18);
+  padding:18px;
+}
+.leader{
+  width:112px;
+  height:112px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  font-weight:900;
+  border:4px solid rgba(255,255,255,.35);
+  box-shadow:0 8px 24px rgba(0,0,0,.45), inset 0 0 24px rgba(255,255,255,.12);
+}
+.player-leader{
+  background:linear-gradient(180deg,#4a82d7,#1a3467);
+  justify-self:start;
+}
+.enemy-leader{
+  background:linear-gradient(180deg,#d85e6b,#7b1d2a);
+  justify-self:end;
+}
+.unit-zones{
+  display:grid;
+  grid-template-rows:1fr 1fr;
+  gap:18px;
+}
+.unit-row{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(76px, 1fr));
+  gap:18px;
+}
+.unit-slot{
+  aspect-ratio:1.35/1;
+  border-radius:14px;
+  border:2px solid rgba(255,255,255,.38);
+  background:linear-gradient(180deg,#c8c6bc,#8f8c84);
+  box-shadow:inset 0 4px 10px rgba(255,255,255,.25), inset 0 -6px 14px rgba(0,0,0,.25);
+}
+.tension-orb{
+  width:76px;
+  height:76px;
+  border-radius:50%;
+  padding:0;
+  display:grid;
+  place-items:center;
+  position:relative;
+  background:radial-gradient(circle at 35% 30%,#78d9ff,#173b7c 55%,#070d24);
+  border:3px solid rgba(255,255,255,.35);
+  color:#fff;
+}
+.tension-orb.ready{
+  box-shadow:0 0 22px #b74cff;
+  background:radial-gradient(circle at 35% 30%,#f3c2ff,#7c30cc 55%,#190738);
+}
+.sword{
+  font-size:28px;
+}
+.tension-pips{
+  position:absolute;
+  bottom:8px;
+  display:flex;
+  gap:4px;
+}
+.tension-pips i{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#2b3858;
+  border:1px solid rgba(255,255,255,.4);
+}
+.tension-pips i.on{
+  background:#bd68ff;
+  box-shadow:0 0 8px #bd68ff;
+}
+.player-hand{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:6px;
+  background:rgba(0,0,0,.28);
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.14);
+}
+.hand-card{
+  flex:0 0 92px;
+  height:110px;
+  padding:4px;
+  border-radius:10px;
+  background:#101827;
+  border:1px solid rgba(226,194,111,.45);
+  color:#fff;
+  display:grid;
+  grid-template-rows:1fr auto;
+  gap:3px;
+}
+.hand-card img{
+  width:100%;
+  min-height:0;
+  object-fit:cover;
+  object-position:top;
+  border-radius:7px;
+}
+.hand-card span{
+  font-size:10px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+@media(max-width:900px) and (orientation:landscape){
+  .battle-layout{
+    padding:6px;
+    height:calc(100dvh - 42px);
+    overflow:hidden;
+  }
+  .battle-setup{
+    height:100%;
+    grid-template-columns:1fr 280px;
+    gap:8px;
+  }
+  .battle-block{
+    padding:10px;
+    border-radius:14px;
+  }
+  .battle-deck-card{
+    flex-basis:190px;
+    padding:10px;
+  }
+  .battle-arena{
+    height:100%;
+    grid-template-rows:26px 1fr 52px 92px;
+    gap:5px;
+    padding:6px;
+    border-radius:14px;
+  }
+  .arena-field{
+    grid-template-columns:86px 1fr 86px;
+    gap:8px;
+    padding:8px;
+    border-radius:14px;
+  }
+  .leader{
+    width:76px;
+    height:76px;
+    font-size:11px;
+  }
+  .unit-zones{gap:8px}
+  .unit-row{gap:10px}
+  .unit-slot{border-radius:10px}
+  .tension-orb{
+    width:50px;
+    height:50px;
+  }
+  .sword{font-size:20px}
+  .player-hand{
+    gap:6px;
+  }
+  .hand-card{
+    flex-basis:70px;
+    height:80px;
+  }
+}

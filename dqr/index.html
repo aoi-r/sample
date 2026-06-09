@@ -18,10 +18,14 @@
 
     <section id="screen-user" class="screen panel-screen">
       <div class="panel small-panel">
-        <h2>ユーザ名</h2>
-        <p class="muted">この名前で端末IDと一緒にFirebaseへデッキを保存します。</p>
-        <input id="username-input" class="big-input" maxlength="20" placeholder="例：ナナミ" />
-        <button id="username-ok" class="primary">決定</button>
+        <h2>プレイヤーID設定</h2>
+        <p class="muted">デッキ保存と再接続に使う固定IDです。日本語も使えます。初回だけ入力してください。</p>
+        <label>プレイヤーID</label>
+        <input id="player-id-input" class="big-input" maxlength="32" placeholder="例：ナナミ / nanami0502" />
+        <label>表示名</label>
+        <input id="username-input" class="big-input" maxlength="20" placeholder="例：ナナミ（空ならIDと同じ）" />
+        <button id="username-ok" class="primary">このIDで開始</button>
+        <p class="hint">同じIDを入力すれば、タブを閉じても別端末でもデッキを復帰できます。</p>
       </div>
     </section>
 
@@ -34,17 +38,90 @@
         <div class="menu-buttons">
           <button id="open-deckbuilder" class="primary huge">デッキ作成</button>
           <button id="open-battle" class="secondary huge">バトル</button>
+          <button id="change-username" class="ghost huge">名前変更</button>
         </div>
       </div>
     </section>
 
-    <section id="screen-battle" class="screen panel-screen">
-      <div class="panel small-panel">
-        <h2>バトル</h2>
-        <p>ここは次フェーズで実装予定。まずはデッキ作成を完成させています。</p>
-        <button class="back-menu secondary">戻る</button>
-      </div>
+    <section id="screen-battle" class="screen battle-screen">
+      <header class="topbar">
+        <button class="back-menu ghost">← メニュー</button>
+        <div>
+          <h2>バトル</h2>
+          <p>デッキ選択 → 合言葉ID → マッチング → 盤面テスト</p>
+        </div>
+        <div class="save-status" id="battle-status">待機中</div>
+      </header>
+
+      <main class="battle-layout">
+        <section id="battle-setup" class="battle-setup">
+          <div class="battle-block">
+            <h3>使用デッキを選択</h3>
+            <p class="muted">作成済みデッキを横スクロールで選択します。</p>
+            <div id="battle-deck-list" class="battle-deck-list empty">保存済みデッキがありません</div>
+          </div>
+
+          <div class="battle-block match-block">
+            <h3>合言葉IDでマッチング</h3>
+            <p class="muted">相手と同じIDを入力してください。日本語OK。同じIDごとに部屋を分けます。</p>
+            <input id="match-id-input" placeholder="例：今日の部屋 / room001" maxlength="40" />
+            <button id="start-match" class="primary">このIDで入室</button>
+            <p id="selected-battle-deck-label" class="hint">先にデッキを選択してください。</p>
+          </div>
+        </section>
+
+        <section id="battle-arena" class="battle-arena hidden">
+          <div class="enemy-hud">
+            <div class="leader-name">相手</div>
+            <div class="hp-pill">HP <b id="enemy-hp">25</b></div>
+            <div class="mp-pill">MP <b id="enemy-mp">1/1</b></div>
+          </div>
+
+          <div class="arena-field">
+            <div class="leader enemy-leader">
+              <span>敵<br>リーダー</span>
+            </div>
+
+            <div class="unit-zones">
+              <div class="unit-row enemy-row">
+                <button class="unit-slot" data-side="enemy" data-pos="0"></button>
+                <button class="unit-slot" data-side="enemy" data-pos="1"></button>
+                <button class="unit-slot" data-side="enemy" data-pos="2"></button>
+              </div>
+              <div class="unit-row player-row">
+                <button class="unit-slot" data-side="player" data-pos="0"></button>
+                <button class="unit-slot" data-side="player" data-pos="1"></button>
+                <button class="unit-slot" data-side="player" data-pos="2"></button>
+              </div>
+            </div>
+
+            <div class="leader player-leader">
+              <span>自分<br>リーダー</span>
+            </div>
+          </div>
+
+          <div class="player-hud">
+            <button id="tension-button" class="tension-orb" title="テンション">
+              <span class="sword">⚔</span>
+              <span id="tension-pips" class="tension-pips"><i></i><i></i><i></i></span>
+            </button>
+            <div class="hp-pill">HP <b id="player-hp">25</b></div>
+            <div class="mp-pill">MP <b id="player-mp">1/1</b></div>
+            <button id="end-turn" class="secondary">ターン終了</button>
+          </div>
+
+          <div id="player-hand" class="player-hand"></div>
+        </section>
+      </main>
     </section>
+
+    <dialog id="battle-deck-modal" class="card-modal">
+      <div class="modal-head">
+        <h3 id="battle-deck-modal-title">デッキ確認</h3>
+        <button id="battle-deck-modal-close" class="ghost">×</button>
+      </div>
+      <div id="battle-deck-modal-body" class="modal-body"></div>
+    </dialog>
 
     <section id="screen-deckbuilder" class="screen deck-screen">
       <header class="topbar">

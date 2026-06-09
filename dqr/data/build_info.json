@@ -1,5 +1,5 @@
 {
-  "version": "v22-landscape-single-row-cards",
+  "version": "v24-playerid-battle-scaffold",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -24,5 +24,8 @@
   ],
   "remainingUnmappedCount": 0,
   "layoutUpdate": "スマホ横向きカード一覧を1段表示に変更。カード画像を大きくして本文を読みやすくし、下段デッキには小画像サムネを追加。",
-  "tensionSystemUpdate": "カミュのテンションスキル「盗賊のかみわざ」と生成武器シーブスナイフを追加。既存7職業の効果を構造化。"
+  "tensionSystemUpdate": "カミュのテンションスキル「盗賊のかみわざ」と生成武器シーブスナイフを追加。既存7職業の効果を構造化。",
+  "loginUpdate": "ユーザ名入力を必須から任意に変更。初回アクセス時にlocalStorageのdeviceIdからPlayer-xxxxxxxxを自動生成。Firebase匿名UIDと併用。",
+  "playerIdSpec": "初回のみ固定プレイヤーIDを必須入力。localStorageに保存し、Firebase保存パスは players/{playerId}/decks。",
+  "battleScaffold": "保存済みデッキ選択、デッキ確認モーダル、合言葉IDマッチング、盤面/HP/MP/テンション/手札の初期UIを追加。"
 }
