@@ -16,7 +16,7 @@ localStorage.setItem('dqr_device_id', state.deviceId);
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v21-landscape-prompt-layout';
+const DATA_VERSION = 'v22-landscape-single-row-cards';
 
 init().catch(err => {
   console.error(err);
@@ -209,7 +209,8 @@ function renderDeck(){
     list.className = 'selected-list';
     for(const {card,count} of deckCards){
       const row = document.createElement('div'); row.className='selected-row';
-      row.innerHTML = `<span>${card.cost ?? '-'} ${escapeHtml(card.name)}</span><strong>×${count}</strong>`;
+      const miniImg = getOfficialImage(card);
+      row.innerHTML = `${miniImg ? `<img class="selected-card-mini-thumb" src="${escapeHtml(miniImg)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span>${card.cost ?? '-'} ${escapeHtml(card.name)}</span><strong>×${count}</strong>`;
       const minus = document.createElement('button'); minus.textContent='−'; minus.onclick=()=>removeCard(card.id);
       row.appendChild(minus); list.appendChild(row);
     }

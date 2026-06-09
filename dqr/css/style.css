@@ -1110,3 +1110,140 @@
     display:flex !important;
   }
 }
+
+
+/* v22: landscape phone/tablet refinement.
+   One-row collection so card text inside images stays readable. */
+@media (max-width: 900px) and (orientation: landscape){
+  .builder-layout{
+    grid-template-rows:58% 42%;
+  }
+
+  .card-browser{
+    grid-template-rows:auto auto 1fr;
+    padding:6px 8px 8px;
+  }
+
+  .filters{
+    grid-template-columns:1.25fr .72fr .72fr .78fr auto;
+    margin-left:98px;
+  }
+
+  /* Single row, larger cards */
+  .card-grid{
+    --card-w: var(--mobile-card-w, 128px);
+    display:grid;
+    grid-auto-flow:column;
+    grid-template-rows:1fr !important;
+    grid-auto-columns:var(--card-w);
+    gap:10px;
+    align-items:stretch;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:4px 6px 10px;
+  }
+
+  .card-item{
+    width:var(--card-w);
+    height:100%;
+    padding:5px;
+    border-radius:10px;
+    display:grid;
+    grid-template-rows:1fr auto auto;
+    gap:4px;
+  }
+
+  .card-thumb{
+    width:100%;
+    height:100%;
+    max-height:none;
+    aspect-ratio:auto;
+    object-fit:contain;
+    border-radius:8px;
+    background:#0d1424;
+  }
+
+  .card-head{
+    min-height:20px;
+  }
+
+  .name{
+    font-size:10px;
+  }
+
+  .cost{
+    width:20px;
+    height:20px;
+    font-size:10px;
+  }
+
+  .card-footer{
+    min-height:22px;
+  }
+
+  .detail-card,
+  .add-card{
+    min-height:22px;
+    font-size:9px;
+  }
+
+  .size-control input{
+    width:88px;
+  }
+
+  /* Bottom my deck: image thumbnails + text */
+  #selected-list{
+    padding:22px 6px 6px;
+    gap:7px;
+  }
+
+  #selected-list .selected-row{
+    flex:0 0 148px;
+    height:78px;
+    grid-template-columns:42px 1fr auto auto;
+    grid-template-rows:1fr;
+    align-items:center;
+    gap:5px;
+    padding:5px;
+  }
+
+  #selected-list .selected-row .selected-card-mini-thumb{
+    display:block;
+    width:38px;
+    height:54px;
+    object-fit:cover;
+    object-position:top;
+    border-radius:5px;
+    border:1px solid rgba(226,194,111,.45);
+    background:#0d1424;
+  }
+
+  #selected-list .selected-row span:first-child,
+  #selected-list .selected-row img + span{
+    grid-column:auto;
+    font-size:10px;
+    line-height:1.18;
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+
+  #selected-list .selected-row button{
+    width:24px;
+    height:24px;
+    padding:0;
+    border-radius:7px;
+    font-size:13px;
+  }
+}
+
+@media (max-width: 760px) and (orientation: landscape){
+  .card-grid{
+    --card-w: var(--mobile-card-w, 116px);
+    gap:8px;
+  }
+  #selected-list .selected-row{
+    flex-basis:138px;
+  }
+}
