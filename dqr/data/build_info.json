@@ -1,5 +1,5 @@
 {
-  "version": "v36-safari-battle-fit-modal-grid",
+  "version": "v37-pwa-board-modal-fit",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -37,6 +37,8 @@
   "battleLayout": "Safari横向きタブ内でも見切れにくいようバトル画面を全体圧縮。6vs6中央盤面を本家寄せに再調整。",
   "matching": "Firebase rooms/{matchId}/players を監視し、相手入室表示まで追加。盤面同期は次フェーズ。",
   "battleUpdate": "退出/敗北、12マス盤面、ターン制御、Firebase状態同期基礎、相手盤面表示、ヒーロースキルボタン、主要キーワード処理入口を追加。",
-  "battleDeckModal": "バトル用デッキ確認モーダルを30枚敷き詰め型へ変更。",
-  "webAppMeta": "iOSホーム画面追加用メタタグを追加。"
+  "battleDeckModal": "Moved confirm button to top blank area and made the 30-card grid no-scroll.",
+  "webAppMeta": "iOSホーム画面追加用メタタグを追加。",
+  "pwa": "manifest.webmanifest and icons added. Delete old home-screen icon and add again after deploy.",
+  "battleBoard": "Forced each side board to 3 columns x 2 rows using display:contents on unit rows."
 }
