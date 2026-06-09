@@ -1,31 +1,55 @@
 {
-  "version": "v45_battle_board_layout_restore",
-  "battle_board_mapping": {
-    "enemy": {
-      "back_row": [
-        "enemy pos 0",
-        "enemy pos 1",
-        "enemy pos 2"
-      ],
-      "front_row": [
-        "enemy pos 3",
-        "enemy pos 4",
-        "enemy pos 5"
-      ]
+  "version": "v46_battle_board_lr_coordinate",
+  "official_like_coordinate": {
+    "rows": {
+      "0": "上",
+      "1": "真ん中",
+      "2": "下"
     },
-    "player": {
-      "front_row": [
-        "player pos 0",
-        "player pos 1",
-        "player pos 2"
-      ],
-      "back_row": [
-        "player pos 3",
-        "player pos 4",
-        "player pos 5"
-      ]
+    "columns": {
+      "0": "自分後列",
+      "1": "自分前列",
+      "2": "相手前列",
+      "3": "相手後列"
     },
-    "center_gap": "between enemy front row and player front row"
+    "grid": [
+      [
+        "自後列上",
+        "自前列上",
+        "相手前列上",
+        "相手後列上"
+      ],
+      [
+        "自後列真ん中",
+        "自前列真ん中",
+        "相手前列真ん中",
+        "相手後列真ん中"
+      ],
+      [
+        "自後列下",
+        "自前列下",
+        "相手前列下",
+        "相手後列下"
+      ]
+    ],
+    "stored_positions": {
+      "player": {
+        "0": "自前列上",
+        "1": "自前列真ん中",
+        "2": "自前列下",
+        "3": "自後列上",
+        "4": "自後列真ん中",
+        "5": "自後列下"
+      },
+      "enemy": {
+        "0": "相手前列上",
+        "1": "相手前列真ん中",
+        "2": "相手前列下",
+        "3": "相手後列上",
+        "4": "相手後列真ん中",
+        "5": "相手後列下"
+      }
+    }
   },
-  "important": "Do not override .battle-arena .unit-zones.twelve-zones grid placement without preserving this mapping."
+  "do_not_break": "Battle board must be 3 rows x 4 columns, player side left, enemy side right."
 }

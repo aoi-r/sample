@@ -4932,3 +4932,203 @@
     width:52vw !important;
   }
 }
+
+
+/* v46: CORRECT official-like left-right battle board.
+   3 rows x 4 columns:
+   col1 = 自分後列, col2 = 自分前列, col3 = 相手前列, col4 = 相手後列.
+   rows = 上 / 真ん中 / 下.
+*/
+.battle-arena .arena-field{
+  position:absolute !important;
+  inset:0 !important;
+  display:grid !important;
+  grid-template-columns:74px 1fr 74px !important;
+  align-items:center !important;
+  justify-items:center !important;
+  gap:8px !important;
+  padding:42px 72px 72px !important;
+  background:transparent !important;
+}
+
+.battle-arena .unit-zones.twelve-zones{
+  grid-column:2 !important;
+  width:min(860px, 70vw) !important;
+  height:min(360px, calc(100dvh - 126px)) !important;
+  display:grid !important;
+  grid-template-columns:repeat(2, minmax(72px, 1fr)) minmax(26px, 52px) repeat(2, minmax(72px, 1fr)) !important;
+  grid-template-rows:repeat(3, minmax(42px, 1fr)) !important;
+  column-gap:clamp(10px, 1.8vw, 22px) !important;
+  row-gap:clamp(12px, 2.4dvh, 26px) !important;
+  align-self:center !important;
+  justify-self:center !important;
+  overflow:visible !important;
+  transform:none !important;
+}
+
+.battle-arena .side-board,
+.battle-arena .side-board .unit-row,
+.battle-arena .board-gap{
+  display:contents !important;
+}
+
+/* Player:
+   pos 0/1/2 = 自前列 上/中/下 = visual column 2
+   pos 3/4/5 = 自後列 上/中/下 = visual column 1 */
+.battle-arena .player-board .unit-slot[data-pos="3"]{ grid-column:1 !important; grid-row:1 !important; }
+.battle-arena .player-board .unit-slot[data-pos="0"]{ grid-column:2 !important; grid-row:1 !important; }
+.battle-arena .player-board .unit-slot[data-pos="4"]{ grid-column:1 !important; grid-row:2 !important; }
+.battle-arena .player-board .unit-slot[data-pos="1"]{ grid-column:2 !important; grid-row:2 !important; }
+.battle-arena .player-board .unit-slot[data-pos="5"]{ grid-column:1 !important; grid-row:3 !important; }
+.battle-arena .player-board .unit-slot[data-pos="2"]{ grid-column:2 !important; grid-row:3 !important; }
+
+/* Enemy:
+   pos 0/1/2 = 相手前列 上/中/下 = visual column 4 after center gap? CSS grid has gap column 3, so enemy front = column 4.
+   pos 3/4/5 = 相手後列 上/中/下 = visual column 5. */
+.battle-arena .enemy-board .unit-slot[data-pos="0"]{ grid-column:4 !important; grid-row:1 !important; }
+.battle-arena .enemy-board .unit-slot[data-pos="3"]{ grid-column:5 !important; grid-row:1 !important; }
+.battle-arena .enemy-board .unit-slot[data-pos="1"]{ grid-column:4 !important; grid-row:2 !important; }
+.battle-arena .enemy-board .unit-slot[data-pos="4"]{ grid-column:5 !important; grid-row:2 !important; }
+.battle-arena .enemy-board .unit-slot[data-pos="2"]{ grid-column:4 !important; grid-row:3 !important; }
+.battle-arena .enemy-board .unit-slot[data-pos="5"]{ grid-column:5 !important; grid-row:3 !important; }
+
+.battle-arena .unit-slot{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:70px !important;
+  min-height:42px !important;
+  max-width:150px !important;
+  max-height:78px !important;
+  aspect-ratio:auto !important;
+  justify-self:center !important;
+  align-self:center !important;
+  border-radius:10px !important;
+  box-sizing:border-box !important;
+  transform:none !important;
+}
+
+.battle-arena .unit-slot.has-unit img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  object-position:center !important;
+  transform:scale(1.12) !important;
+}
+
+/* Leaders: player left, enemy right */
+.battle-arena .player-leader{
+  grid-column:1 !important;
+  justify-self:start !important;
+  align-self:center !important;
+}
+.battle-arena .enemy-leader{
+  grid-column:3 !important;
+  justify-self:end !important;
+  align-self:center !important;
+}
+
+.battle-arena .player-hand{
+  bottom:0 !important;
+  left:50% !important;
+  transform:translateX(-50%) !important;
+  width:min(560px, 56vw) !important;
+  height:66px !important;
+  z-index:6 !important;
+}
+
+.battle-arena .hand-card{
+  flex-basis:46px !important;
+  width:46px !important;
+  height:62px !important;
+}
+
+.battle-arena .player-hud{
+  left:10px !important;
+  bottom:62px !important;
+  z-index:6 !important;
+}
+
+.battle-arena .battle-log{
+  right:10px !important;
+  left:auto !important;
+  bottom:40px !important;
+  width:min(360px, 30vw) !important;
+  z-index:5 !important;
+}
+
+@media(max-width:900px) and (orientation:landscape){
+  .battle-arena .arena-field{
+    grid-template-columns:50px 1fr 50px !important;
+    padding:34px 42px 56px !important;
+  }
+
+  .battle-arena .unit-zones.twelve-zones{
+    width:min(760px, 72vw) !important;
+    height:min(280px, calc(100dvh - 100px)) !important;
+    grid-template-columns:repeat(2, minmax(50px, 1fr)) minmax(16px, 32px) repeat(2, minmax(50px, 1fr)) !important;
+    grid-template-rows:repeat(3, minmax(30px, 1fr)) !important;
+    column-gap:clamp(5px, 1.2vw, 10px) !important;
+    row-gap:clamp(6px, 1.8dvh, 14px) !important;
+  }
+
+  .battle-arena .unit-slot{
+    min-width:48px !important;
+    min-height:30px !important;
+    max-width:104px !important;
+    max-height:54px !important;
+    border-radius:7px !important;
+  }
+
+  .battle-arena .player-hand{
+    width:54vw !important;
+    height:52px !important;
+  }
+
+  .battle-arena .hand-card{
+    flex-basis:36px !important;
+    width:36px !important;
+    height:50px !important;
+  }
+
+  .battle-arena .player-hud{
+    bottom:48px !important;
+    left:5px !important;
+    transform:scale(.9) !important;
+    transform-origin:left bottom !important;
+  }
+
+  .battle-arena .battle-log{
+    right:6px !important;
+    bottom:32px !important;
+    width:27vw !important;
+    max-height:34px !important;
+    font-size:8px !important;
+  }
+}
+
+@media(max-width:760px) and (orientation:landscape){
+  .battle-arena .arena-field{
+    grid-template-columns:42px 1fr 42px !important;
+    padding-left:30px !important;
+    padding-right:30px !important;
+  }
+
+  .battle-arena .unit-zones.twelve-zones{
+    width:74vw !important;
+    height:min(245px, calc(100dvh - 92px)) !important;
+    grid-template-columns:repeat(2, minmax(42px, 1fr)) 16px repeat(2, minmax(42px, 1fr)) !important;
+    column-gap:5px !important;
+  }
+
+  .battle-arena .unit-slot{
+    min-width:42px !important;
+    min-height:28px !important;
+    max-width:88px !important;
+    max-height:46px !important;
+  }
+
+  .battle-arena .player-hand{
+    width:52vw !important;
+  }
+}

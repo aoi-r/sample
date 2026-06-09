@@ -458,3 +458,16 @@ node tools/sync_official_gameconductor.mjs
   - 中央: 相手前列と自分前列の間隔
 - 前後関係を `data/battle_board_layout_note.json` に記録。
 - 今後のCSS追加で盤面配置を壊さないため、最終上書きブロックとして追加。
+
+
+## v46 update
+- バトル盤面の根本仕様を修正。
+- 本家準拠で、上下対面ではなく左右対面に変更。
+- 盤面は3行×4列。
+  - 1列目: 自分後列
+  - 2列目: 自分前列
+  - 3列目: 相手前列
+  - 4列目: 相手後列
+  - 2列目と3列目の間に中央スペース
+- 内部座標も `posToCoord`, `coordToPos`, `getBehindPos`, `getFrontPos` として整理。
+- 貫通/超貫通の「後ろ」判定もこの座標に合わせて修正。

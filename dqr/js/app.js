@@ -37,7 +37,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v45_battle_board_layout_restore';
+const DATA_VERSION = 'v46_battle_board_lr_coordinate';
 
 
 const HERO_SKILL_DEFS = {
@@ -1637,19 +1637,64 @@ function selectLeaderAttacker(){
   }
 }
 
-function getBehindPos(pos){
-  // Board is 3 columns x 2 rows per side. "Behind" means same column, back row.
-  const col = pos % 3;
-  const row = Math.floor(pos / 3);
-  return row === 0 ? col + 3 : col;
+function posToCoord(side, pos){
+  // Official-like board:
+  // rows: 0=上, 1=真ん中, 2=下
+  // cols: 0=自後列, 1=自前列, 2=相手前列, 3=相手後列
+  // stored positions are row-major within each side:
+  // player pos 0/1/2 = 自前列 上/中/下, pos 3/4/5 = 自後列 上/中/下
+  // enemy  pos 0/1/2 = 相手前列 上/中/下, pos 3/4/5 = 相手後列 上/中/下
+  const row = pos % 3;
+  if(side === 'player') return { row, col: pos < 3 ? 1 : 0 };
+  return { row, col: pos < 3 ? 2 : 3 };
+}
+function coordToPos(side, row, col){
+  if(side === 'player'){
+    if(col === 1) return row;
+    if(col === 0) return row + 3;
+  }else{
+    if(col === 2) return row;
+    if(col === 3) return row + 3;
+  }
+  return -1;
+}
+function getBehindPos(side, pos){
+  const c = posToCoord(side, pos);
+  if(side === 'player'){
+    // 相手から見て、自分前列の後ろは自分後列
+    return c.col === 1 ? coordToPos('player', c.row, 0) : -1;
+  }
+  // 自分から見て、相手前列の後ろは相手後列
+  return c.col === 2 ? coordToPos('enemy', c.row, 3) : -1;
+}
+function getFrontPos(side, pos){
+  const c = posToCoord(side, pos);
+  if(side === 'player') return c.col === 0 ? coordToPos('player', c.row, 1) : -1;
+  return c.col === 3 ? coordToPos('enemy', c.row, 2) : -1;
+}
+function isFrontRow(side, pos){
+  const c = posToCoord(side, pos);
+  return side === 'player' ? c.col === 1 : c.col === 2;
+}
+function isBackRow(side, pos){
+  const c = posToCoord(side, pos);
+  return side === 'player' ? c.col === 0 : c.col === 3;
+}
+function getSameRowPositions(row){
+  return {
+    playerBack: coordToPos('player', row, 0),
+    playerFront: coordToPos('player', row, 1),
+    enemyFront: coordToPos('enemy', row, 2),
+    enemyBack: coordToPos('enemy', row, 3)
+  };
 }
 
 function applyPiercingDamage(attacker, defenderRef, amount){
   const game = state.battle.game;
   if(!attacker?.keywords?.piercing && !attacker?.keywords?.superPiercing) return;
   const defBoard = defenderRef.side === 'player' ? game.player.board : game.enemy.board;
-  const behind = getBehindPos(defenderRef.pos);
-  if(behind !== defenderRef.pos && defBoard[behind]){
+  const behind = getBehindPos(defenderRef.side, defenderRef.pos);
+  if(behind >= 0 && behind !== defenderRef.pos && defBoard[behind]){
     damageUnit(defBoard[behind], amount);
     battleLog(`${attacker.keywords.superPiercing ? '超貫通' : '貫通'}：後ろのユニットにも${amount}ダメージ。`);
   }
