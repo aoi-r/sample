@@ -1,7 +1,7 @@
 import { firebaseConfig } from './firebase-config.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
-import { getDatabase, ref, set, push, remove, onValue, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js';
+import { getDatabase, ref, set, push, remove, onValue, serverTimestamp, get, update } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js';
 
 const state = {
   cards: [], allCards: [], systems: {}, strategies: {}, choices: {}, coin: {}, dungeons: {}, fortune: {}, heroes: {}, exchanges: {}, generatedCards: {}, tensionSystem: {},
@@ -37,7 +37,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v33-battle-screen-layout-match-wait';
+const DATA_VERSION = 'v34-battle-turn-sync-12slots';
 
 init().catch(err => {
   console.error(err);
@@ -154,6 +154,16 @@ function bindEvents(){
   if(endTurnTop) endTurnTop.addEventListener('click', endTurn);
   const zoom = $('battle-card-zoom');
   if(zoom) zoom.addEventListener('click', closeBattleCardZoom);
+  const battleExit = $('battle-exit');
+  if(battleExit) battleExit.addEventListener('click', () => $('battle-exit-modal').showModal());
+  const battleExitCancel = $('battle-exit-cancel');
+  if(battleExitCancel) battleExitCancel.addEventListener('click', () => $('battle-exit-modal').close());
+  const battleExitConfirm = $('battle-exit-confirm');
+  if(battleExitConfirm) battleExitConfirm.addEventListener('click', leaveBattleAsDefeat);
+  const heroSkillBtn = $('hero-skill-button');
+  if(heroSkillBtn) heroSkillBtn.addEventListener('click', openHeroSkillModal);
+  const heroSkillClose = $('hero-skill-close');
+  if(heroSkillClose) heroSkillClose.addEventListener('click', () => $('hero-skill-modal').close());
   const deckConfirmClose = $('deck-confirm-close');
   if(deckConfirmClose) deckConfirmClose.addEventListener('click', () => $('deck-confirm-modal').close());
   $('modal-close').addEventListener('click', () => $('card-modal').close());
@@ -489,20 +499,133 @@ async function startMatch(){
 
 
 
+
 function subscribeRoomPlayers(){
   if(!state.firebase.enabled || !state.firebase.db || !state.battle.roomId) return;
   const playersRef = ref(state.firebase.db, `rooms/${state.battle.roomId}/players`);
-  onValue(playersRef, snap => {
+  onValue(playersRef, async snap => {
     const players = snap.val() || {};
-    const others = Object.values(players).filter(p => p.playerId !== state.playerId);
+    const playerList = Object.values(players).filter(Boolean);
+    const others = playerList.filter(p => p.playerId !== state.playerId);
     if(others.length){
       $('battle-status').textContent = `対戦相手: ${others[0].displayName || others[0].playerId}`;
-      battleLog(`${others[0].displayName || others[0].playerId} が入室しました。`);
+      const sorted = playerList.map(p => p.playerId).sort((a,b)=>a.localeCompare(b,'ja'));
+      const firstPlayerId = sorted[0];
+      if(state.firebase.db && state.battle.roomId){
+        const metaRef = ref(state.firebase.db, `rooms/${state.battle.roomId}/meta`);
+        const metaSnap = await get(metaRef);
+        if(!metaSnap.exists()){
+          await set(metaRef, {
+            firstPlayerId,
+            currentTurnPlayerId: firstPlayerId,
+            createdAt: serverTimestamp(),
+            status: 'playing'
+          });
+        }
+      }
     }else{
       $('battle-status').textContent = `入室: ${state.battle.matchId} / 相手待ち`;
     }
     renderBattleLog();
   });
+
+  const metaRef = ref(state.firebase.db, `rooms/${state.battle.roomId}/meta`);
+  onValue(metaRef, snap => {
+    const meta = snap.val();
+    if(!meta || !state.battle.game) return;
+    state.battle.game.currentTurnPlayerId = meta.currentTurnPlayerId || state.playerId;
+    state.battle.game.isMyTurn = state.battle.game.currentTurnPlayerId === state.playerId;
+    $('battle-status').textContent = state.battle.game.isMyTurn ? '自分のターン' : '相手のターン';
+    renderBattleArena();
+  });
+
+  const statesRef = ref(state.firebase.db, `rooms/${state.battle.roomId}/states`);
+  onValue(statesRef, snap => {
+    const states = snap.val() || {};
+    state.battle.remoteStates = states;
+    applyRemoteOpponentState(states);
+  });
+}
+
+async function syncMyBattleState(){
+  const game = state.battle.game;
+  if(!game || !state.firebase.enabled || !state.firebase.db || !state.battle.roomId) return;
+  const publicState = {
+    playerId: state.playerId,
+    displayName: state.username,
+    hp: game.player.hp,
+    maxMp: game.player.maxMp,
+    mp: game.player.mp,
+    tension: game.player.tension,
+    board: game.player.board,
+    handCount: game.player.hand.length,
+    deckCount: game.player.deck.length,
+    updatedAt: serverTimestamp()
+  };
+  try{
+    await set(ref(state.firebase.db, `rooms/${state.battle.roomId}/states/${state.playerId}`), publicState);
+  }catch(e){ console.warn('syncMyBattleState failed', e); }
+}
+
+function applyRemoteOpponentState(states){
+  const game = state.battle.game;
+  if(!game) return;
+  const entry = Object.values(states || {}).find(s => s && s.playerId !== state.playerId);
+  if(!entry) return;
+  game.enemy.hp = entry.hp ?? game.enemy.hp;
+  game.enemy.maxMp = entry.maxMp ?? game.enemy.maxMp;
+  game.enemy.mp = entry.mp ?? game.enemy.mp;
+  game.enemy.tension = entry.tension ?? game.enemy.tension;
+  game.enemy.board = normalizeRemoteBoard(entry.board);
+  renderBattleArena();
+}
+
+function normalizeRemoteBoard(board){
+  const arr = Array(6).fill(null);
+  if(Array.isArray(board)){
+    for(let i=0;i<Math.min(6,board.length);i++) arr[i] = board[i] || null;
+  }else if(board && typeof board === 'object'){
+    for(const [k,v] of Object.entries(board)){
+      const i = Number(k);
+      if(i >= 0 && i < 6) arr[i] = v || null;
+    }
+  }
+  return arr;
+}
+
+async function advanceTurnToOpponent(){
+  if(!state.firebase.enabled || !state.firebase.db || !state.battle.roomId) return;
+  const playersSnap = await get(ref(state.firebase.db, `rooms/${state.battle.roomId}/players`));
+  const players = playersSnap.val() || {};
+  const ids = Object.keys(players).sort((a,b)=>a.localeCompare(b,'ja'));
+  if(ids.length < 2) return;
+  const next = ids.find(id => id !== state.playerId) || ids[0];
+  await update(ref(state.firebase.db, `rooms/${state.battle.roomId}/meta`), {
+    currentTurnPlayerId: next,
+    updatedAt: serverTimestamp()
+  });
+}
+
+async function leaveBattleAsDefeat(){
+  const roomId = state.battle.roomId;
+  $('battle-exit-modal').close();
+  if(state.firebase.enabled && state.firebase.db && roomId){
+    try{
+      await update(ref(state.firebase.db, `rooms/${roomId}/players/${state.playerId}`), {
+        status: 'defeated',
+        leftAt: serverTimestamp()
+      });
+    }catch(e){ console.warn(e); }
+  }
+  state.battle.game = null;
+  state.battle.matchId = '';
+  state.battle.roomId = '';
+  state.battle.selectedDeckId = '';
+  state.battle.selectedDeck = null;
+  $('battle-arena').classList.add('hidden');
+  $('battle-setup').classList.remove('hidden');
+  $('battle-status').textContent = '待機中';
+  renderBattleDeckList();
 }
 
 function initLocalBattleGame(){
@@ -514,6 +637,8 @@ function initLocalBattleGame(){
     className,
     phase: 'player',
     turn: 1,
+    currentTurnPlayerId: state.playerId,
+    isMyTurn: true,
     selectedHandIndex: null,
     selectedAttacker: null,
     player: {
@@ -524,6 +649,8 @@ function initLocalBattleGame(){
       tension: 0,
       tensionUsedThisTurn: false,
       leaderSkill: getBaseTensionSkill(className),
+      heroSkill: null,
+      heroLevel: 0,
       deck: deckList,
       hand,
       board: Array(6).fill(null)
@@ -598,6 +725,52 @@ function makeUnitFromCard(card){
   };
 }
 
+
+function parseKeywordFlags(card){
+  const text = String(card?.text || '');
+  return {
+    taunt: text.includes('におうだち'),
+    haste: text.includes('速攻'),
+    support: text.includes('おうえん'),
+    snipe: text.includes('ねらい撃ち'),
+    stealth: text.includes('ステルス'),
+    piercing: text.includes('貫通'),
+    metal: text.includes('メタルボディ'),
+    hardMetal: text.includes('ハードメタルボディ'),
+    doubleAttack: text.includes('2回攻撃'),
+    superPiercing: text.includes('超貫通')
+  };
+}
+
+function applySummonKeywords(unit, card){
+  const flags = parseKeywordFlags(card);
+  unit.keywords = flags;
+  if(flags.haste){
+    unit.canAttack = true;
+    unit.summoningSickness = false;
+  }
+  if(flags.support){
+    const game = state.battle.game;
+    game.player.tension = Math.min(3, game.player.tension + 1);
+    battleLog('おうえん：テンション+1。');
+  }
+}
+
+function hasEnemyTaunt(){
+  const game = state.battle.game;
+  return game.enemy.board.some(u => u?.keywords?.taunt);
+}
+
+function canTargetEnemyUnit(unit){
+  const game = state.battle.game;
+  const atkRef = game.selectedAttacker;
+  if(!atkRef) return true;
+  const atk = (atkRef.side === 'player' ? game.player.board : game.enemy.board)[atkRef.pos];
+  if(atk?.keywords?.snipe) return true;
+  if(hasEnemyTaunt()) return !!unit?.keywords?.taunt;
+  return true;
+}
+
 function cardCanBeSummoned(card){
   return card && card.cardType === 'ユニット';
 }
@@ -614,6 +787,8 @@ function renderBattleArena(){
   renderBattleBoard();
   renderBattleHand();
   renderBattleLog();
+  const heroBtn = $('hero-skill-button');
+  if(heroBtn) heroBtn.classList.toggle('hidden', !game.player.heroSkill);
 }
 
 function renderBattleBoard(){
@@ -684,6 +859,7 @@ function battleLog(text){
 
 function selectHandCard(index){
   const game = state.battle.game;
+  if(!game?.isMyTurn) return toast('相手のターンです。', false);
   const card = byId(game.player.hand[index]);
   if(!card) return;
   if(Number(card.cost || 0) > game.player.mp){
@@ -702,6 +878,7 @@ function selectHandCard(index){
 
 function handleEmptySlotClick(side, pos){
   const game = state.battle.game;
+  if(!game?.isMyTurn) return;
   if(side !== 'player') return;
   if(game.selectedHandIndex == null) return;
   const card = byId(game.player.hand[game.selectedHandIndex]);
@@ -720,7 +897,9 @@ function summonSelectedCard(pos){
   game.player.board[pos] = makeUnitFromCard(card);
   game.selectedHandIndex = null;
   battleLog(`${card.name}を召喚しました。`);
+  applySummonKeywords(game.player.board[pos], card);
   renderBattleArena();
+  syncMyBattleState();
 }
 
 function useNonUnitCard(index, card){
@@ -730,15 +909,17 @@ function useNonUnitCard(index, card){
   game.player.hand.splice(index, 1);
   // 基礎版: 特技/武器/ヒーローはまずログだけ。効果は順次個別実装。
   if(card.cardType === 'ヒーロー'){
-    battleLog(`${card.name}を使用。ヒーロースキルが有効になりました。`);
+    activateHeroCard(card);
   }else{
     battleLog(`${card.name}を使用しました。効果処理は次フェーズで個別実装します。`);
   }
   renderBattleArena();
+  syncMyBattleState();
 }
 
 function handleBoardClick(side, pos){
   const game = state.battle.game;
+  if(!game?.isMyTurn && side === 'player') return toast('相手のターンです。', false);
   const board = side === 'player' ? game.player.board : game.enemy.board;
   const unit = board[pos];
   if(!unit) return;
@@ -754,6 +935,7 @@ function handleBoardClick(side, pos){
     return;
   }
   if(game.selectedAttacker){
+    if(side === 'enemy' && !canTargetEnemyUnit(unit)) return toast('におうだちを持つユニットを先に攻撃してください。', false);
     attackUnit(game.selectedAttacker, {side, pos});
   }
 }
@@ -772,10 +954,12 @@ function attackUnit(attackerRef, defenderRef){
   resolveDeaths();
   game.selectedAttacker = null;
   renderBattleArena();
+  syncMyBattleState();
 }
 
 function attackLeader(targetSide){
   const game = state.battle.game;
+  if(targetSide === 'enemy' && hasEnemyTaunt()) return toast('におうだちを持つユニットを先に攻撃してください。', false);
   if(!game.selectedAttacker) return;
   const atkBoard = game.selectedAttacker.side === 'player' ? game.player.board : game.enemy.board;
   const atk = atkBoard[game.selectedAttacker.pos];
@@ -786,6 +970,7 @@ function attackLeader(targetSide){
   battleLog(`${atk.name}が${targetSide === 'enemy' ? '敵リーダー' : '自分リーダー'}に${atk.attack}ダメージ。`);
   game.selectedAttacker = null;
   renderBattleArena();
+  syncMyBattleState();
   if(target.hp <= 0) toast(targetSide === 'enemy' ? '勝利！' : '敗北…', targetSide === 'enemy');
 }
 
@@ -804,6 +989,7 @@ function resolveDeaths(){
 
 function useOrChargeTension(){
   const game = state.battle.game;
+  if(!game?.isMyTurn) return toast('相手のターンです。', false);
   if(!game) return;
   if(game.player.tension >= 3){
     applyTensionSkill(game.player.leaderSkill);
@@ -818,6 +1004,7 @@ function useOrChargeTension(){
     battleLog(`テンションが${game.player.tension}段階になりました。`);
   }
   renderBattleArena();
+  syncMyBattleState();
 }
 
 function applyTensionSkill(skill){
@@ -878,8 +1065,9 @@ function renderTension(){
   $('tension-button').title = game.player.tension >= 3 ? `テンションスキル: ${game.player.leaderSkill?.skillName || ''}` : 'テンションをためる';
 }
 
-function endTurn(){
+async function endTurn(){
   const game = state.battle.game;
+  if(!game?.isMyTurn) return toast('相手のターンです。', false);
   if(!game) return;
   game.turn += 1;
   game.player.maxMp = Math.min(10, game.player.maxMp + 1);
@@ -894,6 +1082,70 @@ function endTurn(){
   drawCard(1);
   battleLog(`ターン${game.turn}: MPが${game.player.mp}になりました。`);
   renderBattleArena();
+  syncMyBattleState();
+  advanceTurnToOpponent();
+}
+
+
+function activateHeroCard(card){
+  const game = state.battle.game;
+  game.player.heroSkill = {
+    heroCardName: card.name,
+    level: 1,
+    currentCardName: getHeroLevelCardName(card.name, 1)
+  };
+  game.player.heroLevel = 1;
+  battleLog(`${card.name}のヒーロースキルが使えるようになりました。`);
+}
+
+function getHeroLevelCardName(heroName, level){
+  const map = {
+    'ロトの血を引く者': ['たたかう','王女救出','竜王一閃'],
+    '天空の花嫁ビアンカ': ['なかまとの出会い','天空への挑戦','家族の絆'],
+    '天空の花嫁フローラ': ['癒しをあなたに','天空への挑戦','贈り物をみんなに'],
+    '天空の花嫁デボラ': ['この手に切り札を','アゲていくわよ','小魚への施し'],
+    '勇者姫アンルシア': ['勇者の雷','覚醒の光','裁きを彼らに'],
+    '大魔王ゾーマ': ['滅びこそ我が喜び','死にゆく者こそ美しい','我が腕の中で息絶えるがいい'],
+    'ムーンブルクの王女': ['わたしのとくいわざ','導かれし者たち','精霊ルビスの加護']
+  };
+  return map[heroName]?.[level-1] || `レベル${level}ヒーロースキル`;
+}
+
+function openHeroSkillModal(){
+  const game = state.battle.game;
+  const hs = game?.player?.heroSkill;
+  if(!hs) return toast('ヒーローカードを使用すると使えるようになります。', false);
+  $('hero-skill-title').textContent = `${hs.heroCardName} Lv.${hs.level}`;
+  const card = state.allCards.find(c => c.name === hs.currentCardName);
+  const img = card ? getOfficialImage(card) : '';
+  $('hero-skill-body').innerHTML = `
+    <div class="hero-skill-confirm">
+      ${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(hs.currentCardName)}" referrerpolicy="no-referrer">` : ''}
+      <div>
+        <h4>${escapeHtml(hs.currentCardName)}</h4>
+        <p>${escapeHtml(card?.text || 'ヒーロースキルを使用します。')}</p>
+        <button id="use-hero-skill-confirm" class="primary">使用する</button>
+      </div>
+    </div>`;
+  $('use-hero-skill-confirm').addEventListener('click', useHeroSkillCard);
+  $('hero-skill-modal').showModal();
+}
+
+function useHeroSkillCard(){
+  const game = state.battle.game;
+  if(!game?.isMyTurn) return toast('相手のターンです。', false);
+  const hs = game.player.heroSkill;
+  if(!hs) return;
+  battleLog(`${hs.currentCardName}を使用しました。`);
+  // 条件判定は個別実装前なので、基礎版では使用後に次レベルへ進める。
+  if(hs.level < 3){
+    hs.level += 1;
+    hs.currentCardName = getHeroLevelCardName(hs.heroCardName, hs.level);
+    battleLog(`ヒーロースキルがLv.${hs.level}に進化しました。`);
+  }
+  $('hero-skill-modal').close();
+  renderBattleArena();
+  syncMyBattleState();
 }
 
 function attachLongPress(el, callback){

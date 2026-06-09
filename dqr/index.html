@@ -71,7 +71,7 @@
         </section>
 
         <section id="battle-arena" class="battle-arena hidden">
-          <div class="battle-top-command"><div id="battle-turn-label" class="battle-turn-label">TURN 1</div><button id="end-turn-top" class="turn-end-main">ターン終了</button></div>
+          <button id="battle-exit" class="battle-exit">退出</button><div class="battle-top-command"><div id="battle-turn-label" class="battle-turn-label">TURN 1</div><button id="end-turn-top" class="turn-end-main">ターン終了</button></div>
           <div class="enemy-hud">
             <div class="leader-name">相手</div>
             <div class="hp-pill">HP <b id="enemy-hp">25</b></div>
@@ -83,16 +83,31 @@
               <span>敵<br>リーダー</span>
             </div>
 
-            <div class="unit-zones">
-              <div class="unit-row enemy-row">
-                <button class="unit-slot" data-side="enemy" data-pos="0"></button>
-                <button class="unit-slot" data-side="enemy" data-pos="1"></button>
-                <button class="unit-slot" data-side="enemy" data-pos="2"></button>
+            <div class="unit-zones twelve-zones">
+              <div class="side-board enemy-board">
+                <div class="unit-row enemy-row">
+                  <button class="unit-slot" data-side="enemy" data-pos="0"></button>
+                  <button class="unit-slot" data-side="enemy" data-pos="1"></button>
+                  <button class="unit-slot" data-side="enemy" data-pos="2"></button>
+                </div>
+                <div class="unit-row enemy-row">
+                  <button class="unit-slot" data-side="enemy" data-pos="3"></button>
+                  <button class="unit-slot" data-side="enemy" data-pos="4"></button>
+                  <button class="unit-slot" data-side="enemy" data-pos="5"></button>
+                </div>
               </div>
-              <div class="unit-row player-row">
-                <button class="unit-slot" data-side="player" data-pos="0"></button>
-                <button class="unit-slot" data-side="player" data-pos="1"></button>
-                <button class="unit-slot" data-side="player" data-pos="2"></button>
+              <div class="board-gap"></div>
+              <div class="side-board player-board">
+                <div class="unit-row player-row">
+                  <button class="unit-slot" data-side="player" data-pos="0"></button>
+                  <button class="unit-slot" data-side="player" data-pos="1"></button>
+                  <button class="unit-slot" data-side="player" data-pos="2"></button>
+                </div>
+                <div class="unit-row player-row">
+                  <button class="unit-slot" data-side="player" data-pos="3"></button>
+                  <button class="unit-slot" data-side="player" data-pos="4"></button>
+                  <button class="unit-slot" data-side="player" data-pos="5"></button>
+                </div>
               </div>
             </div>
 
@@ -102,6 +117,7 @@
           </div>
 
           <div class="player-hud">
+            <button id="hero-skill-button" class="hero-skill-orb hidden" title="ヒーロースキル">Hero</button>
             <button id="tension-button" class="tension-orb" title="テンション">
               <span class="sword">⚔</span>
               <span id="tension-pips" class="tension-pips"><i></i><i></i><i></i></span>
@@ -116,6 +132,26 @@
         </section>
       </main>
     </section>
+
+
+    <dialog id="battle-exit-modal" class="card-modal battle-exit-modal">
+      <div class="modal-head">
+        <h3>バトルから退出しますか？</h3>
+        <button id="battle-exit-cancel" class="ghost">×</button>
+      </div>
+      <div class="modal-body">
+        <p>退出すると敗北扱いになり、マッチング前の画面に戻ります。</p>
+        <button id="battle-exit-confirm" class="primary danger-btn">敗北して退出</button>
+      </div>
+    </dialog>
+
+    <dialog id="hero-skill-modal" class="card-modal hero-skill-modal">
+      <div class="modal-head">
+        <h3 id="hero-skill-title">ヒーロースキル</h3>
+        <button id="hero-skill-close" class="ghost">×</button>
+      </div>
+      <div id="hero-skill-body" class="modal-body"></div>
+    </dialog>
 
     <dialog id="battle-deck-modal" class="card-modal">
       <div class="modal-head">

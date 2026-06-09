@@ -3267,3 +3267,115 @@
     width:50px !important;
   }
 }
+
+
+/* v34: 12-slot board, exit, turn sync, hero skill controls */
+.battle-exit{
+  position:absolute;
+  top:8px;
+  left:10px;
+  z-index:8;
+  padding:7px 12px;
+  border-radius:999px;
+  background:rgba(14,22,40,.82);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.28);
+  font-weight:900;
+}
+.danger-btn{
+  background:linear-gradient(180deg,#ff8a8a,#b72d3b)!important;
+  color:#fff!important;
+}
+.twelve-zones{
+  display:grid!important;
+  grid-template-rows:auto 18px auto!important;
+  gap:0!important;
+}
+.side-board{
+  display:grid;
+  grid-template-rows:1fr 1fr;
+  gap:10px;
+}
+.board-gap{
+  height:18px;
+}
+.enemy-board{
+  align-self:end;
+}
+.player-board{
+  align-self:start;
+}
+.hero-skill-orb{
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 25%,#ffe9a3,#9b6b18 62%,#3c2407);
+  color:#2c1700;
+  border:3px solid rgba(255,255,255,.35);
+  font-weight:900;
+  box-shadow:0 0 14px rgba(255,210,90,.45);
+}
+.hero-skill-orb.hidden{
+  display:none;
+}
+.hero-skill-confirm{
+  display:grid;
+  grid-template-columns:140px 1fr;
+  gap:16px;
+  align-items:start;
+}
+.hero-skill-confirm img{
+  width:140px;
+  border-radius:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,.55);
+}
+#battle-status{
+  min-width:120px;
+  text-align:center;
+}
+.unit-slot[data-side="enemy"]{
+  cursor:crosshair;
+}
+.unit-slot[data-side="player"]{
+  cursor:pointer;
+}
+.unit-slot .unit-keyword{
+  position:absolute;
+  top:2px;
+  left:2px;
+  font-size:9px;
+  background:#f5c64b;
+  color:#221500;
+  border-radius:999px;
+  padding:1px 4px;
+}
+
+@media(max-width:900px) and (orientation:landscape){
+  .battle-exit{
+    top:5px;
+    left:6px;
+    padding:4px 8px;
+    font-size:10px;
+  }
+  .twelve-zones{
+    grid-template-rows:auto 10px auto!important;
+  }
+  .side-board{
+    gap:6px;
+  }
+  .board-gap{
+    height:10px;
+  }
+  .hero-skill-orb{
+    width:42px;
+    height:42px;
+    font-size:10px;
+  }
+  .hero-skill-confirm{
+    grid-template-columns:90px 1fr;
+    gap:10px;
+  }
+  .hero-skill-confirm img{
+    width:90px;
+  }
+}
