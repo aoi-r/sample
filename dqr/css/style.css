@@ -2708,3 +2708,221 @@
     font-size:7.6px !important;
   }
 }
+
+
+/* v31: remove JSON export, compact 30-card overview confirmation */
+.deck-confirm-modal{
+  width:min(1040px,96vw) !important;
+  max-height:94dvh !important;
+}
+
+.deck-confirm-summary{
+  padding:8px 14px !important;
+}
+
+.deck-confirm-grid{
+  padding:10px !important;
+  max-height:76dvh !important;
+  display:grid !important;
+  grid-template-columns:repeat(10, minmax(58px, 1fr)) !important;
+  gap:6px !important;
+  align-items:start !important;
+}
+
+.deck-confirm-card{
+  min-height:0 !important;
+  padding:2px !important;
+  border-radius:6px !important;
+  background:transparent !important;
+  border:0 !important;
+  overflow:visible !important;
+  box-shadow:none !important;
+}
+
+.deck-confirm-card img,
+.deck-confirm-card .no-img{
+  width:100% !important;
+  aspect-ratio:5/7 !important;
+  object-fit:cover !important;
+  object-position:top center !important;
+  border-radius:5px !important;
+  box-shadow:0 2px 8px rgba(0,0,0,.45) !important;
+}
+
+.deck-confirm-card b{
+  top:0 !important;
+  right:0 !important;
+  font-size:10px !important;
+  padding:0 5px !important;
+}
+
+.deck-confirm-card span{
+  display:none !important;
+}
+
+/* Action area after removing JSON export */
+@media (max-width: 900px) and (orientation: landscape){
+  .actions-grid{
+    gap:4px !important;
+  }
+  .actions-grid button,
+  .actions-grid .file-label{
+    min-height:25px !important;
+    height:auto !important;
+  }
+  #save-deck{
+    min-height:34px !important;
+  }
+
+  .deck-confirm-modal{
+    width:94vw !important;
+    max-height:90dvh !important;
+  }
+
+  .deck-confirm-summary{
+    padding:5px 8px !important;
+    font-size:10px !important;
+  }
+
+  .deck-confirm-summary strong{
+    font-size:13px !important;
+  }
+
+  .deck-confirm-grid{
+    grid-template-columns:repeat(10, minmax(42px, 1fr)) !important;
+    gap:4px !important;
+    padding:7px !important;
+    max-height:73dvh !important;
+  }
+
+  .deck-confirm-card img,
+  .deck-confirm-card .no-img{
+    border-radius:4px !important;
+  }
+
+  .deck-confirm-card b{
+    font-size:8px !important;
+    padding:0 4px !important;
+  }
+}
+
+@media (max-width: 760px) and (orientation: landscape){
+  .deck-confirm-grid{
+    grid-template-columns:repeat(10, minmax(36px, 1fr)) !important;
+    gap:3px !important;
+  }
+}
+
+
+/* v32: basic battle engine UI */
+.battle-log{
+  color:#d8e1ff;
+  font-size:12px;
+  padding:6px 10px;
+  background:rgba(0,0,0,.28);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:12px;
+  min-height:34px;
+  overflow:hidden;
+}
+.unit-slot{
+  position:relative;
+  overflow:hidden;
+}
+.unit-slot.has-unit{
+  background:#101827;
+  border-color:rgba(226,194,111,.7);
+}
+.unit-slot.selected{
+  box-shadow:0 0 0 3px rgba(245,198,75,.65), 0 0 20px rgba(245,198,75,.35);
+}
+.unit-slot img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:top;
+  display:block;
+}
+.unit-atk,.unit-hp{
+  position:absolute;
+  bottom:3px;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  font-weight:900;
+  font-size:13px;
+  text-shadow:0 1px 2px #000;
+}
+.unit-atk{
+  left:3px;
+  background:#c53d48;
+}
+.unit-hp{
+  right:3px;
+  background:#1fb26d;
+}
+.hand-card.selected{
+  box-shadow:0 0 0 3px rgba(245,198,75,.75);
+}
+.hand-card.unplayable{
+  opacity:.48;
+}
+.battle-card-zoom{
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  display:grid;
+  place-items:center;
+  background:rgba(0,0,0,.72);
+}
+.battle-card-zoom.hidden{
+  display:none;
+}
+.battle-card-zoom img{
+  max-width:min(360px,82vw);
+  max-height:86dvh;
+  border-radius:16px;
+  box-shadow:0 20px 90px rgba(0,0,0,.85);
+}
+.tension-orb.ready::after{
+  content:"SKILL";
+  position:absolute;
+  top:-8px;
+  right:-12px;
+  font-size:10px;
+  padding:2px 6px;
+  border-radius:999px;
+  background:#f4c84b;
+  color:#221500;
+  font-weight:900;
+}
+
+@media(max-width:900px) and (orientation:landscape){
+  .battle-arena{
+    grid-template-rows:24px 1fr 46px 78px 30px !important;
+  }
+  .battle-log{
+    font-size:9px;
+    padding:4px 7px;
+    min-height:26px;
+  }
+  .unit-atk,.unit-hp{
+    width:18px;
+    height:18px;
+    font-size:10px;
+  }
+  .hand-card{
+    flex-basis:62px !important;
+    height:74px !important;
+  }
+  .hand-card span{
+    font-size:8px !important;
+  }
+  .battle-card-zoom img{
+    max-height:82dvh;
+    max-width:34vw;
+  }
+}

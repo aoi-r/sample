@@ -111,6 +111,7 @@
           </div>
 
           <div id="player-hand" class="player-hand"></div>
+          <div id="battle-log" class="battle-log"></div>
         </section>
       </main>
     </section>
@@ -159,7 +160,6 @@
             <button id="save-deck" class="primary">Firebase保存</button>
             <button id="clear-deck" class="secondary">リセット</button>
             <button id="confirm-deck-view" class="secondary">確認</button>
-            <button id="export-deck" class="secondary">JSON出力</button>
             <label class="secondary file-label">読込<input id="import-deck" type="file" accept="application/json" hidden /></label>
           </div>
 
@@ -234,6 +234,11 @@
       <h2>端末を横向きにしてください</h2>
       <p>デッキ作成は横画面で遊びやすくなります。<br>Safariでは自動回転できないため、端末を回転してください。</p>
     </div>
+  </div>
+
+
+  <div id="battle-card-zoom" class="battle-card-zoom hidden" aria-hidden="true">
+    <img id="battle-card-zoom-img" alt="カード拡大" />
   </div>
 
   <script type="module" src="./js/app.js"></script>

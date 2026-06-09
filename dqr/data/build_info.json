@@ -1,5 +1,5 @@
 {
-  "version": "v30-mobile-dense-card-strip",
+  "version": "v32-battle-core-basic",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -29,6 +29,9 @@
   "playerIdSpec": "初回のみ固定プレイヤーIDを必須入力。localStorageに保存し、Firebase保存パスは players/{playerId}/decks。",
   "battleScaffold": "保存済みデッキ選択、デッキ確認モーダル、合言葉IDマッチング、盤面/HP/MP/テンション/手札の初期UIを追加。",
   "fix": "スマホSafariでタイトル画面から進まない可能性に対し、画面遷移を先に実行し、全画面/横向き試行を非同期fire-and-forgetに変更。",
-  "deckConfirm": "デッキ編成画面に確認ボタンを追加し、画像付き一覧モーダルで確認可能にした。",
-  "layoutFix": "スマホ横向きでカード間隔/上下余白をさらに圧縮し、コレクションカードを大型化。右側アクションボタンの見切れを軽減。"
+  "deckConfirm": "確認画面を30枚俯瞰しやすい敷き詰めグリッドに変更。",
+  "layoutFix": "スマホ横向きでカード間隔/上下余白をさらに圧縮し、コレクションカードを大型化。右側アクションボタンの見切れを軽減。",
+  "firebase": "Firebase config embedded in js/firebase-config.js for dqr-sample.",
+  "removed": "JSON出力ボタンを削除。",
+  "battleEngine": "開始時手札、ヒーロー確定手札、召喚、攻撃、死亡、HP/MP/テンション、テンションスキル基礎、長押し拡大を実装。"
 }

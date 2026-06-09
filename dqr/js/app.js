@@ -37,7 +37,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v30-mobile-dense-card-strip';
+const DATA_VERSION = 'v32-battle-core-basic';
 
 init().catch(err => {
   console.error(err);
@@ -141,7 +141,6 @@ function bindEvents(){
   $('save-deck').addEventListener('click', saveDeck);
   const confirmDeckBtn = $('confirm-deck-view');
   if(confirmDeckBtn) confirmDeckBtn.addEventListener('click', showDeckConfirm);
-  $('export-deck').addEventListener('click', exportDeck);
   $('import-deck').addEventListener('change', importDeck);
   const battleModalClose = $('battle-deck-modal-close');
   if(battleModalClose) battleModalClose.addEventListener('click', () => $('battle-deck-modal').close());
@@ -151,6 +150,8 @@ function bindEvents(){
   if(tensionBtn) tensionBtn.addEventListener('click', useOrChargeTension);
   const endTurnBtn = $('end-turn');
   if(endTurnBtn) endTurnBtn.addEventListener('click', endTurn);
+  const zoom = $('battle-card-zoom');
+  if(zoom) zoom.addEventListener('click', closeBattleCardZoom);
   const deckConfirmClose = $('deck-confirm-close');
   if(deckConfirmClose) deckConfirmClose.addEventListener('click', () => $('deck-confirm-modal').close());
   $('modal-close').addEventListener('click', () => $('card-modal').close());
@@ -483,30 +484,72 @@ async function startMatch(){
   renderBattleArena();
 }
 
+
 function initLocalBattleGame(){
   const deck = state.battle.selectedDeck;
   const className = deck.className || '戦士';
+  const deckList = buildOpeningDeck(deck);
+  const hand = drawOpeningHand(deckList, 4);
   state.battle.game = {
     className,
+    phase: 'player',
     turn: 1,
+    selectedHandIndex: null,
+    selectedAttacker: null,
     player: {
       hp: 25,
+      maxHp: 25,
       maxMp: 1,
       mp: 1,
       tension: 0,
-      tensionSkillUsedThisTurn: false,
+      tensionUsedThisTurn: false,
       leaderSkill: getBaseTensionSkill(className),
-      hand: expandDeckCards(deck).slice(0, 5),
+      deck: deckList,
+      hand,
       board: Array(6).fill(null)
     },
     enemy: {
       hp: 25,
+      maxHp: 25,
       maxMp: 1,
       mp: 1,
       tension: 0,
-      board: Array(6).fill(null)
-    }
+      board: makeDummyEnemyBoard()
+    },
+    log: []
   };
+  battleLog('バトル開始。ヒーローカードはサマルトリアの王子以外、開始時手札に入りました。');
+}
+
+function buildOpeningDeck(deck){
+  const all = expandDeckCards(deck);
+  const heroIds = [];
+  const rest = [];
+  for(const id of all){
+    const c = byId(id);
+    if(c?.cardType === 'ヒーロー' && c.name !== 'サマルトリアの王子') heroIds.push(id);
+    else rest.push(id);
+  }
+  shuffle(rest);
+  return [...heroIds, ...rest];
+}
+
+function drawOpeningHand(deckList, desiredCount=4){
+  const hand = [];
+  while(hand.length < desiredCount && deckList.length) hand.push(deckList.shift());
+  return hand;
+}
+
+function makeDummyEnemyBoard(){
+  return Array(6).fill(null);
+}
+
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
 }
 
 function expandDeckCards(deck){
@@ -522,6 +565,23 @@ function getBaseTensionSkill(className){
   return skills.find(s => s.class === className) || null;
 }
 
+function makeUnitFromCard(card){
+  return {
+    id: `${card.id}_${Date.now()}_${Math.random().toString(16).slice(2)}`,
+    cardId: card.id,
+    name: card.name,
+    attack: Number(card.attack ?? 0),
+    hp: Number(card.hp ?? 1),
+    maxHp: Number(card.hp ?? 1),
+    canAttack: false,
+    summoningSickness: true
+  };
+}
+
+function cardCanBeSummoned(card){
+  return card && card.cardType === 'ユニット';
+}
+
 function renderBattleArena(){
   const game = state.battle.game;
   if(!game) return;
@@ -530,17 +590,250 @@ function renderBattleArena(){
   $('player-mp').textContent = `${game.player.mp}/${game.player.maxMp}`;
   $('enemy-mp').textContent = `${game.enemy.mp}/${game.enemy.maxMp}`;
   renderTension();
+  renderBattleBoard();
+  renderBattleHand();
+  renderBattleLog();
+}
+
+function renderBattleBoard(){
+  const game = state.battle.game;
+  document.querySelectorAll('.unit-slot').forEach(slot => {
+    const side = slot.dataset.side;
+    const pos = Number(slot.dataset.pos);
+    const board = side === 'player' ? game.player.board : game.enemy.board;
+    const unit = board[pos];
+    slot.classList.toggle('has-unit', !!unit);
+    slot.classList.toggle('selected', game.selectedAttacker?.side === side && game.selectedAttacker?.pos === pos);
+    if(unit){
+      const card = byId(unit.cardId);
+      const img = getOfficialImage(card);
+      slot.innerHTML = `${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(unit.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span class="unit-atk">${unit.attack}</span><span class="unit-hp">${unit.hp}</span>`;
+      slot.onclick = () => handleBoardClick(side, pos);
+      attachLongPress(slot, () => showBattleCardZoom(card));
+    }else{
+      slot.innerHTML = '';
+      slot.onclick = () => handleEmptySlotClick(side, pos);
+    }
+  });
+  document.querySelector('.enemy-leader').onclick = () => attackLeader('enemy');
+  document.querySelector('.player-leader').onclick = () => attackLeader('player');
+}
+
+function renderBattleHand(){
+  const game = state.battle.game;
   const hand = $('player-hand');
   hand.innerHTML = '';
-  for(const id of game.player.hand){
+  game.player.hand.forEach((id, index) => {
     const card = byId(id);
-    if(!card) continue;
+    if(!card) return;
     const btn = document.createElement('button');
-    btn.className = 'hand-card';
+    btn.className = `hand-card ${game.selectedHandIndex === index ? 'selected' : ''}`;
     const img = getOfficialImage(card);
+    const playable = Number(card.cost || 0) <= game.player.mp;
+    btn.classList.toggle('unplayable', !playable);
     btn.innerHTML = `${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span>${escapeHtml(card.name)}</span>`;
-    btn.addEventListener('click', () => toast('カード使用処理は次フェーズで実装します。'));
+    btn.addEventListener('click', () => selectHandCard(index));
+    attachLongPress(btn, () => showBattleCardZoom(card));
     hand.appendChild(btn);
+  });
+}
+
+function renderBattleLog(){
+  const box = $('battle-log');
+  if(!box) return;
+  box.innerHTML = (state.battle.game?.log || []).slice(-3).map(escapeHtml).join('<br>');
+}
+
+function battleLog(text){
+  const game = state.battle.game;
+  if(!game) return;
+  game.log.push(text);
+}
+
+function selectHandCard(index){
+  const game = state.battle.game;
+  const card = byId(game.player.hand[index]);
+  if(!card) return;
+  if(Number(card.cost || 0) > game.player.mp){
+    toast('MPが足りません。', false);
+    return;
+  }
+  if(cardCanBeSummoned(card)){
+    game.selectedHandIndex = index;
+    game.selectedAttacker = null;
+    battleLog(`${card.name}：召喚先を選んでください。`);
+    renderBattleArena();
+  }else{
+    useNonUnitCard(index, card);
+  }
+}
+
+function handleEmptySlotClick(side, pos){
+  const game = state.battle.game;
+  if(side !== 'player') return;
+  if(game.selectedHandIndex == null) return;
+  const card = byId(game.player.hand[game.selectedHandIndex]);
+  if(!cardCanBeSummoned(card)) return;
+  summonSelectedCard(pos);
+}
+
+function summonSelectedCard(pos){
+  const game = state.battle.game;
+  if(game.player.board[pos]) return;
+  const index = game.selectedHandIndex;
+  const card = byId(game.player.hand[index]);
+  if(!card || Number(card.cost || 0) > game.player.mp) return;
+  game.player.mp -= Number(card.cost || 0);
+  game.player.hand.splice(index, 1);
+  game.player.board[pos] = makeUnitFromCard(card);
+  game.selectedHandIndex = null;
+  battleLog(`${card.name}を召喚しました。`);
+  renderBattleArena();
+}
+
+function useNonUnitCard(index, card){
+  const game = state.battle.game;
+  if(Number(card.cost || 0) > game.player.mp) return;
+  game.player.mp -= Number(card.cost || 0);
+  game.player.hand.splice(index, 1);
+  // 基礎版: 特技/武器/ヒーローはまずログだけ。効果は順次個別実装。
+  if(card.cardType === 'ヒーロー'){
+    battleLog(`${card.name}を使用。ヒーロースキルが有効になりました。`);
+  }else{
+    battleLog(`${card.name}を使用しました。効果処理は次フェーズで個別実装します。`);
+  }
+  renderBattleArena();
+}
+
+function handleBoardClick(side, pos){
+  const game = state.battle.game;
+  const board = side === 'player' ? game.player.board : game.enemy.board;
+  const unit = board[pos];
+  if(!unit) return;
+  if(side === 'player'){
+    if(unit.canAttack){
+      game.selectedAttacker = {side, pos};
+      game.selectedHandIndex = null;
+      battleLog(`${unit.name}：攻撃対象を選んでください。`);
+    }else{
+      battleLog(`${unit.name}はまだ攻撃できません。`);
+    }
+    renderBattleArena();
+    return;
+  }
+  if(game.selectedAttacker){
+    attackUnit(game.selectedAttacker, {side, pos});
+  }
+}
+
+function attackUnit(attackerRef, defenderRef){
+  const game = state.battle.game;
+  const atkBoard = attackerRef.side === 'player' ? game.player.board : game.enemy.board;
+  const defBoard = defenderRef.side === 'player' ? game.player.board : game.enemy.board;
+  const atk = atkBoard[attackerRef.pos];
+  const def = defBoard[defenderRef.pos];
+  if(!atk || !def || !atk.canAttack) return;
+  def.hp -= atk.attack;
+  atk.hp -= def.attack;
+  atk.canAttack = false;
+  battleLog(`${atk.name}が${def.name}を攻撃。`);
+  resolveDeaths();
+  game.selectedAttacker = null;
+  renderBattleArena();
+}
+
+function attackLeader(targetSide){
+  const game = state.battle.game;
+  if(!game.selectedAttacker) return;
+  const atkBoard = game.selectedAttacker.side === 'player' ? game.player.board : game.enemy.board;
+  const atk = atkBoard[game.selectedAttacker.pos];
+  if(!atk || !atk.canAttack) return;
+  const target = targetSide === 'enemy' ? game.enemy : game.player;
+  target.hp = Math.max(0, target.hp - atk.attack);
+  atk.canAttack = false;
+  battleLog(`${atk.name}が${targetSide === 'enemy' ? '敵リーダー' : '自分リーダー'}に${atk.attack}ダメージ。`);
+  game.selectedAttacker = null;
+  renderBattleArena();
+  if(target.hp <= 0) toast(targetSide === 'enemy' ? '勝利！' : '敗北…', targetSide === 'enemy');
+}
+
+function resolveDeaths(){
+  const game = state.battle.game;
+  for(const side of ['player','enemy']){
+    const player = side === 'player' ? game.player : game.enemy;
+    player.board.forEach((unit, i) => {
+      if(unit && unit.hp <= 0){
+        battleLog(`${unit.name}は死亡しました。`);
+        player.board[i] = null;
+      }
+    });
+  }
+}
+
+function useOrChargeTension(){
+  const game = state.battle.game;
+  if(!game) return;
+  if(game.player.tension >= 3){
+    applyTensionSkill(game.player.leaderSkill);
+    game.player.tension = 0;
+    game.player.tensionUsedThisTurn = true;
+  }else{
+    if(game.player.mp < 1) return toast('MPが足りません。', false);
+    if(game.player.tensionUsedThisTurn) return toast('このターンは既にテンション操作済みです。', false);
+    game.player.mp -= 1;
+    game.player.tension = Math.min(3, game.player.tension + 1);
+    game.player.tensionUsedThisTurn = true;
+    battleLog(`テンションが${game.player.tension}段階になりました。`);
+  }
+  renderBattleArena();
+}
+
+function applyTensionSkill(skill){
+  const game = state.battle.game;
+  const name = skill?.skillName || 'テンションスキル';
+  battleLog(`${name}を使用しました。`);
+  const effect = skill?.effect;
+  if(!effect) return;
+  if(effect.type === 'dealDamage'){
+    game.enemy.hp = Math.max(0, game.enemy.hp - Number(effect.amount || 0));
+    battleLog(`敵リーダーに${effect.amount}ダメージ。`);
+  }else if(effect.type === 'heal'){
+    game.player.hp = Math.min(game.player.maxHp, game.player.hp + Number(effect.amount || 0));
+    battleLog(`味方リーダーを${effect.amount}回復。`);
+  }else if(effect.type === 'summonToken'){
+    const idx = game.player.board.findIndex(x => !x);
+    if(idx >= 0){
+      game.player.board[idx] = {
+        id:`token_${Date.now()}`,
+        cardId:'',
+        name:effect.tokenName || 'トークン',
+        attack:Number(effect.attack || 0),
+        hp:Number(effect.hp || 1),
+        maxHp:Number(effect.hp || 1),
+        canAttack:false,
+        summoningSickness:true
+      };
+      battleLog(`${effect.tokenName}を出しました。`);
+    }
+  }else if(effect.type === 'drawFromDeckByType' || effect.type === 'multi'){
+    drawCard(1);
+    battleLog('カードを1枚引きました。');
+  }else if(effect.type === 'temporaryLeaderBuff'){
+    battleLog(`このターン中リーダー攻撃力+${effect.attack || 0}。攻撃処理は次フェーズで実装します。`);
+  }else if(effect.type === 'equipWeapon'){
+    battleLog(`${effect.weapon?.name || '武器'}を装備しました。武器処理は次フェーズで実装します。`);
+  }
+}
+
+function drawCard(count=1){
+  const game = state.battle.game;
+  for(let i=0;i<count;i++){
+    if(game.player.deck.length){
+      game.player.hand.push(game.player.deck.shift());
+    }else{
+      game.player.hp = Math.max(0, game.player.hp - 1);
+      battleLog('デッキ切れで1ダメージ。');
+    }
   }
 }
 
@@ -553,32 +846,52 @@ function renderTension(){
   $('tension-button').title = game.player.tension >= 3 ? `テンションスキル: ${game.player.leaderSkill?.skillName || ''}` : 'テンションをためる';
 }
 
-function useOrChargeTension(){
-  const game = state.battle.game;
-  if(!game) return;
-  if(game.player.tension >= 3){
-    toast(`${game.player.leaderSkill?.skillName || 'テンションスキル'}を使用。効果処理は次フェーズで実装します。`, true);
-    game.player.tension = 0;
-    game.player.tensionSkillUsedThisTurn = true;
-  }else{
-    if(game.player.mp < 1) return toast('MPが足りません。', false);
-    if(game.player.tensionSkillUsedThisTurn) return toast('このターンは既にテンション操作済みです。', false);
-    game.player.mp -= 1;
-    game.player.tension = Math.min(3, game.player.tension + 1);
-    game.player.tensionSkillUsedThisTurn = true;
-  }
-  renderBattleArena();
-}
-
 function endTurn(){
   const game = state.battle.game;
   if(!game) return;
   game.turn += 1;
   game.player.maxMp = Math.min(10, game.player.maxMp + 1);
   game.player.mp = game.player.maxMp;
-  game.player.tensionSkillUsedThisTurn = false;
-  toast(`ターン${game.turn}: MPが${game.player.mp}になりました。`, true);
+  game.player.tensionUsedThisTurn = false;
+  for(const unit of game.player.board){
+    if(unit){
+      unit.summoningSickness = false;
+      unit.canAttack = true;
+    }
+  }
+  drawCard(1);
+  battleLog(`ターン${game.turn}: MPが${game.player.mp}になりました。`);
   renderBattleArena();
+}
+
+function attachLongPress(el, callback){
+  let timer = null;
+  const start = e => {
+    timer = setTimeout(() => callback(e), 420);
+  };
+  const cancel = () => {
+    if(timer) clearTimeout(timer);
+    timer = null;
+  };
+  el.addEventListener('touchstart', start, {passive:true});
+  el.addEventListener('touchend', cancel);
+  el.addEventListener('touchcancel', cancel);
+  el.addEventListener('mousedown', start);
+  el.addEventListener('mouseup', cancel);
+  el.addEventListener('mouseleave', cancel);
+}
+
+function showBattleCardZoom(card){
+  const img = getOfficialImage(card);
+  if(!img) return;
+  $('battle-card-zoom-img').src = img;
+  $('battle-card-zoom-img').alt = card.name;
+  $('battle-card-zoom').classList.remove('hidden');
+}
+
+function closeBattleCardZoom(){
+  $('battle-card-zoom').classList.add('hidden');
+  $('battle-card-zoom-img').src = '';
 }
 
 function exportDeck(){ const payload = makeDeckPayload(); const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${payload.deckName || 'deck'}.json`; a.click(); URL.revokeObjectURL(a.href); }
