@@ -1,11 +1,11 @@
 // Firebaseを使う場合は、自分のFirebase Webアプリ設定をここに貼ってください。
 // 未設定でも、ブラウザのlocalStorage保存でデッキ作成は動きます。
 export const firebaseConfig = {
-  apiKey: 'PASTE_YOUR_API_KEY',
-  authDomain: 'PASTE_YOUR_PROJECT.firebaseapp.com',
-  databaseURL: 'https://PASTE_YOUR_PROJECT-default-rtdb.firebaseio.com',
-  projectId: 'PASTE_YOUR_PROJECT',
-  storageBucket: 'PASTE_YOUR_PROJECT.appspot.com',
-  messagingSenderId: 'PASTE_YOUR_SENDER_ID',
-  appId: 'PASTE_YOUR_APP_ID'
+  apiKey: "AIzaSyB6S4IQVx0ChAmwrHwsHPOTCdvJFd-4nOo",
+  authDomain: "dqr-sample.firebaseapp.com",
+  databaseURL: "https://dqr-sample-default-rtdb.firebaseio.com",
+  projectId: "dqr-sample",
+  storageBucket: "dqr-sample.firebasestorage.app",
+  messagingSenderId: "280875301053",
+  appId: "1:280875301053:web:54bdf81304230c2394dfd4"
 };
