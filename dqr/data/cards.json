@@ -12571,8 +12571,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_743.jpg",
         "imageVerified": true,
         "verifiedName": "ロトの血を引く者",
-        "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
-        "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
+        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
       }
     },
     {
@@ -12901,7 +12901,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -12924,13 +12926,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "ロトの血を引く者"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "ロトの血を引く者",
+        "level": 3,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/743"
+      },
       "nonDeckNote": "ロトの血を引く者 の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -12941,7 +12942,7 @@
       "hp": 0,
       "text": "敵ユニット1体に1ダメージを与える",
       "rarity": "レジェンドレア",
-      "cardType": "ユニット",
+      "cardType": "トークン",
       "classes": [
         "共通"
       ],
@@ -12954,7 +12955,14 @@
         "共通": 291
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "nonDeckCategory": "heroSkill",
+        "deckBuildRuleReason": [
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -12970,6 +12978,12 @@
         "verifiedName": "たたかう",
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+      },
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "ロトの血を引く者",
+        "level": 1,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/743"
       }
     },
     {
@@ -12999,7 +13013,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -13018,13 +13034,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "ロトの血を引く者"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "ロトの血を引く者",
+        "level": 2,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/743"
+      },
       "nonDeckNote": "ロトの血を引く者 の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -13581,7 +13596,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -13604,13 +13621,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "天空の花嫁共通"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "天空の花嫁共通",
+        "level": null,
+        "sourceUrl": null
+      },
       "nonDeckNote": "天空の花嫁共通 の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -13840,8 +13856,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_831.jpg",
         "imageVerified": true,
         "verifiedName": "勇者ソロ",
-        "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
-        "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
+        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
       }
     },
     {
@@ -14134,7 +14150,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -14153,13 +14171,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "勇者エイト"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "勇者エイト",
+        "level": 1,
+        "sourceUrl": null
+      },
       "nonDeckNote": "勇者エイト の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -14189,7 +14206,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -14208,14 +14227,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "天空の花嫁フローラ",
-        "天空の花嫁ビアンカ"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "天空の花嫁系",
+        "level": null,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/1109"
+      },
       "nonDeckNote": "天空の花嫁ビアンカ の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -14245,7 +14262,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -14264,14 +14283,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "勇者エイト",
-        "勇者イレブン"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "勇者エイト/勇者イレブン",
+        "level": null,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/1230"
+      },
       "nonDeckNote": "勇者イレブン の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -14782,8 +14799,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_904.jpg",
         "imageVerified": true,
         "verifiedName": "レックス",
-        "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
-        "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
+        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
       }
     },
     {
@@ -14837,8 +14854,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_905.jpg",
         "imageVerified": true,
         "verifiedName": "タバサ",
-        "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
-        "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
+        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
       }
     },
     {
@@ -14849,7 +14866,7 @@
       "hp": 0,
       "text": "自分がコスト2以上の特技カードを使う度MPを1回復 この効果は条件を満たすと自動的に発動する。",
       "rarity": "レジェンドレア",
-      "cardType": "ユニット",
+      "cardType": "トークン",
       "classes": [
         "共通"
       ],
@@ -14867,8 +14884,11 @@
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
           "hero_skill_passive_or_auto_effect",
-          "manual_obtain_only_system_card"
-        ]
+          "manual_obtain_only_system_card",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
+        ],
+        "nonDeckCategory": "heroSkill"
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -14884,6 +14904,12 @@
         "verifiedName": "やさしき祈り",
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+      },
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "タバサ",
+        "level": 1,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/905"
       }
     },
     {
@@ -14894,7 +14920,7 @@
       "hp": 0,
       "text": "自分がコスト2以上の特技カードを使う度カードを1枚引く。この効果は条件を満たすと自動的に発動する。",
       "rarity": "レジェンドレア",
-      "cardType": "ユニット",
+      "cardType": "トークン",
       "classes": [
         "共通"
       ],
@@ -14912,8 +14938,11 @@
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
           "hero_skill_passive_or_auto_effect",
-          "manual_obtain_only_system_card"
-        ]
+          "manual_obtain_only_system_card",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
+        ],
+        "nonDeckCategory": "heroSkill"
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -14929,6 +14958,12 @@
         "verifiedName": "魔力共鳴",
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+      },
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "タバサ",
+        "level": 2,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/905"
       }
     },
     {
@@ -14939,7 +14974,7 @@
       "hp": 0,
       "text": "この対戦中に自分が使用したコスト2以上の特技カード1枚をコスト-1して手札に加える。この効果で同名のカードは重複して手札に加わらない。",
       "rarity": "レジェンドレア",
-      "cardType": "ユニット",
+      "cardType": "トークン",
       "classes": [
         "共通"
       ],
@@ -14952,7 +14987,14 @@
         "共通": 334
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "nonDeckCategory": "heroSkill",
+        "deckBuildRuleReason": [
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
+        ]
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -14968,6 +15010,12 @@
         "verifiedName": "天空の英知",
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+      },
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "タバサ",
+        "level": 3,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/905"
       }
     },
     {
@@ -14978,7 +15026,7 @@
       "hp": 0,
       "text": "味方リーダーが攻撃する度敵リーダーに2ダメージ。この効果は条件を満たすと自動的に発動する。",
       "rarity": "レジェンドレア",
-      "cardType": "ユニット",
+      "cardType": "トークン",
       "classes": [
         "共通"
       ],
@@ -14996,8 +15044,11 @@
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
           "hero_skill_passive_or_auto_effect",
-          "manual_obtain_only_system_card"
-        ]
+          "manual_obtain_only_system_card",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
+        ],
+        "nonDeckCategory": "heroSkill"
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -15013,6 +15064,12 @@
         "verifiedName": "ついげき",
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+      },
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "レックス",
+        "level": 1,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/904"
       }
     },
     {
@@ -15023,7 +15080,7 @@
       "hp": 0,
       "text": "味方リーダーが攻撃する度テンション+1。この効果は条件を満たすと自動的に発動する。",
       "rarity": "レジェンドレア",
-      "cardType": "ユニット",
+      "cardType": "トークン",
       "classes": [
         "共通"
       ],
@@ -15041,8 +15098,11 @@
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
           "hero_skill_passive_or_auto_effect",
-          "manual_obtain_only_system_card"
-        ]
+          "manual_obtain_only_system_card",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
+        ],
+        "nonDeckCategory": "heroSkill"
       },
       "classKey": "共通",
       "tribeKey": "",
@@ -15058,6 +15118,12 @@
         "verifiedName": "勇敢な魂",
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+      },
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "レックス",
+        "level": 2,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/904"
       }
     },
     {
@@ -15087,7 +15153,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -15106,14 +15174,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "ロトの血を引く者",
-        "レックス"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "レックス/ロト系",
+        "level": 3,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/904"
+      },
       "nonDeckNote": "レックス の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -16303,8 +16369,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_979.jpg",
         "imageVerified": true,
         "verifiedName": "勇者姫アンルシア",
-        "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
-        "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
+        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
       }
     },
     {
@@ -16382,7 +16448,9 @@
           "manual_non_deck",
           "token_or_hero_skill_derived_prefix",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -16404,13 +16472,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "勇者姫アンルシア"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "勇者姫アンルシア",
+        "level": null,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/979"
+      },
       "nonDeckNote": "勇者姫アンルシア の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -16443,7 +16510,9 @@
           "manual_non_deck",
           "token_or_hero_skill_derived_prefix",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -16465,13 +16534,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "勇者姫アンルシア"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "勇者姫アンルシア",
+        "level": null,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/979"
+      },
       "nonDeckNote": "勇者姫アンルシア の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -16504,7 +16572,9 @@
           "manual_non_deck",
           "token_or_hero_skill_derived_prefix",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -16526,13 +16596,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "勇者姫アンルシア"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "勇者姫アンルシア",
+        "level": null,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/979"
+      },
       "nonDeckNote": "勇者姫アンルシア の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -16565,7 +16634,9 @@
           "manual_non_deck",
           "token_or_hero_skill_derived_prefix",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -16587,13 +16658,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "勇者姫アンルシア"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "勇者姫アンルシア",
+        "level": null,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/979"
+      },
       "nonDeckNote": "勇者姫アンルシア の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -16626,7 +16696,9 @@
           "manual_non_deck",
           "token_or_hero_skill_derived_prefix",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -16648,13 +16720,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "勇者姫アンルシア"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "勇者姫アンルシア",
+        "level": null,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/979"
+      },
       "nonDeckNote": "勇者姫アンルシア の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -16733,7 +16804,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -16752,13 +16825,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "ビルド"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "ビルド",
+        "level": null,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/1225"
+      },
       "nonDeckNote": "ビルド の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -17367,7 +17439,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -17386,13 +17460,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "大魔王ゾーマ"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "大魔王ゾーマ",
+        "level": 1,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/1037"
+      },
       "nonDeckNote": "大魔王ゾーマ の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -17422,7 +17495,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -17445,13 +17520,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "魔王系ヒーロー"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "大魔王ゾーマ",
+        "level": 3,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/1037"
+      },
       "nonDeckNote": "魔王系ヒーロー の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -17505,8 +17579,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1037.jpg",
         "imageVerified": true,
         "verifiedName": "大魔王ゾーマ",
-        "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
-        "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
+        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
       }
     },
     {
@@ -17587,7 +17661,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -17610,13 +17686,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "大魔王ゾーマ"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "大魔王ゾーマ",
+        "level": 2,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/1037"
+      },
       "nonDeckNote": "大魔王ゾーマ の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -18055,7 +18130,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -18074,13 +18151,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "天空の花嫁フローラ"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "天空の花嫁フローラ",
+        "level": 1,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/1109"
+      },
       "nonDeckNote": "天空の花嫁フローラ の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -18110,7 +18186,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -18129,13 +18207,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "天空の花嫁ビアンカ"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "天空の花嫁フローラ/ビアンカ",
+        "level": 2,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/1109"
+      },
       "nonDeckNote": "天空の花嫁ビアンカ の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -18165,7 +18242,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -18188,13 +18267,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "大魔王ゾーマ"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "天空の花嫁フローラ",
+        "level": 3,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/1109"
+      },
       "nonDeckNote": "大魔王ゾーマ の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -18248,8 +18326,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1109.jpg",
         "imageVerified": true,
         "verifiedName": "天空の花嫁フローラ",
-        "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
-        "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
+        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
       }
     },
     {
@@ -18322,7 +18400,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -18341,13 +18421,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "勇者エイト"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "勇者エイト",
+        "level": 3,
+        "sourceUrl": null
+      },
       "nonDeckNote": "勇者エイト の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -19103,7 +19182,9 @@
           "manual_non_deck",
           "official_zero_score_generated_or_system",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -19133,13 +19214,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "天空の花嫁デボラ"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "天空の花嫁デボラ",
+        "level": 1,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/1212"
+      },
       "nonDeckNote": "天空の花嫁デボラ の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -19171,7 +19251,9 @@
           "hero_skill_passive_or_auto_effect",
           "official_zero_score_generated_or_system",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -19197,13 +19279,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "天空の花嫁デボラ"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "天空の花嫁デボラ",
+        "level": 2,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/1212"
+      },
       "nonDeckNote": "天空の花嫁デボラ の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -19332,7 +19413,9 @@
           "manual_non_deck",
           "official_zero_score_generated_or_system",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -19355,13 +19438,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "天空の花嫁デボラ"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "天空の花嫁デボラ",
+        "level": 3,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/1212"
+      },
       "nonDeckNote": "天空の花嫁デボラ の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -19890,8 +19972,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1225.jpg",
         "imageVerified": true,
         "verifiedName": "ビルド",
-        "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
-        "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
+        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
       }
     },
     {
@@ -19945,8 +20027,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1226.jpg",
         "imageVerified": true,
         "verifiedName": "少年シドー",
-        "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
-        "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
+        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
       }
     },
     {
@@ -20144,8 +20226,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1230.jpg",
         "imageVerified": true,
         "verifiedName": "勇者イレブン",
-        "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
-        "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
+        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
       }
     },
     {
@@ -22379,8 +22461,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1471.jpg",
         "imageVerified": true,
         "verifiedName": "ローレシアの王子",
-        "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
-        "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
+        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
       }
     },
     {
@@ -22508,7 +22590,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -22527,13 +22611,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "少年シドー"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "少年シドー",
+        "level": 3,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/1226"
+      },
       "nonDeckNote": "少年シドー の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -22587,8 +22670,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1475.jpg",
         "imageVerified": true,
         "verifiedName": "サマルトリアの王子",
-        "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
-        "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
+        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
       }
     },
     {
@@ -22642,8 +22725,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1476.jpg",
         "imageVerified": true,
         "verifiedName": "ムーンブルクの王女",
-        "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
-        "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
+        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
       }
     },
     {
@@ -22764,7 +22847,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -22783,13 +22868,12 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "タバサ"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "ムーンブルクの王女",
+        "level": 3,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/1476"
+      },
       "nonDeckNote": "タバサ の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {
@@ -22944,8 +23028,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1578.jpg",
         "imageVerified": true,
         "verifiedName": "守り人ナイン",
-        "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
-        "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
+        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
       }
     },
     {
@@ -22999,8 +23083,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1579.jpg",
         "imageVerified": true,
         "verifiedName": "勇者レック",
-        "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
-        "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
+        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
       }
     },
     {
@@ -23237,8 +23321,8 @@
         "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1584.jpg",
         "imageVerified": true,
         "verifiedName": "伝説の勇者",
-        "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
-        "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
+        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
+        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
       }
     },
     {
@@ -34301,7 +34385,9 @@
         "deckBuildRuleReason": [
           "hero_evolution_skill_card",
           "hero_skill_progression_card",
-          "official_token_category"
+          "official_token_category",
+          "hero_skill_card",
+          "available_only_after_hero_card_used"
         ],
         "nonDeckCategory": "heroSkill"
       },
@@ -34320,13 +34406,12 @@
         "verificationMethod": "xlsx-hyperlink-map-mage-v14",
         "verificationNote": "ユーザー提供の魔法使い.xlsx左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163および戦士v13は変更なし。"
       },
-      "generatedBy": [
-        {
-          "type": "heroEvolutionOrHeroSkill",
-          "note": "ヒーローカード使用後、レベルアップ/進化で使用可能になる特殊カード"
-        },
-        "勇者ソロ"
-      ],
+      "generatedBy": {
+        "type": "heroSkill",
+        "sourceHero": "勇者ソロ",
+        "level": 1,
+        "sourceUrl": "https://gameconductor.com/dqrivals/c/d/831"
+      },
       "nonDeckNote": "勇者ソロ の使用・レベルアップ後に使えるヒーロースキル/派生カード"
     },
     {

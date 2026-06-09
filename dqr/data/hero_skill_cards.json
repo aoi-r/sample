@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "type": "dqr.heroSkillCards",
-  "note": "ヒーローカード使用後・レベルアップ後に利用可能になる特殊カード。デッキ編成不可。",
+  "note": "ヒーローカード使用後・レベルアップ後に利用可能になる特殊カード。デッキ編成不可。v17で「たたかう」「天空の英知」を追加。",
   "cards": [
     {
       "name": "王女救出",
@@ -281,6 +281,72 @@
       "text": "必殺技、全てを滅ぼす者ゾーマを手札に1枚加える。この効果は自分の場と手札に全てを滅ぼす者ゾーマが存在しない場合に使用できる",
       "cost": 0,
       "cardType": "トークン"
+    },
+    {
+      "name": "たたかう",
+      "cardId": "card_4ff31960",
+      "sourceHero": "ロトの血を引く者",
+      "level": 1,
+      "reason": "ヒーローカード使用後/レベルアップ後に使用可能になる特殊カード。デッキ編成不可。",
+      "text": "敵ユニット1体に1ダメージを与える",
+      "cost": 1,
+      "cardType": "トークン",
+      "sourceUrl": "https://gameconductor.com/dqrivals/c/d/743"
+    },
+    {
+      "name": "ついげき",
+      "cardId": "card_a46f42bf",
+      "sourceHero": "レックス",
+      "level": 1,
+      "reason": "ヒーローカード使用後/レベルアップ後に使用可能になる特殊カード。デッキ編成不可。",
+      "text": "味方リーダーが攻撃する度敵リーダーに2ダメージ。この効果は条件を満たすと自動的に発動する。",
+      "cost": 0,
+      "cardType": "トークン",
+      "sourceUrl": "https://gameconductor.com/dqrivals/c/d/904"
+    },
+    {
+      "name": "勇敢な魂",
+      "cardId": "card_6149abb9",
+      "sourceHero": "レックス",
+      "level": 2,
+      "reason": "ヒーローカード使用後/レベルアップ後に使用可能になる特殊カード。デッキ編成不可。",
+      "text": "味方リーダーが攻撃する度テンション+1。この効果は条件を満たすと自動的に発動する。",
+      "cost": 0,
+      "cardType": "トークン",
+      "sourceUrl": "https://gameconductor.com/dqrivals/c/d/904"
+    },
+    {
+      "name": "やさしき祈り",
+      "cardId": "card_90bace01",
+      "sourceHero": "タバサ",
+      "level": 1,
+      "reason": "ヒーローカード使用後/レベルアップ後に使用可能になる特殊カード。デッキ編成不可。",
+      "text": "自分がコスト2以上の特技カードを使う度MPを1回復 この効果は条件を満たすと自動的に発動する。",
+      "cost": 0,
+      "cardType": "トークン",
+      "sourceUrl": "https://gameconductor.com/dqrivals/c/d/905"
+    },
+    {
+      "name": "魔力共鳴",
+      "cardId": "card_32047aee",
+      "sourceHero": "タバサ",
+      "level": 2,
+      "reason": "ヒーローカード使用後/レベルアップ後に使用可能になる特殊カード。デッキ編成不可。",
+      "text": "自分がコスト2以上の特技カードを使う度カードを1枚引く。この効果は条件を満たすと自動的に発動する。",
+      "cost": 0,
+      "cardType": "トークン",
+      "sourceUrl": "https://gameconductor.com/dqrivals/c/d/905"
+    },
+    {
+      "name": "天空の英知",
+      "cardId": "card_4e6fd6c2",
+      "sourceHero": "タバサ",
+      "level": 3,
+      "reason": "ヒーローカード使用後/レベルアップ後に使用可能になる特殊カード。デッキ編成不可。",
+      "text": "この対戦中に自分が使用したコスト2以上の特技カード1枚をコスト-1して手札に加える。この効果で同名のカードは重複して手札に加わらない。",
+      "cost": 3,
+      "cardType": "トークン",
+      "sourceUrl": "https://gameconductor.com/dqrivals/c/d/905"
     }
   ]
 }

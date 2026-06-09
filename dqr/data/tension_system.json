@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "1.0.0",
+  "type": "dqr.tensionSystem",
+  "source": "https://gameconductor.com/dqrivals/?p=9",
+  "coreRules": {
+    "maxTension": 3,
+    "normalIncrease": {
+      "mpCost": 1,
+      "amount": 1,
+      "limit": "基本は1ターンに1段階"
+    },
+    "skillUsableWhen": "テンションが3まで上がった状態",
+    "afterSkillUse": "テンションを全て消費して0に戻す想定。必殺技もテンション3が必要。",
+    "extraIncreaseSources": [
+      "おうえん",
+      "シルビア等のカード効果"
+    ],
+    "battleCountersNeeded": [
+      "tension",
+      "tensionSkillUseCount",
+      "baseTensionSkill",
+      "currentTensionSkill",
+      "heroSkillState",
+      "skillBoostCount"
+    ]
+  },
+  "leaderSkills": [
+    {
+      "class": "戦士",
+      "leader": "テリー",
+      "skillName": "稲妻の加護",
+      "effectText": "このターン中味方リーダーは攻撃力+3と貫通を得る"
+    },
+    {
+      "class": "魔法使い",
+      "leader": "ゼシカ",
+      "skillName": "紅蓮の火球",
+      "effectText": "敵1体に3ダメージを与える"
+    },
+    {
+      "class": "武闘家",
+      "leader": "アリーナ",
+      "skillName": "おてんば姫",
+      "effectText": "カードを1枚引く、武術カード1枚を手札に加える"
+    },
+    {
+      "class": "僧侶",
+      "leader": "ククール",
+      "skillName": "いやしの波動",
+      "effectText": "味方全体のHPを3回復する"
+    },
+    {
+      "class": "商人",
+      "leader": "トルネコ",
+      "skillName": "お宝発見",
+      "effectText": "道具カード3枚を手札に加える"
+    },
+    {
+      "class": "占い師",
+      "leader": "ミネア",
+      "skillName": "水晶占い",
+      "effectText": "自分のデッキから特技カードを1枚引く。そのカードのコストを-1"
+    },
+    {
+      "class": "魔剣士",
+      "leader": "ピサロ",
+      "skillName": "魔族の騎士",
+      "effectText": "3/2のピサロナイトを出す"
+    },
+    {
+      "class": "盗賊",
+      "leader": "カミュ",
+      "skillName": null,
+      "effectText": null,
+      "needsReview": true,
+      "note": "公式DBのテンションシステムページは初期7リーダーのみ掲載。カミュは追加職業のため別途公式詳細確認が必要。"
+    }
+  ],
+  "skillChangeCards": [
+    {
+      "cardName": "少年テリー",
+      "changesTo": "モンスターマスター",
+      "deckBuildable": true,
+      "changedSkillCardDeckBuildable": false
+    },
+    {
+      "cardName": "モンスターマスター",
+      "deckBuildable": false,
+      "reason": "少年テリー使用後に変更されるテンションスキル本体"
+    }
+  ]
+}

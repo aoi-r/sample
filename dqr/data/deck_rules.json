@@ -6,7 +6,8 @@
     "mainDeckSize": 30,
     "maxCopiesDefault": 2,
     "maxCopiesLegend": 1,
-    "maxHeroStarterCards": 1
+    "maxHeroStarterCards": null,
+    "heroStarterCardsRule": "0枚でも複数種類でも編成可能。同名レジェンドは1枚制限。"
   },
   "classRule": "選択した職業カード + 共通カードのみ使用可能。職業変更時は選択中デッキをリセット。",
   "heroRule": "ヒーローカードは0枚でも複数種類でも編成可能。同名レジェンドは1枚まで。使用後に得るヒーロースキルカードは編成不可。",
@@ -1362,6 +1363,30 @@
         },
         "ベビーサラマンダー"
       ]
+    },
+    {
+      "name": "たたかう",
+      "cardId": "card_4ff31960",
+      "reason": [
+        "hero_skill_card",
+        "available_only_after_hero_card_used"
+      ],
+      "category": "heroSkill",
+      "generatedBy": [
+        "ロトの血を引く者"
+      ]
+    },
+    {
+      "name": "天空の英知",
+      "cardId": "card_4e6fd6c2",
+      "reason": [
+        "hero_skill_card",
+        "available_only_after_hero_card_used"
+      ],
+      "category": "heroSkill",
+      "generatedBy": [
+        "タバサ"
+      ]
     }
   ],
   "exchangeCards": [
@@ -1555,7 +1580,7 @@
     "deckBuildable": 1497,
     "nonDeck": 83
   },
-  "version": "v5_hero_unlimited_image_guarded",
+  "version": "v17-hero-skill-and-tension",
   "imagePolicy": {
     "source": "https://gameconductor.com/dqrivals/card",
     "imageUrlPattern": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_{officialId}.jpg",

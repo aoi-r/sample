@@ -16,7 +16,7 @@ localStorage.setItem('dqr_device_id', state.deviceId);
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v16-all-xlsx-links-plus-final-two';
+const DATA_VERSION = 'v18-mobile-deck-layout';
 
 init().catch(err => {
   console.error(err);
@@ -87,6 +87,17 @@ function bindEvents(){
   document.querySelectorAll('.back-menu').forEach(b => b.addEventListener('click', () => show('menu')));
   $('class-select').addEventListener('change', e => changeClass(e.target.value));
   ['search-input','type-filter','cost-filter','rarity-filter'].forEach(id => $(id).addEventListener('input', renderCards));
+  const sizeSlider = $('mobile-card-size');
+  if(sizeSlider){
+    const savedSize = localStorage.getItem('dqr_mobile_card_size') || sizeSlider.value;
+    sizeSlider.value = savedSize;
+    document.documentElement.style.setProperty('--mobile-card-w', `${savedSize}px`);
+    sizeSlider.addEventListener('input', e => {
+      const v = e.target.value;
+      document.documentElement.style.setProperty('--mobile-card-w', `${v}px`);
+      localStorage.setItem('dqr_mobile_card_size', v);
+    });
+  }
   $('clear-deck').addEventListener('click', () => { state.deck.clear(); state.selectedHeroId=''; renderAll(); });
   $('save-deck').addEventListener('click', saveDeck);
   $('export-deck').addEventListener('click', exportDeck);

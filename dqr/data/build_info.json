@@ -1,5 +1,5 @@
 {
-  "version": "v16-all-xlsx-links-plus-final-two",
+  "version": "v18-mobile-deck-layout",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -22,5 +22,6 @@
     "しゃくねつのツメ",
     "サラマンダー"
   ],
-  "remainingUnmappedCount": 0
+  "remainingUnmappedCount": 0,
+  "layoutUpdate": "PC版は維持。スマホ版は上部に検索/絞り込み/選択デッキ、下部に2段横スクロールカード一覧。表示サイズスライダー追加。"
 }
