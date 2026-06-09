@@ -1,5 +1,5 @@
 {
-  "version": "v44_category_effect_engine",
+  "version": "v45_battle_board_layout_restore",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -53,5 +53,6 @@
   "deborah": "BETカードサーチ、BET発動時テンション+1自動、確率コイン生成を追加。",
   "bianca": "2ダメージ、指定マスへ速攻4/4ゲレゲレ召喚、家族との絆の手札使用時2点オーラを追加。",
   "referenceExcel": "data/category_reference_from_excel.json に参考.xlsx の分類スニペットを保存。",
-  "categoryEngine": "Excel分類を元に、建物/占い/さくせん/選択/GET/BET/交換所/武器の共通処理を追加。"
+  "categoryEngine": "Excel分類を元に、建物/占い/さくせん/選択/GET/BET/交換所/武器の共通処理を追加。",
+  "battleLayoutFix": "盤面CSSを最終上書きで修正。相手上2段、自分下2段、中央空白の3列×4段へ復旧。"
 }

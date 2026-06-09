@@ -4738,3 +4738,197 @@
     font-size:11px;
   }
 }
+
+
+/* v45: HARD RESTORE battle board layout.
+   Final override: original-like 3 columns x 4 rows.
+   Top 2 rows = enemy board, bottom 2 rows = player board.
+   Front/back:
+   - Enemy front row is the row nearest center gap, enemy back row is top row.
+   - Player front row is the row nearest center gap, player back row is bottom row.
+*/
+.battle-arena .arena-field{
+  position:absolute !important;
+  inset:0 !important;
+  display:grid !important;
+  grid-template-columns:86px 1fr 86px !important;
+  align-items:center !important;
+  justify-items:center !important;
+  gap:8px !important;
+  padding:44px 72px 72px !important;
+  background:transparent !important;
+}
+
+.battle-arena .unit-zones.twelve-zones{
+  grid-column:2 !important;
+  width:min(760px, 62vw) !important;
+  height:min(430px, calc(100dvh - 132px)) !important;
+  display:grid !important;
+  grid-template-columns:repeat(3, 1fr) !important;
+  grid-template-rows:repeat(2, 1fr) minmax(22px, 34px) repeat(2, 1fr) !important;
+  column-gap:clamp(28px, 5vw, 74px) !important;
+  row-gap:clamp(8px, 1.4dvh, 14px) !important;
+  align-self:center !important;
+  justify-self:center !important;
+  overflow:visible !important;
+  transform:none !important;
+}
+
+.battle-arena .side-board,
+.battle-arena .side-board .unit-row,
+.battle-arena .board-gap{
+  display:contents !important;
+}
+
+/* Enemy board: back row top, front row just above center gap */
+.battle-arena .enemy-board .unit-slot[data-pos="0"]{ grid-column:1 !important; grid-row:1 !important; }
+.battle-arena .enemy-board .unit-slot[data-pos="1"]{ grid-column:2 !important; grid-row:1 !important; }
+.battle-arena .enemy-board .unit-slot[data-pos="2"]{ grid-column:3 !important; grid-row:1 !important; }
+.battle-arena .enemy-board .unit-slot[data-pos="3"]{ grid-column:1 !important; grid-row:2 !important; }
+.battle-arena .enemy-board .unit-slot[data-pos="4"]{ grid-column:2 !important; grid-row:2 !important; }
+.battle-arena .enemy-board .unit-slot[data-pos="5"]{ grid-column:3 !important; grid-row:2 !important; }
+
+/* Player board: front row just below center gap, back row bottom */
+.battle-arena .player-board .unit-slot[data-pos="0"]{ grid-column:1 !important; grid-row:4 !important; }
+.battle-arena .player-board .unit-slot[data-pos="1"]{ grid-column:2 !important; grid-row:4 !important; }
+.battle-arena .player-board .unit-slot[data-pos="2"]{ grid-column:3 !important; grid-row:4 !important; }
+.battle-arena .player-board .unit-slot[data-pos="3"]{ grid-column:1 !important; grid-row:5 !important; }
+.battle-arena .player-board .unit-slot[data-pos="4"]{ grid-column:2 !important; grid-row:5 !important; }
+.battle-arena .player-board .unit-slot[data-pos="5"]{ grid-column:3 !important; grid-row:5 !important; }
+
+.battle-arena .unit-slot{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:82px !important;
+  min-height:48px !important;
+  max-width:154px !important;
+  max-height:82px !important;
+  aspect-ratio:auto !important;
+  justify-self:center !important;
+  align-self:center !important;
+  border-radius:10px !important;
+  box-sizing:border-box !important;
+  transform:none !important;
+}
+
+.battle-arena .unit-slot.has-unit img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  object-position:center !important;
+  transform:scale(1.14) !important;
+}
+
+/* Leaders: player left, enemy right */
+.battle-arena .player-leader{
+  grid-column:1 !important;
+  justify-self:start !important;
+  align-self:center !important;
+}
+.battle-arena .enemy-leader{
+  grid-column:3 !important;
+  justify-self:end !important;
+  align-self:center !important;
+}
+
+/* Keep HUD and hand clear of the board */
+.battle-arena .player-hand{
+  bottom:0 !important;
+  left:50% !important;
+  transform:translateX(-50%) !important;
+  width:min(560px, 56vw) !important;
+  height:66px !important;
+  z-index:6 !important;
+}
+.battle-arena .hand-card{
+  flex-basis:46px !important;
+  width:46px !important;
+  height:62px !important;
+}
+.battle-arena .player-hud{
+  left:10px !important;
+  bottom:62px !important;
+  z-index:6 !important;
+}
+.battle-arena .battle-log{
+  right:10px !important;
+  left:auto !important;
+  bottom:40px !important;
+  width:min(360px, 30vw) !important;
+  z-index:5 !important;
+}
+
+@media(max-width:900px) and (orientation:landscape){
+  .battle-arena .arena-field{
+    grid-template-columns:50px 1fr 50px !important;
+    padding:34px 42px 56px !important;
+  }
+
+  .battle-arena .unit-zones.twelve-zones{
+    width:min(660px, 66vw) !important;
+    height:min(300px, calc(100dvh - 100px)) !important;
+    grid-template-rows:repeat(2, 1fr) minmax(12px, 20px) repeat(2, 1fr) !important;
+    column-gap:clamp(12px, 3.5vw, 34px) !important;
+    row-gap:5px !important;
+  }
+
+  .battle-arena .unit-slot{
+    min-width:54px !important;
+    min-height:34px !important;
+    max-width:108px !important;
+    max-height:54px !important;
+    border-radius:7px !important;
+  }
+
+  .battle-arena .player-hand{
+    width:54vw !important;
+    height:52px !important;
+  }
+
+  .battle-arena .hand-card{
+    flex-basis:36px !important;
+    width:36px !important;
+    height:50px !important;
+  }
+
+  .battle-arena .player-hud{
+    bottom:48px !important;
+    left:5px !important;
+    transform:scale(.9) !important;
+    transform-origin:left bottom !important;
+  }
+
+  .battle-arena .battle-log{
+    right:6px !important;
+    bottom:32px !important;
+    width:27vw !important;
+    max-height:34px !important;
+    font-size:8px !important;
+  }
+}
+
+@media(max-width:760px) and (orientation:landscape){
+  .battle-arena .arena-field{
+    grid-template-columns:42px 1fr 42px !important;
+    padding-left:32px !important;
+    padding-right:32px !important;
+  }
+
+  .battle-arena .unit-zones.twelve-zones{
+    width:68vw !important;
+    height:min(260px, calc(100dvh - 92px)) !important;
+    column-gap:10px !important;
+  }
+
+  .battle-arena .unit-slot{
+    min-width:46px !important;
+    min-height:30px !important;
+    max-width:88px !important;
+    max-height:44px !important;
+  }
+
+  .battle-arena .player-hand{
+    width:52vw !important;
+  }
+}

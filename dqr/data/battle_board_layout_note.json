@@ -1,0 +1,31 @@
+{
+  "version": "v45_battle_board_layout_restore",
+  "battle_board_mapping": {
+    "enemy": {
+      "back_row": [
+        "enemy pos 0",
+        "enemy pos 1",
+        "enemy pos 2"
+      ],
+      "front_row": [
+        "enemy pos 3",
+        "enemy pos 4",
+        "enemy pos 5"
+      ]
+    },
+    "player": {
+      "front_row": [
+        "player pos 0",
+        "player pos 1",
+        "player pos 2"
+      ],
+      "back_row": [
+        "player pos 3",
+        "player pos 4",
+        "player pos 5"
+      ]
+    },
+    "center_gap": "between enemy front row and player front row"
+  },
+  "important": "Do not override .battle-arena .unit-zones.twelve-zones grid placement without preserving this mapping."
+}

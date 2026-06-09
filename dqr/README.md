@@ -448,3 +448,13 @@ node tools/sync_official_gameconductor.mjs
 - 武器
   - 耐久値、2回攻撃、反撃ダメージ無効、攻撃後効果、破壊時効果の共通土台
 - `data/category_reference_from_excel.json` に参考分類のスニペットを保存。
+
+
+## v45 update
+- v44で崩れたバトル盤面レイアウトを復旧。
+- 本家風の3列×4段へ強制固定。
+  - 上2段: 相手盤面6マス
+  - 下2段: 自分盤面6マス
+  - 中央: 相手前列と自分前列の間隔
+- 前後関係を `data/battle_board_layout_note.json` に記録。
+- 今後のCSS追加で盤面配置を壊さないため、最終上書きブロックとして追加。
