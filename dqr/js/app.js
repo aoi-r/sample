@@ -16,7 +16,7 @@ localStorage.setItem('dqr_device_id', state.deviceId);
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v13-warrior-user-link-map';
+const DATA_VERSION = 'v16-all-xlsx-links-plus-final-two';
 
 init().catch(err => {
   console.error(err);

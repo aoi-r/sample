@@ -1,7 +1,26 @@
 {
-  "version": "v13-warrior-user-link-map",
+  "version": "v16-all-xlsx-links-plus-final-two",
   "baselinePreserved": "common_001_163",
-  "warriorUpdatedCount": 142,
-  "warriorMissingCount": 0,
-  "note": "戦士カード画像をユーザー提供の公式DB詳細リンクで再マッピング。"
+  "updatedCount": 1273,
+  "missingCount": 2,
+  "note": "他カード.xlsx反映版に、しゃくねつのツメ(1193)とサラマンダー(1139)を追加反映。",
+  "aliasPatch": [
+    {
+      "name": "挑戦!バトルロード",
+      "providedName": "挑戦！バトルロード",
+      "sheet": "共通(残りも全て込み)",
+      "officialId": 816
+    },
+    {
+      "name": "モンスターハウスだ!",
+      "providedName": "モンスターハウスだ！",
+      "sheet": "商人",
+      "officialId": 1530
+    }
+  ],
+  "finalTwoPatched": [
+    "しゃくねつのツメ",
+    "サラマンダー"
+  ],
+  "remainingUnmappedCount": 0
 }

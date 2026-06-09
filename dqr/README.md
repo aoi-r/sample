@@ -132,3 +132,25 @@ node tools/sync_official_gameconductor.mjs
 - 戦士カード画像を、ユーザー提供の公式DB詳細リンク一覧に基づいて再マッピング。
 - 追加レポート: `data/official_image_manual_batch_v13_warrior_user_links.json`
 - `DATA_VERSION = v13-warrior-user-link-map` でキャッシュ回避。
+
+
+## v14 update
+- 共通001〜163と戦士v13は保持。
+- `魔法使い.xlsx` の左端カード名セルのハイパーリンクから公式DB詳細IDを抽出し、魔法使いカード140枚に画像URLを反映。
+- 追加レポート: `data/official_image_manual_batch_v14_mage_xlsx_links.json`
+- `DATA_VERSION = v14-mage-xlsx-link-map` でキャッシュ回避。
+
+
+## v15 update
+- `他カード.xlsx` の左端カード名セルのハイパーリンクから公式DB IDを抽出して画像URLを反映。
+- 共通001〜163はOK済みベースラインとして保持。
+- 魔法使いはv14の確定分を保持。
+- 追加レポート: `data/official_image_manual_batch_v15_all_xlsx_links.json`
+- `DATA_VERSION = v15-all-xlsx-links` でキャッシュ回避。
+
+
+## v16 update
+- 残り2枚の画像リンクを手動反映。
+- しゃくねつのツメ → /c/d/1193
+- サラマンダー → /c/d/1139
+- 画像未反映カード数を 0 に更新。

@@ -1,0 +1,20 @@
+{
+  "batch": "final_two_manual_links_v16",
+  "baselinePreserved": "common_001_163",
+  "updatedCount": 2,
+  "remainingUnmappedCount": 0,
+  "cards": [
+    {
+      "name": "しゃくねつのツメ",
+      "officialId": 1193,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1193",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1193.jpg"
+    },
+    {
+      "name": "サラマンダー",
+      "officialId": 1139,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1139",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1139.jpg"
+    }
+  ]
+}
