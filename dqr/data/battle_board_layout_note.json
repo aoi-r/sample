@@ -1,5 +1,5 @@
 {
-  "version": "v48_leaders_inside_safe_area",
+  "version": "v49_battle_top_exit_player_leader_left",
   "official_like_coordinate": {
     "rows": {
       "0": "上",
@@ -56,6 +56,8 @@
     "board": "盤面はv46の左右座標を維持したまま白線付近まで上寄せ",
     "leaders": "自分/相手リーダーは左右中央付近へ絶対配置",
     "hand": "手札を小型化して盤面下段を隠さない",
-    "leaders_safe_area": "iPhone横向きのカメラ/ノッチに隠れないよう、左右リーダーをsafe-area込みで内側へ移動"
+    "leaders_safe_area": "iPhone横向きのカメラ/ノッチに隠れないよう、左右リーダーをsafe-area込みで内側へ移動",
+    "battle_top_left_exit": "バトル中の左上ボタンを退出確認モーダルに接続。盤面内の別退出ボタンは非表示。",
+    "player_leader": "自分リーダーをv48より左へ戻す。safe-areaは最低限考慮。"
   }
 }

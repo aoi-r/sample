@@ -37,7 +37,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v48_leaders_inside_safe_area';
+const DATA_VERSION = 'v49_battle_top_exit_player_leader_left';
 
 
 const HERO_SKILL_DEFS = {
@@ -273,6 +273,19 @@ function bindEvents(){
   if(heroSkillBtn) heroSkillBtn.addEventListener('click', openHeroSkillModal);
   const heroSkillClose = $('hero-skill-close');
   if(heroSkillClose) heroSkillClose.addEventListener('click', () => $('hero-skill-modal').close());
+  // battle-top-exit-interceptor-v49
+  const battleBackBtn = document.querySelector('#screen-battle .topbar .ghost');
+  if(battleBackBtn){
+    battleBackBtn.addEventListener('click', (e) => {
+      const battleActive = !$('battle-arena')?.classList.contains('hidden') && $('screen-battle')?.classList.contains('active');
+      if(battleActive){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        $('battle-exit-modal').showModal();
+      }
+    }, true);
+    battleBackBtn.textContent = '退出';
+  }
   const choiceClose = $('choice-modal-close');
   if(choiceClose) choiceClose.addEventListener('click', () => $('choice-modal').close());
   const deckConfirmClose = $('deck-confirm-close');

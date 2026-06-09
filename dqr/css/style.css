@@ -5344,3 +5344,52 @@
     right:max(34px, env(safe-area-inset-right, 0px) + 20px) !important;
   }
 }
+
+
+/* v49: use top-left battle back button as exit, hide duplicate exit, adjust own leader leftward */
+#screen-battle .topbar .ghost{
+  min-width:88px !important;
+  justify-content:center !important;
+}
+
+#screen-battle .topbar .ghost::before{
+  content:"" !important;
+}
+
+/* Hide separate in-arena exit button because top-left button is now exit */
+.battle-arena .battle-exit{
+  display:none !important;
+}
+
+/* Enemy stays safely inward; player was too inward, move back left but still avoid notch */
+.battle-arena .player-leader{
+  left:max(28px, env(safe-area-inset-left, 0px) + 10px) !important;
+}
+
+.battle-arena .enemy-leader{
+  right:max(54px, env(safe-area-inset-right, 0px) + 34px) !important;
+}
+
+@media(max-width:900px) and (orientation:landscape){
+  #screen-battle .topbar .ghost{
+    min-width:70px !important;
+  }
+
+  .battle-arena .player-leader{
+    left:max(22px, env(safe-area-inset-left, 0px) + 8px) !important;
+  }
+
+  .battle-arena .enemy-leader{
+    right:max(38px, env(safe-area-inset-right, 0px) + 24px) !important;
+  }
+}
+
+@media(max-width:760px) and (orientation:landscape){
+  .battle-arena .player-leader{
+    left:max(18px, env(safe-area-inset-left, 0px) + 6px) !important;
+  }
+
+  .battle-arena .enemy-leader{
+    right:max(34px, env(safe-area-inset-right, 0px) + 20px) !important;
+  }
+}
