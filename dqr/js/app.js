@@ -37,7 +37,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v37-pwa-board-modal-fit';
+const DATA_VERSION = 'v39-left-right-front-back-board';
 
 init().catch(err => {
   console.error(err);
@@ -154,6 +154,8 @@ function bindEvents(){
   if(endTurnTop) endTurnTop.addEventListener('click', endTurn);
   const zoom = $('battle-card-zoom');
   if(zoom) zoom.addEventListener('click', closeBattleCardZoom);
+  const resultOverlay = $('battle-result-overlay');
+  if(resultOverlay) resultOverlay.addEventListener('click', resetAfterBattleResult);
   const battleExit = $('battle-exit');
   if(battleExit) battleExit.addEventListener('click', () => $('battle-exit-modal').showModal());
   const battleExitCancel = $('battle-exit-cancel');
@@ -584,6 +586,7 @@ function applyRemoteOpponentState(states){
   game.enemy.mp = entry.mp ?? game.enemy.mp;
   game.enemy.tension = entry.tension ?? game.enemy.tension;
   game.enemy.board = normalizeRemoteBoard(entry.board);
+  if(game.enemy.hp <= 0) showBattleResult('win');
   renderBattleArena();
 }
 
@@ -611,6 +614,32 @@ async function advanceTurnToOpponent(){
     currentTurnPlayerId: next,
     updatedAt: serverTimestamp()
   });
+}
+
+
+function showBattleResult(result){
+  const game = state.battle.game;
+  if(game) game.finished = true;
+  const isWin = result === 'win';
+  $('battle-result-title').textContent = isWin ? '勝利' : '敗北';
+  $('battle-result-message').textContent = 'タップしてマッチング前に戻る';
+  $('battle-result-overlay').classList.toggle('lose', !isWin);
+  $('battle-result-overlay').classList.remove('hidden');
+}
+
+function resetAfterBattleResult(){
+  $('battle-result-overlay').classList.add('hidden');
+  state.battle.game = null;
+  state.battle.matchId = '';
+  state.battle.roomId = '';
+  state.battle.selectedDeckId = '';
+  state.battle.selectedDeck = null;
+  const arena = $('battle-arena');
+  const setup = $('battle-setup');
+  if(arena) arena.classList.add('hidden');
+  if(setup) setup.classList.remove('hidden');
+  $('battle-status').textContent = '待機中';
+  renderBattleDeckList();
 }
 
 async function leaveBattleAsDefeat(){
@@ -763,9 +792,17 @@ function applySummonKeywords(unit, card){
   }
 }
 
+function isFrontPosition(side, pos){
+  // DQR layout in this project:
+  // player: left leader, front column is the right column toward opponent => pos 0,1,2
+  // enemy: right leader, front column is the left column toward player => pos 0,1,2
+  // back column is pos 3,4,5.
+  return [0,1,2].includes(Number(pos));
+}
+
 function hasEnemyTaunt(){
   const game = state.battle.game;
-  return game.enemy.board.some(u => u?.keywords?.taunt);
+  return game.enemy.board.some((u, pos) => u?.keywords?.taunt && isFrontPosition('enemy', pos));
 }
 
 function canTargetEnemyUnit(unit){
@@ -873,6 +910,7 @@ function battleLog(text){
 
 function selectHandCard(index){
   const game = state.battle.game;
+  if(game?.finished) return;
   if(!game?.isMyTurn) return toast('相手のターンです。', false);
   const card = byId(game.player.hand[index]);
   if(!card) return;
@@ -892,6 +930,7 @@ function selectHandCard(index){
 
 function handleEmptySlotClick(side, pos){
   const game = state.battle.game;
+  if(game?.finished) return;
   if(!game?.isMyTurn) return;
   if(side !== 'player') return;
   if(game.selectedHandIndex == null) return;
@@ -933,6 +972,7 @@ function useNonUnitCard(index, card){
 
 function handleBoardClick(side, pos){
   const game = state.battle.game;
+  if(game?.finished) return;
   if(!game?.isMyTurn && side === 'player') return toast('相手のターンです。', false);
   const board = side === 'player' ? game.player.board : game.enemy.board;
   const unit = board[pos];
@@ -985,7 +1025,7 @@ function attackLeader(targetSide){
   game.selectedAttacker = null;
   renderBattleArena();
   syncMyBattleState();
-  if(target.hp <= 0) toast(targetSide === 'enemy' ? '勝利！' : '敗北…', targetSide === 'enemy');
+  if(target.hp <= 0) showBattleResult(targetSide === 'enemy' ? 'win' : 'lose');
 }
 
 function resolveDeaths(){
@@ -1003,6 +1043,7 @@ function resolveDeaths(){
 
 function useOrChargeTension(){
   const game = state.battle.game;
+  if(game?.finished) return;
   if(!game?.isMyTurn) return toast('相手のターンです。', false);
   if(!game) return;
   if(game.player.tension >= 3){
@@ -1081,6 +1122,7 @@ function renderTension(){
 
 async function endTurn(){
   const game = state.battle.game;
+  if(game?.finished) return;
   if(!game?.isMyTurn) return toast('相手のターンです。', false);
   if(!game) return;
   game.turn += 1;

@@ -1,5 +1,5 @@
 {
-  "version": "v37-pwa-board-modal-fit",
+  "version": "v39-left-right-front-back-board",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -40,5 +40,7 @@
   "battleDeckModal": "Moved confirm button to top blank area and made the 30-card grid no-scroll.",
   "webAppMeta": "iOSホーム画面追加用メタタグを追加。",
   "pwa": "manifest.webmanifest and icons added. Delete old home-screen icon and add again after deploy.",
-  "battleBoard": "Forced each side board to 3 columns x 2 rows using display:contents on unit rows."
+  "battleBoard": "左右型の前列/後列配置へ修正。左から自分後列、自分前列、相手前列、相手後列。各列3マス。",
+  "result": "HP0時に勝利/敗北リザルトを表示し、タップでマッチング前へ戻る。",
+  "rules": "におうだちは前列にいる場合のみ対象制限として扱うように修正。"
 }
