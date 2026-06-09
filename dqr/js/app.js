@@ -321,7 +321,7 @@ function makeDeckPayload(){
   return { deckName: $('deck-name').value.trim() || '新しいデッキ', className: state.selectedClass, heroId: state.selectedHeroId || '', cards, total: deckTotal(), username: state.username, deviceId: state.deviceId, updatedAtLocal: new Date().toISOString(), schemaVersion: 'dqr.userDeck.v3_hero_unlimited' };
 }
 
-async async function saveDeck(){
+async function saveDeck(){
   if(!hasPlayerId()) return show('user');
   const validation = validateDeck(); if(!validation.ok) return toast('まだ保存できません。枚数や職業を確認してね。', false);
   const payload = makeDeckPayload();
