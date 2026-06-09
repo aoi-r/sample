@@ -37,7 +37,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v35-battle-board-original-like';
+const DATA_VERSION = 'v36-safari-battle-fit-modal-grid';
 
 init().catch(err => {
   console.error(err);
@@ -443,19 +443,26 @@ function openBattleDeckModal(id, deck){
   state.battle.previewDeckId = id;
   state.battle.previewDeck = deck;
   $('battle-deck-modal-title').textContent = deck.deckName || 'デッキ確認';
-  const cards = (deck.cards || []).map(x => ({...x, card: byId(x.cardId)})).filter(x => x.card);
+  const cards = (deck.cards || []).map(x => ({...x, card: byId(x.cardId)})).filter(x => x.card)
+    .sort((a,b)=> (a.card.cost ?? 0) - (b.card.cost ?? 0) || a.card.name.localeCompare(b.card.name,'ja'));
+  const expanded = [];
+  for(const x of cards){
+    for(let i=0; i<Number(x.count || 0); i++) expanded.push(x.card);
+  }
   body.innerHTML = `
-    <div class="detail-block">
-      <h4>${escapeHtml(deck.className || '')} / ${deck.total || 0}枚</h4>
-      <p>${escapeHtml(deck.deckName || '')}</p>
+    <div class="battle-deck-compact-head">
+      <strong>${escapeHtml(deck.className || '')} / ${deck.total || 0}枚</strong>
+      <span>${escapeHtml(deck.deckName || '')}</span>
     </div>
-    <div class="battle-deck-preview-list">
-      ${cards.map(x => {
-        const img = getOfficialImage(x.card);
-        return `<div class="battle-preview-row">${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(x.card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span>${escapeHtml(x.card.name)}</span><b>×${x.count}</b></div>`;
+    <div class="battle-deck-compact-grid">
+      ${expanded.map(card => {
+        const img = getOfficialImage(card);
+        return `<article class="battle-deck-compact-card">${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}</article>`;
       }).join('')}
     </div>
-    <button id="confirm-battle-deck" class="primary">このデッキでバトルへ</button>
+    <div class="battle-deck-modal-actions">
+      <button id="confirm-battle-deck" class="primary">このデッキでバトルへ</button>
+    </div>
   `;
   $('confirm-battle-deck').addEventListener('click', () => {
     state.battle.selectedDeckId = id;

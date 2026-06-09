@@ -1,5 +1,5 @@
 {
-  "version": "v35-battle-board-original-like",
+  "version": "v36-safari-battle-fit-modal-grid",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -34,7 +34,9 @@
   "firebase": "Firebase config embedded in js/firebase-config.js for dqr-sample.",
   "removed": "JSON出力ボタンを削除。",
   "battleEngine": "開始時手札、ヒーロー確定手札、召喚、攻撃、死亡、HP/MP/テンション、テンションスキル基礎、長押し拡大を実装。",
-  "battleLayout": "バトル盤面を本家寄せに調整。中央に相手6マス/自分6マスが向かい合う構成。相手ターン時はターン終了ボタンを赤系の相手のターン表示に変更。",
+  "battleLayout": "Safari横向きタブ内でも見切れにくいようバトル画面を全体圧縮。6vs6中央盤面を本家寄せに再調整。",
   "matching": "Firebase rooms/{matchId}/players を監視し、相手入室表示まで追加。盤面同期は次フェーズ。",
-  "battleUpdate": "退出/敗北、12マス盤面、ターン制御、Firebase状態同期基礎、相手盤面表示、ヒーロースキルボタン、主要キーワード処理入口を追加。"
+  "battleUpdate": "退出/敗北、12マス盤面、ターン制御、Firebase状態同期基礎、相手盤面表示、ヒーロースキルボタン、主要キーワード処理入口を追加。",
+  "battleDeckModal": "バトル用デッキ確認モーダルを30枚敷き詰め型へ変更。",
+  "webAppMeta": "iOSホーム画面追加用メタタグを追加。"
 }
