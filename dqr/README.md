@@ -170,3 +170,10 @@ node tools/sync_official_gameconductor.mjs
   - 下側: 検索/絞り込み/カード一覧
 - スマホ版カード一覧は横スクロール、2段表示。
 - スマホ版にカード表示サイズスライダーを追加。
+
+
+## v19 update
+- `data/tension_system.json` を更新。
+- 既存7職業のテンションスキルに `effect` 構造データを追加。
+- カミュのテンションスキル `盗賊のかみわざ` を追加。
+- 生成武器 `シーブスナイフ` を `generated_cards.json` に追加。

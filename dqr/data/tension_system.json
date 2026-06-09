@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "type": "dqr.tensionSystem",
   "source": "https://gameconductor.com/dqrivals/?p=9",
   "coreRules": {
@@ -29,51 +29,132 @@
       "class": "戦士",
       "leader": "テリー",
       "skillName": "稲妻の加護",
-      "effectText": "このターン中味方リーダーは攻撃力+3と貫通を得る"
+      "effectText": "このターン中味方リーダーは攻撃力+3と貫通を得る",
+      "effect": {
+        "type": "temporaryLeaderBuff",
+        "target": "friendlyLeader",
+        "attack": 3,
+        "keywords": [
+          "貫通"
+        ],
+        "duration": "untilEndOfTurn"
+      }
     },
     {
       "class": "魔法使い",
       "leader": "ゼシカ",
       "skillName": "紅蓮の火球",
-      "effectText": "敵1体に3ダメージを与える"
+      "effectText": "敵1体に3ダメージを与える",
+      "effect": {
+        "type": "dealDamage",
+        "target": "enemyTarget",
+        "amount": 3
+      }
     },
     {
       "class": "武闘家",
       "leader": "アリーナ",
       "skillName": "おてんば姫",
-      "effectText": "カードを1枚引く、武術カード1枚を手札に加える"
+      "effectText": "カードを1枚引く、武術カード1枚を手札に加える",
+      "effect": {
+        "type": "multi",
+        "actions": [
+          {
+            "type": "drawCards",
+            "target": "self",
+            "count": 1
+          },
+          {
+            "type": "addRandomCardToHand",
+            "target": "self",
+            "pool": "martialArts",
+            "count": 1
+          }
+        ]
+      }
     },
     {
       "class": "僧侶",
       "leader": "ククール",
       "skillName": "いやしの波動",
-      "effectText": "味方全体のHPを3回復する"
+      "effectText": "味方全体のHPを3回復する",
+      "effect": {
+        "type": "heal",
+        "target": "allFriendlyCharacters",
+        "amount": 3
+      }
     },
     {
       "class": "商人",
       "leader": "トルネコ",
       "skillName": "お宝発見",
-      "effectText": "道具カード3枚を手札に加える"
+      "effectText": "道具カード3枚を手札に加える",
+      "effect": {
+        "type": "addRandomCardsToHand",
+        "target": "self",
+        "pool": "merchantTools",
+        "count": 3
+      }
     },
     {
       "class": "占い師",
       "leader": "ミネア",
       "skillName": "水晶占い",
-      "effectText": "自分のデッキから特技カードを1枚引く。そのカードのコストを-1"
+      "effectText": "自分のデッキから特技カードを1枚引く。そのカードのコストを-1",
+      "effect": {
+        "type": "drawFromDeckByType",
+        "target": "self",
+        "cardType": "特技",
+        "costChange": -1
+      }
     },
     {
       "class": "魔剣士",
       "leader": "ピサロ",
       "skillName": "魔族の騎士",
-      "effectText": "3/2のピサロナイトを出す"
+      "effectText": "3/2のピサロナイトを出す",
+      "effect": {
+        "type": "summonToken",
+        "target": "friendlyBoard",
+        "tokenName": "ピサロナイト",
+        "attack": 3,
+        "hp": 2
+      }
     },
     {
       "class": "盗賊",
       "leader": "カミュ",
-      "skillName": null,
-      "effectText": null,
-      "needsReview": true,
-      "note": "公式DBのテンションシステムページは初期7リーダーのみ掲載。カミュは追加職業のため別途公式詳細確認が必要。"
+      "skillName": "盗賊のかみわざ",
+      "effectText": "シーブスナイフ(攻撃1/耐久2、反撃ダメージ-1、この武器が壊れた時カードを1枚引く)を装備する",
+      "needsReview": false,
+      "note": "ユーザー提供情報に基づき補完",
+      "effect": {
+        "type": "equipWeapon",
+        "target": "friendlyLeader",
+        "weapon": {
+          "name": "シーブスナイフ",
+          "attack": 1,
+          "durability": 2,
+          "effects": [
+            {
+              "type": "reduceCounterDamage",
+              "amount": 1,
+              "duration": "whileEquipped",
+              "text": "反撃ダメージ-1"
+            },
+            {
+              "type": "deathrattle",
+              "trigger": "weaponDestroyed",
+              "action": {
+                "type": "drawCards",
+                "target": "self",
+                "count": 1
+              },
+              "text": "この武器が壊れた時カードを1枚引く"
+            }
+          ]
+        }
+      }
     }
   ],
   "skillChangeCards": [
@@ -88,5 +169,24 @@
       "deckBuildable": false,
       "reason": "少年テリー使用後に変更されるテンションスキル本体"
     }
-  ]
+  ],
+  "updatedIn": "v19",
+  "generatedTokens": {
+    "シーブスナイフ": {
+      "name": "シーブスナイフ",
+      "cardType": "武器",
+      "classes": [
+        "盗賊"
+      ],
+      "cost": 0,
+      "attack": 1,
+      "hp": 2,
+      "durability": 2,
+      "text": "反撃ダメージ-1。この武器が壊れた時カードを1枚引く",
+      "flags": {
+        "deckBuildable": false,
+        "generatedBy": "カミュのテンションスキル「盗賊のかみわざ」"
+      }
+    }
+  }
 }

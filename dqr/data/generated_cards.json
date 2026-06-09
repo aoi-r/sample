@@ -2671,6 +2671,27 @@
         "nameVerified": false,
         "imageStatus": "removed_until_name_verified"
       }
+    },
+    {
+      "id": "generated_thief_sheaves_knife",
+      "name": "シーブスナイフ",
+      "cardType": "武器",
+      "classes": [
+        "盗賊"
+      ],
+      "cost": 0,
+      "attack": 1,
+      "hp": 2,
+      "durability": 2,
+      "text": "反撃ダメージ-1。この武器が壊れた時カードを1枚引く",
+      "source": "tensionSkill",
+      "generatedBy": {
+        "leader": "カミュ",
+        "skillName": "盗賊のかみわざ"
+      },
+      "flags": {
+        "deckBuildable": false
+      }
     }
   ]
 }
