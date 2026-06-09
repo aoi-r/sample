@@ -2488,3 +2488,223 @@
     flex-basis:66px !important;
   }
 }
+
+
+/* v30: dense mobile landscape card strips.
+   Use horizontal/vertical whitespace for bigger card images and prevent action buttons clipping. */
+@media (max-width: 900px) and (orientation: landscape){
+  .builder-layout{
+    grid-template-rows:60% 40% !important;
+    padding:2px 4px 4px !important;
+    gap:2px !important;
+  }
+
+  .card-browser{
+    padding:2px 4px 3px !important;
+    grid-template-rows:21px 12px 1fr !important;
+  }
+
+  .mobile-section-label.collection-label{
+    padding:0 11px !important;
+    font-size:10.5px !important;
+  }
+
+  .filters{
+    top:2px !important;
+    left:114px !important;
+    right:6px !important;
+    grid-template-columns:minmax(116px,1.5fr) repeat(3,minmax(54px,.58fr)) 96px !important;
+    gap:3px !important;
+  }
+
+  .filters input,
+  .filters select{
+    height:20px !important;
+    padding:1px 6px !important;
+    font-size:9px !important;
+  }
+
+  .size-control{
+    width:96px !important;
+    min-width:96px !important;
+    height:20px !important;
+  }
+
+  .size-control::before{
+    font-size:8px !important;
+  }
+
+  .size-control input{
+    width:52px !important;
+  }
+
+  #card-count-label{
+    font-size:9.5px !important;
+    padding:0 2px !important;
+  }
+
+  .card-grid{
+    --card-w: var(--mobile-card-w, 118px);
+    gap:3px !important;
+    padding:0 2px 5px !important;
+    align-items:stretch !important;
+  }
+
+  .card-grid::after{
+    flex-basis:12px !important;
+  }
+
+  .card-item{
+    flex-basis:var(--card-w) !important;
+    width:var(--card-w) !important;
+  }
+
+  .card-thumb{
+    border-radius:5px !important;
+    box-shadow:0 1px 5px rgba(0,0,0,.45) !important;
+  }
+
+  /* Bottom area: keep selected cards visible and action buttons inside screen */
+  .left-panel{
+    grid-template-columns:126px 94px 110px 1fr 94px !important;
+    grid-template-rows:26px 1fr 22px !important;
+    gap:3px !important;
+    padding:2px 4px 3px !important;
+  }
+
+  #deck-name,
+  #class-select{
+    height:24px !important;
+    font-size:9.5px !important;
+    padding:2px 7px !important;
+  }
+
+  .deck-stats{
+    grid-template-columns:repeat(3, 34px) !important;
+    gap:2px !important;
+  }
+
+  .deck-stats div{
+    padding:0 !important;
+  }
+
+  .deck-stats span{
+    font-size:14px !important;
+    line-height:1.05 !important;
+  }
+
+  .deck-stats small{
+    font-size:6.5px !important;
+  }
+
+  .validation{
+    max-height:24px !important;
+    min-height:24px !important;
+    font-size:8.5px !important;
+    padding:2px 6px !important;
+  }
+
+  .deck-heading{
+    top:28px !important;
+    left:7px !important;
+    padding:0 11px !important;
+    font-size:10.5px !important;
+  }
+
+  #selected-list{
+    padding:19px 3px 3px !important;
+    gap:3px !important;
+    border-radius:6px !important;
+  }
+
+  #selected-list .selected-row{
+    flex-basis:70px !important;
+    border-radius:5px !important;
+  }
+
+  #selected-list .selected-card-mini-thumb{
+    border-radius:5px !important;
+  }
+
+  #selected-list .selected-row strong{
+    right:1px !important;
+    top:1px !important;
+    padding:0 4px !important;
+    font-size:9px !important;
+  }
+
+  #selected-list .selected-row button{
+    bottom:1px !important;
+    width:20px !important;
+    height:20px !important;
+    min-height:20px !important;
+    font-size:11px !important;
+  }
+
+  #selected-list .selected-row button:nth-of-type(1){
+    left:1px !important;
+  }
+
+  #selected-list .selected-row button:nth-of-type(2){
+    right:1px !important;
+  }
+
+  .actions-grid{
+    gap:3px !important;
+    align-content:stretch !important;
+  }
+
+  .actions-grid button,
+  .actions-grid .file-label{
+    height:auto !important;
+    min-height:21px !important;
+    max-height:28px !important;
+    padding:2px 1px !important;
+    font-size:8.2px !important;
+    line-height:1.05 !important;
+  }
+
+  #save-deck{
+    min-height:26px !important;
+    max-height:31px !important;
+    font-size:8.8px !important;
+  }
+
+  #export-deck{
+    font-size:7.8px !important;
+  }
+}
+
+@media (max-width: 760px) and (orientation: landscape){
+  .card-grid{
+    --card-w: var(--mobile-card-w, 110px);
+    gap:3px !important;
+  }
+
+  .filters{
+    left:106px !important;
+    grid-template-columns:minmax(96px,1.35fr) repeat(3,minmax(46px,.5fr)) 84px !important;
+  }
+
+  .size-control{
+    width:84px !important;
+    min-width:84px !important;
+  }
+
+  .size-control input{
+    width:42px !important;
+  }
+
+  .left-panel{
+    grid-template-columns:112px 86px 98px 1fr 86px !important;
+  }
+
+  #selected-list .selected-row{
+    flex-basis:64px !important;
+  }
+
+  .actions-grid button,
+  .actions-grid .file-label{
+    font-size:7.6px !important;
+  }
+}

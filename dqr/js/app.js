@@ -37,7 +37,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v29-mobile-image-strip-layout';
+const DATA_VERSION = 'v30-mobile-dense-card-strip';
 
 init().catch(err => {
   console.error(err);
