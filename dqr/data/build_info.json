@@ -1,5 +1,5 @@
 {
-  "version": "v28-mobile-card-image-only",
+  "version": "v29-mobile-image-strip-layout",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -30,5 +30,5 @@
   "battleScaffold": "保存済みデッキ選択、デッキ確認モーダル、合言葉IDマッチング、盤面/HP/MP/テンション/手札の初期UIを追加。",
   "fix": "スマホSafariでタイトル画面から進まない可能性に対し、画面遷移を先に実行し、全画面/横向き試行を非同期fire-and-forgetに変更。",
   "deckConfirm": "デッキ編成画面に確認ボタンを追加し、画像付き一覧モーダルで確認可能にした。",
-  "layoutFix": "スマホ横向きのカード一覧を画像のみ表示に変更。詳細/追加ボタンを非表示にし、カード自体をタップで追加。下段マイデッキ領域を拡大。"
+  "layoutFix": "スマホ横向きでコレクション/マイデッキの枠を除去し、カード画像のみを横並び表示。マイデッキはイラスト上部が見えるように変更。"
 }
