@@ -1,5 +1,5 @@
 {
-  "version": "v46_battle_board_lr_coordinate",
+  "version": "v48_leaders_inside_safe_area",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -54,6 +54,6 @@
   "bianca": "2ダメージ、指定マスへ速攻4/4ゲレゲレ召喚、家族との絆の手札使用時2点オーラを追加。",
   "referenceExcel": "data/category_reference_from_excel.json に参考.xlsx の分類スニペットを保存。",
   "categoryEngine": "Excel分類を元に、建物/占い/さくせん/選択/GET/BET/交換所/武器の共通処理を追加。",
-  "battleLayoutFix": "本家準拠の左右対面盤面に修正。3行×4列、自分左/相手右、自前列と相手前列の間にスペース。",
+  "battleLayoutFix": "左右リーダーをiPhone横向きのカメラ/ノッチに被りにくいよう内側へ移動。盤面座標はv46/v47のまま維持。",
   "coordinateSystem": "col0 自後列 / col1 自前列 / col2 gap / col3 相手前列 / col4 相手後列; rows top/mid/bottom"
 }

@@ -1,5 +1,5 @@
 {
-  "version": "v46_battle_board_lr_coordinate",
+  "version": "v48_leaders_inside_safe_area",
   "official_like_coordinate": {
     "rows": {
       "0": "上",
@@ -51,5 +51,11 @@
       }
     }
   },
-  "do_not_break": "Battle board must be 3 rows x 4 columns, player side left, enemy side right."
+  "do_not_break": "Battle board must be 3 rows x 4 columns, player side left, enemy side right.",
+  "visual_adjustment": {
+    "board": "盤面はv46の左右座標を維持したまま白線付近まで上寄せ",
+    "leaders": "自分/相手リーダーは左右中央付近へ絶対配置",
+    "hand": "手札を小型化して盤面下段を隠さない",
+    "leaders_safe_area": "iPhone横向きのカメラ/ノッチに隠れないよう、左右リーダーをsafe-area込みで内側へ移動"
+  }
 }

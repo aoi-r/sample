@@ -471,3 +471,16 @@ node tools/sync_official_gameconductor.mjs
   - 2列目と3列目の間に中央スペース
 - 内部座標も `posToCoord`, `coordToPos`, `getBehindPos`, `getFrontPos` として整理。
 - 貫通/超貫通の「後ろ」判定もこの座標に合わせて修正。
+
+
+## v47 update
+- v46の左右対面座標は維持したまま、盤面の見た目を調整。
+- 盤面全体を白線付近まで上に移動。
+- 自分/相手リーダーを左右中央付近へ配置。
+- 手札を小型化して、下段マスを隠さないよう調整。
+
+
+## v48 update
+- iPhone横向き時のカメラ/ノッチに隠れにくいよう、左右リーダーを少し内側へ移動。
+- `env(safe-area-inset-left/right)` を考慮。
+- 盤面座標・前列/後列仕様は変更なし。

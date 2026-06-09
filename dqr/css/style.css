@@ -5132,3 +5132,215 @@
     width:52vw !important;
   }
 }
+
+
+/* v47: raise battlefield and place leaders at side-center.
+   The v46 coordinate system is correct; this only changes visual placement.
+*/
+.battle-arena .arena-field{
+  padding:18px 74px 82px !important;
+  grid-template-columns:92px 1fr 92px !important;
+  align-items:center !important;
+}
+
+.battle-arena .unit-zones.twelve-zones{
+  width:min(850px, 66vw) !important;
+  height:min(300px, calc(100dvh - 136px)) !important;
+  align-self:start !important;
+  margin-top:38px !important;
+  grid-template-columns:repeat(2, minmax(74px, 1fr)) minmax(30px, 58px) repeat(2, minmax(74px, 1fr)) !important;
+  grid-template-rows:repeat(3, minmax(42px, 1fr)) !important;
+  column-gap:clamp(10px, 1.7vw, 20px) !important;
+  row-gap:clamp(10px, 2.0dvh, 18px) !important;
+}
+
+.battle-arena .unit-slot{
+  max-width:146px !important;
+  max-height:70px !important;
+  min-width:68px !important;
+  min-height:40px !important;
+}
+
+/* Leaders should sit at the side-center, not at top corner */
+.battle-arena .player-leader,
+.battle-arena .enemy-leader{
+  position:absolute !important;
+  top:50% !important;
+  transform:translateY(-50%) !important;
+  z-index:4 !important;
+  width:76px !important;
+  height:92px !important;
+}
+
+.battle-arena .player-leader{
+  left:16px !important;
+  right:auto !important;
+}
+
+.battle-arena .enemy-leader{
+  right:16px !important;
+  left:auto !important;
+}
+
+.battle-arena .player-leader span,
+.battle-arena .enemy-leader span{
+  width:62px !important;
+  height:62px !important;
+}
+
+/* Keep player HUD below own leader but not over the board */
+.battle-arena .player-hud{
+  left:10px !important;
+  bottom:46px !important;
+  transform:scale(.94) !important;
+  transform-origin:left bottom !important;
+}
+
+/* Hand gets slightly lower/smaller so it does not hide the bottom row */
+.battle-arena .player-hand{
+  height:56px !important;
+  bottom:0 !important;
+  width:min(540px, 52vw) !important;
+  background:linear-gradient(180deg, transparent, rgba(0,0,0,.24)) !important;
+}
+
+.battle-arena .hand-card{
+  flex-basis:40px !important;
+  width:40px !important;
+  height:54px !important;
+}
+
+.battle-arena .battle-log{
+  right:10px !important;
+  bottom:36px !important;
+  width:min(350px, 28vw) !important;
+}
+
+@media(max-width:900px) and (orientation:landscape){
+  .battle-arena .arena-field{
+    padding:10px 44px 58px !important;
+    grid-template-columns:58px 1fr 58px !important;
+  }
+
+  .battle-arena .unit-zones.twelve-zones{
+    width:min(740px, 70vw) !important;
+    height:min(238px, calc(100dvh - 104px)) !important;
+    margin-top:30px !important;
+    grid-template-columns:repeat(2, minmax(48px, 1fr)) minmax(18px, 34px) repeat(2, minmax(48px, 1fr)) !important;
+    grid-template-rows:repeat(3, minmax(30px, 1fr)) !important;
+    column-gap:6px !important;
+    row-gap:6px !important;
+  }
+
+  .battle-arena .unit-slot{
+    min-width:46px !important;
+    min-height:28px !important;
+    max-width:100px !important;
+    max-height:46px !important;
+  }
+
+  .battle-arena .player-leader,
+  .battle-arena .enemy-leader{
+    top:50% !important;
+    width:52px !important;
+    height:70px !important;
+  }
+
+  .battle-arena .player-leader{
+    left:5px !important;
+  }
+
+  .battle-arena .enemy-leader{
+    right:5px !important;
+  }
+
+  .battle-arena .player-leader span,
+  .battle-arena .enemy-leader span{
+    width:48px !important;
+    height:48px !important;
+    font-size:8px !important;
+  }
+
+  .battle-arena .player-hud{
+    left:4px !important;
+    bottom:38px !important;
+    transform:scale(.78) !important;
+  }
+
+  .battle-arena .player-hand{
+    height:46px !important;
+    width:50vw !important;
+  }
+
+  .battle-arena .hand-card{
+    flex-basis:32px !important;
+    width:32px !important;
+    height:44px !important;
+  }
+
+  .battle-arena .battle-log{
+    right:5px !important;
+    bottom:26px !important;
+    width:25vw !important;
+    max-height:30px !important;
+    font-size:7.5px !important;
+  }
+}
+
+@media(max-width:760px) and (orientation:landscape){
+  .battle-arena .arena-field{
+    padding-left:34px !important;
+    padding-right:34px !important;
+    padding-bottom:52px !important;
+  }
+
+  .battle-arena .unit-zones.twelve-zones{
+    width:72vw !important;
+    height:min(220px, calc(100dvh - 96px)) !important;
+    margin-top:28px !important;
+    grid-template-columns:repeat(2, minmax(40px, 1fr)) 14px repeat(2, minmax(40px, 1fr)) !important;
+    column-gap:4px !important;
+  }
+
+  .battle-arena .unit-slot{
+    min-width:40px !important;
+    min-height:26px !important;
+    max-width:84px !important;
+    max-height:40px !important;
+  }
+
+  .battle-arena .player-hand{
+    width:48vw !important;
+  }
+}
+
+
+/* v48: move side leaders inward for iPhone camera/notch safe area.
+   Board coordinates are unchanged. Visual leader placement only. */
+.battle-arena .player-leader{
+  left:max(54px, env(safe-area-inset-left, 0px) + 34px) !important;
+}
+
+.battle-arena .enemy-leader{
+  right:max(54px, env(safe-area-inset-right, 0px) + 34px) !important;
+}
+
+@media(max-width:900px) and (orientation:landscape){
+  .battle-arena .player-leader{
+    left:max(38px, env(safe-area-inset-left, 0px) + 24px) !important;
+  }
+
+  .battle-arena .enemy-leader{
+    right:max(38px, env(safe-area-inset-right, 0px) + 24px) !important;
+  }
+}
+
+@media(max-width:760px) and (orientation:landscape){
+  .battle-arena .player-leader{
+    left:max(34px, env(safe-area-inset-left, 0px) + 20px) !important;
+  }
+
+  .battle-arena .enemy-leader{
+    right:max(34px, env(safe-area-inset-right, 0px) + 20px) !important;
+  }
+}
