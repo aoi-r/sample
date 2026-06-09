@@ -1865,3 +1865,255 @@
     width:62px !important;
   }
 }
+
+
+/* v28: phone landscape final pass.
+   Big picture-only collection cards, wider usable area, visible selected deck. */
+@media (max-width: 900px) and (orientation: landscape){
+  /* Let the actual game canvas use nearly all available Safari viewport width */
+  .topbar{
+    padding-left:6px !important;
+    padding-right:6px !important;
+  }
+
+  .builder-layout{
+    grid-template-rows:60% 40% !important;
+    padding:5px !important;
+    gap:5px !important;
+  }
+
+  .card-browser{
+    padding:7px 8px 8px !important;
+  }
+
+  .mobile-section-label.collection-label{
+    margin-bottom:2px !important;
+  }
+
+  /* Filters: keep them compact so they don't steal the right side */
+  .filters{
+    margin-left:90px !important;
+    margin-top:-23px !important;
+    grid-template-columns:1.4fr .68fr .68fr .72fr 112px !important;
+    gap:4px !important;
+  }
+
+  .filters input,
+  .filters select{
+    height:25px !important;
+    padding:3px 7px !important;
+    font-size:10px !important;
+  }
+
+  .size-control{
+    width:112px !important;
+    min-width:112px !important;
+    font-size:8px !important;
+    gap:4px !important;
+  }
+
+  .size-control input{
+    width:58px !important;
+  }
+
+  #card-count-label{
+    font-size:10px !important;
+    padding:0 4px 2px !important;
+  }
+
+  /* Collection: image-only cards, no detail/add/footer/name. */
+  .card-grid{
+    --card-w: var(--mobile-card-w, 118px);
+    display:flex !important;
+    flex-direction:row !important;
+    gap:9px !important;
+    width:100% !important;
+    max-width:100% !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    padding:3px 8px 12px !important;
+    justify-content:flex-start !important;
+    align-items:stretch !important;
+    scroll-snap-type:x proximity !important;
+  }
+
+  .card-grid::after{
+    content:"";
+    flex:0 0 48px !important;
+  }
+
+  .card-item{
+    flex:0 0 var(--card-w) !important;
+    width:var(--card-w) !important;
+    height:100% !important;
+    min-height:0 !important;
+    display:block !important;
+    padding:3px !important;
+    border-radius:10px !important;
+    background:linear-gradient(180deg,#273551,#111827) !important;
+    border:1px solid rgba(226,194,111,.6) !important;
+    scroll-snap-align:start !important;
+  }
+
+  .card-item.disabled{
+    opacity:.42 !important;
+  }
+
+  .card-thumb{
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    max-height:none !important;
+    min-height:0 !important;
+    margin:0 !important;
+    object-fit:contain !important;
+    object-position:center !important;
+    border-radius:8px !important;
+    background:#0b1120 !important;
+    border:0 !important;
+  }
+
+  .card-head,
+  .card-meta,
+  .card-text,
+  .chips,
+  .card-footer{
+    display:none !important;
+  }
+
+  /* Bottom deck area: give selected deck the wide left area, shrink buttons. */
+  .left-panel{
+    grid-template-columns:150px 108px 128px 1fr 132px !important;
+    grid-template-rows:30px 1fr 28px !important;
+    gap:5px !important;
+    padding:6px !important;
+  }
+
+  #deck-name{
+    height:27px !important;
+    font-size:11px !important;
+  }
+
+  #class-select{
+    height:27px !important;
+    font-size:11px !important;
+  }
+
+  .deck-stats{
+    grid-template-columns:repeat(3, 40px) !important;
+  }
+
+  .validation{
+    grid-column:4 / 5 !important;
+    grid-row:1 !important;
+    max-height:28px !important;
+    font-size:9px !important;
+    padding:3px 6px !important;
+  }
+
+  #selected-list{
+    grid-column:1 / 5 !important;
+    grid-row:2 / 4 !important;
+    height:100% !important;
+    min-height:0 !important;
+    padding:24px 7px 7px !important;
+    gap:7px !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+  }
+
+  #selected-list.empty{
+    padding-top:7px !important;
+    display:flex !important;
+  }
+
+  #selected-list .selected-row{
+    flex:0 0 136px !important;
+    height:72px !important;
+    display:grid !important;
+    grid-template-columns:38px 1fr auto auto !important;
+    grid-template-rows:1fr !important;
+    align-items:center !important;
+    gap:4px !important;
+    padding:5px !important;
+  }
+
+  #selected-list .selected-card-mini-thumb{
+    display:block !important;
+    width:34px !important;
+    height:50px !important;
+    object-fit:cover !important;
+    object-position:top !important;
+    border-radius:5px !important;
+    border:1px solid rgba(226,194,111,.5) !important;
+    background:#0b1120 !important;
+  }
+
+  #selected-list .selected-row span:first-child,
+  #selected-list .selected-row img + span{
+    display:-webkit-box !important;
+    -webkit-line-clamp:3 !important;
+    -webkit-box-orient:vertical !important;
+    overflow:hidden !important;
+    font-size:9.5px !important;
+    line-height:1.15 !important;
+  }
+
+  #selected-list .selected-row strong{
+    font-size:11px !important;
+  }
+
+  #selected-list .selected-row button{
+    width:22px !important;
+    height:22px !important;
+    min-height:22px !important;
+    padding:0 !important;
+    border-radius:7px !important;
+    font-size:12px !important;
+  }
+
+  .actions-grid{
+    grid-column:5 / 6 !important;
+    grid-row:1 / 4 !important;
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    align-content:end !important;
+    gap:5px !important;
+  }
+
+  .actions-grid button,
+  .actions-grid .file-label{
+    min-height:27px !important;
+    height:27px !important;
+    padding:4px 2px !important;
+    border-radius:999px !important;
+    font-size:9.5px !important;
+  }
+
+  #save-deck{
+    grid-column:auto !important;
+    min-height:34px !important;
+    height:34px !important;
+    font-size:11px !important;
+  }
+}
+
+/* Very narrow landscape phones */
+@media (max-width: 760px) and (orientation: landscape){
+  .card-grid{
+    --card-w: var(--mobile-card-w, 108px);
+    gap:8px !important;
+  }
+
+  .left-panel{
+    grid-template-columns:132px 96px 116px 1fr 118px !important;
+  }
+
+  .deck-stats{
+    grid-template-columns:repeat(3, 36px) !important;
+  }
+
+  #selected-list .selected-row{
+    flex-basis:126px !important;
+  }
+}

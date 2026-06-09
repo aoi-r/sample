@@ -37,7 +37,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v27-flex-card-list-layout';
+const DATA_VERSION = 'v28-mobile-card-image-only';
 
 init().catch(err => {
   console.error(err);
@@ -238,8 +238,12 @@ function renderCards(){
     node.querySelector('.chips').innerHTML = (card.keywords || []).slice(0,4).map(k => `<span class="chip">${escapeHtml(k)}</span>`).join('');
     const btn = node.querySelector('.add-card'), can = canAdd(card).ok;
     btn.disabled = !can; btn.textContent = count >= max ? '上限' : '追加'; if(!can) node.classList.add('disabled');
-    btn.addEventListener('click', () => addCard(card));
-    node.querySelector('.detail-card').addEventListener('click', () => showCardDetail(card));
+    btn.addEventListener('click', e => { e.stopPropagation(); addCard(card); });
+    node.querySelector('.detail-card').addEventListener('click', e => { e.stopPropagation(); showCardDetail(card); });
+    node.addEventListener('click', () => {
+      if(canAdd(card).ok) addCard(card);
+      else showCardDetail(card);
+    });
     grid.appendChild(node);
   }
 }
