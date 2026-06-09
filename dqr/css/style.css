@@ -3379,3 +3379,215 @@
     width:90px;
   }
 }
+
+
+/* v35: battle board closer to original DQR.
+   Centered 6 vs 6 battlefield, opponent turn button state. */
+@media (orientation: landscape){
+  .battle-arena{
+    background:
+      radial-gradient(ellipse at 50% 52%, rgba(228,188,116,.95) 0%, rgba(216,170,97,.9) 34%, rgba(112,157,91,.82) 72%, rgba(43,100,66,.92) 100%) !important;
+  }
+
+  .turn-end-main.opponent-turn{
+    background:linear-gradient(180deg,#ff8c8c,#a52735) !important;
+    color:#fff !important;
+    border-color:rgba(255,255,255,.35) !important;
+    opacity:1 !important;
+  }
+
+  .battle-top-command{
+    top:8px !important;
+  }
+
+  /* Field: leaders stay at sides, 12 slots face each other in center */
+  .arena-field{
+    grid-template-columns:82px minmax(360px, 1fr) 82px !important;
+    padding:46px 68px 104px !important;
+    gap:8px !important;
+  }
+
+  .leader{
+    width:76px !important;
+    height:92px !important;
+  }
+
+  .leader span{
+    width:64px !important;
+    height:64px !important;
+    font-size:11px !important;
+  }
+
+  .unit-zones.twelve-zones{
+    width:min(650px, 70vw) !important;
+    height:100% !important;
+    justify-self:center !important;
+    align-self:center !important;
+    display:grid !important;
+    grid-template-rows:1fr 26px 1fr !important;
+  }
+
+  .side-board{
+    display:grid !important;
+    grid-template-rows:1fr 1fr !important;
+    gap:10px !important;
+    align-self:stretch !important;
+  }
+
+  .side-board .unit-row{
+    display:grid !important;
+    grid-template-columns:repeat(3, 1fr) !important;
+    gap:18px !important;
+  }
+
+  .board-gap{
+    height:26px !important;
+  }
+
+  .unit-slot{
+    min-width:0 !important;
+    width:100% !important;
+    max-width:150px !important;
+    justify-self:center !important;
+    aspect-ratio:1.22/0.82 !important;
+    border-radius:10px !important;
+    background:
+      linear-gradient(180deg, rgba(226,225,211,.95), rgba(156,151,133,.95)) !important;
+    border:2px solid rgba(255,255,255,.38) !important;
+  }
+
+  .unit-slot.has-unit{
+    background:transparent !important;
+  }
+
+  .unit-slot.has-unit img{
+    width:100% !important;
+    height:100% !important;
+    object-fit:contain !important;
+  }
+
+  .player-hand{
+    bottom:0 !important;
+    width:min(590px, 62vw) !important;
+    height:96px !important;
+  }
+
+  .hand-card{
+    flex-basis:70px !important;
+    width:70px !important;
+    height:92px !important;
+  }
+
+  .player-hud{
+    bottom:84px !important;
+  }
+
+  .battle-log{
+    bottom:46px !important;
+  }
+}
+
+@media(max-width:900px) and (orientation:landscape){
+  .battle-arena{
+    grid-template-rows:0 1fr 0 70px 24px !important;
+  }
+
+  .battle-top-command{
+    top:4px !important;
+    gap:6px !important;
+  }
+
+  .turn-end-main{
+    min-width:92px !important;
+    padding:6px 10px !important;
+    font-size:12px !important;
+  }
+
+  .arena-field{
+    grid-template-columns:62px minmax(300px, 1fr) 62px !important;
+    padding:36px 58px 74px !important;
+    gap:4px !important;
+  }
+
+  .leader{
+    width:56px !important;
+    height:74px !important;
+  }
+
+  .leader span{
+    width:50px !important;
+    height:50px !important;
+    font-size:9px !important;
+  }
+
+  .unit-zones.twelve-zones{
+    width:min(510px, 69vw) !important;
+    grid-template-rows:1fr 14px 1fr !important;
+  }
+
+  .side-board{
+    gap:6px !important;
+  }
+
+  .side-board .unit-row{
+    gap:10px !important;
+  }
+
+  .board-gap{
+    height:14px !important;
+  }
+
+  .unit-slot{
+    max-width:112px !important;
+    border-radius:8px !important;
+  }
+
+  .player-hand{
+    width:min(500px, 65vw) !important;
+    height:70px !important;
+  }
+
+  .hand-card{
+    flex-basis:50px !important;
+    width:50px !important;
+    height:68px !important;
+  }
+
+  .player-hud{
+    bottom:62px !important;
+  }
+
+  .battle-log{
+    bottom:36px !important;
+    width:30vw !important;
+  }
+
+  .enemy-hud{
+    right:6px !important;
+  }
+}
+
+@media(max-width:760px) and (orientation:landscape){
+  .arena-field{
+    grid-template-columns:54px minmax(260px, 1fr) 54px !important;
+    padding-left:48px !important;
+    padding-right:48px !important;
+  }
+
+  .unit-zones.twelve-zones{
+    width:67vw !important;
+  }
+
+  .side-board .unit-row{
+    gap:7px !important;
+  }
+
+  .player-hand{
+    width:62vw !important;
+  }
+
+  .hand-card{
+    flex-basis:46px !important;
+    width:46px !important;
+  }
+}

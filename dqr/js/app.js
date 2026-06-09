@@ -37,7 +37,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v34-battle-turn-sync-12slots';
+const DATA_VERSION = 'v35-battle-board-original-like';
 
 init().catch(err => {
   console.error(err);
@@ -783,6 +783,13 @@ function renderBattleArena(){
   $('player-mp').textContent = `${game.player.mp}/${game.player.maxMp}`;
   $('enemy-mp').textContent = `${game.enemy.mp}/${game.enemy.maxMp}`;
   if($('battle-turn-label')) $('battle-turn-label').textContent = `TURN ${game.turn}`;
+  const endTop = $('end-turn-top');
+  if(endTop){
+    const myTurn = !!game.isMyTurn;
+    endTop.textContent = myTurn ? 'ターン終了' : '相手のターン';
+    endTop.disabled = !myTurn;
+    endTop.classList.toggle('opponent-turn', !myTurn);
+  }
   renderTension();
   renderBattleBoard();
   renderBattleHand();
