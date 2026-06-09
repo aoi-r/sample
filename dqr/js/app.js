@@ -16,7 +16,7 @@ localStorage.setItem('dqr_device_id', state.deviceId);
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v19-tension-kamyu-complete';
+const DATA_VERSION = 'v21-landscape-prompt-layout';
 
 init().catch(err => {
   console.error(err);
@@ -77,8 +77,23 @@ function setupFirebase(){
   }catch(e){ toast('Firebase初期化失敗: '+e.message, false); }
 }
 
+
+async function tryLandscapeMode(){
+  // Safari/iOSでは向き固定は基本効かない。Android等で効けばラッキー、失敗しても通常続行。
+  try{
+    if(document.documentElement.requestFullscreen && !document.fullscreenElement){
+      await document.documentElement.requestFullscreen();
+    }
+  }catch(e){ console.info('fullscreen skipped', e); }
+  try{
+    if(screen.orientation?.lock){
+      await screen.orientation.lock('landscape');
+    }
+  }catch(e){ console.info('orientation lock skipped', e); }
+}
+
 function bindEvents(){
-  document.querySelector('.tap-start').addEventListener('click', () => show('user'));
+  document.querySelector('.tap-start').addEventListener('click', async () => { await tryLandscapeMode(); show('user'); });
   document.querySelector('.tap-start').addEventListener('keydown', e => { if(e.key === 'Enter') show('user'); });
   $('username-ok').addEventListener('click', saveUsername);
   $('username-input').addEventListener('keydown', e => { if(e.key === 'Enter') saveUsername(); });

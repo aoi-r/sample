@@ -1,5 +1,5 @@
 {
-  "version": "v19-tension-kamyu-complete",
+  "version": "v21-landscape-prompt-layout",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -23,6 +23,6 @@
     "サラマンダー"
   ],
   "remainingUnmappedCount": 0,
-  "layoutUpdate": "PC版は維持。スマホ版は上部に検索/絞り込み/選択デッキ、下部に2段横スクロールカード一覧。表示サイズスライダー追加。",
+  "layoutUpdate": "Safari向け横向き誘導オーバーレイ追加。スマホ横向きは本家スクショ風レイアウト。",
   "tensionSystemUpdate": "カミュのテンションスキル「盗賊のかみわざ」と生成武器シーブスナイフを追加。既存7職業の効果を構造化。"
 }

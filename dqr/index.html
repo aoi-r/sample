@@ -88,11 +88,12 @@
           <h3>保存済みデッキ</h3>
           <div id="saved-decks" class="saved-decks empty">まだありません</div>
 
-          <h3>デッキ</h3>
+          <h3 class="deck-heading">マイデッキ</h3>
           <div id="selected-list" class="selected-list empty">カードを選択してください</div>
         </aside>
 
         <section class="card-browser">
+          <div class="mobile-section-label collection-label">コレクション</div>
           <div class="filters">
             <input id="search-input" placeholder="カード名・効果・キーワード検索" />
             <select id="type-filter"><option value="">種類すべて</option></select>
@@ -134,6 +135,15 @@
       </div>
     </article>
   </template>
+
+
+  <div id="rotate-overlay" class="rotate-overlay" aria-hidden="true">
+    <div class="rotate-card">
+      <div class="rotate-icon">↻</div>
+      <h2>端末を横向きにしてください</h2>
+      <p>デッキ作成は横画面で遊びやすくなります。<br>Safariでは自動回転できないため、端末を回転してください。</p>
+    </div>
+  </div>
 
   <script type="module" src="./js/app.js"></script>
 </body>
