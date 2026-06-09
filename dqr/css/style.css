@@ -1576,3 +1576,292 @@
     height:80px;
   }
 }
+
+
+/* v26: deck confirmation modal and mobile start fix */
+.deck-confirm-modal{
+  width:min(980px,96vw);
+  max-height:92dvh;
+  border:2px solid rgba(226,194,111,.55);
+  border-radius:20px;
+  background:linear-gradient(180deg,#182644,#0b1020);
+  color:var(--ink);
+  box-shadow:0 20px 90px rgba(0,0,0,.75);
+}
+.deck-confirm-modal::backdrop{
+  background:rgba(0,0,0,.7);
+}
+.deck-confirm-summary{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  padding:10px 16px;
+  border-bottom:1px solid var(--line);
+  color:#d8e1ff;
+}
+.deck-confirm-summary strong{
+  color:var(--accent);
+  font-size:18px;
+}
+.deck-confirm-grid{
+  padding:14px;
+  max-height:72dvh;
+  overflow:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(86px,1fr));
+  gap:10px;
+}
+.deck-confirm-card{
+  position:relative;
+  min-height:132px;
+  background:#101827;
+  border:1px solid rgba(226,194,111,.45);
+  border-radius:10px;
+  padding:5px;
+  display:grid;
+  grid-template-rows:1fr auto;
+  gap:4px;
+  overflow:hidden;
+}
+.deck-confirm-card img,
+.deck-confirm-card .no-img{
+  width:100%;
+  aspect-ratio:5/7;
+  object-fit:cover;
+  object-position:top;
+  border-radius:7px;
+  background:#17213a;
+}
+.deck-confirm-card b{
+  position:absolute;
+  top:5px;
+  right:5px;
+  background:rgba(0,0,0,.72);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:999px;
+  padding:2px 6px;
+  font-size:12px;
+}
+.deck-confirm-card span{
+  font-size:11px;
+  line-height:1.15;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  text-align:center;
+}
+
+@media(max-width:900px) and (orientation:landscape){
+  .deck-confirm-modal{
+    width:94vw;
+    max-height:90dvh;
+  }
+  .deck-confirm-summary{
+    padding:7px 10px;
+    font-size:11px;
+  }
+  .deck-confirm-summary strong{
+    font-size:14px;
+  }
+  .deck-confirm-grid{
+    grid-template-columns:repeat(auto-fill,minmax(72px,1fr));
+    gap:7px;
+    padding:9px;
+    max-height:70dvh;
+  }
+  .deck-confirm-card{
+    min-height:106px;
+    border-radius:8px;
+    padding:4px;
+  }
+  .deck-confirm-card span{
+    font-size:9.5px;
+  }
+  .deck-confirm-card b{
+    font-size:10px;
+    padding:1px 5px;
+  }
+}
+
+/* v26: the added 確認 button makes the mobile action area 5 items; keep it usable */
+@media(max-width:900px) and (orientation:landscape){
+  .actions-grid{
+    grid-template-columns:1fr 1fr;
+  }
+  .actions-grid button,
+  .actions-grid .file-label{
+    min-height:30px;
+  }
+  #save-deck{
+    grid-column:1 / -1;
+  }
+}
+
+
+/* v27: fix Safari landscape card-list spacing.
+   Use flex horizontal list instead of CSS grid to remove mysterious gaps. */
+@media (max-width: 900px) and (orientation: landscape){
+  .builder-layout{
+    grid-template-rows:62% 38% !important;
+  }
+
+  .card-browser{
+    grid-template-rows:auto auto 1fr !important;
+    overflow:hidden !important;
+    padding:7px 9px 9px !important;
+  }
+
+  .filters{
+    margin-left:96px !important;
+    margin-top:-23px !important;
+    grid-template-columns:1.2fr .72fr .72fr .78fr 130px !important;
+    gap:5px !important;
+  }
+
+  .filters input,
+  .filters select{
+    height:28px !important;
+  }
+
+  .size-control{
+    width:130px !important;
+    min-width:130px !important;
+  }
+
+  .size-control input{
+    width:74px !important;
+  }
+
+  #card-count-label{
+    padding:2px 4px 4px !important;
+  }
+
+  .card-grid{
+    --card-w: var(--mobile-card-w, 148px);
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:stretch !important;
+    gap:10px !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    scroll-snap-type:x proximity !important;
+    padding:4px 8px 12px !important;
+    grid-template-rows:none !important;
+    grid-auto-flow:unset !important;
+    grid-auto-columns:unset !important;
+    justify-content:flex-start !important;
+    align-content:stretch !important;
+  }
+
+  .card-grid::after{
+    content:"";
+    flex:0 0 16px;
+  }
+
+  .card-item{
+    flex:0 0 var(--card-w) !important;
+    width:var(--card-w) !important;
+    height:100% !important;
+    min-height:0 !important;
+    display:grid !important;
+    grid-template-rows:minmax(0,1fr) auto auto !important;
+    gap:4px !important;
+    padding:5px !important;
+    scroll-snap-align:start !important;
+  }
+
+  .card-thumb{
+    width:100% !important;
+    height:100% !important;
+    max-height:none !important;
+    min-height:0 !important;
+    object-fit:contain !important;
+    object-position:center !important;
+    background:#0d1424 !important;
+  }
+
+  .card-head{
+    min-height:22px !important;
+  }
+
+  .name{
+    font-size:10.5px !important;
+  }
+
+  .cost{
+    width:22px !important;
+    height:22px !important;
+    font-size:11px !important;
+  }
+
+  .card-footer{
+    min-height:24px !important;
+  }
+
+  .detail-card,
+  .add-card{
+    min-height:24px !important;
+    font-size:9.5px !important;
+  }
+
+  /* Bottom deck area slightly compressed to give collection more room */
+  .left-panel{
+    grid-template-columns:150px 110px 132px 1fr 172px !important;
+    grid-template-rows:30px 1fr 30px !important;
+    padding:6px 7px !important;
+  }
+
+  #selected-list{
+    padding-top:22px !important;
+  }
+
+  /* selected deck rows keep plus/minus visible */
+  #selected-list .selected-row{
+    flex:0 0 150px !important;
+    height:70px !important;
+    grid-template-columns:40px 1fr auto auto !important;
+    gap:5px !important;
+  }
+
+  #selected-list .selected-card-mini-thumb{
+    display:block !important;
+    width:36px !important;
+    height:52px !important;
+    object-fit:cover !important;
+    object-position:top !important;
+    border-radius:5px !important;
+    border:1px solid rgba(226,194,111,.45) !important;
+    background:#0d1424 !important;
+  }
+
+  #selected-list .selected-row button{
+    width:24px !important;
+    height:24px !important;
+    padding:0 !important;
+  }
+}
+
+@media (max-width: 760px) and (orientation: landscape){
+  .card-grid{
+    --card-w: var(--mobile-card-w, 136px);
+  }
+
+  .builder-layout{
+    grid-template-rows:61% 39% !important;
+  }
+
+  .filters{
+    grid-template-columns:1.1fr .66fr .66fr .7fr 118px !important;
+  }
+
+  .size-control{
+    width:118px !important;
+    min-width:118px !important;
+  }
+
+  .size-control input{
+    width:62px !important;
+  }
+}

@@ -37,7 +37,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v24-playerid-battle-scaffold';
+const DATA_VERSION = 'v27-flex-card-list-layout';
 
 init().catch(err => {
   console.error(err);
@@ -100,23 +100,23 @@ function setupFirebase(){
 }
 
 
-async function tryLandscapeMode(){
-  // Safari/iOSでは向き固定は基本効かない。Android等で効けばラッキー、失敗しても通常続行。
+function tryLandscapeMode(){
+  // Safari/iOSでは向き固定は基本効かない。失敗しても画面遷移は止めない。
   try{
     if(document.documentElement.requestFullscreen && !document.fullscreenElement){
-      await document.documentElement.requestFullscreen();
+      Promise.resolve(document.documentElement.requestFullscreen()).catch(e => console.info('fullscreen skipped', e));
     }
   }catch(e){ console.info('fullscreen skipped', e); }
   try{
     if(screen.orientation?.lock){
-      await screen.orientation.lock('landscape');
+      Promise.resolve(screen.orientation.lock('landscape')).catch(e => console.info('orientation lock skipped', e));
     }
   }catch(e){ console.info('orientation lock skipped', e); }
 }
 
 function bindEvents(){
-  document.querySelector('.tap-start').addEventListener('click', async () => { await tryLandscapeMode(); show(hasPlayerId() ? 'menu' : 'user'); });
-  document.querySelector('.tap-start').addEventListener('keydown', async e => { if(e.key === 'Enter'){ await tryLandscapeMode(); show(hasPlayerId() ? 'menu' : 'user'); } });
+  document.querySelector('.tap-start').addEventListener('click', () => { show(hasPlayerId() ? 'menu' : 'user'); tryLandscapeMode(); });
+  document.querySelector('.tap-start').addEventListener('keydown', e => { if(e.key === 'Enter'){ show(hasPlayerId() ? 'menu' : 'user'); tryLandscapeMode(); } });
   $('username-ok').addEventListener('click', saveUsername);
   const changeUsername = $('change-username');
   if(changeUsername) changeUsername.addEventListener('click', () => show('user'));
@@ -139,6 +139,8 @@ function bindEvents(){
   }
   $('clear-deck').addEventListener('click', () => { state.deck.clear(); state.selectedHeroId=''; renderAll(); });
   $('save-deck').addEventListener('click', saveDeck);
+  const confirmDeckBtn = $('confirm-deck-view');
+  if(confirmDeckBtn) confirmDeckBtn.addEventListener('click', showDeckConfirm);
   $('export-deck').addEventListener('click', exportDeck);
   $('import-deck').addEventListener('change', importDeck);
   const battleModalClose = $('battle-deck-modal-close');
@@ -149,6 +151,8 @@ function bindEvents(){
   if(tensionBtn) tensionBtn.addEventListener('click', useOrChargeTension);
   const endTurnBtn = $('end-turn');
   if(endTurnBtn) endTurnBtn.addEventListener('click', endTurn);
+  const deckConfirmClose = $('deck-confirm-close');
+  if(deckConfirmClose) deckConfirmClose.addEventListener('click', () => $('deck-confirm-modal').close());
   $('modal-close').addEventListener('click', () => $('card-modal').close());
 }
 
@@ -363,6 +367,32 @@ function loadDeck(data){
   state.selectedHeroId = data.heroId || '';
   state.deck.clear(); for(const item of data.cards || []) state.deck.set(item.cardId, item.count || 1);
   $('deck-name').value = data.deckName || ''; renderAll(); toast('デッキを読み込みました。');
+}
+
+
+function showDeckConfirm(){
+  if(!state.selectedClass) return toast('職業を選択してください。', false);
+  const deckCards = [...state.deck.entries()].map(([id,count]) => ({card: byId(id), count})).filter(x => x.card)
+    .sort((a,b) => (a.card.cost ?? 0) - (b.card.cost ?? 0) || a.card.name.localeCompare(b.card.name,'ja'));
+  $('deck-confirm-title').textContent = $('deck-name').value.trim() || '新しいデッキ';
+  $('deck-confirm-meta').textContent = `${state.selectedClass} / ${deckTotal()}/30枚 / ユニット:${countDeckType(deckCards,'ユニット')} 特技:${countDeckType(deckCards,'特技')} 武器:${countDeckType(deckCards,'武器')} その他:${countDeckOther(deckCards)}`;
+  const grid = $('deck-confirm-grid');
+  if(!deckCards.length){
+    grid.innerHTML = '<div class="empty">カードが入っていません</div>';
+  }else{
+    grid.innerHTML = deckCards.map(({card,count}) => {
+      const img = getOfficialImage(card);
+      return `<article class="deck-confirm-card">${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">` : '<div class="no-img"></div>'}<b>×${count}</b><span>${escapeHtml(card.name)}</span></article>`;
+    }).join('');
+  }
+  $('deck-confirm-modal').showModal();
+}
+
+function countDeckType(deckCards, type){
+  return deckCards.filter(x => x.card.cardType === type).reduce((s,x)=>s+x.count,0);
+}
+function countDeckOther(deckCards){
+  return deckCards.filter(x => !['ユニット','特技','武器'].includes(x.card.cardType)).reduce((s,x)=>s+x.count,0);
 }
 
 function getAllSavedDeckEntries(){

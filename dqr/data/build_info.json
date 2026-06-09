@@ -1,5 +1,5 @@
 {
-  "version": "v24-playerid-battle-scaffold",
+  "version": "v27-flex-card-list-layout",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -27,5 +27,8 @@
   "tensionSystemUpdate": "カミュのテンションスキル「盗賊のかみわざ」と生成武器シーブスナイフを追加。既存7職業の効果を構造化。",
   "loginUpdate": "ユーザ名入力を必須から任意に変更。初回アクセス時にlocalStorageのdeviceIdからPlayer-xxxxxxxxを自動生成。Firebase匿名UIDと併用。",
   "playerIdSpec": "初回のみ固定プレイヤーIDを必須入力。localStorageに保存し、Firebase保存パスは players/{playerId}/decks。",
-  "battleScaffold": "保存済みデッキ選択、デッキ確認モーダル、合言葉IDマッチング、盤面/HP/MP/テンション/手札の初期UIを追加。"
+  "battleScaffold": "保存済みデッキ選択、デッキ確認モーダル、合言葉IDマッチング、盤面/HP/MP/テンション/手札の初期UIを追加。",
+  "fix": "スマホSafariでタイトル画面から進まない可能性に対し、画面遷移を先に実行し、全画面/横向き試行を非同期fire-and-forgetに変更。",
+  "deckConfirm": "デッキ編成画面に確認ボタンを追加し、画像付き一覧モーダルで確認可能にした。",
+  "layoutFix": "スマホ横向きのカード一覧をCSS GridからFlex横並びへ変更。謎の空白/端切れを軽減し、コレクション領域を拡大。"
 }

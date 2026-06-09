@@ -222,3 +222,25 @@ node tools/sync_official_gameconductor.mjs
   - `rooms/{matchId}/players/{playerId}` に参加情報を書き込み。
   - 盤面UI、HP、MP、テンション3段階、テンションスキル使用/リセットの土台を追加。
 - 画像ベースライン: 共通001〜163は維持。
+
+
+## v25 update
+- `app.js:324 Uncaught SyntaxError: Unexpected token 'async'` を修正。
+- `async async function saveDeck()` を `async function saveDeck()` に変更。
+- `node --check js/app.js` で構文確認済み。
+
+
+## v26 update
+- スマホSafariでタイトル画面から進まない可能性を修正。
+  - 開始タップ時、画面遷移を先に実行。
+  - 全画面化/横向きロックは fire-and-forget で試行し、失敗しても止めない。
+- デッキ編成画面に「確認」ボタンを追加。
+- 確認ボタンで、画像付きのデッキ一覧モーダルを表示。
+
+
+## v27 update
+- スマホ横向きのカード一覧を CSS Grid から Flex 横並びに変更。
+- Safariで発生しやすいカード間の謎の空白・右端切れを軽減。
+- 上段のコレクション領域を少し拡大。
+- カード表示を1段のまま維持し、カード本文の読みやすさを優先。
+- v26のデッキ確認ボタンも維持。

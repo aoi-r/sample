@@ -158,6 +158,7 @@
           <div class="actions-grid">
             <button id="save-deck" class="primary">Firebase保存</button>
             <button id="clear-deck" class="secondary">リセット</button>
+            <button id="confirm-deck-view" class="secondary">確認</button>
             <button id="export-deck" class="secondary">JSON出力</button>
             <label class="secondary file-label">読込<input id="import-deck" type="file" accept="application/json" hidden /></label>
           </div>
@@ -186,6 +187,19 @@
       </main>
     </section>
   </div>
+
+  
+  <dialog id="deck-confirm-modal" class="deck-confirm-modal">
+    <div class="modal-head">
+      <h3>デッキ確認</h3>
+      <button id="deck-confirm-close" class="ghost">×</button>
+    </div>
+    <div class="deck-confirm-summary">
+      <strong id="deck-confirm-title">新しいデッキ</strong>
+      <span id="deck-confirm-meta"></span>
+    </div>
+    <div id="deck-confirm-grid" class="deck-confirm-grid"></div>
+  </dialog>
 
   <dialog id="card-modal" class="card-modal">
     <div class="modal-head">
