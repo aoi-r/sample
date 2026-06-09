@@ -1,5 +1,5 @@
 {
-  "version": "v51_nine_treasure_dungeons",
+  "version": "v52_match_exit_image_replace",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -56,5 +56,8 @@
   "categoryEngine": "Excel分類を元に、建物/占い/さくせん/選択/GET/BET/交換所/武器の共通処理を追加。",
   "battleLayoutFix": "バトル中の左上ボタンを退出に変更。盤面内の退出ボタンは非表示。自分リーダーを少し左へ戻した。",
   "coordinateSystem": "col0 自後列 / col1 自前列 / col2 gap / col3 相手前列 / col4 相手後列; rows top/mid/bottom",
-  "customImages": "assets/custom_cards に透過加工済み画像を保存。守り人ナイン用の宝の地図/地図ダンジョン8種を追加。getOfficialImageでローカル画像を優先。"
+  "customImages": "assets/custom_cards に透過加工済み画像を保存。守り人ナイン用の宝の地図/地図ダンジョン8種を追加。getOfficialImageでローカル画像を優先。",
+  "matchmaking": "Firebase RDB room matching improved: rejects full rooms, tracks active players, sets meta status waiting/playing/finished, and unsubscribes old listeners.",
+  "exitHandling": "Either player exiting publishes a finished result, shows the opponent a victory result, auto-returns both clients to pre-match screen, and removes the room after a short delay.",
+  "imageFix": "Replaced previously cropped dungeon/hero images with the newly uploaded single-card PNGs so text remains readable."
 }

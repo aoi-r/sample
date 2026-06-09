@@ -10,7 +10,7 @@ const state = {
   playerId: localStorage.getItem('dqr_player_id') || '',
   deviceId: localStorage.getItem('dqr_device_id') || crypto.randomUUID(),
   selectedClass: '', selectedHeroId: '', deck: new Map(), editingDeckId: '',
-  battle: { selectedDeckId: '', selectedDeck: null, matchId: '', roomId: '', game: null },
+  battle: { selectedDeckId: '', selectedDeck: null, matchId: '', roomId: '', game: null, unsubs: [], resultTimer: null, resultShown: false },
   firebase: { enabled: false, app: null, auth: null, db: null, uid: null }
 };
 localStorage.setItem('dqr_device_id', state.deviceId);
@@ -37,7 +37,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v51_nine_treasure_dungeons';
+const DATA_VERSION = 'v52_match_exit_image_replace';
 
 
 const HERO_SKILL_DEFS = {
@@ -709,6 +709,74 @@ function openBattleDeckModal(id, deck){
   $('battle-deck-modal').showModal();
 }
 
+
+function cleanupBattleSubscriptions(){
+  for(const unsub of state.battle.unsubs || []){
+    try{ if(typeof unsub === 'function') unsub(); }catch(e){}
+  }
+  state.battle.unsubs = [];
+}
+
+function getOpponentPlayerIdFromCache(){
+  const states = state.battle.remoteStates || {};
+  const st = Object.values(states).find(s => s && s.playerId && s.playerId !== state.playerId);
+  if(st?.playerId) return st.playerId;
+  const players = state.battle.roomPlayers || {};
+  const p = Object.values(players).find(p => p && p.playerId && p.playerId !== state.playerId && p.status !== 'left' && p.status !== 'defeated');
+  return p?.playerId || '';
+}
+
+function isFinalRoomStatus(status){
+  return ['finished','closed','deleted','abandoned'].includes(String(status || ''));
+}
+
+function resetBattleLocalState(){
+  cleanupBattleSubscriptions();
+  if(state.battle.resultTimer){ clearTimeout(state.battle.resultTimer); state.battle.resultTimer = null; }
+  state.battle.game = null;
+  state.battle.matchId = '';
+  state.battle.roomId = '';
+  state.battle.selectedDeckId = '';
+  state.battle.selectedDeck = null;
+  state.battle.remoteStates = {};
+  state.battle.roomPlayers = {};
+  state.battle.resultShown = false;
+}
+
+async function removeBattleRoomLater(roomId, delay=3500){
+  if(!state.firebase.enabled || !state.firebase.db || !roomId) return;
+  setTimeout(async () => {
+    try{ await remove(ref(state.firebase.db, `rooms/${roomId}`)); }
+    catch(e){ console.warn('remove room failed', e); }
+  }, delay);
+}
+
+async function publishBattleResult(result, reason='hp0', autoReset=false){
+  const roomId = state.battle.roomId;
+  const opponentId = getOpponentPlayerIdFromCache();
+  const winner = result === 'win' ? state.playerId : opponentId;
+  const loser = result === 'lose' ? state.playerId : opponentId;
+  if(state.firebase.enabled && state.firebase.db && roomId){
+    try{
+      await update(ref(state.firebase.db, `rooms/${roomId}/meta`), {
+        status: 'finished',
+        winnerPlayerId: winner || '',
+        loserPlayerId: loser || '',
+        reason,
+        endedBy: state.playerId,
+        endedAt: serverTimestamp(),
+        currentTurnPlayerId: null
+      });
+      await update(ref(state.firebase.db, `rooms/${roomId}/players/${state.playerId}`), {
+        status: result === 'win' ? 'winner' : 'defeated',
+        leftAt: serverTimestamp()
+      });
+      await removeBattleRoomLater(roomId, 4500);
+    }catch(e){ console.warn('publishBattleResult failed', e); }
+  }
+  showBattleResult(result, {autoReset, reason});
+}
+
 function makeRoomId(matchId){
   return normalizePlayerId(matchId).toLowerCase();
 }
@@ -717,76 +785,138 @@ async function startMatch(){
   if(!state.battle.selectedDeck) return toast('先にデッキを選択してください。', false);
   const matchId = $('match-id-input').value.trim();
   if(!matchId) return toast('合言葉IDを入力してください。', false);
+
+  const roomId = makeRoomId(matchId);
+  cleanupBattleSubscriptions();
   state.battle.matchId = matchId;
-  state.battle.roomId = makeRoomId(matchId);
-  initLocalBattleGame();
+  state.battle.roomId = roomId;
+
   if(state.firebase.enabled && state.firebase.db){
     try{
-      const roomRef = ref(state.firebase.db, `rooms/${state.battle.roomId}/players/${state.playerId}`);
-      await set(roomRef, {
+      const roomRoot = ref(state.firebase.db, `rooms/${roomId}`);
+      const metaRef = ref(state.firebase.db, `rooms/${roomId}/meta`);
+      const oldMeta = (await get(metaRef)).val();
+      if(isFinalRoomStatus(oldMeta?.status)){
+        await remove(roomRoot);
+      }
+
+      const playersRef = ref(state.firebase.db, `rooms/${roomId}/players`);
+      const playersSnap = await get(playersRef);
+      const players = playersSnap.val() || {};
+      const activePlayers = Object.values(players).filter(p => p && p.playerId && p.status !== 'left' && p.status !== 'defeated' && p.status !== 'winner');
+      const alreadyIn = activePlayers.some(p => p.playerId === state.playerId);
+      if(activePlayers.length >= 2 && !alreadyIn){
+        toast('この合言葉の部屋は満員です。別のIDを使ってください。', false);
+        state.battle.roomId = '';
+        state.battle.matchId = '';
+        return;
+      }
+
+      initLocalBattleGame();
+      await set(ref(state.firebase.db, `rooms/${roomId}/players/${state.playerId}`), {
         playerId: state.playerId,
-        displayName: state.username,
+        displayName: state.username || state.playerId,
         deckName: state.battle.selectedDeck.deckName,
         className: state.battle.selectedDeck.className,
-        joinedAt: serverTimestamp()
+        status: 'active',
+        ready: true,
+        joinedAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
       });
-    }catch(e){ console.warn(e); }
-    subscribeRoomPlayers();
+
+      const joinedSnap = await get(playersRef);
+      const joinedPlayers = Object.values(joinedSnap.val() || {}).filter(p => p && p.playerId && p.status === 'active');
+      const ids = joinedPlayers.map(p => p.playerId).sort((a,b)=>a.localeCompare(b,'ja'));
+      const status = ids.length >= 2 ? 'playing' : 'waiting';
+      await update(metaRef, {
+        matchId,
+        status,
+        playerCount: ids.length,
+        firstPlayerId: ids[0] || state.playerId,
+        currentTurnPlayerId: ids[0] || state.playerId,
+        updatedAt: serverTimestamp()
+      });
+
+      subscribeRoomPlayers();
+      await syncMyBattleState();
+    }catch(e){
+      console.warn(e);
+      toast('マッチングに失敗しました: '+e.message, false);
+      return;
+    }
+  }else{
+    initLocalBattleGame();
   }
+
   $('battle-setup').classList.add('hidden');
   $('battle-arena').classList.remove('hidden');
-  $('battle-status').textContent = `入室: ${matchId}`;
+  $('battle-status').textContent = state.firebase.enabled ? `入室: ${matchId} / 相手待ち` : 'ローカルテスト';
   renderBattleArena();
 }
 
-
-
-
 function subscribeRoomPlayers(){
   if(!state.firebase.enabled || !state.firebase.db || !state.battle.roomId) return;
-  const playersRef = ref(state.firebase.db, `rooms/${state.battle.roomId}/players`);
-  onValue(playersRef, async snap => {
+  cleanupBattleSubscriptions();
+  const roomId = state.battle.roomId;
+
+  const playersRef = ref(state.firebase.db, `rooms/${roomId}/players`);
+  const unsubPlayers = onValue(playersRef, snap => {
     const players = snap.val() || {};
-    const playerList = Object.values(players).filter(Boolean);
-    const others = playerList.filter(p => p.playerId !== state.playerId);
+    state.battle.roomPlayers = players;
+    const active = Object.values(players).filter(p => p && p.playerId && p.status === 'active');
+    const others = active.filter(p => p.playerId !== state.playerId);
+    if(!state.battle.game) return;
     if(others.length){
-      $('battle-status').textContent = `対戦相手: ${others[0].displayName || others[0].playerId}`;
-      const sorted = playerList.map(p => p.playerId).sort((a,b)=>a.localeCompare(b,'ja'));
-      const firstPlayerId = sorted[0];
-      if(state.firebase.db && state.battle.roomId){
-        const metaRef = ref(state.firebase.db, `rooms/${state.battle.roomId}/meta`);
-        const metaSnap = await get(metaRef);
-        if(!metaSnap.exists()){
-          await set(metaRef, {
-            firstPlayerId,
-            currentTurnPlayerId: firstPlayerId,
-            createdAt: serverTimestamp(),
-            status: 'playing'
-          });
-        }
-      }
+      $('battle-status').textContent = state.battle.game.isMyTurn ? '自分のターン' : '相手のターン';
     }else{
       $('battle-status').textContent = `入室: ${state.battle.matchId} / 相手待ち`;
     }
     renderBattleLog();
   });
+  state.battle.unsubs.push(unsubPlayers);
 
-  const metaRef = ref(state.firebase.db, `rooms/${state.battle.roomId}/meta`);
-  onValue(metaRef, snap => {
+  const metaRef = ref(state.firebase.db, `rooms/${roomId}/meta`);
+  const unsubMeta = onValue(metaRef, snap => {
     const meta = snap.val();
-    if(!meta || !state.battle.game) return;
+    if(!meta){
+      if(state.battle.game && !state.battle.game.finished){
+        const hadOpponent = !!getOpponentPlayerIdFromCache();
+        showBattleResult(hadOpponent ? 'win' : 'lose', {
+          autoReset: true,
+          message: hadOpponent ? '相手が退出しました。勝利です。マッチング前に戻ります。' : '部屋が終了しました。マッチング前に戻ります。'
+        });
+      }
+      return;
+    }
+    if(!state.battle.game) return;
+
+    if(isFinalRoomStatus(meta.status)){
+      const won = meta.winnerPlayerId === state.playerId || (meta.loserPlayerId && meta.loserPlayerId !== state.playerId);
+      showBattleResult(won ? 'win' : 'lose', {
+        autoReset: true,
+        reason: meta.reason || 'finished',
+        message: won ? '相手が退出しました。勝利です。マッチング前に戻ります。' : '敗北しました。マッチング前に戻ります。'
+      });
+      return;
+    }
+
     state.battle.game.currentTurnPlayerId = meta.currentTurnPlayerId || state.playerId;
     state.battle.game.isMyTurn = state.battle.game.currentTurnPlayerId === state.playerId;
-    $('battle-status').textContent = state.battle.game.isMyTurn ? '自分のターン' : '相手のターン';
+    const statusText = meta.status === 'waiting'
+      ? `入室: ${state.battle.matchId} / 相手待ち`
+      : (state.battle.game.isMyTurn ? '自分のターン' : '相手のターン');
+    $('battle-status').textContent = statusText;
     renderBattleArena();
   });
+  state.battle.unsubs.push(unsubMeta);
 
-  const statesRef = ref(state.firebase.db, `rooms/${state.battle.roomId}/states`);
-  onValue(statesRef, snap => {
+  const statesRef = ref(state.firebase.db, `rooms/${roomId}/states`);
+  const unsubStates = onValue(statesRef, snap => {
     const states = snap.val() || {};
     state.battle.remoteStates = states;
     applyRemoteOpponentState(states);
   });
+  state.battle.unsubs.push(unsubStates);
 }
 
 async function syncMyBattleState(){
@@ -850,51 +980,64 @@ async function advanceTurnToOpponent(){
 }
 
 
-function showBattleResult(result){
+function showBattleResult(result, options={}){
   const game = state.battle.game;
   if(game) game.finished = true;
+  if(state.battle.resultShown && !options.force) return;
+  state.battle.resultShown = true;
   const isWin = result === 'win';
   $('battle-result-title').textContent = isWin ? '勝利' : '敗北';
-  $('battle-result-message').textContent = 'タップしてマッチング前に戻る';
+  $('battle-result-message').textContent = options.message || (options.autoReset ? 'まもなくマッチング前に戻ります' : 'タップしてマッチング前に戻る');
   $('battle-result-overlay').classList.toggle('lose', !isWin);
   $('battle-result-overlay').classList.remove('hidden');
+  if(options.autoReset){
+    if(state.battle.resultTimer) clearTimeout(state.battle.resultTimer);
+    state.battle.resultTimer = setTimeout(resetAfterBattleResult, options.delay || 2400);
+  }
 }
 
 function resetAfterBattleResult(){
   $('battle-result-overlay').classList.add('hidden');
-  state.battle.game = null;
-  state.battle.matchId = '';
-  state.battle.roomId = '';
-  state.battle.selectedDeckId = '';
-  state.battle.selectedDeck = null;
   const arena = $('battle-arena');
   const setup = $('battle-setup');
   if(arena) arena.classList.add('hidden');
   if(setup) setup.classList.remove('hidden');
   $('battle-status').textContent = '待機中';
+  resetBattleLocalState();
   renderBattleDeckList();
 }
 
 async function leaveBattleAsDefeat(){
   const roomId = state.battle.roomId;
   $('battle-exit-modal').close();
-  if(state.firebase.enabled && state.firebase.db && roomId){
+  if(!roomId){
+    showBattleResult('lose', {autoReset:true, message:'退出しました。マッチング前に戻ります。'});
+    return;
+  }
+
+  if(state.firebase.enabled && state.firebase.db){
     try{
+      const playersSnap = await get(ref(state.firebase.db, `rooms/${roomId}/players`));
+      const players = playersSnap.val() || {};
+      state.battle.roomPlayers = players;
+      const opponent = Object.values(players).find(p => p && p.playerId && p.playerId !== state.playerId && p.status === 'active');
       await update(ref(state.firebase.db, `rooms/${roomId}/players/${state.playerId}`), {
         status: 'defeated',
         leftAt: serverTimestamp()
       });
+      await update(ref(state.firebase.db, `rooms/${roomId}/meta`), {
+        status: 'finished',
+        winnerPlayerId: opponent?.playerId || '',
+        loserPlayerId: state.playerId,
+        reason: 'forfeit',
+        endedBy: state.playerId,
+        endedAt: serverTimestamp(),
+        currentTurnPlayerId: null
+      });
+      await removeBattleRoomLater(roomId, 4500);
     }catch(e){ console.warn(e); }
   }
-  state.battle.game = null;
-  state.battle.matchId = '';
-  state.battle.roomId = '';
-  state.battle.selectedDeckId = '';
-  state.battle.selectedDeck = null;
-  $('battle-arena').classList.add('hidden');
-  $('battle-setup').classList.remove('hidden');
-  $('battle-status').textContent = '待機中';
-  renderBattleDeckList();
+  showBattleResult('lose', {autoReset:true, message:'退出しました。マッチング前に戻ります。'});
 }
 
 function initLocalBattleGame(){
@@ -1053,7 +1196,10 @@ function damageLeader(side, amount){
   const g = state.battle.game;
   const p = side === 'player' ? g.player : g.enemy;
   p.hp = Math.max(0, p.hp - Number(amount || 0));
-  if(p.hp <= 0) showBattleResult(side === 'enemy' ? 'win' : 'lose');
+  if(p.hp <= 0){
+    const result = side === 'enemy' ? 'win' : 'lose';
+    publishBattleResult(result, 'hp0', false);
+  }
 }
 function healUnit(unit, amount){
   if(!unit) return;
