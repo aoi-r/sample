@@ -37,10 +37,32 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v49_battle_top_exit_player_leader_left';
+const DATA_VERSION = 'v51_nine_treasure_dungeons';
 
 
 const HERO_SKILL_DEFS = {
+  '伝説の勇者': {
+    levels: [
+      { level:1, name:'出会いと別れの酒場', cost:0, type:'manual', target:'none', effect:{kind:'legendTavern'}, progress:{uses:2} },
+      { level:2, name:'ダーマの神殿へ', cost:1, type:'manual', target:'friendlyEmptySlot', effect:{kind:'summonDharmaTemple'}, progress:{uses:1} },
+      { level:3, name:'魔王討伐', cost:2, type:'manual', target:'unitAny', effect:{kind:'legendDemonKingSubjugation'}, progress:{uses:1} },
+      { level:4, name:'そして伝説へ', cost:25, dynamic:{legendFinalCost:true}, type:'manual', target:'enemyLeader', effect:{kind:'legendFinal'}, progress:null }
+    ]
+  },
+  '勇者レック': {
+    levels: [
+      { level:1, name:'いつか見た光景', cost:0, type:'manual', target:'none', effect:{kind:'reckMemory'}, progress:{uses:2}, onLevelUp:{draw:1} },
+      { level:2, name:'呼び覚まされし記憶', cost:0, type:'auto', trigger:'proficiencyCardPlayed', effect:{kind:'gainTension', amount:1}, progress:{triggers:2} },
+      { level:3, name:'未来を信じて', cost:2, type:'manual', target:'none', effect:{kind:'reckFuture'}, progress:null }
+    ]
+  },
+  '守り人ナイン': {
+    levels: [
+      { level:1, name:'宝の地図', cost:0, type:'manual', target:'none', effect:{kind:'addToHand', name:'宝の地図'}, progress:{uses:1} },
+      { level:2, name:'ダンジョンアタック', cost:0, type:'manual', target:'enemyAny', effect:{kind:'damage', amount:2}, progress:{uses:1}, dynamic:{usesEqualDungeonClears:true} },
+      { level:3, name:'ダンジョンメンテナンス', cost:0, type:'manual', target:'friendlyDungeon', effect:{kind:'boostDungeonDurability', amount:2}, progress:null }
+    ]
+  },
   'ロトの血を引く者': {
     levels: [
       { level:1, name:'たたかう', cost:1, type:'manual', target:'enemyAny', effect:{kind:'damage', amount:1}, progress:{uses:1} },
@@ -129,7 +151,7 @@ const HERO_SKILL_DEFS = {
     levels: [
       { level:1, name:'悲しげな犬', cost:0, type:'auto', trigger:'spellCost1Plus', effect:{kind:'draw', count:1}, progress:{triggers:1} },
       { level:2, name:'旅立ちの王女', cost:3, dynamicCost:'spellCostThisTurnDiscount', type:'manual', target:'choiceMoonLv2', effect:{kind:'damageAllUnits', amount:1}, progress:{uses:2} },
-      { level:3, name:'精霊ルビスの加護', cost:0, type:'auto', trigger:'spellCost3Plus', effect:{kind:'rubissBlessing'}, progress:null }
+      { level:3, name:'精霊王ルビスの加護', cost:0, type:'auto', trigger:'spellCost3Plus', effect:{kind:'rubissBlessing'}, progress:null }
     ]
   }
 };
@@ -143,7 +165,30 @@ const VIRTUAL_CARD_DEFS = {
   'コイン': { name:'コイン', cost:0, cardType:'特技', text:'BETを発動するために使う。', effect:{kind:'coin'} },
   'スライム': { name:'スライム', cost:0, attack:1, hp:1, cardType:'ユニット', text:'1/1のスライム。', effect:null },
   'ピサロナイト': { name:'ピサロナイト', cost:0, attack:1, hp:1, cardType:'ユニット', text:'1/1のピサロナイト。', effect:null },
-  'サラマンダー': { name:'サラマンダー', cost:0, attack:8, hp:8, cardType:'ユニット', text:'超貫通。ベビーサラマンダーがBET4回で変身する。', effect:null }
+  'サラマンダー': { name:'サラマンダー', cost:0, attack:8, hp:8, cardType:'ユニット', text:'超貫通。ベビーサラマンダーがBET4回で変身する。', effect:null },
+
+  '伝説の勇者': { name:'伝説の勇者', cost:2, cardType:'ヒーロー', rarity:'レジェンドレア', text:'伝説の勇者のヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る。', classes:['共通'], tribes:['英雄'], tags:['ヒーロー'], deckBuildable:true, localImage:'./assets/custom_cards/伝説の勇者_デッキ編成カード.png' },
+  '出会いと別れの酒場': { name:'出会いと別れの酒場', cost:0, cardType:'ヒーロースキル', rarity:'トークン', text:'自分のデッキの上7枚から冒険者カードを1枚引き、残りをデッキの下に戻す。', localImage:'./assets/custom_cards/伝説の勇者_lv1.png' },
+  'ダーマの神殿へ': { name:'ダーマの神殿へ', cost:1, cardType:'ヒーロースキル', rarity:'トークン', text:'味方空きマスにダーマの神殿を出した後、自分が各職業の初期テンションスキルなら自分の職業を含む初期テンションスキル3種類から1つ選び変更する。', localImage:'./assets/custom_cards/伝説の勇者_lv2.png' },
+  '魔王討伐': { name:'魔王討伐', cost:2, cardType:'ヒーロースキル', rarity:'トークン', text:'ユニット1体に1ダメージ。味方冒険者が出る度+1ダメージ。上限は+3ダメージ。', localImage:'./assets/custom_cards/伝説の勇者_lv3.png' },
+  'そして伝説へ': { name:'そして伝説へ', cost:25, cardType:'ヒーロースキル', rarity:'トークン', text:'敵リーダーに25ダメージ。自分が冒険者カードを3回使う度、このカードのレベル+1、カードを1枚引き、このヒーロースキルのコスト-5。', localImage:'./assets/custom_cards/伝説の勇者_lv4.png' },
+  'ダーマの神殿': { name:'ダーマの神殿', cost:1, attack:0, hp:5, cardType:'建物', rarity:'トークン', text:'味方冒険者が場に出た後それを+1/+1し耐久値-1。スキルリンク：自分が各職業の初期テンションスキルなら自分の職業を含む初期テンションスキル3種類から1つ選び変更する。', localImage:'./assets/custom_cards/伝説の勇者_ダーマ神殿.png' },
+
+  '勇者レック': { name:'勇者レック', cost:1, cardType:'ヒーロー', rarity:'レジェンドレア', text:'勇者レックのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る。', classes:['共通'], tribes:['英雄'], tags:['ヒーロー'], deckBuildable:true, localImage:'./assets/custom_cards/レック_デッキ編成カード.png' },
+  'いつか見た光景': { name:'いつか見た光景', cost:0, cardType:'ヒーロースキル', rarity:'トークン', text:'自分の手札から熟練度を持つカード1枚を選ぶ。そのカードの熟練度+1。選んだカードの熟練度が1以下の場合代わりに熟練度+2。レベル2になる時カードを1枚引く。', localImage:'./assets/custom_cards/レック_lv1.png' },
+  '呼び覚まされし記憶': { name:'呼び覚まされし記憶', cost:0, cardType:'ヒーロースキル', rarity:'トークン', text:'熟練度を持つカードを自分が使用した後、味方リーダーのテンション+1。この効果は条件を満たすと自動的に発動する。', localImage:'./assets/custom_cards/レック_lv2.png' },
+  '未来を信じて': { name:'未来を信じて', cost:2, cardType:'ヒーロースキル', rarity:'トークン', text:'カードを1枚引く。その後手札から熟練度を持つカードを1枚選び、そのカードの熟練度+2。', localImage:'./assets/custom_cards/レック_lv3.png' },
+  '精霊王ルビスの加護': { name:'精霊王ルビスの加護', cost:0, cardType:'ヒーロースキル', rarity:'トークン', text:'自分がコスト3以上の特技を使った後、そのコストにより追加効果が発動する。コスト3以上:MP1回復。コスト5以上:テンション+1。コスト7以上:カードを1枚引く。' },
+  '宝の地図': { name:'宝の地図', cost:0, cardType:'特技', rarity:'トークン', text:'味方空きマスに、対戦中踏破した回数に応じた地図ダンジョンを出す。0回:うす暗き獣の洞くつ。1回:ざわめく風の坑道。2回以上:ランダムな6種類の地図ダンジョンから1つを出す。', localImage:'./assets/custom_cards/宝の地図.png' },
+  'うす暗き獣の洞くつ': { name:'うす暗き獣の洞くつ', cost:1, attack:0, hp:3, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値3で踏破) 自分のターン開始時 耐久値+1 踏破時:カードを1枚引く', localImage:'./assets/custom_cards/うす暗き獣の洞くつ.png' },
+  'ざわめく風の坑道': { name:'ざわめく風の坑道', cost:2, attack:0, hp:3, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値3で踏破) 自分のターン開始時 耐久値+1 踏破時:ランダムなコスト2のユニットをこの場所に出す カードを1枚引く', localImage:'./assets/custom_cards/ざわめく風の坑道.png' },
+  '見えざる魔神の道': { name:'見えざる魔神の道', cost:3, attack:0, hp:5, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値5で踏破) 自分のターン開始時 耐久値+1 踏破時:先制 メタルボディ 3/3の強敵メタルキングを2体出す', localImage:'./assets/custom_cards/見えざる魔神の道.png' },
+  '放たれし大地のじごく': { name:'放たれし大地のじごく', cost:3, attack:0, hp:2, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値2で踏破) 自分のターン開始時 耐久値+1 踏破時:敵味方全体に2ダメージ', localImage:'./assets/custom_cards/放たれし大地のじごく.png' },
+  '残された神々の水脈': { name:'残された神々の水脈', cost:3, attack:0, hp:3, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値3で踏破) 自分のターン開始時 耐久値+1 踏破時:味方リーダーのHPを3回復し テンション+3 カードを1枚引く', localImage:'./assets/custom_cards/残された神々の水脈.png' },
+  '呪われし魂の氷河': { name:'呪われし魂の氷河', cost:3, attack:0, hp:2, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値2で踏破) 自分のターン開始時 耐久値+1 踏破時:ランダムな敵ユニット1体に5ダメージ', localImage:'./assets/custom_cards/呪われし魂の氷河.png' },
+  '大魔王の間': { name:'大魔王の間', cost:3, attack:0, hp:5, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値5で踏破) 自分のターン開始時 耐久値+1 踏破時:ランダムなコスト6以上の魔王系ユニット1体を出す', localImage:'./assets/custom_cards/大魔王の間.png' },
+  'あらぶる光の世界': { name:'あらぶる光の世界', cost:3, attack:0, hp:4, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値4で踏破) 自分のターン開始時 耐久値+1 踏破時:味方のユニット以外のカードをランダムに3枚手札に加え それらのコスト-1', localImage:'./assets/custom_cards/あらぶる光の世界.png' },
+  '強敵メタルキング': { name:'強敵メタルキング', cost:0, attack:3, hp:3, cardType:'ユニット', rarity:'トークン', text:'先制 メタルボディ', tags:['強敵'], localImage:'./assets/custom_cards/見えざる魔神の道.png' }
 };
 
 init().catch(err => {
@@ -347,7 +392,33 @@ function visibleCards(){
   }).sort((a,b) => (a.cost ?? 0) - (b.cost ?? 0) || String(a.name).localeCompare(String(b.name),'ja'));
 }
 
+
+const CUSTOM_CARD_IMAGES = {
+  '伝説の勇者': './assets/custom_cards/伝説の勇者_デッキ編成カード.png',
+  '出会いと別れの酒場': './assets/custom_cards/伝説の勇者_lv1.png',
+  'ダーマの神殿へ': './assets/custom_cards/伝説の勇者_lv2.png',
+  '魔王討伐': './assets/custom_cards/伝説の勇者_lv3.png',
+  'そして伝説へ': './assets/custom_cards/伝説の勇者_lv4.png',
+  'ダーマの神殿': './assets/custom_cards/伝説の勇者_ダーマ神殿.png',
+  '勇者レック': './assets/custom_cards/レック_デッキ編成カード.png',
+  'いつか見た光景': './assets/custom_cards/レック_lv1.png',
+  '呼び覚まされし記憶': './assets/custom_cards/レック_lv2.png',
+  '未来を信じて': './assets/custom_cards/レック_lv3.png',
+  '宝の地図': './assets/custom_cards/宝の地図.png',
+  'うす暗き獣の洞くつ': './assets/custom_cards/うす暗き獣の洞くつ.png',
+  'ざわめく風の坑道': './assets/custom_cards/ざわめく風の坑道.png',
+  '見えざる魔神の道': './assets/custom_cards/見えざる魔神の道.png',
+  '放たれし大地のじごく': './assets/custom_cards/放たれし大地のじごく.png',
+  '残された神々の水脈': './assets/custom_cards/残された神々の水脈.png',
+  '呪われし魂の氷河': './assets/custom_cards/呪われし魂の氷河.png',
+  '大魔王の間': './assets/custom_cards/大魔王の間.png',
+  'あらぶる光の世界': './assets/custom_cards/あらぶる光の世界.png'
+};
+
 function getOfficialImage(card){
+  if(!card) return '';
+  if(CUSTOM_CARD_IMAGES[card.name]) return CUSTOM_CARD_IMAGES[card.name];
+  if(card.localImage) return card.localImage;
   return card.official?.imageVerified === true && card.official?.imageUrl ? card.official.imageUrl : '';
 }
 
@@ -862,7 +933,8 @@ function initLocalBattleGame(){
       heroLevel: 0,
       deck: deckList,
       hand,
-      board: Array(6).fill(null)
+      board: Array(6).fill(null),
+      dungeonsCleared: 0
     },
     enemy: {
       hp: 25,
@@ -948,7 +1020,7 @@ function ensureVirtualCard(name){
   const id = `virtual_${name.replace(/\s+/g,'_')}`;
   let card = state.allCards.find(c => c.id === id || c.name === name);
   if(card) return card;
-  card = { id, name:def.name, cost:def.cost ?? 0, attack:def.attack ?? 0, hp:def.hp ?? 0, cardType:def.cardType || '特技', rarity:'トークン', text:def.text || '', classes:['共通'], tribes:def.tribes || [], tags:[def.cardType || '特技'], flags:{deckBuildable:false}, virtualEffect:def.effect || null };
+  card = { id, name:def.name, cost:def.cost ?? 0, attack:def.attack ?? 0, hp:def.hp ?? 0, cardType:def.cardType || '特技', rarity:def.rarity || 'トークン', text:def.text || '', classes:def.classes || ['共通'], tribes:def.tribes || [], tags:def.tags || [def.cardType || '特技'], flags:{deckBuildable:def.deckBuildable === true}, localImage:def.localImage || CUSTOM_CARD_IMAGES[def.name] || '', official:def.official || {}, virtualEffect:def.effect || null };
   state.allCards.push(card);
   return card;
 }
@@ -1174,7 +1246,7 @@ function canTargetEnemyUnit(unit){
 }
 
 function cardCanBeSummoned(card){
-  return card && card.cardType === 'ユニット';
+  return card && (card.cardType === 'ユニット' || card.cardType === '建物');
 }
 
 
@@ -1202,6 +1274,15 @@ function updateTargetHighlights(){
       document.querySelectorAll('.unit-slot[data-side="player"]').forEach(slot => {
         const pos = Number(slot.dataset.pos);
         if(!game.player.board[pos]) slot.classList.add('summonable');
+      });
+      return;
+    }
+    if(target === 'friendlyDungeon'){
+      document.querySelectorAll('.unit-slot[data-side="player"]').forEach(slot => {
+        const pos = Number(slot.dataset.pos);
+        const unit = game.player.board[pos];
+        if(unit?.isDungeon) slot.classList.add('targetable');
+        else if(unit) slot.classList.add('blocked-target');
       });
       return;
     }
@@ -1351,6 +1432,7 @@ function handleEmptySlotClick(side, pos){
   if(!game?.isMyTurn) return;
   if(side !== 'player') return;
   if(game.pendingHeroSkill?.target === 'friendlyEmptySlot') return applyPendingHeroSkillToEmptySlot(pos);
+  if(game.pendingGenericEffect?.target === 'friendlyEmptySlot') return applyPendingGenericEffectToEmptySlot(pos);
   if(game.selectedHandIndex == null) return;
   const card = byId(game.player.hand[game.selectedHandIndex]);
   if(!cardCanBeSummoned(card)) return;
@@ -1408,6 +1490,29 @@ function addRandomCardByPredicate(predicate, fallbackName='スライム'){
   const pool = state.allCards.filter(c => predicate(c));
   if(pool.length) state.battle.game.player.hand.push(chooseRandom(pool).id);
   else addCardToHandByName(fallbackName);
+}
+function summonCardAtPos(card, pos, side='player', stats={}){
+  const game = state.battle.game;
+  const board = side === 'player' ? game.player.board : game.enemy.board;
+  if(!card || pos == null || pos < 0 || pos >= board.length || board[pos]) return false;
+  const unit = makeUnitFromCard(card);
+  if(stats.attack != null) unit.attack = Number(stats.attack);
+  if(stats.hp != null){ unit.hp = Number(stats.hp); unit.maxHp = Number(stats.hp); }
+  if(stats.keywords) unit.keywords = {...unit.keywords, ...stats.keywords};
+  if(stats.canAttack){ unit.canAttack = true; unit.summoningSickness = false; }
+  board[pos] = unit;
+  return true;
+}
+function summonRandomUnitAtPos(predicate, pos, side='player'){
+  const pool = state.allCards.filter(c => c.cardType === 'ユニット' && predicate(c));
+  if(!pool.length) return false;
+  return summonCardAtPos(chooseRandom(pool), pos, side);
+}
+function getPlayerDungeonClearCount(){
+  return Number(state.battle.game?.player?.dungeonsCleared || 0);
+}
+function getNineLv2RequiredUses(){
+  return Math.max(1, getPlayerDungeonClearCount());
 }
 function parseChoiceOptions(text){
   const body = String(text || '').replace(/^.*?選択[:：]/, '');
@@ -1551,6 +1656,11 @@ function applyGenericCardUseEffect(card, cost){
   const game = state.battle.game;
   const text = getCardText(card);
   if(card.name === 'コイン' || card.virtualEffect?.kind === 'coin'){ useCoinCard(); return; }
+  if(card.name === '宝の地図'){
+    game.pendingGenericEffect = {kind:'summonTreasureMapDungeon', source:card.name, target:'friendlyEmptySlot'};
+    battleLog('宝の地図：配置する空きマスを選んでください。');
+    return;
+  }
   if(text.includes('交換する') && card.name.includes('交換所')){ useExchangeCard(card); return; }
   if(text.includes('占い')){ applyFortuneEffect(card); }
   if(text.includes('選択')){ applyChoiceEffect(card); }
@@ -1882,6 +1992,26 @@ function applyPendingGenericEffectToLeader(){
   renderBattleArena();
   syncMyBattleState();
 }
+function applyPendingGenericEffectToEmptySlot(pos){
+  const game = state.battle.game;
+  const eff = game.pendingGenericEffect;
+  if(!eff || eff.target !== 'friendlyEmptySlot') return;
+  if(game.player.board[pos]) return toast('空きマスを選んでください。', false);
+  if(eff.kind === 'summonTreasureMapDungeon'){
+    const cleared = Number(game.player.dungeonsCleared || 0);
+    let name = 'うす暗き獣の洞くつ';
+    if(cleared === 1) name = 'ざわめく風の坑道';
+    else if(cleared >= 2) name = chooseRandom(['見えざる魔神の道','放たれし大地のじごく','残された神々の水脈','呪われし魂の氷河','大魔王の間','あらぶる光の世界']);
+    const card = findCardByName(name);
+    if(card){
+      game.player.board[pos] = makeUnitFromCard(card);
+      battleLog(`宝の地図：${name}を配置しました。`);
+    }
+  }
+  game.pendingGenericEffect = null;
+  renderBattleArena();
+  syncMyBattleState();
+}
 
 function useOrChargeTension(){
   const game = state.battle.game;
@@ -1908,6 +2038,12 @@ function applyTensionSkill(skill){
   const name = skill?.skillName || 'テンションスキル';
   battleLog(`${name}を使用しました。`);
   const effect = skill?.effect;
+  const hs = game?.player?.heroSkill;
+  if(hs?.heroCardName === '勇者レック') {
+    game.player.reckTensionSkillUses = Number(game.player.reckTensionSkillUses || 0) + 1;
+    for(const id of game.player.hand){ if(isProficiencyCard(byId(id))) markCardProficiencyInHand(id, 1); }
+    battleLog('勇者レック：熟練度+1。');
+  }
   if(!effect) return;
   if(effect.type === 'dealDamage'){
     game.enemy.hp = Math.max(0, game.enemy.hp - Number(effect.amount || 0));
@@ -1982,20 +2118,52 @@ function applyBuildingTurnEnd(unit){
     const before = unit.durability || 0;
     if(text.includes('味方ユニットが場に出る')){} // event side hook later
     if(text.includes('テンションリンク')){} // trigger hook later
-    if(text.includes('自分のターン終了時') && text.includes('耐久値+1')) unit.durability += 1;
+    if((text.includes('自分のターン開始時') || text.includes('自分のターン終了時')) && text.includes('耐久値+1')) unit.durability += 1;
     if(unit.durability !== before) battleLog(`${unit.name}：耐久値${unit.durability}/${unit.maxDurability}`);
     if(unit.durability >= unit.maxDurability) completeDungeon(unit);
   }
 }
 function completeDungeon(unit){
+  const game = state.battle.game;
   const text = getCardText(byId(unit.cardId));
+  const pos = game.player.board.indexOf(unit);
+  if(pos >= 0) game.player.board[pos] = null;
+  game.player.dungeonsCleared = Number(game.player.dungeonsCleared || 0) + 1;
   battleLog(`${unit.name}を踏破しました。`);
   if(text.includes('カードを3枚引く')) drawCard(3);
+  if(text.includes('カードを1枚引く') || text.includes('カードを１枚引く')) drawCard(1);
   if(text.includes('王女の愛')) addCardToHandByName('王女の愛');
   if(text.includes('ドルマドン')) addCardToHandByName('ドルマドン');
   if(text.includes('しあわせの箱')) addCardToHandByName('しあわせの箱');
   if(text.includes('おうごんのつめ')) addCardToHandByName('おうごんのつめ');
-  unit.hp = 0;
+  if(unit.name === 'ざわめく風の坑道'){
+    if(pos >= 0) summonRandomUnitAtPos(c => Number(c.cost || 0) === 2, pos, 'player');
+  }else if(unit.name === '見えざる魔神の道'){
+    if(pos >= 0) summonCardAtPos(findCardByName('強敵メタルキング'), pos, 'player', {keywords:{firstStrike:true, metal:true}});
+    summonTokenByName('強敵メタルキング', {attack:3, hp:3}, 'player');
+  }else if(unit.name === '放たれし大地のじごく'){
+    for(const u of [...game.player.board, ...game.enemy.board]) if(u && u !== unit) damageUnit(u, 2);
+    damageLeader('player', 2); damageLeader('enemy', 2);
+    resolveDeaths();
+  }else if(unit.name === '残された神々の水脈'){
+    healLeader(3); gainTension(3, unit.name);
+  }else if(unit.name === '呪われし魂の氷河'){
+    const targets = game.enemy.board.filter(Boolean);
+    if(targets.length) damageUnit(chooseRandom(targets), 5);
+    resolveDeaths();
+  }else if(unit.name === '大魔王の間'){
+    if(pos >= 0){
+      summonRandomUnitAtPos(c => (c.tribes || []).includes('魔王系') && Number(c.cost || 0) >= 6, pos, 'player');
+      const u = game.player.board[pos];
+      if(u) u.keywords = {...(u.keywords||{}), firstStrike:true};
+    }
+  }else if(unit.name === 'あらぶる光の世界'){
+    const pool = state.allCards.filter(c => c.cardType !== 'ユニット' && c.name !== unit.name);
+    const picks = [];
+    while(pool.length && picks.length < 3){ const idx=Math.floor(Math.random()*pool.length); picks.push(pool.splice(idx,1)[0]); }
+    game.player.costOverrides ||= {};
+    for(const c of picks){ game.player.hand.push(c.id); game.player.costOverrides[c.id] = Math.max(0, Number(c.cost || 0) - 1); }
+  }
 }
 function progressDungeonsByEvent(eventName){
   const game = state.battle.game;
@@ -2046,7 +2214,11 @@ async function endTurn(){
 }
 
 
-function getHeroDef(heroName){ if(heroName === 'サルマトリアの王子') heroName = 'サマルトリアの王子'; return HERO_SKILL_DEFS[heroName]; }
+function getHeroDef(heroName){
+  if(heroName === 'サルマトリアの王子') heroName = 'サマルトリアの王子';
+  if(heroName === 'レック') heroName = '勇者レック';
+  return HERO_SKILL_DEFS[heroName];
+}
 function getHeroLevelDef(heroSkill){
   const def = getHeroDef(heroSkill.heroCardName);
   let skill = def?.levels?.find(l => l.level === heroSkill.level) || null;
@@ -2071,7 +2243,7 @@ function activateHeroCard(card){
   battleLog(`${card.name}のヒーロースキルが使えるようになりました。`);
 }
 function getHeroLevelCardName(heroName, level){
-  const def = HERO_SKILL_DEFS[heroName];
+  const def = getHeroDef(heroName);
   return def?.levels?.find(l => l.level === level)?.name || `レベル${level}ヒーロースキル`;
 }
 function getHeroSkillCost(skill){
@@ -2080,6 +2252,7 @@ function getHeroSkillCost(skill){
   if(skill?.dynamicCost === 'noSpellsInDeckMinus1' && !game.player.deck.some(id => isSpell(byId(id)))) cost -= 1;
   if(skill?.dynamicCost === 'spellCostThisTurnDiscount') cost -= Number(game.player.usedSpellCostThisTurn || 0);
   if(skill?.dynamic?.costPlusPerUse) cost += Number(game.player.heroSkill?.lv2UseCount || 0);
+  if(skill?.dynamic?.legendFinalCost) cost = Math.max(0, Number(skill.cost || 25) - Number(game.player.heroSkill?.legendFinalDiscount || 0));
   return Math.max(0, cost);
 }
 function canUseHeroSkill(skill){
@@ -2090,6 +2263,10 @@ function canUseHeroSkill(skill){
   if(cost > game.player.mp) return {ok:false, reason:'MPが足りません'};
   if(skill.requiredTension && game.player.tension < 3) return {ok:false, reason:'必殺技にはテンション3が必要です'};
   if(skill.condition === 'handDemon' && !game.player.hand.some(id => isDemon(byId(id)))) return {ok:false, reason:'手札に魔王系カードが必要です'};
+  if(skill.dynamic?.usesEqualDungeonClears){
+    const remain = getNineLv2RequiredUses() - Number(game.player.heroSkill?.progressCount || 0);
+    if(remain <= 0) return {ok:false, reason:'既に条件を満たしています'};
+  }
   if(skill.condition === 'noAnnihilatorZoma'){
     const exists = game.player.hand.some(id => byId(id)?.name === '全てを滅ぼす者ゾーマ') || game.player.board.some(u => u?.name === '全てを滅ぼす者ゾーマ');
     if(exists) return {ok:false, reason:'既に全てを滅ぼす者ゾーマが存在します'};
@@ -2132,7 +2309,7 @@ function beginHeroSkillUse(skill){
   const game = state.battle.game;
   const check = canUseHeroSkill(skill);
   if(!check.ok) return toast(check.reason, false);
-  if(['enemyAny','enemyUnit','enemyAnyBlockedByUnits','unitAny','friendlyUnit','friendlyEmptySlot'].includes(skill.target)){
+  if(['enemyAny','enemyUnit','enemyAnyBlockedByUnits','unitAny','friendlyUnit','friendlyEmptySlot','friendlyDungeon'].includes(skill.target)){
     game.pendingHeroSkill = skill;
     $('hero-skill-modal').close();
     battleLog(`${skill.name}：対象を選んでください。`);
@@ -2169,13 +2346,14 @@ function applyPendingHeroSkillToUnit(side, pos){
   if(skill.target === 'enemyAny' && side !== 'enemy') return toast('敵を選んでください。', false);
   if(skill.target === 'enemyAnyBlockedByUnits' && side !== 'enemy') return toast('敵を選んでください。', false);
   if(skill.target === 'friendlyUnit' && side !== 'player') return toast('味方ユニットを選んでください。', false);
+  if(skill.target === 'friendlyDungeon' && (side !== 'player' || !unit.isDungeon)) return toast('味方のダンジョンを選んでください。', false);
   useHeroSkillCard(skill, {side, pos, unit});
 }
 function applyPendingHeroSkillToLeader(){
   const game = state.battle.game;
   const skill = game.pendingHeroSkill;
   if(!skill) return;
-  if(skill.target === 'enemyUnit' || skill.target === 'friendlyUnit' || skill.target === 'unitAny') return toast('ユニットを選んでください。', false);
+  if(skill.target === 'enemyUnit' || skill.target === 'friendlyUnit' || skill.target === 'unitAny' || skill.target === 'friendlyDungeon') return toast('対象を選んでください。', false);
   if(skill.target === 'enemyAnyBlockedByUnits' && hasEnemyTargetableUnit()) return toast('対象にできる敵ユニットがいる間、敵リーダーを対象にできません。', false);
   useHeroSkillCard(skill, {side:'enemyLeader'});
 }
@@ -2193,6 +2371,7 @@ function applySimpleEffect(effect, target){
   if(!effect) return;
   if(effect.kind === 'healLeader') healLeader(effect.amount);
   if(effect.kind === 'restoreMp') game.player.mp = Math.min(game.player.maxMp, game.player.mp + Number(effect.amount || 0));
+  if(effect.kind === 'boostDungeonDurability' && target?.unit?.isDungeon){ target.unit.durability = Math.min(target.unit.maxDurability, Number(target.unit.durability || 0) + Number(effect.amount || 0)); }
 }
 
 function getHeroSkillDamage(skill){
@@ -2201,6 +2380,59 @@ function getHeroSkillDamage(skill){
   if(skill?.dynamic?.damagePlusPerUse) amount += Number(game.player.heroSkill?.lv2UseCount || 0);
   if(skill?.dynamic?.loreLv3Damage) amount = Number(game.player.heroSkill?.loreLv3Damage || 1);
   return amount;
+}
+
+
+function isProficiencyCard(card){
+  return String(card?.text || card?.searchText || '').includes('熟練度') || (card?.tags || []).includes('熟練度');
+}
+function markCardProficiencyInHand(cardId, amount=1){
+  const game = state.battle.game;
+  game.player.proficiency ||= {};
+  game.player.proficiency[cardId] = Number(game.player.proficiency[cardId] || 0) + Number(amount || 1);
+}
+function pickProficiencyCardInHand(amount=1, fallbackDraw=false){
+  const game = state.battle.game;
+  const id = game.player.hand.find(id => isProficiencyCard(byId(id)));
+  if(id){
+    const current = Number(game.player.proficiency?.[id] || 0);
+    markCardProficiencyInHand(id, current <= 1 ? Math.max(amount, 2) : amount);
+    battleLog(`${byId(id).name}の熟練度+${current <= 1 ? Math.max(amount, 2) : amount}。`);
+  }else{
+    if(fallbackDraw) drawCard(1);
+    battleLog('熟練度を持つ手札がありません。');
+  }
+}
+function drawAdventurerFromTop7(){
+  const game = state.battle.game;
+  const top = game.player.deck.splice(0, 7);
+  const idx = top.findIndex(id => isAdventurer(byId(id)));
+  if(idx >= 0){
+    const picked = top.splice(idx, 1)[0];
+    game.player.hand.push(picked);
+    game.player.deck.push(...top);
+    battleLog(`${byId(picked).name}を手札に加え、残りをデッキ下へ戻しました。`);
+  }else{
+    game.player.deck.push(...top);
+    battleLog('上7枚に冒険者カードがありませんでした。');
+  }
+}
+function buffLastSummonedAdventurer(card){
+  const game = state.battle.game;
+  if(!isAdventurer(card)) return;
+  for(const unit of game.player.board){
+    if(unit && unit.cardId === card.id && !unit._dharmaBuffed){
+      unit.attack += 1; unit.hp += 1; unit.maxHp += 1;
+      unit._dharmaBuffed = true;
+      const dharma = game.player.board.find(u => u?.name === 'ダーマの神殿');
+      if(dharma?.isBuilding){
+        dharma.durability = Math.max(0, (dharma.durability ?? 1) - 1);
+        if(dharma.durability <= 0) dharma.hp = 0;
+      }
+      battleLog('ダーマの神殿：冒険者を+1/+1。');
+      break;
+    }
+  }
 }
 
 function triggerCardPlayedForHero(card){
@@ -2216,6 +2448,22 @@ function triggerCardPlayedForHero(card){
   if(hs.heroCardName === 'ローレシアの王子' && hs.level === 3 && !isSpell(card)){
     hs.loreLv3Damage = Number(hs.loreLv3Damage || 1) + 1;
     battleLog('ローレシアLv3：破壊神との決戦のダメージ+1。');
+  }
+  if((hs.heroCardName === '伝説の勇者') && isAdventurer(card)){
+    hs.legendAdventurerUses = Number(hs.legendAdventurerUses || 0) + 1;
+    if(hs.level === 3){
+      hs.legendDemonDamage = Math.min(4, Number(hs.legendDemonDamage || 1) + 1);
+      battleLog('魔王討伐：ダメージ+1。');
+    }
+    if(hs.level === 4 && hs.legendAdventurerUses % 3 === 0){
+      hs.legendFinalDiscount = Number(hs.legendFinalDiscount || 0) + 5;
+      drawCard(1);
+      battleLog('そして伝説へ：コスト-5、カードを1枚引く。');
+    }
+    buffLastSummonedAdventurer(card);
+  }
+  if((hs.heroCardName === '勇者レック' || hs.heroCardName === 'レック') && isProficiencyCard(card)){
+    triggerHeroAuto('proficiencyCardPlayed', {card});
   }
 }
 
@@ -2293,6 +2541,38 @@ function applyHeroSkillEffect(skill, target){
     game.player.permanentAuras ||= [];
     game.player.permanentAuras.push({kind:'damageEnemyLeaderOnCardPlayed', amount:2, source:'家族との絆'});
     battleLog('家族との絆：以後、自分が手札を使う度敵リーダーに2ダメージ。');
+  }else if(e.kind === 'legendTavern'){
+    drawAdventurerFromTop7();
+  }else if(e.kind === 'summonDharmaTemple'){
+    const pos = target?.pos;
+    if(pos == null || game.player.board[pos]) return toast('空きマスを選んでください。', false);
+    const card = findCardByName('ダーマの神殿');
+    const unit = makeUnitFromCard(card);
+    unit.isBuilding = true;
+    unit.durability = 5;
+    unit.maxDurability = 5;
+    unit.attack = 0;
+    unit.canAttack = false;
+    game.player.board[pos] = unit;
+    battleLog('ダーマの神殿を出しました。');
+  }else if(e.kind === 'legendDemonKingSubjugation'){
+    const amount = Number(game.player.heroSkill?.legendDemonDamage || 1);
+    if(target?.unit) damageUnit(target.unit, amount);
+    battleLog(`魔王討伐：${amount}ダメージ。`);
+  }else if(e.kind === 'legendFinal'){
+    damageLeader('enemy', 25);
+    battleLog('そして伝説へ：敵リーダーに25ダメージ。');
+  }else if(e.kind === 'reckMemory'){
+    pickProficiencyCardInHand(1, true);
+  }else if(e.kind === 'reckFuture'){
+    drawCard(1);
+    pickProficiencyCardInHand(2, false);
+  }else if(e.kind === 'boostDungeonDurability'){
+    if(target?.unit?.isDungeon){
+      target.unit.durability = Math.min(Number(target.unit.maxDurability || 0), Number(target.unit.durability || 0) + Number(e.amount || 0));
+      battleLog(`${target.unit.name}の耐久値+${e.amount || 0}。`);
+      if(target.unit.durability >= target.unit.maxDurability) completeDungeon(target.unit);
+    }
   }else if(e.kind === 'samaltoriaRandomLv3'){
     if(e.variant === 'begirama'){
       damageLeader('enemy', 2);
@@ -2332,13 +2612,18 @@ function progressHeroSkill(skill, mode){
   if(key !== mode) return;
   hs.progressCount = (hs.progressCount || 0) + 1;
   if(skill.dynamic?.costPlusPerUse || skill.dynamic?.damagePlusPerUse) hs.lv2UseCount = (hs.lv2UseCount || 0) + 1;
-  const need = skill.progress[key];
-  if(need && hs.progressCount >= need && hs.level < 3){
+  let need = skill.progress[key];
+  if(skill.dynamic?.usesEqualDungeonClears) need = getNineLv2RequiredUses();
+  const maxLevel = Math.max(...(getHeroDef(hs.heroCardName)?.levels || []).map(l => l.level));
+  if(need && hs.progressCount >= need && hs.level < maxLevel){
     if(skill.onLevelUp?.addToHand) addCardToHandByName(skill.onLevelUp.addToHand);
+    if(skill.onLevelUp?.draw) drawCard(skill.onLevelUp.draw);
     hs.level += 1;
     hs.progressCount = 0;
     hs.lv2UseCount = 0;
     hs.loreLv3Damage = 1;
+    if(hs.heroCardName === '伝説の勇者' && hs.level === 3) hs.legendDemonDamage = 1;
+    if(hs.heroCardName === '伝説の勇者' && hs.level === 4) hs.legendFinalDiscount = 0;
     hs.currentCardName = getHeroLevelCardName(hs.heroCardName, hs.level);
     if((hs.heroCardName === 'サマルトリアの王子' || hs.heroCardName === 'サルマトリアの王子') && hs.level === 3) hs.currentCardName = 'くらえベギラマ！';
     battleLog(`ヒーロースキルがLv.${hs.level}に進化しました。`);
