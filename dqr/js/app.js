@@ -37,7 +37,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v32-battle-core-basic';
+const DATA_VERSION = 'v33-battle-screen-layout-match-wait';
 
 init().catch(err => {
   console.error(err);
@@ -150,6 +150,8 @@ function bindEvents(){
   if(tensionBtn) tensionBtn.addEventListener('click', useOrChargeTension);
   const endTurnBtn = $('end-turn');
   if(endTurnBtn) endTurnBtn.addEventListener('click', endTurn);
+  const endTurnTop = $('end-turn-top');
+  if(endTurnTop) endTurnTop.addEventListener('click', endTurn);
   const zoom = $('battle-card-zoom');
   if(zoom) zoom.addEventListener('click', closeBattleCardZoom);
   const deckConfirmClose = $('deck-confirm-close');
@@ -477,6 +479,7 @@ async function startMatch(){
         joinedAt: serverTimestamp()
       });
     }catch(e){ console.warn(e); }
+    subscribeRoomPlayers();
   }
   $('battle-setup').classList.add('hidden');
   $('battle-arena').classList.remove('hidden');
@@ -484,6 +487,23 @@ async function startMatch(){
   renderBattleArena();
 }
 
+
+
+function subscribeRoomPlayers(){
+  if(!state.firebase.enabled || !state.firebase.db || !state.battle.roomId) return;
+  const playersRef = ref(state.firebase.db, `rooms/${state.battle.roomId}/players`);
+  onValue(playersRef, snap => {
+    const players = snap.val() || {};
+    const others = Object.values(players).filter(p => p.playerId !== state.playerId);
+    if(others.length){
+      $('battle-status').textContent = `対戦相手: ${others[0].displayName || others[0].playerId}`;
+      battleLog(`${others[0].displayName || others[0].playerId} が入室しました。`);
+    }else{
+      $('battle-status').textContent = `入室: ${state.battle.matchId} / 相手待ち`;
+    }
+    renderBattleLog();
+  });
+}
 
 function initLocalBattleGame(){
   const deck = state.battle.selectedDeck;
@@ -589,6 +609,7 @@ function renderBattleArena(){
   $('enemy-hp').textContent = game.enemy.hp;
   $('player-mp').textContent = `${game.player.mp}/${game.player.maxMp}`;
   $('enemy-mp').textContent = `${game.enemy.mp}/${game.enemy.maxMp}`;
+  if($('battle-turn-label')) $('battle-turn-label').textContent = `TURN ${game.turn}`;
   renderTension();
   renderBattleBoard();
   renderBattleHand();
@@ -612,6 +633,9 @@ function renderBattleBoard(){
       attachLongPress(slot, () => showBattleCardZoom(card));
     }else{
       slot.innerHTML = '';
+      slot.ondragover = e => { if(side === 'player'){ e.preventDefault(); slot.classList.add('drop-ready'); } };
+      slot.ondragleave = () => slot.classList.remove('drop-ready');
+      slot.ondrop = e => { e.preventDefault(); slot.classList.remove('drop-ready'); if(side === 'player'){ const idx = Number(e.dataTransfer.getData('text/plain')); state.battle.game.selectedHandIndex = idx; handleEmptySlotClick(side, pos); } };
       slot.onclick = () => handleEmptySlotClick(side, pos);
     }
   });
@@ -632,6 +656,14 @@ function renderBattleHand(){
     const playable = Number(card.cost || 0) <= game.player.mp;
     btn.classList.toggle('unplayable', !playable);
     btn.innerHTML = `${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span>${escapeHtml(card.name)}</span>`;
+    btn.draggable = true;
+    btn.addEventListener('dragstart', e => {
+      game.selectedHandIndex = index;
+      e.dataTransfer.setData('text/plain', String(index));
+      btn.classList.add('dragging');
+      renderBattleLog();
+    });
+    btn.addEventListener('dragend', () => btn.classList.remove('dragging'));
     btn.addEventListener('click', () => selectHandCard(index));
     attachLongPress(btn, () => showBattleCardZoom(card));
     hand.appendChild(btn);
