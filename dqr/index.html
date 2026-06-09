@@ -127,7 +127,7 @@
             <button id="hero-skill-button" class="hero-skill-orb hidden" title="ヒーロースキル">Hero</button>
             <button id="tension-button" class="tension-orb" title="テンション">
               <span class="sword">⚔</span>
-              <span id="tension-pips" class="tension-pips"><i></i><i></i><i></i></span>
+              <span id="tension-pips" class="tension-pips"><i></i><i></i><i></i></span><b id="tension-count-label" class="tension-count-label">0</b>
             </button>
             <div class="hp-pill">HP <b id="player-hp">25</b></div>
             <div class="mp-pill">MP <b id="player-mp">1/1</b></div>
@@ -160,6 +160,15 @@
       <div id="hero-skill-body" class="modal-body"></div>
     </dialog>
 
+
+    <dialog id="choice-modal" class="card-modal choice-modal">
+      <div class="modal-head">
+        <h3 id="choice-modal-title">選択</h3>
+        <button id="choice-modal-close" class="ghost">×</button>
+      </div>
+      <div id="choice-modal-body" class="modal-body choice-modal-body"></div>
+    </dialog>
+
     <dialog id="battle-deck-modal" class="card-modal">
       <div class="modal-head">
         <h3 id="battle-deck-modal-title">デッキ確認</h3>
@@ -178,6 +187,7 @@
         <div class="save-status" id="save-status">未保存</div>
       </header>
 
+      <div id="deck-editor-list" class="deck-editor-list"></div>
       <main class="builder-layout">
         <aside class="left-panel">
           <label>デッキ名</label>
