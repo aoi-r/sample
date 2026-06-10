@@ -1,7 +1,7 @@
 import { firebaseConfig } from './firebase-config.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
-import { getDatabase, ref, set, push, remove, onValue, serverTimestamp, get, update } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js';
+import { getDatabase, ref, set, push, remove, onValue, serverTimestamp, get, update, onDisconnect } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js';
 
 const state = {
   cards: [], allCards: [], systems: {}, strategies: {}, choices: {}, coin: {}, dungeons: {}, fortune: {}, heroes: {}, exchanges: {}, generatedCards: {}, tensionSystem: {},
@@ -10,7 +10,7 @@ const state = {
   playerId: localStorage.getItem('dqr_player_id') || '',
   deviceId: localStorage.getItem('dqr_device_id') || crypto.randomUUID(),
   selectedClass: '', selectedHeroId: '', deck: new Map(), editingDeckId: '',
-  battle: { selectedDeckId: '', selectedDeck: null, matchId: '', roomId: '', game: null },
+  battle: { selectedDeckId: '', selectedDeck: null, matchId: '', roomId: '', game: null, unsubs: [], resultTimer: null, resultShown: false, hasMatched: false, matchLocked: false, bannerTimer: null, presenceTimer: null, lastTurnPlayerId: '', startBannerShown: false },
   firebase: { enabled: false, app: null, auth: null, db: null, uid: null }
 };
 localStorage.setItem('dqr_device_id', state.deviceId);
@@ -37,10 +37,32 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v46_battle_board_lr_coordinate';
+const DATA_VERSION = 'v58_excel_effect_reference';
 
 
 const HERO_SKILL_DEFS = {
+  '伝説の勇者': {
+    levels: [
+      { level:1, name:'出会いと別れの酒場', cost:0, type:'manual', target:'none', effect:{kind:'legendTavern'}, progress:{uses:2} },
+      { level:2, name:'ダーマの神殿へ', cost:1, type:'manual', target:'friendlyEmptySlot', effect:{kind:'summonDharmaTemple'}, progress:{uses:1} },
+      { level:3, name:'魔王討伐', cost:2, type:'manual', target:'unitAny', effect:{kind:'legendDemonKingSubjugation'}, progress:{uses:1} },
+      { level:4, name:'そして伝説へ', cost:25, dynamic:{legendFinalCost:true}, type:'manual', target:'enemyLeader', effect:{kind:'legendFinal'}, progress:null }
+    ]
+  },
+  '勇者レック': {
+    levels: [
+      { level:1, name:'いつか見た光景', cost:0, type:'manual', target:'none', effect:{kind:'reckMemory'}, progress:{uses:2}, onLevelUp:{draw:1} },
+      { level:2, name:'呼び覚まされし記憶', cost:0, type:'auto', trigger:'proficiencyCardPlayed', effect:{kind:'gainTension', amount:1}, progress:{triggers:2} },
+      { level:3, name:'未来を信じて', cost:2, type:'manual', target:'none', effect:{kind:'reckFuture'}, progress:null }
+    ]
+  },
+  '守り人ナイン': {
+    levels: [
+      { level:1, name:'宝の地図', cost:0, type:'manual', target:'none', effect:{kind:'addToHand', name:'宝の地図'}, progress:{uses:1} },
+      { level:2, name:'ダンジョンアタック', cost:0, type:'manual', target:'enemyAny', effect:{kind:'damage', amount:2}, progress:{uses:1}, dynamic:{usesEqualDungeonClears:true} },
+      { level:3, name:'ダンジョンメンテナンス', cost:0, type:'manual', target:'friendlyDungeon', effect:{kind:'boostDungeonDurability', amount:2}, progress:null }
+    ]
+  },
   'ロトの血を引く者': {
     levels: [
       { level:1, name:'たたかう', cost:1, type:'manual', target:'enemyAny', effect:{kind:'damage', amount:1}, progress:{uses:1} },
@@ -129,7 +151,7 @@ const HERO_SKILL_DEFS = {
     levels: [
       { level:1, name:'悲しげな犬', cost:0, type:'auto', trigger:'spellCost1Plus', effect:{kind:'draw', count:1}, progress:{triggers:1} },
       { level:2, name:'旅立ちの王女', cost:3, dynamicCost:'spellCostThisTurnDiscount', type:'manual', target:'choiceMoonLv2', effect:{kind:'damageAllUnits', amount:1}, progress:{uses:2} },
-      { level:3, name:'精霊ルビスの加護', cost:0, type:'auto', trigger:'spellCost3Plus', effect:{kind:'rubissBlessing'}, progress:null }
+      { level:3, name:'精霊王ルビスの加護', cost:0, type:'auto', trigger:'spellCost3Plus', effect:{kind:'rubissBlessing'}, progress:null }
     ]
   }
 };
@@ -143,7 +165,30 @@ const VIRTUAL_CARD_DEFS = {
   'コイン': { name:'コイン', cost:0, cardType:'特技', text:'BETを発動するために使う。', effect:{kind:'coin'} },
   'スライム': { name:'スライム', cost:0, attack:1, hp:1, cardType:'ユニット', text:'1/1のスライム。', effect:null },
   'ピサロナイト': { name:'ピサロナイト', cost:0, attack:1, hp:1, cardType:'ユニット', text:'1/1のピサロナイト。', effect:null },
-  'サラマンダー': { name:'サラマンダー', cost:0, attack:8, hp:8, cardType:'ユニット', text:'超貫通。ベビーサラマンダーがBET4回で変身する。', effect:null }
+  'サラマンダー': { name:'サラマンダー', cost:0, attack:8, hp:8, cardType:'ユニット', text:'超貫通。ベビーサラマンダーがBET4回で変身する。', effect:null },
+
+  '伝説の勇者': { name:'伝説の勇者', cost:2, cardType:'ヒーロー', rarity:'レジェンドレア', text:'伝説の勇者のヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る。', classes:['共通'], tribes:['英雄'], tags:['ヒーロー'], deckBuildable:true, localImage:'./assets/custom_cards/伝説の勇者_デッキ編成カード.png' },
+  '出会いと別れの酒場': { name:'出会いと別れの酒場', cost:0, cardType:'ヒーロースキル', rarity:'トークン', text:'自分のデッキの上7枚から冒険者カードを1枚引き、残りをデッキの下に戻す。', localImage:'./assets/custom_cards/伝説の勇者_lv1.png' },
+  'ダーマの神殿へ': { name:'ダーマの神殿へ', cost:1, cardType:'ヒーロースキル', rarity:'トークン', text:'味方空きマスにダーマの神殿を出した後、自分が各職業の初期テンションスキルなら自分の職業を含む初期テンションスキル3種類から1つ選び変更する。', localImage:'./assets/custom_cards/伝説の勇者_lv2.png' },
+  '魔王討伐': { name:'魔王討伐', cost:2, cardType:'ヒーロースキル', rarity:'トークン', text:'ユニット1体に1ダメージ。味方冒険者が出る度+1ダメージ。上限は+3ダメージ。', localImage:'./assets/custom_cards/伝説の勇者_lv3.png' },
+  'そして伝説へ': { name:'そして伝説へ', cost:25, cardType:'ヒーロースキル', rarity:'トークン', text:'敵リーダーに25ダメージ。自分が冒険者カードを3回使う度、このカードのレベル+1、カードを1枚引き、このヒーロースキルのコスト-5。', localImage:'./assets/custom_cards/伝説の勇者_lv4.png' },
+  'ダーマの神殿': { name:'ダーマの神殿', cost:1, attack:0, hp:5, cardType:'建物', rarity:'トークン', text:'味方冒険者が場に出た後それを+1/+1し耐久値-1。スキルリンク：自分が各職業の初期テンションスキルなら自分の職業を含む初期テンションスキル3種類から1つ選び変更する。', localImage:'./assets/custom_cards/伝説の勇者_ダーマ神殿.png' },
+
+  '勇者レック': { name:'勇者レック', cost:1, cardType:'ヒーロー', rarity:'レジェンドレア', text:'勇者レックのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る。', classes:['共通'], tribes:['英雄'], tags:['ヒーロー'], deckBuildable:true, localImage:'./assets/custom_cards/レック_デッキ編成カード.png' },
+  'いつか見た光景': { name:'いつか見た光景', cost:0, cardType:'ヒーロースキル', rarity:'トークン', text:'自分の手札から熟練度を持つカード1枚を選ぶ。そのカードの熟練度+1。選んだカードの熟練度が1以下の場合代わりに熟練度+2。レベル2になる時カードを1枚引く。', localImage:'./assets/custom_cards/レック_lv1.png' },
+  '呼び覚まされし記憶': { name:'呼び覚まされし記憶', cost:0, cardType:'ヒーロースキル', rarity:'トークン', text:'熟練度を持つカードを自分が使用した後、味方リーダーのテンション+1。この効果は条件を満たすと自動的に発動する。', localImage:'./assets/custom_cards/レック_lv2.png' },
+  '未来を信じて': { name:'未来を信じて', cost:2, cardType:'ヒーロースキル', rarity:'トークン', text:'カードを1枚引く。その後手札から熟練度を持つカードを1枚選び、そのカードの熟練度+2。', localImage:'./assets/custom_cards/レック_lv3.png' },
+  '精霊王ルビスの加護': { name:'精霊王ルビスの加護', cost:0, cardType:'ヒーロースキル', rarity:'トークン', text:'自分がコスト3以上の特技を使った後、そのコストにより追加効果が発動する。コスト3以上:MP1回復。コスト5以上:テンション+1。コスト7以上:カードを1枚引く。' },
+  '宝の地図': { name:'宝の地図', cost:0, cardType:'特技', rarity:'トークン', text:'味方空きマスに、対戦中踏破した回数に応じた地図ダンジョンを出す。0回:うす暗き獣の洞くつ。1回:ざわめく風の坑道。2回以上:ランダムな6種類の地図ダンジョンから1つを出す。', localImage:'./assets/custom_cards/宝の地図.png' },
+  'うす暗き獣の洞くつ': { name:'うす暗き獣の洞くつ', cost:1, attack:0, hp:3, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値3で踏破) 自分のターン開始時 耐久値+1 踏破時:カードを1枚引く', localImage:'./assets/custom_cards/うす暗き獣の洞くつ.png' },
+  'ざわめく風の坑道': { name:'ざわめく風の坑道', cost:2, attack:0, hp:3, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値3で踏破) 自分のターン開始時 耐久値+1 踏破時:ランダムなコスト2のユニットをこの場所に出す カードを1枚引く', localImage:'./assets/custom_cards/ざわめく風の坑道.png' },
+  '見えざる魔神の道': { name:'見えざる魔神の道', cost:3, attack:0, hp:5, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値5で踏破) 自分のターン開始時 耐久値+1 踏破時:先制 メタルボディ 3/3の強敵メタルキングを2体出す', localImage:'./assets/custom_cards/見えざる魔神の道.png' },
+  '放たれし大地のじごく': { name:'放たれし大地のじごく', cost:3, attack:0, hp:2, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値2で踏破) 自分のターン開始時 耐久値+1 踏破時:敵味方全体に2ダメージ', localImage:'./assets/custom_cards/放たれし大地のじごく.png' },
+  '残された神々の水脈': { name:'残された神々の水脈', cost:3, attack:0, hp:3, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値3で踏破) 自分のターン開始時 耐久値+1 踏破時:味方リーダーのHPを3回復し テンション+3 カードを1枚引く', localImage:'./assets/custom_cards/残された神々の水脈.png' },
+  '呪われし魂の氷河': { name:'呪われし魂の氷河', cost:3, attack:0, hp:2, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値2で踏破) 自分のターン開始時 耐久値+1 踏破時:ランダムな敵ユニット1体に5ダメージ', localImage:'./assets/custom_cards/呪われし魂の氷河.png' },
+  '大魔王の間': { name:'大魔王の間', cost:3, attack:0, hp:5, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値5で踏破) 自分のターン開始時 耐久値+1 踏破時:ランダムなコスト6以上の魔王系ユニット1体を出す', localImage:'./assets/custom_cards/大魔王の間.png' },
+  'あらぶる光の世界': { name:'あらぶる光の世界', cost:3, attack:0, hp:4, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値4で踏破) 自分のターン開始時 耐久値+1 踏破時:味方のユニット以外のカードをランダムに3枚手札に加え それらのコスト-1', localImage:'./assets/custom_cards/あらぶる光の世界.png' },
+  '強敵メタルキング': { name:'強敵メタルキング', cost:0, attack:3, hp:3, cardType:'ユニット', rarity:'トークン', text:'先制 メタルボディ', tags:['強敵'], localImage:'./assets/custom_cards/見えざる魔神の道.png' }
 };
 
 init().catch(err => {
@@ -273,6 +318,19 @@ function bindEvents(){
   if(heroSkillBtn) heroSkillBtn.addEventListener('click', openHeroSkillModal);
   const heroSkillClose = $('hero-skill-close');
   if(heroSkillClose) heroSkillClose.addEventListener('click', () => $('hero-skill-modal').close());
+  // battle-top-exit-interceptor-v49
+  const battleBackBtn = document.querySelector('#screen-battle .topbar .ghost');
+  if(battleBackBtn){
+    battleBackBtn.addEventListener('click', (e) => {
+      const battleActive = !$('battle-arena')?.classList.contains('hidden') && $('screen-battle')?.classList.contains('active');
+      if(battleActive){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        $('battle-exit-modal').showModal();
+      }
+    }, true);
+    battleBackBtn.textContent = '退出';
+  }
   const choiceClose = $('choice-modal-close');
   if(choiceClose) choiceClose.addEventListener('click', () => $('choice-modal').close());
   const deckConfirmClose = $('deck-confirm-close');
@@ -334,7 +392,33 @@ function visibleCards(){
   }).sort((a,b) => (a.cost ?? 0) - (b.cost ?? 0) || String(a.name).localeCompare(String(b.name),'ja'));
 }
 
+
+const CUSTOM_CARD_IMAGES = {
+  '伝説の勇者': './assets/custom_cards/伝説の勇者_デッキ編成カード.png',
+  '出会いと別れの酒場': './assets/custom_cards/伝説の勇者_lv1.png',
+  'ダーマの神殿へ': './assets/custom_cards/伝説の勇者_lv2.png',
+  '魔王討伐': './assets/custom_cards/伝説の勇者_lv3.png',
+  'そして伝説へ': './assets/custom_cards/伝説の勇者_lv4.png',
+  'ダーマの神殿': './assets/custom_cards/伝説の勇者_ダーマ神殿.png',
+  '勇者レック': './assets/custom_cards/レック_デッキ編成カード.png',
+  'いつか見た光景': './assets/custom_cards/レック_lv1.png',
+  '呼び覚まされし記憶': './assets/custom_cards/レック_lv2.png',
+  '未来を信じて': './assets/custom_cards/レック_lv3.png',
+  '宝の地図': './assets/custom_cards/宝の地図.png',
+  'うす暗き獣の洞くつ': './assets/custom_cards/うす暗き獣の洞くつ.png',
+  'ざわめく風の坑道': './assets/custom_cards/ざわめく風の坑道.png',
+  '見えざる魔神の道': './assets/custom_cards/見えざる魔神の道.png',
+  '放たれし大地のじごく': './assets/custom_cards/放たれし大地のじごく.png',
+  '残された神々の水脈': './assets/custom_cards/残された神々の水脈.png',
+  '呪われし魂の氷河': './assets/custom_cards/呪われし魂の氷河.png',
+  '大魔王の間': './assets/custom_cards/大魔王の間.png',
+  'あらぶる光の世界': './assets/custom_cards/あらぶる光の世界.png'
+};
+
 function getOfficialImage(card){
+  if(!card) return '';
+  if(CUSTOM_CARD_IMAGES[card.name]) return CUSTOM_CARD_IMAGES[card.name];
+  if(card.localImage) return card.localImage;
   return card.official?.imageVerified === true && card.official?.imageUrl ? card.official.imageUrl : '';
 }
 
@@ -461,7 +545,8 @@ async function saveDeck(){
   saveLocalDeck(targetId, payload);
   if(state.firebase.enabled && state.firebase.uid && state.firebase.db){
     if(state.editingDeckId && !String(state.editingDeckId).startsWith('local_')){
-      await set(ref(state.firebase.db, `players/${state.playerId}/decks/${state.editingDeckId}`), { ...payload, updatedAt: serverTimestamp() });
+      await set(ref(state.firebase.db, `players/${state.playerId}/decks/${state.editingDeckId}`), { ...payload, updatedAt: serverTimestamp(),
+    lastSeenMs: Date.now() });
     }else{
       const newRef = push(ref(state.firebase.db, `players/${state.playerId}/decks`));
       await set(newRef, { ...payload, updatedAt: serverTimestamp() });
@@ -625,6 +710,190 @@ function openBattleDeckModal(id, deck){
   $('battle-deck-modal').showModal();
 }
 
+
+function cleanupBattleSubscriptions(){
+  for(const unsub of state.battle.unsubs || []){
+    try{ if(typeof unsub === 'function') unsub(); }catch(e){}
+  }
+  state.battle.unsubs = [];
+  clearPresenceTimer();
+}
+
+function getOpponentPlayerIdFromCache(){
+  const states = state.battle.remoteStates || {};
+  const st = Object.values(states).find(s => s && s.playerId && s.playerId !== state.playerId);
+  if(st?.playerId) return st.playerId;
+  const players = state.battle.roomPlayers || {};
+  const p = Object.values(players).find(p => p && p.playerId && p.playerId !== state.playerId && p.status !== 'left' && p.status !== 'defeated');
+  return p?.playerId || '';
+}
+
+function isFinalRoomStatus(status){
+  return ['finished','closed','deleted','abandoned'].includes(String(status || ''));
+}
+
+function resetBattleLocalState(){
+  cleanupBattleSubscriptions();
+  if(state.battle.resultTimer){ clearTimeout(state.battle.resultTimer); state.battle.resultTimer = null; }
+  state.battle.game = null;
+  state.battle.matchId = '';
+  state.battle.roomId = '';
+  state.battle.selectedDeckId = '';
+  state.battle.selectedDeck = null;
+  state.battle.remoteStates = {};
+  state.battle.roomPlayers = {};
+  state.battle.resultShown = false;
+  resetBattleFlowFlags();
+}
+
+async function removeBattleRoomLater(roomId, delay=3500){
+  if(!state.firebase.enabled || !state.firebase.db || !roomId) return;
+  setTimeout(async () => {
+    try{ await remove(ref(state.firebase.db, `rooms/${roomId}`)); }
+    catch(e){ console.warn('remove room failed', e); }
+  }, delay);
+}
+
+async function publishBattleResult(result, reason='hp0', autoReset=false){
+  const roomId = state.battle.roomId;
+  const opponentId = getOpponentPlayerIdFromCache();
+  const winner = result === 'win' ? state.playerId : opponentId;
+  const loser = result === 'lose' ? state.playerId : opponentId;
+  if(state.firebase.enabled && state.firebase.db && roomId){
+    try{
+      await update(ref(state.firebase.db, `rooms/${roomId}/meta`), {
+        status: 'finished',
+        winnerPlayerId: winner || '',
+        loserPlayerId: loser || '',
+        reason,
+        endedBy: state.playerId,
+        endedAt: serverTimestamp(),
+        currentTurnPlayerId: null
+      });
+      await update(ref(state.firebase.db, `rooms/${roomId}/players/${state.playerId}`), {
+        status: result === 'win' ? 'winner' : 'defeated',
+        leftAt: serverTimestamp()
+      });
+      await removeBattleRoomLater(roomId, 4500);
+    }catch(e){ console.warn('publishBattleResult failed', e); }
+  }
+  showBattleResult(result, {autoReset, reason});
+}
+
+
+function isBattleLocked(){
+  const game = state.battle.game;
+  return !!(state.battle.matchLocked || !game || game.finished || !game.isMyTurn);
+}
+function setBattleLocked(locked){
+  state.battle.matchLocked = !!locked;
+  const arena = $('battle-arena');
+  if(arena) arena.classList.toggle('battle-locked', !!locked);
+  renderBattleArena();
+}
+function showBattleBanner(text, options={}){
+  const el = $('battle-flow-banner');
+  if(!el) return Promise.resolve();
+  if(state.battle.bannerTimer){ clearTimeout(state.battle.bannerTimer); state.battle.bannerTimer = null; }
+  el.textContent = text;
+  el.classList.remove('hidden','hide');
+  el.classList.add('show');
+  if(options.lock !== false) state.battle.matchLocked = true;
+  const duration = options.duration ?? 2000;
+  return new Promise(resolve => {
+    state.battle.bannerTimer = setTimeout(() => {
+      el.classList.remove('show');
+      el.classList.add('hide');
+      setTimeout(() => {
+        el.classList.add('hidden');
+        el.classList.remove('hide');
+        if(options.unlockAfter) state.battle.matchLocked = false;
+        renderBattleArena();
+        resolve();
+      }, 260);
+    }, duration);
+    renderBattleArena();
+  });
+}
+function showWaitingForOpponent(){
+  state.battle.hasMatched = false;
+  state.battle.matchLocked = true;
+  showBattleBanner('待機中・・・', {duration: 999999, lock:true});
+  $('battle-status').textContent = '待機中・・・';
+}
+function hideBattleBanner(){
+  const el = $('battle-flow-banner');
+  if(state.battle.bannerTimer){ clearTimeout(state.battle.bannerTimer); state.battle.bannerTimer = null; }
+  if(el){ el.classList.add('hidden'); el.classList.remove('show','hide'); }
+}
+function clearPresenceTimer(){
+  if(state.battle.presenceTimer){ clearInterval(state.battle.presenceTimer); state.battle.presenceTimer = null; }
+}
+async function markMyPresence(roomId){
+  if(!state.firebase.enabled || !state.firebase.db || !roomId || !state.playerId) return;
+  const playerRef = ref(state.firebase.db, `rooms/${roomId}/players/${state.playerId}`);
+  try{
+    await update(playerRef, {status:'active', lastSeenMs: Date.now(), updatedAt: serverTimestamp()});
+    try{
+      await onDisconnect(playerRef).update({status:'left', disconnectedAt: serverTimestamp(), lastSeenMs: Date.now()});
+    }catch(e){ console.warn('onDisconnect failed', e); }
+  }catch(e){ console.warn('presence update failed', e); }
+  clearPresenceTimer();
+  state.battle.presenceTimer = setInterval(async () => {
+    if(!state.battle.roomId || state.battle.roomId !== roomId) return;
+    try{ await update(playerRef, {status:'active', lastSeenMs: Date.now(), updatedAt: serverTimestamp()}); }
+    catch(e){ console.warn('presence heartbeat failed', e); }
+  }, 5000);
+}
+function chooseRandomFirstPlayerId(ids){
+  const list = [...ids].sort((a,b)=>a.localeCompare(b,'ja'));
+  return list[Math.floor(Math.random() * list.length)] || state.playerId;
+}
+async function finishRoomAsWinner(reason='opponent_left'){
+  const roomId = state.battle.roomId;
+  if(!roomId || !state.firebase.enabled || !state.firebase.db) return;
+  try{
+    await update(ref(state.firebase.db, `rooms/${roomId}/meta`), {
+      status:'finished',
+      winnerPlayerId: state.playerId,
+      loserPlayerId: getOpponentPlayerIdFromCache() || '',
+      reason,
+      endedBy: state.playerId,
+      endedAt: serverTimestamp(),
+      currentTurnPlayerId: null
+    });
+    await removeBattleRoomLater(roomId, 4500);
+  }catch(e){ console.warn('finishRoomAsWinner failed', e); }
+}
+function resetBattleFlowFlags(){
+  state.battle.hasMatched = false;
+  state.battle.matchLocked = false;
+  state.battle.lastTurnPlayerId = '';
+  state.battle.startBannerShown = false;
+  hideBattleBanner();
+  clearPresenceTimer();
+}
+function slotElementForRef(refObj){
+  if(!refObj) return null;
+  if(refObj.side === 'playerLeader') return document.querySelector('.player-leader');
+  if(refObj.side === 'enemyLeader') return document.querySelector('.enemy-leader');
+  return document.querySelector(`.unit-slot[data-side="${refObj.side}"][data-pos="${refObj.pos}"]`);
+}
+function animateAttackMotion(attackerRef, defenderRef){
+  const attackerEl = slotElementForRef(attackerRef);
+  const defenderEl = slotElementForRef(defenderRef);
+  if(!attackerEl || !defenderEl) return;
+  const a = attackerEl.getBoundingClientRect();
+  const d = defenderEl.getBoundingClientRect();
+  const dx = (d.left + d.width/2) - (a.left + a.width/2);
+  const dy = (d.top + d.height/2) - (a.top + a.height/2);
+  attackerEl.style.setProperty('--attack-dx', `${dx * 0.72}px`);
+  attackerEl.style.setProperty('--attack-dy', `${dy * 0.72}px`);
+  attackerEl.classList.remove('attack-lunge');
+  void attackerEl.offsetWidth;
+  attackerEl.classList.add('attack-lunge');
+  setTimeout(() => attackerEl.classList.remove('attack-lunge'), 520);
+}
 function makeRoomId(matchId){
   return normalizePlayerId(matchId).toLowerCase();
 }
@@ -633,76 +902,208 @@ async function startMatch(){
   if(!state.battle.selectedDeck) return toast('先にデッキを選択してください。', false);
   const matchId = $('match-id-input').value.trim();
   if(!matchId) return toast('合言葉IDを入力してください。', false);
+
+  const roomId = makeRoomId(matchId);
+  cleanupBattleSubscriptions();
   state.battle.matchId = matchId;
-  state.battle.roomId = makeRoomId(matchId);
-  initLocalBattleGame();
+  state.battle.roomId = roomId;
+  state.battle.resultShown = false;
+  state.battle.hasMatched = false;
+  state.battle.startBannerShown = false;
+  state.battle.lastTurnPlayerId = '';
+
   if(state.firebase.enabled && state.firebase.db){
     try{
-      const roomRef = ref(state.firebase.db, `rooms/${state.battle.roomId}/players/${state.playerId}`);
-      await set(roomRef, {
+      const roomRoot = ref(state.firebase.db, `rooms/${roomId}`);
+      const metaRef = ref(state.firebase.db, `rooms/${roomId}/meta`);
+      const oldMeta = (await get(metaRef)).val();
+      if(isFinalRoomStatus(oldMeta?.status)){
+        await remove(roomRoot);
+      }
+
+      const playersRef = ref(state.firebase.db, `rooms/${roomId}/players`);
+      const playersSnap = await get(playersRef);
+      const players = playersSnap.val() || {};
+      const activePlayers = Object.values(players).filter(p => p && p.playerId && p.status === 'active');
+      const alreadyIn = activePlayers.some(p => p.playerId === state.playerId);
+      if(activePlayers.length >= 2 && !alreadyIn){
+        toast('この合言葉の部屋は満員です。別のIDを使ってください。', false);
+        state.battle.roomId = '';
+        state.battle.matchId = '';
+        return;
+      }
+
+      initLocalBattleGame();
+      state.battle.game.isMyTurn = false;
+      state.battle.game.currentTurnPlayerId = '';
+      state.battle.matchLocked = true;
+
+      await set(ref(state.firebase.db, `rooms/${roomId}/players/${state.playerId}`), {
         playerId: state.playerId,
-        displayName: state.username,
+        displayName: state.username || state.playerId,
         deckName: state.battle.selectedDeck.deckName,
         className: state.battle.selectedDeck.className,
-        joinedAt: serverTimestamp()
+        status: 'active',
+        ready: true,
+        joinedAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        lastSeenMs: Date.now()
       });
-    }catch(e){ console.warn(e); }
-    subscribeRoomPlayers();
+      await markMyPresence(roomId);
+
+      const joinedSnap = await get(playersRef);
+      const joinedPlayers = Object.values(joinedSnap.val() || {}).filter(p => p && p.playerId && p.status === 'active');
+      const ids = joinedPlayers.map(p => p.playerId).sort((a,b)=>a.localeCompare(b,'ja'));
+      if(ids.length >= 2){
+        const metaNow = (await get(metaRef)).val() || {};
+        const firstPlayerId = metaNow.status === 'playing' && metaNow.firstPlayerId ? metaNow.firstPlayerId : chooseRandomFirstPlayerId(ids);
+        await update(metaRef, {
+          matchId,
+          status:'playing',
+          playerCount: ids.length,
+          firstPlayerId,
+          currentTurnPlayerId: firstPlayerId,
+          startedAt: metaNow.startedAt || serverTimestamp(),
+          updatedAt: serverTimestamp()
+        });
+      }else{
+        await update(metaRef, {
+          matchId,
+          status:'waiting',
+          playerCount: ids.length,
+          firstPlayerId: '',
+          currentTurnPlayerId: '',
+          updatedAt: serverTimestamp()
+        });
+      }
+
+      subscribeRoomPlayers();
+      await syncMyBattleState();
+    }catch(e){
+      console.warn(e);
+      toast('マッチングに失敗しました: '+e.message, false);
+      return;
+    }
+  }else{
+    initLocalBattleGame();
   }
+
   $('battle-setup').classList.add('hidden');
   $('battle-arena').classList.remove('hidden');
-  $('battle-status').textContent = `入室: ${matchId}`;
+  showWaitingForOpponent();
   renderBattleArena();
 }
 
-
-
-
 function subscribeRoomPlayers(){
   if(!state.firebase.enabled || !state.firebase.db || !state.battle.roomId) return;
-  const playersRef = ref(state.firebase.db, `rooms/${state.battle.roomId}/players`);
-  onValue(playersRef, async snap => {
+  for(const unsub of state.battle.unsubs || []){
+    try{ if(typeof unsub === 'function') unsub(); }catch(e){}
+  }
+  state.battle.unsubs = [];
+  const roomId = state.battle.roomId;
+
+  const playersRef = ref(state.firebase.db, `rooms/${roomId}/players`);
+  const unsubPlayers = onValue(playersRef, async snap => {
     const players = snap.val() || {};
-    const playerList = Object.values(players).filter(Boolean);
-    const others = playerList.filter(p => p.playerId !== state.playerId);
-    if(others.length){
-      $('battle-status').textContent = `対戦相手: ${others[0].displayName || others[0].playerId}`;
-      const sorted = playerList.map(p => p.playerId).sort((a,b)=>a.localeCompare(b,'ja'));
-      const firstPlayerId = sorted[0];
-      if(state.firebase.db && state.battle.roomId){
-        const metaRef = ref(state.firebase.db, `rooms/${state.battle.roomId}/meta`);
-        const metaSnap = await get(metaRef);
-        if(!metaSnap.exists()){
-          await set(metaRef, {
-            firstPlayerId,
-            currentTurnPlayerId: firstPlayerId,
-            createdAt: serverTimestamp(),
-            status: 'playing'
-          });
-        }
-      }
-    }else{
-      $('battle-status').textContent = `入室: ${state.battle.matchId} / 相手待ち`;
+    state.battle.roomPlayers = players;
+    const active = Object.values(players).filter(p => p && p.playerId && p.status === 'active');
+    const others = active.filter(p => p.playerId !== state.playerId);
+    if(!state.battle.game) return;
+
+    const metaSnap = await get(ref(state.firebase.db, `rooms/${roomId}/meta`));
+    const meta = metaSnap.val() || {};
+    if(meta.status === 'waiting' && active.length >= 2){
+      const ids = active.map(p => p.playerId).sort((a,b)=>a.localeCompare(b,'ja'));
+      const firstPlayerId = chooseRandomFirstPlayerId(ids);
+      await update(ref(state.firebase.db, `rooms/${roomId}/meta`), {
+        status:'playing',
+        playerCount: ids.length,
+        firstPlayerId,
+        currentTurnPlayerId: firstPlayerId,
+        startedAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+      });
+      return;
+    }
+
+    if(meta.status === 'playing' && state.battle.hasMatched && others.length === 0){
+      await finishRoomAsWinner('opponent_left');
+      return;
+    }
+
+    if(meta.status !== 'playing'){
+      $('battle-status').textContent = '待機中・・・';
     }
     renderBattleLog();
   });
+  state.battle.unsubs.push(unsubPlayers);
 
-  const metaRef = ref(state.firebase.db, `rooms/${state.battle.roomId}/meta`);
-  onValue(metaRef, snap => {
+  const metaRef = ref(state.firebase.db, `rooms/${roomId}/meta`);
+  const unsubMeta = onValue(metaRef, snap => {
     const meta = snap.val();
-    if(!meta || !state.battle.game) return;
-    state.battle.game.currentTurnPlayerId = meta.currentTurnPlayerId || state.playerId;
-    state.battle.game.isMyTurn = state.battle.game.currentTurnPlayerId === state.playerId;
-    $('battle-status').textContent = state.battle.game.isMyTurn ? '自分のターン' : '相手のターン';
-    renderBattleArena();
-  });
+    if(!meta){
+      if(state.battle.game && !state.battle.game.finished){
+        const hadOpponent = !!getOpponentPlayerIdFromCache() || state.battle.hasMatched;
+        showBattleResult(hadOpponent ? 'win' : 'lose', {
+          autoReset: true,
+          message: hadOpponent ? '相手が退出しました。勝利です。マッチング前に戻ります。' : '部屋が終了しました。マッチング前に戻ります。'
+        });
+      }
+      return;
+    }
+    if(!state.battle.game) return;
 
-  const statesRef = ref(state.firebase.db, `rooms/${state.battle.roomId}/states`);
-  onValue(statesRef, snap => {
+    if(isFinalRoomStatus(meta.status)){
+      const won = meta.winnerPlayerId === state.playerId || (meta.loserPlayerId && meta.loserPlayerId !== state.playerId);
+      showBattleResult(won ? 'win' : 'lose', {
+        autoReset: true,
+        reason: meta.reason || 'finished',
+        message: won ? '勝利です。マッチング前に戻ります。' : '敗北しました。マッチング前に戻ります。'
+      });
+      return;
+    }
+
+    if(meta.status === 'waiting'){
+      state.battle.hasMatched = false;
+      state.battle.matchLocked = true;
+      state.battle.game.isMyTurn = false;
+      $('battle-status').textContent = '待機中・・・';
+      showWaitingForOpponent();
+      renderBattleArena();
+      return;
+    }
+
+    if(meta.status === 'playing'){
+      const wasMatched = state.battle.hasMatched;
+      const previousTurn = state.battle.lastTurnPlayerId;
+      state.battle.hasMatched = true;
+      const currentTurn = meta.currentTurnPlayerId || '';
+      state.battle.game.currentTurnPlayerId = currentTurn;
+      state.battle.game.isMyTurn = currentTurn === state.playerId;
+      state.battle.lastTurnPlayerId = currentTurn;
+      $('battle-status').textContent = state.battle.game.isMyTurn ? '自分のターン' : '相手のターン';
+
+      if(!wasMatched || !state.battle.startBannerShown){
+        state.battle.startBannerShown = true;
+        const label = state.battle.game.isMyTurn ? '先攻' : '後攻';
+        showBattleBanner(label, {duration:2000, lock:true, unlockAfter:state.battle.game.isMyTurn});
+      }else if(previousTurn && previousTurn !== currentTurn && currentTurn === state.playerId){
+        showBattleBanner('あなたのターン', {duration:2000, lock:true, unlockAfter:true});
+      }else{
+        state.battle.matchLocked = !state.battle.game.isMyTurn;
+      }
+      renderBattleArena();
+    }
+  });
+  state.battle.unsubs.push(unsubMeta);
+
+  const statesRef = ref(state.firebase.db, `rooms/${roomId}/states`);
+  const unsubStates = onValue(statesRef, snap => {
     const states = snap.val() || {};
     state.battle.remoteStates = states;
     applyRemoteOpponentState(states);
   });
+  state.battle.unsubs.push(unsubStates);
 }
 
 async function syncMyBattleState(){
@@ -756,61 +1157,76 @@ async function advanceTurnToOpponent(){
   if(!state.firebase.enabled || !state.firebase.db || !state.battle.roomId) return;
   const playersSnap = await get(ref(state.firebase.db, `rooms/${state.battle.roomId}/players`));
   const players = playersSnap.val() || {};
-  const ids = Object.keys(players).sort((a,b)=>a.localeCompare(b,'ja'));
+  const ids = Object.values(players).filter(p => p && p.playerId && p.status === 'active').map(p => p.playerId).sort((a,b)=>a.localeCompare(b,'ja'));
   if(ids.length < 2) return;
   const next = ids.find(id => id !== state.playerId) || ids[0];
+  state.battle.matchLocked = true;
+  showBattleBanner('ターン終了', {duration:2000, lock:true, unlockAfter:false});
   await update(ref(state.firebase.db, `rooms/${state.battle.roomId}/meta`), {
     currentTurnPlayerId: next,
+    lastTurnEndedBy: state.playerId,
     updatedAt: serverTimestamp()
   });
 }
 
-
-function showBattleResult(result){
+function showBattleResult(result, options={}){
   const game = state.battle.game;
   if(game) game.finished = true;
+  if(state.battle.resultShown && !options.force) return;
+  state.battle.resultShown = true;
   const isWin = result === 'win';
   $('battle-result-title').textContent = isWin ? '勝利' : '敗北';
-  $('battle-result-message').textContent = 'タップしてマッチング前に戻る';
+  $('battle-result-message').textContent = options.message || (options.autoReset ? 'まもなくマッチング前に戻ります' : 'タップしてマッチング前に戻る');
   $('battle-result-overlay').classList.toggle('lose', !isWin);
   $('battle-result-overlay').classList.remove('hidden');
+  if(options.autoReset){
+    if(state.battle.resultTimer) clearTimeout(state.battle.resultTimer);
+    state.battle.resultTimer = setTimeout(resetAfterBattleResult, options.delay || 2400);
+  }
 }
 
 function resetAfterBattleResult(){
   $('battle-result-overlay').classList.add('hidden');
-  state.battle.game = null;
-  state.battle.matchId = '';
-  state.battle.roomId = '';
-  state.battle.selectedDeckId = '';
-  state.battle.selectedDeck = null;
   const arena = $('battle-arena');
   const setup = $('battle-setup');
   if(arena) arena.classList.add('hidden');
   if(setup) setup.classList.remove('hidden');
   $('battle-status').textContent = '待機中';
+  resetBattleLocalState();
   renderBattleDeckList();
 }
 
 async function leaveBattleAsDefeat(){
   const roomId = state.battle.roomId;
   $('battle-exit-modal').close();
-  if(state.firebase.enabled && state.firebase.db && roomId){
+  if(!roomId){
+    showBattleResult('lose', {autoReset:true, message:'退出しました。マッチング前に戻ります。'});
+    return;
+  }
+
+  if(state.firebase.enabled && state.firebase.db){
     try{
+      const playersSnap = await get(ref(state.firebase.db, `rooms/${roomId}/players`));
+      const players = playersSnap.val() || {};
+      state.battle.roomPlayers = players;
+      const opponent = Object.values(players).find(p => p && p.playerId && p.playerId !== state.playerId && p.status === 'active');
       await update(ref(state.firebase.db, `rooms/${roomId}/players/${state.playerId}`), {
         status: 'defeated',
         leftAt: serverTimestamp()
       });
+      await update(ref(state.firebase.db, `rooms/${roomId}/meta`), {
+        status: 'finished',
+        winnerPlayerId: opponent?.playerId || '',
+        loserPlayerId: state.playerId,
+        reason: 'forfeit',
+        endedBy: state.playerId,
+        endedAt: serverTimestamp(),
+        currentTurnPlayerId: null
+      });
+      await removeBattleRoomLater(roomId, 4500);
     }catch(e){ console.warn(e); }
   }
-  state.battle.game = null;
-  state.battle.matchId = '';
-  state.battle.roomId = '';
-  state.battle.selectedDeckId = '';
-  state.battle.selectedDeck = null;
-  $('battle-arena').classList.add('hidden');
-  $('battle-setup').classList.remove('hidden');
-  $('battle-status').textContent = '待機中';
-  renderBattleDeckList();
+  showBattleResult('lose', {autoReset:true, message:'退出しました。マッチング前に戻ります。'});
 }
 
 function initLocalBattleGame(){
@@ -849,8 +1265,14 @@ function initLocalBattleGame(){
       heroLevel: 0,
       deck: deckList,
       hand,
-      board: Array(6).fill(null)
+      board: Array(6).fill(null),
+      dungeonsCleared: 0,
+      proficiency: {},
+      fortuneMode: '',
+      terrainEffectsUsed: []
     },
+    terrain: Array(6).fill(null),
+    enemyTerrain: Array(6).fill(null),
     enemy: {
       hp: 25,
       maxHp: 25,
@@ -935,7 +1357,7 @@ function ensureVirtualCard(name){
   const id = `virtual_${name.replace(/\s+/g,'_')}`;
   let card = state.allCards.find(c => c.id === id || c.name === name);
   if(card) return card;
-  card = { id, name:def.name, cost:def.cost ?? 0, attack:def.attack ?? 0, hp:def.hp ?? 0, cardType:def.cardType || '特技', rarity:'トークン', text:def.text || '', classes:['共通'], tribes:def.tribes || [], tags:[def.cardType || '特技'], flags:{deckBuildable:false}, virtualEffect:def.effect || null };
+  card = { id, name:def.name, cost:def.cost ?? 0, attack:def.attack ?? 0, hp:def.hp ?? 0, cardType:def.cardType || '特技', rarity:def.rarity || 'トークン', text:def.text || '', classes:def.classes || ['共通'], tribes:def.tribes || [], tags:def.tags || [def.cardType || '特技'], flags:{deckBuildable:def.deckBuildable === true}, localImage:def.localImage || CUSTOM_CARD_IMAGES[def.name] || '', official:def.official || {}, virtualEffect:def.effect || null };
   state.allCards.push(card);
   return card;
 }
@@ -953,7 +1375,8 @@ function getEffectiveCost(card){
   if(!card) return 0;
   if(game?.player?.costOverrides?.[card.id] != null) return Math.max(0, game.player.costOverrides[card.id]);
   const delta = Number(game?.player?.costOverrides?.globalDelta || 0);
-  return Math.max(0, Number(card.cost || 0) + delta);
+  const nextUnitDelta = card.cardType === 'ユニット' ? Number(game?.player?.nextUnitCostDelta || 0) : 0;
+  return Math.max(0, Number(card.cost || 0) + delta + nextUnitDelta);
 }
 function damageUnit(unit, amount, options={}){
   if(!unit) return 0;
@@ -961,6 +1384,7 @@ function damageUnit(unit, amount, options={}){
   if(unit.keywords?.hardMetal && dmg <= 5) dmg = 1;
   else if(unit.keywords?.metal && dmg <= 3) dmg = 1;
   if(unit.statuses?.some(s => s.type === 'immuneDamage')) dmg = 0;
+  if(unitKeywords(unit).darkRobe && dmg > 0) dmg = 0;
   unit.hp -= dmg;
   return dmg;
 }
@@ -968,7 +1392,10 @@ function damageLeader(side, amount){
   const g = state.battle.game;
   const p = side === 'player' ? g.player : g.enemy;
   p.hp = Math.max(0, p.hp - Number(amount || 0));
-  if(p.hp <= 0) showBattleResult(side === 'enemy' ? 'win' : 'lose');
+  if(p.hp <= 0){
+    const result = side === 'enemy' ? 'win' : 'lose';
+    publishBattleResult(result, 'hp0', false);
+  }
 }
 function healUnit(unit, amount){
   if(!unit) return;
@@ -984,12 +1411,327 @@ function findAndDrawFromDeck(filterFn){
   if(idx >= 0){ g.player.hand.push(g.player.deck.splice(idx,1)[0]); return true; }
   return false;
 }
-function hasEnemyTargetableUnit(){ return state.battle.game.enemy.board.some(Boolean); }
-
-function getCardText(card){
-  return String(card?.text || card?.effectText || card?.searchText || '');
+function hasEnemyTargetableUnit(){
+  return state.battle.game.enemy.board.some(u => isAttackableUnit(u) && canTargetEnemyUnit(u));
 }
 
+
+
+function isSpecialMove(card){
+  const text = getCardText(card);
+  return text.includes('必殺技') || (card?.tags || []).includes('必殺技');
+}
+function hasRenkei(card){
+  return parseKeywordFlags(card).renkei || getCardText(card).includes('れんけい');
+}
+function hasSkillBoost(card){
+  return parseKeywordFlags(card).skillBoost || getCardText(card).includes('スキルブースト');
+}
+function hasSynchro(card){
+  return parseKeywordFlags(card).synchro || getCardText(card).includes('シンクロ');
+}
+function getHeroLevel(){
+  return Number(state.battle.game?.player?.heroSkill?.level || state.battle.game?.player?.heroLevel || 0);
+}
+function extractAfterKeyword(text, keyword){
+  const idx = String(text || '').indexOf(keyword);
+  if(idx < 0) return '';
+  return String(text || '').slice(idx + keyword.length);
+}
+function getSynchroText(card){
+  const text = getCardText(card);
+  const m = text.match(/シンクロ[:：]?\s*([^。\\n]+)/);
+  return (m ? m[1] : extractAfterKeyword(text, 'シンクロ')).trim();
+}
+function applySynchroEffectText(effectText, targetUnit=null, source='シンクロ', times=1){
+  const game = state.battle.game;
+  const text = String(effectText || '');
+  const unit = targetUnit;
+  const n = Math.max(1, Number(times || 1));
+  if(unit){
+    let atk = 0, hp = 0;
+    const atkM = text.match(/(?:こうげき|攻撃力)[+＋](\d+)/);
+    const hpM = text.match(/(?:HP|ＨＰ|体力)[+＋](\d+)/i);
+    if(atkM) atk += Number(atkM[1]) * n;
+    if(hpM) hp += Number(hpM[1]) * n;
+    const bothM = text.match(/[+＋](\d+)\/[+＋](\d+)/);
+    if(bothM){ atk += Number(bothM[1]) * n; hp += Number(bothM[2]) * n; }
+    else if(text.includes('+1/+1') || text.includes('＋1/＋1')){ atk += n; hp += n; }
+    if(atk) unit.attack += atk;
+    if(hp){ unit.hp += hp; unit.maxHp += hp; }
+    if(text.includes('速攻')){ unit.keywords.haste = true; unit.canAttack = true; unit.summoningSickness = false; }
+    if(text.includes('におうだち')) unit.keywords.taunt = true;
+    if(text.includes('ねらい撃ち')) unit.keywords.snipe = true;
+    if(text.includes('貫通')) unit.keywords.piercing = true;
+    if(text.includes('2回攻撃') || text.includes('２回攻撃')) unit.keywords.doubleAttack = true;
+    if(text.includes('ステルス')) unit.keywords.stealth = true;
+  }
+  if(text.includes('カードを1枚引く') || text.includes('カードを１枚引く')) for(let i=0;i<n;i++) drawCard(1);
+  if(text.includes('テンション+1') || text.includes('テンション＋1')) gainTension(n, source);
+  if(text.includes('コイン')) for(let i=0;i<n;i++) addCardToHandByName('コイン');
+  applyTextMiniEffect(text, source);
+}
+function parseLevelledEffectSegments(text, keyword){
+  const raw = String(text || '');
+  const part = (extractAfterKeyword(raw, keyword) || raw).trim();
+  const matches = [...part.matchAll(/[①②③１２３123][\.、:：]?\s*([^①②③１２３123。]+)/g)];
+  if(matches.length) return matches.map(m => m[1].trim()).filter(Boolean);
+  return [part];
+}
+function applySynchroIfAny(card, targetUnit=null){
+  if(!hasSynchro(card)) return;
+  const lv = getHeroLevel();
+  if(!lv){ battleLog('シンクロ：ヒーローがいないため発動しません。'); return; }
+  const segments = parseLevelledEffectSegments(getCardText(card), 'シンクロ');
+  if(segments.length > 1){
+    for(let i=0; i<Math.min(lv, segments.length); i++) applySynchroEffectText(segments[i], targetUnit, card.name, 1);
+    battleLog(`シンクロ：ヒーローLv.${lv}までの効果を適用しました。`);
+  }else{
+    applySynchroEffectText(segments[0], targetUnit, card.name, lv);
+    battleLog(`シンクロ：${segments[0]} を${lv}回適用しました。`);
+  }
+}
+function applyRenkeiIfActive(card, targetUnit=null){
+  const game = state.battle.game;
+  if(!hasRenkei(card)) return false;
+  if(game.player.tension < 3){ battleLog('れんけい：テンションが3未満のため追加効果なし。'); return false; }
+  const text = extractAfterKeyword(getCardText(card), 'れんけい') || getCardText(card);
+  battleLog('れんけい：追加効果を発動。');
+  applyTextMiniEffect(text, card.name);
+  if(targetUnit && (text.includes('+1/+1') || text.includes('＋1/＋1'))){
+    targetUnit.attack += 1; targetUnit.hp += 1; targetUnit.maxHp += 1;
+  }
+  if(targetUnit && text.includes('速攻')){
+    targetUnit.keywords.haste = true; targetUnit.canAttack = true; targetUnit.summoningSickness = false;
+  }
+  return true;
+}
+function getSkillBoostText(card){
+  const text = getCardText(card);
+  const m = text.match(/スキルブースト[:：]?\s*([^。\\n]+)/);
+  return (m ? m[1] : extractAfterKeyword(text, 'スキルブースト')).trim();
+}
+function applySkillBoostText(effectText, targetUnit=null, source='スキルブースト', count=1){
+  const text = String(effectText || '');
+  const unit = targetUnit;
+  const n = Math.max(1, Number(count || 1));
+  if(unit){
+    let atk = 0, hp = 0;
+    const atkM = text.match(/(?:こうげき|攻撃力)[+＋](\d+)/);
+    const hpM = text.match(/(?:HP|ＨＰ|体力)[+＋](\d+)/i);
+    if(atkM) atk += Number(atkM[1]) * n;
+    if(hpM) hp += Number(hpM[1]) * n;
+    if(text.includes('+1/+1') || text.includes('＋1/＋1')){ atk += n; hp += n; }
+    if(atk) unit.attack += atk;
+    if(hp){ unit.hp += hp; unit.maxHp += hp; }
+    if(text.includes('速攻')){ unit.keywords.haste = true; unit.canAttack = true; unit.summoningSickness = false; }
+    if(text.includes('におうだち')) unit.keywords.taunt = true;
+    if(text.includes('ねらい撃ち')) unit.keywords.snipe = true;
+    if(text.includes('貫通')) unit.keywords.piercing = true;
+  }
+  if(text.includes('+1枚') || text.includes('カードを1枚引く') || text.includes('カードを１枚引く')) for(let i=0;i<n;i++) drawCard(1);
+  if(text.includes('テンション+1') || text.includes('テンション＋1')) gainTension(n, source);
+  if(text.includes('コイン')) for(let i=0;i<n;i++) addCardToHandByName('コイン');
+}
+function triggerSkillBoostOnTensionSkill(){
+  const game = state.battle.game;
+  game.player.tensionSkillUseCount = Number(game.player.tensionSkillUseCount || 0) + 1;
+  const boostCount = game.player.tensionSkillUseCount;
+
+  for(const id of game.player.hand){
+    const card = byId(id);
+    if(card && hasSkillBoost(card)){
+      game.player.skillBoosts ||= {};
+      game.player.skillBoosts[id] = boostCount;
+      battleLog(`スキルブースト：${card.name}のブースト値が${boostCount}になりました。`);
+    }
+  }
+  for(const unit of game.player.board){
+    if(!unit || unit.isBuilding || isSealed(unit)) continue;
+    const card = byId(unit.cardId);
+    if(card && hasSkillBoost(card)){
+      const effectText = getSkillBoostText(card);
+      if(effectText) applySkillBoostText(effectText, unit, card.name, boostCount);
+      battleLog(`スキルブースト：${unit.name}が${boostCount}回分で発動。`);
+    }
+  }
+}
+function triggerSkillBoostOnHeroSkill(){
+  // v56: スキルブーストの正しい発動条件は「リーダーのテンションスキル使用時」。
+  // 互換用に残すが、ヒーロースキルでは何もしない。
+}
+function applyApathyToLeader(){
+  const game = state.battle.game;
+  game.player.leaderApathy = true;
+  game.player.tension = 0;
+  game.player.leaderCanAttack = false;
+}
+function clearDarkRobeByOrb(card){
+  if(card?.name !== '光の玉' && !getCardText(card).includes('光の玉')) return false;
+  const game = state.battle.game;
+  let cleared = false;
+  for(const unit of [...game.player.board, ...game.enemy.board]){
+    if(unit && (hasStatus(unit, 'darkRobe') || unitKeywords(unit).darkRobe)){
+      removeStatuses(unit, ['darkRobe']);
+      if(unit.keywords) unit.keywords.darkRobe = false;
+      cleared = true;
+    }
+  }
+  if(game.enemy.darkRobe){ game.enemy.darkRobe = false; cleared = true; }
+  if(game.player.darkRobe){ game.player.darkRobe = false; cleared = true; }
+  if(cleared) battleLog('光の玉：闇の衣を解除しました。');
+  return cleared;
+}
+function resolveConstrainedTerrainPositions(card, terrainName){
+  const game = state.battle.game;
+  const text = getCardText(card);
+  const positions = [];
+  if(text.includes('敵ユニットの後ろ') || text.includes('敵ユニットの背後')){
+    for(let i=0;i<game.enemy.board.length;i++){
+      if(game.enemy.board[i]){
+        const behind = getBehindPos('enemy', i);
+        if(behind >= 0) positions.push({side:'enemy', pos:behind});
+      }
+    }
+  }
+  if(text.includes('相手後列') || text.includes('敵後列')){
+    for(let row=0; row<3; row++) positions.push({side:'enemy', pos:coordToPos('enemy', row, 3)});
+  }
+  if(text.includes('相手前列') || text.includes('敵前列')){
+    for(let row=0; row<3; row++) positions.push({side:'enemy', pos:coordToPos('enemy', row, 2)});
+  }
+  if(text.includes('味方後列') || text.includes('自分後列')){
+    for(let row=0; row<3; row++) positions.push({side:'player', pos:coordToPos('player', row, 0)});
+  }
+  if(text.includes('味方前列') || text.includes('自分前列')){
+    for(let row=0; row<3; row++) positions.push({side:'player', pos:coordToPos('player', row, 1)});
+  }
+  return positions.filter(p => p && p.pos >= 0);
+}
+function setTerrainForSide(side, pos, type, source){
+  const game = state.battle.game;
+  if(side === 'enemy'){
+    game.enemyTerrain ||= Array(6).fill(null);
+    if(pos == null || pos < 0 || pos >= 6) pos = game.enemyTerrain.findIndex(x => !x);
+    if(pos < 0) pos = 0;
+    game.enemyTerrain[pos] = {type, source, owner:'player'};
+  }else{
+    setTerrain(pos, type, source);
+    return;
+  }
+  battleLog(`${source}：相手側に地形「${type}」を配置しました。`);
+}
+function beginTerrainPlacement(card, terrainName){
+  const game = state.battle.game;
+  const constrained = resolveConstrainedTerrainPositions(card, terrainName);
+  if(constrained.length){
+    const target = constrained.find(p => !(p.side === 'enemy' ? game.enemyTerrain?.[p.pos] : game.terrain?.[p.pos])) || constrained[0];
+    setTerrainForSide(target.side, target.pos, terrainName, card.name);
+    return false;
+  }
+  game.pendingGenericEffect = {kind:'setTerrain', source:card.name, target:'friendlyEmptySlot', terrainType:terrainName};
+  battleLog(`${card.name}：${terrainName}を置くマスを選んでください。`);
+  return true;
+}
+function firstTerrainNameInText(text){
+  return ['すべる床','宝箱','バリア床','刃の紋章','魔法陣','祝福の聖域','しあわせの国','天啓の神域'].find(t => String(text || '').includes(t)) || '';
+}
+function hasStatus(unit, type){
+  return !!unit?.statuses?.some(s => s?.type === type || s === type);
+}
+function addStatus(unit, type, data={}){
+  if(!unit) return;
+  unit.statuses ||= [];
+  if(!hasStatus(unit, type)) unit.statuses.push({type, ...data});
+}
+function removeStatuses(unit, types=[]){
+  if(!unit) return;
+  unit.statuses = (unit.statuses || []).filter(s => !types.includes(s?.type || s));
+}
+function isSealed(unit){
+  return hasStatus(unit, 'sealed');
+}
+function unitKeywords(unit){
+  return isSealed(unit) ? {} : (unit?.keywords || {});
+}
+function getSpellDamageBonus(){
+  const game = state.battle.game;
+  let bonus = 0;
+  for(const u of game.player.board){
+    if(!u || u.isBuilding || isSealed(u)) continue;
+    const text = getCardText(byId(u.cardId));
+    bonus += Number(u.spellDamageBonus || 0);
+    const m = text.match(/特技ダメージ[+＋](\d+)/);
+    if(m) bonus += Number(m[1] || 0);
+    else if(unitKeywords(u).spellDamagePlus) bonus += 1;
+  }
+  return bonus;
+}
+function getProficiencyLevel(cardId){
+  const game = state.battle.game;
+  return Number(game?.player?.proficiency?.[cardId] || 0);
+}
+function incrementAllProficiency(amount=1){
+  const game = state.battle.game;
+  game.player.proficiency ||= {};
+  for(const id of game.player.hand){
+    if(isProficiencyCard(byId(id))){
+      game.player.proficiency[id] = Number(game.player.proficiency[id] || 0) + Number(amount || 1);
+    }
+  }
+}
+function isTerrainCard(card){
+  const f = parseKeywordFlags(card);
+  return f.terrainSlip || f.terrainTreasure || f.terrainBarrier || f.terrainBlade || f.terrainMagic || f.terrainBlessing || f.terrainHappy || f.terrainOracle;
+}
+function setTerrain(pos, type, source){
+  const game = state.battle.game;
+  game.terrain ||= Array(6).fill(null);
+  if(pos == null || pos < 0 || pos >= 6) pos = game.terrain.findIndex(x => !x);
+  if(pos < 0) pos = 0;
+  game.terrain[pos] = {type, source, owner:'player'};
+  battleLog(`${source}：地形「${type}」を配置しました。`);
+}
+function triggerTerrainOnSummon(unit, pos){
+  const game = state.battle.game;
+  const terrain = game.terrain?.[pos];
+  if(!terrain || !unit || unit.isBuilding) return;
+  if(terrain.type === '宝箱'){ drawCard(1); game.terrain[pos] = null; battleLog('宝箱：カードを1枚引きました。'); }
+  if(terrain.type === 'バリア床'){ addStatus(unit, 'immuneDamage', {until:'turnStart'}); battleLog('バリア床：ダメージ無効を付与。'); }
+  if(terrain.type === '刃の紋章'){ unit.attack += 1; battleLog('刃の紋章：攻撃力+1。'); }
+  if(terrain.type === '魔法陣'){ unit.spellDamageBonus = Number(unit.spellDamageBonus || 0) + 1; battleLog('魔法陣：特技ダメージ+1。'); }
+  if(terrain.type === '祝福の聖域'){ unit.hp += 1; unit.maxHp += 1; battleLog('祝福の聖域：HP+1。'); }
+  if(terrain.type === 'しあわせの国'){ gainTension(1, 'しあわせの国'); }
+  if(terrain.type === '天啓の神域'){ drawCard(1); gainTension(1, '天啓の神域'); }
+  if(terrain.type === 'すべる床'){
+    const to = getBehindPos('player', pos);
+    if(to >= 0 && !game.player.board[to]){
+      game.player.board[to] = unit;
+      game.player.board[pos] = null;
+      battleLog('すべる床：ユニットが後列へ移動しました。');
+    }
+  }
+}
+function applySeal(unit){
+  if(!unit) return;
+  addStatus(unit, 'sealed');
+  unit.keywords = {};
+  unit.statuses = (unit.statuses || []).filter(s => (s?.type || s) === 'sealed');
+}
+function applyPoison(unit){
+  addStatus(unit, 'poison');
+}
+function applyStartOfTurnStatuses(){
+  const game = state.battle.game;
+  for(const unit of [...game.player.board, ...game.enemy.board]){
+    if(!unit || unit.isBuilding) continue;
+    if(hasStatus(unit, 'poison')){
+      damageUnit(unit, 1);
+      battleLog(`${unit.name}：毒で1ダメージ。`);
+    }
+  }
+  resolveDeaths();
+}
 function parseKeywordFlags(card){
   const text = getCardText(card);
   return {
@@ -997,7 +1739,23 @@ function parseKeywordFlags(card){
     haste: text.includes('速攻'),
     support: text.includes('おうえん'),
     snipe: text.includes('ねらい撃ち'),
+    poison: text.includes('毒'),
     stealth: text.includes('ステルス'),
+    seal: text.includes('封印'),
+    darkRobe: text.includes('闇の衣'),
+    conditionGood: text.includes('絶好調'),
+    synchro: text.includes('シンクロ'),
+    proficiency: text.includes('熟練度'),
+    spellDamagePlus: text.includes('特技ダメージ＋') || text.includes('特技ダメージ+'),
+    terrainSlip: text.includes('すべる床'),
+    terrainTreasure: text.includes('宝箱'),
+    terrainBarrier: text.includes('バリア床'),
+    terrainBlade: text.includes('刃の紋章'),
+    terrainMagic: text.includes('魔法陣'),
+    terrainBlessing: text.includes('祝福の聖域'),
+    terrainHappy: text.includes('しあわせの国'),
+    terrainOracle: text.includes('天啓の神域'),
+    apathy: text.includes('無気力状態'),
     piercing: text.includes('貫通') && !text.includes('超貫通'),
     superPiercing: text.includes('超貫通'),
     metal: text.includes('メタルボディ') && !text.includes('ハードメタルボディ'),
@@ -1029,11 +1787,15 @@ function summarizeKeywords(flags){
   if(flags.taunt) label.push('仁王');
   if(flags.haste) label.push('速攻');
   if(flags.snipe) label.push('狙撃');
+  if(flags.poison) label.push('毒');
   if(flags.piercing) label.push('貫通');
   if(flags.superPiercing) label.push('超貫');
   if(flags.metal) label.push('金属');
   if(flags.hardMetal) label.push('硬金');
   if(flags.stealth) label.push('隠密');
+  if(flags.seal) label.push('封印');
+  if(flags.conditionGood) label.push('絶好');
+  if(flags.synchro) label.push('同調');
   if(flags.powerBadge) label.push('バッジ');
   if(flags.building) label.push('建物');
   return label.slice(0,2).join('/');
@@ -1050,6 +1812,11 @@ function applySummonKeywords(unit, card){
   if(flags.support){
     gainTension(1, 'おうえん');
   }
+  if(flags.stealth) addStatus(unit, 'stealth');
+  if(flags.poison) unit.grantsPoisonOnDamage = true;
+  if(flags.darkRobe) addStatus(unit, 'darkRobe');
+  if(flags.conditionGood) addStatus(unit, 'conditionGood');
+  if(flags.apathy) addStatus(unit, 'apathy');
   if(flags.powerBadge){
     state.battle.game.player.powerfulBadges.push({
       source: card.name,
@@ -1077,60 +1844,106 @@ function applySummonKeywords(unit, card){
     applySummonTextEffect(unit, card);
   }
   applyPowerfulBadges();
+  const pos = state.battle.game.player.board.indexOf(unit);
+  if(pos >= 0) triggerTerrainOnSummon(unit, pos);
   triggerTensionLinks('summon', {unit, card});
 }
 
 function gainTension(amount=1, reason=''){
   const game = state.battle.game;
+  if(game.player.leaderApathy){
+    game.player.tension = 0;
+    return;
+  }
   const before = game.player.tension;
   game.player.tension = Math.min(3, game.player.tension + Number(amount || 0));
   if(game.player.tension !== before) battleLog(`${reason ? reason + '：' : ''}テンション+${amount}。`);
   triggerTensionLinks('tensionGain', {amount});
+  progressDungeonsByEvent('tensionLink', {amount});
 }
 
 function applySummonTextEffect(unit, card){
   const game = state.battle.game;
   const text = getCardText(card);
+  const pos = game.player.board.indexOf(unit);
+
   const mGet = text.match(/GET\((\d+)\)/i);
   if(mGet){
     for(let i=0;i<Number(mGet[1]);i++) addCardToHandByName('コイン');
     battleLog(`GET(${mGet[1]})：コインを手札に加えました。`);
   }
-  if(text.includes('カードを1枚引く') || text.includes('カードを１枚引く')){
-    drawCard(1);
-    battleLog(`${card.name}：カードを1枚引きました。`);
+
+  // 条件付き自己バフ
+  if(text.includes('地形マスに召喚された場合') && pos >= 0 && game.terrain?.[pos]){
+    unit.attack += 1; unit.hp += 1; unit.maxHp += 1;
+    battleLog(`${card.name}：地形召喚で+1/+1。`);
   }
-  const damageMatch = text.match(/(?:敵ユニット|ユニット|敵1体|敵１体).*?(\d+)ダメージ/);
-  if(damageMatch && text.includes('召喚時')){
+  if(text.includes('味方リーダーのHPが20以上') && game.player.hp >= 20){
+    if(text.includes('攻撃力+2') || text.includes('攻撃力＋2')) unit.attack += 2;
+    if(text.includes('ねらい撃ち')) unit.keywords.snipe = true;
+    battleLog(`${card.name}：HP20以上条件を満たしました。`);
+  }
+  if(text.includes('味方リーダーのHPが15以下') && game.player.hp <= 15){
+    if(text.includes('+2/+2') || text.includes('＋2/＋2')){ unit.attack += 2; unit.hp += 2; unit.maxHp += 2; }
+    if(text.includes('貫通')) unit.keywords.piercing = true;
+    battleLog(`${card.name}：HP15以下条件を満たしました。`);
+  }
+  const enemyCountHp = text.match(/敵ユニット[１1]体につきHP[+＋](\d+)/);
+  if(enemyCountHp){
+    const n = game.enemy.board.filter(Boolean).length * Number(enemyCountHp[1]);
+    unit.hp += n; unit.maxHp += n;
+  }
+
+  // 汎用テキスト処理
+  if(text.includes('召喚時')){
+    const summonPart = extractAfterKeyword(text, '召喚時') || text;
+    applyTextMiniEffect(summonPart, card.name);
+  }else{
+    applyTextMiniEffect(text, card.name);
+  }
+
+  // 対象選択系
+  const damageMatch = text.match(/(?:敵ユニット|ユニット|敵1体|敵１体|後列にいるユニット1体|後列にいるユニット１体).*?(\d+)ダメージ/);
+  if(damageMatch && text.includes('召喚時') && !text.includes('ランダム') && !text.includes('全て')){
     game.pendingGenericEffect = {kind:'damage', amount:Number(damageMatch[1]), source:card.name, target:'enemyUnit'};
     battleLog(`${card.name}：召喚時ダメージ対象を選んでください。`);
   }
-  if(text.includes('味方リーダーのテンション+1') || text.includes('味方リーダーのテンション＋1')){
-    gainTension(1, card.name);
+  const buffMatch = text.match(/このターン中ユニット[１1]体の攻撃力[+＋](\d+)/);
+  if(buffMatch){
+    game.pendingGenericEffect = {kind:'buffAttack', amount:Number(buffMatch[1]), source:card.name, target:'unitAny', allowBuilding:false};
+    battleLog(`${card.name}：攻撃力を上げるユニットを選んでください。`);
   }
-  if(text.includes('味方リーダーのHPを') && text.includes('回復')){
-    const m = text.match(/HPを(\d+)回復/);
-    if(m) healLeader(Number(m[1]));
+
+  // 上下召喚
+  const upDown = text.match(/このユニットの上下に([^を]+)を出す/);
+  if(upDown){
+    summonAboveBelow(unit, upDown[1].trim());
+    battleLog(`${card.name}：上下に${upDown[1].trim()}を出しました。`);
   }
 }
-
 function triggerTensionLinks(reason, payload={}){
   const game = state.battle.game;
-  if(reason !== 'tensionGain') return;
+  if(reason !== 'tensionGain' && reason !== 'skillUse') return;
   for(const unit of game.player.board){
-    if(!unit?.keywords?.tensionLink) continue;
+    if(!unit || unit.isBuilding || isSealed(unit)) continue;
+    const flags = unitKeywords(unit);
     const text = getCardText(byId(unit.cardId));
+    const shouldFire = (reason === 'tensionGain' && flags.tensionLink) || (reason === 'skillUse' && flags.skillLink);
+    if(!shouldFire) continue;
     if(text.includes('攻撃力+1') || text.includes('攻撃力＋1')) unit.attack += 1;
+    if(text.includes('HP+1') || text.includes('HP＋1')){ unit.hp += 1; unit.maxHp += 1; }
     if(text.includes('HPを1回復')) healLeader(1);
-    battleLog(`テンションリンク：${unit.name}が発動。`);
+    if(text.includes('カードを1枚引く')) drawCard(1);
+    if(text.includes('必中モード')) game.player.fortuneMode = 'hit';
+    if(text.includes('超必中モード')) game.player.fortuneMode = 'super';
+    battleLog(`${reason === 'skillUse' ? 'スキルリンク' : 'テンションリンク'}：${unit.name}が発動。`);
   }
 }
-
 function applyPowerfulBadges(){
   const game = state.battle.game;
   if(!game?.player?.powerfulBadges?.length) return;
   for(const unit of game.player.board){
-    if(!unit || unit._badgeApplied) continue;
+    if(!unit || unit._badgeApplied || unit.isBuilding || isSealed(unit)) continue;
     const card = byId(unit.cardId);
     const tribeText = String(card?.searchText || '') + String(card?.text || '');
     for(const badge of game.player.powerfulBadges){
@@ -1144,13 +1957,41 @@ function applyPowerfulBadges(){
   }
 }
 
+
+function isBuildingUnit(unit){
+  return !!unit?.isBuilding;
+}
+function isAttackableUnit(unit){
+  return !!unit && !unit.isBuilding;
+}
+function canNormalTargetUnit(unit, effect=null){
+  // 建物/ダンジョンは通常の攻撃対象・通常のユニット対象にならない。
+  // ただし、friendlyDungeonなど専用対象では別途選べる。
+  if(!unit) return false;
+  if(unit.isBuilding) return effect?.allowBuilding === true || effect?.target === 'friendlyDungeon';
+  return true;
+}
+function buildingHasEndTurnDurabilityLoss(unit){
+  const text = getCardText(byId(unit.cardId));
+  if(unit.isDungeon) return false;
+  return /ターン終了時/.test(text) || /自分のターン終了時/.test(text);
+}
+function buildingHasStartTurnDurabilityGain(unit){
+  const text = getCardText(byId(unit.cardId));
+  return unit?.isDungeon && /自分のターン開始時/.test(text) && /耐久値[+＋]1/.test(text);
+}
+function buildingHasEndTurnDurabilityGain(unit){
+  const text = getCardText(byId(unit.cardId));
+  return unit?.isDungeon && /自分のターン終了時/.test(text) && /耐久値[+＋]1/.test(text);
+}
 function hasEnemyTaunt(){
   const game = state.battle.game;
-  return game.enemy.board.some(u => u?.keywords?.taunt && !u?.keywords?.stealth);
+  return game.enemy.board.some(u => isAttackableUnit(u) && u?.keywords?.taunt && !u?.keywords?.stealth);
 }
 
 function canTargetEnemyUnit(unit){
   const game = state.battle.game;
+  if(!isAttackableUnit(unit)) return false;
   const atkRef = game.selectedAttacker;
   if(!atkRef) return true;
   const atk = atkRef.side === 'playerLeader' ? {keywords:{snipe:false}} : (atkRef.side === 'player' ? game.player.board : game.enemy.board)[atkRef.pos];
@@ -1161,7 +2002,7 @@ function canTargetEnemyUnit(unit){
 }
 
 function cardCanBeSummoned(card){
-  return card && card.cardType === 'ユニット';
+  return card && (card.cardType === 'ユニット' || card.cardType === '建物');
 }
 
 
@@ -1192,12 +2033,23 @@ function updateTargetHighlights(){
       });
       return;
     }
+    if(target === 'friendlyDungeon'){
+      document.querySelectorAll('.unit-slot[data-side="player"]').forEach(slot => {
+        const pos = Number(slot.dataset.pos);
+        const unit = game.player.board[pos];
+        if(unit?.isDungeon) slot.classList.add('targetable');
+        else if(unit) slot.classList.add('blocked-target');
+      });
+      return;
+    }
     document.querySelectorAll('.unit-slot').forEach(slot => {
       const side = slot.dataset.side;
       const pos = Number(slot.dataset.pos);
       const unit = side === 'player' ? game.player.board[pos] : game.enemy.board[pos];
       if(!unit) return;
-      const ok = target.includes('friendly') ? side === 'player' : target.includes('enemy') ? side === 'enemy' : true;
+      const sideOk = target.includes('friendly') ? side === 'player' : target.includes('enemy') ? side === 'enemy' : true;
+      const targetOk = canNormalTargetUnit(unit, game.pendingGenericEffect || game.pendingHeroSkill);
+      const ok = sideOk && targetOk;
       slot.classList.toggle('targetable', ok);
       slot.classList.toggle('blocked-target', !ok);
     });
@@ -1223,6 +2075,7 @@ function updateTargetHighlights(){
 function renderBattleArena(){
   const game = state.battle.game;
   if(!game) return;
+  $('battle-arena')?.classList.toggle('battle-locked', !!state.battle.matchLocked);
   $('player-hp').textContent = game.player.hp;
   $('enemy-hp').textContent = game.enemy.hp;
   $('player-mp').textContent = `${game.player.mp}/${game.player.maxMp}`;
@@ -1232,7 +2085,7 @@ function renderBattleArena(){
   if(endTop){
     const myTurn = !!game.isMyTurn;
     endTop.textContent = myTurn ? 'ターン終了' : '相手のターン';
-    endTop.disabled = !myTurn;
+    endTop.disabled = !myTurn || !!state.battle.matchLocked;
     endTop.classList.toggle('opponent-turn', !myTurn);
   }
   renderTension();
@@ -1252,17 +2105,24 @@ function renderBattleBoard(){
     const pos = Number(slot.dataset.pos);
     const board = side === 'player' ? game.player.board : game.enemy.board;
     const unit = board[pos];
+    const terrain = side === 'player' ? game.terrain?.[pos] : game.enemyTerrain?.[pos];
+    slot.classList.toggle('has-terrain', !!terrain);
+    slot.dataset.terrain = terrain?.type || '';
     slot.classList.toggle('has-unit', !!unit);
-    slot.classList.toggle('selected', game.selectedAttacker?.side === side && game.selectedAttacker?.pos === pos);
+    slot.classList.toggle('building-slot', !!unit?.isBuilding);
+    slot.classList.toggle('dungeon-slot', !!unit?.isDungeon);
+    slot.classList.toggle('selected', !unit?.isBuilding && game.selectedAttacker?.side === side && game.selectedAttacker?.pos === pos);
     if(unit){
       const card = byId(unit.cardId);
       const img = getOfficialImage(card);
-      const kw = summarizeKeywords(unit.keywords || {});
-      slot.innerHTML = `${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(unit.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}${kw ? `<em class="unit-keyword">${escapeHtml(kw)}</em>` : ''}<span class="unit-atk">${unit.isBuilding ? '建' : unit.attack}</span><span class="unit-hp">${unit.isBuilding ? (unit.durability ?? unit.hp) : unit.hp}</span><span class="unit-hpbar"><i style="width:${Math.max(0, Math.min(100, Math.round(((unit.isBuilding ? (unit.durability ?? unit.hp) : unit.hp) / Math.max(1, unit.isBuilding ? (unit.maxHp || unit.durability || 1) : unit.maxHp)) * 100)))}%"></i></span>`;
+      const kwBase = summarizeKeywords(unitKeywords(unit) || {});
+      const st = (unit.statuses || []).map(s => s?.type || s).filter(Boolean).map(s => ({poison:'毒', sealed:'封', immuneDamage:'壁', darkRobe:'衣', conditionGood:'絶', apathy:'無'}[s] || '')).filter(Boolean).join('/');
+      const kw = [kwBase, st].filter(Boolean).join('/');
+      slot.innerHTML = `${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(unit.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}${kw ? `<em class="unit-keyword">${escapeHtml(kw)}</em>` : ''}<span class="unit-atk">${unit.isBuilding ? '建' : unit.attack}</span><span class="unit-hp">${unit.isBuilding ? (unit.durability ?? unit.hp) : unit.hp}</span><span class="unit-hpbar"><i style="width:${Math.max(0, Math.min(100, Math.round(((unit.isBuilding ? (unit.durability ?? unit.hp) : unit.hp) / Math.max(1, unit.isBuilding ? (unit.maxDurability || unit.maxHp || unit.hp || 1) : unit.maxHp)) * 100)))}%"></i></span>`;
       slot.onclick = () => handleBoardClick(side, pos);
       attachLongPress(slot, () => showBattleCardZoom(card));
     }else{
-      slot.innerHTML = '';
+      slot.innerHTML = terrain ? `<span class="terrain-label">${escapeHtml(terrain.type)}</span>` : '';
       slot.ondragover = e => { if(side === 'player'){ e.preventDefault(); slot.classList.add('drop-ready'); } };
       slot.ondragleave = () => slot.classList.remove('drop-ready');
       slot.ondrop = e => { e.preventDefault(); slot.classList.remove('drop-ready'); if(side === 'player'){ const idx = Number(e.dataTransfer.getData('text/plain')); state.battle.game.selectedHandIndex = idx; handleEmptySlotClick(side, pos); } };
@@ -1313,11 +2173,17 @@ function battleLog(text){
 }
 
 function selectHandCard(index){
+  if(isBattleLocked()) return toast('まだ操作できません。', false);
+
   const game = state.battle.game;
   if(game?.finished) return;
   if(!game?.isMyTurn) return toast('相手のターンです。', false);
   const card = byId(game.player.hand[index]);
   if(!card) return;
+  if(isSpecialMove(card) && game.player.tension < 3){
+    toast('必殺技はテンション最大時のみ使用できます。', false);
+    return;
+  }
   if(getEffectiveCost(card) > game.player.mp){
     toast('MPが足りません。', false);
     return;
@@ -1333,11 +2199,14 @@ function selectHandCard(index){
 }
 
 function handleEmptySlotClick(side, pos){
+  if(isBattleLocked()) return toast('まだ操作できません。', false);
+
   const game = state.battle.game;
   if(game?.finished) return;
   if(!game?.isMyTurn) return;
   if(side !== 'player') return;
   if(game.pendingHeroSkill?.target === 'friendlyEmptySlot') return applyPendingHeroSkillToEmptySlot(pos);
+  if(game.pendingGenericEffect?.target === 'friendlyEmptySlot') return applyPendingGenericEffectToEmptySlot(pos);
   if(game.selectedHandIndex == null) return;
   const card = byId(game.player.hand[game.selectedHandIndex]);
   if(!cardCanBeSummoned(card)) return;
@@ -1351,14 +2220,21 @@ function summonSelectedCard(pos){
   const card = byId(game.player.hand[index]);
   if(!card || getEffectiveCost(card) > game.player.mp) return;
   game.player.mp -= getEffectiveCost(card);
+  if(card.cardType === 'ユニット') game.player.nextUnitCostDelta = 0;
   game.player.hand.splice(index, 1);
   game.player.board[pos] = makeUnitFromCard(card);
+  applySynchroIfAny(card, game.player.board[pos]);
+  applyRenkeiIfActive(card, game.player.board[pos]);
+  if(renkeiActive) applyRenkeiIfActive(card, null);
+  applySynchroIfAny(card, null);
   triggerCardPlayedForHero(card);
+  progressDungeonsByEvent('cardUse', {card, cost});
   if(isBet(card)) triggerHeroAuto('betActivated', {card});
   game.selectedHandIndex = null;
   battleLog(`${card.name}を召喚しました。`);
   applySummonKeywords(game.player.board[pos], card);
   triggerHeroAuto('adventurerSummon', {card});
+  progressDungeonsByEvent('summon', {card, cost:getEffectiveCost(card)});
   renderBattleArena();
   syncMyBattleState();
 }
@@ -1396,6 +2272,29 @@ function addRandomCardByPredicate(predicate, fallbackName='スライム'){
   if(pool.length) state.battle.game.player.hand.push(chooseRandom(pool).id);
   else addCardToHandByName(fallbackName);
 }
+function summonCardAtPos(card, pos, side='player', stats={}){
+  const game = state.battle.game;
+  const board = side === 'player' ? game.player.board : game.enemy.board;
+  if(!card || pos == null || pos < 0 || pos >= board.length || board[pos]) return false;
+  const unit = makeUnitFromCard(card);
+  if(stats.attack != null) unit.attack = Number(stats.attack);
+  if(stats.hp != null){ unit.hp = Number(stats.hp); unit.maxHp = Number(stats.hp); }
+  if(stats.keywords) unit.keywords = {...unit.keywords, ...stats.keywords};
+  if(stats.canAttack){ unit.canAttack = true; unit.summoningSickness = false; }
+  board[pos] = unit;
+  return true;
+}
+function summonRandomUnitAtPos(predicate, pos, side='player'){
+  const pool = state.allCards.filter(c => c.cardType === 'ユニット' && predicate(c));
+  if(!pool.length) return false;
+  return summonCardAtPos(chooseRandom(pool), pos, side);
+}
+function getPlayerDungeonClearCount(){
+  return Number(state.battle.game?.player?.dungeonsCleared || 0);
+}
+function getNineLv2RequiredUses(){
+  return Math.max(1, getPlayerDungeonClearCount());
+}
 function parseChoiceOptions(text){
   const body = String(text || '').replace(/^.*?選択[:：]/, '');
   return body.split(/・|。・|①|②|③|④|\(1\)|\(2\)|\(3\)|\(4\)/).map(s => s.trim()).filter(Boolean).slice(0,4);
@@ -1411,36 +2310,200 @@ function openChoiceModal(title, options, callback){
   }));
   $('choice-modal').showModal();
 }
+
+function randomFrom(arr){ return arr && arr.length ? arr[Math.floor(Math.random()*arr.length)] : null; }
+function enemyTargets(includeLeader=false){
+  const game = state.battle.game;
+  const targets = game.enemy.board.map((unit,pos)=>unit && isAttackableUnit(unit) ? {side:'enemy', pos, unit} : null).filter(Boolean);
+  if(includeLeader) targets.push({side:'enemyLeader'});
+  return targets;
+}
+function friendlyTargets(){
+  const game = state.battle.game;
+  return game.player.board.map((unit,pos)=>unit && isAttackableUnit(unit) ? {side:'player', pos, unit} : null).filter(Boolean);
+}
+function applyToTargetRef(target, fn){
+  if(!target) return false;
+  if(target.side === 'enemyLeader'){ fn(null, 'enemyLeader'); return true; }
+  if(target.side === 'playerLeader'){ fn(null, 'playerLeader'); return true; }
+  if(target.unit){ fn(target.unit, target.side); return true; }
+  return false;
+}
+function damageRandomEnemy(amount, includeLeader=true){
+  const t = randomFrom(enemyTargets(includeLeader));
+  if(!t) return false;
+  if(t.side === 'enemyLeader') damageLeader('enemy', amount);
+  else damageUnit(t.unit, amount);
+  return true;
+}
+function poisonRandomEnemyUnit(){
+  const t = randomFrom(enemyTargets(false));
+  if(t?.unit){ applyPoison(t.unit); return true; }
+  return false;
+}
+function sealRandomEnemyUnit(){
+  const t = randomFrom(enemyTargets(false));
+  if(t?.unit){ applySeal(t.unit); return true; }
+  return false;
+}
+function killRandomEnemyUnit(){
+  const t = randomFrom(enemyTargets(false));
+  if(t?.unit){ t.unit.hp = 0; return true; }
+  return false;
+}
+function disableRandomEnemyAttack(){
+  const t = randomFrom(enemyTargets(false));
+  if(t?.unit){ addStatus(t.unit, 'apathy', {until:'turnStart'}); t.unit.canAttack = false; return true; }
+  return false;
+}
+function buffRandomFriendly(atk=0, hp=0){
+  const t = randomFrom(friendlyTargets());
+  if(t?.unit){
+    if(atk) t.unit.attack += atk;
+    if(hp){ t.unit.hp += hp; t.unit.maxHp += hp; }
+    return true;
+  }
+  return false;
+}
+function applyStatusToAllUnits(type, side='both'){
+  const game = state.battle.game;
+  const boards = side === 'enemy' ? [game.enemy.board] : side === 'player' ? [game.player.board] : [game.player.board, game.enemy.board];
+  for(const board of boards) for(const u of board) if(u && isAttackableUnit(u)){
+    if(type === 'poison') applyPoison(u);
+    if(type === 'seal') applySeal(u);
+    if(type === 'apathy'){ addStatus(u, 'apathy', {until:'turnStart'}); u.canAttack = false; }
+  }
+}
+function getAdjacentVerticalPositions(side, pos){
+  const c = posToCoord(side, pos);
+  const out = [];
+  for(const r of [c.row - 1, c.row + 1]){
+    const p = coordToPos(side, r, c.col);
+    if(p >= 0) out.push(p);
+  }
+  return out;
+}
+function summonTokenAtPosition(name, pos, side='player', stats={}){
+  const game = state.battle.game;
+  const board = side === 'player' ? game.player.board : game.enemy.board;
+  if(pos < 0 || pos >= board.length || board[pos]) return false;
+  const card = findCardByName(name) || ensureVirtualCard(name) || {id:`token_${name}`, name, attack:stats.attack || 1, hp:stats.hp || 1, cardType:'ユニット', text:''};
+  const unit = makeUnitFromCard(card);
+  if(stats.attack != null) unit.attack = Number(stats.attack);
+  if(stats.hp != null){ unit.hp = Number(stats.hp); unit.maxHp = Number(stats.hp); }
+  if(stats.haste){ unit.canAttack = true; unit.summoningSickness = false; unit.keywords.haste = true; }
+  board[pos] = unit;
+  return true;
+}
+function summonAboveBelow(sourceUnit, tokenName){
+  const game = state.battle.game;
+  const pos = game.player.board.indexOf(sourceUnit);
+  if(pos < 0) return;
+  for(const p of getAdjacentVerticalPositions('player', pos)) summonTokenAtPosition(tokenName, p, 'player');
+}
+function drawTopFromDeck(predicate, count=1){
+  const game = state.battle.game;
+  let drawn = 0;
+  for(let i=0; i<game.player.deck.length && drawn<count; i++){
+    const card = byId(game.player.deck[i]);
+    if(predicate(card)){
+      game.player.hand.push(game.player.deck.splice(i,1)[0]);
+      i--; drawn++;
+    }
+  }
+  return drawn;
+}
+function extractNumberBefore(text, keyword, fallback=1){
+  const idx = String(text).indexOf(keyword);
+  const sub = idx >= 0 ? String(text).slice(0, idx) : String(text);
+  const m = sub.match(/(\d+)(?!.*\d)/);
+  return m ? Number(m[1]) : fallback;
+}
 function applyTextMiniEffect(text, source='効果'){
   const game = state.battle.game;
   text = String(text || '');
-  if(text.includes('カードを1枚引く') || text.includes('カードを１枚引く')) drawCard(1);
-  if(text.includes('カードを2枚引く') || text.includes('カードを２枚引く')) drawCard(2);
+
+  if(text.includes('両プレイヤー') && text.includes('カードを1枚引く')){ drawCard(1); game.enemy.handCount = Number(game.enemy.handCount || 0) + 1; }
+  else{
+    if(text.includes('カードを1枚引く') || text.includes('カードを１枚引く')) drawCard(1);
+    if(text.includes('カードを2枚引く') || text.includes('カードを２枚引く')) drawCard(2);
+    if(text.includes('カードを3枚引く') || text.includes('カードを３枚引く')) drawCard(3);
+  }
+
   if(text.includes('テンション+2') || text.includes('テンション＋2')) gainTension(2, source);
   else if(text.includes('テンション+1') || text.includes('テンション＋1')) gainTension(1, source);
-  if(text.includes('味方リーダーのHPを')){
+
+  if(text.includes('味方リーダーのHPを') || text.includes('HPを')){
     const m = text.match(/HPを(\d+)回復/); if(m) healLeader(Number(m[1]));
   }
   if(text.includes('敵リーダーに')){
     const m = text.match(/敵リーダーに(\d+)ダメージ/); if(m) damageLeader('enemy', Number(m[1]));
   }
+
+  // ランダム対象
+  let mRand = text.match(/ランダムな敵(?:ユニット)?1体に(\d+)ダメージ/);
+  if(mRand) damageRandomEnemy(Number(mRand[1]), !text.includes('敵ユニット'));
+  if(text.includes('ランダムな敵ユニット1体を毒')) poisonRandomEnemyUnit();
+  if(text.includes('ランダムな敵ユニット1体を封印')) sealRandomEnemyUnit();
+  if(text.includes('ランダムな敵ユニット1体を死亡')){ killRandomEnemyUnit(); resolveDeaths(); }
+  if(text.includes('ランダムな敵1体を次のターン攻撃不能') || text.includes('ランダムな敵ユニット1体を次のターン攻撃不能')) disableRandomEnemyAttack();
+  const friendlyAtk = text.match(/ランダムな味方ユニット1体の攻撃力[+＋](\d+)/);
+  if(friendlyAtk) buffRandomFriendly(Number(friendlyAtk[1]), 0);
+  const friendlyHp = text.match(/ランダムな味方ユニット1体のHP[+＋](\d+)/i);
+  if(friendlyHp) buffRandomFriendly(0, Number(friendlyHp[1]));
+
+  // 全体
+  if(text.includes('全ての敵ユニットを毒')) applyStatusToAllUnits('poison','enemy');
+  if(text.includes('全てのユニットを毒') || text.includes('お互いの全てのユニットを毒')) applyStatusToAllUnits('poison','both');
+  if(text.includes('全ての敵ユニットを封印')) applyStatusToAllUnits('seal','enemy');
+  if(text.includes('全ての敵ユニットを') && text.includes('攻撃不能')) applyStatusToAllUnits('apathy','enemy');
+
   if(text.includes('全ての敵ユニットに') || text.includes('全ての敵に')){
     const m = text.match(/(\d+)ダメージ/);
-    if(m){ for(const u of game.enemy.board) if(u) damageUnit(u, Number(m[1])); if(text.includes('敵リーダー')) damageLeader('enemy', Number(m[1])); resolveDeaths(); }
+    if(m){ const dmg = Number(m[1]) + getSpellDamageBonus(); for(const u of game.enemy.board) if(isAttackableUnit(u)) damageUnit(u, dmg); if(text.includes('敵リーダー')) damageLeader('enemy', dmg); resolveDeaths(); }
   }
   if(text.includes('全てのユニットに')){
     const m = text.match(/(\d+)ダメージ/);
-    if(m){ for(const u of [...game.player.board, ...game.enemy.board]) if(u) damageUnit(u, Number(m[1])); resolveDeaths(); }
+    if(m){ const dmg = Number(m[1]) + getSpellDamageBonus(); for(const u of [...game.player.board, ...game.enemy.board]) if(isAttackableUnit(u)) damageUnit(u, dmg); resolveDeaths(); }
   }
+
+  // トークン生成
   if(text.includes('スライム') && text.includes('出す')){
     const count = text.includes('2体') || text.includes('２体') ? 2 : 1;
     for(let i=0;i<count;i++) summonTokenByName('スライム', {attack:1,hp:1});
   }
+  if(text.includes('プリズニャン') && text.includes('出す')){
+    const count = extractNumberBefore(text, '体出す', 1);
+    for(let i=0;i<count;i++) summonTokenByName('プリズニャン', {attack:1,hp:1});
+  }
+  if(text.includes('ミイラおとこ') && text.includes('出す')){
+    const count = text.includes('2体') || text.includes('２体') ? 2 : 1;
+    for(let i=0;i<count;i++) summonTokenByName('ミイラおとこ', {attack:3,hp:3});
+  }
+
+  if(text.includes('無気力状態') && text.includes('リーダー')){ applyApathyToLeader(); battleLog('リーダーが無気力状態になりました。'); }
+  if(text.includes('必中モード')){ game.player.fortuneMode = 'hit'; battleLog('必中モードになりました。'); }
+  if(text.includes('超必中モード')){ game.player.fortuneMode = 'super'; battleLog('超必中モードになりました。'); }
+
+  for(const t of ['すべる床','宝箱','バリア床','刃の紋章','魔法陣','祝福の聖域','しあわせの国','天啓の神域']){
+    if(text.includes(t)){ setTerrain(game.player.board.findIndex(x=>!x), t, source); break; }
+  }
 }
 function applyFortuneEffect(card){
+  const game = state.battle.game;
   const text = getCardText(card);
   const options = parseChoiceOptions(text);
-  const picked = chooseRandom(options.length ? options : [text]);
+  let picked;
+  if(game.player.fortuneMode === 'super' && options.length){
+    battleLog('超必中モード：占い効果を両方発動。');
+    for(const op of options) applyTextMiniEffect(op, card.name);
+    return;
+  }else if(game.player.fortuneMode === 'hit' && options.length){
+    picked = options[0];
+    battleLog('必中モード：占いの良い方を発動。');
+  }else{
+    picked = chooseRandom(options.length ? options : [text]);
+  }
   battleLog(`占い：${picked}`);
   applyTextMiniEffect(picked, card.name);
 }
@@ -1476,13 +2539,13 @@ function applyBetEffectFromText(text, sourceUnit=null){
   text = String(text || '');
   if(sourceUnit){ sourceUnit.betCount = Number(sourceUnit.betCount || 0) + 1; }
   if(text.includes('BET')) triggerHeroAuto('betActivated', {unit:sourceUnit});
-  if(text.includes('BET') && text.includes('攻撃力+1') && sourceUnit) sourceUnit.attack += 1;
-  if(text.includes('BET') && text.includes('HP+1') && sourceUnit){ sourceUnit.hp += 1; sourceUnit.maxHp += 1; }
+  if(text.includes('BET') && (text.includes('攻撃力+1') || text.includes('攻撃力＋1')) && sourceUnit) sourceUnit.attack += 1;
+  if(text.includes('BET') && (text.includes('HP+1') || text.includes('HP＋1')) && sourceUnit){ sourceUnit.hp += 1; sourceUnit.maxHp += 1; }
   if(text.includes('BET') && text.includes('速攻') && sourceUnit){ sourceUnit.keywords.haste = true; sourceUnit.canAttack = true; }
   if(text.includes('BET') && text.includes('におうだち') && sourceUnit) sourceUnit.keywords.taunt = true;
   if(text.includes('BET') && text.includes('カードを1枚引く')) drawCard(1);
   if(text.includes('BET') && text.includes('味方リーダーのHPを2回復')) healLeader(2);
-  if(text.includes('BET') && text.includes('テンション+1')) gainTension(1, 'BET');
+  if(text.includes('BET') && (text.includes('テンション+1') || text.includes('テンション＋1'))) gainTension(1, 'BET');
   if(text.includes('BET') && text.includes('全てのユニットに1ダメージ')){
     for(const u of [...game.player.board, ...game.enemy.board]) if(u) damageUnit(u,1); resolveDeaths();
   }
@@ -1537,7 +2600,13 @@ function useExchangeCard(card){
 function applyGenericCardUseEffect(card, cost){
   const game = state.battle.game;
   const text = getCardText(card);
+  clearDarkRobeByOrb(card);
   if(card.name === 'コイン' || card.virtualEffect?.kind === 'coin'){ useCoinCard(); return; }
+  if(card.name === '宝の地図'){
+    game.pendingGenericEffect = {kind:'summonTreasureMapDungeon', source:card.name, target:'friendlyEmptySlot'};
+    battleLog('宝の地図：配置する空きマスを選んでください。');
+    return;
+  }
   if(text.includes('交換する') && card.name.includes('交換所')){ useExchangeCard(card); return; }
   if(text.includes('占い')){ applyFortuneEffect(card); }
   if(text.includes('選択')){ applyChoiceEffect(card); }
@@ -1548,15 +2617,35 @@ function applyGenericCardUseEffect(card, cost){
     battleLog(`${card.name}を装備しました。リーダー攻撃可能。`);
     return;
   }
+  const mGet = text.match(/GET\((\d+)\)/i);
+  if(mGet){
+    for(let i=0;i<Number(mGet[1]);i++) addCardToHandByName('コイン');
+    battleLog(`GET(${mGet[1]})：コインを手札に加えました。`);
+  }
   if(text.includes('おうえん')) gainTension(1, 'おうえん');
   if(text.includes('消滅')){
     game.pendingGenericEffect = {kind:'vanish', source:card.name, target:'enemyUnit'};
     battleLog(`${card.name}：消滅させる対象を選んでください。`);
     return;
   }
+  if(text.includes('封印')){
+    game.pendingGenericEffect = {kind:'seal', source:card.name, target:'enemyUnit'};
+    battleLog(`${card.name}：封印する対象を選んでください。`);
+    return;
+  }
+  if(text.includes('毒') && (text.includes('敵') || text.includes('ユニット'))){
+    game.pendingGenericEffect = {kind:'poison', source:card.name, target:'enemyUnit'};
+    battleLog(`${card.name}：毒にする対象を選んでください。`);
+    return;
+  }
+  const terrainName = firstTerrainNameInText(text);
+  if(terrainName){
+    beginTerrainPlacement(card, terrainName);
+    return;
+  }
   const m = text.match(/(?:敵1体|敵１体|ユニット1体|ユニット１体|敵ユニット1体|敵ユニット１体).*?(\d+)ダメージ/);
   if(m){
-    game.pendingGenericEffect = {kind:'damage', amount:Number(m[1]), source:card.name, target:'enemyAny'};
+    game.pendingGenericEffect = {kind:'damage', amount:Number(m[1]) + (isSpell(card) ? getSpellDamageBonus() : 0), source:card.name, target:'enemyAny'};
     battleLog(`${card.name}：ダメージ対象を選んでください。`);
   }
   if(text.includes('カードを1枚引く') || text.includes('カードを１枚引く')) drawCard(1);
@@ -1576,6 +2665,9 @@ function useNonUnitCard(index, card){
   const cost = getEffectiveCost(card);
   if(cost > game.player.mp) return;
   game.player.mp -= cost;
+  const wasSpecialMove = isSpecialMove(card);
+  const renkeiActive = hasRenkei(card) && game.player.tension >= 3;
+  if(wasSpecialMove) game.player.tension = 0;
   game.player.hand.splice(index, 1);
   if(card.cardType === 'ヒーロー'){
     activateHeroCard(card);
@@ -1600,6 +2692,8 @@ function useNonUnitCard(index, card){
 }
 
 function handleBoardClick(side, pos){
+  if(isBattleLocked()) return toast('まだ操作できません。', false);
+
   const game = state.battle.game;
   if(game?.finished) return;
   if(!game?.isMyTurn && side === 'player') return toast('相手のターンです。', false);
@@ -1608,6 +2702,10 @@ function handleBoardClick(side, pos){
   if(!unit) return;
   if(game.pendingHeroSkill){ return applyPendingHeroSkillToUnit(side, pos); }
   if(game.pendingGenericEffect){ return applyPendingGenericEffectToUnit({side, pos}); }
+  if(unit.isBuilding){
+    battleLog(`${unit.name}は建物なので攻撃できず、通常対象にも選べません。`);
+    return;
+  }
   if(side === 'player'){
     if(unit.canAttack){
       game.selectedAttacker = {side, pos};
@@ -1627,8 +2725,11 @@ function handleBoardClick(side, pos){
 
 
 function selectLeaderAttacker(){
+  if(isBattleLocked()) return toast('まだ操作できません。', false);
+
   const game = state.battle.game;
   if(!game?.isMyTurn || game.finished) return;
+  if(game.player.leaderApathy){ return toast('無気力状態のためリーダーは攻撃できません。', false); }
   if(game.player.leaderAttack > 0 && game.player.leaderCanAttack){
     game.selectedAttacker = {side:'playerLeader'};
     game.selectedHandIndex = null;
@@ -1751,6 +2852,19 @@ function applyWeaponBreakEffect(w){
   }
 }
 
+
+function applyAttackTextEffects(atk, def, defenderRef){
+  if(!atk || isSealed(atk)) return;
+  const game = state.battle.game;
+  const text = getCardText(byId(atk.cardId));
+  if(!text.includes('攻撃時')) return;
+  if(text.includes('カードを1枚引く')) drawCard(1);
+  if(text.includes('テンション+1') || text.includes('テンション＋1')) gainTension(1, atk.name);
+  const m = text.match(/攻撃時.*?(\d+)ダメージ/);
+  if(m && def) damageUnit(def, Number(m[1]));
+  if(text.includes('封印') && def) applySeal(def);
+  if(text.includes('毒') && def) applyPoison(def);
+}
 function attackUnit(attackerRef, defenderRef){
   const game = state.battle.game;
   if(game.pendingGenericEffect){
@@ -1761,7 +2875,14 @@ function attackUnit(attackerRef, defenderRef){
   const atk = attackerRef.side === 'playerLeader' ? {name:'味方リーダー', attack:game.player.leaderAttack, canAttack:game.player.leaderCanAttack, keywords:{}} : atkBoard[attackerRef.pos];
   const def = defBoard[defenderRef.pos];
   if(!atk || !def || !atk.canAttack) return;
+  if(def.isBuilding) return toast('建物/ダンジョンは攻撃対象にできません。', false);
+  animateAttackMotion(attackerRef, defenderRef);
+  const kAtk = unitKeywords(atk);
+  if(kAtk.poison || atk.grantsPoisonOnDamage) applyPoison(def);
   damageUnit(def, atk.attack);
+  if(kAtk.seal) applySeal(def);
+  if(kAtk.conditionGood && atk.hp === atk.maxHp){ atk.attack += 1; battleLog('絶好調：攻撃力+1。'); }
+  applyAttackTextEffects(atk, def, defenderRef);
   applyPiercingDamage(atk, defenderRef, atk.attack);
   if(game.selectedAttacker.side === 'playerLeader'){
     if(!game.player.weapon?.noCounter) game.player.hp = Math.max(0, game.player.hp - Math.max(0, def.attack));
@@ -1771,7 +2892,7 @@ function attackUnit(attackerRef, defenderRef){
     triggerHeroAuto('leaderAttack', {});
     progressDungeonsByEvent('leaderAttack');
   }else{
-    damageUnit(atk, def.attack);
+    if(def.hp > 0) damageUnit(atk, def.attack);
     atk.attacksLeft = Math.max(0, (atk.attacksLeft ?? 1) - 1);
     atk.canAttack = atk.attacksLeft > 0;
   }
@@ -1783,6 +2904,8 @@ function attackUnit(attackerRef, defenderRef){
 }
 
 function attackLeader(targetSide){
+  if(isBattleLocked()) return toast('まだ操作できません。', false);
+
   const game = state.battle.game;
   if(game.pendingHeroSkill && targetSide === 'enemy') return applyPendingHeroSkillToLeader();
   if(game.pendingGenericEffect && targetSide === 'enemy') return applyPendingGenericEffectToLeader();
@@ -1792,6 +2915,8 @@ function attackLeader(targetSide){
   if(game.selectedAttacker.side === 'playerLeader') atk = { name:'味方リーダー', attack: game.player.leaderAttack, canAttack: game.player.leaderCanAttack, keywords:{} };
   else { const atkBoard = game.selectedAttacker.side === 'player' ? game.player.board : game.enemy.board; atk = atkBoard[game.selectedAttacker.pos]; }
   if(!atk || !atk.canAttack) return;
+  animateAttackMotion(game.selectedAttacker, {side: targetSide === 'enemy' ? 'enemyLeader' : 'playerLeader'});
+  applyAttackTextEffects(atk, null, {side:'enemyLeader'});
   damageLeader(targetSide, atk.attack);
   if(game.selectedAttacker.side === 'playerLeader'){
     consumeWeaponDurabilityAfterLeaderAttack();
@@ -1827,32 +2952,45 @@ function resolveDeaths(){
 }
 
 function applyDeathrattle(unit, side){
-  if(!unit?.keywords?.deathrattle) return;
+  if(!unit?.keywords?.deathrattle && !getCardText(byId(unit.cardId)).includes('死亡時')) return;
   const game = state.battle.game;
   const text = getCardText(byId(unit.cardId));
-  if(text.includes('カードを1枚引く') || text.includes('カードを１枚引く')) drawCard(1);
-  if(text.includes('お互いのリーダーに2ダメージ')){
-    damageLeader('player', 2); damageLeader('enemy', 2);
+  const deathText = extractAfterKeyword(text, '死亡時') || text;
+
+  applyTextMiniEffect(deathText, unit.name);
+
+  if(deathText.includes('相手はカードを引く')) game.enemy.handCount = Number(game.enemy.handCount || 0) + 1;
+  if(deathText.includes('手札に加える')){
+    const m = deathText.match(/([^、。]+)を?1枚を?手札に加える/);
+    if(m) addCardToHandByName(m[1].replace(/^コスト\d+の/, '').trim());
+    else if(deathText.includes('このカード') || deathText.includes(unit.name)) addCardToHandByName(unit.name);
   }
-  if(text.includes('敵リーダーに') && text.includes('ダメージ')){
-    const m = text.match(/敵リーダーに(\d+)ダメージ/);
-    if(m) damageLeader('enemy', Number(m[1]));
+  if(deathText.includes('次に召喚するユニットのコスト-')){
+    const m = deathText.match(/コスト-(\d+)/);
+    game.player.nextUnitCostDelta = -Number(m?.[1] || 1);
   }
-  if(text.includes('手札に加える')){
-    addCardToHandByName(unit.name);
+  if(deathText.includes('ランダムな味方のダンジョン') && deathText.includes('耐久値+1')){
+    const d = randomFrom(game.player.board.filter(u => u?.isDungeon));
+    if(d){ d.durability = Math.min(d.maxDurability, d.durability + 1); }
   }
   battleLog(`死亡時：${unit.name}の効果を処理しました。`);
 }
-
 function applyPendingGenericEffectToUnit(defenderRef){
   const game = state.battle.game;
   const eff = game.pendingGenericEffect;
   const board = defenderRef.side === 'player' ? game.player.board : game.enemy.board;
   const unit = board[defenderRef.pos];
   if(!eff || !unit) return;
+  if(!canNormalTargetUnit(unit, eff)){
+    toast('建物/ダンジョンはこの効果の対象にできません。', false);
+    return;
+  }
   if(eff.kind === 'damage') damageUnit(unit, eff.amount);
+  if(eff.kind === 'buffAttack'){ unit.attack += Number(eff.amount || 0); }
+  if(eff.kind === 'poison') applyPoison(unit);
+  if(eff.kind === 'seal') applySeal(unit);
   if(eff.kind === 'vanish'){ unit.vanished = true; unit.hp = 0; }
-  battleLog(`${eff.source}：${unit.name}に${eff.amount ?? ''}${eff.kind === 'damage' ? 'ダメージ' : '消滅'}。`);
+  battleLog(`${eff.source}：${unit.name}に${eff.kind === 'buffAttack' ? '攻撃力+'+eff.amount : (eff.amount ?? '') + (eff.kind === 'damage' ? 'ダメージ' : eff.kind === 'poison' ? '毒' : eff.kind === 'seal' ? '封印' : '消滅')}。`);
   game.pendingGenericEffect = null;
   resolveDeaths();
   renderBattleArena();
@@ -1869,14 +3007,45 @@ function applyPendingGenericEffectToLeader(){
   renderBattleArena();
   syncMyBattleState();
 }
+function applyPendingGenericEffectToEmptySlot(pos){
+  const game = state.battle.game;
+  const eff = game.pendingGenericEffect;
+  if(!eff || eff.target !== 'friendlyEmptySlot') return;
+  if(game.player.board[pos]) return toast('空きマスを選んでください。', false);
+  if(eff.kind === 'setTerrain'){
+    setTerrain(pos, eff.terrainType, eff.source);
+  }else if(eff.kind === 'summonTreasureMapDungeon'){
+    const cleared = Number(game.player.dungeonsCleared || 0);
+    let name = 'うす暗き獣の洞くつ';
+    if(cleared === 1) name = 'ざわめく風の坑道';
+    else if(cleared >= 2) name = chooseRandom(['見えざる魔神の道','放たれし大地のじごく','残された神々の水脈','呪われし魂の氷河','大魔王の間','あらぶる光の世界']);
+    const card = findCardByName(name);
+    if(card){
+      game.player.board[pos] = makeUnitFromCard(card);
+      battleLog(`宝の地図：${name}を配置しました。`);
+    }
+  }
+  game.pendingGenericEffect = null;
+  renderBattleArena();
+  syncMyBattleState();
+}
 
 function useOrChargeTension(){
+  if(isBattleLocked()) return toast('まだ操作できません。', false);
+
   const game = state.battle.game;
   if(game?.finished) return;
   if(!game?.isMyTurn) return toast('相手のターンです。', false);
   if(!game) return;
+  if(game.player.leaderApathy){
+    game.player.tension = 0;
+    game.player.leaderCanAttack = false;
+    return toast('無気力状態のためテンションを使えません。', false);
+  }
   if(game.player.tension >= 3){
     applyTensionSkill(game.player.leaderSkill);
+    triggerSkillBoostOnTensionSkill();
+    triggerTensionLinks('skillUse', {skill:game.player.leaderSkill});
     game.player.tension = 0;
     game.player.tensionUsedThisTurn = true;
   }else{
@@ -1895,6 +3064,12 @@ function applyTensionSkill(skill){
   const name = skill?.skillName || 'テンションスキル';
   battleLog(`${name}を使用しました。`);
   const effect = skill?.effect;
+  const hs = game?.player?.heroSkill;
+  if(hs?.heroCardName === '勇者レック') {
+    game.player.reckTensionSkillUses = Number(game.player.reckTensionSkillUses || 0) + 1;
+    incrementAllProficiency(1);
+    battleLog('勇者レック：熟練度+1。');
+  }
   if(!effect) return;
   if(effect.type === 'dealDamage'){
     game.enemy.hp = Math.max(0, game.enemy.hp - Number(effect.amount || 0));
@@ -1953,50 +3128,133 @@ function renderTension(){
 
 function applyBuildingTurnEnd(unit){
   const text = getCardText(byId(unit.cardId));
-  if(text.includes('自分のターン終了時')){
-    if(text.includes('カードを1枚引く')) drawCard(1);
-    if(text.includes('テンション+1')) gainTension(1, unit.name);
-    if(text.includes('道具カード')) addRandomCardByPredicate(c => String(c.text||'').includes('道具'), 'ちからのたね');
-    if(text.includes('隣接') && text.includes('HPを1回復')){
-      for(const u of state.battle.game.player.board) if(u && !u.isBuilding) healUnit(u, 1);
+
+  // 建物は攻撃不可。通常建物は説明に「ターン終了時」系の記載があるものだけ耐久値を減らす。
+  if(!unit.isDungeon){
+    if(text.includes('自分のターン終了時') || text.includes('ターン終了時')){
+      if(text.includes('カードを1枚引く')) drawCard(1);
+      if(text.includes('テンション+1') || text.includes('テンション＋1')) gainTension(1, unit.name);
+      if(text.includes('道具カード')) addRandomCardByPredicate(c => String(c.text||'').includes('道具'), 'ちからのたね');
+      if(text.includes('隣接') && text.includes('HPを1回復')){
+        for(const u of state.battle.game.player.board) if(u && !u.isBuilding) healUnit(u, 1);
+      }
+      if(text.includes('+1/+1') || text.includes('＋1/＋1')){
+        for(const u of state.battle.game.player.board) if(u && !u.isBuilding){ u.attack += 1; u.hp += 1; u.maxHp += 1; }
+      }
+      if(buildingHasEndTurnDurabilityLoss(unit)){
+        unit.durability = Math.max(0, (unit.durability ?? 1) - 1);
+        battleLog(`${unit.name}：耐久値${unit.durability}/${unit.maxDurability || unit.maxHp || 1}`);
+      }
     }
-    if(text.includes('+1/+1') || text.includes('＋1/＋1')){
-      for(const u of state.battle.game.player.board) if(u && !u.isBuilding){ u.attack += 1; u.hp += 1; u.maxHp += 1; }
-    }
-    if(!unit.isDungeon) unit.durability = Math.max(0, (unit.durability ?? 1) - 1);
+    return;
   }
-  if(unit.isDungeon){
-    const before = unit.durability || 0;
-    if(text.includes('味方ユニットが場に出る')){} // event side hook later
-    if(text.includes('テンションリンク')){} // trigger hook later
-    if(text.includes('自分のターン終了時') && text.includes('耐久値+1')) unit.durability += 1;
-    if(unit.durability !== before) battleLog(`${unit.name}：耐久値${unit.durability}/${unit.maxDurability}`);
-    if(unit.durability >= unit.maxDurability) completeDungeon(unit);
+
+  // ダンジョンは基本的に「耐久値が条件で増えて、規定値で踏破」。
+  // ターン終了時に減るわけではない。説明欄に開始/終了時+1などがある場合だけ増やす。
+  const before = unit.durability || 0;
+  if(buildingHasStartTurnDurabilityGain(unit) || buildingHasEndTurnDurabilityGain(unit)){
+    unit.durability += 1;
   }
+  if(unit.durability !== before) battleLog(`${unit.name}：耐久値${unit.durability}/${unit.maxDurability}`);
+  if(unit.durability >= unit.maxDurability) completeDungeon(unit);
 }
 function completeDungeon(unit){
+  const game = state.battle.game;
   const text = getCardText(byId(unit.cardId));
+  const pos = game.player.board.indexOf(unit);
+  if(pos >= 0) game.player.board[pos] = null;
+  game.player.dungeonsCleared = Number(game.player.dungeonsCleared || 0) + 1;
   battleLog(`${unit.name}を踏破しました。`);
   if(text.includes('カードを3枚引く')) drawCard(3);
+  if(text.includes('カードを1枚引く') || text.includes('カードを１枚引く')) drawCard(1);
   if(text.includes('王女の愛')) addCardToHandByName('王女の愛');
   if(text.includes('ドルマドン')) addCardToHandByName('ドルマドン');
   if(text.includes('しあわせの箱')) addCardToHandByName('しあわせの箱');
   if(text.includes('おうごんのつめ')) addCardToHandByName('おうごんのつめ');
-  unit.hp = 0;
+
+  if(unit.name === '守りのほこら'){
+    if(pos >= 0){
+      const ok = summonRandomUnitAtPos(c => Number(c.cost || 0) === 4, pos, 'player');
+      const u = game.player.board[pos];
+      if(u) u.keywords.taunt = true;
+    }
+  }else if(unit.name === 'ピラミッド'){
+    for(let i=0;i<2;i++) summonTokenByName('ミイラおとこ', {attack:3, hp:3}, 'player');
+  }else if(unit.name === 'ロンダルキアへの洞くつ'){
+    for(let i=0;i<3;i++) summonRandomUnitAtPos(c => Number(c.cost || 0) === 2, game.player.board.findIndex(x=>!x), 'player');
+    for(const u of game.player.board) if(u && !u.isBuilding){ u.keywords.haste = true; u.canAttack = true; u.summoningSickness = false; }
+  }
+  if(unit.name === 'ざわめく風の坑道'){
+    if(pos >= 0) summonRandomUnitAtPos(c => Number(c.cost || 0) === 2, pos, 'player');
+  }else if(unit.name === '見えざる魔神の道'){
+    if(pos >= 0) summonCardAtPos(findCardByName('強敵メタルキング'), pos, 'player', {keywords:{firstStrike:true, metal:true}});
+    summonTokenByName('強敵メタルキング', {attack:3, hp:3}, 'player');
+  }else if(unit.name === '放たれし大地のじごく'){
+    for(const u of [...game.player.board, ...game.enemy.board]) if(u && u !== unit) damageUnit(u, 2);
+    damageLeader('player', 2); damageLeader('enemy', 2);
+    resolveDeaths();
+  }else if(unit.name === '残された神々の水脈'){
+    healLeader(3); gainTension(3, unit.name);
+  }else if(unit.name === '呪われし魂の氷河'){
+    const targets = game.enemy.board.filter(Boolean);
+    if(targets.length) damageUnit(chooseRandom(targets), 5);
+    resolveDeaths();
+  }else if(unit.name === '大魔王の間'){
+    if(pos >= 0){
+      summonRandomUnitAtPos(c => (c.tribes || []).includes('魔王系') && Number(c.cost || 0) >= 6, pos, 'player');
+      const u = game.player.board[pos];
+      if(u) u.keywords = {...(u.keywords||{}), firstStrike:true};
+    }
+  }else if(unit.name === 'あらぶる光の世界'){
+    const pool = state.allCards.filter(c => c.cardType !== 'ユニット' && c.name !== unit.name);
+    const picks = [];
+    while(pool.length && picks.length < 3){ const idx=Math.floor(Math.random()*pool.length); picks.push(pool.splice(idx,1)[0]); }
+    game.player.costOverrides ||= {};
+    for(const c of picks){ game.player.hand.push(c.id); game.player.costOverrides[c.id] = Math.max(0, Number(c.cost || 0) - 1); }
+  }
 }
-function progressDungeonsByEvent(eventName){
+function progressDungeonsByEvent(eventName, payload={}){
   const game = state.battle.game;
-  for(const b of game.player.board){
+  if(!game?.player?.board) return;
+  for(const b of [...game.player.board]){
     if(!b?.isDungeon) continue;
     const text = getCardText(byId(b.cardId));
-    if(eventName === 'summon' && text.includes('味方ユニットが場に出る')) b.durability += 1;
-    if(eventName === 'leaderAttack' && text.includes('味方リーダーが攻撃した後')) b.durability += 1;
-    if(eventName === 'unitDeath' && text.includes('味方ユニットが死亡する度')) b.durability += game.player.maxMp >= 8 ? 2 : 1;
+    let add = 0;
+
+    if(eventName === 'summon' && text.includes('味方ユニットが場に出る')) add += 1;
+    if(eventName === 'leaderAttack' && text.includes('味方リーダーが攻撃した後')) add += 1;
+    if(eventName === 'unitDeath' && text.includes('味方ユニットが死亡する度')) add += game.player.maxMp >= 8 ? 2 : 1;
+    if(eventName === 'tensionLink' && text.includes('テンションリンク')) add += 1;
+
+    if(eventName === 'cardUse'){
+      const card = payload.card;
+      const cost = Number(payload.cost ?? getEffectiveCost(card));
+      const cardText = getCardText(card);
+      if(text.includes('コスト1〜8') && isSpell(card) && cost >= 1 && cost <= 8){
+        game.player.dungeonSpellCostsUsed ||= {};
+        game.player.dungeonSpellCostsUsed[b.id] ||= [];
+        if(!game.player.dungeonSpellCostsUsed[b.id].includes(cost)){
+          game.player.dungeonSpellCostsUsed[b.id].push(cost);
+          add += 2;
+        }
+      }
+      if(text.includes('自分が武闘家のカードを使う度')){
+        const joined = `${card?.classes || ''} ${card?.leader || ''} ${cardText}`;
+        if(joined.includes('武闘家') || joined.includes('アリーナ')) add += 1;
+      }
+    }
+
+    if(add){
+      b.durability = Number(b.durability || 0) + add;
+      battleLog(`${b.name}：耐久値+${add} (${b.durability}/${b.maxDurability})`);
+    }
     if(b.durability >= b.maxDurability) completeDungeon(b);
   }
 }
 
 async function endTurn(){
+  if(isBattleLocked()) return toast('まだ操作できません。', false);
+
   const game = state.battle.game;
   if(game?.finished) return;
   if(!game?.isMyTurn) return toast('相手のターンです。', false);
@@ -2009,7 +3267,9 @@ async function endTurn(){
   game.player.usedSpellCostThisTurn = 0;
   game.player.leaderAttack = 0;
   game.player.leaderCanAttack = false;
+  if(game.player.leaderApathy) game.player.tension = 0;
   game.player.leaderAttackedThisTurn = false;
+  applyStartOfTurnStatuses();
   for(let i=0;i<game.player.board.length;i++){
     const unit = game.player.board[i];
     if(unit){
@@ -2019,8 +3279,9 @@ async function endTurn(){
         if(!unit.isDungeon && unit.durability <= 0){ unit.hp = 0; battleLog(`${unit.name}の耐久値が0になりました。`); }
       }else{
         unit.summoningSickness = false;
-        unit.attacksLeft = unit.keywords?.doubleAttack ? 2 : 1;
-        unit.canAttack = true;
+        const k = unitKeywords(unit);
+        unit.attacksLeft = k.doubleAttack ? 2 : 1;
+        unit.canAttack = !hasStatus(unit, 'apathy');
       }
     }
   }
@@ -2033,7 +3294,11 @@ async function endTurn(){
 }
 
 
-function getHeroDef(heroName){ if(heroName === 'サルマトリアの王子') heroName = 'サマルトリアの王子'; return HERO_SKILL_DEFS[heroName]; }
+function getHeroDef(heroName){
+  if(heroName === 'サルマトリアの王子') heroName = 'サマルトリアの王子';
+  if(heroName === 'レック') heroName = '勇者レック';
+  return HERO_SKILL_DEFS[heroName];
+}
 function getHeroLevelDef(heroSkill){
   const def = getHeroDef(heroSkill.heroCardName);
   let skill = def?.levels?.find(l => l.level === heroSkill.level) || null;
@@ -2058,7 +3323,7 @@ function activateHeroCard(card){
   battleLog(`${card.name}のヒーロースキルが使えるようになりました。`);
 }
 function getHeroLevelCardName(heroName, level){
-  const def = HERO_SKILL_DEFS[heroName];
+  const def = getHeroDef(heroName);
   return def?.levels?.find(l => l.level === level)?.name || `レベル${level}ヒーロースキル`;
 }
 function getHeroSkillCost(skill){
@@ -2067,6 +3332,7 @@ function getHeroSkillCost(skill){
   if(skill?.dynamicCost === 'noSpellsInDeckMinus1' && !game.player.deck.some(id => isSpell(byId(id)))) cost -= 1;
   if(skill?.dynamicCost === 'spellCostThisTurnDiscount') cost -= Number(game.player.usedSpellCostThisTurn || 0);
   if(skill?.dynamic?.costPlusPerUse) cost += Number(game.player.heroSkill?.lv2UseCount || 0);
+  if(skill?.dynamic?.legendFinalCost) cost = Math.max(0, Number(skill.cost || 25) - Number(game.player.heroSkill?.legendFinalDiscount || 0));
   return Math.max(0, cost);
 }
 function canUseHeroSkill(skill){
@@ -2077,6 +3343,10 @@ function canUseHeroSkill(skill){
   if(cost > game.player.mp) return {ok:false, reason:'MPが足りません'};
   if(skill.requiredTension && game.player.tension < 3) return {ok:false, reason:'必殺技にはテンション3が必要です'};
   if(skill.condition === 'handDemon' && !game.player.hand.some(id => isDemon(byId(id)))) return {ok:false, reason:'手札に魔王系カードが必要です'};
+  if(skill.dynamic?.usesEqualDungeonClears){
+    const remain = getNineLv2RequiredUses() - Number(game.player.heroSkill?.progressCount || 0);
+    if(remain <= 0) return {ok:false, reason:'既に条件を満たしています'};
+  }
   if(skill.condition === 'noAnnihilatorZoma'){
     const exists = game.player.hand.some(id => byId(id)?.name === '全てを滅ぼす者ゾーマ') || game.player.board.some(u => u?.name === '全てを滅ぼす者ゾーマ');
     if(exists) return {ok:false, reason:'既に全てを滅ぼす者ゾーマが存在します'};
@@ -2084,6 +3354,8 @@ function canUseHeroSkill(skill){
   return {ok:true, cost};
 }
 function openHeroSkillModal(){
+  if(isBattleLocked()) return toast('まだ操作できません。', false);
+
   const game = state.battle.game;
   const hs = game?.player?.heroSkill;
   if(!hs) return toast('ヒーローカードを使用すると使えるようになります。', false);
@@ -2119,7 +3391,7 @@ function beginHeroSkillUse(skill){
   const game = state.battle.game;
   const check = canUseHeroSkill(skill);
   if(!check.ok) return toast(check.reason, false);
-  if(['enemyAny','enemyUnit','enemyAnyBlockedByUnits','unitAny','friendlyUnit','friendlyEmptySlot'].includes(skill.target)){
+  if(['enemyAny','enemyUnit','enemyAnyBlockedByUnits','unitAny','friendlyUnit','friendlyEmptySlot','friendlyDungeon'].includes(skill.target)){
     game.pendingHeroSkill = skill;
     $('hero-skill-modal').close();
     battleLog(`${skill.name}：対象を選んでください。`);
@@ -2156,13 +3428,15 @@ function applyPendingHeroSkillToUnit(side, pos){
   if(skill.target === 'enemyAny' && side !== 'enemy') return toast('敵を選んでください。', false);
   if(skill.target === 'enemyAnyBlockedByUnits' && side !== 'enemy') return toast('敵を選んでください。', false);
   if(skill.target === 'friendlyUnit' && side !== 'player') return toast('味方ユニットを選んでください。', false);
+  if(skill.target === 'friendlyDungeon' && (side !== 'player' || !unit.isDungeon)) return toast('味方のダンジョンを選んでください。', false);
+  if(skill.target !== 'friendlyDungeon' && !canNormalTargetUnit(unit, skill)) return toast('建物/ダンジョンはこの効果の対象にできません。', false);
   useHeroSkillCard(skill, {side, pos, unit});
 }
 function applyPendingHeroSkillToLeader(){
   const game = state.battle.game;
   const skill = game.pendingHeroSkill;
   if(!skill) return;
-  if(skill.target === 'enemyUnit' || skill.target === 'friendlyUnit' || skill.target === 'unitAny') return toast('ユニットを選んでください。', false);
+  if(skill.target === 'enemyUnit' || skill.target === 'friendlyUnit' || skill.target === 'unitAny' || skill.target === 'friendlyDungeon') return toast('対象を選んでください。', false);
   if(skill.target === 'enemyAnyBlockedByUnits' && hasEnemyTargetableUnit()) return toast('対象にできる敵ユニットがいる間、敵リーダーを対象にできません。', false);
   useHeroSkillCard(skill, {side:'enemyLeader'});
 }
@@ -2180,6 +3454,7 @@ function applySimpleEffect(effect, target){
   if(!effect) return;
   if(effect.kind === 'healLeader') healLeader(effect.amount);
   if(effect.kind === 'restoreMp') game.player.mp = Math.min(game.player.maxMp, game.player.mp + Number(effect.amount || 0));
+  if(effect.kind === 'boostDungeonDurability' && target?.unit?.isDungeon){ target.unit.durability = Math.min(target.unit.maxDurability, Number(target.unit.durability || 0) + Number(effect.amount || 0)); }
 }
 
 function getHeroSkillDamage(skill){
@@ -2188,6 +3463,59 @@ function getHeroSkillDamage(skill){
   if(skill?.dynamic?.damagePlusPerUse) amount += Number(game.player.heroSkill?.lv2UseCount || 0);
   if(skill?.dynamic?.loreLv3Damage) amount = Number(game.player.heroSkill?.loreLv3Damage || 1);
   return amount;
+}
+
+
+function isProficiencyCard(card){
+  return String(card?.text || card?.searchText || '').includes('熟練度') || (card?.tags || []).includes('熟練度');
+}
+function markCardProficiencyInHand(cardId, amount=1){
+  const game = state.battle.game;
+  game.player.proficiency ||= {};
+  game.player.proficiency[cardId] = Number(game.player.proficiency[cardId] || 0) + Number(amount || 1);
+}
+function pickProficiencyCardInHand(amount=1, fallbackDraw=false){
+  const game = state.battle.game;
+  const id = game.player.hand.find(id => isProficiencyCard(byId(id)));
+  if(id){
+    const current = Number(game.player.proficiency?.[id] || 0);
+    markCardProficiencyInHand(id, current <= 1 ? Math.max(amount, 2) : amount);
+    battleLog(`${byId(id).name}の熟練度+${current <= 1 ? Math.max(amount, 2) : amount}。`);
+  }else{
+    if(fallbackDraw) drawCard(1);
+    battleLog('熟練度を持つ手札がありません。');
+  }
+}
+function drawAdventurerFromTop7(){
+  const game = state.battle.game;
+  const top = game.player.deck.splice(0, 7);
+  const idx = top.findIndex(id => isAdventurer(byId(id)));
+  if(idx >= 0){
+    const picked = top.splice(idx, 1)[0];
+    game.player.hand.push(picked);
+    game.player.deck.push(...top);
+    battleLog(`${byId(picked).name}を手札に加え、残りをデッキ下へ戻しました。`);
+  }else{
+    game.player.deck.push(...top);
+    battleLog('上7枚に冒険者カードがありませんでした。');
+  }
+}
+function buffLastSummonedAdventurer(card){
+  const game = state.battle.game;
+  if(!isAdventurer(card)) return;
+  for(const unit of game.player.board){
+    if(unit && unit.cardId === card.id && !unit._dharmaBuffed){
+      unit.attack += 1; unit.hp += 1; unit.maxHp += 1;
+      unit._dharmaBuffed = true;
+      const dharma = game.player.board.find(u => u?.name === 'ダーマの神殿');
+      if(dharma?.isBuilding){
+        dharma.durability = Math.max(0, (dharma.durability ?? 1) - 1);
+        if(dharma.durability <= 0) dharma.hp = 0;
+      }
+      battleLog('ダーマの神殿：冒険者を+1/+1。');
+      break;
+    }
+  }
 }
 
 function triggerCardPlayedForHero(card){
@@ -2203,6 +3531,22 @@ function triggerCardPlayedForHero(card){
   if(hs.heroCardName === 'ローレシアの王子' && hs.level === 3 && !isSpell(card)){
     hs.loreLv3Damage = Number(hs.loreLv3Damage || 1) + 1;
     battleLog('ローレシアLv3：破壊神との決戦のダメージ+1。');
+  }
+  if((hs.heroCardName === '伝説の勇者') && isAdventurer(card)){
+    hs.legendAdventurerUses = Number(hs.legendAdventurerUses || 0) + 1;
+    if(hs.level === 3){
+      hs.legendDemonDamage = Math.min(4, Number(hs.legendDemonDamage || 1) + 1);
+      battleLog('魔王討伐：ダメージ+1。');
+    }
+    if(hs.level === 4 && hs.legendAdventurerUses % 3 === 0){
+      hs.legendFinalDiscount = Number(hs.legendFinalDiscount || 0) + 5;
+      drawCard(1);
+      battleLog('そして伝説へ：コスト-5、カードを1枚引く。');
+    }
+    buffLastSummonedAdventurer(card);
+  }
+  if((hs.heroCardName === '勇者レック' || hs.heroCardName === 'レック') && isProficiencyCard(card)){
+    triggerHeroAuto('proficiencyCardPlayed', {card});
   }
 }
 
@@ -2280,6 +3624,38 @@ function applyHeroSkillEffect(skill, target){
     game.player.permanentAuras ||= [];
     game.player.permanentAuras.push({kind:'damageEnemyLeaderOnCardPlayed', amount:2, source:'家族との絆'});
     battleLog('家族との絆：以後、自分が手札を使う度敵リーダーに2ダメージ。');
+  }else if(e.kind === 'legendTavern'){
+    drawAdventurerFromTop7();
+  }else if(e.kind === 'summonDharmaTemple'){
+    const pos = target?.pos;
+    if(pos == null || game.player.board[pos]) return toast('空きマスを選んでください。', false);
+    const card = findCardByName('ダーマの神殿');
+    const unit = makeUnitFromCard(card);
+    unit.isBuilding = true;
+    unit.durability = 5;
+    unit.maxDurability = 5;
+    unit.attack = 0;
+    unit.canAttack = false;
+    game.player.board[pos] = unit;
+    battleLog('ダーマの神殿を出しました。');
+  }else if(e.kind === 'legendDemonKingSubjugation'){
+    const amount = Number(game.player.heroSkill?.legendDemonDamage || 1);
+    if(target?.unit) damageUnit(target.unit, amount);
+    battleLog(`魔王討伐：${amount}ダメージ。`);
+  }else if(e.kind === 'legendFinal'){
+    damageLeader('enemy', 25);
+    battleLog('そして伝説へ：敵リーダーに25ダメージ。');
+  }else if(e.kind === 'reckMemory'){
+    pickProficiencyCardInHand(1, true);
+  }else if(e.kind === 'reckFuture'){
+    drawCard(1);
+    pickProficiencyCardInHand(2, false);
+  }else if(e.kind === 'boostDungeonDurability'){
+    if(target?.unit?.isDungeon){
+      target.unit.durability = Math.min(Number(target.unit.maxDurability || 0), Number(target.unit.durability || 0) + Number(e.amount || 0));
+      battleLog(`${target.unit.name}の耐久値+${e.amount || 0}。`);
+      if(target.unit.durability >= target.unit.maxDurability) completeDungeon(target.unit);
+    }
   }else if(e.kind === 'samaltoriaRandomLv3'){
     if(e.variant === 'begirama'){
       damageLeader('enemy', 2);
@@ -2319,13 +3695,18 @@ function progressHeroSkill(skill, mode){
   if(key !== mode) return;
   hs.progressCount = (hs.progressCount || 0) + 1;
   if(skill.dynamic?.costPlusPerUse || skill.dynamic?.damagePlusPerUse) hs.lv2UseCount = (hs.lv2UseCount || 0) + 1;
-  const need = skill.progress[key];
-  if(need && hs.progressCount >= need && hs.level < 3){
+  let need = skill.progress[key];
+  if(skill.dynamic?.usesEqualDungeonClears) need = getNineLv2RequiredUses();
+  const maxLevel = Math.max(...(getHeroDef(hs.heroCardName)?.levels || []).map(l => l.level));
+  if(need && hs.progressCount >= need && hs.level < maxLevel){
     if(skill.onLevelUp?.addToHand) addCardToHandByName(skill.onLevelUp.addToHand);
+    if(skill.onLevelUp?.draw) drawCard(skill.onLevelUp.draw);
     hs.level += 1;
     hs.progressCount = 0;
     hs.lv2UseCount = 0;
     hs.loreLv3Damage = 1;
+    if(hs.heroCardName === '伝説の勇者' && hs.level === 3) hs.legendDemonDamage = 1;
+    if(hs.heroCardName === '伝説の勇者' && hs.level === 4) hs.legendFinalDiscount = 0;
     hs.currentCardName = getHeroLevelCardName(hs.heroCardName, hs.level);
     if((hs.heroCardName === 'サマルトリアの王子' || hs.heroCardName === 'サルマトリアの王子') && hs.level === 3) hs.currentCardName = 'くらえベギラマ！';
     battleLog(`ヒーロースキルがLv.${hs.level}に進化しました。`);
@@ -2414,3 +3795,31 @@ function block(title, html){ return `<div class="detail-block"><h4>${escapeHtml(
 
 function toast(msg, ok=true){ const div = document.createElement('div'); div.className = `toast ${ok?'ok':'bad'}`; div.textContent = msg; document.body.appendChild(div); setTimeout(()=>div.remove(), 2800); }
 function escapeHtml(s){ return String(s ?? '').replace(/[&<>\"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+
+
+// v57-task-kill-presence
+window.addEventListener('pagehide', () => {
+  const roomId = state.battle.roomId;
+  if(state.firebase.enabled && state.firebase.db && roomId && state.playerId){
+    try{
+      update(ref(state.firebase.db, `rooms/${roomId}/players/${state.playerId}`), {
+        status:'left',
+        leftAt: serverTimestamp(),
+        lastSeenMs: Date.now()
+      });
+    }catch(e){}
+  }
+});
+window.addEventListener('beforeunload', () => {
+  const roomId = state.battle.roomId;
+  if(state.firebase.enabled && state.firebase.db && roomId && state.playerId){
+    try{
+      update(ref(state.firebase.db, `rooms/${roomId}/players/${state.playerId}`), {
+        status:'left',
+        leftAt: serverTimestamp(),
+        lastSeenMs: Date.now()
+      });
+    }catch(e){}
+  }
+});
+

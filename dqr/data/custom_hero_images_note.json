@@ -1,0 +1,39 @@
+{
+  "version": "v50_legend_reck_nine_hero_images",
+  "uploaded_images": {
+    "伝説の勇者_デッキ編成カード": "./assets/custom_cards/伝説の勇者_デッキ編成カード.png",
+    "伝説の勇者_lv1": "./assets/custom_cards/伝説の勇者_lv1.png",
+    "伝説の勇者_lv2": "./assets/custom_cards/伝説の勇者_lv2.png",
+    "伝説の勇者_lv3": "./assets/custom_cards/伝説の勇者_lv3.png",
+    "伝説の勇者_lv4": "./assets/custom_cards/伝説の勇者_lv4.png",
+    "伝説の勇者_ダーマ神殿": "./assets/custom_cards/伝説の勇者_ダーマ神殿.png",
+    "レック_デッキ編成カード": "./assets/custom_cards/レック_デッキ編成カード.png",
+    "レック_lv1": "./assets/custom_cards/レック_lv1.png",
+    "レック_lv2": "./assets/custom_cards/レック_lv2.png",
+    "レック_lv3": "./assets/custom_cards/レック_lv3.png"
+  },
+  "implemented": {
+    "伝説の勇者": {
+      "deck_card": "custom local image",
+      "levels": [
+        "Lv1 出会いと別れの酒場: top7から冒険者1枚、残り下。2回でLv2",
+        "Lv2 ダーマの神殿へ: 味方空きマスにダーマの神殿。1回でLv3",
+        "Lv3 魔王討伐: ユニット1体に1+冒険者使用回数増加分ダメージ。1回でLv4",
+        "Lv4 そして伝説へ: 敵リーダー25ダメージ。冒険者3回ごとコスト-5/1ドロー"
+      ]
+    },
+    "勇者レック": {
+      "deck_card": "custom local image",
+      "levels": [
+        "Lv1 いつか見た光景: 手札熟練度カードを強化。2回でLv2、Lv2時1ドロー",
+        "Lv2 呼び覚まされし記憶: 熟練度カード使用後テンション+1。2回でLv3",
+        "Lv3 未来を信じて: 1ドロー、手札熟練度カード熟練度+2"
+      ]
+    },
+    "守り人ナイン": {
+      "deck_card": "DB image preferred",
+      "levels": "効果詳細未提供のため暫定。Lv1 1回/Lv2 2回の進行だけ設定。"
+    }
+  },
+  "transparent_processing": "Uploaded PNG files were copied to assets/custom_cards and near-white edge backgrounds were made transparent when necessary."
+}

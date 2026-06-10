@@ -23033,7 +23033,7 @@
       }
     },
     {
-      "id": "card_550b977c",
+      "id": "custom_hero_reck",
       "name": "勇者レック",
       "cost": 1,
       "attack": 0,
@@ -23044,7 +23044,9 @@
       "classes": [
         "共通"
       ],
-      "tribes": [],
+      "tribes": [
+        "英雄"
+      ],
       "tags": [
         "ヒーロー"
       ],
@@ -23058,11 +23060,7 @@
       },
       "flags": {
         "deckBuildable": true,
-        "deckBuildRuleReason": [
-          "official_hero_starter_card"
-        ],
-        "heroStarterCard": true,
-        "heroDeckRule": "0枚でも複数種類でも編成可能。同名カードは通常のレジェンド1枚制限に従う。"
+        "generated": false
       },
       "assetHint": {
         "x": 90,
@@ -23077,14 +23075,8 @@
         "heroId": "hero_f6139d24"
       },
       "official": {
-        "source": "gameconductor",
-        "officialId": 1579,
-        "detailUrl": "https://gameconductor.com/dqrivals/c/d/1579",
-        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1579.jpg",
         "imageVerified": true,
-        "verifiedName": "勇者レック",
-        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
-        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
+        "imageUrl": "./assets/custom_cards/レック_デッキ編成カード.png"
       }
     },
     {
@@ -23271,7 +23263,7 @@
       }
     },
     {
-      "id": "card_ee97d74d",
+      "id": "custom_hero_legendary_hero",
       "name": "伝説の勇者",
       "cost": 2,
       "attack": 0,
@@ -23282,7 +23274,9 @@
       "classes": [
         "共通"
       ],
-      "tribes": [],
+      "tribes": [
+        "英雄"
+      ],
       "tags": [
         "ヒーロー"
       ],
@@ -23296,11 +23290,7 @@
       },
       "flags": {
         "deckBuildable": true,
-        "deckBuildRuleReason": [
-          "official_hero_starter_card"
-        ],
-        "heroStarterCard": true,
-        "heroDeckRule": "0枚でも複数種類でも編成可能。同名カードは通常のレジェンド1枚制限に従う。"
+        "generated": false
       },
       "assetHint": {
         "x": 90,
@@ -23315,14 +23305,8 @@
         "heroId": "hero_f4b87ef1"
       },
       "official": {
-        "source": "gameconductor",
-        "officialId": 1584,
-        "detailUrl": "https://gameconductor.com/dqrivals/c/d/1584",
-        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1584.jpg",
         "imageVerified": true,
-        "verifiedName": "伝説の勇者",
-        "verificationMethod": "uploaded-hero-card-xlsx-hyperlink-v17",
-        "verificationNote": "アップロードされたヒーローカード一覧の左端セルの公式DBリンクから反映。"
+        "imageUrl": "./assets/custom_cards/伝説の勇者_デッキ編成カード.png"
       }
     },
     {

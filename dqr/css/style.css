@@ -5132,3 +5132,391 @@
     width:52vw !important;
   }
 }
+
+
+/* v47: raise battlefield and place leaders at side-center.
+   The v46 coordinate system is correct; this only changes visual placement.
+*/
+.battle-arena .arena-field{
+  padding:18px 74px 82px !important;
+  grid-template-columns:92px 1fr 92px !important;
+  align-items:center !important;
+}
+
+.battle-arena .unit-zones.twelve-zones{
+  width:min(850px, 66vw) !important;
+  height:min(300px, calc(100dvh - 136px)) !important;
+  align-self:start !important;
+  margin-top:38px !important;
+  grid-template-columns:repeat(2, minmax(74px, 1fr)) minmax(30px, 58px) repeat(2, minmax(74px, 1fr)) !important;
+  grid-template-rows:repeat(3, minmax(42px, 1fr)) !important;
+  column-gap:clamp(10px, 1.7vw, 20px) !important;
+  row-gap:clamp(10px, 2.0dvh, 18px) !important;
+}
+
+.battle-arena .unit-slot{
+  max-width:146px !important;
+  max-height:70px !important;
+  min-width:68px !important;
+  min-height:40px !important;
+}
+
+/* Leaders should sit at the side-center, not at top corner */
+.battle-arena .player-leader,
+.battle-arena .enemy-leader{
+  position:absolute !important;
+  top:50% !important;
+  transform:translateY(-50%) !important;
+  z-index:4 !important;
+  width:76px !important;
+  height:92px !important;
+}
+
+.battle-arena .player-leader{
+  left:16px !important;
+  right:auto !important;
+}
+
+.battle-arena .enemy-leader{
+  right:16px !important;
+  left:auto !important;
+}
+
+.battle-arena .player-leader span,
+.battle-arena .enemy-leader span{
+  width:62px !important;
+  height:62px !important;
+}
+
+/* Keep player HUD below own leader but not over the board */
+.battle-arena .player-hud{
+  left:10px !important;
+  bottom:46px !important;
+  transform:scale(.94) !important;
+  transform-origin:left bottom !important;
+}
+
+/* Hand gets slightly lower/smaller so it does not hide the bottom row */
+.battle-arena .player-hand{
+  height:56px !important;
+  bottom:0 !important;
+  width:min(540px, 52vw) !important;
+  background:linear-gradient(180deg, transparent, rgba(0,0,0,.24)) !important;
+}
+
+.battle-arena .hand-card{
+  flex-basis:40px !important;
+  width:40px !important;
+  height:54px !important;
+}
+
+.battle-arena .battle-log{
+  right:10px !important;
+  bottom:36px !important;
+  width:min(350px, 28vw) !important;
+}
+
+@media(max-width:900px) and (orientation:landscape){
+  .battle-arena .arena-field{
+    padding:10px 44px 58px !important;
+    grid-template-columns:58px 1fr 58px !important;
+  }
+
+  .battle-arena .unit-zones.twelve-zones{
+    width:min(740px, 70vw) !important;
+    height:min(238px, calc(100dvh - 104px)) !important;
+    margin-top:30px !important;
+    grid-template-columns:repeat(2, minmax(48px, 1fr)) minmax(18px, 34px) repeat(2, minmax(48px, 1fr)) !important;
+    grid-template-rows:repeat(3, minmax(30px, 1fr)) !important;
+    column-gap:6px !important;
+    row-gap:6px !important;
+  }
+
+  .battle-arena .unit-slot{
+    min-width:46px !important;
+    min-height:28px !important;
+    max-width:100px !important;
+    max-height:46px !important;
+  }
+
+  .battle-arena .player-leader,
+  .battle-arena .enemy-leader{
+    top:50% !important;
+    width:52px !important;
+    height:70px !important;
+  }
+
+  .battle-arena .player-leader{
+    left:5px !important;
+  }
+
+  .battle-arena .enemy-leader{
+    right:5px !important;
+  }
+
+  .battle-arena .player-leader span,
+  .battle-arena .enemy-leader span{
+    width:48px !important;
+    height:48px !important;
+    font-size:8px !important;
+  }
+
+  .battle-arena .player-hud{
+    left:4px !important;
+    bottom:38px !important;
+    transform:scale(.78) !important;
+  }
+
+  .battle-arena .player-hand{
+    height:46px !important;
+    width:50vw !important;
+  }
+
+  .battle-arena .hand-card{
+    flex-basis:32px !important;
+    width:32px !important;
+    height:44px !important;
+  }
+
+  .battle-arena .battle-log{
+    right:5px !important;
+    bottom:26px !important;
+    width:25vw !important;
+    max-height:30px !important;
+    font-size:7.5px !important;
+  }
+}
+
+@media(max-width:760px) and (orientation:landscape){
+  .battle-arena .arena-field{
+    padding-left:34px !important;
+    padding-right:34px !important;
+    padding-bottom:52px !important;
+  }
+
+  .battle-arena .unit-zones.twelve-zones{
+    width:72vw !important;
+    height:min(220px, calc(100dvh - 96px)) !important;
+    margin-top:28px !important;
+    grid-template-columns:repeat(2, minmax(40px, 1fr)) 14px repeat(2, minmax(40px, 1fr)) !important;
+    column-gap:4px !important;
+  }
+
+  .battle-arena .unit-slot{
+    min-width:40px !important;
+    min-height:26px !important;
+    max-width:84px !important;
+    max-height:40px !important;
+  }
+
+  .battle-arena .player-hand{
+    width:48vw !important;
+  }
+}
+
+
+/* v48: move side leaders inward for iPhone camera/notch safe area.
+   Board coordinates are unchanged. Visual leader placement only. */
+.battle-arena .player-leader{
+  left:max(54px, env(safe-area-inset-left, 0px) + 34px) !important;
+}
+
+.battle-arena .enemy-leader{
+  right:max(54px, env(safe-area-inset-right, 0px) + 34px) !important;
+}
+
+@media(max-width:900px) and (orientation:landscape){
+  .battle-arena .player-leader{
+    left:max(38px, env(safe-area-inset-left, 0px) + 24px) !important;
+  }
+
+  .battle-arena .enemy-leader{
+    right:max(38px, env(safe-area-inset-right, 0px) + 24px) !important;
+  }
+}
+
+@media(max-width:760px) and (orientation:landscape){
+  .battle-arena .player-leader{
+    left:max(34px, env(safe-area-inset-left, 0px) + 20px) !important;
+  }
+
+  .battle-arena .enemy-leader{
+    right:max(34px, env(safe-area-inset-right, 0px) + 20px) !important;
+  }
+}
+
+
+/* v49: use top-left battle back button as exit, hide duplicate exit, adjust own leader leftward */
+#screen-battle .topbar .ghost{
+  min-width:88px !important;
+  justify-content:center !important;
+}
+
+#screen-battle .topbar .ghost::before{
+  content:"" !important;
+}
+
+/* Hide separate in-arena exit button because top-left button is now exit */
+.battle-arena .battle-exit{
+  display:none !important;
+}
+
+/* Enemy stays safely inward; player was too inward, move back left but still avoid notch */
+.battle-arena .player-leader{
+  left:max(28px, env(safe-area-inset-left, 0px) + 10px) !important;
+}
+
+.battle-arena .enemy-leader{
+  right:max(54px, env(safe-area-inset-right, 0px) + 34px) !important;
+}
+
+@media(max-width:900px) and (orientation:landscape){
+  #screen-battle .topbar .ghost{
+    min-width:70px !important;
+  }
+
+  .battle-arena .player-leader{
+    left:max(22px, env(safe-area-inset-left, 0px) + 8px) !important;
+  }
+
+  .battle-arena .enemy-leader{
+    right:max(38px, env(safe-area-inset-right, 0px) + 24px) !important;
+  }
+}
+
+@media(max-width:760px) and (orientation:landscape){
+  .battle-arena .player-leader{
+    left:max(18px, env(safe-area-inset-left, 0px) + 6px) !important;
+  }
+
+  .battle-arena .enemy-leader{
+    right:max(34px, env(safe-area-inset-right, 0px) + 20px) !important;
+  }
+}
+
+
+/* v53: building/dungeon visual behavior */
+.unit-slot.building-slot{
+  cursor:default;
+}
+.unit-slot.building-slot.targetable{
+  cursor:pointer;
+}
+.unit-slot.building-slot.selected{
+  box-shadow:none !important;
+}
+.unit-slot.building-slot .unit-atk{
+  background:linear-gradient(180deg,#b08a32,#6c4d16);
+}
+.unit-slot.dungeon-slot .unit-atk{
+  font-size:10px;
+}
+.unit-slot.dungeon-slot .unit-hp{
+  background:#d9a92f;
+  color:#271700;
+}
+
+
+/* v54: terrain/status display */
+.unit-slot.has-terrain{
+  outline:2px dashed rgba(255,240,160,.65);
+  outline-offset:-5px;
+}
+.unit-slot .terrain-label{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  padding:3px 8px;
+  border-radius:999px;
+  background:rgba(30,40,60,.62);
+  color:#ffeaa2;
+  font-weight:900;
+  font-size:11px;
+  text-shadow:0 1px 2px #000;
+  pointer-events:none;
+  white-space:nowrap;
+}
+.unit-slot.has-unit.has-terrain::after{
+  content:attr(data-terrain);
+  position:absolute;
+  right:3px;
+  top:3px;
+  padding:1px 5px;
+  border-radius:999px;
+  background:rgba(0,0,0,.52);
+  color:#ffeaa2;
+  font-size:8px;
+  font-weight:800;
+  pointer-events:none;
+}
+
+
+/* v57: match flow banner / locked state / attack lunge */
+.battle-flow-banner{
+  position:absolute;
+  left:0;
+  right:0;
+  top:42%;
+  transform:translateY(-50%) scale(.98);
+  z-index:80;
+  min-height:74px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px 20px;
+  background:linear-gradient(90deg, rgba(20,30,60,.04), rgba(20,30,60,.88), rgba(20,30,60,.04));
+  color:#fff4b8;
+  font-size:clamp(28px, 6vw, 72px);
+  font-weight:1000;
+  letter-spacing:.16em;
+  text-shadow:0 4px 16px rgba(0,0,0,.9), 0 0 24px rgba(255,210,80,.65);
+  pointer-events:none;
+  opacity:0;
+}
+.battle-flow-banner.show{
+  animation:battleBannerIn .28s ease-out forwards, battleBannerPulse 1.2s ease-in-out infinite;
+}
+.battle-flow-banner.hide{
+  animation:battleBannerOut .25s ease-in forwards;
+}
+.battle-flow-banner.hidden{
+  display:none;
+}
+@keyframes battleBannerIn{
+  from{opacity:0; transform:translateY(-50%) scale(.86);}
+  to{opacity:1; transform:translateY(-50%) scale(1);}
+}
+@keyframes battleBannerOut{
+  from{opacity:1; transform:translateY(-50%) scale(1);}
+  to{opacity:0; transform:translateY(-50%) scale(1.08);}
+}
+@keyframes battleBannerPulse{
+  0%,100%{filter:brightness(1);}
+  50%{filter:brightness(1.2);}
+}
+.battle-arena.battle-locked .player-hand,
+.battle-arena.battle-locked .turn-end-main,
+.battle-arena.battle-locked .hero-skill-button,
+.battle-arena.battle-locked .tension-area,
+.battle-arena.battle-locked .player-leader,
+.battle-arena.battle-locked .unit-slot{
+  pointer-events:none;
+}
+.unit-slot.attack-lunge,
+.leader.attack-lunge{
+  animation:attackLunge .52s cubic-bezier(.2,.9,.3,1);
+  z-index:90 !important;
+}
+@keyframes attackLunge{
+  0%{transform:translate(0,0) scale(1);}
+  48%{transform:translate(var(--attack-dx,0), var(--attack-dy,0)) scale(1.08);}
+  68%{transform:translate(calc(var(--attack-dx,0) * .88), calc(var(--attack-dy,0) * .88)) scale(.98);}
+  100%{transform:translate(0,0) scale(1);}
+}
+@media(max-width:900px) and (orientation:landscape){
+  .battle-flow-banner{
+    min-height:48px;
+    font-size:clamp(22px, 6vw, 48px);
+  }
+}
