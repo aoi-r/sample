@@ -1,0 +1,10 @@
+{
+  "version": "v68_hand_sync_maya_exact",
+  "implemented": [
+    "Firebase public battle stateに自分の手札ID配列 handIds を同期。",
+    "相手の public state から handIds を game.enemy.hand として保持。",
+    "マヤが敵リーダーを攻撃した後、同期済みの相手手札IDからランダムに1枚選び、同名カードを自分の手札に加える。",
+    "相手手札が空/未同期の場合は不発ログを出す。"
+  ],
+  "note": "現状は手札内容を public state として同期するため、通信上は相手の手札内容が参照可能になる。UIには表示していない。完全に隠したまま厳密再現するにはサーバー権威/Cloud Functions等でランダム抽選する必要がある。"
+}
