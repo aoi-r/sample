@@ -1,0 +1,26 @@
+{
+  "version": "v69_event_engine_foundation",
+  "implemented": [
+    "emitBattleEvent(type, payload) を追加し、内部イベントログ game.events を保持。",
+    "turnStart / turnEnd / cardPlayed / spellPlayed / unitSummoned / unitPutIntoPlay / afterAttack / unitDeath / betActivated / weaponEquipped の通り道を追加。",
+    "召喚と『場に出す』を分離する土台を追加。",
+    "summonUnitFromHandToBoard: 通常召喚。召喚時・れんけい・シンクロ・ダンジョン進行を発火。",
+    "putUnitIntoPlayFromCard: 効果で場に出す。召喚時は発火せず、基礎キーワードのみ付与。",
+    "summonSelectedCard をイベント駆動へ整理し、旧処理の重複/未定義参照を解消。",
+    "BET誘発を emitBattleEvent('betActivated') に集約。",
+    "死亡時の前段に unitDeath イベントを追加。",
+    "攻撃後に afterAttack イベントを追加し、マヤ/ローシュの攻撃後処理をイベント側へ移動。",
+    "Firebase public state に lastEvent/eventCount を追加し、将来のactionLog同期に繋げる土台を追加。"
+  ],
+  "next_recommended": [
+    "v70: actionLogをFirebaseにpushし、両端末が同じイベント順で処理する同期方式へ拡張。",
+    "v71: ランダム結果をイベントpayloadへ保存し、クラーゴン/アイラ/マヤ/ランダム召喚のズレを防ぐ。",
+    "v72: turnStart/turnEndを自分・相手のターンで完全に分離し、持続時間処理を整理。",
+    "v73: 武器破壊/耐久/反撃/攻撃後をイベントに統合。"
+  ],
+  "caveats": [
+    "今回はローカルイベントエンジンの土台整理。まだFirebase actionLogによる完全な権威同期ではない。",
+    "既存カード効果の大半は温存し、壊れにくい範囲でイベント経由へ移した。",
+    "turnEnd/turnStart処理は整理したが、相手ターン終了時まで等の持続は今後さらに分離すると安定する。"
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "version": "v68_hand_sync_maya_exact",
+  "version": "v70_actionlog_random_turn_weapon_sync",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -115,5 +115,10 @@
   "renkeiManualFile": "data/renkei_manual_batch_v67.json",
   "knownCaveat": "マヤは相手手札の中身を同期していないため暫定実装。",
   "handSync": "Firebase public stateにhandIdsを同期し、マヤの相手手札コピーを実装。",
-  "handSyncNote": "UIには表示しないが、public stateには相手手札IDが含まれる。完全非公開での厳密処理はサーバー権威が必要。"
+  "handSyncNote": "UIには表示しないが、public stateには相手手札IDが含まれる。完全非公開での厳密処理はサーバー権威が必要。",
+  "eventEngine": "emitBattleEventを追加し、召喚/場に出す/BET/攻撃後/死亡/ターン開始終了などをイベント経由へ整理。",
+  "eventEngineFile": "data/event_engine_v69.json",
+  "nextWork": "Firebase actionLog同期とランダム結果同期",
+  "syncEngine": "Firebase actionLog / randomResult / turn phase split / weapon event logging を追加。",
+  "syncEngineFile": "data/sync_engine_v70.json"
 }

@@ -1,0 +1,25 @@
+{
+  "version": "v70_actionlog_random_turn_weapon_sync",
+  "implemented": [
+    "Firebase rooms/{roomId}/actions への actionLog push を追加。",
+    "subscribeBattleActions(roomId) を追加し、相手actionを監査ログ/将来の権威同期用として受信。",
+    "emitBattleEvent から主要イベントを actionLog へ送信。",
+    "randomIndex / chooseRandom を追加し、ランダム結果を randomResult action として保存。",
+    "randomFrom / クラーゴン系 / アイラ系 / 先攻決定 / マルティナ一部ランダムを randomResult 記録に寄せた。",
+    "turnStart/turnEnd を ownTurnStart / ownTurnEnd / opponentTurnStart / opponentTurnEnd に分離する土台を追加。",
+    "武器装備/攻撃後/破壊を weaponEquipped / weaponAfterAttack / weaponBroken イベントとして記録。",
+    "public state に加えて actionLog でも lastEvent 的に追跡できる構造を追加。"
+  ],
+  "still_caveats": [
+    "v70時点では actionLog は受信・保存・監査ログ用途が中心。盤面の権威処理はまだ public state 同期が主。",
+    "完全なランダム同期には、全ランダム箇所を randomIndex/chooseRandom 経由へさらに置換する必要がある。",
+    "shuffle、内部ID生成、一部ヒーロー効果のMath.randomは残っている。次回以降で順次イベントpayload化する。",
+    "リモートactionをそのまま再実行する段階にはまだしていない。二重処理を避けるため。"
+  ],
+  "next_recommended": [
+    "v71: remote action replay を安全に導入。自分の操作はaction化、相手側はactionを再生して盤面更新。",
+    "v72: 全ランダム効果の結果payload化。",
+    "v73: weapon after/break効果をイベントhandler側に完全移管。",
+    "v74: turn duration cleanupをown/opponent start/endへ完全分割。"
+  ]
+}

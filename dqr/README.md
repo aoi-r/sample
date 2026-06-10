@@ -865,3 +865,58 @@ node tools/sync_official_gameconductor.mjs
   - UIには表示していないが、Firebaseのpublic stateには手札IDが含まれる。
   - 完全に手札を隠したまま厳密に抽選するには、サーバー権威/Cloud Functions等で処理する必要がある。
 - 実装メモを `data/hand_sync_maya_v68.json` に保存。
+
+
+## v69 update
+- イベントエンジンの土台を追加。
+  - `emitBattleEvent(type, payload)` を追加。
+  - `game.events` に内部イベントログを保持。
+- 追加イベント:
+  - `turnStart`
+  - `turnEnd`
+  - `cardPlayed`
+  - `spellPlayed`
+  - `unitSummoned`
+  - `unitPutIntoPlay`
+  - `afterAttack`
+  - `unitDeath`
+  - `betActivated`
+  - `weaponEquipped`
+- 「召喚」と「場に出す」を分離。
+  - `summonUnitFromHandToBoard`: 通常召喚。召喚時/れんけい/シンクロなどを発火。
+  - `putUnitIntoPlayFromCard`: 効果で場に出す。召喚時は発火しない。
+- `summonSelectedCard` をイベント駆動へ整理。
+  - 旧処理の重複と未定義参照を解消。
+- BET誘発を `betActivated` イベントに集約。
+- 攻撃後処理を `afterAttack` に集約。
+  - マヤ/ローシュの攻撃後効果をイベント側へ移動。
+- 死亡前処理を `unitDeath` イベントへ追加。
+- Firebase public stateに `lastEvent` / `eventCount` を追加。
+  - 次回以降の actionLog 同期に繋げる土台。
+- 実装メモを `data/event_engine_v69.json` に保存。
+
+
+## v70 update
+- Firebase actionLog の土台を追加。
+  - `rooms/{roomId}/actions` に主要イベントを push。
+  - `subscribeBattleActions(roomId)` で相手actionを受信。
+  - 現段階では監査ログ/将来の権威同期用。盤面同期は引き続きpublic stateが主。
+- ランダム結果同期の土台を追加。
+  - `randomIndex`
+  - `chooseRandom`
+  - `randomResult` action
+  - ランダムで選ばれた値をFirebase actionsへ記録。
+- ターンイベントを分離。
+  - `ownTurnStart`
+  - `ownTurnEnd`
+  - `opponentTurnStart`
+  - `opponentTurnEnd`
+- 武器イベントを追加。
+  - `weaponEquipped`
+  - `weaponAfterAttack`
+  - `weaponBroken`
+- 注意:
+  - まだ全ランダム箇所を置換しきってはいない。
+  - actionLogを受信して即再実行する段階ではない。
+  - 二重処理を避けるため、v70ではpublic state同期を主として残している。
+- 実装メモを `data/sync_engine_v70.json` に保存。
