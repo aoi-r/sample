@@ -1,0 +1,248 @@
+{
+  "version": "v81_duration_and_tribe_laws_batch_2",
+  "userRulesApplied": [
+    "「このターン中」はターン終了時に効果を失う/上昇値をリセット。",
+    "「次の自分のターン開始時」は自分ターン開始時に解除。",
+    "「相手のターン終了まで」は相手ターン終了時に解除。",
+    "○○系ユニットはDBのtribesを主に使い、不足時はsearchText/textから補完判定。"
+  ],
+  "tribeCountsFromDB": {
+    "冒険者": 80,
+    "ゾンビ": 77,
+    "ドラゴン": 73,
+    "スライム": 63,
+    "魔王系": 38,
+    "スライム系": 2,
+    "英雄": 2,
+    "ゾンビ系": 1
+  },
+  "implementedCount": 21,
+  "implemented": [
+    {
+      "id": "card_aeb2197a",
+      "name": "あくまのめだま",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "needs_user_detail_or_remove_from_questions",
+      "text": "召喚時：次に場に出る魔王系の味方ユニットにねらい撃ちと攻撃力+1を付与する(何が不明なのか)",
+      "implementationHint": "「何が不明なのか」とあるため、確認候補から外すか詳細追記が必要",
+      "v81Status": "implemented_or_generic_law_added"
+    },
+    {
+      "id": "card_1fd03920",
+      "name": "さそりばち",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "速攻、自分がコスト1以下の手札を使う度このターン中攻撃力+1(ターン終了時に＋はリセットされる。攻撃力もリセットされる)",
+      "implementationHint": "説明文どおり実装できそう",
+      "v81Status": "implemented_or_generic_law_added"
+    },
+    {
+      "id": "card_cf9a2c0e",
+      "name": "さまようたましい",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "攻撃時：このターン中攻撃力+3(ターン終了時に攻撃力は初期値にリセットされる)",
+      "implementationHint": "説明文どおり実装できそう",
+      "v81Status": "implemented_or_generic_law_added"
+    },
+    {
+      "id": "card_295e49ed",
+      "name": "どくろあらい",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "攻撃対象が敵リーダーの場合このターン中攻撃力+2(敵リーダーを攻撃するときに＋２してから攻撃する。ターン終了時にリセットされる)",
+      "implementationHint": "説明文どおり実装できそう",
+      "v81Status": "implemented_or_generic_law_added"
+    },
+    {
+      "id": "card_21630266",
+      "name": "まどうし",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "攻撃時：このターン中特技ダメージ+1を得る(ターン終了時に＋１を失う。カウントもリセットされる。)",
+      "implementationHint": "説明文どおり実装できそう",
+      "v81Status": "implemented_or_generic_law_added"
+    },
+    {
+      "id": "card_5c962cf6",
+      "name": "アイアンアント",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "攻撃時：このターン中攻撃力+1(ターン終了時に＋をリセットする)",
+      "implementationHint": "説明文どおり実装できそう",
+      "v81Status": "implemented_or_generic_law_added"
+    },
+    {
+      "id": "card_b6af2286",
+      "name": "アイアンクック",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時：次の自分のターン開始時まで味方リーダーが受けるダメージ-1 スキルブースト:受けるダメージ-1(次に自分のターンが回ってきたときに効果を失う)",
+      "implementationHint": "説明文どおり実装できそう",
+      "v81Status": "implemented_or_generic_law_added"
+    },
+    {
+      "id": "card_ee31c3a0",
+      "name": "アトラス",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "攻撃時：このターン中味方リーダーの攻撃力分攻撃力が上がる(味方リーダーの現在の攻撃力分だけこのユニットの攻撃力が上がる。ターン終了時に＋はリセットされる。ターンは跨がない）",
+      "implementationHint": "説明文どおり実装できそう",
+      "v81Status": "implemented_or_generic_law_added"
+    },
+    {
+      "id": "card_7276bcfb",
+      "name": "アルケミストン",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "攻撃時：このターン中MPが1増える(上限を超えて使用可能mpが１増える。ターン終了時にリセットされる。使用可能の最大mpに戻る。)",
+      "implementationHint": "説明文どおり実装できそう",
+      "v81Status": "implemented_or_generic_law_added"
+    },
+    {
+      "id": "card_47d9aa29",
+      "name": "イノブタマン",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時：このターン中味方ユニット1体に攻撃力+3と「敵リーダーを攻撃できない」を付与する",
+      "implementationHint": "説明文どおり実装できそう",
+      "v81Status": "implemented_or_generic_law_added"
+    },
+    {
+      "id": "card_4ab6f01f",
+      "name": "ガメゴンレジェンド",
+      "priority": "B",
+      "reasons": [
+        "counter_or_once_limit"
+      ],
+      "status": "not_implemented_yet",
+      "text": "におうだち、召喚時：ランダムな敵1体に1ダメージ。これを3回繰り返す。スキルブースト：繰り返す回数+1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v81Status": "implemented_or_generic_law_added"
+    },
+    {
+      "id": "card_01055fc8",
+      "name": "キラーピッケル",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時：このターン中味方リーダーのテンションと同じだけユニット1体の攻撃力を上げる。",
+      "implementationHint": "説明文どおり実装できそう",
+      "v81Status": "implemented_or_generic_law_added"
+    },
+    {
+      "id": "card_cd99fcfb",
+      "name": "ギガンテス",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "攻撃時：このターン中攻撃力+3",
+      "implementationHint": "説明文どおり実装できそう",
+      "v81Status": "implemented_or_generic_law_added"
+    },
+    {
+      "id": "card_b4a3bfde",
+      "name": "グリムン",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時：このターン中次に使う建物カードのコスト-2",
+      "implementationHint": "説明文どおり実装できそう",
+      "v81Status": "implemented_or_generic_law_added"
+    },
+    {
+      "id": "card_46595921",
+      "name": "ケダモン",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "速攻、召喚時:このターン中味方リーダーが攻撃力+1を得る",
+      "implementationHint": "説明文どおり実装できそう",
+      "v81Status": "implemented_or_generic_law_added"
+    },
+    {
+      "id": "card_3e5ba706",
+      "name": "ケンタラウス",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時：味方ヒーローがいる場合このターン中味方リーダーは攻撃力+1を得る",
+      "implementationHint": "説明文どおり実装できそう",
+      "v81Status": "implemented_or_generic_law_added"
+    },
+    {
+      "id": "card_90ca23a3",
+      "name": "コドラ",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時：このターン中次に使うドラゴン系のユニットカードのコスト-2",
+      "implementationHint": "説明文どおり実装できそう",
+      "v81Status": "implemented_or_generic_law_added"
+    },
+    {
+      "name": "カード系統判定helper",
+      "v81Status": "implemented",
+      "detail": "tribes/searchText/textからスライム/ゾンビ/ドラゴン/魔王/冒険者/英雄系を判定"
+    },
+    {
+      "name": "系統数だけコスト低下",
+      "v81Status": "implemented",
+      "detail": "自分の場と手札にいる○○系の数だけコストが下がる、を汎用処理"
+    },
+    {
+      "name": "系統数だけ+X/+Y",
+      "v81Status": "implemented",
+      "detail": "自分の場と手札にいる○○系の数だけ+X/+Y、を汎用処理"
+    },
+    {
+      "name": "このターン中/次の自分のターン開始時/相手ターン終了まで",
+      "v81Status": "policy_added",
+      "detail": "明記期限で解除・リセットする方針をコードメモ/実装補助へ追加"
+    }
+  ],
+  "remainingUnresolvedCount": 146,
+  "remainingUnresolvedFile": "data/manual_effects_v81_unresolved.json"
+}

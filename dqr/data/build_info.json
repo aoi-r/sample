@@ -1,9 +1,9 @@
 {
-  "version": "v78_effect_audit_reports",
+  "version": "v87_boot_fix_virtual_card_comma",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
-  "note": "守り人ナインの宝の地図・地図ダンジョン8種、ムーンブルクLv3名補正、勇者レック熟練度補強を反映。",
+  "note": "v83 implementation_queue remaining 29 effects have been implemented or covered by existing/generic handlers.",
   "aliasPatch": [
     {
       "name": "挑戦!バトルロード",
@@ -96,7 +96,7 @@
     "プチプリースト"
   ],
   "manualCheckFile": "data/manual_check_needed_v60.json",
-  "manualEffects": "デビルパピヨン/怪蟲アラグネ/卑劣などくやずきん/アイスボンバー/飛翔のガーゴイル/クラウンヘッド/チャゴス王子/レジェンドホーン/インプ/ルバンカ/ゴンズ/ゾンビマスター/メイジポンポコ/ぶちスライム/天使の守り/プチプリーストを実装。",
+  "manualEffects": "追記裁定ファイルを元に、推測可能な効果と法則性を機能追加",
   "poisonRule": "毒はお互いのターン終了時に処理。基本1ダメージ、アラグネ/嘆きの霧系で敵側のみ2以上に増加。",
   "manualEffectFile": "data/hand_sync_maya_v68.json",
   "effectFinalization": "手動説明からGET/BET/れんけい/シンクロ/さくせんの確定可能な挙動を補強。BETは対象選択式へ変更。",
@@ -144,5 +144,59 @@
   "totalCardsAudited": 1582,
   "manualNeededCount": 934,
   "priorityACount": 155,
-  "priorityBCount": 779
+  "priorityBCount": 779,
+  "auditRefine": "説明文通りでよい効果は確認候補から外し、挙動不明点のみ抽出する方針へ変更",
+  "manualEffectsFile": "data/manual_effects_v79.json",
+  "refinedQuestionsFile": "data/effect_questions_refined_v79.json",
+  "refinedQuestionNeededCount": 217,
+  "refinedPriorityACount": 83,
+  "refinedPriorityBCount": 134,
+  "manualEffectFiles": [
+    "data/manual_effects_v84_needs_user_info.json",
+    "data/manual_effects_v84_unresolved.json",
+    "data/manual_effects_v84_implementation_queue.json",
+    "data/manual_effects_v84_batch5_done.json"
+  ],
+  "implementedOrInferredCount": 54,
+  "unresolvedAfterBatchCount": 163,
+  "sourcePolicy": "説明文どおり・ランダムは選択不可・デッキは山札・建物/ダンジョン耐久値法則反映",
+  "durationLaw": "このターン中/次の自分のターン開始時/相手ターン終了までの期限処理方針を反映",
+  "tribeLaw": "DB tribesベースの○○系ユニット判定helperと汎用効果を追加",
+  "tribeCountsFromDB": {
+    "冒険者": 80,
+    "ゾンビ": 77,
+    "ドラゴン": 73,
+    "スライム": 63,
+    "魔王系": 38,
+    "スライム系": 2,
+    "英雄": 2,
+    "ゾンビ系": 1
+  },
+  "implementedOrInferredBatch2Count": 21,
+  "remainingUnresolvedAfterBatch2": 146,
+  "unresolvedPolicy": "unresolved/needs_user_info は情報不足で実装不能なものだけ。今回も0件。",
+  "needsUserInfoCount": 0,
+  "implementationQueueCount": 90,
+  "doneOrExistingCount": 56,
+  "batch3Implemented": [
+    "グリズリー",
+    "デュラハンナイト",
+    "牢屋",
+    "修道院",
+    "塔",
+    "武器屋",
+    "占い小屋",
+    "ダークプラネット"
+  ],
+  "batch4ImplementedCount": 61,
+  "implementationQueueRemainingCount": 0,
+  "batch5ImplementedCount": 29,
+  "soloEffectTest": "AIなしの一人部屋/効果実験室を追加",
+  "soloEffectTestFile": "data/solo_effect_test_v85.json",
+  "soloPresetDecks": "複雑カード用プリセットデッキ5種類を追加",
+  "soloEnemyHand": "ソロ効果テスト時に相手手札/相手デッキを初期化",
+  "soloPresetDecksFile": "data/solo_preset_decks_v86.json",
+  "bootFix": "VIRTUAL_CARD_DEFS comma fix",
+  "firebaseConfigPreserved": true,
+  "bootFixFile": "data/boot_fix_v87.json"
 }

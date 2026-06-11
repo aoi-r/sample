@@ -1,0 +1,11 @@
+{
+  "version": "v87_boot_fix_virtual_card_comma",
+  "fixes": [
+    "VIRTUAL_CARD_DEFS の 強敵メタルキング と イブールの本 の間のカンマ抜けを修正。",
+    "仮想カード定義末尾の余分なカンマを整理。",
+    "初期化失敗時に画面上へエラーを出し、最低限タップ処理をフォールバックするboot guardを追加。"
+  ],
+  "firebaseConfigPreserved": true,
+  "firebaseConfigFile": "js/firebase-config.js",
+  "likelyCause": "ブラウザがapp.jsのパース/初期化で止まり、tap-startのイベントがbindされなかった可能性が高い。RDB情報の省略ではない。"
+}

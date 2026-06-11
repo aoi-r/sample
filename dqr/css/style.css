@@ -5520,3 +5520,94 @@
     font-size:clamp(22px, 6vw, 48px);
   }
 }
+
+
+.solo-test-start{
+  margin-top:8px;
+  width:100%;
+}
+.solo-test-toggle{
+  position:absolute;
+  top:10px;
+  right:86px;
+  z-index:30;
+  border:1px solid rgba(255,255,255,.28);
+  background:rgba(10,20,36,.86);
+  color:#f6e5b5;
+  border-radius:999px;
+  padding:7px 12px;
+  font-weight:800;
+  box-shadow:0 8px 20px rgba(0,0,0,.35);
+}
+.solo-test-panel{
+  position:absolute;
+  top:48px;
+  right:10px;
+  width:min(360px, calc(100vw - 20px));
+  max-height:calc(100vh - 86px);
+  overflow:auto;
+  z-index:45;
+  background:rgba(6,12,24,.95);
+  border:1px solid rgba(247,211,130,.36);
+  border-radius:16px;
+  padding:12px;
+  box-shadow:0 18px 44px rgba(0,0,0,.55);
+  backdrop-filter:blur(10px);
+}
+.solo-test-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:8px;
+  color:#f9e7b0;
+}
+.solo-test-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px;
+  margin:8px 0;
+}
+.solo-test-grid button,
+.solo-card-results button{
+  border:1px solid rgba(255,255,255,.18);
+  background:linear-gradient(180deg, rgba(47,72,118,.95), rgba(21,34,68,.95));
+  color:#fff4cf;
+  border-radius:10px;
+  padding:8px;
+  font-weight:700;
+}
+.solo-field{
+  display:grid;
+  gap:5px;
+  color:#d9e7ff;
+  font-size:12px;
+  margin-top:8px;
+}
+.solo-field input{
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.08);
+  color:white;
+  border-radius:10px;
+  padding:9px;
+}
+.solo-card-results{
+  display:grid;
+  gap:5px;
+  max-height:190px;
+  overflow:auto;
+  margin-top:8px;
+}
+.solo-card-results button.selected{
+  outline:2px solid #ffd86b;
+  background:linear-gradient(180deg, rgba(126,86,28,.95), rgba(74,42,16,.95));
+}
+.battle-arena.solo-test-mode .enemy-hud .hp-pill{
+  box-shadow:0 0 0 2px rgba(255,218,96,.5), 0 0 22px rgba(255,218,96,.32);
+}
+@media (max-width: 720px){
+  .solo-test-toggle{ right:70px; top:8px; padding:6px 9px; font-size:12px; }
+  .solo-test-panel{ top:42px; right:6px; width:calc(100vw - 12px); max-height:calc(100vh - 56px); }
+  .solo-test-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .solo-test-grid button{ font-size:11px; padding:7px 4px; }
+}
