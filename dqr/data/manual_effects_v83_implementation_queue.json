@@ -1,0 +1,391 @@
+{
+  "version": "v83_implementation_queue_remaining",
+  "purpose": "説明は不要。まだコード化しきれていない実装待ち。",
+  "count": 29,
+  "items": [
+    {
+      "id": "card_a1ebcdb5",
+      "name": "デルカダール地下水路",
+      "priority": "A",
+      "reasons": [
+        "durability_condition_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "ダンジョン(耐久値8で踏破)、味方が攻撃した後 耐久値+1、踏破時:カードを3枚引く(味方リーダー・味方ユニットが攻撃した時に発動します。",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_870f2519",
+      "name": "墓所",
+      "priority": "A",
+      "reasons": [
+        "durability_condition_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "味方ユニットが死亡する度味方リーダーのテンション1、この建物は1ターンに6回まで発動する。自分のターン終了時耐久値-1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_d2b7c014",
+      "name": "あくましんかん",
+      "priority": "B",
+      "reasons": [
+        "same_slot_or_random_return"
+      ],
+      "status": "needs_user_detail_or_remove_from_questions",
+      "text": "占い：(1)「死亡時：この場所に復活する」を得る(2)におうだちHP+1(何が不明なのか)",
+      "implementationHint": "「何が不明なのか」とあるため、確認候補から外すか詳細追記が必要",
+      "v82Status": "implementable_text_says_no_question",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_ca1467a2",
+      "name": "うらぎりこぞう",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "自分が手札からカードを捨てる度このターン中攻撃力+1(ターン中の＋は重複する。ターン終了時に初期値にリセットされる)",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_96d212c9",
+      "name": "スラリンガル",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "貫通、選択:+1/+1と速攻とこのターン中「敵リーダーを攻撃できずダメージを受けない」を得る。・このターンの終了時攻撃力とHPが2倍になる",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_1d7bd2b0",
+      "name": "セクシービーム",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中攻撃力2以下の敵ユニット1体を味方にして速攻を付与する",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_12da180c",
+      "name": "テンプテーション",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中攻撃力3以下の敵ユニット1体を味方にして速攻を付与する。自分の手札に魔王系カードがあるなら代わりに攻撃力6以下の敵ユニットを選ぶ。",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_1ed773cb",
+      "name": "デスマエストロ",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時:このターン中攻撃力1以下の敵ユニット1体を味方にして速攻を付与する。",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_52550e55",
+      "name": "ドラゴンソルジャー",
+      "priority": "B",
+      "reasons": [
+        "counter_or_once_limit"
+      ],
+      "status": "not_implemented_yet",
+      "text": "対戦中に味方リーダーが攻撃した回数分攻撃力+1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_1a165eb8",
+      "name": "ニセたいこう",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時：次に場に出る魔王系の味方ユニットににおうだちを付与する",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_494e86cf",
+      "name": "バラモス",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear",
+        "summon_vs_put_into_play"
+      ],
+      "status": "not_implemented_yet",
+      "text": "特技ダメージ+3、死亡時：次に召喚するユニットのコスト-4",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_16eb8d05",
+      "name": "ヒドラ",
+      "priority": "B",
+      "reasons": [
+        "counter_or_once_limit"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このユニットは子の耐戦中に自分の手札から捨てたカードの枚数により以下の効果を得る。2枚以上:貫通、4枚以上:速攻、6枚以上:2回攻撃",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_c762c140",
+      "name": "フライングデス",
+      "priority": "B",
+      "reasons": [
+        "same_slot_or_random_return",
+        "summon_vs_put_into_play"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時：自分の場に空きマスがあるなら味方ユニットを1体死亡させた後自分のデッキからそのユニットと同じコストを持つユニットを1体出す",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_0375fb61",
+      "name": "ベホイミスライム",
+      "priority": "B",
+      "reasons": [
+        "counter_or_once_limit"
+      ],
+      "status": "not_implemented_yet",
+      "text": "死亡時：GET(1)、BET：1ターンに1回のみ味方リーダーのHPを2回復",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_07c44480",
+      "name": "マジックリップス",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時：次に場に出る味方の魔王系ユニットに「次の相手のターン終了時までこのユニットは戦闘ダメージのみ受ける」を付与する",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_ea23bc07",
+      "name": "ライアン",
+      "priority": "B",
+      "reasons": [
+        "counter_or_once_limit",
+        "summon_vs_put_into_play"
+      ],
+      "status": "not_implemented_yet",
+      "text": "貫通、召喚時：前列に召喚した場合ホイミンを後ろに出す。対戦中に味方リーダーが攻撃した回数分コスト-1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_4217939b",
+      "name": "冥界の霧",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中全ての敵は回復の効果で代わりにダメージを受ける",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_7ffb0ed2",
+      "name": "分裂のツボ",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "必殺技：このターン中直前に使用したカードと同じカード1枚を手札に加える。そのカードのコスト-7",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_50c00faa",
+      "name": "剣豪の闘志",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中味方リーダーの攻撃力+2。スキルブースト：攻撃力+1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_138b3534",
+      "name": "家族の絆",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "次の自分のターン開始時味方リーダーは「この対戦の間自分が手札を使う度敵リーダーに2ダメージ」を得る",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_219aca1f",
+      "name": "怪獣プスゴン",
+      "priority": "B",
+      "reasons": [
+        "same_slot_or_random_return",
+        "summon_vs_put_into_play"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時：指定の敵の空きマスにイチゴ爆弾を1つ出す。死亡時：正面のランダムな敵の空きマスにイチゴ爆弾を1つ出す",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_27208e6e",
+      "name": "暗黒大樹の番人",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear",
+        "summon_vs_put_into_play"
+      ],
+      "status": "not_implemented_yet",
+      "text": "におうだち、召喚時:このターン中ユニットが死亡しているなら暗黒大樹の番人を指定の味方マスに出す",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_0bfca8a1",
+      "name": "歌姫のマポレーナ",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "れんけい:次に場に出る味方ユニット1体を+1/+1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_9932fa8b",
+      "name": "残響のようじゅつし",
+      "priority": "B",
+      "reasons": [
+        "counter_or_once_limit"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時：耐戦中に自分が使った特技カード1枚を手札に加える。自分の手札にある対戦中に自分が使用した特技カードと同じカードのコスト-1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_50186816",
+      "name": "百獣の王キングレオ",
+      "priority": "B",
+      "reasons": [
+        "counter_or_once_limit"
+      ],
+      "status": "not_implemented_yet",
+      "text": "速攻、この対戦中に自分が味方にさくせんを出した回数分手札のこのカードのコスト-1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_c3c7e67e",
+      "name": "稽古相手",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear",
+        "summon_vs_put_into_play"
+      ],
+      "status": "not_implemented_yet",
+      "text": "指定の味方マスに1/1のマッスルアニマルを出す。 このターン中自分が手札を使う度+1/+1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_a3ef00ea",
+      "name": "聖銀のレイピア",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "味方が回復する度このターン中攻撃力+1を得る",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_3a9fa2ac",
+      "name": "覇海軍王ジャコラ",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "におうだち、召喚時：このターン中すべてのユニットが受ける戦闘ダメージが2倍になる",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    },
+    {
+      "id": "card_da2514b2",
+      "name": "魔王の書",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear",
+        "summon_vs_put_into_play"
+      ],
+      "status": "not_implemented_yet",
+      "text": "におうだち、召喚時：このターン中次に召喚する本来のコストが5以上の魔王系カードのコスト-3",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implementation_queue_not_user_blocked"
+    }
+  ]
+}

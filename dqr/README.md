@@ -1100,3 +1100,186 @@ node tools/sync_official_gameconductor.mjs
   - `implementedByNameInAppJs` はカード名が `js/app.js` に登場するかで判定する簡易検出。
   - `manualNeeded` は効果裁定が必要になりやすいカードの候補。
   - 完全な正誤判定ではなく、今後の実装優先順位を作るための棚卸し。
+
+
+## v79 update
+- ユーザー裁定を反映。
+- あくまのカガミ:
+  - 占い師用カードだが占い効果ではない。
+  - 召喚時、デッキの5コスト以下の冒険者ユニット1体をランダムに場に出す。
+  - このターン中速攻と、ターン終了時にデッキへ混ぜる効果を付与。
+- スピニー:
+  - 占い師カードだが占い効果ではない。
+  - `hasFortuneEffect` を追加し、単なる「占い師」表記を占い効果として扱わないよう修正。
+- キラーマシン2:
+  - 建物が3つ以上出ていたら、さくせん2回分として3択ではなく全さくせん効果を2回得る。
+- フォステイル:
+  - スキルリンクでその場から消える。
+  - 次の自分のターン開始時、同じ場所を優先して戻る。
+  - 埋まっていた場合はランダムな空きマスに戻る。
+  - 6マス埋まっていた場合は戻らず消えたまま。
+- 棚卸し方針を改善。
+  - 説明文で素直に読めるものは原則確認対象から外す。
+  - 耐久値条件、戻る場所、山札順、非公開情報、特殊タイミングなど挙動不明点だけを抽出。
+- 追加ファイル:
+  - `data/manual_effects_v79.json`
+  - `data/effect_questions_refined_v79.json`
+- refined確認候補:
+  - 合計: 217
+  - 優先度A: 83
+  - 優先度B: 134
+
+
+## v80 update
+- 追記された refined effect questions を元に、実装可能な効果を batch 1 として追加。
+- 追加方針:
+  - 説明文どおりに読めるものは原則そのまま実装。
+  - ランダムは選択不可。
+  - デッキは山札内。
+  - 手札は手札アクション。
+  - 建物は効果を発動しながら耐久値を失い、耐久値0でマスから消える。
+  - ダンジョン付き建物は条件で耐久値が増え、指定値到達で踏破してマスから消える。
+- 主な追加:
+  - 建物/ダンジョン耐久値の汎用補助。
+  - 山札上を見る/選ぶ/下へ戻す系の補助。
+  - 相手デッキ/手札コピー系の補助。
+  - このターン中攻撃力上昇のリセット補助。
+  - あくまのカガミのコピー挙動修正。
+  - フォステイルは最新追記に合わせ、元のマスが埋まっていたら戻らない扱いに修正。
+  - スピニーはメラリザードを出す位置を選択式に修正。
+- batch 1 実装/推測反映数: 54
+- まだ未実装/保留: 163
+- 追加ファイル:
+  - `data/manual_effects_v80_batch_1.json`
+  - `data/manual_effects_v80_unresolved.json`
+
+
+## v81 update
+- 期限付き効果の基本法則を反映。
+  - `このターン中` はターン終了時に効果を失う/上昇値をリセット。
+  - `次の自分のターン開始時` は自分ターン開始時に解除。
+  - `相手のターン終了まで` は相手ターン終了時に解除。
+- DBの系統分類を確認し、○○系ユニット判定helperを追加。
+  - `cardTribes`
+  - `isTribeCard`
+  - `isSlimeCard`
+  - `isZombieCard`
+  - `isDragonCard`
+  - `isAdventurerCard2`
+  - `isDemonKingCard`
+- DB上の主な系統数:
+  - 冒険者: 80
+  - ゾンビ: 77
+  - ドラゴン: 73
+  - スライム: 63
+  - 魔王系: 38
+- 汎用処理を追加。
+  - 自分の場と手札にいる○○系の数だけコストが下がる。
+  - 自分の場と手札にいる○○系の数だけ+X/+Y。
+  - このユニットを除く○○系の味方ユニット全てを+X/+Y。
+- batch 2として、説明文通りに実装できる一部効果を追加。
+- 追加ファイル:
+  - `data/manual_effects_v81_batch_2.json`
+  - `data/manual_effects_v81_unresolved.json`
+- batch 2 実装/汎用化: 21
+- 残り未実装/保留: 146
+
+
+## v82 update
+- unresolved の意味を修正。
+  - `manual_effects_v82_unresolved.json` は、情報不足で実装不能なものだけに変更。
+  - 説明文どおり実装できそうなものは `manual_effects_v82_implementation_queue.json` に分離。
+  - 既に実装済み/既存汎用で拾えるものは `manual_effects_v82_done_or_existing.json` に分離。
+- 結果:
+  - 情報不足でユーザー確認が必要: 0
+  - 実装待ちだが説明不要: 90
+  - 実装済み/既存対応/今回対応: 56
+- batch 3追加:
+  - グリズリー
+  - デュラハンナイト
+  - 牢屋
+  - 修道院
+  - 塔
+  - 武器屋
+  - 占い小屋
+  - ダークプラネット
+- 追加ファイル:
+  - `data/manual_effects_v82_needs_user_info.json`
+  - `data/manual_effects_v82_unresolved.json`
+  - `data/manual_effects_v82_implementation_queue.json`
+  - `data/manual_effects_v82_done_or_existing.json`
+
+
+## v83 update
+- v82で分離した `implementation_queue` から、説明不要で実装できるものを batch 4 として追加。
+- `needs_user_info` / `unresolved` は今回も0件。
+  - つまり、現時点でユーザー説明がないと止まるものは無し。
+- batch 4 実装:
+  - 61件
+- 残り実装待ち:
+  - 29件
+- 追加/更新ファイル:
+  - `data/manual_effects_v83_needs_user_info.json`
+  - `data/manual_effects_v83_unresolved.json`
+  - `data/manual_effects_v83_implementation_queue.json`
+  - `data/manual_effects_v83_batch4_done.json`
+- 追加した主な効果:
+  - このターン中リーダー/ユニット攻撃力上昇
+  - 次ターン/相手ターン終了までの被ダメージ軽減
+  - BET 1ターン1回系の追加
+  - 死亡時/攻撃時/テンションリンクの一部
+  - 特技ダメージ増加/MP一時増加
+  - 速攻・攻撃不可・一時コントロール系の一部
+
+
+## v84 update
+- v83で残っていた `implementation_queue` 29件を batch 5 として実装/既存汎用対応に整理。
+- `needs_user_info` / `unresolved` は引き続き0件。
+- `implementation_queue` も0件に更新。
+- batch 5対象:
+  - デルカダール地下水路、墓所、あくましんかん、うらぎりこぞう、スラリンガル、セクシービーム、テンプテーション、デスマエストロ、ドラゴンソルジャー、ニセたいこう、バラモス、ヒドラ、フライングデス、ベホイミスライム、マジックリップス、ライアン、冥界の霧、分裂のツボ、剣豪の闘志、家族の絆、怪獣プスゴン、暗黒大樹の番人、歌姫のマポレーナ、残響のようじゅつし、百獣の王キングレオ、稽古相手、聖銀のレイピア、覇海軍王ジャコラ、魔王の書
+- 追加/更新ファイル:
+  - `data/manual_effects_v84_needs_user_info.json`
+  - `data/manual_effects_v84_unresolved.json`
+  - `data/manual_effects_v84_implementation_queue.json`
+  - `data/manual_effects_v84_batch5_done.json`
+
+
+## v85 update
+- ソロ効果テスト部屋を追加。
+- AI対戦ではなく、相手をサンドバッグにしてカード効果を確認する一人部屋。
+- 機能:
+  - 相手HP∞
+  - 相手HP25へ戻す
+  - MP10
+  - テンションMAX
+  - 1枚ドロー
+  - ログ消去
+  - カード検索
+  - 選択カードを手札へ追加
+  - 選択カードを山札トップへ追加
+  - 選択カードを味方盤面へ配置
+  - 選択カードを敵盤面へ配置
+  - 選択カードを相手手札へ追加
+  - 敵全体1ダメージ
+- 複雑カードの挙動確認用。
+- 追加ファイル:
+  - `data/solo_effect_test_v85.json`
+
+
+## v86 update
+- ソロ効果テスト用プリセットデッキを追加。
+  - 【テスト】複雑効果まとめ
+  - 【テスト】建物・ダンジョン
+  - 【テスト】手札・山札干渉
+  - 【テスト】BET・コイン
+  - 【テスト】系統・期限効果
+- バトル用デッキ選択欄に、保存デッキとは別にプリセットが表示される。
+- ソロ効果テスト開始時、相手手札を初期セットで用意。
+- ソロ効果テスト開始時、相手デッキもテスト用カードで用意。
+- ソロパネルに追加:
+  - 相手手札リセット
+  - 相手手札表示
+- ソロ時の相手MP表示に手札枚数を併記。
+- 追加ファイル:
+  - `data/solo_preset_decks_v86.json`

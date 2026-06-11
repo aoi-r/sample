@@ -1,0 +1,803 @@
+{
+  "version": "v83_batch4_implemented",
+  "count": 61,
+  "items": [
+    {
+      "id": "card_c837e8a2",
+      "name": "Sキラーマシン",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "needs_user_detail_or_remove_from_questions",
+      "text": "速攻、このユニットの攻撃で敵ユニットが死亡する度　攻撃力+1 さらにこのターン中このユニットはもう一度攻撃できるようになる(何が不明なのか)",
+      "implementationHint": "「何が不明なのか」とあるため、確認候補から外すか詳細追記が必要",
+      "v82Status": "implementable_text_says_no_question",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_b2e0fd4a",
+      "name": "いしのツメ",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "スライム系の味方ユニットが場に出る度このターン中攻撃力+1を得る(ターン終了時に初期値の攻撃力にリセットする。ターン中は＋１が重なる)",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_b967603e",
+      "name": "おおありくい",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "絶好調状態の味方ユニットが攻撃する度このターン中味方リーダーは攻撃力+1を得る(ターン終了時に味方リーダーの攻撃力は0に戻る)",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_e192add5",
+      "name": "ぶんしん",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "必殺技、味方リーダーはこのターン中3回攻撃と攻撃力+1と「攻撃した時武器の耐久力が減らない」を得る(ターン終了時に効果を失う)",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_d6fed6a4",
+      "name": "ぶんしんけん",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中味方リーダーを攻撃力+1、攻撃対象の上下にいるユニットにもダメージを与える(ターン終了時に効果を失う)",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_ea5d50ab",
+      "name": "ぷちメタル",
+      "priority": "B",
+      "reasons": [
+        "counter_or_once_limit"
+      ],
+      "status": "not_implemented_yet",
+      "text": "メタルボディ、BET:1ターンに1回のみ攻撃力+1と速攻を得る、自分のターン終了時GET(1)、この効果は一度しか発動しない(BETはターンを跨げば再使用可能。ターン終了時のGETは１回のみの発動)",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_63b92c04",
+      "name": "まかいファイター",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時：GET(1)、BET：このターン中味方リーダーの攻撃力+1、このBETが4回発動する度まかいファイターを1体だす(BETのカウントはこのユニットのみが対象。ターンを跨いで継続カウントする)",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_f9120cf5",
+      "name": "アークマージ",
+      "priority": "B",
+      "reasons": [
+        "counter_or_once_limit"
+      ],
+      "status": "not_implemented_yet",
+      "text": "この対戦の間ヒーロースキルが発動した回数分攻撃力+1を得る。このユニットの攻撃力が5以上の場合さらに特技ダメージ+2を得る。",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_21ed9677",
+      "name": "イエローシックル",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "正面にいるユニットと戦闘をする場合このターン中攻撃力+2",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_25b8f4de",
+      "name": "ウパソルジャー",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "絶好調、絶好調状態の味方ユニットが攻撃する度このターン中味方リーダーは攻撃力+1を得る",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_d2a62390",
+      "name": "キャットクロー",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "味方リーダーが攻撃をした後このターン中ランダムな味方ユニット1体の攻撃力+1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_6ad49a58",
+      "name": "ギガデーモン",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "こうげきできない、BET：速攻と「このターン中攻撃可能になる」を得る。自分のターン終了時GET(1)",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_1d5a8a96",
+      "name": "ゴールデンドラゴン",
+      "priority": "B",
+      "reasons": [
+        "counter_or_once_limit"
+      ],
+      "status": "not_implemented_yet",
+      "text": "この対戦中に味方リーダーが攻撃した回数分HP+1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_346411a5",
+      "name": "ゴールドシャワー",
+      "priority": "B",
+      "reasons": [
+        "same_slot_or_random_return"
+      ],
+      "status": "not_implemented_yet",
+      "text": "合計5ダメージを縦一列のランダムなマスに割り振る。自分の手札にあるコインの枚数分+1ダメージ",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_26dcc88b",
+      "name": "サタンパピー",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時:このターン中ユニットが死亡しているなら敵ユニット1体を-2/-2",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_5e20f19b",
+      "name": "サンディ",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "ステルス、死亡時&手札から捨てた時に次の自分のターン開始時サンディが手札にない場合手札にサンディを加える。",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_3d8e1905",
+      "name": "シャイニング",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時：自分が次に使用する占いカードは発動する効果を選べるようになる。",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_0576ef69",
+      "name": "シルバーベア",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "れんけい：このターン中速攻と「敵リーダーを攻撃できない」を得る。スキルブースト:攻撃力+1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_c7dd3eeb",
+      "name": "シールドアタック",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中味方リーダーの攻撃力+1、次の相手ターン終了時まで味方リーダーが受けるダメージ-1。カードを1枚引く",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_f104008f",
+      "name": "ジゴスパーク",
+      "priority": "B",
+      "reasons": [
+        "counter_or_once_limit"
+      ],
+      "status": "not_implemented_yet",
+      "text": "必殺技、全ての敵ユニットに3ダメージ。対戦中に味方リーダーが攻撃した回数分ダメージ+1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_11641207",
+      "name": "ジラフマスター",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "攻撃時:GET(1)、BET:以下の効果からランダムに1つ発動する (1)攻撃力+1 (2)HP+1 (3)このターン中2回攻撃を得る",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_7766dd77",
+      "name": "スキルチャージ",
+      "priority": "B",
+      "reasons": [
+        "counter_or_once_limit"
+      ],
+      "status": "not_implemented_yet",
+      "text": "必殺技、スキルブーストの回数を3増やす",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_24fbb03f",
+      "name": "スノーモン",
+      "priority": "B",
+      "reasons": [
+        "same_slot_or_random_return",
+        "summon_vs_put_into_play"
+      ],
+      "status": "not_implemented_yet",
+      "text": "死亡時：敵のランダムな空きマスに氷塊を1つ出す",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_887207c9",
+      "name": "スピンサタン",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時:自分が次に使用する占いカードは発動する効果を選べる 味方リーダーが必中モードの場合手札のこのカードのコスト-1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_06991edc",
+      "name": "スライム呼び",
+      "priority": "B",
+      "reasons": [
+        "same_slot_or_random_return",
+        "summon_vs_put_into_play"
+      ],
+      "status": "not_implemented_yet",
+      "text": "縦一列の空きマスに1/1のスライムを出す。 スキルブースト：コスト-1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_041183dc",
+      "name": "スラッピー",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時:ダメージを受けている敵ユニットがいるなら速攻と「このターン中敵リーダーを攻撃できない」を得る",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_0e5370de",
+      "name": "タロットフォーチュン",
+      "priority": "B",
+      "reasons": [
+        "counter_or_once_limit",
+        "summon_vs_put_into_play"
+      ],
+      "status": "not_implemented_yet",
+      "text": "敵ユニット1体に7ダメージ。7/7のダースドラゴンを出す。 対戦中に自分が使った占いカードの回数分コスト-1。",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_1683cf61",
+      "name": "デスマシーン",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "におうだち、このターン中死亡したユニットの数分手札にあるこのカードのコスト-1、死亡時：敵リーダーに3ダメージ",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_4b08d696",
+      "name": "デビルロード",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "2回攻撃、ねらい撃ち、このユニットが敵リーダーを攻撃した後「このターン中敵リーダーを攻撃できない」を得る",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_b1863a12",
+      "name": "ドラゴビショップ",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時:カードを2枚引く、このターン中に使った占いカードの枚数分デッキと手札にあるこのカードのコスト-1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_9b096ce0",
+      "name": "ドラゴンシールド",
+      "priority": "B",
+      "reasons": [
+        "counter_or_once_limit"
+      ],
+      "status": "not_implemented_yet",
+      "text": "全ての味方に「次のターン終了時まで受けるダメージ-1」を付与する。この対戦中に味方リーダーが攻撃した回数分受けるダメージ-1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_297a6d36",
+      "name": "バイキルトのツボ",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中全ての味方の攻撃力+2",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_9d7bfdeb",
+      "name": "バイキルトの巻物",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中縦一列にいる全ての味方ユニットの攻撃力+2",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_6d44771b",
+      "name": "バイキングソウル",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "正面にいるユニットと戦闘をする場合このターン中攻撃力+3",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_93e4c47b",
+      "name": "バトルレックス",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "攻撃時：このターン中味方リーダーの武器の攻撃力+2",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_9da6f4c2",
+      "name": "ビッグシールド",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "おうえん、次の自分のターン開始時まで味方リーダーが受けるダメージ-2",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_8ffda489",
+      "name": "ピオリム",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中ヒーロースキルを2回発動できる。 カードを1枚引く",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_368f860f",
+      "name": "ピサロのてさき",
+      "priority": "B",
+      "reasons": [
+        "same_slot_or_random_return",
+        "summon_vs_put_into_play"
+      ],
+      "status": "not_implemented_yet",
+      "text": "絶好調、死亡時：このユニットが絶好調状態ならこの場所にピサロナイトを出す",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_083a2a12",
+      "name": "ファイトいっぱつ",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中全ての味方の攻撃力+1、全ての味方ユニットを絶好調状態に戻す。",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_c3063bd9",
+      "name": "フォレストマスター",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時：味方ヒーローがいない場合このターン中、次に使用する英雄カードのコスト-3。味方ヒーローがいる場合+1/+1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_b7e4faf1",
+      "name": "ホイップゴースト",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "攻撃時：このターン中攻撃力+3",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_02333bce",
+      "name": "ホワイトパンサー",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "絶好調、速攻、攻撃時：このユニットが絶好調状態ならこのターン中ダメージを受けない",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_499bacbe",
+      "name": "ボーンプリズナー",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時：このターン中敵ユニット1体の攻撃力-3",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_86034a77",
+      "name": "マッドファルコン",
+      "priority": "B",
+      "reasons": [
+        "counter_or_once_limit"
+      ],
+      "status": "not_implemented_yet",
+      "text": "速攻、この対戦中に味方リーダーが攻撃した回数分コスト-1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_438f4ecf",
+      "name": "ミラクルブレイド",
+      "priority": "B",
+      "reasons": [
+        "counter_or_once_limit"
+      ],
+      "status": "not_implemented_yet",
+      "text": "必殺技：敵ユニット1体に3ダメージ。この対戦中に味方リーダーが攻撃した回数分+1ダメージ。このカードで与えたダメージ分味方リーダーのHPを回復する",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_59fadad6",
+      "name": "メタッピー",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "テンションリンク：このターン中味方リーダーが受けるダメージ-3",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_cc8dc473",
+      "name": "大魔女バーバラ",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時：敵1体にこのターン中使った特技カードのコスト分のダメージ 対象が敵リーダーの場合は半分のダメージになる。",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_8d39f7bb",
+      "name": "孤高の剣技",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中味方リーダーは攻撃力+3と受けるダメージ-3を得る",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_b1b3f587",
+      "name": "救援のドラキー",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "選択：・2/1のこんぼう1枚を手札に加える。・このターン中味方リーダーが受けるダメージ-3",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_0b483350",
+      "name": "早詠みの杖",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中次に使う特技カードのコスト-3",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_325449f2",
+      "name": "流浪のヒューザ",
+      "priority": "B",
+      "reasons": [
+        "counter_or_once_limit"
+      ],
+      "status": "not_implemented_yet",
+      "text": "召喚時：敵ユニット1体に1ダメージ。対戦中に味方リーダーが攻撃した回数分+1ダメージ",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_f7efee48",
+      "name": "無念無想",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中の自分の特技カードのコスト-1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_9fa669b2",
+      "name": "運命の輪",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中味方リーダーは超必中モードになる。既に超必中モードの場合テンション+1",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_2cdcf87d",
+      "name": "道具:大きなパン",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中に「大きなパン」を使用していないならこのターン中MPが1増える",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_1892eaf3",
+      "name": "閃光烈火拳",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "必殺技：敵1体に3ダメージ与える、このターン中自分が使う度与えるダメージが2増える",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_fae01323",
+      "name": "闇に堕ちたチカラ",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中味方リーダーの攻撃力+1、自分の手札に魔王系カードがあるなら代わりに攻撃力+3",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_d2e4e4bc",
+      "name": "闇の加護",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "味方ユニット1体に「このターン中ダメージを受けない」を付与する",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_ca70c237",
+      "name": "青い閃光",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中味方リーダーは攻撃力+2を得る。 全ての味方ユニットを絶好調状態に戻す。",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_006d555f",
+      "name": "高潔な王パパス",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "味方リーダーが敵ユニットを攻撃した後同じユニットに2ダメージ。味方リーダーのHPを2回復。召喚時:このターン中味方リーダーの攻撃力+2",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_ad1d8a4e",
+      "name": "魔力かくせい",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中特技ダメージ+1を得る",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    },
+    {
+      "id": "card_8f549d0a",
+      "name": "魔力解放",
+      "priority": "B",
+      "reasons": [
+        "duration_unclear"
+      ],
+      "status": "not_implemented_yet",
+      "text": "このターン中MPが1増える",
+      "implementationHint": "説明文どおり実装できそう",
+      "v82Status": "implementation_queue_not_user_blocked",
+      "v83Status": "implemented_batch4"
+    }
+  ]
+}

@@ -73,13 +73,44 @@
             <p class="muted">相手と同じIDを入力してください。日本語OK。同じIDごとに部屋を分けます。</p>
             <input id="match-id-input" placeholder="例：今日の部屋 / room001" maxlength="40" />
             <button id="start-match" class="primary">このIDで入室</button>
+            <button id="solo-test-start" class="secondary solo-test-start">ソロ効果テスト部屋</button>
             <p id="selected-battle-deck-label" class="hint">先にデッキを選択してください。</p>
           </div>
         </section>
 
         <section id="battle-arena" class="battle-arena hidden">
           <div id="battle-flow-banner" class="battle-flow-banner hidden">待機中・・・</div>
-          <button id="battle-exit" class="battle-exit">退出</button><div class="battle-top-command"><div id="battle-turn-label" class="battle-turn-label">TURN 1</div><button id="end-turn-top" class="turn-end-main">ターン終了</button></div>
+          <button id="battle-exit" class="battle-exit">退出</button>
+          <button id="solo-test-toggle" class="solo-test-toggle hidden">効果テスト</button>
+          <div id="solo-test-panel" class="solo-test-panel hidden">
+            <div class="solo-test-head">
+              <strong>ソロ効果テスト</strong>
+              <button id="solo-test-close" class="ghost">×</button>
+            </div>
+            <div class="solo-test-grid">
+              <button id="solo-hp-infinite">相手HP∞</button>
+              <button id="solo-hp-reset">相手HP25</button>
+              <button id="solo-mp-max">MP10</button>
+              <button id="solo-tension-max">テンションMAX</button>
+              <button id="solo-draw-card">1枚ドロー</button>
+              <button id="solo-clear-log">ログ消去</button>
+            </div>
+            <label class="solo-field">カード検索
+              <input id="solo-card-search" placeholder="カード名・効果で検索" />
+            </label>
+            <div id="solo-card-results" class="solo-card-results"></div>
+            <div class="solo-test-grid">
+              <button id="solo-add-hand">選択カードを手札へ</button>
+              <button id="solo-add-decktop">山札トップへ</button>
+              <button id="solo-summon-enemy">敵盤面へ配置</button>
+              <button id="solo-summon-player">味方盤面へ配置</button>
+              <button id="solo-add-enemy-hand">相手手札へ</button>
+              <button id="solo-reset-enemy-hand">相手手札リセット</button>
+              <button id="solo-show-enemy-hand">相手手札表示</button>
+              <button id="solo-damage-enemy">敵全体1ダメ</button>
+            </div>
+            <p id="solo-selected-card-label" class="hint">カード未選択</p>
+          </div><div class="battle-top-command"><div id="battle-turn-label" class="battle-turn-label">TURN 1</div><button id="end-turn-top" class="turn-end-main">ターン終了</button></div>
           <div class="enemy-hud">
             <div class="leader-name">相手</div>
             <div class="hp-pill">HP <b id="enemy-hp">25</b></div>
