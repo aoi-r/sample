@@ -920,3 +920,183 @@ node tools/sync_official_gameconductor.mjs
   - actionLogを受信して即再実行する段階ではない。
   - 二重処理を避けるため、v70ではpublic state同期を主として残している。
 - 実装メモを `data/sync_engine_v70.json` に保存。
+
+
+## v71 update
+- remote action replay の第一段階を追加。
+  - 相手actionを受信し、`game.remoteActions` に保持。
+  - ownTurnStart/ownTurnEndを受信した場合、相手側ではopponentTurnStart/opponentTurnEndとして処理。
+  - その他actionは二重処理を避けるため、現段階ではログ/監査用途中心。
+- randomResultキューを追加。
+  - `game.remoteRandomResults` に相手のランダム結果を保持。
+  - remote処理時、kind/contextが一致するrandomResultを再利用可能。
+- `shuffle` を `randomIndex` 経由に変更。
+  - 山札シャッフル系のランダムもactionLog記録対象に寄せた。
+- 主要な `Math.random` 使用を整理。
+  - ゲーム効果のランダムは `randomIndex` 経由へ。
+  - ID生成は `crypto.randomUUID` へ。
+- public stateに `actionReplayReady` / `remoteActionCount` を追加。
+- 注意:
+  - まだ完全なaction reducerではない。
+  - 盤面同期はpublic stateが主。
+  - 次は cardPlayed/unitSummoned/BET/attack をpayloadから再実行するreducerが本命。
+- 実装メモを `data/action_replay_v71.json` に保存。
+
+
+## v72 update
+- action reducer の基本版を追加。
+  - `applyRemoteReducer(action)` を追加。
+  - 相手actionを受信した際、基本操作は盤面へ反映する土台を追加。
+- reducer対応:
+  - `unitSummoned`
+  - `unitPutIntoPlay`
+  - `cardPlayed`
+  - `betActivated`
+  - `weaponEquipped`
+  - `weaponBroken`
+  - `afterAttack`
+  - `unitDeath`
+  - `ownTurnStart`
+  - `ownTurnEnd`
+- `actionReducerReady` をpublic stateに追加。
+- `appliedActionIds` を追加し、同じactionの二重適用を抑止。
+- `cloneEventPayload` を強化。
+  - unit/card/weaponの再現用データを増やした。
+- public state board と reducer board を `mergeRemoteBoard` で統合。
+- 注意:
+  - まだ全カード効果の完全replayではない。
+  - public stateとの併用中。
+  - 次は attack action を明示的に切って、攻撃処理をreducer化するのが本命。
+- 実装メモを `data/action_reducer_v72.json` に保存。
+
+
+## v73 update
+- attack action reducer の基本版を追加。
+- 新規action:
+  - `attackDeclared`
+  - `damageApplied`
+  - `counterDamage`
+  - `attackResolved`
+- 攻撃処理を actionLog 上で以下の流れに分割。
+  - 攻撃宣言
+  - ダメージ適用
+  - 反撃ダメージ
+  - 攻撃解決
+- remote reducer に攻撃actionを追加。
+  - 相手の `damageApplied` を受信して自分側盤面/リーダーHPに反映。
+  - 相手の `counterDamage` を受信して反撃ダメージを反映。
+- `afterAttack` は基本ダメージ反映ではなく、マヤ/ローシュなど攻撃後誘発の区切りとして扱うよう変更。
+- 注意:
+  - 貫通/上下巻き込み/武器攻撃後などは今後さらに個別action化予定。
+  - まだpublic stateとの併用中。
+- 実装メモを `data/attack_action_reducer_v73.json` に保存。
+
+
+## v74 update
+- ダメージaction共通化を追加。
+- 新規wrapper:
+  - `dealDamageToUnit`
+  - `dealDamageToLeader`
+  - `refForUnit`
+- これらのwrapperから `damageApplied` actionを共通発行。
+- remote処理中は `damageApplied` を再送信しないガードを追加。
+- 主要な直接ダメージをwrapper経由に変更。
+  - 毒
+  - 貫通/超貫通
+  - オルゴ・デミーラ第4形態の巻き込み
+  - クラーゴン
+  - インプBET
+  - 魅惑のマルティナ
+  - 武器効果
+  - テキストミニ効果
+  - 一部ヒーロー効果
+- 通常攻撃本体はv73で既に `damageApplied` / `counterDamage` を出しているため維持。
+- 実装メモを `data/damage_action_unification_v74.json` に保存。
+
+
+## v75 update
+- 対象選択payloadを追加。
+- 新規action:
+  - `targetSelected`
+- 新規helper:
+  - `makeTargetPayload`
+  - `makeEmptySlotTargetPayload`
+  - `makeEffectTargetPayload`
+  - `emitTargetSelected`
+  - `emitEmptySlotSelected`
+- actionLogに記録する対象:
+  - 召喚先スロット
+  - 攻撃対象ユニット/リーダー
+  - pendingGenericEffectの対象
+  - ヒーロースキルの対象
+- remote reducerで `targetSelected` を受信し、`game.lastRemoteTarget` に保存。
+- public stateに `lastTargetSelected` を追加。
+- 注意:
+  - v75では対象選択を記録する段階。
+  - まだ全効果を `lastRemoteTarget` から完全再実行する段階ではない。
+  - 次は choiceSelected payloadで、さくせん/占い/選択/あくまの書/うずしおキングなどの選択肢同期を入れる。
+- 実装メモを `data/target_selection_payloads_v75.json` に保存。
+
+
+## v76 update
+- 選択肢payloadを追加。
+- 新規action:
+  - `choiceSelected`
+- 新規helper:
+  - `emitChoiceSelected`
+- `openChoiceModal` を拡張。
+  - すべてのモーダル選択を `choiceSelected` としてactionLogに保存。
+- 記録対象:
+  - 選択カード
+  - さくせん
+  - BET対象
+  - 交換所
+  - あくまの書
+  - うずしおキング
+  - その他openChoiceModalを使う選択
+- 占いもchoiceSelectedとして記録。
+  - ランダム占い
+  - 必中
+  - 超必中/両方発動
+- remote reducerで `choiceSelected` を受信し、`game.lastRemoteChoice` に保存。
+- public stateに `lastChoiceSelected` を追加。
+- 注意:
+  - v76では選択結果を記録する段階。
+  - 次は `choiceSelected` / `targetSelected` を使って、cardPlayed reducerで効果を再実行する。
+- 実装メモを `data/choice_selection_payloads_v76.json` に保存。
+
+
+## v77 update
+- 裁定反映。
+- あくまの書:
+  - れんけいは召喚時テンションMAXで1回だけ発動。
+  - 1回のれんけいで2回選択しないよう修正。
+  - 別のあくまの書で同じカードをコピーすることは可能。
+- うずしおキング:
+  - 上4枚から選択後、選ばなかったカードはランダム順で山札の上に戻す。
+- さくせん:
+  - 完全ランダム・制限なしとして既存のランダム3択を維持。
+- 占い:
+  - 必中の「良い方」固定を撤回。
+  - 必中は発動する占い効果を選択する処理に変更。
+  - 超必中/ヘルプラネットは両方発動。
+- 実装メモを `data/ruling_fixes_v77.json` に保存。
+
+
+## v78 update
+- カードDB全体の効果棚卸しレポートを生成。
+- 対象カード数: 1582
+- 生成ファイル:
+  - `data/effect_audit_v78.json`
+  - `data/manual_effect_needed_v78.json`
+  - `data/implemented_effect_coverage_v78.json`
+- 検出結果:
+  - app.jsにカード名が登場する個別実装候補: 149
+  - 汎用処理で拾えそうなカード: 310
+  - 個別説明/裁定が必要そうなカード: 934
+    - 優先度A: 155
+    - 優先度B: 779
+- 注意:
+  - `implementedByNameInAppJs` はカード名が `js/app.js` に登場するかで判定する簡易検出。
+  - `manualNeeded` は効果裁定が必要になりやすいカードの候補。
+  - 完全な正誤判定ではなく、今後の実装優先順位を作るための棚卸し。

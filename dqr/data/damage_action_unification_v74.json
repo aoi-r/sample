@@ -1,0 +1,28 @@
+{
+  "version": "v74_damage_action_unification",
+  "implemented": [
+    "dealDamageToUnit / dealDamageToLeader を追加し、damageApplied action を共通発行する通り道を作成。",
+    "emitDamageApplied に remote処理中は再送信しないガードを追加。",
+    "refForUnit を追加し、ユニットから player/enemy + pos のtargetRefを解決。",
+    "毒ダメージを damageApplied 経由に変更。",
+    "貫通/超貫通/オルゴ第4形態の巻き込みダメージを damageApplied 経由に変更。",
+    "クラーゴン、インプBET、マルティナ、武器効果、テキストミニ効果、ヒーロー効果など主要な直接ダメージを共通wrapperへ寄せた。",
+    "通常攻撃本体はv73で既に個別emit済みのため、二重発行を避けて維持。"
+  ],
+  "remaining_direct_damage_calls": [
+    "damageUnit/damageLeader本体",
+    "dealDamageToUnit/dealDamageToLeader内部",
+    "通常攻撃の本体ダメージと反撃ダメージ。これはv73で明示的にemitDamageApplied/counterDamage済みのため維持。"
+  ],
+  "caveats": [
+    "全カード効果100%の完全網羅ではなく、主要な直接ダメージの共通化。",
+    "テキストパーサー由来の特殊なダメージは、今後カード別実装が増えるたびにwrapper利用を徹底する必要あり。",
+    "public stateとの併用は継続。"
+  ],
+  "next_recommended": [
+    "v75: target selection payloadを追加し、選択対象をactionLogで共有。",
+    "v76: cardPlayed reducerを拡張し、特技/武器/BET/ヒーローをpayloadから再実行。",
+    "v77: randomResultをindexではなくcardId/targetId中心にする。",
+    "v78: public stateを復旧用に格下げし、actionLog主同期へ切替。"
+  ]
+}

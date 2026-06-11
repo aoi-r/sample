@@ -1,0 +1,25 @@
+{
+  "version": "v73_attack_action_reducer",
+  "implemented": [
+    "attackDeclared / damageApplied / counterDamage / attackResolved イベントを追加。",
+    "攻撃開始時に attackDeclared をactionLogへ送信。",
+    "ユニット/リーダーへの実ダメージを damageApplied として記録。",
+    "反撃ダメージを counterDamage として記録。",
+    "攻撃完了を attackResolved として記録。",
+    "remote reducer に attackDeclared / damageApplied / counterDamage / attackResolved を追加。",
+    "afterAttack reducerは基本ダメージ反映をやめ、攻撃後誘発の区切りイベントとして扱うよう変更。",
+    "攻撃の同期単位を afterAttack 依存から、攻撃宣言→ダメージ→反撃→解決の分割に移行。"
+  ],
+  "caveats": [
+    "貫通、オルゴ第4形態の上下ダメージ、武器攻撃後などは個別action化の余地あり。",
+    "攻撃時テキスト効果による追加ダメージは、まだ全てがdamageAppliedに分解されているわけではない。",
+    "public stateとの併用は継続。",
+    "完全権威同期にするには、攻撃操作そのものをreducerで唯一処理する形に寄せる必要がある。"
+  ],
+  "next_recommended": [
+    "v74: damageUnit/damageLeaderを全効果共通でemitDamageApplied経由に統一。",
+    "v75: cardPlayed reducerを拡張して、特技・武器・ヒーロー・BETをaction payloadから再実行。",
+    "v76: target selection payloadを追加し、選択対象をactionLogで共有。",
+    "v77: public stateを復旧用に下げ、actionLog主同期に切替。"
+  ]
+}

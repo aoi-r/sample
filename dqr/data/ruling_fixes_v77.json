@@ -1,0 +1,19 @@
+{
+  "version": "v77_ruling_fixes_fortune_akumano_uzu",
+  "rulings_applied": [
+    "あくまの書：れんけいは召喚時テンションMAXで1回だけ発動するため、1回のれんけいで2回選択しないよう修正。",
+    "あくまの書：別のあくまの書で同じカードをコピーすることは可能。実装上も手札候補から1枚コピーする処理に変更。",
+    "うずしおキング：上4枚から選んだ後、選ばなかったカードはランダム順で山札の上に戻すよう修正。",
+    "さくせん：完全ランダムで制限なし。既存のランダム3択提示を維持。",
+    "必中：『良い方』固定という仮置きを撤回し、占い効果を選択できる処理に修正。",
+    "超必中/ヘルプラネット：両方発動を維持。"
+  ],
+  "implementation": [
+    "chooseTwoLowCostUnitCopiesFromHand を1枚選択だけに変更。",
+    "chooseRenkeiFromTop4 の戻し順を shuffle でランダム化。",
+    "applyFortuneEffect の fortuneMode === 'hit' を openChoiceModal 選択式に変更。",
+    "fortuneBoth の choiceSelected 二重発行を修正。",
+    "関連メモを cards.json の searchText に追記。"
+  ],
+  "note": "必中の『良い方』は根拠あるカード文面ではなく仮置きだったため削除。"
+}

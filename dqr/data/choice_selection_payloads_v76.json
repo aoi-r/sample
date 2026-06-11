@@ -1,0 +1,29 @@
+{
+  "version": "v76_choice_selection_payloads",
+  "implemented": [
+    "choiceSelected action を追加。",
+    "emitChoiceSelected(kind,title,options,index,value,extra) を追加。",
+    "openChoiceModal を拡張し、すべてのモーダル選択を choiceSelected としてactionLogへ保存。",
+    "選択カード、さくせん、BET対象、交換所、あくまの書、うずしおキング等のモーダル選択が共通で記録される。",
+    "占いのランダム/必中/超必中/両方発動も choiceSelected として記録。",
+    "remote reducerで choiceSelected を受信し、game.lastRemoteChoice に保存。",
+    "public stateに lastChoiceSelected を追加。"
+  ],
+  "caveats": [
+    "v76では選択肢を記録する段階。相手側で選択結果から全効果を再実行するのは次段階。",
+    "openChoiceModalの汎用記録なので、個別kindは今後必要に応じて細分化できる。",
+    "占いの『良い方』など公式裁定が必要なところは、後でカード別に詰める余地あり。"
+  ],
+  "need_info_later": [
+    "あくまの書で同名/同一手札を2回選べるか。",
+    "うずしおキングで見た4枚の残りを戻す順序。",
+    "さくせん提示3択は完全ランダムでよいか、同一ターン重複制限があるか。",
+    "必中/超必中時の『良い方』判定をどうするか。"
+  ],
+  "next_recommended": [
+    "v77: cardPlayed reducerを拡張して、choiceSelected/targetSelectedを使い特技・BET・ヒーロースキルを再実行。",
+    "v78: randomResultをindex依存からcardId/targetId/name保存へ強化。",
+    "v79: actionLog主同期モード切替を追加。",
+    "v80: 同期状態UIと再同期ボタンを追加。"
+  ]
+}

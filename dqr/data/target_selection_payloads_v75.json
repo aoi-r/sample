@@ -1,0 +1,25 @@
+{
+  "version": "v75_target_selection_payloads",
+  "implemented": [
+    "targetSelected action を追加。",
+    "makeTargetPayload / makeEmptySlotTargetPayload / makeEffectTargetPayload を追加。",
+    "emitTargetSelected / emitEmptySlotSelected を追加。",
+    "召喚先スロット選択を targetSelected としてactionLogに保存。",
+    "攻撃対象ユニット/リーダー選択を targetSelected としてactionLogに保存。",
+    "pendingGenericEffect のユニット/リーダー/空きマス対象を targetSelected として保存。",
+    "ヒーロースキルのユニット/リーダー/空きマス対象を targetSelected として保存。",
+    "remote reducerで targetSelected を受信し game.lastRemoteTarget に保存。",
+    "public stateに lastTargetSelected を追加。"
+  ],
+  "caveats": [
+    "v75では対象選択を記録する段階。まだ全効果をlastRemoteTargetから再実行する段階ではない。",
+    "選択カード/選択肢モーダルの選択payloadは次回以降の対象。",
+    "ランダム対象はrandomResult側、選択対象はtargetSelected側という分離。"
+  ],
+  "next_recommended": [
+    "v76: choiceSelected payloadを追加し、選択/占い/さくせん/あくまの書/うずしおキング等の選択肢を同期。",
+    "v77: cardPlayed reducer拡張で、targetSelectedを使って特技/BET/ヒーロースキルを再実行。",
+    "v78: randomResultをcardId/targetId中心に強化。",
+    "v79: actionLog主同期への切替準備。"
+  ]
+}

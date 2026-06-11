@@ -1,0 +1,8632 @@
+{
+  "version": "v78_implemented_effect_coverage",
+  "implementedByNameCount": 149,
+  "implementedByName": [
+    {
+      "id": "card_dd944231",
+      "name": "あくまのきし",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ターン開始終了",
+        "手札",
+        "におうだち",
+        "魔王系"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "におうだち、召喚時：自分の手札に魔王系カードがあるなら敵1体を次のターン終了時まで行動不能にする",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_aeb2197a",
+      "name": "あくまのめだま",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ねらい撃ち",
+        "一時効果",
+        "魔王系"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：次に場に出る魔王系の味方ユニットにねらい撃ちと攻撃力+1を付与する",
+      "needExplanationFor": [
+        "一時効果"
+      ]
+    },
+    {
+      "id": "card_0095e411",
+      "name": "あくまの書",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "手札",
+        "選択",
+        "れんけい",
+        "コスト変更"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "れんけい：自分の手札のコスト2以下のユニットカードを2枚選び、そのコピーを手札に加える。ターン終了時、この効果で加えたカードが手札にあれば破棄する。",
+      "needExplanationFor": [
+        "手札",
+        "選択",
+        "れんけい",
+        "コスト変更"
+      ]
+    },
+    {
+      "id": "card_f794442a",
+      "name": "うずしおキング",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "占い師"
+      ],
+      "keywordsDetected": [
+        "山札",
+        "ランダム",
+        "占い",
+        "れんけい",
+        "におうだち"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "におうだち。れんけい：自分の山札の上から4枚を見て、れんけいを持つカードを1枚選び引く。",
+      "needExplanationFor": [
+        "山札",
+        "ランダム",
+        "占い",
+        "れんけい"
+      ]
+    },
+    {
+      "id": "card_e0b8a114",
+      "name": "おうごんのつめ",
+      "cardType": "武器",
+      "cost": 3,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "武器",
+        "場に出す"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵の場に3/3のミイラおとこを出す",
+      "needExplanationFor": [
+        "場に出す"
+      ]
+    },
+    {
+      "id": "card_0baef237",
+      "name": "かっちゅうアリ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "BET"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "BET：1ターンに1回のみ、攻撃力+1/HP+1。自分のターン終了時にGET(1)。このGETは1度だけ発動する。",
+      "needExplanationFor": [
+        "BET"
+      ]
+    },
+    {
+      "id": "card_c504381c",
+      "name": "きりかぶおばけ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ランダム",
+        "BET"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：GET(1)。BET：1ターンに1回のみ、他のランダムな味方ユニットのHP+2。",
+      "needExplanationFor": [
+        "ランダム",
+        "BET"
+      ]
+    },
+    {
+      "id": "card_35df1a02",
+      "name": "この手に切り札を",
+      "cardType": "トークン",
+      "cost": 0,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "山札",
+        "ランダム",
+        "BET"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "ヒーロースキル。山札からBETを効果に持つカードをランダムに1枚手札に加える。2回発動でLv2になる。",
+      "needExplanationFor": [
+        "手札",
+        "山札",
+        "ランダム",
+        "BET"
+      ]
+    },
+    {
+      "id": "card_4ff31960",
+      "name": "たたかう",
+      "cardType": "トークン",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "敵ユニット1体に1ダメージを与える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_a46f42bf",
+      "name": "ついげき",
+      "cardType": "トークン",
+      "cost": 0,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "味方リーダーが攻撃する度敵リーダーに2ダメージ。この効果は条件を満たすと自動的に発動する。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c55c6537",
+      "name": "とうだいタイガー",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "盗賊"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "れんけい",
+        "相手手札山札"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "れんけい：攻撃力3以下の敵ユニット1体を相手の手札に戻す。",
+      "needExplanationFor": [
+        "手札",
+        "れんけい",
+        "相手手札山札"
+      ]
+    },
+    {
+      "id": "card_05056c90",
+      "name": "どくやずきん",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "山札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "相手がデッキからカードを手札に加える度的リーダーに1ダメージ",
+      "needExplanationFor": [
+        "手札",
+        "山札"
+      ]
+    },
+    {
+      "id": "card_c087818a",
+      "name": "なかまとの出会い",
+      "cardType": "トークン",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "山札",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "自分のデッキから冒険者カードを1枚加える",
+      "needExplanationFor": [
+        "山札"
+      ]
+    },
+    {
+      "id": "card_a36d6290",
+      "name": "ぬかどこスライム",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "れんけい",
+        "毒"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "れんけい：後列にいる全ての敵ユニットに毒と次のターン終了時まで攻撃不能を付与する。",
+      "needExplanationFor": [
+        "れんけい"
+      ]
+    },
+    {
+      "id": "card_c92b4cda",
+      "name": "はい",
+      "cardType": "ユニット",
+      "cost": 0,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "選択"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "選択したプレイヤーは敗北する",
+      "needExplanationFor": [
+        "選択"
+      ]
+    },
+    {
+      "id": "card_b3d0e530",
+      "name": "ぶちスライム",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "死亡時",
+        "BET",
+        "場に出す"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：GET(1)。BET：攻撃力+1。死亡時：このユニットの攻撃力分、1/1のスライムを出す",
+      "needExplanationFor": [
+        "死亡時",
+        "BET",
+        "場に出す"
+      ]
+    },
+    {
+      "id": "card_36fe0d52",
+      "name": "まだらイチョウ",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "BET",
+        "場に出す"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "BET：1/2のブラックタヌーを1体場に出す。このBETが3回発動する度に、このユニットを除く全ての味方ユニットを+1/+1する。カウントはターンを跨いで継続する。",
+      "needExplanationFor": [
+        "BET",
+        "場に出す"
+      ]
+    },
+    {
+      "id": "card_1959447b",
+      "name": "むげんの弓",
+      "cardType": "武器",
+      "cost": 3,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "攻撃時",
+        "ターン開始終了",
+        "BET",
+        "武器"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "攻撃時の反撃ダメージを受けない。BET：耐久力+1。自分のターン終了時GET(1)。",
+      "needExplanationFor": [
+        "BET"
+      ]
+    },
+    {
+      "id": "card_30a68de9",
+      "name": "もりもりベス",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "選択",
+        "れんけい",
+        "地形",
+        "場に出す"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "れんけい：味方の1マスを選択し、2/1のスライムベスを1体出す。",
+      "needExplanationFor": [
+        "選択",
+        "れんけい",
+        "地形",
+        "場に出す"
+      ]
+    },
+    {
+      "id": "card_90bace01",
+      "name": "やさしき祈り",
+      "cardType": "トークン",
+      "cost": 0,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "コスト変更"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "自分がコスト2以上の特技カードを使う度MPを1回復 この効果は条件を満たすと自動的に発動する。",
+      "needExplanationFor": [
+        "コスト変更"
+      ]
+    },
+    {
+      "id": "card_f80e421c",
+      "name": "わたしのとくいわざ",
+      "cardType": "トークン",
+      "cost": 1,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "ユニット1体に2ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_7bc0540b",
+      "name": "アイスボンバー",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ねらい撃ち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "ねらい撃ち。召喚時：相手の場に氷塊があるなら+2/+2",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_71e6a494",
+      "name": "アイラ",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ランダム",
+        "BET",
+        "武器",
+        "冒険者"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：GET(2)。BET：ランダムな武器を味方リーダーに装備する。",
+      "needExplanationFor": [
+        "ランダム",
+        "BET"
+      ]
+    },
+    {
+      "id": "card_1019e573",
+      "name": "アゲていくわよ",
+      "cardType": "トークン",
+      "cost": 0,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "BET"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "味方のBETが発動した後味方リーダーのテンション+1、この効果は条件を満たすと自動的に発動する",
+      "needExplanationFor": [
+        "BET"
+      ]
+    },
+    {
+      "id": "card_90ff25ad",
+      "name": "アサシンクロー",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札",
+        "BET",
+        "シンクロ"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：GET(1)。BET：武術カードを1枚手札に加える。",
+      "needExplanationFor": [
+        "手札",
+        "BET",
+        "シンクロ"
+      ]
+    },
+    {
+      "id": "card_80caa95f",
+      "name": "アンルシア",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：攻撃力5以上の敵ユニット1体を攻撃力0にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c0de3c42",
+      "name": "インプ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "占い師"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "山札",
+        "占い",
+        "BET",
+        "コスト変更"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：GET(1)。BET：デッキの一番上が偶数コストなら敵リーダーに2ダメージ。このユニットへのBETは1ターン1回",
+      "needExplanationFor": [
+        "山札",
+        "占い",
+        "BET",
+        "コスト変更"
+      ]
+    },
+    {
+      "id": "card_3a6eb611",
+      "name": "ウルノーガ&ウルナーガ",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ランダム",
+        "れんけい",
+        "消滅",
+        "魔王系"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "れんけい：前列に召喚した場合、正面にいるランダムな敵ユニット1体を消滅させる。後列に召喚した場合、攻撃力6以上の他ユニット全てを死亡させる。",
+      "needExplanationFor": [
+        "ランダム",
+        "れんけい",
+        "消滅"
+      ]
+    },
+    {
+      "id": "card_8b1c0efd",
+      "name": "ウルベア魔神兵",
+      "cardType": "ユニット",
+      "cost": 8,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ランダム",
+        "BET",
+        "ねらい撃ち"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "ねらい撃ち。召喚時：GET(2)。BET：このユニットの攻撃力を1〜4のランダムな値分増やす。",
+      "needExplanationFor": [
+        "ランダム",
+        "BET"
+      ]
+    },
+    {
+      "id": "card_9165abcd",
+      "name": "オルゴ・デミーラ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "死亡時",
+        "手札",
+        "魔王系"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "死亡時：オルゴ・デミーラは第2形態に変身して自分の手札に加わる",
+      "needExplanationFor": [
+        "死亡時",
+        "手札"
+      ]
+    },
+    {
+      "id": "token_orgodemira_4",
+      "name": "オルゴ・デミーラ第4形態",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "攻撃時",
+        "におうだち",
+        "魔王系"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "におうだち、攻撃対象の上下にいるユニットにもダメージを与える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "token_orgodemira_3",
+      "name": "オルゴ・デミーラ：第3形態",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "死亡時",
+        "手札",
+        "魔王系"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：このユニットを除く全てのユニットに2ダメージ。死亡時：オルゴ・デミーラは第4形態に変身した自分の手札に加わる",
+      "needExplanationFor": [
+        "死亡時",
+        "手札"
+      ]
+    },
+    {
+      "id": "card_0e6ffe6c",
+      "name": "カミュ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札",
+        "武器",
+        "冒険者"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵リーダーが装備中の武器を奪い自分の手札に加える。",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_d12a3c7c",
+      "name": "カンダタ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "攻撃時",
+        "手札",
+        "BET",
+        "相手手札山札"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時&攻撃時:敵の手札コイン1枚を盗む。盗めなかった場合攻撃力+1、自分の手札のコインの数分このユニットの攻撃力+1",
+      "needExplanationFor": [
+        "手札",
+        "BET",
+        "相手手札山札"
+      ]
+    },
+    {
+      "id": "card_8ae971ee",
+      "name": "カンダタこぶん",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "BET",
+        "コスト変更",
+        "一時効果"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：GET(1)。BET：このターン中、次に使用するテンションカードのコストが0になる。",
+      "needExplanationFor": [
+        "BET",
+        "コスト変更",
+        "一時効果"
+      ]
+    },
+    {
+      "id": "card_fc69214d",
+      "name": "ガーゴイル",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ねらい撃ち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "ねらい撃ち、おうえん",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_44e719fd",
+      "name": "クラウンヘッド",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ターン開始終了",
+        "BET",
+        "におうだち"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "におうだち。召喚時：GET(1)。BET：HP+1、次の相手のターン終了時まで受けるダメージ-1。このユニットへのBETは1ターン1回",
+      "needExplanationFor": [
+        "BET"
+      ]
+    },
+    {
+      "id": "card_4437acfa",
+      "name": "クラーゴン",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "ランダム",
+        "BET",
+        "一時効果"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "BET：このターン中に未発動の効果からランダムに1つ発動する。①全ての敵に1ダメージ ②ランダムな敵1体に2ダメージ ③敵リーダーに3ダメージ。全て発動済みなら何も起こらない。",
+      "needExplanationFor": [
+        "ランダム",
+        "BET",
+        "一時効果"
+      ]
+    },
+    {
+      "id": "card_34b8303a",
+      "name": "ゲレゲレ",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "速攻",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_19a6922d",
+      "name": "コイン",
+      "cardType": "ユニット",
+      "cost": 0,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "選択",
+        "BET",
+        "武器",
+        "コスト変更"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "0コストカード。1度使用したら手札から消える。場の味方ユニットまたは装備武器のBETを1つ選んで発動する。",
+      "needExplanationFor": [
+        "手札",
+        "選択",
+        "BET",
+        "コスト変更"
+      ]
+    },
+    {
+      "id": "card_a6b1ecce",
+      "name": "コンガオンガ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "ランダム",
+        "れんけい",
+        "消滅",
+        "コスト変更",
+        "相手手札山札"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "れんけい：攻撃力が6以上の敵ユニット1体を消滅させる。そのユニットと同じ使用コストのランダムなユニットカード1枚を相手の手札に加える。",
+      "needExplanationFor": [
+        "手札",
+        "ランダム",
+        "れんけい",
+        "消滅",
+        "コスト変更",
+        "相手手札山札"
+      ]
+    },
+    {
+      "id": "card_f7af8484",
+      "name": "ゴルゴンゾーラ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "BET"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：GET(1)。BET：このユニット自身のHPを3回復する。",
+      "needExplanationFor": [
+        "BET"
+      ]
+    },
+    {
+      "id": "card_ac550afd",
+      "name": "ゴンズ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札",
+        "におうだち",
+        "相手手札山札"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "おうえん、におうだち。召喚時：相手の手札が6枚以上なら+2/+2",
+      "needExplanationFor": [
+        "手札",
+        "相手手札山札"
+      ]
+    },
+    {
+      "id": "card_822981d8",
+      "name": "サマルトリアの王子",
+      "cardType": "ヒーロー",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "サマルトリアの王子のヒーロースキルが使えるようになる。このカードは最初の手札と初回のカードの入れ替えの時手札に来ない",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_0ba93ecf",
+      "name": "サラマンダー",
+      "cardType": "ユニット",
+      "cost": 8,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "BET",
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "超貫通",
+      "needExplanationFor": [
+        "BET"
+      ]
+    },
+    {
+      "id": "card_b9e60809",
+      "name": "シュプリンガー",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "れんけい",
+        "さくせん",
+        "場に出す"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "れんけい：このユニットに2回さくせんを出す。",
+      "needExplanationFor": [
+        "れんけい",
+        "場に出す"
+      ]
+    },
+    {
+      "id": "card_d0ce7a52",
+      "name": "シルビア",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時:お互いのリーダーのテンション+3",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_10f8ea07",
+      "name": "スウィートバッグ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "貫通",
+        "ねらい撃ち",
+        "2回攻撃"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "テンションリンク：前にいる味方ユニットに貫通、ねらい撃ち、2回攻撃のいずれか1つを付与する。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_3b346d69",
+      "name": "スペシャルコイン",
+      "cardType": "ユニット",
+      "cost": 0,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "手札",
+        "BET"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "マデサゴーラの能力で、自分のターン終了時に手札に加わる特殊なコイン。場に出ている味方ユニット全てのBETを発動する。相手ユニットは対象外。",
+      "needExplanationFor": [
+        "手札",
+        "BET"
+      ]
+    },
+    {
+      "id": "token_slime_1_1",
+      "name": "スライム",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "",
+      "needExplanationFor": []
+    },
+    {
+      "id": "token_slime_bess_2_1",
+      "name": "スライムベス",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_6e5bff74",
+      "name": "セレン",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "占い師"
+      ],
+      "keywordsDetected": [
+        "死亡時",
+        "占い",
+        "れんけい",
+        "速攻",
+        "場に出す",
+        "冒険者"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "れんけい：他の全ての味方ユニットに死亡時2/2の魚を出すを付与する。攻撃力2以下の味方ユニットは速攻を得る。",
+      "needExplanationFor": [
+        "死亡時",
+        "占い",
+        "れんけい",
+        "場に出す"
+      ]
+    },
+    {
+      "id": "card_0c785b70",
+      "name": "セーニャ",
+      "cardType": "ユニット",
+      "cost": 9,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ランダム",
+        "スキルブースト",
+        "復活",
+        "冒険者"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：対戦中に死亡した味方ユニット1体をランダムに復活させる。スキルブースト:+1体",
+      "needExplanationFor": [
+        "ランダム",
+        "スキルブースト",
+        "復活"
+      ]
+    },
+    {
+      "id": "card_8f91e962",
+      "name": "ゾンビマスター",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "死亡時",
+        "手札",
+        "地形"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：ゾンビ系の味方ユニット1体に死亡時：このカードを手札に加えるを付与する",
+      "needExplanationFor": [
+        "死亡時",
+        "手札",
+        "地形"
+      ]
+    },
+    {
+      "id": "card_c30bd47a",
+      "name": "ゾーマ",
+      "cardType": "ユニット",
+      "cost": 9,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "山札",
+        "魔王系"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：闇の衣を得る 相手デッキの一番上に光の玉が置かれる",
+      "needExplanationFor": [
+        "山札"
+      ]
+    },
+    {
+      "id": "card_851ec231",
+      "name": "タバサ",
+      "cardType": "ヒーロー",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "タバサのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る。",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_57348016",
+      "name": "チャゴス王子",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札",
+        "選択",
+        "BET",
+        "速攻",
+        "冒険者"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：GET(1)。BET：速攻を得る。このユニットが攻撃対象として選択された時、手札に戻る",
+      "needExplanationFor": [
+        "手札",
+        "選択",
+        "BET"
+      ]
+    },
+    {
+      "id": "card_d5baebad",
+      "name": "ツンドラキー",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ねらい撃ち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "味方リーダーのHPが20以上の間攻撃力+2とねらい撃ちを得る",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_09ae440c",
+      "name": "デビルパピヨン",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ランダム",
+        "BET",
+        "毒"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：GET(1)。BET：ランダムな敵ユニット1体を毒にする",
+      "needExplanationFor": [
+        "ランダム",
+        "BET"
+      ]
+    },
+    {
+      "id": "card_0ef7493c",
+      "name": "デボラ",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "スキルリンク：自分の手札は全てレアリティが１つ上の別のカードに変わる",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_471ba4e7",
+      "name": "ドラキー",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ねらい撃ち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "ねらい撃ち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_ba8c67df",
+      "name": "ドラゴン",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "死亡時",
+        "手札",
+        "相手手札山札"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "死亡時：相手の手札に王女の愛を加える",
+      "needExplanationFor": [
+        "死亡時",
+        "手札",
+        "相手手札山札"
+      ]
+    },
+    {
+      "id": "card_ffe924fb",
+      "name": "ドルマドン",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "敵1体に10ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_73908ee8",
+      "name": "パピラス",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "ランダム",
+        "れんけい",
+        "コスト変更"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "れんけい：ランダムなコスト1〜3の自分の職業の特技カードを1枚手札に加える。",
+      "needExplanationFor": [
+        "手札",
+        "ランダム",
+        "れんけい",
+        "コスト変更"
+      ]
+    },
+    {
+      "id": "card_60c1c0de",
+      "name": "ビアンカ",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "スキルリンク：敵リーダーに3ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "token_pisaro_knight",
+      "name": "ピサロナイト",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "魔剣士(ピサロ)"
+      ],
+      "keywordsDetected": [],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_fbbeab37",
+      "name": "ピラミッド",
+      "cardType": "建物",
+      "cost": 1,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "ダンジョン",
+        "建物",
+        "場に出す"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "ダンジョン(耐久値11で踏破)、自分が武闘家のカードを使う度耐久値+1、踏破時：おうごんのつめ1枚を手札に加える。3/3のミイラおとこを2体出す",
+      "needExplanationFor": [
+        "手札",
+        "ダンジョン",
+        "建物",
+        "場に出す"
+      ]
+    },
+    {
+      "id": "card_297ab628",
+      "name": "ファイアボール",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "BET",
+        "一時効果"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：GET(1)。BET：このターン中、味方リーダーが受けるダメージ-5。",
+      "needExplanationFor": [
+        "BET",
+        "一時効果"
+      ]
+    },
+    {
+      "id": "card_a79887e5",
+      "name": "フローラ",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "スキルリンク：ロドマンからの贈り物を自分の手札に加える",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "token_black_tanuki",
+      "name": "ブラックタヌー",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_d68f6415",
+      "name": "プチプリースト",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "死亡時",
+        "シンクロ"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "シンクロ：①攻撃力+1、②HP+1、攻撃力+1、③死亡時：味方リーダーのHPを4回復",
+      "needExplanationFor": [
+        "死亡時",
+        "シンクロ"
+      ]
+    },
+    {
+      "id": "card_865d7b2b",
+      "name": "ヘルプラネット",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "占い師"
+      ],
+      "keywordsDetected": [
+        "占い",
+        "れんけい",
+        "におうだち",
+        "一時効果"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "におうだち。れんけい：自分が次に使う占いカード1枚のみ効果が両方発動する。",
+      "needExplanationFor": [
+        "占い",
+        "れんけい",
+        "一時効果"
+      ]
+    },
+    {
+      "id": "card_41be5300",
+      "name": "ベビーサラマンダ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "攻撃時",
+        "BET",
+        "貫通"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "攻撃時：GET(1)、BET:攻撃力+1、このBETが4回発動した後超貫通8/8のサラマンダーに変身する",
+      "needExplanationFor": [
+        "BET"
+      ]
+    },
+    {
+      "id": "card_e7f8c5b2",
+      "name": "ベロベロ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ターン開始終了",
+        "れんけい",
+        "場に出す"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "れんけい：+1/+1。召喚時と自分のターン終了時に、このユニットの前後にコピーを出す。",
+      "needExplanationFor": [
+        "れんけい",
+        "場に出す"
+      ]
+    },
+    {
+      "id": "card_236329ee",
+      "name": "ポイズンキッス",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札",
+        "毒",
+        "におうだち",
+        "魔王系"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "におうだち、召喚時：自分の手札に魔王系カードがあるなら全ての敵ユニットを毒にする",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_20e15c48",
+      "name": "マデサゴーラ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "手札",
+        "山札",
+        "BET",
+        "魔王系"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "自分のターン終了時：スペシャルコイン1枚を手札に加える。BET:自分のデッキからBETを持つカードを1枚引く",
+      "needExplanationFor": [
+        "手札",
+        "山札",
+        "BET"
+      ]
+    },
+    {
+      "id": "card_4cdc93e8",
+      "name": "マヤ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "盗賊"
+      ],
+      "keywordsDetected": [
+        "攻撃時",
+        "手札",
+        "ランダム",
+        "れんけい",
+        "速攻",
+        "2回攻撃",
+        "相手手札山札",
+        "冒険者"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "速攻。れんけい：2回攻撃を得る。このユニットが敵リーダーを攻撃した後、相手の手札のカードと同じカードをランダムに1枚手札に加える。",
+      "needExplanationFor": [
+        "手札",
+        "ランダム",
+        "れんけい",
+        "相手手札山札"
+      ]
+    },
+    {
+      "id": "card_8673e5d1",
+      "name": "マリベル",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "コスト変更",
+        "一時効果",
+        "冒険者"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：このターン中次に使う特技カードのコスト-7",
+      "needExplanationFor": [
+        "コスト変更",
+        "一時効果"
+      ]
+    },
+    {
+      "id": "card_595112e0",
+      "name": "マルティナ",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ランダム",
+        "地形",
+        "冒険者"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：合計7ダメージを縦1列のランダムなマスに割り振る",
+      "needExplanationFor": [
+        "ランダム",
+        "地形"
+      ]
+    },
+    {
+      "id": "card_9631238e",
+      "name": "ミイラおとこ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_362fd329",
+      "name": "ミリオンゼニー",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "死亡時",
+        "ターン開始終了",
+        "BET"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "自分のターン終了時にGET(1)。この効果は毎ターン発動する。BET：死亡時にGET(2)をこのユニットに付与する。このBET効果は重複しない。",
+      "needExplanationFor": [
+        "死亡時",
+        "BET"
+      ]
+    },
+    {
+      "id": "card_909b374d",
+      "name": "ムーンブルクの王女",
+      "cardType": "ヒーロー",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "ムーンブルクの王女のヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_7e4a6880",
+      "name": "メイジポンポコ",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "死亡時",
+        "手札",
+        "山札",
+        "シンクロ",
+        "コスト変更"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "シンクロ：①味方リーダーが使用する特技カードの攻撃力+1、②死亡時：自分のデッキからコスト5以上の特技カードを1枚引く、③+1/+1",
+      "needExplanationFor": [
+        "死亡時",
+        "手札",
+        "山札",
+        "シンクロ",
+        "コスト変更"
+      ]
+    },
+    {
+      "id": "card_7be4965e",
+      "name": "メタルキング",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "速攻、メタルボディ、テンションリンク：自分の手札に戻る",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_0a952d0b",
+      "name": "ルドマン",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ターン開始終了",
+        "手札",
+        "山札",
+        "BET",
+        "コスト変更",
+        "場に出す",
+        "冒険者"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：GET(1)。BET：道具カードを1枚手札に加える。味方のBETが4回発動する度に、手札/山札からコスト3以下のユニット1体を場に出す。",
+      "needExplanationFor": [
+        "手札",
+        "山札",
+        "BET",
+        "コスト変更",
+        "場に出す"
+      ]
+    },
+    {
+      "id": "card_ca4d3bc7",
+      "name": "ルバンカ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "占い師"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "山札",
+        "占い",
+        "BET",
+        "におうだち",
+        "コスト変更"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "におうだち。召喚時：デッキの一番上が偶数コストならGET(2)。BET：HP+1",
+      "needExplanationFor": [
+        "山札",
+        "占い",
+        "BET",
+        "コスト変更"
+      ]
+    },
+    {
+      "id": "card_10321754",
+      "name": "レックス",
+      "cardType": "ヒーロー",
+      "cost": 0,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "レックスのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る。",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_65206277",
+      "name": "レモンキング",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "攻撃時",
+        "BET",
+        "場に出す"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "攻撃時：GET(1)。BET：スライムを2体、味方の場に出す。レモンキング以外のスライム系の味方ユニットが死亡した時、相手リーダーへ1ダメージ。",
+      "needExplanationFor": [
+        "BET",
+        "場に出す"
+      ]
+    },
+    {
+      "id": "card_a280038d",
+      "name": "ロウ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "占い師"
+      ],
+      "keywordsDetected": [
+        "ランダム",
+        "占い",
+        "コスト変更",
+        "場に出す",
+        "冒険者"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "テンションリンク:味方リーダーのテンションの数と同じ効果が発動する。①カードを1枚引く②ランダムな敵1体に2ダメージ、3コストのユニット1体を出す",
+      "needExplanationFor": [
+        "ランダム",
+        "占い",
+        "コスト変更",
+        "場に出す"
+      ]
+    },
+    {
+      "id": "card_1e4de00f",
+      "name": "ロトの血を引く者",
+      "cardType": "ヒーロー",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "ロトの血を引く者のヒーロースキルを使えるようになる。 このカードは最初の手札に必ず来る。",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_12c0c735",
+      "name": "ロンダルキアへの洞くつ",
+      "cardType": "建物",
+      "cost": 1,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "ランダム",
+        "ダンジョン",
+        "建物",
+        "速攻",
+        "コスト変更"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "ダンジョン（耐久値7で踏破)、テンションリンク:耐久値+1、踏破時：ランダムなコスト2のユニットを3体出し速攻を与える",
+      "needExplanationFor": [
+        "ランダム",
+        "ダンジョン",
+        "建物",
+        "コスト変更"
+      ]
+    },
+    {
+      "id": "card_548f8912",
+      "name": "ローシュ",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "攻撃時",
+        "手札",
+        "山札",
+        "れんけい",
+        "貫通",
+        "冒険者"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "貫通。味方リーダーが直接攻撃した後、自分のデッキから冒険者カードを1枚引く。れんけい：自分の山札、手札、場の冒険者カードに+1/+1。",
+      "needExplanationFor": [
+        "手札",
+        "山札",
+        "れんけい"
+      ]
+    },
+    {
+      "id": "card_7487ea39",
+      "name": "ローレシアの王子",
+      "cardType": "ヒーロー",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "ローレシアの王子のヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_5a752ec8",
+      "name": "亡国の先王ロウ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "ランダム",
+        "れんけい",
+        "コスト変更",
+        "場に出す",
+        "冒険者"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "れんけい：使用コスト1以上の特技カード2枚を手札に加える。自分がコスト1以上の特技を使用した後、同じコストのランダムなユニットを1体場に出す。",
+      "needExplanationFor": [
+        "手札",
+        "ランダム",
+        "れんけい",
+        "コスト変更",
+        "場に出す"
+      ]
+    },
+    {
+      "id": "custom_hero_legendary_hero",
+      "name": "伝説の勇者",
+      "cardType": "ヒーロー",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "伝説の勇者のヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_a18379ec",
+      "name": "光の玉",
+      "cardType": "トークン",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "封印"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "闇の衣を持つ全ての敵を封印する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_178ebf05",
+      "name": "全てを滅ぼす者ゾーマ",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "貫通",
+        "魔王系"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "超貫通",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_6149abb9",
+      "name": "勇敢な魂",
+      "cardType": "トークン",
+      "cost": 0,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "味方リーダーが攻撃する度テンション+1。この効果は条件を満たすと自動的に発動する。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_66ffa151",
+      "name": "勇者の雷",
+      "cardType": "トークン",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ランダム",
+        "一時効果"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "ランダムな敵1体に2ダメージ。このターン中味方リーダーが攻撃していた場合代わりに4ダメージ",
+      "needExplanationFor": [
+        "ランダム",
+        "一時効果"
+      ]
+    },
+    {
+      "id": "card_b0cb8fe8",
+      "name": "勇者ソロ",
+      "cardType": "ヒーロー",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "勇者ソロのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "custom_hero_reck",
+      "name": "勇者レック",
+      "cardType": "ヒーロー",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "勇者レックのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_36b9696d",
+      "name": "勇者姫アンルシア",
+      "cardType": "ヒーロー",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "勇者姫アンルシアのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_e3e4c05d",
+      "name": "卑劣などくやずきん",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "毒"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵1体に1ダメージ。対象が毒なら3ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_d034a940",
+      "name": "嘆きの霧",
+      "cardType": "特技",
+      "cost": 2,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "毒"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "必殺技：全ての敵ユニットを毒にする。この対戦中敵ユニットが受ける毒のダメージ+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_2855efd0",
+      "name": "大切な友達",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "地形",
+        "速攻",
+        "場に出す"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "指定の味方マスに速攻4/4のゲレゲレを1体出す",
+      "needExplanationFor": [
+        "地形",
+        "場に出す"
+      ]
+    },
+    {
+      "id": "card_a9c23817",
+      "name": "大魔王ゾーマ",
+      "cardType": "ヒーロー",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "大魔王ゾーマのアンチヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_91fd1040",
+      "name": "天使の守り",
+      "cardType": "特技",
+      "cost": 2,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "死亡時",
+        "地形",
+        "復活"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "味方ユニット1体に死亡時：同じマスに復活するを付与する",
+      "needExplanationFor": [
+        "死亡時",
+        "地形",
+        "復活"
+      ]
+    },
+    {
+      "id": "card_796cac42",
+      "name": "天空の花嫁デボラ",
+      "cardType": "ヒーロー",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "天空の花嫁デボラのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_51f4f83e",
+      "name": "天空の花嫁ビアンカ",
+      "cardType": "ヒーロー",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "天空の花嫁ビアンカのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_794289cd",
+      "name": "天空の花嫁フローラ",
+      "cardType": "ヒーロー",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "天空の花嫁フローラのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_4e6fd6c2",
+      "name": "天空の英知",
+      "cardType": "トークン",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "コスト変更"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "この対戦中に自分が使用したコスト2以上の特技カード1枚をコスト-1して手札に加える。この効果で同名のカードは重複して手札に加わらない。",
+      "needExplanationFor": [
+        "手札",
+        "コスト変更"
+      ]
+    },
+    {
+      "id": "card_80d81e5c",
+      "name": "天空への挑戦",
+      "cardType": "トークン",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "山札",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "自分のデッキから特技カードまたは武器カードを1枚引く",
+      "needExplanationFor": [
+        "山札"
+      ]
+    },
+    {
+      "id": "card_1c821e42",
+      "name": "守りのほこら",
+      "cardType": "建物",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "攻撃時",
+        "ランダム",
+        "ダンジョン",
+        "建物",
+        "におうだち",
+        "コスト変更"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "ダンジョン(耐久値5で踏破)、味方リーダーが攻撃した後耐久値+1、踏破時:ランダムなコスト4のユニットをこの場所に出しにおうだちを付与する",
+      "needExplanationFor": [
+        "ランダム",
+        "ダンジョン",
+        "建物",
+        "コスト変更"
+      ]
+    },
+    {
+      "id": "card_d22aee70",
+      "name": "守り人ナイン",
+      "cardType": "ヒーロー",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "守り人ナインのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_fb82c9ff",
+      "name": "導かれし者たち",
+      "cardType": "トークン",
+      "cost": 9,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "コスト変更",
+        "冒険者"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "自分の手札にある全ての冒険者カードのコストを0にする",
+      "needExplanationFor": [
+        "手札",
+        "コスト変更"
+      ]
+    },
+    {
+      "id": "card_a9667a86",
+      "name": "小魚への施し",
+      "cardType": "トークン",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "BET"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "コイン1〜4枚を以下の確率で手札に加える。1枚30%、2枚40%、3枚20%、4枚10%",
+      "needExplanationFor": [
+        "手札",
+        "BET"
+      ]
+    },
+    {
+      "id": "card_6429b153",
+      "name": "少女マリベル",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "BET",
+        "コスト変更",
+        "一時効果"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：GET(2)。BET：このターン中、次に使う特技カードのコスト-2。",
+      "needExplanationFor": [
+        "BET",
+        "コスト変更",
+        "一時効果"
+      ]
+    },
+    {
+      "id": "card_14750b13",
+      "name": "怪蟲アラグネ",
+      "cardType": "ユニット",
+      "cost": 8,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "毒"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵リーダーを毒状態にする。すでに毒状態ならこの対戦中、敵ユニットと敵リーダーが受ける毒ダメージ+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_dbf04d8c",
+      "name": "悲しげな犬",
+      "cardType": "ユニット",
+      "cost": 0,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "コスト変更"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "自分がコスト1以上の特技カードを使う度カードを1枚引く。この効果は条件を満たすと自動的に発動する",
+      "needExplanationFor": [
+        "コスト変更"
+      ]
+    },
+    {
+      "id": "card_bbfca125",
+      "name": "我が腕の中で息絶えるがいい",
+      "cardType": "トークン",
+      "cost": 0,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "必殺技、全てを滅ぼす者ゾーマを手札に1枚加える。この効果は自分の場と手札に全てを滅ぼす者ゾーマが存在しない場合に使用できる",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_1b26c04f",
+      "name": "旅立ちの王女",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "ランダム",
+        "選択",
+        "コスト変更",
+        "一時効果"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "選択：・全てのユニットに1ダメージ・特技カードをランダムに1枚手札に加える。このターン中使った特技カードのコストの合計分コストが減る",
+      "needExplanationFor": [
+        "手札",
+        "ランダム",
+        "選択",
+        "コスト変更",
+        "一時効果"
+      ]
+    },
+    {
+      "id": "card_ad14a2eb",
+      "name": "死にゆく者こそ美しい",
+      "cardType": "トークン",
+      "cost": 6,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "封印",
+        "魔王系"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "全ての敵ユニットを封印した後それらのユニットに3ダメージ。この効果は自分の手札に魔王系カードがある場合にのみ使用できる。",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "token_hyokai",
+      "name": "氷塊",
+      "cardType": "建物",
+      "cost": 0,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "攻撃時",
+        "ターン開始終了",
+        "建物",
+        "地形"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "氷塊",
+      "needExplanationFor": [
+        "建物",
+        "地形"
+      ]
+    },
+    {
+      "id": "card_c590982e",
+      "name": "決意の聖賢セーニャ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "ランダム",
+        "れんけい",
+        "冒険者"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "れんけい：全ての味方のHPを3回復する。味方ユニットのHPが回復する度、ランダムな敵1体に2ダメージ。",
+      "needExplanationFor": [
+        "ランダム",
+        "れんけい"
+      ]
+    },
+    {
+      "id": "card_42e36f4a",
+      "name": "滅びこそ我が喜び",
+      "cardType": "トークン",
+      "cost": 0,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "魔王系"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "ユニット1体に4ダメージ。カードを1枚引く。この効果は自分の手札に魔王系カードがある場合にのみ使用できる。",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_022dd77d",
+      "name": "犬",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_040cf04f",
+      "name": "王女の愛",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "味方リーダーのテンション+3",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_5ba21d92",
+      "name": "王女救出",
+      "cardType": "トークン",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "敵ユニット1体に2ダメージを与える。 レベル3にレベルアップした時王女の愛を手札に加える",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_321de02f",
+      "name": "王子の覚悟",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "山札",
+        "コスト変更"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "敵1体に1ダメージ、自分のデッキに特技カードが無いならこのヒーロースキルのコスト-1、さらに使用後すぐにレベル2になる",
+      "needExplanationFor": [
+        "山札",
+        "コスト変更"
+      ]
+    },
+    {
+      "id": "card_43e14174",
+      "name": "癒しをあなたに",
+      "cardType": "トークン",
+      "cost": 0,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "味方リーダーのHPを2回復。カードを1枚引く",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_846d91e8",
+      "name": "眠れる勇者",
+      "cardType": "ユニット",
+      "cost": 0,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "一時効果",
+        "冒険者"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "自分のターン中味方の冒険者が場に出た後カードを1枚引く。 この効果は条件を満たすと自動的に発動する。",
+      "needExplanationFor": [
+        "一時効果"
+      ]
+    },
+    {
+      "id": "card_afa6175b",
+      "name": "破壊神との決戦",
+      "cardType": "トークン",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "対象にできる敵ユニットがいる間敵リーダーを対象にできない。敵1体に1ダメージ、その後 ダメージが1に戻る。自分が特技以外の手札を使う度ダメージ+1",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_189f0ab3",
+      "name": "破邪の秘技の会得",
+      "cardType": "トークン",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ランダム"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "ユニット1体に6ダメージ。ヒーロースキルがランダムな破邪の秘技になる。",
+      "needExplanationFor": [
+        "ランダム"
+      ]
+    },
+    {
+      "id": "card_0728d656",
+      "name": "福招きのそろばん",
+      "cardType": "武器",
+      "cost": 4,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "BET",
+        "武器"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時とこの武器が壊れた時にGET(1)。BET：耐久力-1してカードを1枚引く。",
+      "needExplanationFor": [
+        "BET"
+      ]
+    },
+    {
+      "id": "card_1ff5c427",
+      "name": "立ち塞がるドラゴン",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "盗賊"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "死亡時",
+        "手札",
+        "選択",
+        "におうだち",
+        "貫通",
+        "コスト変更",
+        "相手手札山札"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "におうだち、超貫通、召喚時：カードを2枚引いた後自分の手札から2枚選んで捨てる。死亡時：相手の手札にコスト2の王女の愛を1枚加える",
+      "needExplanationFor": [
+        "死亡時",
+        "手札",
+        "選択",
+        "コスト変更",
+        "相手手札山札"
+      ]
+    },
+    {
+      "id": "card_c0493533",
+      "name": "竜王",
+      "cardType": "ユニット",
+      "cost": 9,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "超貫通",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_9de9cca3",
+      "name": "竜王一閃",
+      "cardType": "トークン",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "必殺技、敵ユニット1体に7ダメージを与える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_06995365",
+      "name": "笑顔の伝道師シルビア",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "盗賊"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "ランダム",
+        "れんけい",
+        "コスト変更",
+        "場に出す",
+        "冒険者"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "れんけい：コスト1のランダムなユニット2体を場に出す。自分のターン終了時に味方ユニットが3体以上なら味方リーダーのテンション+1。",
+      "needExplanationFor": [
+        "ランダム",
+        "れんけい",
+        "コスト変更",
+        "場に出す"
+      ]
+    },
+    {
+      "id": "card_1aa890f0",
+      "name": "紋章を探す旅",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "コスト変更"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "対象にできる敵ユニットがいる間敵リーダーを対象にできない。敵1体に2ダメージ、その後このヒーロースキルのコスト+1、ダメージ+1",
+      "needExplanationFor": [
+        "コスト変更"
+      ]
+    },
+    {
+      "id": "card_b7c7bfc4",
+      "name": "裁きを彼らに",
+      "cardType": "トークン",
+      "cost": 6,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "必殺技：すべての敵に3ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_7758b044",
+      "name": "覚醒の光",
+      "cardType": "トークン",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "山札",
+        "冒険者"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "自分のデッキと手札と場の冒険者を+1/+1する",
+      "needExplanationFor": [
+        "手札",
+        "山札"
+      ]
+    },
+    {
+      "id": "card_d8cdcd29",
+      "name": "賢者ルシェンダ",
+      "cardType": "ユニット",
+      "cost": 8,
+      "classes": [
+        "占い師"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札",
+        "山札",
+        "占い",
+        "BET",
+        "コスト変更",
+        "場に出す",
+        "冒険者"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：GET(1)。BET：自分の山札の1番上のカードが偶数コストのユニットなら場に出す。場が埋まっている場合は不発。それ以外なら手札に加える。",
+      "needExplanationFor": [
+        "手札",
+        "山札",
+        "占い",
+        "BET",
+        "コスト変更",
+        "場に出す"
+      ]
+    },
+    {
+      "id": "card_4f889204",
+      "name": "贈り物をみんなに",
+      "cardType": "トークン",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "味方ユニット1体にHP+1と「次の相手のターン終了時まで特技ダメージを受けない」を付与する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c8b44f81",
+      "name": "飛翔のガーゴイル",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札",
+        "さくせん",
+        "ねらい撃ち",
+        "場に出す"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "おうえん、ねらい撃ち。召喚時：自分の手札に特技カードがあるならこのユニットにさくせんを出す",
+      "needExplanationFor": [
+        "手札",
+        "場に出す"
+      ]
+    },
+    {
+      "id": "card_772275ee",
+      "name": "魅惑のマルティナ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "ランダム",
+        "れんけい",
+        "地形",
+        "冒険者"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "れんけい：後列にいる全ての敵ユニットを前列に移動させる。スキルリンク：合計7ダメージを敵前列のランダムなマスに振り分ける。",
+      "needExplanationFor": [
+        "ランダム",
+        "れんけい",
+        "地形"
+      ]
+    },
+    {
+      "id": "card_32047aee",
+      "name": "魔力共鳴",
+      "cardType": "トークン",
+      "cost": 0,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "コスト変更"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": false,
+      "text": "自分がコスト2以上の特技カードを使う度カードを1枚引く。この効果は条件を満たすと自動的に発動する。",
+      "needExplanationFor": [
+        "コスト変更"
+      ]
+    },
+    {
+      "id": "token_fish_2_2",
+      "name": "魚",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "占い"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "",
+      "needExplanationFor": [
+        "占い"
+      ]
+    },
+    {
+      "id": "card_9c45eab0",
+      "name": "黄金兵",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "BET",
+        "におうだち",
+        "コスト変更",
+        "一時効果"
+      ],
+      "priority": "A",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "におうだち、自分がコインを使う度このターン中手札にあるこのカードのコスト-2",
+      "needExplanationFor": [
+        "手札",
+        "BET",
+        "コスト変更",
+        "一時効果"
+      ]
+    },
+    {
+      "id": "card_84e08b43",
+      "name": "黄金兵長",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "攻撃時",
+        "BET",
+        "場に出す"
+      ],
+      "priority": "B",
+      "implementedByNameInAppJs": true,
+      "genericSupportedLikely": true,
+      "text": "召喚時：GET(1)。攻撃時：敵リーダーに味方の場のピサロナイトの数と同じダメージ。BET：ピサロナイトを1体場に出す。",
+      "needExplanationFor": [
+        "BET",
+        "場に出す"
+      ]
+    }
+  ],
+  "genericLikelyCount": 310,
+  "genericLikely": [
+    {
+      "id": "card_581e47bf",
+      "name": "あおだけ童子",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：このカード以外の自分の手札が6枚以上ある場合攻撃力+2",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_205cdb83",
+      "name": "あばれこまいぬ",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：カードを1枚捨てる",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_7fae1780",
+      "name": "あやしいかげ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ステルス"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ステルス",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_cd19e6cb",
+      "name": "あらくれ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "速攻",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_1e6a7f8a",
+      "name": "あらくれチャッピー",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：ユニット1体に2ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_9ba4ca11",
+      "name": "いしにんぎょう",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "前列召喚時：ユニット1体のHP+2、後列召喚時:ユニット1体の攻撃力をHPと同じ値にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_358aa630",
+      "name": "いっかくうさぎ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "速攻",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_b039c1c0",
+      "name": "いてつくはどう",
+      "cardType": "特技",
+      "cost": 2,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "封印"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "全ての敵ユニットを封印する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_81c13971",
+      "name": "いなずまのけん",
+      "cardType": "武器",
+      "cost": 7,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時&この武器が壊れた時：全ての敵ユニットに2ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_3c798f4d",
+      "name": "いやしのうでわ",
+      "cardType": "特技",
+      "cost": 1,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "味方ユニット1体に「攻撃時：味方リーダーのHPを4回復」を付与する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c0e5dcc1",
+      "name": "うごくせきぞう",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "正面に敵ユニットが1体もいない場合攻撃できない",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_4d7fa9dd",
+      "name": "おおくちばし",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：後列にいるユニット1体に1ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_846f218a",
+      "name": "おおめだま",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ステルス"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時:全てのユニットのステルスを解除する。解除した数分+1/+2を得る。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_b8415842",
+      "name": "おどる宝石のそろばん",
+      "cardType": "武器",
+      "cost": 2,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "この武器が壊れた時道具カード1枚を手札に加える",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_237d6b84",
+      "name": "おにこぞう",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のターン開始時このユニットが前列にいる場合7/7おにこんぼうに変身する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_bb48dcae",
+      "name": "おむつっこり",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：HPを2回復",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_b2a611b5",
+      "name": "かいしんの息吹",
+      "cardType": "特技",
+      "cost": 3,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "攻撃時",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ユニット1体の攻撃力+3「攻撃時：武術カードを手札に加える」を付与する。",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_38ebc250",
+      "name": "かいぞくウーパー",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "盗賊"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時&手札から捨てた時：カードを1枚引く",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_dc1b77fa",
+      "name": "かくとうパンサー",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：武術カード1枚を手札に加える",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_d90b9d85",
+      "name": "かげのきし",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ステルス"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ステルス",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_5156900b",
+      "name": "かなしばりの巻物",
+      "cardType": "特技",
+      "cost": 1,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "封印"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "敵ユニット1体を封印し次のターン終了時まで攻撃不能にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_e80c9408",
+      "name": "かばう",
+      "cardType": "特技",
+      "cost": 1,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "攻撃時",
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "次の自分のターンが開始するまで相手はリーダーにしか攻撃できない",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_93e092e5",
+      "name": "かまいたち",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：前列にいる他の全てのユニットに1ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_289dda8a",
+      "name": "からくりしょうぐん",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方リーダーが装備中の武器を+1/+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_789e3a72",
+      "name": "からくりだいみょう",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方ユニット1体をこのユニットの前後に移動させる",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_4b221727",
+      "name": "からくりエッグ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "パワフルバッジ：メタルボディもしくはハードメタルボディを持つ味方ユニットと武器の攻撃力+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_9d277745",
+      "name": "がいこつへい",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "貫通",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_023bcfa6",
+      "name": "きせきのつるぎ",
+      "cardType": "武器",
+      "cost": 4,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ダメージを与えた時味方リーダーのHPを3回復",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_5ecc885f",
+      "name": "きりさきピエロ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵ユニット1体につき武術カード1枚を手札に加える。",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_e96efcff",
+      "name": "くさった死体",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵リーダーの武器を破壊する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c45c254d",
+      "name": "くしざしツインズ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "味方リーダーの武器の攻撃力+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_af5967db",
+      "name": "くびかりぞく",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "味方リーダーの攻撃で敵ユニットを倒す度味方リーダーのテンション+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_099f2e9c",
+      "name": "くもの大王",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：次のターン相手プレイヤーはテンションスキルを使用できない",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_89cd00d7",
+      "name": "くらやみハーピー",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：ユニット1体のHPを攻撃力と同じ値にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_0ecc8073",
+      "name": "ごうけつぐま",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "絶好調、このユニットが絶好調状態なら攻撃力+2と「敵リーダーを攻撃できない」を得る",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_9e1023b9",
+      "name": "ごろつき",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "山札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：自分のデッキから攻撃力1のユニットを1枚引く",
+      "needExplanationFor": [
+        "山札"
+      ]
+    },
+    {
+      "id": "card_0f2b3b71",
+      "name": "さんぞくのサーベル",
+      "cardType": "武器",
+      "cost": 1,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_fa02a271",
+      "name": "さんぞくウルフ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "味方リーダーの攻撃で敵ユニットを倒す度敵リーダーに2ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_4da5d548",
+      "name": "しあわせのそろばん",
+      "cardType": "武器",
+      "cost": 3,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "味方ユニットが場に出た後そのユニットを+1/+1、武器の耐久力-1する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c1e90290",
+      "name": "しにがみ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "2回攻撃"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "2回攻撃",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_864a0e6c",
+      "name": "しにがみのきし",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：前列にいるユニット1体を後列に移動させる",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_620155b1",
+      "name": "しりょうのきし",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵リーダーが装備中の武器を-1/-1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_69bd35ef",
+      "name": "しんぴのよろい",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "この対戦の間味方リーダーは「自分のターン終了時味方リーダーのHPを2回復する」を得る",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_9ddf066e",
+      "name": "じごくのもんばん",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵ユニット1体をこのユニットの正面に移動させる",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_1b4f98fc",
+      "name": "じめじめバブル",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵ユニットが2体以上いるなら敵ユニット1体の攻撃力-1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_2924b5f1",
+      "name": "じんめんじゅ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のターン終了時このユニットのHPを1回復",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_660bed56",
+      "name": "せみもぐら",
+      "cardType": "ユニット",
+      "cost": 0,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_0ee31dd0",
+      "name": "だいおうキッズ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：次のターン相手はユニットを後列に召喚できない。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_2f08bce9",
+      "name": "だんごスライム",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：カードを2枚引く。その後手札を2枚捨てる",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_7148c5d6",
+      "name": "とげこんぼう",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方ヒーローがいる場合味方リーダーのテンション+2",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_2b5c40ef",
+      "name": "とつげきこぞう",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "正面に敵ユニットが1体もいない場合攻撃できない。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_ccef8f4b",
+      "name": "どくあおむし",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "毒"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵ユニット1体を毒にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_d4d9415d",
+      "name": "どくどくゾンビ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：ゾンビ系の味方ユニット1体を+1/+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_48ea99fd",
+      "name": "なげきムーン",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方リーダーのHPが15以下の場合+2/+2と貫通を得る。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_e9dd1f4a",
+      "name": "はがねのつるぎ",
+      "cardType": "武器",
+      "cost": 2,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_f9a9e164",
+      "name": "はくあいの杖",
+      "cardType": "武器",
+      "cost": 2,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "攻撃時",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "味方リーダーが攻撃した後全ての味方ユニットのHPを1回復",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_94168f26",
+      "name": "はぐれメタル",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "速攻、メタルボディ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_2cb4a0a1",
+      "name": "はさみくわがた",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_2548983c",
+      "name": "はじゃのつるぎ",
+      "cardType": "武器",
+      "cost": 3,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時:横1列にいる全ての敵ユニットに1ダメージを与える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_696c1471",
+      "name": "はやてのリング",
+      "cardType": "特技",
+      "cost": 3,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "2回攻撃"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ユニット1体に2回攻撃を付与する。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_839263c1",
+      "name": "ひくいどり",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "貫通",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_a003c93b",
+      "name": "ひとくいサーベル",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "味方リーダーの攻撃で敵ユニットを倒す度敵リーダーに1ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_d479c4dc",
+      "name": "ふくぶくろ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：両プレイヤーはカードを２枚引く",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_0b64dae7",
+      "name": "ふしぎなタンバリン",
+      "cardType": "特技",
+      "cost": 4,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "おうえん、横一列にいる全ての味方ユニットに攻撃力+1と速攻を付与する。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_7cec7648",
+      "name": "ほしふるうでわ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "速攻",
+        "2回攻撃"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ユニット1体に「攻撃力が4以下の間速攻と2回攻撃を得る」を付与する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c618cad7",
+      "name": "ほねコウモリ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：このユニットに3ダメージを与える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_d7ef98e4",
+      "name": "まおうのかげ",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ステルス"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ステルス、絶好調、このユニットが絶好調状態なら攻撃力+3を得る",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_768eea71",
+      "name": "まかいじゅ",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のターン終了時このユニットのHPを2回復する。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_8585fce5",
+      "name": "ももんじゃ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵ユニット１体につきHP+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_a165257c",
+      "name": "やみしばり",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "ステルス"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ステルス、自分のターン終了時このユニットがステルス状態なら攻撃力+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_521e84df",
+      "name": "ゆめにゅうどう",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：後列にいるユニット1体を前列に移動させる",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_08f55531",
+      "name": "わらいぶくろ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：カードを1枚引く",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_dc05e007",
+      "name": "アカイライ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のターン終了時このユニットがダメージを受けているならカードを1枚引く。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_7902521c",
+      "name": "アックスドラゴン",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：ユニット1体に1ダメージを与えた後「受けるダメージ2倍」を付与する。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_3f6c516e",
+      "name": "アモス",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "相手のターン終了時このユニットと同じHPを持つモンストラーに変身する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_ba0cd0b2",
+      "name": "アルゴングレート",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "正面に敵ユニットがいる場合攻撃できない",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_4e29b0ba",
+      "name": "アルミラージ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "速攻",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_911a6db3",
+      "name": "アロードッグ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：このカード以外の自分の手札が6枚以上ある場合敵1体に2ダメージ",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_c21c039d",
+      "name": "アントベア",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時:味方リーダーのテンションを1消費する。 消費した後+1/+1を得る。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_091f03b4",
+      "name": "アークデーモン",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：前列にいる全ての敵ユニットに3ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_b2ce9309",
+      "name": "アームライオン",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "絶好調、絶好調状態の味方ユニットは速攻を得る",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_db46b9b9",
+      "name": "イーブルフライ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：ユニット1体の攻撃力をHPと同じ値にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_4879b13c",
+      "name": "ウィングタイガー",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方ヒーローがいる場合敵ユニット1体の攻撃力を-2",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_551e596f",
+      "name": "エステラ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "対戦中に死亡したドラゴン系の味方ユニットの数だけ攻撃力が上がる。 自分のターン開始時攻撃力が5以上なら竜化の術を使用する。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_a60d441a",
+      "name": "エビルスピリッツ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "ステルス"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ステルス、このユニットの攻撃は味方リーダーの攻撃としても扱う",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_45a4d7c5",
+      "name": "エビルチクリン",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち、召喚時：味方ユニット1体ににおうだちを付与する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_e85d03e0",
+      "name": "エビルホーク",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ねらい撃ち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ねらい撃ち、召喚時：カードを1枚引く",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_5cb8a16c",
+      "name": "エロスの弓",
+      "cardType": "武器",
+      "cost": 3,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "武器",
+        "ねらい撃ち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "おうえん、ねらい撃ち、反撃ダメージを受けない",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_d4c05a16",
+      "name": "オオカミ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "速攻",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_41916861",
+      "name": "オオワシのツメ",
+      "cardType": "武器",
+      "cost": 2,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "反撃ダメージを受けない。ダメージを与えたユニットの位置を前後入れ替える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_a780fe36",
+      "name": "オクトセントリー",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "攻撃時",
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "貫通、味方リーダーの攻撃で敵ユニットを倒す度味方リーダーのHPを3回復",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_72095d77",
+      "name": "オコボルト",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち、召喚時：敵リーダーがパワフルバッジを持つ場合+2/+2",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_5c527699",
+      "name": "オーガキング",
+      "cardType": "ユニット",
+      "cost": 8,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_671af643",
+      "name": "オーク",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "貫通",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_43b1333a",
+      "name": "オークキング",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "貫通、召喚時：HPを2回復",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_75d17a3b",
+      "name": "ガチャコッコ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち、召喚時：敵ユニット1体につき攻撃力＋1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_34442b7d",
+      "name": "ガメゴン",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_f9b880a8",
+      "name": "キメラ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：ユニット1体の位置を前後に入れ替える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_99fccc22",
+      "name": "キャタピラー",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方ユニット1体のHP+2",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_067c8577",
+      "name": "キラークラブ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "盗賊"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時:味方リーダーが装備中の武器に「この武器で攻撃した時の反撃ダメージ-2」を付与する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_cba34087",
+      "name": "キラーデーモン",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方ユニット1体を+1/+1した後におうだちを付与する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_1df09d65",
+      "name": "キラーパンサー",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵ユニットが3体以上いる場合速攻を得る",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_0cb23ff2",
+      "name": "キラーピアス",
+      "cardType": "武器",
+      "cost": 4,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "武器",
+        "2回攻撃"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "2回攻撃",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_77b1f2af",
+      "name": "キラーマシン",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "2回攻撃"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "2回攻撃、召喚時：敵ユニット1体に2ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_979017aa",
+      "name": "キングレオ",
+      "cardType": "ユニット",
+      "cost": 8,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "速攻",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_b85d8d5e",
+      "name": "ギュメイ将軍",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "山札",
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "貫通、このユニット以外の全ての敵味方は戦闘ダメージとデッキ切れによるダメージのみ受ける",
+      "needExplanationFor": [
+        "山札"
+      ]
+    },
+    {
+      "id": "card_fede32d5",
+      "name": "グレイトドラゴン",
+      "cardType": "ユニット",
+      "cost": 8,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：このユニットを除く自分の場と手札にいるドラゴン系の数だけ+1/+1",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_a6ad5317",
+      "name": "グレイナル",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：竜戦士の装具を手札に加える。ドラゴン系の味方ユニットが攻撃して敵ユニットを倒す度味方リーダーのテンション+1",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_78b75767",
+      "name": "グレンデル",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち　召喚時:味方リーダーのテンションを1消費する。消費した後+1/+1を得る。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_f35349de",
+      "name": "グール",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "毒"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ダメージを与えたユニットを毒にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_52ff4131",
+      "name": "ケトス",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "このユニットによる敵リーダーの攻撃で敵リーダーのHPが11になった場合この対戦に勝利する。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_04ea5b09",
+      "name": "ケミカルゼリー",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵ユニット1体に2ダメージ、そのユニットが前列にいる場合代わりに4ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c4a3f7b9",
+      "name": "ケムケムベス",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "絶好調、このユニットは絶好調状態ではない場合攻撃できない",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_13db3095",
+      "name": "コサックシープ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方ユニット1体を手札に戻す",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_3410ad27",
+      "name": "ゴールドオーク",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方リーダーのテンションの2倍分味方リーダーのHPを回復",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_2d9b1d3d",
+      "name": "ゴールドタヌ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時:宝の地図1枚を手札に加える",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_8beb207f",
+      "name": "ゴールドフィンガー",
+      "cardType": "特技",
+      "cost": 6,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "封印"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ユニット1体を封印し6ダメージを与える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_5b3cd328",
+      "name": "ゴーレム",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_f1cd2f74",
+      "name": "サイおとこ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_dd4e120b",
+      "name": "サイレス",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "封印"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：ユニット1体を封印する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_7cee0686",
+      "name": "サンチョ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "におうだち",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_5d901bd6",
+      "name": "ザバン",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：道具カードを手札に1枚加える",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_22190279",
+      "name": "シドー",
+      "cardType": "ユニット",
+      "cost": 9,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "魔王系"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：このユニットを除く全てのユニットに4ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_3c97debd",
+      "name": "シャドウベビー",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ステルス",
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ステルス、貫通",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_08ca59fe",
+      "name": "シャドーサタン",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "魔法陣にいる場合自分のターン終了時全ての敵ユニットに1ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_392faba7",
+      "name": "シャーマン",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "パワフルバッジ：ゾンビ系のユニットカードを使う度敵リーダーの武器の攻撃力-1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_1c5a55aa",
+      "name": "シュバルツシュルト",
+      "cardType": "ユニット",
+      "cost": 8,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：他の味方ユニットの数と同じだけカードを引く",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_cd4a652a",
+      "name": "ショートボウ",
+      "cardType": "武器",
+      "cost": 2,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "武器",
+        "ねらい撃ち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ねらい撃ち、敵ユニットから反撃をうけない",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_72f86ddf",
+      "name": "シルバークロー",
+      "cardType": "武器",
+      "cost": 4,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_f8c88241",
+      "name": "シルバーデビル",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ねらい撃ち",
+        "2回攻撃"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ねらい撃ち、2回攻撃",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_836a79fd",
+      "name": "シーゴーレム",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方ヒーローがいる場合HP+2とにおうだちを得る",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_93022096",
+      "name": "シーライオン",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち、自分のターン終了時このユニットのHPを2回復",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_55f66785",
+      "name": "シールドこぞう",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_83cf917e",
+      "name": "シールドオーガ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方リーダーのHPが15以下の場合+2/+2とにおうだちを得る",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_0f3ff099",
+      "name": "ジャガーメイジ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵ユニットが3体以上いる場合全ての敵ユニットに1ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_5871f2be",
+      "name": "スケアフレイル",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_7d6409ad",
+      "name": "ストーンビースト",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "絶好調、このユニットが絶好調状態なら攻撃力+2とにおうだちを得る",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c99c6450",
+      "name": "ストーンマン",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_09280fcd",
+      "name": "スノーベビー",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "盗賊"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：ダメージを受けている敵ユニット1体に2ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_3a0e0c79",
+      "name": "スパイクヘッド",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：相手はカードを1枚引く",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_3dc5fbef",
+      "name": "スマイルロック",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "絶好調、攻撃時：このユニットが絶好調状態ならテンション+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_20ad0865",
+      "name": "スライムつむり",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_75c0f22c",
+      "name": "スライムジェネラル",
+      "cardType": "ユニット",
+      "cost": 8,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "おうえん、召喚時：味方リーダーのテンションスキルを将軍の秘技に変える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c9f19467",
+      "name": "スライムスノー",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "山札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：自分のデッキにメラ系の特技カードが無いならこのユニットは特技ダメージ+1を得る。その後カードを1枚引く",
+      "needExplanationFor": [
+        "山札"
+      ]
+    },
+    {
+      "id": "card_0a0e15fb",
+      "name": "スライムタワー",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：カードを1枚捨てた後カードを1枚引く",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_f1c82881",
+      "name": "スライムツリー",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵ユニット1体に「受けるダメージ2倍」を付与する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_4a6a4ae2",
+      "name": "スライムファング",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時:スライム系の味方ユニット1体の攻撃力+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_911b72aa",
+      "name": "ゼルドラド",
+      "cardType": "ユニット",
+      "cost": 10,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "魔王系"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：このユニットを除く全ての味方ユニットの攻撃力+2、全ての敵ユニットの攻撃力-2",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c280a90c",
+      "name": "ダゴン",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "2回攻撃"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "2回攻撃",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_1d7c1c73",
+      "name": "ダッシュラン",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：前列にいるユニット1体を後列に移動させる",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_9f800622",
+      "name": "ダンスニードル",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "貫通、貫通を持つ他の全ての味方ユニットの攻撃力+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_e7be76a8",
+      "name": "ダークスライム",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "このユニットの攻撃で敵ユニットを倒す度カードを1枚引く",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_eb476849",
+      "name": "ダークホビット",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "熟練度(0)、(3)におうだち+1/+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_fd9a621e",
+      "name": "チョメ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "速攻",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_d01f9f56",
+      "name": "テラノザース",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "山札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時:自分のデッキに特技カードがないならカードを1枚引く",
+      "needExplanationFor": [
+        "山札"
+      ]
+    },
+    {
+      "id": "card_3ced797c",
+      "name": "テラノライナー",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "速攻",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_4c84797f",
+      "name": "テンタコルス",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のターン終了時全ての味方のHPを1回復",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_39803cd0",
+      "name": "テンペラーソード",
+      "cardType": "武器",
+      "cost": 2,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "攻撃時",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "味方リーダーが攻撃した後味方リーダーのテンション+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_5b82d953",
+      "name": "デスケルト",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方ユニット1体を手札に戻す",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_445d5e8a",
+      "name": "デスゴーゴン",
+      "cardType": "ユニット",
+      "cost": 8,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "このユニットの攻撃で敵ユニットを倒す度HPを超えた分だけ敵リーダーにダメージ。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_078c4d8f",
+      "name": "デスセイレス",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：全ての味方ユニットを絶好調状態に戻す",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_0340dccb",
+      "name": "デスフラッター",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "山札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：自分のデッキの上からカード4枚を見る。ユニットカード以外のカードを1枚選び、それを引く。残りをデッキの下に戻す",
+      "needExplanationFor": [
+        "山札"
+      ]
+    },
+    {
+      "id": "card_4b22703f",
+      "name": "デッドペッカー",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "絶好調、速攻、このユニットが絶好調状態なら攻撃力+1を得る",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c612bd27",
+      "name": "デュランダル",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "パワフルバッジ：自分の手札にあるメタルボディもしくはハードメタルボディを持つユニットカードと武器のカード残すと-1",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_cda1124f",
+      "name": "デンデン竜",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち、おうえん",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_62a3fe56",
+      "name": "トンブレロ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方ヒーローがいる場合味方ユニット1体を+2/+2",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_8d8b59c8",
+      "name": "トーマ王子",
+      "cardType": "ユニット",
+      "cost": 8,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時:以下の4つから1つを選び発動する・虚無の剣・無我の心・鉄壁の盾・追憶の呪縛",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_dd122306",
+      "name": "ドッグスナイパー",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ねらい撃ち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ねらい撃ち、戦闘以外のダメージで敵ユニットが死亡する度攻撃力+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_1acdd672",
+      "name": "ドラキーマ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：ユニット1体を次のターン攻撃不能にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_d5eb68dc",
+      "name": "ドラゴスライム",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方ユニット１体を絶好調状態に戻す",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_36833618",
+      "name": "ドラゴンガイア",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：次の相手のターン終了時まで全ての味方は相手の特技ダメージを受けない",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_03d5f244",
+      "name": "ドラゴンキッズ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：正面にいる全ての敵ユニットに1ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_9b096ce0",
+      "name": "ドラゴンシールド",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "全ての味方に「次のターン終了時まで受けるダメージ-1」を付与する。この対戦中に味方リーダーが攻撃した回数分受けるダメージ-1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_8a601bff",
+      "name": "ドラゴンバゲージ",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち、自分のターン終了時味方リーダーのテンション+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_194a2d14",
+      "name": "ドラゴンヘビー",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち、このユニットは移動せず手札に戻らない",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_d9f0a8af",
+      "name": "ドルイド",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "山札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：対戦中に使った特技カード1枚を自分のデッキの一番上に置く。",
+      "needExplanationFor": [
+        "山札"
+      ]
+    },
+    {
+      "id": "card_f4f27478",
+      "name": "ドロヌーバ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ステルス"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ステルス",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_993f78a7",
+      "name": "ナスビナーラ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：ユニット１体を縦1列の中央に移動させる",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_d1e8df66",
+      "name": "ニマ大師",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方リーダーのテンションスキルを灼熱とうこん討ちに変える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_4114f12b",
+      "name": "ニードルマン",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "攻撃時：相手はカードを1枚引く",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c2b05edb",
+      "name": "ヌボーン",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "このユニットは攻撃できない",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_0ac53622",
+      "name": "ネクロバルサ",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時:味方リーダーの攻撃力が4以上ある場合武器の耐久力を+2する。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_f469314b",
+      "name": "ネネ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：この対戦中「お宝発見」で手に入る道具カードの数+2枚",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_63ede83e",
+      "name": "ネルゲルの配下",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_b6ca0892",
+      "name": "ハンフリー",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時:ユニット1体の攻撃力とHPを吸い取り自身の攻撃力とHPを同じ値にする。そのユニットを2/2にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_14ea7bec",
+      "name": "バアルゼブブ",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵リーダーに3ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_893dab8f",
+      "name": "バズズ",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ねらい撃ち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ねらい撃ち、召喚時：敵の場に氷塊があるなら全ての敵ユニットを次のターン攻撃不能にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_d8e3589a",
+      "name": "バブルスライム",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "毒"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ダメージを与えたユニットを毒にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_b0b64660",
+      "name": "バベルボブル",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "速攻",
+        "2回攻撃"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "速攻、2回攻撃",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_12edc6c3",
+      "name": "バリクナジャ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "このユニットの攻撃で敵ユニットを倒す度味方リーダーのテンション+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c55ba7bd",
+      "name": "バル&ベル",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のターン開始時ボル&ブルが自分の場にいる場合合体してバブルボブルになる。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_e3f0dbe1",
+      "name": "バルザック",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "攻撃時",
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "貫通：このユニットの攻撃で敵ユニットを倒す度+2/+2",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c276526b",
+      "name": "バルバロッサ",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時:魔法陣に召喚された場合メラミを手札に加える",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_51e3a4ad",
+      "name": "パプリカン",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方ヒーローがいる場合装備中の武器を+1/+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_5338b90d",
+      "name": "パワーナックル",
+      "cardType": "武器",
+      "cost": 3,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "味方ユニットの攻撃対象が敵リーダーの場合味方リーダーのテンション+1、武器の耐久力を-1する。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_f6aadd3b",
+      "name": "パールスライム",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方ユニット1体のHP+2、それが冒険者ならさらにカードを1枚引く",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_7898dbde",
+      "name": "ヒッポキング",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "貫通、敵リーダーのテンションが上がる度攻撃力+2",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_9eef3ae2",
+      "name": "ヒートギズモ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "前列召喚時：正面にいる敵ユニットに2ダメージ、後列召喚時：味方リーダーのテンション+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_2eee974a",
+      "name": "ビックアイ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：自分の場に冒険者がいるなら横一列にいる全ての敵ユニットに2ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_9da6f4c2",
+      "name": "ビッグシールド",
+      "cardType": "特技",
+      "cost": 2,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "おうえん、次の自分のターン開始時まで味方リーダーが受けるダメージ-2",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_13c2373a",
+      "name": "ピクシー",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ねらい撃ち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ねらい撃ち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_3745f350",
+      "name": "ピンクモーモン",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "このユニットの攻撃で与えたダメージ分味方リーダーのHPを回復する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_1244e07b",
+      "name": "ファーラット",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "速攻",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_1e988827",
+      "name": "ファーリス王子",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のターン終了時このユニットがブロックされているなら味方リーダーのテンション+1、カードを1枚引く",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_99408259",
+      "name": "フェアリーバット",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：後列にいるすべての敵ユニットを前列に移動させる。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_bf520fa8",
+      "name": "フォズ大神官",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のターン終了時味方リーダーのテンションスキルを別の職業のものに変更しテンション+2",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_b5d334a0",
+      "name": "フォレストドラゴ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のターン終了時味方リーダーのHPを2回復",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_f130960a",
+      "name": "フォンデュ",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方冒険者1体を+1/+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_26b61b11",
+      "name": "フーセンドラゴン",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_3697e999",
+      "name": "ブチュチュンパ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：全ての敵ユニットは絶好調状態ではなくなる。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_b67e7f26",
+      "name": "ブラウニー",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "味方リーダーの攻撃で敵ユニットを倒す度攻撃力+2",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_fa60bb4c",
+      "name": "ブラックマンティス",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち、召喚時：敵ユニット1体の攻撃力-1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_87426e8e",
+      "name": "ブラッドナイフ",
+      "cardType": "武器",
+      "cost": 3,
+      "classes": [
+        "盗賊"
+      ],
+      "keywordsDetected": [
+        "攻撃時",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "反撃ダメージ-1、この武器の攻撃で敵ユニットを攻撃した後この武器の攻撃力+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_a409c3cb",
+      "name": "ブラッドレディ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：ユニット1体に2ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_efc24be5",
+      "name": "ブルベリーノ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：カードを1枚引く",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_02391eb2",
+      "name": "ブロンズナイフ",
+      "cardType": "武器",
+      "cost": 3,
+      "classes": [
+        "盗賊"
+      ],
+      "keywordsDetected": [
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_71a4559c",
+      "name": "プチアーノン",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "攻撃時：攻撃力+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_bd1c41e5",
+      "name": "プラズママウス",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "味方ヒーローがいる場合速攻を得る",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_a0bd7b10",
+      "name": "プラチナソード",
+      "cardType": "武器",
+      "cost": 3,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時:味方リーダーのHPが15以下の場合カードを1枚引く",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_df9d5093",
+      "name": "プレミアムスライム",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のターン終了時味方リーダーのテンション+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_cb6f8c12",
+      "name": "ヘルオーディン",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "におうだち",
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち、パワフルバッジ：ゾンビ系の味方ユニットは貫通を得る。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_7d611f88",
+      "name": "ヘルコンドル",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ねらい撃ち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ねらい撃ち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_5082098d",
+      "name": "ヘルチェイサー",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方リーダーのテンションを全て消費する。他の全てのユニットに消費したテンションの数分のダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_81da80ae",
+      "name": "ヘルホーネット",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方ユニット1体の攻撃力+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_2726b6c6",
+      "name": "ベビル",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "盗賊"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：縦1列にいる全ての敵ユニットに1ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_fb7db451",
+      "name": "ベリアル",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：すべての敵ユニットに2ダメージ、倒したユニット数の2倍分味方リーダーのHPを回復",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_8b93b221",
+      "name": "ベンガルクーン",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時:宝箱に召喚された場合、宝箱から4/4のミミックがあらわれる。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_bab58015",
+      "name": "ホイミスライム",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のターン終了時ダメージを受けている他の味方1体のHPを2回復",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_47295620",
+      "name": "ホイミン",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のターン終了時ダメージを受けている他の味方１体のHPを３回復。 自分の場にライアンがいる間ホイミンはダメージを受けない。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_8962d8ec",
+      "name": "ホメロス",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時:HPが2以下の敵ユニット1体を味方にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_6e980110",
+      "name": "ホロゴースト",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ステルス"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ステルス",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_ffdb7171",
+      "name": "ホークマン",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ねらい撃ち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ねらい撃ち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_76952315",
+      "name": "ホーンビートル",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ねらい撃ち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ねらい撃ち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_140f5c76",
+      "name": "ボル&ブル",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "2回攻撃"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "2回攻撃",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_637fcf8d",
+      "name": "ボーンナイト",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "貫通",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_09cd85f8",
+      "name": "ボーンバット",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：このユニットに2ダメージを与える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_f5c2f9e5",
+      "name": "ポイズンリザード",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "毒"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "絶好調、このユニットが絶好調状態ならダメージを与えたユニットを毒にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_cbdf8611",
+      "name": "マザーウッド",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "テンションリンク：前後にいる味方ユニットに速攻を付与する。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_6a130f33",
+      "name": "マッシュスライム",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のターン終了時このユニットの正面に敵ユニットがいるなら攻撃力+",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_fe374675",
+      "name": "マネマネ",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：他のユニット1体に変身する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_62320064",
+      "name": "マポレーナ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時： 味方ユニット1体を+1/+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_f929b37f",
+      "name": "マミー",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵1体を次のターン攻撃不能にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_89a146ee",
+      "name": "マルチェロ",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち、召喚時：敵の後列中央を中心に十字型に4ダメージを与える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_e0c0d5f6",
+      "name": "マンドラ",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：ユニット1体の位置を前後入れ替える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_f6155389",
+      "name": "マージスター",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：全ての味方のHPを2回復",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_af131657",
+      "name": "マージマタンゴ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時:HPを3回復",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_1deadf61",
+      "name": "ミケまどう",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：後列にいるユニット1体に1ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_b5f6e747",
+      "name": "ミノーン",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "攻撃時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "攻撃時：前後にいる味方ユニットのHP+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_33bd80ef",
+      "name": "ムーンキメラ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：後列にいる全ての敵ユニットを前列に移動させる。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_aef91017",
+      "name": "ムーンフェイス",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵ヒーローのレベルを1下げる",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_87f4d7ac",
+      "name": "メイジももんじゃ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方ヒーローがいる場合ヒャドを手札に加える",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_286c12aa",
+      "name": "メイデンドール",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方ヒーローがいる場合敵ユニット1体を-2/-2",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_34aa0b9b",
+      "name": "メソコボルト",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：ユニット1体ににおうだちを付与する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_f3e5436e",
+      "name": "メタルハンター",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：メタルボディを持つユニット1体を死亡させる",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_f8b1a025",
+      "name": "メッサーラ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：縦1列にいる全ての敵ユニットに1ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_a7a6eabe",
+      "name": "メラゴースト",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：1ダメージを与える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_833eefb3",
+      "name": "メラリザード",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "貫通",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_3b082637",
+      "name": "モコッキー",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のターン終了時このユニットのHPを1回復",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_30055c41",
+      "name": "モコフル",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "封印"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時:味方ユニット1体を封印する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_3c795f19",
+      "name": "モコモコじゅう",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "速攻",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_b1f5ae69",
+      "name": "ユニコーン",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時:HPを4回復",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_ba7eb2dc",
+      "name": "ライノスキング",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_dfab130d",
+      "name": "ラリホー",
+      "cardType": "特技",
+      "cost": 0,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "敵1体を次のターン終了時まで攻撃不能にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_33613a86",
+      "name": "ラリホービートル",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方ヒーローがいる場合敵ユニット1体を次のターン終了時まで攻撃不能にする。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c1482e48",
+      "name": "ランドゲーロ",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：前列に召喚した場合攻撃力が1になる。後列に召喚した場合HPが１になる。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_adb8f2c2",
+      "name": "ランプのまじん",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：全ての敵ユニットの位置を前後入れ替える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_88bf04ae",
+      "name": "リビングスタチュー",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_b075e00c",
+      "name": "リビングデッド",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方ユニット1体を3/3のミイラおとこに変身させる",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_6f34f6bb",
+      "name": "リーズレット",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "山札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：自分のデッキにメラ系の特技カードが無いなら敵ユニット1体を氷塊に変える",
+      "needExplanationFor": [
+        "山札"
+      ]
+    },
+    {
+      "id": "card_56b8d468",
+      "name": "レッドアーチャー",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ねらい撃ち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方リーダーのHPが20以上の場合このユニットは攻撃力+2とねらい撃ちを得る",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_fb9188a4",
+      "name": "レッドサイクロン",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のターン終了時にお互いのリーダーに2ダメージ。味方リーダーのHPが15以下の場合代わりに自分のターン終了時敵リーダーに2ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c245e2de",
+      "name": "レッドプレデター",
+      "cardType": "ユニット",
+      "cost": 8,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "におうだち、この対戦中に自分が使った特技カードの枚数と同じだけ攻撃力を上げる。 召喚時：敵ユニット1体に自身の攻撃力と同じダメージを与える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_8aa08ebc",
+      "name": "ローズバトラー",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "毒"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "味方リーダーへの敵の攻撃や効果の対象はこのユニットに変更される。ダメージを与えたユニットを毒にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c97c7b46",
+      "name": "ワルぼう",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "山札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "お互いのターン終了時両プレイヤーはデッキの一番上のカードを1枚捨てる",
+      "needExplanationFor": [
+        "山札"
+      ]
+    },
+    {
+      "id": "card_884d1edf",
+      "name": "兵士長の剣",
+      "cardType": "武器",
+      "cost": 2,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "攻撃時",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "味方リーダーが攻撃した後全ての味方ユニットを絶好調状態に戻す",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_7cce8fca",
+      "name": "剣の手入れ",
+      "cardType": "特技",
+      "cost": 3,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "カードを1枚引く、装備中の武器を+1/+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_18c22fbc",
+      "name": "剣を求めて",
+      "cardType": "特技",
+      "cost": 1,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "山札",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のデッキから武器カードを1枚引く",
+      "needExplanationFor": [
+        "山札"
+      ]
+    },
+    {
+      "id": "card_2c08d95c",
+      "name": "吹雪の魔女",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵の場に氷塊があるなら敵ユニット1体に4ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_8decb006",
+      "name": "大ぼうぎょ",
+      "cardType": "特技",
+      "cost": 2,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ユニット1体を+2/+2、味方リーダーのHPが15以下の場合さらににおうだちを付与する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_7c0ec16a",
+      "name": "妖剣士オーレン",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵ユニット1体を-2/-2",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_1b19a9ac",
+      "name": "妖魔軍王ブギー",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵の冒険者1体をこのユニットが場にいる間+2/+2して味方にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_138b3534",
+      "name": "家族の絆",
+      "cardType": "トークン",
+      "cost": 10,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "次の自分のターン開始時味方リーダーは「この対戦の間自分が手札を使う度敵リーダーに2ダメージ」を得る",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_ee9e205b",
+      "name": "封印の杖",
+      "cardType": "特技",
+      "cost": 0,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "封印"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ユニット1体を封印する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_f33b0a12",
+      "name": "少年ヤンガス",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：この対戦の間味方の効果で手に入る道具カードは「弟切草」「火炎草」「大きなパン」になる",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_0a058f8a",
+      "name": "忠義の騎士アドン",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "このカードはピサロナイトとしても扱う。召喚時:他の味方のピサロナイトの数分+1/+1を得る。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_0a619d77",
+      "name": "悪霊の神々ベリアル",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "僧侶"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：「次のターン終了時まで受けるダメージ-1」を得る。さらに全ての敵ユニットに2ダメージ。死亡したユニットの数分HP+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_2242c067",
+      "name": "悪鬼丸",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方リーダーのテンションスキルを死者の目覚めに変える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c40057ab",
+      "name": "慈愛のキラーパンサー",
+      "cardType": "ユニット",
+      "cost": 5,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "おうえん、召喚時：おうえん 2/2のベビーパンサー1枚を手札に加える",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_8b4c096a",
+      "name": "成長の果実",
+      "cardType": "特技",
+      "cost": 1,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "におうだち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ユニット1体にHP+2とにおうだちを付与する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_6b06d90f",
+      "name": "戦士の剣",
+      "cardType": "武器",
+      "cost": 2,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "おうえん",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_816e9972",
+      "name": "新たなチカラへの対価",
+      "cardType": "特技",
+      "cost": 1,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "装備している武器の耐久力と同じ数分カードを1枚引く。装備している武器を破壊する。武器を装備していない場合こんぼう1枚を手札に加える。",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_0594147f",
+      "name": "暗黒皇帝ガナサダイ",
+      "cardType": "ユニット",
+      "cost": 7,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "パワフルバッジ：自分のターン終了時ゾンビ系の味方ユニットを+1/+1",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_e79b30dc",
+      "name": "樹氷の竜",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のターン終了時、敵の場に氷塊があるなら敵リーダーに3ダメージ。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_325449f2",
+      "name": "流浪のヒューザ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "冒険者"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：敵ユニット1体に1ダメージ。対戦中に味方リーダーが攻撃した回数分+1ダメージ",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_41ba8d52",
+      "name": "灼熱とうこん討ち",
+      "cardType": "トークン",
+      "cost": 0,
+      "classes": [
+        "武闘家"
+      ],
+      "keywordsDetected": [
+        "手札",
+        "武器"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "敵1体に2ダメージ。このテンションスキルで対象のユニットが死亡した場合味方リーダーのテンションを+1して武器カード1枚を手札に加える",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_d27b76c8",
+      "name": "牙王ゴースネル",
+      "cardType": "ユニット",
+      "cost": 6,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：味方リーダーの攻撃力が4以上ある場合正面にいる全てのユニットに4ダメージ。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_c5cdba2b",
+      "name": "猛毒の霧",
+      "cardType": "特技",
+      "cost": 3,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "毒"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "お互いの全てのユニットを毒にする",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_1d71bd61",
+      "name": "畏怖すべき王",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "封印"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "おうえん、味方リーダーのHPを5回復、全ての敵ユニットを封印する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_8f583e5f",
+      "name": "破壊神シドー",
+      "cardType": "ユニット",
+      "cost": 8,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "ターン開始終了",
+        "魔王系"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "自分のターン終了時全ての敵ユニットに2ダメージ。相手のターン終了時このユニットのHPを全回復する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_23f82007",
+      "name": "突撃命令",
+      "cardType": "特技",
+      "cost": 2,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "全ての味方ユニットに貫通を付与する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_78e37c49",
+      "name": "突貫のしにがみきぞく",
+      "cardType": "ユニット",
+      "cost": 4,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "貫通、貫通を持つ他の全ての味方の攻撃力+1、味方リーダーのHPが15以下の場合、他の全ての味方ユニットは貫通を得る",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_4172aae0",
+      "name": "船長",
+      "cardType": "ユニット",
+      "cost": 2,
+      "classes": [
+        "盗賊"
+      ],
+      "keywordsDetected": [
+        "召喚時",
+        "手札"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時&手札から捨てた時:味方リーダーのHPを2回復する",
+      "needExplanationFor": [
+        "手札"
+      ]
+    },
+    {
+      "id": "card_96cf13d8",
+      "name": "薄命のボーンバット",
+      "cardType": "ユニット",
+      "cost": 1,
+      "classes": [
+        "共通"
+      ],
+      "keywordsDetected": [
+        "召喚時"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "召喚時：このユニットに2ダメージを与える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_f9087fd7",
+      "name": "豪腕王アントン",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "におうだち",
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "絶好調、貫通、におうだち、このユニットが絶好調状態なら攻撃力+2を得る",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_4a9e16a8",
+      "name": "超ちからのたね",
+      "cardType": "特技",
+      "cost": 1,
+      "classes": [
+        "商人"
+      ],
+      "keywordsDetected": [
+        "貫通"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ユニット1体に攻撃力+2と貫通を付与する",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_d35930e1",
+      "name": "闇のクリスタル",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "魔法使い"
+      ],
+      "keywordsDetected": [
+        "攻撃時",
+        "ターン開始終了"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "攻撃できない。自分のターン終了時このユニットの正面にいる全ての敵ユニットと敵リーダーに2ダメージ。",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_cb056082",
+      "name": "雫の洗礼",
+      "cardType": "特技",
+      "cost": 1,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "封印"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ユニット1体を封印して1ダメージを与える",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_41616b9f",
+      "name": "韋駄天のドラまさ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "速攻",
+        "ねらい撃ち"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "絶好調、速攻、ねらい撃ち このユニットが敵リーダーを攻撃した時絶好調状態ならカードを1枚引く",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_bb5a9caa",
+      "name": "魔剣士の封印",
+      "cardType": "特技",
+      "cost": 3,
+      "classes": [
+        "魔剣士"
+      ],
+      "keywordsDetected": [
+        "封印"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "ダメージを受けている全ての味方ユニットを+2/+2",
+      "needExplanationFor": []
+    },
+    {
+      "id": "card_a1d4a4e6",
+      "name": "黒騎士レオコーン",
+      "cardType": "ユニット",
+      "cost": 8,
+      "classes": [
+        "戦士"
+      ],
+      "keywordsDetected": [
+        "速攻"
+      ],
+      "priority": "C",
+      "implementedByNameInAppJs": false,
+      "genericSupportedLikely": true,
+      "text": "パワフルバッジ：ゾンビ系の味方ユニットは速攻を得る",
+      "needExplanationFor": []
+    }
+  ],
+  "genericTruncated": false,
+  "engineCoverageCategories": [
+    "2回攻撃",
+    "BET",
+    "さくせん",
+    "におうだち",
+    "ねらい撃ち",
+    "れんけい",
+    "シンクロ",
+    "スキルブースト",
+    "ステルス",
+    "ターン開始終了",
+    "ダンジョン",
+    "交換所",
+    "占い",
+    "召喚時",
+    "地形",
+    "場に出す",
+    "封印",
+    "建物",
+    "復活",
+    "攻撃時",
+    "武器",
+    "死亡時",
+    "毒",
+    "消滅",
+    "貫通",
+    "速攻",
+    "選択"
+  ]
+}

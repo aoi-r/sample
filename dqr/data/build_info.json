@@ -1,5 +1,5 @@
 {
-  "version": "v70_actionlog_random_turn_weapon_sync",
+  "version": "v78_effect_audit_reports",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -120,5 +120,29 @@
   "eventEngineFile": "data/event_engine_v69.json",
   "nextWork": "Firebase actionLog同期とランダム結果同期",
   "syncEngine": "Firebase actionLog / randomResult / turn phase split / weapon event logging を追加。",
-  "syncEngineFile": "data/sync_engine_v70.json"
+  "syncEngineFile": "data/sync_engine_v70.json",
+  "actionReplay": "remote action replay first stage and random payload queue",
+  "actionReplayFile": "data/action_replay_v71.json",
+  "actionReducer": "basic remote action reducer for unit/card/weapon/attack/death",
+  "actionReducerFile": "data/action_reducer_v72.json",
+  "attackReducer": "attackDeclared/damageApplied/counterDamage/attackResolved action events",
+  "attackReducerFile": "data/attack_action_reducer_v73.json",
+  "damageAction": "dealDamageToUnit/dealDamageToLeader wrappers and damageApplied unification",
+  "damageActionFile": "data/damage_action_unification_v74.json",
+  "targetPayload": "targetSelected action and payloads for units/leaders/empty slots",
+  "targetPayloadFile": "data/target_selection_payloads_v75.json",
+  "choicePayload": "choiceSelected action for modal choices, fortune, strategy, bet target, exchange, etc.",
+  "choicePayloadFile": "data/choice_selection_payloads_v76.json",
+  "rulingFixes": "あくまの書/うずしおキング/必中/超必中/さくせん裁定反映",
+  "rulingFixesFile": "data/ruling_fixes_v77.json",
+  "effectAudit": "カードDB全体の効果棚卸しレポートを生成。",
+  "effectAuditFiles": [
+    "data/effect_audit_v78.json",
+    "data/manual_effect_needed_v78.json",
+    "data/implemented_effect_coverage_v78.json"
+  ],
+  "totalCardsAudited": 1582,
+  "manualNeededCount": 934,
+  "priorityACount": 155,
+  "priorityBCount": 779
 }

@@ -1,0 +1,28 @@
+{
+  "version": "v72_action_reducer_basic",
+  "implemented": [
+    "applyRemoteReducer(action) を追加。",
+    "相手の unitSummoned を受信したら enemy.board にユニットを配置。",
+    "相手の unitPutIntoPlay を受信したら enemy.board にユニットを配置。ただし召喚時は発火しない。",
+    "相手の cardPlayed を受信して非ユニットカード使用ログ/handCountを補正。",
+    "相手の weaponEquipped / weaponBroken を受信して enemy.weapon を更新。",
+    "相手の afterAttack を受信して、リーダー/ユニットへの基本ダメージを反映する土台を追加。",
+    "相手の unitDeath を受信して該当スロットを空にする土台を追加。",
+    "actionReducerReady を public state に追加。",
+    "action idempotency 用 appliedActionIds を追加し、同じactionの二重適用を抑止。",
+    "cloneEventPayload を強化し、unit/card/weaponの再現用データを増やした。",
+    "public state board と reducer board を mergeRemoteBoard で統合するよう変更。"
+  ],
+  "caveats": [
+    "v72のreducerは基本操作のみ。全カード効果の完全再実行はまだ。",
+    "afterAttackは基本ダメージ反映の土台。反撃/貫通/特殊攻撃後効果の完全replayは今後。",
+    "public stateとの併用中なので、完全なactionLog主同期ではない。",
+    "対象選択・ランダム結果はpayload設計をさらに強化すると安定する。"
+  ],
+  "next_recommended": [
+    "v73: attack actionを明示的に追加し、攻撃開始→ダメージ→反撃→死亡をreducer化。",
+    "v74: cardPlayed reducerをカードタイプ別に拡張。特技/武器/ヒーロー/BETをpayloadから再実行。",
+    "v75: randomResultに index ではなく targetId/cardId/name を保存して完全再現性を上げる。",
+    "v76: public stateを復旧用に下げ、actionLog主同期へ切り替え。"
+  ]
+}

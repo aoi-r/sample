@@ -1,0 +1,25 @@
+{
+  "version": "v71_action_replay_random_payloads",
+  "implemented": [
+    "remote action replay の安全な第一段階を追加。",
+    "相手actionを受信した際、二重処理を避けつつ remoteActions として保持し、ログ表示/状態イベントに反映。",
+    "ownTurnStart/ownTurnEnd を受信した相手側では opponentTurnStart/opponentTurnEnd として処理する土台を追加。",
+    "remoteRandomResults キューを追加し、remote処理時に同じ kind/context のrandomResultを再利用できるようにした。",
+    "shuffle を randomIndex 経由に変更し、山札シャッフル系のランダム結果も記録対象にした。",
+    "残っていた主要 Math.random 効果を randomIndex/crypto.randomUUID に置換。",
+    "public state に actionReplayReady / remoteActionCount を追加。",
+    "マヤやランダムカード/対象選択の将来の完全再生に必要な random payload の土台を強化。"
+  ],
+  "still_caveats": [
+    "v71でも盤面の主同期は public state。remote action の完全再実行はまだ限定的。",
+    "完全replayにするには、cardPlayed/unitSummoned/attack/betをaction payloadから安全に再実行する専用reducerが必要。",
+    "今は二重処理を避けるため、相手actionの多くはログ/補助イベントとして扱う。",
+    "randomResultはkind/context一致で拾えるが、全カード効果のcontext設計はまだ粗い。"
+  ],
+  "next_recommended": [
+    "v72: action reducer 専用関数を作り、カード使用/召喚/BET/攻撃をpayloadから再実行可能にする。",
+    "v73: public state同期を補助に格下げし、actionLogを主同期にする。",
+    "v74: randomResultに対象ID/カードIDを直接保存し、index依存を減らす。",
+    "v75: UIに同期状態/遅延/再同期ボタンを追加。"
+  ]
+}
