@@ -63,7 +63,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v94_solo_controls_and_turn_flow';
+const DATA_VERSION = 'v95_solo_lab_functional_fix';
 
 
 const HERO_SKILL_DEFS = {
@@ -1517,8 +1517,9 @@ function soloAdvanceTurn(){
 
   emitBattleEvent('ownTurnStart', {side:'player', solo:true});
   handleTurnStartEvent({side:'player', solo:true});
-  drawCard(1);
-  battleLog(`--- ソロ：自分ターン開始 / TURN ${game.turn} / MP ${game.player.mp}/${game.player.maxMp} / 1枚ドロー ---`);
+  const beforeHand = game.player.hand.length;
+  const drawn = drawCard(1);
+  battleLog(`--- ソロ：自分ターン開始 / TURN ${game.turn} / MP ${game.player.mp}/${game.player.maxMp} / ${drawn}枚ドロー / 手札 ${beforeHand}→${game.player.hand.length} ---`);
   game.isMyTurn = true;
   game.currentTurnPlayerId = state.playerId;
   renderBattleArena();
@@ -1542,13 +1543,14 @@ function startSoloTestMode(){
   game.enemy.hp = 999999;
   game.enemy.maxHp = 999999;
   setupSoloEnemyHand();
-  game.enemy.maxMp = 10;
-  game.enemy.mp = 10;
-  game.player.maxMp = 10;
-  game.player.mp = 10;
-  game.player.tension = 3;
+  game.enemy.maxMp = 1;
+  game.enemy.mp = 1;
+  game.player.maxMp = 1;
+  game.player.mp = 1;
+  game.player.tension = 0;
   game.soloTestMode = true;
-  battleLog('ソロ効果テスト部屋を開始しました。相手HPは実質∞です。');
+  const heroReady = soloActivateFirstHeroSkill();
+  battleLog(`ソロ効果テスト部屋を開始しました。相手HPは実質∞です。${heroReady ? 'ヒーロースキルを解放しました。' : ''}`);
   if($('battle-status')) $('battle-status').textContent = 'ソロ効果テスト中';
   $('battle-setup')?.classList.add('hidden');
   $('battle-arena')?.classList.remove('hidden');
@@ -1616,15 +1618,15 @@ function soloSummonSelected(side='enemy'){
   const board = side === 'enemy' ? game.enemy.board : game.player.board;
   const empty = board.findIndex(x=>!x);
   if(empty < 0) return toast('空きマスがありません。', false);
-  const unit = makeUnitFromCard(card);
+  const unit = makeSoloUnitFromCard(card);
   board[empty] = unit;
-  if(side === 'player'){
-    applyBaseKeywordsOnly(unit, card);
-    if(card.cardType === '建物') applySummonKeywords(unit, card);
-  }else{
-    applyBaseKeywordsOnly(unit, card);
+  if(side === 'player' && unit.isBuilding){
+    game.player.buildings ||= [];
+    game.player.buildings.push({id:unit.id, cardId:card.id, name:card.name});
+    game.player.buildingsPlayed = Number(game.player.buildingsPlayed || 0) + 1;
   }
-  battleLog(`テスト：${card.name}を${side === 'enemy' ? '敵' : '味方'}盤面へ配置。`);
+  battleLog(`テスト：${card.name}を${side === 'enemy' ? '敵' : '味方'}盤面${empty}へ配置。`);
+  renderSoloDebugStatus(`${card.name}を${side === 'enemy' ? '敵' : '味方'}盤面${empty}へ配置`);
   renderBattleArena();
 }
 function soloSetEnemyHpInfinite(){
@@ -1670,7 +1672,9 @@ function soloResetEnemyHand(){
 function soloShowEnemyHand(){
   const game = state.battle.game; if(!game) return;
   const names = (game.enemy.hand || []).map(id => byId(id)?.name || id);
-  battleLog(`相手手札：${names.join(' / ') || 'なし'}`);
+  const msg = `相手手札：${names.join(' / ') || 'なし'}`;
+  battleLog(msg);
+  renderSoloDebugStatus(msg);
   renderBattleArena();
 }
 
@@ -3902,6 +3906,51 @@ function updateTargetHighlights(){
   }
 }
 
+
+function renderSoloDebugStatus(extra=''){
+  const box = $('solo-test-status');
+  if(!box || !state.battle.game || !isSoloTestMode()) return;
+  const game = state.battle.game;
+  const enemyNames = (game.enemy.hand || []).map(id => byId(id)?.name || id);
+  box.textContent = [
+    `TURN ${game.turn} / 自分MP ${game.player.mp}/${game.player.maxMp} / テンション ${game.player.tension}`,
+    `自分手札 ${game.player.hand.length}枚 / 山札 ${game.player.deck.length}枚`,
+    `相手手札 ${enemyNames.length}枚: ${enemyNames.join(' / ') || 'なし'}`,
+    extra
+  ].filter(Boolean).join('\n');
+}
+function soloActivateFirstHeroSkill(){
+  const game = state.battle.game;
+  if(!game || game.player.heroSkill) return false;
+  const allIds = [...(game.player.hand || []), ...(game.player.deck || [])];
+  const heroCard = allIds.map(id => byId(id)).find(c => c?.cardType === 'ヒーロー');
+  if(!heroCard) return false;
+  activateHeroCard(heroCard);
+  return true;
+}
+function makeSoloUnitFromCard(card){
+  const unit = makeUnitFromCard(card);
+  const text = getCardText(card);
+  const isBuilding = card.cardType === '建物' || String(card.tags || '').includes('建物') || text.includes('建物') || text.includes('ダンジョン');
+  if(isBuilding){
+    unit.isBuilding = true;
+    const m = text.match(/耐久値\s*(\d+)/);
+    unit.durability = m ? 0 : (Number(card.hp || card.attack || 2) || 2);
+    unit.maxDurability = m ? Number(m[1]) : unit.durability;
+    unit.isDungeon = !!m || text.includes('ダンジョン');
+    unit.canAttack = false;
+    unit.attack = 0;
+    unit.hp = Number(unit.durability || unit.hp || 1);
+    unit.maxHp = Number(unit.maxDurability || unit.maxHp || unit.hp || 1);
+  }else{
+    applyBaseKeywordsOnly(unit, card);
+    applySummonKeywords(unit, card);
+    unit.summoningSickness = false;
+    unit.canAttack = true;
+  }
+  return unit;
+}
+
 function renderBattleArena(){
   const game = state.battle.game;
   if(!game) return;
@@ -3922,6 +3971,7 @@ function renderBattleArena(){
   renderBattleBoard();
   renderBattleHand();
   renderBattleLog();
+  renderSoloDebugStatus();
   const heroBtn = $('hero-skill-button');
   if(heroBtn){ heroBtn.classList.toggle('hidden', !game.player.heroSkill); if(game.player.heroSkill){ const s=getHeroLevelDef(game.player.heroSkill); heroBtn.textContent = s?.type === 'auto' ? `Auto Lv.${game.player.heroSkill.level}` : `Hero Lv.${game.player.heroSkill.level}`; heroBtn.classList.toggle('used', !!game.player.heroSkillUsedThisTurn); } }
   document.querySelector('.player-leader')?.classList.toggle('leader-can-attack', game.player.leaderAttack > 0 && game.player.leaderCanAttack);
@@ -6830,14 +6880,17 @@ function applyTensionSkill(skill){
 
 function drawCard(count=1){
   const game = state.battle.game;
+  let drawn = 0;
   for(let i=0;i<count;i++){
     if(game.player.deck.length){
       game.player.hand.push(game.player.deck.shift());
+      drawn++;
     }else{
       game.player.hp = Math.max(0, game.player.hp - 1);
       battleLog('デッキ切れで1ダメージ。');
     }
   }
+  return drawn;
 }
 
 function renderTension(){

@@ -5619,3 +5619,42 @@
   font-weight:800;
   letter-spacing:.12em;
 }
+
+
+/* v95: place effect test panel on the left, respecting iPhone safe area */
+.solo-test-toggle{
+  left:calc(env(safe-area-inset-left, 0px) + 10px);
+  right:auto;
+  top:calc(env(safe-area-inset-top, 0px) + 10px);
+}
+.solo-test-panel{
+  left:calc(env(safe-area-inset-left, 0px) + 10px);
+  right:auto;
+  top:calc(env(safe-area-inset-top, 0px) + 48px);
+}
+.solo-test-status{
+  margin-top:8px;
+  padding:8px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.07);
+  color:#e8f1ff;
+  font-size:12px;
+  line-height:1.35;
+  white-space:pre-wrap;
+}
+.battle-log{
+  max-height:66px;
+  overflow:auto;
+}
+@media (max-width: 720px){
+  .solo-test-toggle{
+    left:calc(env(safe-area-inset-left, 0px) + 8px);
+    right:auto;
+  }
+  .solo-test-panel{
+    left:calc(env(safe-area-inset-left, 0px) + 6px);
+    right:auto;
+    width:min(360px, calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) - 12px));
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "version": "v94_solo_controls_and_turn_flow",
+  "version": "v95_solo_lab_functional_fix",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -203,5 +203,7 @@
   "cardsCount": 1582,
   "consoleErrorFixed": "Identifier 'isAdventurerCard' has already been declared",
   "soloModeFix": "delegated controls and solo turn flow",
-  "soloModeFixFile": "data/solo_mode_fix_v94.json"
+  "soloModeFixFile": "data/solo_mode_fix_v94.json",
+  "soloLabFix": "board placement, turn draw, status panel, hero skill unlock, left safe-area panel",
+  "soloLabFixFile": "data/solo_lab_fix_v95.json"
 }
