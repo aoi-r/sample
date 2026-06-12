@@ -5931,3 +5931,93 @@
     height:66px;
   }
 }
+
+
+/* v100: use normal player-hand as the only self hand UI */
+.solo-self-hand-visual{ display:none !important; }
+.battle-arena.solo-test-mode .player-hand{
+  position:fixed;
+  left:calc(env(safe-area-inset-left, 0px) + 132px);
+  right:calc(env(safe-area-inset-right, 0px) + 18px);
+  bottom:calc(env(safe-area-inset-bottom, 0px) + 10px);
+  z-index:75;
+  min-height:84px;
+  max-height:100px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  background:rgba(4,12,22,.78);
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 8px 28px rgba(0,0,0,.35);
+  backdrop-filter:blur(8px);
+}
+.battle-arena.solo-test-mode .hand-card{
+  flex:0 0 58px;
+  width:58px;
+  height:78px;
+}
+.battle-arena.solo-test-mode .hand-card span{ font-size:9px; }
+.enemy-hand-list-pop{
+  position:absolute;
+  top:calc(100% + 4px);
+  right:0;
+  z-index:160;
+  width:min(360px, 70vw);
+  max-height:220px;
+  overflow:auto;
+  padding:8px;
+  border-radius:12px;
+  border:1px solid rgba(247,211,130,.35);
+  background:rgba(6,12,24,.97);
+  box-shadow:0 12px 34px rgba(0,0,0,.48);
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(88px, 1fr));
+  gap:6px;
+}
+.enemy-hand-list-pop.hidden{ display:none; }
+.enemy-hand-list-item{
+  display:grid;
+  grid-template-columns:28px 1fr;
+  gap:5px;
+  align-items:center;
+  color:#fff4cf;
+  font-size:10px;
+  line-height:1.15;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.06);
+  border-radius:8px;
+  padding:4px;
+}
+.enemy-hand-list-item img{
+  width:28px;
+  height:38px;
+  object-fit:cover;
+  object-position:top;
+  border-radius:4px;
+}
+.unit-slot.solo-place-target{
+  cursor:pointer;
+  pointer-events:auto !important;
+}
+.unit-slot.solo-place-target::after{
+  content:'ここに配置';
+  position:absolute;
+  inset:auto 5px 5px auto;
+  color:#e7fbff;
+  background:rgba(0,0,0,.55);
+  border-radius:999px;
+  padding:3px 6px;
+  font-size:10px;
+  font-weight:900;
+}
+@media (max-width: 720px){
+  .battle-arena.solo-test-mode .player-hand{
+    left:calc(env(safe-area-inset-left, 0px) + 112px);
+    right:calc(env(safe-area-inset-right, 0px) + 10px);
+    bottom:calc(env(safe-area-inset-bottom, 0px) + 8px);
+  }
+  .battle-arena.solo-test-mode .hand-card{
+    flex-basis:48px;
+    width:48px;
+    height:66px;
+  }
+}

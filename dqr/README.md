@@ -1465,3 +1465,22 @@ node tools/sync_official_gameconductor.mjs
   - ソロ中のテンションスキルは強制発動処理へ接続。
 - 追加ファイル:
   - `data/solo_force_visible_controls_v99.json`
+
+
+## v100 update
+- ソロ効果テスト部屋を「通常ゲームUIに戻す」方針で修正。
+- 起動画面表示:
+  - `v100 / buildable 1465 / total 1582`
+- 方針:
+  - ソロ専用の別手札UIをやめ、通常の `player-hand` を唯一の自分手札UIとして使う。
+  - 通常ゲームで動いていた「手札タップ → 使用/召喚先選択」の流れに戻す。
+- 修正:
+  - 自分手札追加/ドロー後に必ず `renderBattleArena()` で通常手札UIを更新。
+  - 相手手札は相手HUD内の画像列と一覧ポップで確認。
+  - 配置モード中はマスに `pointerup/touchend/click` を直接設定。
+  - 配置カードはIDだけでなくカード本体も保持。
+  - テンションは通常仕様に戻し、1ターンに1回だけ溜められる。
+  - テンション3ならテンションスキル使用、使用後テンション0。
+  - 戦士系テンションスキルはリーダー攻撃力+2/攻撃可能として補完。
+- 追加ファイル:
+  - `data/solo_normal_ui_restore_v100.json`
