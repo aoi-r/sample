@@ -6021,3 +6021,38 @@
     height:66px;
   }
 }
+
+
+/* v101: make normal hand and slots unquestionably touchable in solo */
+.battle-arena.solo-test-mode .player-hand{
+  display:flex !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  position:fixed !important;
+  left:calc(env(safe-area-inset-left, 0px) + 128px) !important;
+  right:calc(env(safe-area-inset-right, 0px) + 12px) !important;
+  bottom:calc(env(safe-area-inset-bottom, 0px) + 8px) !important;
+  z-index:180 !important;
+  min-height:86px !important;
+  max-height:104px !important;
+  background:rgba(4,12,22,.86) !important;
+  pointer-events:auto !important;
+}
+.battle-arena.solo-test-mode .hand-card{
+  flex:0 0 60px !important;
+  width:60px !important;
+  height:80px !important;
+  pointer-events:auto !important;
+}
+.battle-arena.solo-test-mode .unit-slot{
+  pointer-events:auto !important;
+  touch-action:manipulation;
+}
+.battle-arena.solo-test-mode .unit-slot.solo-place-target{
+  outline:4px solid rgba(77,220,255,.95) !important;
+  box-shadow:0 0 24px rgba(77,220,255,.55), inset 0 0 22px rgba(77,220,255,.25) !important;
+}
+.battle-arena.solo-test-mode .player-leader.leader-can-attack{
+  outline:4px solid rgba(255,215,82,.95);
+  box-shadow:0 0 22px rgba(255,215,82,.55);
+}
