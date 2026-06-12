@@ -1,7 +1,49 @@
 import { firebaseConfig } from './firebase-config.js';
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
-import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
-import { getDatabase, ref, set, push, remove, onValue, serverTimestamp, get, update, onDisconnect } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js';
+
+// v88: Firebase SDKは外部CDNなので、静的importにすると通信不調時にアプリ全体が起動しない。
+// 画面操作とソロテストを先に動かすため、Firebaseは必要時に動的importする。
+let initializeApp, getAuth, signInAnonymously, onAuthStateChanged;
+let getDatabase, ref, set, push, remove, onValue, serverTimestamp, get, update, onDisconnect;
+let firebaseSdkLoading = null;
+function withTimeout(promise, ms=3500, label='timeout'){
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error(label)), ms))
+  ]);
+}
+async function ensureFirebaseSdk(){
+  if(initializeApp && getDatabase && ref) return true;
+  if(firebaseSdkLoading) return firebaseSdkLoading;
+  firebaseSdkLoading = (async () => {
+    try{
+      const [appMod, authMod, dbMod] = await withTimeout(Promise.all([
+        import('https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js'),
+        import('https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js'),
+        import('https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js')
+      ]), 4500, 'Firebase SDK読み込みタイムアウト');
+      initializeApp = appMod.initializeApp;
+      getAuth = authMod.getAuth;
+      signInAnonymously = authMod.signInAnonymously;
+      onAuthStateChanged = authMod.onAuthStateChanged;
+      getDatabase = dbMod.getDatabase;
+      ref = dbMod.ref;
+      set = dbMod.set;
+      push = dbMod.push;
+      remove = dbMod.remove;
+      onValue = dbMod.onValue;
+      serverTimestamp = dbMod.serverTimestamp;
+      get = dbMod.get;
+      update = dbMod.update;
+      onDisconnect = dbMod.onDisconnect;
+      return true;
+    }catch(e){
+      console.warn('Firebase SDK load skipped', e);
+      firebaseSdkLoading = null;
+      return false;
+    }
+  })();
+  return firebaseSdkLoading;
+}
 
 const state = {
   cards: [], allCards: [], systems: {}, strategies: {}, choices: {}, coin: {}, dungeons: {}, fortune: {}, heroes: {}, exchanges: {}, generatedCards: {}, tensionSystem: {},
@@ -37,7 +79,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v87_boot_fix_virtual_card_comma';
+const DATA_VERSION = 'v88_startup_dynamic_firebase_and_solo_fixes';
 
 
 const HERO_SKILL_DEFS = {
@@ -215,9 +257,9 @@ init().catch(err => {
 });
 
 async function init(){
-  await loadData();
-  setupFirebase();
   bindEvents();
+  await loadData();
+  setupFirebase(); // 外部SDK待ちで起動を止めない
   fillControls();
   loadLocalDecks();
   if(state.username) $('username-input').value = state.username;
@@ -252,9 +294,16 @@ async function loadData(){
   state.rarities = [...new Set(state.cards.map(c => c.rarity).filter(Boolean))];
 }
 
-function setupFirebase(){
+async function setupFirebase(){
   const invalid = !firebaseConfig.apiKey || firebaseConfig.apiKey.includes('PASTE_');
-  if(invalid){ $('login-status').textContent = 'Firebase未設定：保存はブラウザ内バックアップになります。'; return; }
+  if(invalid){ if($('login-status')) $('login-status').textContent = 'Firebase未設定：保存はブラウザ内バックアップになります。'; return false; }
+  if(state.firebase.enabled && state.firebase.db) return true;
+  const ok = await ensureFirebaseSdk();
+  if(!ok){
+    state.firebase.enabled = false;
+    if($('login-status')) $('login-status').textContent = 'Firebase未接続：ソロ/ローカル機能は使用できます。';
+    return false;
+  }
   try{
     state.firebase.app = initializeApp(firebaseConfig);
     state.firebase.auth = getAuth(state.firebase.app);
@@ -266,7 +315,12 @@ function setupFirebase(){
       updateLoginStatus();
       subscribeFirebaseDecks();
     });
-  }catch(e){ toast('Firebase初期化失敗: '+e.message, false); }
+    return true;
+  }catch(e){
+    state.firebase.enabled = false;
+    toast('Firebase初期化失敗: '+e.message, false);
+    return false;
+  }
 }
 
 
@@ -285,8 +339,10 @@ function tryLandscapeMode(){
 }
 
 function bindEvents(){
-  document.querySelector('.tap-start').addEventListener('click', () => { show(hasPlayerId() ? 'menu' : 'user'); tryLandscapeMode(); });
-  document.querySelector('.tap-start').addEventListener('keydown', e => { if(e.key === 'Enter'){ show(hasPlayerId() ? 'menu' : 'user'); tryLandscapeMode(); } });
+  if(bindEvents.bound) return;
+  bindEvents.bound = true;
+  document.querySelector('.tap-start')?.addEventListener('click', () => { show(hasPlayerId() ? 'menu' : 'user'); tryLandscapeMode(); });
+  document.querySelector('.tap-start')?.addEventListener('keydown', e => { if(e.key === 'Enter'){ show(hasPlayerId() ? 'menu' : 'user'); tryLandscapeMode(); } });
   $('username-ok').addEventListener('click', saveUsername);
   const changeUsername = $('change-username');
   if(changeUsername) changeUsername.addEventListener('click', () => show('user'));
@@ -1488,6 +1544,7 @@ async function startMatch(){
   state.battle.startBannerShown = false;
   state.battle.lastTurnPlayerId = '';
 
+  if(!state.firebase.enabled || !state.firebase.db) await setupFirebase();
   if(state.firebase.enabled && state.firebase.db){
     try{
       const roomRoot = ref(state.firebase.db, `rooms/${roomId}`);

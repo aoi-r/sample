@@ -2,6 +2,8 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8" />
+  <meta http-equiv="Cache-Control" content="no-store" />
+  <meta http-equiv="Pragma" content="no-cache" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="DQR Rebuild" />
@@ -19,7 +21,7 @@
       <div class="logo-card tap-start" role="button" tabindex="0">
         <div class="slime">●</div>
         <h1>DRAGON QUEST<br>RIVALS Rebuild</h1>
-        <p>タップして開始</p>
+        <p>タップして開始<br><small id="app-version-label">v88</small></p>
       </div>
     </section>
 
@@ -335,6 +337,6 @@
     <img id="battle-card-zoom-img" alt="カード拡大" />
   </div>
 
-  <script type="module" src="./js/app.js"></script>
+  <script type="module" src="./js/app.js?v=v88_startup"></script>
 </body>
 </html>

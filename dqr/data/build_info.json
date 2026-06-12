@@ -1,5 +1,5 @@
 {
-  "version": "v87_boot_fix_virtual_card_comma",
+  "version": "v88_startup_dynamic_firebase_and_solo_fixes",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -198,5 +198,8 @@
   "soloPresetDecksFile": "data/solo_preset_decks_v86.json",
   "bootFix": "VIRTUAL_CARD_DEFS comma fix",
   "firebaseConfigPreserved": true,
-  "bootFixFile": "data/boot_fix_v87.json"
+  "bootFixFile": "data/boot_fix_v87.json",
+  "startupFix": "Firebase SDK dynamic import, early bindEvents, cache busting",
+  "startupDiagnosticsFile": "data/startup_diagnostics_v88.json",
+  "databaseURLPreserved": true
 }

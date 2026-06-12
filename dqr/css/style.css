@@ -5611,3 +5611,5 @@
   .solo-test-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); }
   .solo-test-grid button{ font-size:11px; padding:7px 4px; }
 }
+
+#app-version-label{display:inline-block;margin-top:8px;font-size:12px;opacity:.7;color:#d8e6ff;letter-spacing:.08em;}

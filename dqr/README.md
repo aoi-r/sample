@@ -1295,3 +1295,19 @@ node tools/sync_official_gameconductor.mjs
 - 初期化失敗時に画面上へエラーを出す boot guard を追加。
 - 追加ファイル:
   - `data/boot_fix_v87.json`
+
+
+## v88 update
+- 起動画面で止まる可能性への追加対策。
+- Firebase/RDB設定は保持。
+- Firebase SDKの外部CDNを静的importしないよう変更。
+  - 通信不調時でもアプリ本体・ソロテストは起動できる。
+  - Firebaseは必要時に動的import。
+  - SDK読み込みタイムアウトを追加。
+- `bindEvents()` を `loadData()` 前に実行し、データ読み込み待ちでタップ開始が止まらないよう変更。
+- `bindEvents` 二重実行ガード追加。
+- `index.html` の `app.js` に `?v=v88_startup` を付けてキャッシュ回避。
+- no-cache meta追加。
+- 起動画面に v88 表示を追加。
+- 追加ファイル:
+  - `data/startup_diagnostics_v88.json`
