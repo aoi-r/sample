@@ -1305,3 +1305,14 @@ node tools/sync_official_gameconductor.mjs
 - `js/firebase-config.js` と `databaseURL` は維持。
 - 追加ファイル:
   - `data/boot_fix_v88.json`
+
+
+## v89 update
+- 起動画面から進めない問題への強制対策。
+- `app.js` が実行されなくても動く、HTML直書きの起動ガードを追加。
+- タップ開始は `click` / `touchend` / `pointerup` のキャプチャで拾う。
+- 左下に `HTML boot ready` / `HTML boot: menu` などの診断表示を追加。
+- タイトルカードに `v89 html boot` を表示。
+- ユーザーID保存、メニュー、戻るボタンも最低限HTML側でフォールバック。
+- 追加ファイル:
+  - `data/boot_fix_v89.json`

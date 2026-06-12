@@ -5611,3 +5611,11 @@
   .solo-test-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); }
   .solo-test-grid button{ font-size:11px; padding:7px 4px; }
 }
+
+#boot-version-label{
+  display:block;
+  margin-top:10px;
+  color:rgba(226,234,255,.72);
+  font-weight:800;
+  letter-spacing:.12em;
+}

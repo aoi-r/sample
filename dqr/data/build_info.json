@@ -1,5 +1,5 @@
 {
-  "version": "v88_boot_before_firebase_dynamic",
+  "version": "v89_html_inline_boot_guard",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -196,7 +196,7 @@
   "soloPresetDecks": "複雑カード用プリセットデッキ5種類を追加",
   "soloEnemyHand": "ソロ効果テスト時に相手手札/相手デッキを初期化",
   "soloPresetDecksFile": "data/solo_preset_decks_v86.json",
-  "bootFix": "bind tap-start before init and load Firebase SDK dynamically",
+  "bootFix": "HTML inline boot guard independent of app.js",
   "firebaseConfigPreserved": true,
-  "bootFixFile": "data/boot_fix_v88.json"
+  "bootFixFile": "data/boot_fix_v89.json"
 }

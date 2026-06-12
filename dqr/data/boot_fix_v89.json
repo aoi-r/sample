@@ -1,0 +1,13 @@
+{
+  "version": "v89_html_inline_boot_guard",
+  "fixes": [
+    "index.html に app.js 非依存の起動スクリプトを直書き。",
+    "click / touchend / pointerup のキャプチャで tap-start を拾う。",
+    "app.js が一切実行されなくても start -> user/menu へ遷移可能。",
+    "画面左下に HTML boot ready / HTML boot: menu などの診断バッジを表示。",
+    "タイトルカードに v89 html boot 表示を追加。",
+    "ユーザーID保存、メニュー、戻るボタンも最低限HTML側でフォールバック。"
+  ],
+  "why": "前回までの修正でも無反応だったため、module app.js の実行前/実行不能を前提に、HTMLだけで入口を動かす方式へ変更。",
+  "firebaseConfigPreserved": true
+}

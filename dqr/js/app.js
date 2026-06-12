@@ -40,7 +40,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v88_boot_before_firebase_dynamic';
+const DATA_VERSION = 'v89_html_inline_boot_guard';
 
 
 const HERO_SKILL_DEFS = {
