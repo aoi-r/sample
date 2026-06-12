@@ -1,0 +1,11 @@
+{
+  "version": "v88_boot_before_firebase_dynamic",
+  "fixes": [
+    "Firebase SDK の static remote import を廃止し、起動後の dynamic import に変更。",
+    "タイトル画面の tap-start イベントを init/loadData/Firebase より前に即時バインド。",
+    "Firebase SDK 読込失敗時もローカル/ソロモードは起動継続。",
+    "v87の仮想カード定義カンマ修正を維持。"
+  ],
+  "likelyCause": "iOS/PWA環境で Firebase SDK の外部 import が完了しない/失敗すると app.js 全体が実行されず、タップイベントが付かない。",
+  "firebaseConfigPreserved": true
+}

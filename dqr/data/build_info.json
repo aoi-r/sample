@@ -1,5 +1,5 @@
 {
-  "version": "v88_startup_dynamic_firebase_and_solo_fixes",
+  "version": "v88_boot_before_firebase_dynamic",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -196,10 +196,7 @@
   "soloPresetDecks": "複雑カード用プリセットデッキ5種類を追加",
   "soloEnemyHand": "ソロ効果テスト時に相手手札/相手デッキを初期化",
   "soloPresetDecksFile": "data/solo_preset_decks_v86.json",
-  "bootFix": "VIRTUAL_CARD_DEFS comma fix",
+  "bootFix": "bind tap-start before init and load Firebase SDK dynamically",
   "firebaseConfigPreserved": true,
-  "bootFixFile": "data/boot_fix_v87.json",
-  "startupFix": "Firebase SDK dynamic import, early bindEvents, cache busting",
-  "startupDiagnosticsFile": "data/startup_diagnostics_v88.json",
-  "databaseURLPreserved": true
+  "bootFixFile": "data/boot_fix_v88.json"
 }

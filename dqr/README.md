@@ -1298,16 +1298,10 @@ node tools/sync_official_gameconductor.mjs
 
 
 ## v88 update
-- 起動画面で止まる可能性への追加対策。
-- Firebase/RDB設定は保持。
-- Firebase SDKの外部CDNを静的importしないよう変更。
-  - 通信不調時でもアプリ本体・ソロテストは起動できる。
-  - Firebaseは必要時に動的import。
-  - SDK読み込みタイムアウトを追加。
-- `bindEvents()` を `loadData()` 前に実行し、データ読み込み待ちでタップ開始が止まらないよう変更。
-- `bindEvents` 二重実行ガード追加。
-- `index.html` の `app.js` に `?v=v88_startup` を付けてキャッシュ回避。
-- no-cache meta追加。
-- 起動画面に v88 表示を追加。
+- 起動画面から進めない問題の追加修正。
+- Firebase SDK の外部URL static import をやめ、起動後の dynamic import に変更。
+- タイトル画面の「タップして開始」イベントを `loadData` / Firebase 初期化より前に即時バインド。
+- Firebase SDK読込に失敗しても、ローカル/ソロモードは起動継続。
+- `js/firebase-config.js` と `databaseURL` は維持。
 - 追加ファイル:
-  - `data/startup_diagnostics_v88.json`
+  - `data/boot_fix_v88.json`
