@@ -1450,3 +1450,18 @@ node tools/sync_official_gameconductor.mjs
   - デッキ編成表示対象は `flags.deckBuildable !== false` かつ `cardType !== "トークン"` のカード。
 - 追加ファイル:
   - `data/version_visible_v98.json`
+
+
+## v99 update
+- v98でソロ操作UIの一部修正が反映されていなかったため、ソロ操作を強制表示/強制接続方式に変更。
+- 起動画面表示:
+  - `v99 / buildable 1465 / total 1582`
+- 修正:
+  - ソロ専用の自分手札画像ストリップを追加。
+  - ソロ手札画像タップで通常の手札使用処理へ接続。
+  - 相手手札画像列タップで一覧ポップを表示。
+  - 配置モード中のマスに `pointerup/touchend` を直接設定。
+  - 配置カードIDが見つからない場合に備えてカード本体も保持。
+  - ソロ中のテンションスキルは強制発動処理へ接続。
+- 追加ファイル:
+  - `data/solo_force_visible_controls_v99.json`
