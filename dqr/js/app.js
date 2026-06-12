@@ -63,7 +63,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v97_solo_hand_place_tension_fix';
+const DATA_VERSION = 'v98_visible_version_and_card_counts';
 
 
 const HERO_SKILL_DEFS = {
@@ -254,9 +254,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v92 ready / cards ${state.cards.length}`;
+  if(label) label.textContent = `v98 ready / buildable ${state.cards.length} / total ${state.allCards.length}`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v92 ready / cards ${state.cards.length}`;
+  if(badge) badge.textContent = `v98 ready / buildable ${state.cards.length} / total ${state.allCards.length}`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');

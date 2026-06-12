@@ -1437,3 +1437,16 @@ node tools/sync_official_gameconductor.mjs
   - leaderSkill未設定時は職業から補完。
 - 追加ファイル:
   - `data/solo_hand_place_tension_fix_v97.json`
+
+
+## v98 update
+- 起動画面のバージョン表示を更新。
+- v97は中身の `DATA_VERSION` は v97 だったが、HTMLの表示ラベルが `v92 boot gate` のまま残っていた。
+- 起動画面に `v98 / buildable 1465 / total 1582` を表示。
+- ready後の表示も `v98 ready / buildable 1465 / total 1582` に変更。
+- カード数について:
+  - cards.json 総数: 1582
+  - デッキ編成表示対象: 1465
+  - デッキ編成表示対象は `flags.deckBuildable !== false` かつ `cardType !== "トークン"` のカード。
+- 追加ファイル:
+  - `data/version_visible_v98.json`
