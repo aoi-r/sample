@@ -19,7 +19,7 @@
       <div class="logo-card tap-start" role="button" tabindex="0">
         <div class="slime">●</div>
         <h1>DRAGON QUEST<br>RIVALS Rebuild</h1>
-        <p>タップして開始</p><small id="boot-version-label">v91 restoring features</small>
+        <p>タップして開始</p><small id="boot-version-label">v92 boot gate</small>
       </div>
     </section>
 
@@ -335,44 +335,36 @@
     <img id="battle-card-zoom-img" alt="カード拡大" />
   </div>
 
-  
 <script>
-/* v89 HTML boot guard: works even if module app.js never executes. */
+/* v92 strict boot gate: never enter app screens before app.js is ready. */
 (function(){
-  var bootState = { tapped:false };
   function qs(id){ return document.getElementById(id); }
-  function hasPlayerId(){
-    try{ return !!localStorage.getItem('dqr_player_id'); }catch(e){ return false; }
-  }
-  function showRaw(name){
-    if(['menu','deckbuilder','battle'].indexOf(name) >= 0 && !hasPlayerId()) name = 'user';
-    var screens = ['start','user','menu','battle','deckbuilder'];
-    screens.forEach(function(s){
-      var el = qs('screen-' + s);
-      if(el) el.classList.toggle('active', s === name);
-    });
-    var status = qs('html-boot-status');
-    if(status) status.textContent = 'HTML boot: ' + name;
-    if(name === 'user'){
-      var pid = qs('player-id-input');
-      if(pid && !pid.value){
-        try{ pid.value = localStorage.getItem('dqr_player_id') || ''; }catch(e){}
-      }
-    }
+  function status(msg){
+    var b = qs('html-boot-status');
+    if(b) b.textContent = msg;
+    var v = qs('boot-version-label');
+    if(v) v.textContent = msg;
   }
   function bootTap(e){
-    var target = e.target && e.target.closest ? e.target.closest('.tap-start') : null;
-    if(!target) return;
-    if(window.__dqrAppEnter){ window.__dqrAppEnter(); return; }
-    var b=qs('html-boot-status'); if(b) b.textContent='HTML boot: app.js待機中';
-    var v=qs('boot-version-label'); if(v) v.textContent='v91 waiting app...';
+    var target = e && e.target && e.target.closest ? e.target.closest('.tap-start') : null;
+    if(e && !target) return;
+    if(window.__dqrAppReady && window.__dqrAppEnter){
+      window.__dqrAppEnter();
+      return;
+    }
+    if(window.__dqrAppEnter){
+      window.__dqrAppEnter(); // app.js will queue pendingEntry and wait
+      status('v92 loading cards...');
+      return;
+    }
+    status('v92 app.js loading...');
   }
   function bind(){
     if(document.body && !qs('html-boot-status')){
       var badge = document.createElement('div');
       badge.id = 'html-boot-status';
-      badge.textContent = 'HTML boot ready';
-      badge.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:99999;background:rgba(0,0,0,.55);color:#fff;font:12px system-ui;padding:4px 7px;border-radius:8px;pointer-events:none;opacity:.65';
+      badge.textContent = 'v92 boot gate';
+      badge.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:99999;background:rgba(0,0,0,.55);color:#fff;font:12px system-ui;padding:4px 7px;border-radius:8px;pointer-events:none;opacity:.70';
       document.body.appendChild(badge);
     }
     document.addEventListener('click', bootTap, true);
@@ -380,42 +372,15 @@
     document.addEventListener('pointerup', bootTap, true);
     var tap = document.querySelector('.tap-start');
     if(tap){
-      tap.onclick = function(){ showRaw(hasPlayerId() ? 'menu' : 'user'); };
-      tap.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' ') showRaw(hasPlayerId() ? 'menu' : 'user'); }, true);
+      tap.onclick = function(){ bootTap(); };
+      tap.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' ') bootTap(); }, true);
     }
-    var ok = qs('username-ok');
-    if(ok && !ok.dataset.htmlBootBound){
-      ok.dataset.htmlBootBound = '1';
-      ok.addEventListener('click', function(){
-        var pid = (qs('player-id-input') && qs('player-id-input').value || '').trim();
-        var name = (qs('username-input') && qs('username-input').value || '').trim() || pid;
-        if(!pid){ alert('プレイヤーIDを入力してください'); return; }
-        try{ localStorage.setItem('dqr_player_id', pid); localStorage.setItem('dqr_username', name); }catch(e){}
-        showRaw('menu');
-      }, true);
-    }
-    var deck = qs('open-deckbuilder');
-    if(deck && !deck.dataset.htmlBootBound){
-      deck.dataset.htmlBootBound = '1';
-      deck.addEventListener('click', function(){ showRaw('deckbuilder'); }, true);
-    }
-    var battle = qs('open-battle');
-    if(battle && !battle.dataset.htmlBootBound){
-      battle.dataset.htmlBootBound = '1';
-      battle.addEventListener('click', function(){ showRaw('battle'); }, true);
-    }
-    document.querySelectorAll('.back-menu').forEach(function(b){
-      if(!b.dataset.htmlBootBound){
-        b.dataset.htmlBootBound = '1';
-        b.addEventListener('click', function(){ showRaw('menu'); }, true);
-      }
-    });
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
   else bind();
-  window.__dqrHtmlBootShow = showRaw;
 })();
 </script>
+
 
   <script type="module" src="./js/app.js"></script>
 </body>

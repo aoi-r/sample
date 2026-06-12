@@ -1349,3 +1349,17 @@ node tools/sync_official_gameconductor.mjs
   - Firebase databaseURLあり
 - 追加ファイル:
   - `data/boot_fix_v91_restore_features.json`
+
+
+## v92 update
+- v91で残っていた「ready前に入れてしまう」問題を修正。
+- HTMLフォールバックの `showRaw` による user/menu/deckbuilder/battle 直接遷移を削除。
+- ready前のタップは `v92 loading cards...` 表示のみ。
+- `app.js` 初期化完了後だけ `user/menu` へ遷移。
+- `show()` 自体にも ready gate を追加。
+- `bindEvents` の二重登録を防止。
+- ready表示は `v92 ready / cards 1582`。
+- カードDBが0枚なら明示エラー。
+- v86ソロ効果テスト/プリセット/相手手札機能は維持。
+- 追加ファイル:
+  - `data/boot_fix_v92_strict_ready_gate.json`

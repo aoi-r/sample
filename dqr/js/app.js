@@ -35,7 +35,8 @@ const state = {
   battle: { selectedDeckId: '', selectedDeck: null, matchId: '', roomId: '', game: null, unsubs: [], resultTimer: null, resultShown: false, hasMatched: false, matchLocked: false, bannerTimer: null, presenceTimer: null, lastTurnPlayerId: '', startBannerShown: false, lastActionSeq: 0, processingRemoteAction: false },
   firebase: { enabled: false, app: null, auth: null, db: null, uid: null },
   appReady: false,
-  pendingEntry: false
+  pendingEntry: false,
+  eventsBound: false
 };
 safeSetLocalStorage('dqr_device_id', state.deviceId);
 
@@ -61,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v91_restore_features_after_boot';
+const DATA_VERSION = 'v92_strict_ready_gate_restore';
 
 
 const HERO_SKILL_DEFS = {
@@ -225,6 +226,7 @@ const VIRTUAL_CARD_DEFS = {
 
 // v87_boot_guard
 window.__dqrAppEnter = enterFromTitle;
+window.__dqrAppReady = false;
 bindBootTap();
 init().catch(err => {
   console.error(err);
@@ -249,10 +251,11 @@ async function init(){
   if(state.username) $('username-input').value = state.username;
   updateLoginStatus();
   state.appReady = true;
+  window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = 'v91 ready';
+  if(label) label.textContent = `v92 ready / cards ${state.cards.length}`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `app ready / cards ${state.cards.length}`;
+  if(badge) badge.textContent = `v92 ready / cards ${state.cards.length}`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -351,9 +354,9 @@ function enterFromTitle(){
   if(!state.appReady){
     state.pendingEntry = true;
     const badge = $('html-boot-status');
-    if(badge) badge.textContent = '読み込み中…';
+    if(badge) badge.textContent = 'v92 loading cards...';
     const label = $('boot-version-label');
-    if(label) label.textContent = 'v91 loading cards...';
+    if(label) label.textContent = 'v92 loading cards...';
     return;
   }
   show(hasPlayerId() ? 'menu' : 'user');
@@ -385,6 +388,8 @@ function tryLandscapeMode(){
 }
 
 function bindEvents(){
+  if(state.eventsBound) return;
+  state.eventsBound = true;
   bindBootTap();
   $('username-ok').addEventListener('click', saveUsername);
   const changeUsername = $('change-username');
@@ -397,13 +402,13 @@ function bindEvents(){
   ['search-input','type-filter','cost-filter','rarity-filter'].forEach(id => $(id).addEventListener('input', renderCards));
   const sizeSlider = $('mobile-card-size');
   if(sizeSlider){
-    const savedSize = localStorage.getItem('dqr_mobile_card_size') || sizeSlider.value;
+    const savedSize = safeGetLocalStorage('dqr_mobile_card_size', sizeSlider.value);
     sizeSlider.value = savedSize;
     document.documentElement.style.setProperty('--mobile-card-w', `${savedSize}px`);
     sizeSlider.addEventListener('input', e => {
       const v = e.target.value;
       document.documentElement.style.setProperty('--mobile-card-w', `${v}px`);
-      localStorage.setItem('dqr_mobile_card_size', v);
+      safeSetLocalStorage('dqr_mobile_card_size', v);
     });
   }
   $('clear-deck').addEventListener('click', () => { state.deck.clear(); state.selectedHeroId=''; renderAll(); });
@@ -528,9 +533,17 @@ function updateLoginStatus(){
 }
 
 function show(name){
+  if(!state.appReady && name !== 'start'){
+    state.pendingEntry = true;
+    const badge = $('html-boot-status');
+    if(badge) badge.textContent = 'v92 loading cards...';
+    return;
+  }
   if(['menu','deckbuilder','battle'].includes(name) && !hasPlayerId()) name = 'user';
   screens.forEach(s => $(`screen-${s}`).classList.toggle('active', s === name));
   updateLoginStatus();
+  if(name === 'deckbuilder'){ renderAll(); renderDeckEditorList(); }
+  if(name === 'battle'){ renderBattleDeckList(); }
 }
 
 function changeClass(next){
@@ -718,8 +731,8 @@ async function saveDeck(){
   renderDeckEditorList();
 }
 
-function saveLocalDeck(id, payload){ const all = JSON.parse(localStorage.getItem('dqr_decks') || '{}'); all[id] = payload; localStorage.setItem('dqr_decks', JSON.stringify(all)); state.userDecks = all; }
-function loadLocalDecks(){ state.userDecks = JSON.parse(localStorage.getItem('dqr_decks') || '{}'); renderSavedDecks(); }
+function saveLocalDeck(id, payload){ const all = JSON.parse(safeGetLocalStorage('dqr_decks', '{}')); all[id] = payload; safeSetLocalStorage('dqr_decks', JSON.stringify(all)); state.userDecks = all; }
+function loadLocalDecks(){ state.userDecks = JSON.parse(safeGetLocalStorage('dqr_decks', '{}')); renderSavedDecks(); }
 function subscribeFirebaseDecks(){
   if(!state.firebase.enabled || !state.playerId || !state.firebase.db) return;
   onValue(ref(state.firebase.db, `players/${state.playerId}/decks`), snap => { state.firebaseDecks = snap.val() || {}; renderSavedDecks(); renderDeckEditorList(); if($('battle-deck-list')) renderBattleDeckList(); });
@@ -738,7 +751,7 @@ function renderSavedDecks(){
   }
 }
 async function deleteDeck(id){
-  const all = JSON.parse(localStorage.getItem('dqr_decks') || '{}'); delete all[id]; localStorage.setItem('dqr_decks', JSON.stringify(all)); state.userDecks = all;
+  const all = JSON.parse(safeGetLocalStorage('dqr_decks', '{}')); delete all[id]; safeSetLocalStorage('dqr_decks', JSON.stringify(all)); state.userDecks = all;
   if(state.firebase.enabled && state.firebase.uid && state.firebase.db && !id.startsWith('local_')) await remove(ref(state.firebase.db, `players/${state.playerId}/decks/${id}`));
   renderSavedDecks();
 }

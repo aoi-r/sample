@@ -1,0 +1,27 @@
+{
+  "version": "v92_strict_ready_gate_restore",
+  "answerToUser": [
+    "v91はready前でもHTMLフォールバックから入れる余地が残っていた。",
+    "ready表示は本来app.js初期化完了後に動的に変わる想定だったが、HTML側が先に画面遷移していた。",
+    "v92ではready前の画面遷移を完全に止めた。"
+  ],
+  "fixes": [
+    "HTMLフォールバックのshowRaw/menu/deckbuilder/battle遷移を削除。",
+    "ready前にタップした場合は読み込み中表示のみ。",
+    "app.jsが準備完了後だけuser/menuへ遷移。",
+    "show()自体にもready gateを追加。",
+    "bindEventsの二重登録を防止。",
+    "ready表示を v92 ready / cards 1582 に変更。",
+    "カードDB未読込ならエラーで止める。",
+    "v86までのソロテスト・プリセット・相手手札は維持。"
+  ],
+  "checks": {
+    "cardsCount": 1582,
+    "soloTestFunction": true,
+    "soloPresetDecks": true,
+    "enemyHandSetup": true,
+    "htmlFallbackRawNavigationRemoved": true,
+    "strictBootGate": true,
+    "firebaseConfig": true
+  }
+}
