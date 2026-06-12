@@ -6,17 +6,38 @@ let initializeApp, getAuth, signInAnonymously, onAuthStateChanged;
 let getDatabase, ref, set, push, remove, onValue, serverTimestamp, get, update, onDisconnect;
 let firebaseSdkReadyPromise = null;
 
+
+function safeGetLocalStorage(key, fallback=''){
+  try{ return localStorage.getItem(key) || fallback; }catch(e){ return fallback; }
+}
+function safeSetLocalStorage(key, value){
+  try{ localStorage.setItem(key, value); }catch(e){}
+}
+function safeRandomId(prefix='id'){
+  try{
+    if(globalThis.crypto && typeof globalThis.crypto.randomUUID === 'function') return globalThis.crypto.randomUUID();
+    if(globalThis.crypto && crypto.getRandomValues){
+      const arr = new Uint32Array(4);
+      crypto.getRandomValues(arr);
+      return Array.from(arr).map(x => x.toString(16)).join('');
+    }
+  }catch(e){}
+  return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+}
+
 const state = {
   cards: [], allCards: [], systems: {}, strategies: {}, choices: {}, coin: {}, dungeons: {}, fortune: {}, heroes: {}, exchanges: {}, generatedCards: {}, tensionSystem: {},
   classes: [], cardTypes: [], rarities: [], userDecks: {},
-  username: localStorage.getItem('dqr_username') || '',
-  playerId: localStorage.getItem('dqr_player_id') || '',
-  deviceId: localStorage.getItem('dqr_device_id') || crypto.randomUUID(),
+  username: safeGetLocalStorage('dqr_username', ''),
+  playerId: safeGetLocalStorage('dqr_player_id', ''),
+  deviceId: safeGetLocalStorage('dqr_device_id', '') || safeRandomId('device'),
   selectedClass: '', selectedHeroId: '', deck: new Map(), editingDeckId: '',
   battle: { selectedDeckId: '', selectedDeck: null, matchId: '', roomId: '', game: null, unsubs: [], resultTimer: null, resultShown: false, hasMatched: false, matchLocked: false, bannerTimer: null, presenceTimer: null, lastTurnPlayerId: '', startBannerShown: false, lastActionSeq: 0, processingRemoteAction: false },
-  firebase: { enabled: false, app: null, auth: null, db: null, uid: null }
+  firebase: { enabled: false, app: null, auth: null, db: null, uid: null },
+  appReady: false,
+  pendingEntry: false
 };
-localStorage.setItem('dqr_device_id', state.deviceId);
+safeSetLocalStorage('dqr_device_id', state.deviceId);
 
 function normalizePlayerId(id){
   return String(id || '').trim().replace(/[.#$\[\]\/]/g, '_').slice(0, 32);
@@ -31,8 +52,8 @@ function setPlayerIdentity(playerId, displayName){
   if(!id) return false;
   state.playerId = id;
   state.username = String(displayName || '').trim() || id;
-  localStorage.setItem('dqr_player_id', state.playerId);
-  localStorage.setItem('dqr_username', state.username);
+  safeSetLocalStorage('dqr_player_id', state.playerId);
+  safeSetLocalStorage('dqr_username', state.username);
   return true;
 }
 
@@ -40,7 +61,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v89_html_inline_boot_guard';
+const DATA_VERSION = 'v91_restore_features_after_boot';
 
 
 const HERO_SKILL_DEFS = {
@@ -203,6 +224,7 @@ const VIRTUAL_CARD_DEFS = {
 };
 
 // v87_boot_guard
+window.__dqrAppEnter = enterFromTitle;
 bindBootTap();
 init().catch(err => {
   console.error(err);
@@ -226,6 +248,15 @@ async function init(){
   loadLocalDecks();
   if(state.username) $('username-input').value = state.username;
   updateLoginStatus();
+  state.appReady = true;
+  const label = $('boot-version-label');
+  if(label) label.textContent = 'v91 ready';
+  const badge = $('html-boot-status');
+  if(badge) badge.textContent = `app ready / cards ${state.cards.length}`;
+  if(state.pendingEntry){
+    state.pendingEntry = false;
+    show(hasPlayerId() ? 'menu' : 'user');
+  }
 }
 
 async function loadJson(path, fallback = {}){
@@ -251,6 +282,13 @@ async function loadData(){
   state.dungeons = dungeons; state.fortune = fortune; state.heroes = heroes; state.exchanges = exchanges; state.generatedCards = generatedCards; state.tensionSystem = tensionSystem;
   state.allCards = cards.cards || [];
   state.cards = state.allCards.filter(c => c.flags?.deckBuildable !== false && c.cardType !== "トークン");
+  if(!state.cards.length){
+    const msg = 'カードDBを読み込めませんでした。data/cards.json の配置やキャッシュを確認してください。';
+    console.error(msg, cards);
+    const label = $('boot-version-label');
+    if(label) label.textContent = 'v91 card load failed';
+    throw new Error(msg);
+  }
   state.classes = (cards.classes || fallbackClasses).filter(c => c !== '共通');
   state.cardTypes = cards.cardTypes || [...new Set(state.cards.map(c => c.cardType).filter(Boolean))];
   state.rarities = [...new Set(state.cards.map(c => c.rarity).filter(Boolean))];
@@ -309,15 +347,27 @@ async function setupFirebase(){
 
 
 function enterFromTitle(){
-  show(hasPlayerId() ? 'menu' : 'user');
   tryLandscapeMode();
+  if(!state.appReady){
+    state.pendingEntry = true;
+    const badge = $('html-boot-status');
+    if(badge) badge.textContent = '読み込み中…';
+    const label = $('boot-version-label');
+    if(label) label.textContent = 'v91 loading cards...';
+    return;
+  }
+  show(hasPlayerId() ? 'menu' : 'user');
 }
 function bindBootTap(){
   const tap = document.querySelector('.tap-start');
   if(!tap || tap.dataset.bootBound) return;
   tap.dataset.bootBound = '1';
-  tap.addEventListener('click', enterFromTitle);
-  tap.addEventListener('keydown', e => { if(e.key === 'Enter') enterFromTitle(); });
+  const handler = (e) => { try{ enterFromTitle(); }catch(err){ console.error(err); } };
+  tap.addEventListener('click', handler, true);
+  tap.addEventListener('touchend', handler, true);
+  tap.addEventListener('pointerup', handler, true);
+  tap.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') handler(e); }, true);
+  document.addEventListener('click', e => { if(e.target?.closest?.('.tap-start')) handler(e); }, true);
 }
 
 function tryLandscapeMode(){
@@ -444,11 +494,16 @@ function bindEvents(){
 }
 
 function fillControls(){
-  for(const c of state.classes) $('class-select').add(new Option(c, c));
-  for(const t of state.cardTypes) $('type-filter').add(new Option(t, t));
-  for(let i=0;i<=12;i++) $('cost-filter').add(new Option(String(i), String(i)));
-  $('cost-filter').add(new Option('13以上', '13+'));
-  for(const r of state.rarities) $('rarity-filter').add(new Option(r, r));
+  const classSel = $('class-select'), typeSel = $('type-filter'), costSel = $('cost-filter'), raritySel = $('rarity-filter');
+  if(classSel) classSel.innerHTML = '<option value="">職業を選択</option>';
+  if(typeSel) typeSel.innerHTML = '<option value="">種類すべて</option>';
+  if(costSel) costSel.innerHTML = '<option value="">コストすべて</option>';
+  if(raritySel) raritySel.innerHTML = '<option value="">レアリティすべて</option>';
+  for(const c of state.classes) classSel?.add(new Option(c, c));
+  for(const t of state.cardTypes) typeSel?.add(new Option(t, t));
+  for(let i=0;i<=12;i++) costSel?.add(new Option(String(i), String(i)));
+  costSel?.add(new Option('13以上', '13+'));
+  for(const r of state.rarities) raritySel?.add(new Option(r, r));
 }
 
 function fillHeroSelect(){}
@@ -1992,7 +2047,7 @@ function getBaseTensionSkill(className){
 
 function makeUnitFromCard(card){
   return {
-    id: `${card.id}_${Date.now()}_${crypto.randomUUID().slice(0,8)}`,
+    id: `${card.id}_${Date.now()}_${safeRandomId('rnd').slice(0,8)}`,
     cardId: card.id,
     name: card.name,
     attack: Number(card.attack ?? 0),
@@ -2683,7 +2738,7 @@ function emitBattleEvent(type, payload={}){
   if(!game) return;
   game.events ||= [];
   const event = {
-    id:`evt_${Date.now()}_${crypto.randomUUID().slice(0,8)}`,
+    id:`evt_${Date.now()}_${safeRandomId('rnd').slice(0,8)}`,
     type,
     turn: game.turn,
     playerId: state.playerId,
@@ -4107,7 +4162,7 @@ function isAdventurerCard(card){ return isAdventurerCard2(card); }
 function addCardCopyToHand(card, opts={}){
   if(!card) return false;
   const copy = JSON.parse(JSON.stringify(card));
-  copy.id = `copy_${card.id}_${Date.now()}_${crypto.randomUUID().slice(0,8)}`;
+  copy.id = `copy_${card.id}_${Date.now()}_${safeRandomId('rnd').slice(0,8)}`;
   copy.flags ||= {};
   copy.flags.deckBuildable = false;
   if(opts.costDelta) copy.cost = Math.max(0, Number(copy.cost || 0) + Number(opts.costDelta || 0));
@@ -4682,7 +4737,7 @@ function reviveUnitSameSlot(snapshot, side, pos){
   const game = state.battle.game;
   const board = side === 'player' ? game.player.board : game.enemy.board;
   if(board[pos]) return false;
-  const revived = {...snapshot, id:`revive_${Date.now()}_${crypto.randomUUID().slice(0,8)}`};
+  const revived = {...snapshot, id:`revive_${Date.now()}_${safeRandomId('rnd').slice(0,8)}`};
   revived.hp = revived.maxHp || revived.hp || 1;
   revived.canAttack = false;
   revived.summoningSickness = true;
@@ -4845,7 +4900,7 @@ function addRandomOpponentHandCopy(){
   return false;
 }
 function addTemporaryCopyToHand(card){
-  const tempId = `temp_copy_${card.id}_${Date.now()}_${crypto.randomUUID().slice(0,8)}`;
+  const tempId = `temp_copy_${card.id}_${Date.now()}_${safeRandomId('rnd').slice(0,8)}`;
   const copy = JSON.parse(JSON.stringify(card));
   copy.id = tempId;
   copy.flags ||= {};

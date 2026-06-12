@@ -1,0 +1,18 @@
+{
+  "version": "v90_safe_top_level_boot_fix",
+  "source": "user_uploaded_app_js_and_firebase_config",
+  "findings": [
+    "node --check は通るため構文エラーではない。",
+    "起動前トップレベルで localStorage と crypto.randomUUID を直接呼んでいた。",
+    "iOS/PWAや一部環境で localStorage/crypto.randomUUID が例外になると、bindBootTap まで到達せず完全無反応になる。",
+    "firebase-config.js には databaseURL があり、RDB情報省略ではない。"
+  ],
+  "fixes": [
+    "safeGetLocalStorage / safeSetLocalStorage / safeRandomId を追加。",
+    "トップレベルの localStorage.getItem/setItem と crypto.randomUUID を安全化。",
+    "tap-start を click/touchend/pointerup で拾うよう強化。",
+    "HTML直書き起動ガードも維持/追加。",
+    "タイトル画面に v90 safe boot 表示を追加。"
+  ],
+  "firebaseConfigPreserved": true
+}

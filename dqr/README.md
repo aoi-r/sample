@@ -1316,3 +1316,36 @@ node tools/sync_official_gameconductor.mjs
 - ユーザーID保存、メニュー、戻るボタンも最低限HTML側でフォールバック。
 - 追加ファイル:
   - `data/boot_fix_v89.json`
+
+
+## v90 update
+- 起動画面で完全無反応になる問題を再調査。
+- `node --check` は通るため、構文エラーではなくブラウザ実行時のトップレベル例外が疑わしい。
+- トップレベルで直接呼んでいた `localStorage` と `crypto.randomUUID()` を安全化。
+- `safeGetLocalStorage` / `safeSetLocalStorage` / `safeRandomId` を追加。
+- `tap-start` を `click` / `touchend` / `pointerup` で拾うよう強化。
+- HTML直書き起動ガードも維持。
+- タイトル画面に `v90 safe boot` 表示を追加。
+- Firebase/RDB設定は維持。
+- 追加ファイル:
+  - `data/boot_fix_v90.json`
+
+
+## v91 update
+- v90で「入れるがカードや機能が未読込に見える」問題を修正。
+- 原因:
+  - HTML直書きfallbackが、`app.js` の `loadData` / `fillControls` / `bindEvents` 完了前でも画面遷移できた。
+  - そのため、カードDBやイベントが未準備のままメニューへ入れてしまうことがあった。
+- 修正:
+  - タイトルタップ後、本体初期化完了まで待機。
+  - 初期化完了後に user/menu へ遷移。
+  - カードDBが0枚なら明示エラー表示。
+  - v86ソロ効果テスト/プリセットデッキ/相手手札機能を維持。
+  - v90の安全起動処理も維持。
+- 確認:
+  - cards.json cards: 1582
+  - ソロテスト関数あり
+  - プリセットデッキ関数あり
+  - Firebase databaseURLあり
+- 追加ファイル:
+  - `data/boot_fix_v91_restore_features.json`

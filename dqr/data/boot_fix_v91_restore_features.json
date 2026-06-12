@@ -1,0 +1,21 @@
+{
+  "version": "v91_restore_features_after_boot",
+  "purpose": "v90でHTML fallbackが初期化前に画面遷移してカード/機能が未読込に見える問題を修正。",
+  "fixes": [
+    "タイトルタップ後、app.jsのloadData/fillControls/bindEvents完了まで画面遷移しない。",
+    "初期化完了後に pendingEntry を処理して user/menu へ遷移。",
+    "カードDBが0枚なら明示エラーにして、失敗状態を表示。",
+    "v86までのソロテスト、プリセットデッキ、相手手札機能は維持。",
+    "v90のtop-level localStorage/crypto安全化は維持。",
+    "HTML boot guardは本体入口へ委譲し、カード未読込状態でメニューへ飛ばないよう修正。"
+  ],
+  "checks": {
+    "solo test": true,
+    "preset decks": true,
+    "enemy hand": true,
+    "v84 queue clear": true,
+    "v86 solo preset data": true,
+    "cards count": 1582,
+    "firebase config": true
+  }
+}
