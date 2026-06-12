@@ -1,5 +1,5 @@
 {
-  "version": "v92_strict_ready_gate_restore",
+  "version": "v93_fix_duplicate_isAdventurerCard",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -196,9 +196,10 @@
   "soloPresetDecks": "複雑カード用プリセットデッキ5種類を追加",
   "soloEnemyHand": "ソロ効果テスト時に相手手札/相手デッキを初期化",
   "soloPresetDecksFile": "data/solo_preset_decks_v86.json",
-  "bootFix": "strict ready gate; no HTML raw navigation before app ready",
+  "bootFix": "duplicate function declaration removed",
   "firebaseConfigPreserved": true,
-  "bootFixFile": "data/boot_fix_v92_strict_ready_gate.json",
+  "bootFixFile": "data/boot_fix_v93_duplicate_function.json",
   "restoreFeatures": "cards/data/solo preset decks preserved",
-  "cardsCount": 1582
+  "cardsCount": 1582,
+  "consoleErrorFixed": "Identifier 'isAdventurerCard' has already been declared"
 }

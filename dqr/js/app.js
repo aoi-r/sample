@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v92_strict_ready_gate_restore';
+const DATA_VERSION = 'v93_fix_duplicate_isAdventurerCard';
 
 
 const HERO_SKILL_DEFS = {
@@ -4805,10 +4805,6 @@ function addRandomClassSpellCost1to3(){
   const pool = state.allCards.filter(c => isSpell(c) && Number(c.cost || 0) >= 1 && Number(c.cost || 0) <= 3 && String(c.classes || c.leader || '').includes(cls.replace(/\\(.+\\)/,'')));
   const c = chooseRandom(pool.length ? pool : state.allCards.filter(c => isSpell(c) && Number(c.cost || 0) >= 1 && Number(c.cost || 0) <= 3));
   if(c) addCardToHandByName(c.name);
-}
-function isAdventurerCard(card){
-  const text = `${card?.tags || ''} ${card?.tribes || ''} ${card?.searchText || ''} ${card?.text || ''}`;
-  return text.includes('冒険者');
 }
 function drawAdventurerFromDeck(){
   const game = state.battle.game;

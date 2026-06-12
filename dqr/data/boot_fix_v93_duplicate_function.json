@@ -1,0 +1,17 @@
+{
+  "version": "v93_fix_duplicate_isAdventurerCard",
+  "cause": "Browser ES module failed before app startup because function isAdventurerCard was declared twice.",
+  "consoleError": "Uncaught SyntaxError: Identifier 'isAdventurerCard' has already been declared",
+  "fixes": [
+    "重複していた isAdventurerCard 定義を1つに統一。",
+    "残す側は cardTribes/isTribeCard 経由の統一判定を使う。",
+    "全 function 宣言名をスキャンし、重複0件を確認。",
+    "v92 の strict ready gate と v86 ソロテスト/プリセット機能は維持。"
+  ],
+  "checks": {
+    "duplicateFunctionDeclarations": 0,
+    "nodeCheck": "passed",
+    "cardsCount": 1582,
+    "firebaseConfig": true
+  }
+}

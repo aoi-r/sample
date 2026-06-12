@@ -1363,3 +1363,18 @@ node tools/sync_official_gameconductor.mjs
 - v86ソロ効果テスト/プリセット/相手手札機能は維持。
 - 追加ファイル:
   - `data/boot_fix_v92_strict_ready_gate.json`
+
+
+## v93 update
+- 起動しない原因として出ていた Console error を修正。
+- 修正対象:
+  - `Uncaught SyntaxError: Identifier 'isAdventurerCard' has already been declared`
+- 原因:
+  - `isAdventurerCard` が app.js 内で2回 function 宣言されていた。
+  - ES module ではこの時点で app.js 実行前に停止するため、ready gate も動かない。
+- 修正:
+  - 重複定義を削除し、統一版だけを残した。
+  - function宣言名の重複スキャンで0件を確認。
+- v92のstrict ready gate、v86ソロテスト/プリセット/相手手札機能は維持。
+- 追加ファイル:
+  - `data/boot_fix_v93_duplicate_function.json`
