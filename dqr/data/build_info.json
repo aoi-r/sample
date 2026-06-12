@@ -1,5 +1,5 @@
 {
-  "version": "v93_fix_duplicate_isAdventurerCard",
+  "version": "v94_solo_controls_and_turn_flow",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -201,5 +201,7 @@
   "bootFixFile": "data/boot_fix_v93_duplicate_function.json",
   "restoreFeatures": "cards/data/solo preset decks preserved",
   "cardsCount": 1582,
-  "consoleErrorFixed": "Identifier 'isAdventurerCard' has already been declared"
+  "consoleErrorFixed": "Identifier 'isAdventurerCard' has already been declared",
+  "soloModeFix": "delegated controls and solo turn flow",
+  "soloModeFixFile": "data/solo_mode_fix_v94.json"
 }

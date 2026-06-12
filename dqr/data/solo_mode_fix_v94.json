@@ -1,0 +1,19 @@
+{
+  "version": "v94_solo_controls_and_turn_flow",
+  "fixes": [
+    "ソロパネル下部ボタンをイベント委譲で確実にbind。",
+    "render後にボタンDOMが差し替わっても動くようにした。",
+    "相手手札追加/表示/リセット/敵全体1ダメージなどを実処理に接続。",
+    "ソロ専用ターン終了処理を追加。",
+    "ソロでは相手ターンをスキップし、即次の自分ターンへ戻す。",
+    "ソロターン開始時にMP回復・1枚ドロー・開始時効果処理を行う。",
+    "isBattleLocked はソロ中だけ操作可能扱いにした。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "soloControls": true,
+    "soloTurnFlow": true,
+    "cardsCount": 1582
+  }
+}

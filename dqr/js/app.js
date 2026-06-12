@@ -36,7 +36,8 @@ const state = {
   firebase: { enabled: false, app: null, auth: null, db: null, uid: null },
   appReady: false,
   pendingEntry: false,
-  eventsBound: false
+  eventsBound: false,
+  soloControlsBound: false
 };
 safeSetLocalStorage('dqr_device_id', state.deviceId);
 
@@ -62,7 +63,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v93_fix_duplicate_isAdventurerCard';
+const DATA_VERSION = 'v94_solo_controls_and_turn_flow';
 
 
 const HERO_SKILL_DEFS = {
@@ -388,6 +389,7 @@ function tryLandscapeMode(){
 }
 
 function bindEvents(){
+  bindSoloTestControls();
   if(state.eventsBound) return;
   state.eventsBound = true;
   bindBootTap();
@@ -1048,6 +1050,7 @@ async function publishBattleResult(result, reason='hp0', autoReset=false){
 
 function isBattleLocked(){
   const game = state.battle.game;
+  if(isSoloTestMode() && game && !game.finished) return false;
   return !!(state.battle.matchLocked || !game || game.finished || !game.isMyTurn);
 }
 function setBattleLocked(locked){
@@ -1435,6 +1438,92 @@ function makeRoomId(matchId){
 }
 
 
+
+function ensureSoloGame(){
+  const game = state.battle.game;
+  if(!game || !isSoloTestMode()){
+    toast('ソロ効果テスト中のみ使えます。', false);
+    return null;
+  }
+  return game;
+}
+function bindSoloTestControls(){
+  if(state.soloControlsBound) return;
+  state.soloControlsBound = true;
+  document.addEventListener('click', (e) => {
+    const btn = e.target?.closest?.('button');
+    if(!btn) return;
+    const id = btn.id;
+    const soloIds = new Set([
+      'solo-hp-infinite','solo-hp-reset','solo-mp-max','solo-tension-max','solo-draw-card','solo-clear-log',
+      'solo-add-hand','solo-add-decktop','solo-summon-enemy','solo-summon-player','solo-add-enemy-hand',
+      'solo-reset-enemy-hand','solo-show-enemy-hand','solo-damage-enemy'
+    ]);
+    if(!soloIds.has(id)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if(!ensureSoloGame()) return;
+    ({
+      'solo-hp-infinite': soloSetEnemyHpInfinite,
+      'solo-hp-reset': soloSetEnemyHpNormal,
+      'solo-mp-max': soloSetMpMax,
+      'solo-tension-max': soloSetTensionMax,
+      'solo-draw-card': soloDrawCard,
+      'solo-clear-log': soloClearLog,
+      'solo-add-hand': soloAddSelectedToHand,
+      'solo-add-decktop': soloAddSelectedToDeckTop,
+      'solo-summon-enemy': () => soloSummonSelected('enemy'),
+      'solo-summon-player': () => soloSummonSelected('player'),
+      'solo-add-enemy-hand': soloAddSelectedToEnemyHand,
+      'solo-reset-enemy-hand': soloResetEnemyHand,
+      'solo-show-enemy-hand': soloShowEnemyHand,
+      'solo-damage-enemy': soloDamageEnemyAll
+    })[id]?.();
+  }, true);
+}
+function soloAdvanceTurn(){
+  const game = ensureSoloGame();
+  if(!game) return;
+  if(game.finished) return;
+  game.isMyTurn = true;
+  state.battle.matchLocked = false;
+  battleLog('--- ソロ：ターン終了 ---');
+  emitBattleEvent('ownTurnEnd', {side:'player', solo:true});
+  handleTurnEndEvent({side:'player', solo:true});
+  resolveDeaths();
+
+  game.turn += 1;
+  game.player.maxMp = Math.min(10, Number(game.player.maxMp || 0) + 1);
+  game.player.mp = game.player.maxMp;
+  game.player.tensionUsedThisTurn = false;
+  game.player.heroSkillUsedThisTurn = false;
+  game.player.usedSpellCostThisTurn = 0;
+  game.player.martialArtsUsedThisTurn = 0;
+  game.player.copyNextSpellToHand = false;
+  game.player.thisTurnSpellCostDelta = 0;
+  game.player.usedBigBreadThisTurn = false;
+  game.player.flashFistBonus = 0;
+  game.player.healInvertsForEnemiesThisTurn = false;
+  game.player.combatDamageMultiplier = 1;
+  game.enemy.combatDamageMultiplier = 1;
+  if(game.player.fortuneModeUntil === 'turnEnd'){ game.player.fortuneMode = ''; game.player.fortuneModeUntil = ''; }
+  game.player.nextCardDiscounts = [];
+  game.player.unitDiedThisTurn = false;
+  game.player.leaderAttack = 0;
+  game.player.leaderCanAttack = false;
+  game.player.leaderDamageReduction = 0;
+  game.player.leaderDamageReductionUntil = '';
+  game.player.leaderAttackedThisTurn = false;
+
+  emitBattleEvent('ownTurnStart', {side:'player', solo:true});
+  handleTurnStartEvent({side:'player', solo:true});
+  drawCard(1);
+  battleLog(`--- ソロ：自分ターン開始 / TURN ${game.turn} / MP ${game.player.mp}/${game.player.maxMp} / 1枚ドロー ---`);
+  game.isMyTurn = true;
+  game.currentTurnPlayerId = state.playerId;
+  renderBattleArena();
+}
+
 function startSoloTestMode(){
   if(!state.battle.selectedDeck) return toast('先にデッキを選択してください。', false);
   cleanupBattleSubscriptions();
@@ -1466,6 +1555,7 @@ function startSoloTestMode(){
   $('battle-arena')?.classList.add('solo-test-mode');
   $('solo-test-toggle')?.classList.remove('hidden');
   $('solo-test-panel')?.classList.remove('hidden');
+  bindSoloTestControls();
   renderSoloCardResults();
   renderBattleArena();
 }
@@ -1494,8 +1584,9 @@ function renderSoloCardResults(){
   box.querySelectorAll('button[data-id]').forEach(btn => btn.addEventListener('click', () => setSoloSelectedCard(btn.dataset.id)));
 }
 function getSoloSelectedCard(){
+  if(!ensureSoloGame()) return null;
   const card = byId(state.battle.soloSelectedCardId);
-  if(!card) toast('カードを選択してください。', false);
+  if(!card) toast('カードを検索して選択してください。', false);
   return card;
 }
 function soloAddSelectedToHand(){
@@ -6992,9 +7083,10 @@ function progressDungeonsByEvent(eventName, payload={}){
 }
 
 async function endTurn(){
+  const game = state.battle.game;
+  if(isSoloTestMode()) return soloAdvanceTurn();
   if(isBattleLocked()) return toast('まだ操作できません。', false);
 
-  const game = state.battle.game;
   if(game?.finished) return;
   if(!game?.isMyTurn) return toast('相手のターンです。', false);
   if(!game) return;
