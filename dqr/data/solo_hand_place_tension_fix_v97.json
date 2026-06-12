@@ -1,0 +1,23 @@
+{
+  "version": "v97_solo_hand_place_tension_fix",
+  "fixes": [
+    "相手手札画像列をタップすると手札一覧ポップを表示。",
+    "自分手札に不明IDが混じってもスキップせず不明カードとして表示。",
+    "ドロー時に引いたカード名をログ表示し、下の手札UIにも追加されるよう描画を強化。",
+    "配置モード中はunit-slotへのclick/pointerupをdocument captureで強制取得。",
+    "通常の盤面クリック処理より前にsoloPlaceSelectedAtへ渡すよう修正。",
+    "手札タップは通常ゲーム同様にselectHandCardへ接続。",
+    "ソロ中は同ターンにテンションを溜めた後でもテンションスキルを発動可能にした。",
+    "leaderSkillが未設定なら職業から補完してテンションスキルを発動する。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "cardsCount": 1582,
+    "enemyHandListPop": true,
+    "unknownHandCardsVisible": true,
+    "slotDelegation": true,
+    "soloTensionSkillAllowed": true,
+    "drawNamesLogged": true
+  }
+}

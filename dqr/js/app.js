@@ -63,7 +63,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v96_solo_visual_linked_ui';
+const DATA_VERSION = 'v97_solo_hand_place_tension_fix';
 
 
 const HERO_SKILL_DEFS = {
@@ -1448,8 +1448,29 @@ function ensureSoloGame(){
   return game;
 }
 function bindSoloTestControls(){
+  // enemy-hand-list-pop close
+  document.addEventListener('click', (e) => {
+    if(!e.target?.closest?.('#enemy-hand-visual') && !e.target?.closest?.('#enemy-hand-list-pop')){
+      $('enemy-hand-list-pop')?.classList.add('hidden');
+    }
+  }, true);
   if(state.soloControlsBound) return;
   state.soloControlsBound = true;
+
+  document.addEventListener('click', (e) => {
+    const slot = e.target?.closest?.('.unit-slot');
+    if(!slot || !isSoloTestMode() || !state.battle.game?.soloPlacement) return;
+    e.preventDefault();
+    e.stopPropagation();
+    soloPlaceSelectedAt(slot.dataset.side, Number(slot.dataset.pos));
+  }, true);
+  document.addEventListener('pointerup', (e) => {
+    const slot = e.target?.closest?.('.unit-slot');
+    if(!slot || !isSoloTestMode() || !state.battle.game?.soloPlacement) return;
+    e.preventDefault();
+    e.stopPropagation();
+    soloPlaceSelectedAt(slot.dataset.side, Number(slot.dataset.pos));
+  }, true);
   document.addEventListener('click', (e) => {
     const btn = e.target?.closest?.('button');
     if(!btn) return;
@@ -1597,13 +1618,15 @@ function getSoloSelectedCard(){
 function soloAddSelectedToHand(){
   const card = getSoloSelectedCard(); if(!card) return;
   state.battle.game.player.hand.push(card.id);
-  battleLog(`テスト：${card.name}を手札に追加。`);
+  battleLog(`テスト：${card.name}を手札に追加。手札${state.battle.game.player.hand.length}枚。`);
+  renderSoloDebugStatus(`${card.name}を自分手札へ追加`);
   renderBattleArena();
 }
 function soloAddSelectedToDeckTop(){
   const card = getSoloSelectedCard(); if(!card) return;
   state.battle.game.player.deck.unshift(card.id);
-  battleLog(`テスト：${card.name}を山札トップへ。`);
+  battleLog(`テスト：${card.name}を山札トップへ。次のドロー対象です。`);
+  renderSoloDebugStatus(`${card.name}を山札トップへ追加`);
   renderBattleArena();
 }
 function soloAddSelectedToEnemyHand(){
@@ -4092,10 +4115,11 @@ function renderBattleHand(){
   const hand = $('player-hand');
   hand.innerHTML = '';
   game.player.hand.forEach((id, index) => {
-    const card = byId(id);
-    if(!card) return;
+    const realCard = byId(id);
+    const card = realCard || {id, name:String(id || '?'), cost:0, cardType:'不明', text:''};
     const btn = document.createElement('button');
     btn.className = `hand-card ${game.selectedHandIndex === index ? 'selected' : ''}`;
+    if(!realCard) btn.classList.add('unknown-card');
     const img = getOfficialImage(card);
     const playable = getEffectiveCost(card) <= game.player.mp;
     btn.classList.toggle('unplayable', !playable);
@@ -6882,9 +6906,9 @@ function applyPendingGenericEffectToEmptySlot(pos){
 }
 
 function useOrChargeTension(){
+  const game = state.battle.game;
   if(isBattleLocked()) return toast('まだ操作できません。', false);
 
-  const game = state.battle.game;
   if(game?.finished) return;
   if(!game?.isMyTurn) return toast('相手のターンです。', false);
   if(!game) return;
@@ -6894,15 +6918,17 @@ function useOrChargeTension(){
     return toast('無気力状態のためテンションを使えません。', false);
   }
   if(game.player.tension >= 3){
+    if(!game.player.leaderSkill) game.player.leaderSkill = getBaseTensionSkill(game.className || state.battle.selectedDeck?.className || '戦士');
     applyTensionSkill(game.player.leaderSkill);
     triggerSkillBoostOnTensionSkill();
     triggerTensionLinks('skillUse', {skill:game.player.leaderSkill});
     game.player.tension = 0;
     game.player.tensionUsedThisTurn = true;
+    if(isSoloTestMode()) battleLog('ソロ：テンションスキルを発動しました。');
   }else{
     const tensionCost = game.player.nextTensionCostZero ? 0 : 1;
     if(game.player.mp < tensionCost) return toast('MPが足りません。', false);
-    if(game.player.tensionUsedThisTurn) return toast('このターンは既にテンション操作済みです。', false);
+    if(game.player.tensionUsedThisTurn && !isSoloTestMode()) return toast('このターンは既にテンション操作済みです。', false);
     game.player.mp -= tensionCost;
     game.player.nextTensionCostZero = false;
     gainTension(1, 'テンション');
@@ -6958,15 +6984,19 @@ function applyTensionSkill(skill){
 function drawCard(count=1){
   const game = state.battle.game;
   let drawn = 0;
+  const drawnNames = [];
   for(let i=0;i<count;i++){
     if(game.player.deck.length){
-      game.player.hand.push(game.player.deck.shift());
+      const id = game.player.deck.shift();
+      game.player.hand.push(id);
       drawn++;
+      drawnNames.push(byId(id)?.name || id);
     }else{
       game.player.hp = Math.max(0, game.player.hp - 1);
       battleLog('デッキ切れで1ダメージ。');
     }
   }
+  if(isSoloTestMode() && drawnNames.length) battleLog(`ドロー：${drawnNames.join(' / ')}`);
   return drawn;
 }
 

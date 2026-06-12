@@ -1,5 +1,5 @@
 {
-  "version": "v96_solo_visual_linked_ui",
+  "version": "v97_solo_hand_place_tension_fix",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -207,5 +207,7 @@
   "soloLabFix": "board placement, turn draw, status panel, hero skill unlock, left safe-area panel",
   "soloLabFixFile": "data/solo_lab_fix_v95.json",
   "soloVisualUi": "selected card preview, placement mode highlights, enemy hand visual",
-  "soloVisualUiFile": "data/solo_visual_ui_v96.json"
+  "soloVisualUiFile": "data/solo_visual_ui_v96.json",
+  "soloFix": "enemy hand list popup, self hand fallback, forced placement click delegation, solo tension skill",
+  "soloFixFile": "data/solo_hand_place_tension_fix_v97.json"
 }

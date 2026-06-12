@@ -5751,3 +5751,61 @@
     height:34px;
   }
 }
+
+
+/* v97: hand list and stronger solo placement feedback */
+.enemy-hand-list-pop{
+  position:absolute;
+  top:calc(100% + 4px);
+  right:0;
+  z-index:80;
+  width:min(340px, 64vw);
+  max-height:180px;
+  overflow:auto;
+  padding:8px;
+  border-radius:12px;
+  border:1px solid rgba(247,211,130,.35);
+  background:rgba(6,12,24,.96);
+  box-shadow:0 12px 34px rgba(0,0,0,.45);
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(82px, 1fr));
+  gap:6px;
+}
+.enemy-hand-list-pop.hidden{
+  display:none;
+}
+.enemy-hand-list-item{
+  display:grid;
+  grid-template-columns:26px 1fr;
+  gap:5px;
+  align-items:center;
+  color:#fff4cf;
+  font-size:10px;
+  line-height:1.15;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.06);
+  border-radius:8px;
+  padding:4px;
+}
+.enemy-hand-list-item img{
+  width:26px;
+  height:36px;
+  object-fit:cover;
+  object-position:top;
+  border-radius:4px;
+}
+.hand-card.unknown-card{
+  background:linear-gradient(180deg, #293044, #101827);
+  border-style:dashed;
+}
+.unit-slot.solo-place-target::after{
+  content:'配置';
+  position:absolute;
+  inset:auto 4px 4px auto;
+  color:#e7fbff;
+  background:rgba(0,0,0,.45);
+  border-radius:999px;
+  padding:2px 5px;
+  font-size:10px;
+  font-weight:900;
+}
