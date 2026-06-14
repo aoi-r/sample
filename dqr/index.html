@@ -19,7 +19,7 @@
       <div class="logo-card tap-start" role="button" tabindex="0">
         <div class="slime">●</div>
         <h1>DRAGON QUEST<br>RIVALS Rebuild</h1>
-        <p>タップして開始</p><small id="boot-version-label">v101 / buildable 1465 / total 1582</small>
+        <p>タップして開始</p><small id="boot-version-label">v102 / buildable 1465 / total 1582</small>
       </div>
     </section>
 
@@ -102,22 +102,20 @@
             <div class="solo-test-grid">
               <button id="solo-add-hand">選択カードを手札へ</button>
               <button id="solo-add-decktop">山札トップへ</button>
-              <button id="solo-summon-enemy">敵配置モード</button>
-              <button id="solo-summon-player">味方配置モード</button>
+              <button id="solo-summon-enemy">敵盤面へ配置</button>
+              <button id="solo-summon-player">味方盤面へ配置</button>
               <button id="solo-add-enemy-hand">相手手札へ</button>
               <button id="solo-reset-enemy-hand">相手手札リセット</button>
               <button id="solo-show-enemy-hand">相手手札表示</button>
               <button id="solo-damage-enemy">敵全体1ダメ</button>
             </div>
-            <div id="solo-selected-card-visual" class="solo-selected-card-visual hidden"></div>
             <p id="solo-selected-card-label" class="hint">カード未選択</p>
-            <div id="solo-test-status" class="solo-test-status">ソロ情報: 未開始</div>
           </div><div class="battle-top-command"><div id="battle-turn-label" class="battle-turn-label">TURN 1</div><button id="end-turn-top" class="turn-end-main">ターン終了</button></div>
           <div class="enemy-hud">
             <div class="leader-name">相手</div>
             <div class="hp-pill">HP <b id="enemy-hp">25</b></div>
             <div class="mp-pill">MP <b id="enemy-mp">1/1</b></div>
-            <div id="enemy-hand-visual" class="enemy-hand-visual hidden" aria-label="相手手札"></div><div id="enemy-hand-list-pop" class="enemy-hand-list-pop hidden"></div>
+            <div id="enemy-hand-visual" class="enemy-hand-visual hidden"></div><div id="enemy-hand-list-pop" class="enemy-hand-list-pop hidden"></div>
           </div>
 
           <div class="arena-field">
@@ -357,16 +355,16 @@
     }
     if(window.__dqrAppEnter){
       window.__dqrAppEnter(); // app.js will queue pendingEntry and wait
-      status('v101 loading cards...');
+      status('v92 loading cards...');
       return;
     }
-    status('v101 app.js loading...');
+    status('v92 app.js loading...');
   }
   function bind(){
     if(document.body && !qs('html-boot-status')){
       var badge = document.createElement('div');
       badge.id = 'html-boot-status';
-      badge.textContent = 'v98 / buildable 1465 / total 1582';
+      badge.textContent = 'v92 boot gate';
       badge.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:99999;background:rgba(0,0,0,.55);color:#fff;font:12px system-ui;padding:4px 7px;border-radius:8px;pointer-events:none;opacity:.70';
       document.body.appendChild(badge);
     }
