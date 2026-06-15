@@ -1430,3 +1430,38 @@ node tools/sync_official_gameconductor.mjs
   - ソロ開始時テンションを0、`tensionUsedThisTurn=false` に固定。
 - 追加ファイル:
   - `data/solo_call_fix_v104.json`
+
+
+## v105 update
+- v104でソロUIが動かなかった原因を修正。
+- 起動画面表示:
+  - `v105 / buildable 1465 / total 1582`
+- 原因:
+  - `renderEnemyHandVisualV104()` が自分自身を呼ぶ無限再帰になっていた。
+  - `renderBattleArena()` の最後で落ち、手札ストリップ描画・ソロボタン接続・テンション処理まで到達していなかった。
+- 修正:
+  - 無限再帰を削除。
+  - `afterRenderSoloV105()` でソロ後処理をtry/catch保護。
+  - ソロボタンは毎回 `onclick/ontouchend` を上書きして接続。
+  - テンションボタンも毎回 `onclick/ontouchend` を上書き。
+  - ソロ開始時はMP1/1、テンション0。
+- 追加ファイル:
+  - `data/solo_recursion_wire_fix_v105.json`
+
+
+## v106 update
+- v105を細かく監査し、push前に残っていた問題を修正。
+- 起動画面表示:
+  - `v106 / buildable 1465 / total 1582`
+- 監査結果:
+  - `node --check`: OK
+  - 重複function宣言: 0件
+  - `renderEnemyHandVisualV104()` の無限再帰: なし
+  - 古い `soloWarriorTensionV102` 参照: 削除済み
+- 修正:
+  - ソロボタン処理を `soloSafeRunV106()` で包み、例外時にログ表示。
+  - 手札追加/ドロー/配置/相手手札/テンション処理で必ず操作ログを出す。
+  - ボタン接続は `onclick/ontouchend` を毎回上書き。
+  - テンションボタンはテンション3ならスキル発動、それ未満なら通常テンション蓄積。
+- 追加ファイル:
+  - `data/solo_audited_controls_v106.json`

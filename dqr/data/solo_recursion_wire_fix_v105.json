@@ -1,0 +1,27 @@
+{
+  "version": "v105_fix_solo_recursion_and_wire",
+  "cause": [
+    "v104のrenderEnemyHandVisualV104が自分自身を呼ぶ無限再帰になっていた。",
+    "renderBattleArenaの最後で落ちるため、手札ストリップ描画・ソロボタン接続・テンション処理まで到達していなかった。",
+    "ボタン接続も一度だけaddEventListenerする方式だったため、途中の失敗後に再接続されにくかった。"
+  ],
+  "fixes": [
+    "renderEnemyHandVisualV104の無限再帰を修正。",
+    "renderBattleArena末尾のソロ処理をafterRenderSoloV105にまとめ、各処理をtry/catchで保護。",
+    "ソロボタンは毎回onclick/ontouchendを上書きして接続。",
+    "テンションボタンも毎回onclick/ontouchendを上書き。",
+    "ソロ開始時MP1/1、テンション0、tensionUsedThisTurn=falseに固定。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v105 / buildable 1465 / total 1582",
+    "totalCards": 1582,
+    "buildableCards": 1465,
+    "recursionRemoved": true,
+    "safeAfterRender": true,
+    "directWireEveryRender": true,
+    "soloStartsTensionZero": true,
+    "soloStartsMpOne": true
+  }
+}

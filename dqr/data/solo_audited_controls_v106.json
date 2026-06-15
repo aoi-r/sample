@@ -1,0 +1,29 @@
+{
+  "version": "v106_audited_solo_controls",
+  "audit": [
+    "v105を展開して構文、重複function、古い参照、無限再帰、ソロ呼び出しを確認。",
+    "v105には古いテンション補完参照が残っていたため削除。",
+    "v106追加中に発生したsoloWarriorTensionV106重複定義も削除済み。"
+  ],
+  "fixes": [
+    "soloWarriorTensionV102参照をsoloWarriorTensionV106へ置換。",
+    "ソロボタン処理をsoloSafeRunV106で包み、例外時にログ表示。",
+    "手札追加/ドロー/配置/相手手札/テンション処理の各ボタンで必ず操作ログを出す。",
+    "ボタン接続はonclick/ontouchendを毎回上書き。",
+    "テンションボタンはテンション3ならスキル発動、それ未満なら通常テンション蓄積。",
+    "無限再帰が残っていないことを再確認。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v106 / buildable 1465 / total 1582",
+    "totalCards": 1582,
+    "buildableCards": 1465,
+    "oldV102TensionRefRemoved": true,
+    "recursiveEnemyHandRemoved": true,
+    "safeSoloRunner": true,
+    "directButtonWire": true,
+    "tensionButtonDirect": true,
+    "soloDebugStrip": true
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "version": "v104_call_correct_solo_handlers",
+  "version": "v106_audited_solo_controls",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -202,8 +202,8 @@
   "restoreFeatures": "cards/data/solo preset decks preserved",
   "cardsCount": 1582,
   "consoleErrorFixed": "Identifier 'isAdventurerCard' has already been declared",
-  "visibleBootLabel": "v104 / buildable 1465 / total 1582",
+  "visibleBootLabel": "v106 / buildable 1465 / total 1582",
   "rollbackBase": "v93_fix_duplicate_isAdventurerCard",
-  "soloFix": "renderBattleArena now calls current solo handlers, not v102 handlers",
-  "soloFixFile": "data/solo_call_fix_v104.json"
+  "soloFix": "audited solo controls, safe runner, no old refs or duplicate functions",
+  "soloFixFile": "data/solo_audited_controls_v106.json"
 }
