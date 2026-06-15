@@ -5694,3 +5694,92 @@
 .battle-arena.solo-test-mode .hand-card{
   pointer-events:auto !important;
 }
+
+
+/* v103: compact solo debug card strips */
+.solo-debug-strip{
+  position:fixed;
+  left:calc(env(safe-area-inset-left, 0px) + 150px);
+  right:calc(env(safe-area-inset-right, 0px) + 16px);
+  bottom:calc(env(safe-area-inset-bottom, 0px) + 8px);
+  z-index:220;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  padding:6px;
+  border-radius:14px;
+  background:rgba(3,10,20,.78);
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 8px 28px rgba(0,0,0,.38);
+  backdrop-filter:blur(8px);
+  pointer-events:auto;
+}
+.solo-debug-strip.hidden{ display:none; }
+.solo-debug-row{
+  min-width:0;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  align-items:center;
+  gap:6px;
+  color:#fff5c9;
+  font-size:11px;
+  font-weight:900;
+}
+.solo-debug-hand{
+  display:flex;
+  gap:5px;
+  overflow-x:auto;
+  min-height:58px;
+  align-items:center;
+  padding:3px;
+  border-radius:10px;
+  background:rgba(255,255,255,.06);
+}
+.solo-debug-card{
+  flex:0 0 42px;
+  width:42px;
+  height:56px;
+  border-radius:7px;
+  overflow:hidden;
+  position:relative;
+  border:1px solid rgba(226,194,111,.55);
+  background:#101827;
+  color:#fff;
+  display:grid;
+  place-items:end center;
+  font-size:8px;
+  line-height:1.05;
+  text-align:center;
+}
+.solo-debug-card img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:top;
+}
+.solo-debug-card span{
+  position:relative;
+  z-index:1;
+  width:100%;
+  padding-top:18px;
+  background:linear-gradient(transparent, rgba(0,0,0,.84));
+  text-shadow:0 1px 2px #000;
+}
+.solo-debug-card.selected{
+  outline:3px solid rgba(255,221,98,.95);
+  box-shadow:0 0 18px rgba(255,221,98,.55);
+}
+@media(max-width:720px){
+  .solo-debug-strip{
+    left:calc(env(safe-area-inset-left, 0px) + 112px);
+    right:calc(env(safe-area-inset-right, 0px) + 8px);
+    bottom:calc(env(safe-area-inset-bottom, 0px) + 6px);
+    grid-template-columns:1fr;
+    gap:4px;
+    max-height:126px;
+  }
+  .solo-debug-hand{ min-height:44px; }
+  .solo-debug-card{ flex-basis:34px; width:34px; height:45px; }
+}
