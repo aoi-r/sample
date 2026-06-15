@@ -1465,3 +1465,25 @@ node tools/sync_official_gameconductor.mjs
   - テンションボタンはテンション3ならスキル発動、それ未満なら通常テンション蓄積。
 - 追加ファイル:
   - `data/solo_audited_controls_v106.json`
+
+
+## v107 update
+- v106のConsoleログで判明した未定義関数を修正。
+- 起動画面表示:
+  - `v107 / buildable 1465 / total 1582`
+- 原因:
+  - `getEffectiveCost()` と `parseKeywordFlags()` が `getCardText()` を呼んでいたが、v93系ベースでは未定義だった。
+  - `soloUseTensionSkillV103()` が `ensureSoloGame()` を呼んでいたが、未定義だった。
+  - 古い `addEventListener` で呼ばれる旧ソロ関数も残っており、直接エラーを投げていた。
+- 修正:
+  - `getCardText(card)` を復活。
+  - `ensureSoloGame()` を復活。
+  - `makeSoloUnitFromCardSafeV107()` を追加。
+  - 旧ソロ関数も `soloSafeRunV106()` で包む安全版へ差し替え。
+  - テンションスキル処理を安全版へ差し替え。
+- 監査:
+  - `node --check`: OK
+  - 重複function宣言: 0件
+  - 古い `soloWarriorTensionV102` 参照: なし
+- 追加ファイル:
+  - `data/solo_missing_helpers_fix_v107.json`

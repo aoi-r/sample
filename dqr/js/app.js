@@ -62,7 +62,39 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v106_audited_solo_controls';
+const DATA_VERSION = 'v107_restore_missing_helpers';
+
+// v107 compatibility shims for rolled-back bases
+function getCardText(card){
+  if(!card) return '';
+  return String(card.text ?? card.effect ?? card.description ?? card.desc ?? '');
+}
+function ensureSoloGame(){
+  if(!state.battle.game){
+    try{ initLocalBattleGame(); }catch(e){ console.error('ensureSoloGame init failed', e); }
+  }
+  if(state.battle.game){
+    state.battle.game.soloTestMode = true;
+    state.battle.soloTestMode = true;
+  }
+  return state.battle.game;
+}
+function makeSoloUnitFromCardSafeV107(card){
+  if(typeof makeSoloUnitFromCard === 'function') return makeSoloUnitFromCard(card);
+  if(typeof makeUnitFromCard === 'function') return makeUnitFromCard(card);
+  return {
+    id:`solo_${Date.now()}_${Math.random().toString(16).slice(2)}`,
+    cardId:card?.id || '',
+    name:card?.name || 'ユニット',
+    attack:Number(card?.attack ?? 0),
+    hp:Number(card?.hp ?? card?.health ?? 1),
+    maxHp:Number(card?.hp ?? card?.health ?? 1),
+    canAttack:false,
+    summoningSickness:true,
+    keywords:{}
+  };
+}
+
 
 
 const HERO_SKILL_DEFS = {
@@ -1582,7 +1614,7 @@ function soloPlaceFirstEmptyV103(side, card){
   const board = side === 'enemy' ? game.enemy.board : game.player.board;
   const pos = board.findIndex(x => !x);
   if(pos < 0) return toast('空きマスがありません。', false), false;
-  const unit = makeSoloUnitFromCard(card);
+  const unit = makeSoloUnitFromCardSafeV107(card);
   board[pos] = unit;
   if(side === 'player' && unit.isBuilding){
     game.player.buildings ||= [];
@@ -1594,37 +1626,18 @@ function soloPlaceFirstEmptyV103(side, card){
   return true;
 }
 
-function soloSafeRunV106(label, fn){
-  try{
-    battleLog(`ソロ操作: ${label}`);
-    const result = fn();
-    renderBattleArena();
-    return result;
-  }catch(e){
-    console.error(`solo action failed: ${label}`, e);
-    battleLog(`ソロ操作エラー: ${label} / ${e?.message || e}`);
-    try{ renderBattleLog(); }catch(_){}
-    return null;
-  }
-}
-
 function soloUseTensionSkillV103(){
   const game = ensureSoloGame(); if(!game) return;
   if(game.player.tension < 3) return toast('テンションが3必要です。', false);
   if(!game.player.leaderSkill) game.player.leaderSkill = getBaseTensionSkill(game.className || state.battle.selectedDeck?.className || '戦士');
   applyTensionSkill(game.player.leaderSkill);
-  const className = game.className || state.battle.selectedDeck?.className || '';
-  const skillName = game.player.leaderSkill?.skillName || '';
-  if(className.includes('戦士') || skillName.includes('剣') || skillName.includes('稲妻') || skillName.includes('戦士')){
-    game.player.leaderAttack = Math.max(Number(game.player.leaderAttack || 0), 2);
-    game.player.leaderCanAttack = true;
-    battleLog('戦士テンション：リーダー攻撃力+2。このターン攻撃可能。');
-  }
+  soloWarriorTensionV106(game.player.leaderSkill);
   game.player.tension = 0;
   game.player.tensionUsedThisTurn = true;
-  battleLog('テンションスキルを発動しました。');
+  battleLog('テンションスキルを発動しました。テンション0。');
   renderBattleArena();
 }
+
 function wireSoloControlsV103(){
   if(!isSoloTestMode() || !state.battle.game) return;
   const bind = (id, label, fn) => {
@@ -1765,43 +1778,36 @@ function getSoloSelectedCard(){
   return card;
 }
 function soloAddSelectedToHand(){
-  const card = getSoloSelectedCard(); if(!card) return;
-  state.battle.game.player.hand.push(card.id);
-  battleLog(`テスト：${card.name}を手札に追加。`);
-  renderBattleArena();
+  return soloSafeRunV106('選択カードを自分手札へ追加', () => {
+    const card = getSoloSelectedCard(); if(!card) return;
+    state.battle.game.player.hand.push(card.id);
+    battleLog(`${card.name}を自分手札へ追加。手札${state.battle.game.player.hand.length}枚。`);
+  });
 }
+
 function soloAddSelectedToDeckTop(){
-  const card = getSoloSelectedCard(); if(!card) return;
-  state.battle.game.player.deck.unshift(card.id);
-  battleLog(`テスト：${card.name}を山札トップへ。`);
-  renderBattleArena();
+  return soloSafeRunV106('山札トップへ追加', () => {
+    const card = getSoloSelectedCard(); if(!card) return;
+    state.battle.game.player.deck.unshift(card.id);
+    battleLog(`${card.name}を山札トップへ追加。`);
+  });
 }
+
 function soloAddSelectedToEnemyHand(){
-  const card = getSoloSelectedCard(); if(!card) return;
-  state.battle.game.enemy.hand ||= [];
-  state.battle.game.enemy.hand.push(card.id);
-  state.battle.game.enemy.handCount = Number(state.battle.game.enemy.handCount || 0) + 1;
-  battleLog(`テスト：${card.name}を相手手札へ。`);
-  renderBattleArena();
+  return soloSafeRunV106('相手手札へ追加', () => {
+    const card = getSoloSelectedCard(); if(!card) return;
+    state.battle.game.enemy.hand ||= [];
+    state.battle.game.enemy.hand.push(card.id);
+    state.battle.game.enemy.handCount = state.battle.game.enemy.hand.length;
+    battleLog(`${card.name}を相手手札へ追加。相手手札${state.battle.game.enemy.hand.length}枚。`);
+  });
 }
+
 function soloSummonSelected(side='enemy'){
   const card = getSoloSelectedCard(); if(!card) return;
-  if(card.cardType !== 'ユニット' && card.cardType !== '建物') return toast('ユニット/建物だけ配置できます。', false);
-  const game = state.battle.game;
-  const board = side === 'enemy' ? game.enemy.board : game.player.board;
-  const empty = board.findIndex(x=>!x);
-  if(empty < 0) return toast('空きマスがありません。', false);
-  const unit = makeUnitFromCard(card);
-  board[empty] = unit;
-  if(side === 'player'){
-    applyBaseKeywordsOnly(unit, card);
-    if(card.cardType === '建物') applySummonKeywords(unit, card);
-  }else{
-    applyBaseKeywordsOnly(unit, card);
-  }
-  battleLog(`テスト：${card.name}を${side === 'enemy' ? '敵' : '味方'}盤面へ配置。`);
-  renderBattleArena();
+  return soloPlaceFirstEmptyV103(side, card);
 }
+
 function soloSetEnemyHpInfinite(){
   const game = state.battle.game; if(!game) return;
   game.enemy.hp = 999999; game.enemy.maxHp = 999999;
@@ -1827,10 +1833,13 @@ function soloSetTensionMax(){
   renderBattleArena();
 }
 function soloDrawCard(){
-  drawCard(1);
-  battleLog('テスト：1枚ドロー。');
-  renderBattleArena();
+  return soloSafeRunV106('1枚ドロー', () => {
+    const before = state.battle.game.player.hand.length;
+    const n = drawCard(1);
+    battleLog(`${n}枚ドロー / 手札 ${before}→${state.battle.game.player.hand.length}`);
+  });
 }
+
 function soloClearLog(){
   const game = state.battle.game; if(!game) return;
   game.log = [];
@@ -1838,119 +1847,27 @@ function soloClearLog(){
 }
 
 function soloResetEnemyHand(){
-  setupSoloEnemyHand();
-  battleLog('テスト：相手手札を初期セットに戻しました。');
-  renderBattleArena();
+  return soloSafeRunV106('相手手札リセット', () => {
+    setupSoloEnemyHand();
+    state.battle.game.enemy.handCount = state.battle.game.enemy.hand?.length || 0;
+    battleLog(`相手手札を初期化。相手手札${state.battle.game.enemy.handCount}枚。`);
+  });
 }
+
 function soloShowEnemyHand(){
-  const game = state.battle.game; if(!game) return;
-  const names = (game.enemy.hand || []).map(id => byId(id)?.name || id);
-  battleLog(`相手手札：${names.join(' / ') || 'なし'}`);
-  renderBattleArena();
+  return soloSafeRunV106('相手手札表示', () => {
+    renderSoloDebugStripV103?.();
+    battleLog('相手手札を下部ストリップに表示中。');
+  });
 }
 
 function soloDamageEnemyAll(){
-  const game = state.battle.game; if(!game) return;
-  for(const u of game.enemy.board) if(u) dealDamageToUnit(u, 1, 'テスト', 'enemy');
-  resolveDeaths();
-  battleLog('テスト：敵全体に1ダメージ。');
-  renderBattleArena();
-}
-
-async function startMatch(){
-  if(!state.battle.selectedDeck) return toast('先にデッキを選択してください。', false);
-  const matchId = $('match-id-input').value.trim();
-  if(!matchId) return toast('合言葉IDを入力してください。', false);
-
-  const roomId = makeRoomId(matchId);
-  cleanupBattleSubscriptions();
-  state.battle.matchId = matchId;
-  state.battle.roomId = roomId;
-  state.battle.resultShown = false;
-  state.battle.hasMatched = false;
-  state.battle.startBannerShown = false;
-  state.battle.lastTurnPlayerId = '';
-
-  if(state.firebase.enabled && state.firebase.db){
-    try{
-      const roomRoot = ref(state.firebase.db, `rooms/${roomId}`);
-      const metaRef = ref(state.firebase.db, `rooms/${roomId}/meta`);
-      const oldMeta = (await get(metaRef)).val();
-      if(isFinalRoomStatus(oldMeta?.status)){
-        await remove(roomRoot);
-      }
-
-      const playersRef = ref(state.firebase.db, `rooms/${roomId}/players`);
-      const playersSnap = await get(playersRef);
-      const players = playersSnap.val() || {};
-      const activePlayers = Object.values(players).filter(p => p && p.playerId && p.status === 'active');
-      const alreadyIn = activePlayers.some(p => p.playerId === state.playerId);
-      if(activePlayers.length >= 2 && !alreadyIn){
-        toast('この合言葉の部屋は満員です。別のIDを使ってください。', false);
-        state.battle.roomId = '';
-        state.battle.matchId = '';
-        return;
-      }
-
-      initLocalBattleGame();
-      state.battle.game.isMyTurn = false;
-      state.battle.game.currentTurnPlayerId = '';
-      state.battle.matchLocked = true;
-
-      await set(ref(state.firebase.db, `rooms/${roomId}/players/${state.playerId}`), {
-        playerId: state.playerId,
-        displayName: state.username || state.playerId,
-        deckName: state.battle.selectedDeck.deckName,
-        className: state.battle.selectedDeck.className,
-        status: 'active',
-        ready: true,
-        joinedAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-        lastSeenMs: Date.now()
-      });
-      await markMyPresence(roomId);
-
-      const joinedSnap = await get(playersRef);
-      const joinedPlayers = Object.values(joinedSnap.val() || {}).filter(p => p && p.playerId && p.status === 'active');
-      const ids = joinedPlayers.map(p => p.playerId).sort((a,b)=>a.localeCompare(b,'ja'));
-      if(ids.length >= 2){
-        const metaNow = (await get(metaRef)).val() || {};
-        const firstPlayerId = metaNow.status === 'playing' && metaNow.firstPlayerId ? metaNow.firstPlayerId : chooseRandomFirstPlayerId(ids);
-        await update(metaRef, {
-          matchId,
-          status:'playing',
-          playerCount: ids.length,
-          firstPlayerId,
-          currentTurnPlayerId: firstPlayerId,
-          startedAt: metaNow.startedAt || serverTimestamp(),
-          updatedAt: serverTimestamp()
-        });
-      }else{
-        await update(metaRef, {
-          matchId,
-          status:'waiting',
-          playerCount: ids.length,
-          firstPlayerId: '',
-          currentTurnPlayerId: '',
-          updatedAt: serverTimestamp()
-        });
-      }
-
-      subscribeRoomPlayers();
-      await syncMyBattleState();
-    }catch(e){
-      console.warn(e);
-      toast('マッチングに失敗しました: '+e.message, false);
-      return;
-    }
-  }else{
-    initLocalBattleGame();
-  }
-
-  $('battle-setup').classList.add('hidden');
-  $('battle-arena').classList.remove('hidden');
-  showWaitingForOpponent();
-  renderBattleArena();
+  return soloSafeRunV106('敵全体1ダメ', () => {
+    const game = state.battle.game; if(!game) return;
+    for(const u of game.enemy.board) if(u) dealDamageToUnit(u, 1, 'テスト', 'enemy');
+    resolveDeaths();
+    battleLog('敵全体に1ダメージ。');
+  });
 }
 
 function subscribeRoomPlayers(){

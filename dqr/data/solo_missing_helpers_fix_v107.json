@@ -1,0 +1,30 @@
+{
+  "version": "v107_restore_missing_helpers",
+  "cause": [
+    "getEffectiveCost() と parseKeywordFlags() が getCardText() を呼んでいたが、v93系ベースでは getCardText が未定義だった。",
+    "soloUseTensionSkillV103() が ensureSoloGame() を呼んでいたが、これも未定義だった。",
+    "古いaddEventListenerで呼ばれる旧ソロ関数も残っており、直接エラーを投げていた。"
+  ],
+  "fixes": [
+    "getCardText(card) を互換関数として復活。",
+    "ensureSoloGame() を互換関数として復活。",
+    "makeSoloUnitFromCardSafeV107() を追加し、配置時のユニット生成を安全化。",
+    "soloAddSelectedToHand / soloDrawCard / soloSummonSelected など旧ソロ関数も安全版に差し替え。",
+    "soloUseTensionSkillV103 を ensureSoloGame ありの安全版に差し替え。",
+    "古い soloWarriorTensionV102 参照を完全削除。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v107 / buildable 1465 / total 1582",
+    "totalCards": 1582,
+    "buildableCards": 1465,
+    "getCardTextDefined": true,
+    "ensureSoloGameDefined": true,
+    "safeUnitMakerDefined": true,
+    "oldV102TensionRefRemoved": true,
+    "recursiveEnemyHandRemoved": true,
+    "oldSoloFunctionsWrapped": true,
+    "tensionUsesEnsureSoloGame": true
+  }
+}
