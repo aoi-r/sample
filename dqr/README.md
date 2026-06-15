@@ -1487,3 +1487,23 @@ node tools/sync_official_gameconductor.mjs
   - 古い `soloWarriorTensionV102` 参照: なし
 - 追加ファイル:
   - `data/solo_missing_helpers_fix_v107.json`
+
+
+## v108 update
+- v107の初期化エラー `can't find variable: startMatch` を修正。
+- 起動画面表示:
+  - `v108 / buildable 1465 / total 1582`
+- 原因:
+  - v107で旧ソロ関数を安全版に差し替える際、関数終端検出が甘く、`soloDamageEnemyAll()` の次にあった `startMatch()` まで巻き込んで削除していた。
+- 修正:
+  - v106から `async function startMatch()` を復元。
+  - v107で追加した `getCardText()` / `ensureSoloGame()` は維持。
+- 監査:
+  - `node --check`: OK
+  - 重複function宣言: 0件
+  - `startMatch`: 存在確認済み
+  - `subscribeRoomPlayers`: 存在確認済み
+  - 古い `soloWarriorTensionV102` 参照: なし
+  - `renderEnemyHandVisualV104` 無限再帰: なし
+- 追加ファイル:
+  - `data/start_match_restore_v108.json`

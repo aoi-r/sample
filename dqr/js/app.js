@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v107_restore_missing_helpers';
+const DATA_VERSION = 'v108_restore_start_match';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -1868,6 +1868,102 @@ function soloDamageEnemyAll(){
     resolveDeaths();
     battleLog('敵全体に1ダメージ。');
   });
+}
+
+async function startMatch(){
+  if(!state.battle.selectedDeck) return toast('先にデッキを選択してください。', false);
+  const matchId = $('match-id-input').value.trim();
+  if(!matchId) return toast('合言葉IDを入力してください。', false);
+
+  const roomId = makeRoomId(matchId);
+  cleanupBattleSubscriptions();
+  state.battle.matchId = matchId;
+  state.battle.roomId = roomId;
+  state.battle.resultShown = false;
+  state.battle.hasMatched = false;
+  state.battle.startBannerShown = false;
+  state.battle.lastTurnPlayerId = '';
+
+  if(state.firebase.enabled && state.firebase.db){
+    try{
+      const roomRoot = ref(state.firebase.db, `rooms/${roomId}`);
+      const metaRef = ref(state.firebase.db, `rooms/${roomId}/meta`);
+      const oldMeta = (await get(metaRef)).val();
+      if(isFinalRoomStatus(oldMeta?.status)){
+        await remove(roomRoot);
+      }
+
+      const playersRef = ref(state.firebase.db, `rooms/${roomId}/players`);
+      const playersSnap = await get(playersRef);
+      const players = playersSnap.val() || {};
+      const activePlayers = Object.values(players).filter(p => p && p.playerId && p.status === 'active');
+      const alreadyIn = activePlayers.some(p => p.playerId === state.playerId);
+      if(activePlayers.length >= 2 && !alreadyIn){
+        toast('この合言葉の部屋は満員です。別のIDを使ってください。', false);
+        state.battle.roomId = '';
+        state.battle.matchId = '';
+        return;
+      }
+
+      initLocalBattleGame();
+      state.battle.game.isMyTurn = false;
+      state.battle.game.currentTurnPlayerId = '';
+      state.battle.matchLocked = true;
+
+      await set(ref(state.firebase.db, `rooms/${roomId}/players/${state.playerId}`), {
+        playerId: state.playerId,
+        displayName: state.username || state.playerId,
+        deckName: state.battle.selectedDeck.deckName,
+        className: state.battle.selectedDeck.className,
+        status: 'active',
+        ready: true,
+        joinedAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        lastSeenMs: Date.now()
+      });
+      await markMyPresence(roomId);
+
+      const joinedSnap = await get(playersRef);
+      const joinedPlayers = Object.values(joinedSnap.val() || {}).filter(p => p && p.playerId && p.status === 'active');
+      const ids = joinedPlayers.map(p => p.playerId).sort((a,b)=>a.localeCompare(b,'ja'));
+      if(ids.length >= 2){
+        const metaNow = (await get(metaRef)).val() || {};
+        const firstPlayerId = metaNow.status === 'playing' && metaNow.firstPlayerId ? metaNow.firstPlayerId : chooseRandomFirstPlayerId(ids);
+        await update(metaRef, {
+          matchId,
+          status:'playing',
+          playerCount: ids.length,
+          firstPlayerId,
+          currentTurnPlayerId: firstPlayerId,
+          startedAt: metaNow.startedAt || serverTimestamp(),
+          updatedAt: serverTimestamp()
+        });
+      }else{
+        await update(metaRef, {
+          matchId,
+          status:'waiting',
+          playerCount: ids.length,
+          firstPlayerId: '',
+          currentTurnPlayerId: '',
+          updatedAt: serverTimestamp()
+        });
+      }
+
+      subscribeRoomPlayers();
+      await syncMyBattleState();
+    }catch(e){
+      console.warn(e);
+      toast('マッチングに失敗しました: '+e.message, false);
+      return;
+    }
+  }else{
+    initLocalBattleGame();
+  }
+
+  $('battle-setup').classList.add('hidden');
+  $('battle-arena').classList.remove('hidden');
+  showWaitingForOpponent();
+  renderBattleArena();
 }
 
 function subscribeRoomPlayers(){

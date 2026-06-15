@@ -1,0 +1,25 @@
+{
+  "version": "v108_restore_start_match",
+  "cause": "v107で旧ソロ関数を安全版に差し替える際、関数終端検出が甘く、soloDamageEnemyAllの次にあったstartMatch()まで巻き込んで削除していた。",
+  "fixes": [
+    "v106からasync function startMatch()を復元。",
+    "startMatchの存在チェックを監査項目に追加。",
+    "v107のgetCardText/ensureSoloGame修正は維持。",
+    "node --check、重複function、startMatch存在、古い参照なしを確認。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v108 / buildable 1465 / total 1582",
+    "dataVersion": "v108_restore_start_match",
+    "totalCards": 1582,
+    "buildableCards": 1465,
+    "startMatchExists": true,
+    "startMatchReferences": 2,
+    "subscribeRoomPlayersExists": true,
+    "getCardTextDefined": true,
+    "ensureSoloGameDefined": true,
+    "oldV102TensionRefRemoved": true,
+    "recursiveEnemyHandRemoved": true
+  }
+}
