@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v112_placement_guard_enemyhand_dungeon';
+const DATA_VERSION = 'v114_solo_two_side_turns';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -285,9 +285,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v112 ready / buildable 1465 / total 1582`;
+  if(label) label.textContent = `v114 ready / buildable 1465 / total 1582`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v112 ready / buildable 1465 / total 1582`;
+  if(badge) badge.textContent = `v114 ready / buildable 1465 / total 1582`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -1951,51 +1951,13 @@ function wireSoloControlsV103(){
     el.onclick = e => { e.preventDefault(); e.stopPropagation(); soloSafeRunV106(label, fn); };
     el.ontouchend = e => { e.preventDefault(); e.stopPropagation(); soloSafeRunV106(label, fn); };
   };
-  bind('solo-add-hand', '選択カードを自分手札へ追加', () => {
-    const card = getSoloSelectedCard(); if(!card) return;
-    addCardIdToPlayerHandV110(card.id, 'ソロ追加');
-    battleLog(`${card.name}を自分手札へ追加。手札${state.battle.game.player.hand.length}枚。`);
-  });
-  bind('solo-draw-card', '1枚ドロー', () => {
-    const before = state.battle.game.player.hand.length;
-    const n = drawCard(1);
-    battleLog(`${n}枚ドロー / 手札 ${before}→${state.battle.game.player.hand.length}`);
-  });
-  bind('solo-add-decktop', '山札トップへ追加', () => {
-    const card = getSoloSelectedCard(); if(!card) return;
-    state.battle.game.player.deck.unshift(card.id);
-    battleLog(`${card.name}を山札トップへ追加。`);
-  });
-  bind('solo-summon-enemy', '敵盤面へ配置/武器装備', () => {
-    const card = getSoloSelectedCard(); if(!card) return;
-    soloPlaceFirstEmptyV103('enemy', card);
-  });
-  bind('solo-summon-player', '味方盤面へ配置/武器装備', () => {
-    const card = getSoloSelectedCard(); if(!card) return;
-    soloPlaceFirstEmptyV103('player', card);
-  });
-  bind('solo-add-enemy-hand', '相手手札へ追加', () => {
-    const card = getSoloSelectedCard(); if(!card) return;
-    state.battle.game.enemy.hand ||= [];
-    state.battle.game.enemy.hand.push(card.id);
-    state.battle.game.enemy.handCount = state.battle.game.enemy.hand.length;
-    battleLog(`${card.name}を相手手札へ追加。相手手札${state.battle.game.enemy.hand.length}枚。`);
-  });
-  bind('solo-reset-enemy-hand', '相手手札リセット', () => {
-    setupSoloEnemyHand();
-    state.battle.game.enemy.handCount = state.battle.game.enemy.hand?.length || 0;
-    battleLog(`相手手札を初期化。相手手札${state.battle.game.enemy.handCount}枚。`);
-  });
-  bind('solo-show-enemy-hand', '相手手札表示', () => {
-    renderSoloDebugStripV103();
-    battleLog('相手手札を下部ストリップに表示中。');
-  });
+
+  // v113: ソロパネルはHP/MP/テンション/ログ制御だけ残す
   bind('solo-hp-infinite', '相手HP∞', soloSetEnemyHpInfinite);
   bind('solo-hp-reset', '相手HP25', soloSetEnemyHpNormal);
   bind('solo-mp-max', 'MP10', soloSetMpMax);
   bind('solo-tension-max', 'テンションMAX', soloSetTensionMax);
   bind('solo-clear-log', 'ログ消去', soloClearLog);
-  bind('solo-damage-enemy', '敵全体1ダメ', soloDamageEnemyAll);
 
   const t = $('tension-button');
   if(t){
@@ -2013,13 +1975,14 @@ function wireSoloControlsV103(){
     };
   }
 
+  // 下部ストリップのカード操作は残す
   document.querySelectorAll('.solo-debug-card[data-solo-hand-index]').forEach(btn => {
     btn.onclick = e => { e.preventDefault(); e.stopPropagation(); selectHandCard(Number(btn.dataset.soloHandIndex)); };
     btn.ontouchend = e => { e.preventDefault(); e.stopPropagation(); selectHandCard(Number(btn.dataset.soloHandIndex)); };
   });
   document.querySelectorAll('.solo-debug-card[data-solo-enemy-hand-index]').forEach(btn => {
-    btn.onclick = e => { e.preventDefault(); e.stopPropagation(); soloSafeRunV106('相手手札を敵盤面へ配置', () => soloPlaceEnemyHandCardV110(Number(btn.dataset.soloEnemyHandIndex))); };
-    btn.ontouchend = e => { e.preventDefault(); e.stopPropagation(); soloSafeRunV106('相手手札を敵盤面へ配置', () => soloPlaceEnemyHandCardV110(Number(btn.dataset.soloEnemyHandIndex))); };
+    btn.onclick = e => { e.preventDefault(); e.stopPropagation(); soloSafeRunV106('相手手札を敵盤面へ配置', () => soloEnemyPlayCardV114(Number(btn.dataset.soloEnemyHandIndex), false)); };
+    btn.ontouchend = e => { e.preventDefault(); e.stopPropagation(); soloSafeRunV106('相手手札を敵盤面へ配置', () => soloEnemyPlayCardV114(Number(btn.dataset.soloEnemyHandIndex), false)); };
   });
 }
 
@@ -2048,6 +2011,7 @@ function startSoloTestMode(){
   game.player.tension = 0;
   game.player.tensionUsedThisTurn = false;
   game.soloTestMode = true;
+  game.soloActiveSide = 'player';
   battleLog('ソロ効果テスト部屋を開始しました。相手HPは実質∞です。');
   if($('battle-status')) $('battle-status').textContent = 'ソロ効果テスト中';
   $('battle-setup')?.classList.add('hidden');
@@ -2087,36 +2051,13 @@ function getSoloSelectedCard(){
   if(!card) toast('カードを選択してください。', false);
   return card;
 }
-function soloAddSelectedToHand(){
-  return soloSafeRunV106('選択カードを自分手札へ追加', () => {
-    const card = getSoloSelectedCard(); if(!card) return;
-    state.battle.game.player.hand.push(card.id);
-    battleLog(`${card.name}を自分手札へ追加。手札${state.battle.game.player.hand.length}枚。`);
-  });
-}
+function soloAddSelectedToHand(){ battleLog('v113: ソロパネルの手札追加ボタンは削除済みです。'); }
 
-function soloAddSelectedToDeckTop(){
-  return soloSafeRunV106('山札トップへ追加', () => {
-    const card = getSoloSelectedCard(); if(!card) return;
-    state.battle.game.player.deck.unshift(card.id);
-    battleLog(`${card.name}を山札トップへ追加。`);
-  });
-}
+function soloAddSelectedToDeckTop(){ battleLog('v113: ソロパネルの山札トップ追加ボタンは削除済みです。'); }
 
-function soloAddSelectedToEnemyHand(){
-  return soloSafeRunV106('相手手札へ追加', () => {
-    const card = getSoloSelectedCard(); if(!card) return;
-    state.battle.game.enemy.hand ||= [];
-    state.battle.game.enemy.hand.push(card.id);
-    state.battle.game.enemy.handCount = state.battle.game.enemy.hand.length;
-    battleLog(`${card.name}を相手手札へ追加。相手手札${state.battle.game.enemy.hand.length}枚。`);
-  });
-}
+function soloAddSelectedToEnemyHand(){ battleLog('v113: ソロパネルの相手手札追加ボタンは削除済みです。'); }
 
-function soloSummonSelected(side='enemy'){
-  const card = getSoloSelectedCard(); if(!card) return;
-  return soloPlaceFirstEmptyV103(side, card);
-}
+function soloSummonSelected(side='enemy'){ battleLog('v113: ソロパネルの盤面配置ボタンは削除済みです。下部手札ストリップを使ってください。'); }
 
 function soloSetEnemyHpInfinite(){
   const game = state.battle.game; if(!game) return;
@@ -2142,13 +2083,7 @@ function soloSetTensionMax(){
   battleLog('テスト：テンションMAX。');
   renderBattleArena();
 }
-function soloDrawCard(){
-  return soloSafeRunV106('1枚ドロー', () => {
-    const before = state.battle.game.player.hand.length;
-    const n = drawCard(1);
-    battleLog(`${n}枚ドロー / 手札 ${before}→${state.battle.game.player.hand.length}`);
-  });
-}
+function soloDrawCard(){ battleLog('v113: ソロパネルのドロー操作は削除済みです。'); }
 
 function soloClearLog(){
   const game = state.battle.game; if(!game) return;
@@ -2156,29 +2091,11 @@ function soloClearLog(){
   renderBattleArena();
 }
 
-function soloResetEnemyHand(){
-  return soloSafeRunV106('相手手札リセット', () => {
-    setupSoloEnemyHand();
-    state.battle.game.enemy.handCount = state.battle.game.enemy.hand?.length || 0;
-    battleLog(`相手手札を初期化。相手手札${state.battle.game.enemy.handCount}枚。`);
-  });
-}
+function soloResetEnemyHand(){ battleLog('v113: ソロパネルの相手手札リセットは削除済みです。'); }
 
-function soloShowEnemyHand(){
-  return soloSafeRunV106('相手手札表示', () => {
-    renderSoloDebugStripV103?.();
-    battleLog('相手手札を下部ストリップに表示中。');
-  });
-}
+function soloShowEnemyHand(){ battleLog('v113: ソロパネルの相手手札表示は削除済みです。下部ストリップを使ってください。'); }
 
-function soloDamageEnemyAll(){
-  return soloSafeRunV106('敵全体1ダメ', () => {
-    const game = state.battle.game; if(!game) return;
-    for(const u of game.enemy.board) if(u) dealDamageToUnit(u, 1, 'テスト', 'enemy');
-    resolveDeaths();
-    battleLog('敵全体に1ダメージ。');
-  });
-}
+function soloDamageEnemyAll(){ battleLog('v113: ソロパネルの敵全体ダメージは削除済みです。'); }
 
 async function startMatch(){
   if(!state.battle.selectedDeck) return toast('先にデッキを選択してください。', false);
@@ -4463,17 +4380,25 @@ function renderBattleArena(){
   const game = state.battle.game;
   if(!game) return;
   $('battle-arena')?.classList.toggle('battle-locked', !!state.battle.matchLocked);
+  if($('battle-arena') && isSoloTestMode()) $('battle-arena').dataset.soloActive = soloActiveSideV114();
   $('player-hp').textContent = game.player.hp;
   $('enemy-hp').textContent = isSoloTestMode() && Number(game.enemy.hp || 0) >= 999999 ? '∞' : game.enemy.hp;
   $('player-mp').textContent = `${game.player.mp}/${game.player.maxMp}`;
   $('enemy-mp').textContent = `${game.enemy.mp}/${game.enemy.maxMp}` + (isSoloTestMode() ? ` 手札${game.enemy.handCount || game.enemy.hand?.length || 0}` : '');
-  if($('battle-turn-label')) $('battle-turn-label').textContent = `TURN ${game.turn}`;
+  if($('battle-turn-label')) $('battle-turn-label').textContent = isSoloTestMode() ? `TURN ${game.turn} ${soloSideNameV114(soloActiveSideV114())}` : `TURN ${game.turn}`;
   const endTop = $('end-turn-top');
   if(endTop){
-    const myTurn = !!game.isMyTurn;
-    endTop.textContent = myTurn ? 'ターン終了' : '相手のターン';
-    endTop.disabled = !myTurn || !!state.battle.matchLocked;
-    endTop.classList.toggle('opponent-turn', !myTurn);
+    if(isSoloTestMode()){
+      const active = soloActiveSideV114();
+      endTop.textContent = `${soloSideNameV114(active)}ターン終了`;
+      endTop.disabled = !!state.battle.matchLocked;
+      endTop.classList.toggle('opponent-turn', active === 'enemy');
+    }else{
+      const myTurn = !!game.isMyTurn;
+      endTop.textContent = myTurn ? 'ターン終了' : '相手のターン';
+      endTop.disabled = !myTurn || !!state.battle.matchLocked;
+      endTop.classList.toggle('opponent-turn', !myTurn);
+    }
   }
   renderTension();
   renderBattleBoard();
@@ -4484,6 +4409,8 @@ function renderBattleArena(){
   document.querySelector('.player-leader')?.classList.toggle('leader-can-attack', game.player.leaderAttack > 0 && game.player.leaderCanAttack);
   updateTargetHighlights();
   afterRenderSoloV105();
+  installSoloCaptureV114();
+  installSoloLeaderCaptureV114();
   renderLeaderWeaponsV110();
 }
 
@@ -6685,6 +6612,7 @@ function handleBoardClick(side, pos){
   if(isBattleLocked()) return toast('まだ操作できません。', false);
 
   const game = state.battle.game;
+  if(handleEnemyBoardClickV114(side, pos)) return;
   if(game?.finished) return;
   if(!game?.isMyTurn && side === 'player') return toast('相手のターンです。', false);
   const board = side === 'player' ? game.player.board : game.enemy.board;
@@ -7040,6 +6968,7 @@ function attackLeader(targetSide){
   if(isBattleLocked()) return toast('まだ操作できません。', false);
 
   const game = state.battle.game;
+  // enemy leader attack v114
   if(game.pendingHeroSkill && targetSide === 'enemy') return applyPendingHeroSkillToLeader();
   if(game.pendingGenericEffect && targetSide === 'enemy') return applyPendingGenericEffectToLeader();
   if(targetSide === 'enemy' && hasEnemyTaunt()) return toast('におうだちを持つユニットを先に攻撃してください。', false);
@@ -7709,8 +7638,222 @@ function progressDungeonsByEvent(eventName, payload={}){
   }
 }
 
-async function endTurn(){
+async 
+// v114: solo two-player turn controller
+function soloActiveSideV114(){
+  const game = state.battle.game;
+  if(!game) return 'player';
+  game.soloActiveSide ||= 'player';
+  return game.soloActiveSide;
+}
+function soloSideNameV114(side){
+  return side === 'enemy' ? '相手' : '自分';
+}
+function soloPlayerObjV114(side){
+  const game = state.battle.game;
+  return side === 'enemy' ? game.enemy : game.player;
+}
+function drawForSideV114(side, count=1){
+  const game = state.battle.game;
+  const obj = soloPlayerObjV114(side);
+  obj.hand ||= [];
+  obj.deck ||= [];
+  let drawn = 0;
+  for(let i=0;i<count;i++){
+    if(!obj.deck.length){
+      if(side === 'player') game.player.hp = Math.max(0, game.player.hp - 1);
+      else game.enemy.hp = Math.max(0, game.enemy.hp - 1);
+      battleLog(`${soloSideNameV114(side)}：デッキ切れで1ダメージ。`);
+      continue;
+    }
+    const id = obj.deck.shift();
+    const card = byId(id);
+    if(obj.hand.length >= 10){
+      battleLog(`${soloSideNameV114(side)}ドロー：${card?.name || id}は手札上限10枚のため破棄。`);
+      continue;
+    }
+    obj.hand.push(id);
+    drawn++;
+    battleLog(`${soloSideNameV114(side)}ドロー：${card?.name || id}`);
+  }
+  if(side === 'enemy') obj.handCount = obj.hand.length;
+  return drawn;
+}
+function refreshUnitsForSideTurnV114(side){
+  const game = state.battle.game;
+  const board = side === 'enemy' ? game.enemy.board : game.player.board;
+  for(const u of board){
+    if(!u || u.isBuilding) continue;
+    if(u.summoningSickness){
+      u.summoningSickness = false;
+      u.canAttack = !!Number(u.attack || 0);
+    }else{
+      u.canAttack = !!Number(u.attack || 0);
+    }
+    u.attacksLeft = Math.max(Number(u.attacksLeft || 1), u.keywords?.doubleAttack ? 2 : 1);
+  }
+}
+function soloStartSideTurnV114(side){
+  const game = state.battle.game;
+  const obj = soloPlayerObjV114(side);
+  obj.maxMp = Math.min(10, Number(obj.maxMp || 0) + 1);
+  obj.mp = obj.maxMp;
+  obj.hand ||= [];
+  obj.deck ||= [];
+  obj.board ||= Array(6).fill(null);
+  if(side === 'player'){
+    game.isMyTurn = true;
+    game.player.tensionUsedThisTurn = false;
+    game.player.heroSkillUsedThisTurn = false;
+    game.player.usedSpellCostThisTurn = 0;
+    game.player.leaderAttackedThisTurn = false;
+    game.player.leaderCanAttack = !!game.player.weapon && Number(game.player.weapon.attack || 0) > 0;
+    emitBattleEvent('ownTurnStart', {side:'player'});
+  }else{
+    game.isMyTurn = false;
+    game.enemy.tensionUsedThisTurn = false;
+    game.enemy.leaderCanAttack = !!game.enemy.weapon && Number(game.enemy.weapon.attack || 0) > 0;
+  }
+  refreshUnitsForSideTurnV114(side);
+  drawForSideV114(side, 1);
+  battleLog(`${soloSideNameV114(side)}ターン開始：MP ${obj.mp}/${obj.maxMp}`);
+}
+function soloEndTurnV114(){
+  const game = state.battle.game;
+  if(!game || !isSoloTestMode()) return false;
+  const current = soloActiveSideV114();
+  if(current === 'player'){
+    emitBattleEvent('ownTurnEnd', {side:'player'});
+  }
+  resolveDeaths();
+  game.selectedHandIndex = null;
+  game.selectedAttacker = null;
+  game.pendingGenericEffect = null;
+  game.pendingHeroSkill = null;
+  const next = current === 'player' ? 'enemy' : 'player';
+  game.soloActiveSide = next;
+  game.turn = Number(game.turn || 1) + 1;
+  soloStartSideTurnV114(next);
+  renderBattleArena();
+  syncMyBattleState();
+  return true;
+}
+function soloEnemyPlayCardV114(index, force=false){
+  const game = ensureSoloGame(); if(!game) return false;
+  const id = game.enemy.hand?.[index];
+  const card = byId(id);
+  if(!card) return false;
+  const active = soloActiveSideV114();
+  const cost = getEffectiveCost(card);
+  if(active !== 'enemy' && !force){
+    battleLog('相手手札は相手ターン中に使用します。');
+    return false;
+  }
+  if(active === 'enemy' && Number(game.enemy.mp || 0) < cost){
+    toast('相手MPが足りません。', false);
+    return false;
+  }
+  if(isWeapon(card)){
+    if(active === 'enemy') game.enemy.mp -= cost;
+    game.enemy.hand.splice(index,1);
+    game.enemy.handCount = game.enemy.hand.length;
+    equipWeaponToLeaderV110(card, 'enemy');
+    renderBattleArena();
+    return true;
+  }
+  if(isCoinResourceCard(card)){
+    battleLog('相手手札のコインは盤面配置できません。');
+    return false;
+  }
+  if(!isBoardPlaceableCardV112(card)){
+    battleLog(`${card.name}は相手盤面に配置できないカードです。`);
+    return false;
+  }
+  const pos = game.enemy.board.findIndex(x => !x);
+  if(pos < 0) return toast('敵盤面に空きマスがありません。', false), false;
+  if(active === 'enemy') game.enemy.mp -= cost;
+  const unit = makeSoloUnitFromCardSafeV107(card);
+  game.enemy.board[pos] = unit;
+  game.enemy.hand.splice(index,1);
+  game.enemy.handCount = game.enemy.hand.length;
+  battleLog(`相手：${card.name}を敵盤面${pos}へ配置。`);
+  renderBattleArena();
+  return true;
+}
+function installSoloCaptureV114(){
+  if(window.__soloCaptureV114Installed) return;
+  window.__soloCaptureV114Installed = true;
+  const handler = (e) => {
+    if(!isSoloTestMode()) return;
+    const enemyBtn = e.target.closest?.('.solo-debug-card[data-solo-enemy-hand-index]');
+    if(enemyBtn){
+      e.preventDefault();
+      e.stopPropagation();
+      soloSafeRunV106('相手手札を使用/配置', () => soloEnemyPlayCardV114(Number(enemyBtn.dataset.soloEnemyHandIndex), false));
+      return;
+    }
+    const playerBtn = e.target.closest?.('.solo-debug-card[data-solo-hand-index]');
+    if(playerBtn && soloActiveSideV114() !== 'player'){
+      e.preventDefault();
+      e.stopPropagation();
+      battleLog('現在は相手ターンです。自分手札は自分ターンに使用します。');
+    }
+  };
+  document.addEventListener('click', handler, true);
+  document.addEventListener('touchend', handler, true);
+}
+
+function installSoloLeaderCaptureV114(){
+  if(window.__soloLeaderCaptureV114Installed) return;
+  window.__soloLeaderCaptureV114Installed = true;
+  const h = (e) => {
+    if(!isSoloTestMode()) return;
+    if(e.target.closest?.('.player-leader') && soloActiveSideV114() === 'enemy' && state.battle.game?.selectedAttacker?.side === 'enemy'){
+      e.preventDefault(); e.stopPropagation();
+      attackLeader('player');
+    }
+    if(e.target.closest?.('.enemy-leader') && soloActiveSideV114() === 'player' && state.battle.game?.selectedAttacker){
+      // normal handler may also catch; keep as backup
+    }
+  };
+  document.addEventListener('click', h, true);
+  document.addEventListener('touchend', h, true);
+}
+
+function handleEnemyBoardClickV114(side, pos){
+  const game = state.battle.game;
+  if(!isSoloTestMode() || soloActiveSideV114() !== 'enemy') return false;
+  if(side === 'enemy'){
+    const u = game.enemy.board[pos];
+    if(!u) return false;
+    if(u.canAttack){
+      game.selectedAttacker = {side:'enemy', pos};
+      battleLog(`${u.name}：攻撃対象を選んでください。`);
+      renderBattleArena();
+    }else{
+      battleLog(`${u.name}はまだ攻撃できません。`);
+    }
+    return true;
+  }
+  if(side === 'player' && game.selectedAttacker?.side === 'enemy'){
+    attackUnit(game.selectedAttacker, {side:'player', pos});
+    return true;
+  }
+  return false;
+}
+function handleEnemyLeaderAttackV114(){
+  const game = state.battle.game;
+  if(!isSoloTestMode() || soloActiveSideV114() !== 'enemy') return false;
+  if(game.selectedAttacker?.side === 'enemy'){
+    attackLeader('player');
+    return true;
+  }
+  return false;
+}
+
+function endTurn(){
   if(isBattleLocked()) return toast('まだ操作できません。', false);
+  if(isSoloTestMode()) return soloEndTurnV114();
 
   const game = state.battle.game;
   if(game?.finished) return;
@@ -7823,6 +7966,7 @@ function canUseHeroSkill(skill){
 }
 function openHeroSkillModal(){
   if(isBattleLocked()) return toast('まだ操作できません。', false);
+  if(isSoloTestMode()) return soloEndTurnV114();
 
   const game = state.battle.game;
   const hs = game?.player?.heroSkill;

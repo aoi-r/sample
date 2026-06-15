@@ -1,0 +1,44 @@
+{
+  "version": "v113_remove_solo_card_controls",
+  "implemented": [
+    "ソロ効果テストパネルからカード検索欄を削除。",
+    "ソロ効果テストパネルから選択カードを手札へ/山札トップへ/敵盤面へ配置/味方盤面へ配置を削除。",
+    "ソロ効果テストパネルから相手手札へ/相手手札リセット/相手手札表示/敵全体1ダメ/1枚ドローを削除。",
+    "ソロ効果テストパネルにはHP/MP/テンション/ログ制御だけ残す。",
+    "wireSoloControlsV103のパネルボタン接続も、残したボタンだけに整理。",
+    "旧パネル用メソッドは誤呼び出し時にログを出すだけの安全スタブに変更。",
+    "下部の自分手札/相手手札ストリップ操作は維持。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v113 / buildable 1465 / total 1582",
+    "dataVersion": "v113_remove_solo_card_controls",
+    "totalCards": 1582,
+    "buildableCards": 1465,
+    "removedPanelIdsFromHtml": {
+      "solo-add-hand": true,
+      "solo-add-decktop": true,
+      "solo-summon-enemy": true,
+      "solo-summon-player": true,
+      "solo-add-enemy-hand": true,
+      "solo-reset-enemy-hand": true,
+      "solo-show-enemy-hand": true,
+      "solo-damage-enemy": true,
+      "solo-draw-card": true,
+      "solo-card-search": true,
+      "solo-card-results": true,
+      "solo-selected-card-label": true
+    },
+    "remainingControlIds": {
+      "solo-hp-infinite": true,
+      "solo-hp-reset": true,
+      "solo-mp-max": true,
+      "solo-tension-max": true,
+      "solo-clear-log": true
+    },
+    "cardPanelBindingsRemovedFromWire": true,
+    "lowerHandStripKept": true,
+    "startMatchExists": false
+  }
+}

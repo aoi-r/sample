@@ -1,0 +1,36 @@
+{
+  "version": "v114_solo_two_side_turns",
+  "implemented": [
+    "ソロ中のターン終了を、自分ターン→相手ターン→自分ターンの交互進行に変更。",
+    "ターン表示に現在操作側（自分/相手）を表示。",
+    "相手ターン開始時、相手MPを増やし、相手が1枚ドロー。",
+    "相手手札ストリップクリックで、相手側がカードを使用/配置できるようにした。",
+    "相手手札クリックは通常wireに加え、document捕捉イベントでも拾うようにした。",
+    "相手ターン中、相手ユニットをクリックして攻撃対象を選べるようにした。",
+    "相手ユニット選択後、自分ユニット/自分リーダーを攻撃対象にできるようにした。",
+    "v113で削除したカード操作パネルは削除状態を維持。",
+    "startMatchをv112から復元し、初期化エラーを防止。"
+  ],
+  "notes": [
+    "相手手札は相手ターン中に使用する想定。",
+    "相手側の特技/ヒーロー等の完全な敵側効果処理はまだ限定的。ユニット/建物配置と武器装備を優先。",
+    "スクショがv112表示の場合はブラウザ/端末キャッシュの可能性があるため、v114表示を確認する。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v114 / buildable 1465 / total 1582",
+    "dataVersion": "v114_solo_two_side_turns",
+    "totalCards": 1582,
+    "buildableCards": 1465,
+    "startMatchExists": true,
+    "subscribeRoomPlayersExists": true,
+    "soloTwoSideTurns": true,
+    "activeSideLabel": true,
+    "enemyHandCapture": true,
+    "enemyBoardClick": true,
+    "enemyLeaderTargetCapture": true,
+    "cardPanelRemoved": true,
+    "lowerHandStripKept": true
+  }
+}

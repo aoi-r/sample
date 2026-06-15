@@ -5931,3 +5931,30 @@
   text-overflow:ellipsis;
   white-space:nowrap;
 }
+
+
+/* v113: compact solo panel, card operation controls removed */
+.solo-test-panel .solo-test-grid-compact{
+  grid-template-columns:repeat(2, minmax(120px, 1fr));
+}
+.battle-arena.solo-test-mode .solo-test-panel{
+  width:min(360px, 34vw) !important;
+}
+@media(max-width:900px) and (orientation:landscape){
+  .battle-arena.solo-test-mode .solo-test-panel{
+    width:min(320px, 32vw) !important;
+  }
+}
+
+
+/* v114: solo active side turn highlight */
+.battle-arena.solo-test-mode .solo-debug-row strong{
+  position:relative;
+}
+.battle-arena.solo-test-mode[data-solo-active="player"] .solo-debug-row:first-child strong::after,
+.battle-arena.solo-test-mode[data-solo-active="enemy"] .solo-debug-row:nth-child(2) strong::after{
+  content:" 操作中";
+  color:#ffe98a;
+  font-size:10px;
+  margin-left:4px;
+}
