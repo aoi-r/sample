@@ -1,0 +1,35 @@
+{
+  "version": "v118_enemy_hand_play_fix",
+  "implemented": [
+    "相手手札クリックを pointerdown/click/touchend のdocument捕捉で最優先に拾うようにした。",
+    "旧 soloEnemyPlayCardV114 は v118 の強制処理へ委譲。",
+    "相手手札のユニット/建物は敵盤面へ配置。",
+    "相手手札の武器は敵リーダーへ装備。",
+    "相手手札の特技は相手が使用できるようにした。",
+    "対象が必要な相手特技は pendingEnemySpellV118 として保持し、自分ユニット/自分リーダークリックで解決。",
+    "相手ターン外でもテスト用に相手手札クリック処理は拾う。ただしMP消費は相手ターン中のみ。",
+    "相手手札ストリップのカードに pointer-events と強調CSSを追加。"
+  ],
+  "notes": [
+    "敵側特技効果はまずダメージ系/ドロー系中心の簡易対応。",
+    "対象選択型特技は、自分ユニットまたは自分リーダーをクリックして解決。",
+    "完全な敵側全カード効果処理ではないが、配置と特技使用のテスト導線を優先。"
+  ],
+  "checks": {
+    "node": 0,
+    "stderr": "",
+    "dups": [],
+    "version": "v118_enemy_hand_play_fix",
+    "boot": "v118 / buildable 1465 / total 1582",
+    "enemyPlayV118": true,
+    "oldV114Delegates": true,
+    "hardCapture": true,
+    "enemySpellUse": true,
+    "pendingEnemySpell": true,
+    "playerUnitTargetPatch": true,
+    "playerLeaderTargetPatch": true,
+    "cssTouchable": true,
+    "startMatchExists": true,
+    "forceTurnButtonStill": true
+  }
+}

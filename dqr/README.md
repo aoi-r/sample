@@ -1702,3 +1702,25 @@ node tools/sync_official_gameconductor.mjs
   - `startMatch`: 存在確認済み
 - 追加ファイル:
   - `data/maya_grandmaz_turnfix_v117.json`
+
+
+## v118 update
+- 相手ターン中に相手手札を触れない/配置・特技使用できない問題を修正。
+- 起動画面表示:
+  - `v118 / buildable 1465 / total 1582`
+- 修正:
+  - 相手手札クリックを `pointerdown/click/touchend` のdocument捕捉で最優先に拾う。
+  - 旧 `soloEnemyPlayCardV114()` は v118 処理へ委譲。
+  - 相手手札のユニット/建物は敵盤面へ配置。
+  - 相手手札の武器は敵リーダーへ装備。
+  - 相手手札の特技は相手が使用できるようにした。
+  - 対象が必要な相手特技は、自分ユニット/自分リーダークリックで解決。
+  - 相手ターン外でもテスト用に相手手札クリック処理は拾う。
+  - 相手手札ストリップのカードに pointer-events と強調CSSを追加。
+- 監査:
+  - `node --check`: OK
+  - 重複function宣言: 0件
+  - `startMatch`: 存在確認済み
+  - ソロ専用ターン切替ボタン: 維持
+- 追加ファイル:
+  - `data/enemy_hand_play_fix_v118.json`

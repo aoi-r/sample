@@ -6003,3 +6003,14 @@
   pointer-events:auto !important;
 }
 .solo-force-turn-btn.hidden{ display:none !important; }
+
+
+/* v118: enemy hand strip must always be touchable in solo */
+.battle-arena.solo-test-mode .solo-debug-card[data-solo-enemy-hand-index]{
+  pointer-events:auto !important;
+  cursor:pointer;
+  outline-offset:2px;
+}
+.battle-arena.solo-test-mode[data-solo-active="enemy"] .solo-debug-card[data-solo-enemy-hand-index]{
+  outline:2px solid rgba(255,229,143,.75);
+}
