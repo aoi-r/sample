@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v116_solo_hard_turn_switch';
+const DATA_VERSION = 'v117_maya_grandmaz_turnfix';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -285,9 +285,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v116 ready / buildable 1465 / total 1582`;
+  if(label) label.textContent = `v117 ready / buildable 1465 / total 1582`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v116 ready / buildable 1465 / total 1582`;
+  if(badge) badge.textContent = `v117 ready / buildable 1465 / total 1582`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -1869,24 +1869,9 @@ function applySlaringalChoiceToUnitV110(unit, choiceIndex){
   return true;
 }
 function triggerGrandmazTop3V110(source='グランマーズ'){
-  const game = state.battle.game;
-  const top = (game.player.deck || []).slice(0,3).map((id,i)=>({id,i,card:byId(id)})).filter(x=>x.card);
-  if(!top.length){ battleLog(`${source}：デッキがありません。`); return false; }
-  openChoiceModal(`${source}：1枚を手札へ（コスト-2）`, top.map(x=>x.card.name), (picked, i)=>{
-    const item = top[i];
-    const currentIndex = game.player.deck.indexOf(item.id);
-    if(currentIndex >= 0) addCardIdFromDeckToHandByIndex(game.player.deck, currentIndex, {costDelta:-2});
-    // 残りの見た3枚をデッキ下へ。選んだものは既に抜けている。
-    const restIds = top.filter((_,j)=>j!==i).map(x=>x.id);
-    for(const id of restIds){
-      const idx = game.player.deck.indexOf(id);
-      if(idx >= 0){ game.player.deck.splice(idx,1); game.player.deck.push(id); }
-    }
-    battleLog(`${source}：${item.card.name}を手札へ。コスト-2。残りをデッキ下へ。`);
-    renderBattleArena(); syncMyBattleState();
-  }, {kind:'grandmazTop3'});
-  return true;
+  return triggerGrandmazTop3V117(source);
 }
+
 function triggerFostailStartV110(){
   const game = state.battle.game;
   const fortune = state.allCards.filter(c => c && hasFortuneEffect(c) && c.flags?.deckBuildable !== false);
@@ -1914,8 +1899,9 @@ function renderSoloDebugStripV103(){
     const card = byId(id) || {id, name:String(id || '?'), cost:0, cardType:'不明', text:''};
     const img = getOfficialImage(card);
     const selected = isPlayer && game.selectedHandIndex === index ? ' selected' : '';
+    const effectiveCostV117 = isPlayer ? getEffectiveCost(card) : Number(card.cost || 0);
     const data = isPlayer ? `data-solo-hand-index="${index}"` : `data-solo-enemy-hand-index="${index}"`;
-    return `<button class="solo-debug-card${selected}" ${data} title="${escapeHtml(card.name)}">${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span>${escapeHtml(card.name)}</span></button>`;
+    return `<button class="solo-debug-card${selected}" ${data} title="${escapeHtml(card.name)}">${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span>${effectiveCostV117}｜${escapeHtml(card.name)}</span></button>`;
   };
   handBox.innerHTML = (game.player.hand || []).map((id,i)=>cardBtn(id,i,true)).join('') || '<span style="color:#fff;padding:6px">0枚</span>';
   enemyBox.innerHTML = (game.enemy.hand || []).map((id,i)=>cardBtn(id,i,false)).join('') || '<span style="color:#fff;padding:6px">0枚</span>';
@@ -3155,6 +3141,98 @@ function hasFortuneEffect(card){
   const text = getCardText(card);
   return /占い[:：]/.test(text) || text.includes('必中モード') || text.includes('超必中モード') || /占い効果/.test(text);
 }
+
+// v117: precise renkei/double attack + Grandmaz cost-copy + hard solo turn button
+function hasInnateDoubleAttackV117(card){
+  const text = getCardText(card);
+  if(!text.includes('2回攻撃')) return false;
+  // 「れんけい：2回攻撃を得る」は条件付きなので、初期キーワードにはしない。
+  const renkeiDouble = /れんけい[:：]?[^。]*2回攻撃/.test(text);
+  if(renkeiDouble && !/^[^。]*2回攻撃/.test(text.replace(/れんけい[:：]?[^。]*/g, ''))) return false;
+  return true;
+}
+function addDiscountedCopyToHandV117(card, costDelta, source='効果'){
+  const game = state.battle.game;
+  if(!card || !game?.player) return false;
+  if((game.player.hand || []).length >= 10){
+    battleLog(`${source}：${card.name}は手札上限10枚のため破棄。`);
+    return false;
+  }
+  const baseCost = Number(card.cost || 0);
+  const copy = JSON.parse(JSON.stringify(card));
+  copy.id = `copy_${card.id}_${Date.now()}_${safeRandomId('v117').slice(0,8)}`;
+  copy.cost = Math.max(0, baseCost + Number(costDelta || 0));
+  copy.originalCardId = card.id;
+  copy.costDeltaApplied = Number(costDelta || 0);
+  copy.flags ||= {};
+  copy.flags.deckBuildable = false;
+  copy.flags.generatedOrEvolved = true;
+  copy.searchText = `${copy.searchText || ''} ${source} コスト変更 ${copy.cost}`.trim();
+  state.allCards.push(copy);
+  state.cards.push(copy);
+  game.player.hand.push(copy.id);
+  battleLog(`${source}：${card.name}を手札へ。コスト ${baseCost}→${copy.cost}。`);
+  return true;
+}
+function triggerGrandmazTop3V117(source='グランマーズ'){
+  const game = state.battle.game;
+  if(game.grandmazChoiceOpen) return false;
+  const top = (game.player.deck || []).slice(0,3).map((id,i)=>({id,i,card:byId(id)})).filter(x=>x.card);
+  if(!top.length){ battleLog(`${source}：デッキがありません。`); return false; }
+  game.grandmazChoiceOpen = true;
+  openChoiceModal(`${source}：1枚を手札へ（コスト-2）`, top.map(x=>`${x.card.name} (${Math.max(0, Number(x.card.cost||0)-2)})`), (picked, i)=>{
+    game.grandmazChoiceOpen = false;
+    const item = top[i];
+    if(!item?.card) return;
+    // 見た3枚をデッキから抜く。選んだカードはコピーとして手札へ、残りはデッキ下。
+    const seenIds = top.map(x=>x.id);
+    const restIds = [];
+    for(const id of seenIds){
+      const idx = game.player.deck.indexOf(id);
+      if(idx >= 0) game.player.deck.splice(idx,1);
+      if(id !== item.id) restIds.push(id);
+    }
+    addDiscountedCopyToHandV117(item.card, -2, source);
+    for(const id of restIds) game.player.deck.push(id);
+    battleLog(`${source}：残りをデッキ下へ。`);
+    renderBattleArena(); syncMyBattleState();
+  }, {kind:'grandmazTop3V117'});
+  return true;
+}
+function soloHardTurnSwitchV117(){
+  const game = state.battle.game;
+  if(!game || !isSoloTestMode()) return false;
+  state.battle.matchLocked = false;
+  $('battle-arena')?.classList.remove('battle-locked');
+  const current = soloActiveSideV114();
+  const next = current === 'player' ? 'enemy' : 'player';
+  game.soloActiveSide = next;
+  game.isMyTurn = true;
+  game.turn = Number(game.turn || 1) + 1;
+  game.selectedHandIndex = null;
+  game.selectedAttacker = null;
+  game.pendingGenericEffect = null;
+  game.pendingHeroSkill = null;
+  battleLog(`${soloSideNameV114(current)}ターン終了。${soloSideNameV114(next)}ターンへ。`);
+  soloStartSideTurnV114(next);
+  renderBattleArena();
+  syncMyBattleState();
+  return true;
+}
+function installSoloForceTurnButtonV117(){
+  const btn = $('solo-force-turn-btn');
+  if(!btn) return;
+  if(!isSoloTestMode()){
+    btn.classList.add('hidden');
+    return;
+  }
+  btn.classList.remove('hidden');
+  const active = soloActiveSideV114();
+  btn.textContent = `${soloSideNameV114(active)}ターン終了`;
+  btn.onclick = e => { e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation?.(); soloHardTurnSwitchV117(); };
+  btn.ontouchend = e => { e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation?.(); soloHardTurnSwitchV117(); };
+}
+
 function parseKeywordFlags(card){
   const text = getCardText(card);
   return {
@@ -3183,7 +3261,7 @@ function parseKeywordFlags(card){
     superPiercing: text.includes('超貫通'),
     metal: text.includes('メタルボディ') && !text.includes('ハードメタルボディ'),
     hardMetal: text.includes('ハードメタルボディ'),
-    doubleAttack: text.includes('2回攻撃'),
+    doubleAttack: hasInnateDoubleAttackV117(card),
     firstStrike: text.includes('先制'),
     vanish: text.includes('消滅'),
     tensionLink: text.includes('テンションリンク'),
@@ -3753,10 +3831,7 @@ function applySummonTextEffect(unit, card){
     });
   }
   if(card.name === 'グランマーズ'){
-    chooseFromOwnTopCards(3, 'グランマーズ', null, (chosenCard, chosenId)=>{
-      state.battle.game.player.hand.push(chosenId);
-      battleLog(`グランマーズ：${chosenCard.name}を手札に加えました。`);
-    });
+    triggerGrandmazTop3V117('グランマーズ');
   }
   if(card.name === 'ジャミ' && Number(game.enemy.handCount || 0) >= 6){
     for(const p of [3,4,5]){
@@ -4421,8 +4496,8 @@ function renderBattleArena(){
       endTop.disabled = false;
       endTop.removeAttribute('disabled');
       endTop.classList.toggle('opponent-turn', active === 'enemy');
-      endTop.onclick = e => { e.preventDefault(); e.stopPropagation(); soloSafeRunV106('ソロターン終了', soloEndTurnV114); };
-      endTop.ontouchend = e => { e.preventDefault(); e.stopPropagation(); soloSafeRunV106('ソロターン終了', soloEndTurnV114); };
+      endTop.onclick = e => { e.preventDefault(); e.stopPropagation(); soloHardTurnSwitchV117(); };
+      endTop.ontouchend = e => { e.preventDefault(); e.stopPropagation(); soloHardTurnSwitchV117(); };
     }else{
       const myTurn = !!game.isMyTurn;
       endTop.textContent = myTurn ? 'ターン終了' : '相手のターン';
@@ -4442,6 +4517,7 @@ function renderBattleArena(){
   installSoloCaptureV114();
   installSoloLeaderCaptureV114();
   renderLeaderWeaponsV110();
+  installSoloForceTurnButtonV117();
 }
 
 function renderBattleBoard(){
@@ -7749,30 +7825,9 @@ function soloStartSideTurnV114(side){
   battleLog(`${soloSideNameV114(side)}ターン開始：MP ${obj.mp}/${obj.maxMp}`);
 }
 function soloEndTurnV114(){
-  const game = state.battle.game;
-  if(!game || !isSoloTestMode()) return false;
-  // v116 hard unlock
-  state.battle.matchLocked = false;
-  $('battle-arena')?.classList.remove('battle-locked');
-  const current = soloActiveSideV114();
-  if(current === 'player'){
-    emitBattleEvent('ownTurnEnd', {side:'player'});
-  }
-  resolveDeaths();
-  game.selectedHandIndex = null;
-  game.selectedAttacker = null;
-  game.pendingGenericEffect = null;
-  game.pendingHeroSkill = null;
-  const next = current === 'player' ? 'enemy' : 'player';
-  battleLog(`${soloSideNameV114(current)}ターン終了。${soloSideNameV114(next)}ターンへ。`);
-  game.soloActiveSide = next;
-  game.isMyTurn = true;
-  game.turn = Number(game.turn || 1) + 1;
-  soloStartSideTurnV114(next);
-  renderBattleArena();
-  syncMyBattleState();
-  return true;
+  return soloHardTurnSwitchV117();
 }
+
 function soloEnemyPlayCardV114(index, force=false){
   const game = ensureSoloGame(); if(!game) return false;
   const id = game.enemy.hand?.[index];
@@ -7826,7 +7881,7 @@ function installSoloCaptureV114(){
       e.preventDefault();
       e.stopPropagation();
       e.stopImmediatePropagation?.();
-      soloSafeRunV106('ソロターン終了', soloEndTurnV114);
+      soloHardTurnSwitchV117();
       return;
     }
     const enemyBtn = e.target.closest?.('.solo-debug-card[data-solo-enemy-hand-index]');

@@ -1,0 +1,32 @@
+{
+  "version": "v117_maya_grandmaz_turnfix",
+  "implemented": [
+    "マヤの『れんけい：2回攻撃を得る』を初期キーワード扱いしないように修正。",
+    "れんけい発動時だけ applyRenkeiIfActive でマヤへ2回攻撃を付与する既存処理は維持。",
+    "グランマーズの3択ドローを、元カードID追加ではなくコスト-2のコピー生成に変更。",
+    "グランマーズで引いたカードのコストが見えるよう、ソロ下部ストリップにコスト表示を追加。",
+    "ターン終了が既存ボタンで止まる問題に備え、独立したソロ専用ターン切替ボタンを追加。",
+    "soloEndTurnV114 は hard switch 関数へ直結。"
+  ],
+  "notes": [
+    "ソロ専用ターン切替ボタンは画面上部中央に表示されます。",
+    "通常のターン終了ボタンが押せない場合でも、ソロ専用ボタンで切り替えできます。",
+    "グランマーズは選んだカードをデッキから抜き、コスト-2のコピーを手札へ入れ、残りをデッキ下へ戻します。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v117 / buildable 1465 / total 1582",
+    "dataVersion": "v117_maya_grandmaz_turnfix",
+    "totalCards": 1582,
+    "buildableCards": 1465,
+    "mayaDoubleRenkeiGuard": true,
+    "grandmazV117": true,
+    "oldGrandmazPushRemoved": true,
+    "costVisibleInStrip": true,
+    "forceTurnButtonHtml": true,
+    "forceTurnButtonInstall": true,
+    "soloEndUsesHardSwitch": true,
+    "startMatchExists": true
+  }
+}

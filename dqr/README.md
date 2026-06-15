@@ -1683,3 +1683,22 @@ node tools/sync_official_gameconductor.mjs
   - カード操作パネル削除状態: 維持
 - 追加ファイル:
   - `data/solo_hard_turn_switch_v116.json`
+
+
+## v117 update
+- マヤ/グランマーズ/ソロターン終了を修正。
+- 起動画面表示:
+  - `v117 / buildable 1465 / total 1582`
+- 修正:
+  - マヤの「れんけい：2回攻撃を得る」を初期キーワード扱いしないように修正。
+  - れんけい発動時だけ2回攻撃を付与する既存処理は維持。
+  - グランマーズの3択ドローを、元カードID追加ではなくコスト-2コピー生成に変更。
+  - グランマーズで引いたカードのコストが見えるよう、ソロ下部ストリップにコスト表示を追加。
+  - 独立したソロ専用ターン切替ボタンを追加。
+  - `soloEndTurnV114()` は hard switch 関数へ直結。
+- 監査:
+  - `node --check`: OK
+  - 重複function宣言: 0件
+  - `startMatch`: 存在確認済み
+- 追加ファイル:
+  - `data/maya_grandmaz_turnfix_v117.json`
