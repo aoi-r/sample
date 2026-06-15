@@ -5891,3 +5891,43 @@
     max-height:112px !important;
   }
 }
+
+
+/* v110: leader weapon badge */
+.leader{ position:relative; }
+.leader-weapon-badge{
+  position:absolute;
+  left:50%;
+  bottom:-28px;
+  transform:translateX(-50%);
+  min-width:74px;
+  max-width:96px;
+  height:34px;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  padding:3px 6px;
+  border-radius:10px;
+  background:rgba(7,12,24,.86);
+  border:1px solid rgba(255,229,143,.55);
+  box-shadow:0 6px 16px rgba(0,0,0,.38);
+  color:#fff3c2;
+  font-size:9px;
+  font-weight:900;
+  line-height:1.05;
+  z-index:20;
+  pointer-events:none;
+}
+.leader-weapon-badge img{
+  width:24px;
+  height:30px;
+  object-fit:cover;
+  object-position:top;
+  border-radius:4px;
+  flex:0 0 auto;
+}
+.leader-weapon-badge span{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}

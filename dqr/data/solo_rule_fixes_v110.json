@@ -1,0 +1,36 @@
+{
+  "version": "v110_solo_rule_fixes",
+  "implemented": [
+    "相手手札ストリップのカードをクリック/タップすると、相手盤面の最初の空きマスへ配置する。武器なら敵リーダー装備。",
+    "手札上限10枚。超過分はドロー/追加後に手札へ入れず破棄扱い。",
+    "武器カードは盤面配置ではなくリーダー装備。リーダー付近に武器バッジを表示。",
+    "コインは盤面配置不可。手札から使用するとBET持ち味方ユニット/武器のBET対象として扱う。",
+    "グランマーズはデッキ上3枚から選び、選んだカードをコスト-2コピーとして手札へ。残りはデッキ下へ。",
+    "フォステイルのスキルリンクが動くよう、ソロテンションスキル時にもtriggerTensionLinks('skillUse')を呼ぶ。",
+    "スラリンガルは召喚時選択で+1/+1等、またはターン終了時ステータス2倍を反映。",
+    "コイン/ピサロナイトは生成専用・編成不可フラグを補強。"
+  ],
+  "notes": [
+    "今回の武器/BET/選択処理はソロ検証で確認しやすい最小実装。",
+    "全カードのコストダウン効果を完全網羅したものではないが、コピー生成型のcostDeltaは手札上限込みで処理する。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v110 / buildable 1465 / total 1582",
+    "dataVersion": "v110_solo_rule_fixes",
+    "totalCards": 1582,
+    "buildableCards": 1465,
+    "startMatchExists": true,
+    "getCardTextDefined": true,
+    "ensureSoloGameDefined": true,
+    "enemyHandClickToBoard": true,
+    "handLimit10": true,
+    "weaponEquip": true,
+    "coinBet": true,
+    "grandmazCostDown": true,
+    "fostailSkillLink": true,
+    "slaringalChoice": true,
+    "coinPisaroNonDeck": true
+  }
+}

@@ -18065,8 +18065,9 @@
         "obtainOnly": true,
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
-          "manual_non_deck",
-          "coin_resource_card"
+          "coin_resource_card",
+          "generated_token_or_resource",
+          "manual_non_deck"
         ]
       },
       "classKey": "共通",
@@ -66165,7 +66166,12 @@
         "魔剣士": 68
       },
       "flags": {
-        "deckBuildable": false
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "deckBuildRuleReason": [
+          "generated_token_or_resource"
+        ]
       },
       "classKey": "魔剣士",
       "tribeKey": "",

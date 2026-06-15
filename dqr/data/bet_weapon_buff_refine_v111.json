@@ -1,0 +1,31 @@
+{
+  "version": "v111_bet_weapon_buff_refine",
+  "implemented": [
+    "コインBETを武器優先ではなく、BETを持つ味方武器/味方ユニットの候補から自由選択に変更。",
+    "武器装備時、既に装備中の武器があれば旧武器を破棄しログを出す。",
+    "リーダー攻撃後に武器耐久値を-1し、0で破壊・破棄。",
+    "武器の攻撃後効果/破壊時効果の既存入口を維持。",
+    "自分以外の○○系味方ユニットを+1/+1系のテキスト解析を追加。",
+    "味方ユニット全体+X/+Y系の簡易解析を追加。"
+  ],
+  "notes": [
+    "BET対象は選択式。武器とユニットが両方ある場合も使用者が選べる。",
+    "武器耐久値は味方リーダー攻撃時に減る。敵リーダー武器は表示・上書きまでは対応。",
+    "ユニット強化系は表記ゆれに対応する汎用解析を追加したが、全カード個別の完全実装ではない。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v111 / buildable 1465 / total 1582",
+    "dataVersion": "v111_bet_weapon_buff_refine",
+    "totalCards": 1582,
+    "buildableCards": 1465,
+    "startMatchExists": true,
+    "coinBetFreeChoice": true,
+    "weaponOverwriteDiscard": true,
+    "weaponDurabilityLoss": true,
+    "weaponBreakOnZero": true,
+    "tribeBuffParser": true,
+    "useCoinV110RedirectsV111": true
+  }
+}
