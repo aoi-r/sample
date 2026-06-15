@@ -1412,3 +1412,21 @@ node tools/sync_official_gameconductor.mjs
   - 戦士テンションはリーダー攻撃力+2/攻撃可能として反映。
 - 追加ファイル:
   - `data/solo_debug_strip_v103.json`
+
+
+## v104 update
+- v103のソロ処理が実行されていなかった原因を修正。
+- 起動画面表示:
+  - `v104 / buildable 1465 / total 1582`
+- 原因:
+  - v103の関数は存在していたが、`renderBattleArena()` がまだ v102 の関数を呼んでいた。
+  - そのため、v103の手札ストリップ/ボタン接続/テンション処理が動いていなかった。
+- 修正:
+  - `renderBattleArena()` の呼び出し先を v104 系へ統一。
+  - 古い v102 呼び出しを削除。
+  - ソロ手札ストリップ描画を毎回呼ぶ。
+  - ソロボタン接続を毎回呼ぶ。
+  - テンション3時の発動先を `soloUseTensionSkillV104()` へ統一。
+  - ソロ開始時テンションを0、`tensionUsedThisTurn=false` に固定。
+- 追加ファイル:
+  - `data/solo_call_fix_v104.json`

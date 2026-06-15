@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v103_solo_debug_strip';
+const DATA_VERSION = 'v104_call_correct_solo_handlers';
 
 
 const HERO_SKILL_DEFS = {
@@ -1529,7 +1529,7 @@ function wireSoloControlsV102(){
     renderBattleArena();
   });
   bind('solo-show-enemy-hand', () => {
-    renderEnemyHandVisualV102();
+    renderEnemyHandVisualV104();
     renderEnemyHandListPopV102();
     $('enemy-hand-list-pop')?.classList.remove('hidden');
   });
@@ -1709,7 +1709,8 @@ function startSoloTestMode(){
   game.enemy.mp = 10;
   game.player.maxMp = 10;
   game.player.mp = 10;
-  game.player.tension = 3;
+  game.player.tension = 0;
+  game.player.tensionUsedThisTurn = false;
   game.soloTestMode = true;
   battleLog('ソロ効果テスト部屋を開始しました。相手HPは実質∞です。');
   if($('battle-status')) $('battle-status').textContent = 'ソロ効果テスト中';
@@ -1808,7 +1809,7 @@ function soloSetMpMax(){
 }
 function soloSetTensionMax(){
   const game = state.battle.game; if(!game) return;
-  game.player.tension = 3;
+  game.player.tension = 0;
   battleLog('テスト：テンションMAX。');
   renderBattleArena();
 }
@@ -4063,6 +4064,21 @@ function updateTargetHighlights(){
   }
 }
 
+
+function renderSoloDebugStripV104(){
+  return renderSoloDebugStripV103 ? renderSoloDebugStripV103() : null;
+}
+function wireSoloControlsV104(){
+  return wireSoloControlsV103 ? wireSoloControlsV103() : null;
+}
+function soloUseTensionSkillV104(){
+  return soloUseTensionSkillV103 ? soloUseTensionSkillV103() : null;
+}
+function renderEnemyHandVisualV104(){
+  if(typeof renderEnemyHandVisualV102 === 'function') return renderEnemyHandVisualV104();
+  if(typeof renderEnemyHandVisualV103 === 'function') return renderEnemyHandVisualV103();
+}
+
 function renderBattleArena(){
   const game = state.battle.game;
   if(!game) return;
@@ -4087,8 +4103,9 @@ function renderBattleArena(){
   if(heroBtn){ heroBtn.classList.toggle('hidden', !game.player.heroSkill); if(game.player.heroSkill){ const s=getHeroLevelDef(game.player.heroSkill); heroBtn.textContent = s?.type === 'auto' ? `Auto Lv.${game.player.heroSkill.level}` : `Hero Lv.${game.player.heroSkill.level}`; heroBtn.classList.toggle('used', !!game.player.heroSkillUsedThisTurn); } }
   document.querySelector('.player-leader')?.classList.toggle('leader-can-attack', game.player.leaderAttack > 0 && game.player.leaderCanAttack);
   updateTargetHighlights();
-  renderEnemyHandVisualV102();
-  wireSoloControlsV102();
+  renderEnemyHandVisualV104();
+  renderSoloDebugStripV104();
+  wireSoloControlsV104();
 }
 
 function renderBattleBoard(){
@@ -6937,7 +6954,7 @@ function useOrChargeTension(){
     return toast('無気力状態のためテンションを使えません。', false);
   }
   if(game.player.tension >= 3){
-    if(isSoloTestMode()) return soloUseTensionSkillV103();
+    if(isSoloTestMode()) return soloUseTensionSkillV104();
     if(!game.player.leaderSkill) game.player.leaderSkill = getBaseTensionSkill(game.className || state.battle.selectedDeck?.className || '戦士');
     applyTensionSkill(game.player.leaderSkill);
     triggerSkillBoostOnTensionSkill();

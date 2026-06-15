@@ -1,0 +1,23 @@
+{
+  "version": "v104_call_correct_solo_handlers",
+  "cause": "v103の修正関数は存在していたが、renderBattleArenaがまだv102の関数を呼んでいて、v103の手札ストリップ/ボタン接続/テンション処理が実行されていなかった。",
+  "fixes": [
+    "renderBattleArenaの呼び出し先をv104系に統一。",
+    "v102呼び出しを削除。",
+    "ソロ手札ストリップ描画を毎回呼ぶ。",
+    "ソロボタン接続を毎回呼ぶ。",
+    "テンション3時の発動先をsoloUseTensionSkillV104へ統一。",
+    "ソロ開始時テンションを0、tensionUsedThisTurn=falseに固定。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v104 / buildable 1465 / total 1582",
+    "totalCards": 1582,
+    "buildableCards": 1465,
+    "renderCallsV104": true,
+    "oldV102CallRemoved": true,
+    "tensionUsesV104": true,
+    "soloStartsTensionZero": true
+  }
+}
