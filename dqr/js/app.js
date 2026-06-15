@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v114_solo_two_side_turns';
+const DATA_VERSION = 'v115_solo_turn_lock_and_hide_hand';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -285,9 +285,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v114 ready / buildable 1465 / total 1582`;
+  if(label) label.textContent = `v115 ready / buildable 1465 / total 1582`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v114 ready / buildable 1465 / total 1582`;
+  if(badge) badge.textContent = `v115 ready / buildable 1465 / total 1582`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -1080,8 +1080,12 @@ async function publishBattleResult(result, reason='hp0', autoReset=false){
 
 function isBattleLocked(){
   const game = state.battle.game;
+  if(isSoloTestMode()){
+    return !!(state.battle.matchLocked || !game || game.finished);
+  }
   return !!(state.battle.matchLocked || !game || game.finished || !game.isMyTurn);
 }
+
 function setBattleLocked(locked){
   state.battle.matchLocked = !!locked;
   const arena = $('battle-arena');
@@ -7721,6 +7725,7 @@ function soloStartSideTurnV114(side){
 function soloEndTurnV114(){
   const game = state.battle.game;
   if(!game || !isSoloTestMode()) return false;
+  state.battle.matchLocked = false;
   const current = soloActiveSideV114();
   if(current === 'player'){
     emitBattleEvent('ownTurnEnd', {side:'player'});
@@ -7731,6 +7736,7 @@ function soloEndTurnV114(){
   game.pendingGenericEffect = null;
   game.pendingHeroSkill = null;
   const next = current === 'player' ? 'enemy' : 'player';
+  battleLog(`${soloSideNameV114(current)}ターン終了。${soloSideNameV114(next)}ターンへ。`);
   game.soloActiveSide = next;
   game.turn = Number(game.turn || 1) + 1;
   soloStartSideTurnV114(next);
@@ -7742,6 +7748,7 @@ function soloEnemyPlayCardV114(index, force=false){
   const game = ensureSoloGame(); if(!game) return false;
   const id = game.enemy.hand?.[index];
   const card = byId(id);
+  battleLog(`相手ターン操作：${card?.name || id}を選択。`);
   if(!card) return false;
   const active = soloActiveSideV114();
   const cost = getEffectiveCost(card);
@@ -7785,6 +7792,13 @@ function installSoloCaptureV114(){
   window.__soloCaptureV114Installed = true;
   const handler = (e) => {
     if(!isSoloTestMode()) return;
+    const endBtn = e.target.closest?.('#end-turn-top');
+    if(endBtn){
+      e.preventDefault();
+      e.stopPropagation();
+      soloSafeRunV106('ソロターン終了', soloEndTurnV114);
+      return;
+    }
     const enemyBtn = e.target.closest?.('.solo-debug-card[data-solo-enemy-hand-index]');
     if(enemyBtn){
       e.preventDefault();
@@ -7852,8 +7866,8 @@ function handleEnemyLeaderAttackV114(){
 }
 
 function endTurn(){
-  if(isBattleLocked()) return toast('まだ操作できません。', false);
   if(isSoloTestMode()) return soloEndTurnV114();
+  if(isBattleLocked()) return toast('まだ操作できません。', false);
 
   const game = state.battle.game;
   if(game?.finished) return;

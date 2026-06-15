@@ -1,0 +1,28 @@
+{
+  "version": "v115_solo_turn_lock_and_hide_hand",
+  "implemented": [
+    "ソロ中は isBattleLocked() が game.isMyTurn=false によって止まらないように変更。",
+    "ターン終了はソロ中なら必ず soloEndTurnV114() を最初に通す。",
+    "document捕捉イベントで #end-turn-top を拾い、相手ターン中でも確実に自分ターンへ戻るようにした。",
+    "相手手札クリック時の操作ログを追加。",
+    "ソロ中だけ通常の下部 player-hand を非表示化。",
+    "下部のソロ手札ストリップは維持。",
+    "startMatchを保持していることを再確認。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v115 / buildable 1465 / total 1582",
+    "dataVersion": "v115_solo_turn_lock_and_hide_hand",
+    "totalCards": 1582,
+    "buildableCards": 1465,
+    "startMatchExists": true,
+    "subscribeRoomPlayersExists": true,
+    "soloLockBypass": true,
+    "endTurnSoloFirst": true,
+    "captureEndTurn": true,
+    "hidePlayerHandSolo": true,
+    "enemyHandCapture": true,
+    "cardPanelRemoved": true
+  }
+}

@@ -5958,3 +5958,15 @@
   font-size:10px;
   margin-left:4px;
 }
+
+
+/* v115: hide normal bottom player-hand in solo mode; use the debug strip only */
+.battle-arena.solo-test-mode #player-hand,
+.battle-arena.solo-test-mode .player-hand{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+.battle-arena.solo-test-mode .solo-debug-strip{
+  z-index:230 !important;
+}

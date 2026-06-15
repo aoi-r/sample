@@ -1640,3 +1640,24 @@ node tools/sync_official_gameconductor.mjs
   - `startMatch`: 存在確認済み
 - 追加ファイル:
   - `data/solo_two_side_turns_v114.json`
+
+
+## v115 update
+- v114で相手ターンから戻れない/相手ターン中に操作できない問題を修正。
+- 起動画面表示:
+  - `v115 / buildable 1465 / total 1582`
+- 修正:
+  - ソロ中は `isBattleLocked()` が `game.isMyTurn=false` で止まらないように変更。
+  - ターン終了はソロ中なら必ず `soloEndTurnV114()` を最初に通す。
+  - document捕捉イベントで `#end-turn-top` を拾い、相手ターン中でもターン終了できるようにした。
+  - 相手手札クリック時の操作ログを追加。
+  - ソロ中だけ通常の下部 `player-hand` を非表示化。
+  - 下部のソロ手札ストリップは維持。
+  - `startMatch` 復元済み。
+- 監査:
+  - `node --check`: OK
+  - 重複function宣言: 0件
+  - `startMatch`: 存在確認済み
+  - `subscribeRoomPlayers`: 存在確認済み
+- 追加ファイル:
+  - `data/solo_turn_lock_hide_hand_v115.json`
