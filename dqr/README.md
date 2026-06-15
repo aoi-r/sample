@@ -1507,3 +1507,23 @@ node tools/sync_official_gameconductor.mjs
   - `renderEnemyHandVisualV104` 無限再帰: なし
 - 追加ファイル:
   - `data/start_match_restore_v108.json`
+
+
+## v109 update
+- v108で機能が動き始めたため、今回は表示位置のみ整理。
+- 起動画面表示:
+  - `v109 / buildable 1465 / total 1582`
+- 修正:
+  - 上部の相手手札ミニ表示を非表示化。
+  - 下部のソロ手札ストリップを右下寄せ・小型化・半透明化。
+  - 自分手札/相手手札カードを小さくして盤面の邪魔を減らした。
+  - ソロテストパネルの最大幅/最大高さを制限。
+  - `v92 ready` 表示を v109 表示へ更新。
+- 監査:
+  - `node --check`: OK
+  - 重複function宣言: 0件
+  - `startMatch`: 存在確認済み
+  - `getCardText`: 存在確認済み
+  - `ensureSoloGame`: 存在確認済み
+- 追加ファイル:
+  - `data/solo_layout_cleanup_v109.json`

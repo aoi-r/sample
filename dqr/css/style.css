@@ -5783,3 +5783,111 @@
   .solo-debug-hand{ min-height:44px; }
   .solo-debug-card{ flex-basis:34px; width:34px; height:45px; }
 }
+
+
+/* v109: solo layout cleanup - keep board readable */
+.battle-arena.solo-test-mode .enemy-hand-visual{
+  display:none !important; /* upper enemy hand was covering HP/MP and title */
+}
+.battle-arena.solo-test-mode .enemy-hand-list-pop{
+  display:none !important;
+}
+
+/* Compact debug strip: right-lower, smaller, not full-width */
+.battle-arena.solo-test-mode .solo-debug-strip{
+  position:fixed !important;
+  left:auto !important;
+  right:calc(env(safe-area-inset-right, 0px) + 12px) !important;
+  bottom:calc(env(safe-area-inset-bottom, 0px) + 28px) !important;
+  width:min(560px, 62vw) !important;
+  max-height:118px !important;
+  z-index:150 !important;
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:6px !important;
+  padding:6px 8px !important;
+  border-radius:16px !important;
+  background:rgba(4,10,18,.68) !important;
+  border:1px solid rgba(255,255,255,.16) !important;
+  box-shadow:0 8px 24px rgba(0,0,0,.34) !important;
+  backdrop-filter:blur(6px) !important;
+}
+.battle-arena.solo-test-mode .solo-debug-strip.hidden{
+  display:none !important;
+}
+.battle-arena.solo-test-mode .solo-debug-row{
+  grid-template-columns:auto 1fr !important;
+  gap:5px !important;
+  font-size:12px !important;
+  min-width:0 !important;
+}
+.battle-arena.solo-test-mode .solo-debug-row strong{
+  white-space:nowrap !important;
+  color:#fff1c1 !important;
+  text-shadow:0 1px 2px #000 !important;
+}
+.battle-arena.solo-test-mode .solo-debug-hand{
+  min-height:48px !important;
+  max-height:54px !important;
+  gap:4px !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  padding:2px !important;
+  background:rgba(255,255,255,.045) !important;
+}
+.battle-arena.solo-test-mode .solo-debug-card{
+  flex:0 0 34px !important;
+  width:34px !important;
+  height:46px !important;
+  border-radius:6px !important;
+  font-size:7px !important;
+}
+.battle-arena.solo-test-mode .solo-debug-card span{
+  padding-top:16px !important;
+}
+
+/* Keep left solo panel from swallowing the whole board */
+.battle-arena.solo-test-mode #solo-test-panel,
+.battle-arena.solo-test-mode .solo-test-panel{
+  max-width:360px !important;
+  max-height:72vh !important;
+  overflow:auto !important;
+  opacity:.96 !important;
+}
+
+/* Keep bottom HUD readable */
+.battle-arena.solo-test-mode .player-status,
+.battle-arena.solo-test-mode .battle-player-status{
+  z-index:170 !important;
+}
+
+/* iPhone landscape: shrink debug strip further */
+@media(max-width:900px) and (orientation:landscape){
+  .battle-arena.solo-test-mode .solo-debug-strip{
+    width:min(520px, 58vw) !important;
+    bottom:calc(env(safe-area-inset-bottom, 0px) + 20px) !important;
+    grid-template-columns:1fr 1fr !important;
+    padding:5px 7px !important;
+  }
+  .battle-arena.solo-test-mode .solo-debug-row{
+    font-size:11px !important;
+  }
+  .battle-arena.solo-test-mode .solo-debug-hand{
+    min-height:42px !important;
+    max-height:46px !important;
+  }
+  .battle-arena.solo-test-mode .solo-debug-card{
+    flex-basis:30px !important;
+    width:30px !important;
+    height:40px !important;
+  }
+}
+
+/* Very narrow: stack but remain right-side */
+@media(max-width:720px){
+  .battle-arena.solo-test-mode .solo-debug-strip{
+    width:min(390px, 56vw) !important;
+    grid-template-columns:1fr !important;
+    max-height:112px !important;
+  }
+}
