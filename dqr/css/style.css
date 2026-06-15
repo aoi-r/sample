@@ -5970,3 +5970,17 @@
 .battle-arena.solo-test-mode .solo-debug-strip{
   z-index:230 !important;
 }
+
+
+/* v116: solo mode must never be pointer-locked; end turn always clickable */
+.battle-arena.solo-test-mode,
+.battle-arena.solo-test-mode *{
+  pointer-events:auto;
+}
+.battle-arena.solo-test-mode.battle-locked{
+  pointer-events:auto !important;
+}
+.battle-arena.solo-test-mode #end-turn-top{
+  pointer-events:auto !important;
+  opacity:1 !important;
+}

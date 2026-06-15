@@ -1661,3 +1661,25 @@ node tools/sync_official_gameconductor.mjs
   - `subscribeRoomPlayers`: 存在確認済み
 - 追加ファイル:
   - `data/solo_turn_lock_hide_hand_v115.json`
+
+
+## v116 update
+- v115で自分ターン終了すらできない問題を修正。
+- 起動画面表示:
+  - `v116 / buildable 1465 / total 1582`
+- 修正:
+  - ソロ中は `isBattleLocked()` が `matchLocked` や `game.isMyTurn=false` で止まらないように変更。
+  - ソロ中のターン終了ボタンは常に有効化。
+  - ターン終了ボタンの `onclick/ontouchend` を毎回 `soloEndTurnV114()` に直結。
+  - document捕捉側でも `#end-turn-top` を `stopImmediatePropagation` 付きで拾う。
+  - `soloEndTurnV114()` 実行時に `matchLocked` と `battle-locked` class を強制解除。
+  - ソロ中は `game.isMyTurn=true` を維持し、既存処理に止められにくくした。
+  - 相手初期手札枚数を自分の初期手札枚数と同じにした。
+  - ソロ中だけ通常の下部 `player-hand` 非表示は維持。
+- 監査:
+  - `node --check`: OK
+  - 重複function宣言: 0件
+  - `startMatch`: 存在確認済み
+  - カード操作パネル削除状態: 維持
+- 追加ファイル:
+  - `data/solo_hard_turn_switch_v116.json`

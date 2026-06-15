@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v115_solo_turn_lock_and_hide_hand';
+const DATA_VERSION = 'v116_solo_hard_turn_switch';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -285,9 +285,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v115 ready / buildable 1465 / total 1582`;
+  if(label) label.textContent = `v116 ready / buildable 1465 / total 1582`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v115 ready / buildable 1465 / total 1582`;
+  if(badge) badge.textContent = `v116 ready / buildable 1465 / total 1582`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -922,6 +922,28 @@ function getSoloPresetDeckEntries(){
   return SOLO_PRESET_DECK_DEFS.map(def => [def.id, makeSoloPresetDeck(def)]);
 }
 
+
+function setupSoloEnemyHandMatchPlayerV116(){
+  const game = state.battle.game;
+  if(!game?.enemy || !game?.player) return;
+  const targetCount = Math.max(0, (game.player.hand || []).length);
+  const poolNames = ['コイン','スライム','ドラゴン','ピサロナイト','王女の愛','メラリザード','ホイミン','こんぼう','ヒャド','まほうの小ビン','バラモス','ハーゴン','りゅうおう','クイーンスライム'];
+  const ids = [];
+  for(const name of poolNames){
+    const c = findCardByName(name);
+    if(c) ids.push(c.id);
+  }
+  game.enemy.hand = ids.slice(0, targetCount);
+  game.enemy.handCount = game.enemy.hand.length;
+  game.enemy.deck = ids.slice(targetCount);
+  // 足りない場合は既存デッキ候補で補う
+  while(game.enemy.hand.length < targetCount && game.enemy.deck.length){
+    game.enemy.hand.push(game.enemy.deck.shift());
+  }
+  game.enemy.handCount = game.enemy.hand.length;
+  battleLog(`相手初期手札を自分と同じ${targetCount}枚に設定。`);
+}
+
 function setupSoloEnemyHand(){
   const game = state.battle.game;
   const names = ['コイン','スライム','ドラゴン','ピサロナイト','王女の愛','メラリザード','ホイミン','こんぼう','ヒャド','まほうの小ビン'];
@@ -1081,7 +1103,7 @@ async function publishBattleResult(result, reason='hp0', autoReset=false){
 function isBattleLocked(){
   const game = state.battle.game;
   if(isSoloTestMode()){
-    return !!(state.battle.matchLocked || !game || game.finished);
+    return !!(!game || game.finished);
   }
   return !!(state.battle.matchLocked || !game || game.finished || !game.isMyTurn);
 }
@@ -2008,6 +2030,7 @@ function startSoloTestMode(){
   game.enemy.hp = 999999;
   game.enemy.maxHp = 999999;
   setupSoloEnemyHand();
+  setupSoloEnemyHandMatchPlayerV116();
   game.enemy.maxMp = 1;
   game.enemy.mp = 1;
   game.player.maxMp = 1;
@@ -4383,7 +4406,7 @@ function afterRenderSoloV105(){
 function renderBattleArena(){
   const game = state.battle.game;
   if(!game) return;
-  $('battle-arena')?.classList.toggle('battle-locked', !!state.battle.matchLocked);
+  $('battle-arena')?.classList.toggle('battle-locked', isSoloTestMode() ? false : !!state.battle.matchLocked);
   if($('battle-arena') && isSoloTestMode()) $('battle-arena').dataset.soloActive = soloActiveSideV114();
   $('player-hp').textContent = game.player.hp;
   $('enemy-hp').textContent = isSoloTestMode() && Number(game.enemy.hp || 0) >= 999999 ? '∞' : game.enemy.hp;
@@ -4395,8 +4418,11 @@ function renderBattleArena(){
     if(isSoloTestMode()){
       const active = soloActiveSideV114();
       endTop.textContent = `${soloSideNameV114(active)}ターン終了`;
-      endTop.disabled = !!state.battle.matchLocked;
+      endTop.disabled = false;
+      endTop.removeAttribute('disabled');
       endTop.classList.toggle('opponent-turn', active === 'enemy');
+      endTop.onclick = e => { e.preventDefault(); e.stopPropagation(); soloSafeRunV106('ソロターン終了', soloEndTurnV114); };
+      endTop.ontouchend = e => { e.preventDefault(); e.stopPropagation(); soloSafeRunV106('ソロターン終了', soloEndTurnV114); };
     }else{
       const myTurn = !!game.isMyTurn;
       endTop.textContent = myTurn ? 'ターン終了' : '相手のターン';
@@ -7725,7 +7751,9 @@ function soloStartSideTurnV114(side){
 function soloEndTurnV114(){
   const game = state.battle.game;
   if(!game || !isSoloTestMode()) return false;
+  // v116 hard unlock
   state.battle.matchLocked = false;
+  $('battle-arena')?.classList.remove('battle-locked');
   const current = soloActiveSideV114();
   if(current === 'player'){
     emitBattleEvent('ownTurnEnd', {side:'player'});
@@ -7738,6 +7766,7 @@ function soloEndTurnV114(){
   const next = current === 'player' ? 'enemy' : 'player';
   battleLog(`${soloSideNameV114(current)}ターン終了。${soloSideNameV114(next)}ターンへ。`);
   game.soloActiveSide = next;
+  game.isMyTurn = true;
   game.turn = Number(game.turn || 1) + 1;
   soloStartSideTurnV114(next);
   renderBattleArena();
@@ -7796,6 +7825,7 @@ function installSoloCaptureV114(){
     if(endBtn){
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation?.();
       soloSafeRunV106('ソロターン終了', soloEndTurnV114);
       return;
     }
@@ -7803,6 +7833,7 @@ function installSoloCaptureV114(){
     if(enemyBtn){
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation?.();
       soloSafeRunV106('相手手札を使用/配置', () => soloEnemyPlayCardV114(Number(enemyBtn.dataset.soloEnemyHandIndex), false));
       return;
     }
