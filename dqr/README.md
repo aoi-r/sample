@@ -1569,3 +1569,24 @@ node tools/sync_official_gameconductor.mjs
   - `startMatch`: 存在確認済み
 - 追加ファイル:
   - `data/bet_weapon_buff_refine_v111.json`
+
+
+## v112 update
+- v111で残っていたコイン/武器の盤面配置扱いと、相手手札クリック不発を修正。
+- 起動画面表示:
+  - `v112 / buildable 1465 / total 1582`
+- 修正:
+  - コインは `cardType: ユニット` でも盤面配置不可。
+  - 武器は盤面配置不可。
+  - 手札クリック時、コイン/武器は召喚先選択ではなく使用処理へ送る。
+  - ソロの敵配置/味方配置ボタンでも、コインは配置不可、武器はリーダー装備。
+  - 相手手札ストリップのクリック接続を `wireSoloControlsV103()` 全体ごと整理。
+  - 相手手札クリック時、ユニット/建物は敵盤面へ、武器は敵リーダー装備、コインは配置不可。
+  - ダンジョン踏破時の `source` 未定義バグを修正。
+  - ダンジョン踏破報酬ログを追加。
+- 監査:
+  - `node --check`: OK
+  - 重複function宣言: 0件
+  - `startMatch`: 存在確認済み
+- 追加ファイル:
+  - `data/placement_guard_enemyhand_dungeon_v112.json`

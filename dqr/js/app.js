@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v111_bet_weapon_buff_refine';
+const DATA_VERSION = 'v112_placement_guard_enemyhand_dungeon';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -285,9 +285,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v111 ready / buildable 1465 / total 1582`;
+  if(label) label.textContent = `v112 ready / buildable 1465 / total 1582`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v111 ready / buildable 1465 / total 1582`;
+  if(badge) badge.textContent = `v112 ready / buildable 1465 / total 1582`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -1791,11 +1791,11 @@ function soloPlaceEnemyHandCardV110(index){
     renderBattleArena();
     return true;
   }
-  if(card.name === 'コイン'){
-    battleLog('コインは盤面配置できません。BET対象に使用してください。');
+  if(isCoinResourceCard(card)){
+    battleLog('相手手札のコインは盤面配置できません。');
     return false;
   }
-  if(card.cardType !== 'ユニット' && card.cardType !== '建物'){
+  if(!isBoardPlaceableCardV112(card)){
     battleLog(`${card.name}は盤面配置カードではありません。`);
     return false;
   }
@@ -1810,6 +1810,7 @@ function soloPlaceEnemyHandCardV110(index){
   renderBattleArena();
   return true;
 }
+
 function applyCoinBetToTargetV110(unit){
   if(!unit) return false;
   const card = byId(unit.cardId);
@@ -1896,13 +1897,17 @@ function renderSoloDebugStripV103(){
 
 function soloPlaceFirstEmptyV103(side, card){
   const game = ensureSoloGame(); if(!game || !card) return false;
-  if(card.name === 'コイン') return toast('コインは盤面配置できません。BET対象に使用します。', false), false;
+  if(isCoinResourceCard(card)){
+    toast('コインは盤面配置できません。手札からBET対象へ使用します。', false);
+    battleLog('コインは盤面配置不可。');
+    return false;
+  }
   if(isWeapon(card)){
     equipWeaponToLeaderV110(card, side === 'enemy' ? 'enemy' : 'player');
     renderBattleArena();
     return true;
   }
-  if(card.cardType !== 'ユニット' && card.cardType !== '建物') return toast('ユニット/建物だけ配置できます。', false), false;
+  if(!isBoardPlaceableCardV112(card)) return toast('ユニット/建物だけ配置できます。', false), false;
   const board = side === 'enemy' ? game.enemy.board : game.player.board;
   const pos = board.findIndex(x => !x);
   if(pos < 0) return toast('空きマスがありません。', false), false;
@@ -1948,7 +1953,7 @@ function wireSoloControlsV103(){
   };
   bind('solo-add-hand', '選択カードを自分手札へ追加', () => {
     const card = getSoloSelectedCard(); if(!card) return;
-    state.battle.game.player.hand.push(card.id);
+    addCardIdToPlayerHandV110(card.id, 'ソロ追加');
     battleLog(`${card.name}を自分手札へ追加。手札${state.battle.game.player.hand.length}枚。`);
   });
   bind('solo-draw-card', '1枚ドロー', () => {
@@ -1961,11 +1966,11 @@ function wireSoloControlsV103(){
     state.battle.game.player.deck.unshift(card.id);
     battleLog(`${card.name}を山札トップへ追加。`);
   });
-  bind('solo-summon-enemy', '敵盤面へ配置', () => {
+  bind('solo-summon-enemy', '敵盤面へ配置/武器装備', () => {
     const card = getSoloSelectedCard(); if(!card) return;
     soloPlaceFirstEmptyV103('enemy', card);
   });
-  bind('solo-summon-player', '味方盤面へ配置', () => {
+  bind('solo-summon-player', '味方盤面へ配置/武器装備', () => {
     const card = getSoloSelectedCard(); if(!card) return;
     soloPlaceFirstEmptyV103('player', card);
   });
@@ -2006,24 +2011,16 @@ function wireSoloControlsV103(){
       if(state.battle.game?.player?.tension >= 3) soloSafeRunV106('テンションスキル発動', soloUseTensionSkillV103);
       else soloSafeRunV106('テンションをためる', useOrChargeTension);
     };
-  
-  document.querySelectorAll('.solo-debug-card[data-solo-enemy-hand-index]').forEach(btn => {
-    btn.onclick = e => { e.preventDefault(); e.stopPropagation(); soloSafeRunV106('相手手札を敵盤面へ配置', () => soloPlaceEnemyHandCardV110(Number(btn.dataset.soloEnemyHandIndex))); };
-    btn.ontouchend = e => { e.preventDefault(); e.stopPropagation(); soloSafeRunV106('相手手札を敵盤面へ配置', () => soloPlaceEnemyHandCardV110(Number(btn.dataset.soloEnemyHandIndex))); };
-  });
-
-}
+  }
 
   document.querySelectorAll('.solo-debug-card[data-solo-hand-index]').forEach(btn => {
     btn.onclick = e => { e.preventDefault(); e.stopPropagation(); selectHandCard(Number(btn.dataset.soloHandIndex)); };
     btn.ontouchend = e => { e.preventDefault(); e.stopPropagation(); selectHandCard(Number(btn.dataset.soloHandIndex)); };
   });
-
   document.querySelectorAll('.solo-debug-card[data-solo-enemy-hand-index]').forEach(btn => {
     btn.onclick = e => { e.preventDefault(); e.stopPropagation(); soloSafeRunV106('相手手札を敵盤面へ配置', () => soloPlaceEnemyHandCardV110(Number(btn.dataset.soloEnemyHandIndex))); };
     btn.ontouchend = e => { e.preventDefault(); e.stopPropagation(); soloSafeRunV106('相手手札を敵盤面へ配置', () => soloPlaceEnemyHandCardV110(Number(btn.dataset.soloEnemyHandIndex))); };
   });
-
 }
 
 function startSoloTestMode(){
@@ -4163,7 +4160,7 @@ function applySummonTextEffect(unit, card){
   }
   if(card.name === 'オルゴ・デミーラ：第3形態'){
     for(const u of [...game.player.board, ...game.enemy.board]){
-      if(u && u !== unit && isAttackableUnit(u)) dealDamageToUnit(u, 2, source || '効果');
+      if(u && u !== unit && isAttackableUnit(u)) dealDamageToUnit(u, 2, unit.name);
     }
     resolveDeaths();
   }
@@ -4336,8 +4333,25 @@ function canTargetEnemyUnit(unit){
   return true;
 }
 
+
+// v112 resource/placement guards
+function isCoinResourceCard(card){
+  return card?.name === 'コイン' || card?.flags?.coinResource === true || String(card?.text || '').includes('BETを1つ選んで発動');
+}
+function isBoardPlaceableCardV112(card){
+  if(!card) return false;
+  if(isCoinResourceCard(card)) return false;
+  if(isWeapon(card)) return false;
+  return card.cardType === 'ユニット' || card.cardType === '建物';
+}
+function handleNonBoardCardFromHandV112(index, card){
+  if(isCoinResourceCard(card)) return useCoinFromHandV111(index);
+  if(isWeapon(card)) return useNonUnitCard(index, card);
+  return useNonUnitCard(index, card);
+}
+
 function cardCanBeSummoned(card){
-  return card && (card.cardType === 'ユニット' || card.cardType === '建物');
+  return isBoardPlaceableCardV112(card);
 }
 
 
@@ -4571,14 +4585,13 @@ function selectHandCard(index){
     toast('MPが足りません。', false);
     return;
   }
-  if(cardCanBeSummoned(card)){
-    game.selectedHandIndex = index;
-    game.selectedAttacker = null;
-    battleLog(`${card.name}：召喚先を選んでください。`);
-    renderBattleArena();
-  }else{
-    useNonUnitCard(index, card);
+  if(!isBoardPlaceableCardV112(card)){
+    return handleNonBoardCardFromHandV112(index, card);
   }
+  game.selectedHandIndex = index;
+  game.selectedAttacker = null;
+  battleLog(`${card.name}：召喚先を選んでください。`);
+  renderBattleArena();
 }
 
 function handleEmptySlotClick(side, pos){
@@ -4592,7 +4605,7 @@ function handleEmptySlotClick(side, pos){
   if(game.pendingGenericEffect?.target === 'friendlyEmptySlot') return applyPendingGenericEffectToEmptySlot(pos);
   if(game.selectedHandIndex == null) return;
   const card = byId(game.player.hand[game.selectedHandIndex]);
-  if(!cardCanBeSummoned(card)) return;
+  if(!isBoardPlaceableCardV112(card)){ return handleNonBoardCardFromHandV112(game.selectedHandIndex, card); }
   summonSelectedCard(pos);
 }
 
@@ -4603,6 +4616,7 @@ function summonSelectedCard(pos){
   const card = byId(game.player.hand[index]);
   const cost = getEffectiveCost(card);
   if(!card || cost > game.player.mp) return;
+  if(!isBoardPlaceableCardV112(card)) return handleNonBoardCardFromHandV112(index, card);
   game.player.mp -= cost;
   if(card.cardType === 'ユニット') game.player.nextUnitCostDelta = 0;
   game.player.hand.splice(index, 1);
@@ -7599,12 +7613,15 @@ function completeDungeon(unit){
   if(pos >= 0) game.player.board[pos] = null;
   game.player.dungeonsCleared = Number(game.player.dungeonsCleared || 0) + 1;
   battleLog(`${unit.name}を踏破しました。`);
-  if(text.includes('カードを3枚引く')) drawCard(3);
-  if(text.includes('カードを1枚引く') || text.includes('カードを１枚引く')) drawCard(1);
+  if(text.includes('カードを3枚引く')){ drawCard(3); battleLog(`${unit.name}踏破報酬：カードを3枚引きました。`); }
+  if(text.includes('カードを1枚引く') || text.includes('カードを１枚引く')){ drawCard(1); battleLog(`${unit.name}踏破報酬：カードを1枚引きました。`); }
   if(text.includes('王女の愛')) addCardToHandByName('王女の愛');
   if(text.includes('ドルマドン')) addCardToHandByName('ドルマドン');
   if(text.includes('しあわせの箱')) addCardToHandByName('しあわせの箱');
   if(text.includes('おうごんのつめ')) addCardToHandByName('おうごんのつめ');
+
+  const addNamed = text.match(/(?:踏破時|踏破した時)[:：]?([^。]+)/);
+  if(addNamed) battleLog(`${unit.name}踏破報酬：${addNamed[1]}を処理しました。`);
 
   if(unit.name === '守りのほこら'){
     if(pos >= 0){
@@ -7624,7 +7641,7 @@ function completeDungeon(unit){
     if(pos >= 0) summonCardAtPos(findCardByName('強敵メタルキング'), pos, 'player', {keywords:{firstStrike:true, metal:true}});
     summonTokenByName('強敵メタルキング', {attack:3, hp:3}, 'player');
   }else if(unit.name === '放たれし大地のじごく'){
-    for(const u of [...game.player.board, ...game.enemy.board]) if(u && u !== unit) dealDamageToUnit(u, 2, source || '効果');
+    for(const u of [...game.player.board, ...game.enemy.board]) if(u && u !== unit) dealDamageToUnit(u, 2, unit.name);
     dealDamageToLeader('player', 2, unit.name); dealDamageToLeader('enemy', 2, unit.name);
     resolveDeaths();
   }else if(unit.name === '残された神々の水脈'){
@@ -7644,7 +7661,7 @@ function completeDungeon(unit){
     const picks = [];
     while(pool.length && picks.length < 3){ const idx=randomIndex(pool.length, 'heroCostOverridePick', {i:picks.length}); picks.push(pool.splice(idx,1)[0]); }
     game.player.costOverrides ||= {};
-    for(const c of picks){ game.player.hand.push(c.id); game.player.costOverrides[c.id] = Math.max(0, Number(c.cost || 0) - 1); }
+    for(const c of picks){ if(addCardIdToPlayerHandV110(c.id, unit.name)){ game.player.costOverrides[c.id] = Math.max(0, Number(c.cost || 0) - 1); } } battleLog(`${unit.name}踏破報酬：ユニット以外3枚を手札へ。コスト-1。`);
   }
 }
 function progressDungeonsByEvent(eventName, payload={}){

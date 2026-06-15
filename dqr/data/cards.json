@@ -18068,7 +18068,8 @@
           "coin_resource_card",
           "generated_token_or_resource",
           "manual_non_deck"
-        ]
+        ],
+        "coinResource": true
       },
       "classKey": "共通",
       "tribeKey": "",

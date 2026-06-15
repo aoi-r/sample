@@ -1,0 +1,31 @@
+{
+  "version": "v112_placement_guard_enemyhand_dungeon",
+  "implemented": [
+    "コインはcardTypeがユニットでも絶対に盤面配置不可にした。",
+    "武器は絶対に盤面配置不可にした。",
+    "手札クリック時、コイン/武器は召喚先選択ではなく使用処理へ送る。",
+    "ソロの敵配置/味方配置ボタンでも、コインは配置不可、武器はリーダー装備にする。",
+    "相手手札ストリップのクリック接続をwireSoloControlsV103全体ごと整理。",
+    "相手手札クリック時、ユニット/建物は敵盤面へ、武器は敵リーダー装備、コインは配置不可。",
+    "ダンジョン踏破時のsource未定義バグを修正。",
+    "ダンジョン踏破報酬ログを追加。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v112 / buildable 1465 / total 1582",
+    "dataVersion": "v112_placement_guard_enemyhand_dungeon",
+    "totalCards": 1582,
+    "buildableCards": 1465,
+    "startMatchExists": true,
+    "coinNotPlaceable": true,
+    "weaponNotPlaceable": true,
+    "selectHandUsesNonBoardGuard": true,
+    "soloPlaceGuard": true,
+    "enemyHandClickWire": true,
+    "enemyHandPlacementFunc": true,
+    "dungeonSourceFixed": true,
+    "dungeonRewardLogs": true,
+    "coinResourceFlag": true
+  }
+}
