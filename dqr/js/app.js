@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v123_oracle_weapon_counter_fix';
+const DATA_VERSION = 'v124_turn_scoped_effects_fortune_tension';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -285,9 +285,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v123 ready / buildable 1465 / total 1582`;
+  if(label) label.textContent = `v124 ready / buildable 1465 / total 1582`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v123 ready / buildable 1465 / total 1582`;
+  if(badge) badge.textContent = `v124 ready / buildable 1465 / total 1582`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -3522,6 +3522,7 @@ function handleOpponentTurnEndEvent(payload={}){
 }
 function handleTurnStartEvent(payload={}){
   const game = state.battle.game;
+  clearTurnPlayedCardTrackV124('player');
   returnDelayedUnitsAtTurnStart();
   clearUntilOwnTurnStart();
   if(game.player.familyBondPending){ game.player.familyBondAura = true; game.player.familyBondPending = false; battleLog('家族の絆：家族の絆オーラを得ました。'); }
@@ -3590,6 +3591,63 @@ function handleTurnEndEvent(payload={}){
     }
   }
 }
+
+// v124: per-turn last played card, fortune-teller tension, enemy placement slot fix, Akumano Kagami no haste
+function clearTurnPlayedCardTrackV124(side='player'){
+  const game = state.battle.game;
+  const obj = side === 'enemy' ? game.enemy : game.player;
+  if(obj) obj.lastPlayedCardThisTurnId = null;
+}
+function setTurnPlayedCardTrackV124(card, side='player'){
+  const game = state.battle.game;
+  const obj = side === 'enemy' ? game.enemy : game.player;
+  if(obj && card?.id) obj.lastPlayedCardThisTurnId = card.id;
+}
+function addDiscountedCardIdToHandV124(card, delta=-1, source='効果'){
+  const game = state.battle.game;
+  if(!card) return false;
+  if((game.player.hand || []).length >= 10){
+    battleLog(`${source}：${card.name}は手札上限10枚のため破棄。`);
+    return false;
+  }
+  const copy = JSON.parse(JSON.stringify(card));
+  copy.id = `copy_${card.id}_${Date.now()}_${safeRandomId('v124').slice(0,8)}`;
+  copy.originalCardId = card.originalCardId || card.id;
+  copy.cost = Math.max(0, Number(card.cost || 0) + Number(delta || 0));
+  copy.flags ||= {};
+  copy.flags.deckBuildable = false;
+  copy.flags.generatedOrEvolved = true;
+  copy.searchText = `${copy.searchText || ''} ${source} コスト変更 ${copy.cost}`.trim();
+  state.allCards.push(copy);
+  state.cards.push(copy);
+  game.player.hand.push(copy.id);
+  battleLog(`${source}：${card.name}を手札へ。コスト ${card.cost ?? 0}→${copy.cost}。`);
+  return true;
+}
+function drawFromDeckByTypeWithCostDeltaV124(cardType='特技', delta=-1, source='水晶占い'){
+  const game = state.battle.game;
+  const idx = (game.player.deck || []).findIndex(id => byId(id)?.cardType === cardType);
+  if(idx < 0){
+    battleLog(`${source}：山札に${cardType}カードがありません。`);
+    return false;
+  }
+  const [id] = game.player.deck.splice(idx,1);
+  const card = byId(id);
+  return addDiscountedCardIdToHandV124(card, delta, source);
+}
+function splitPotCopyThisTurnV124(){
+  const game = state.battle.game;
+  const id = game.player.lastPlayedCardThisTurnId;
+  const c = byId(id);
+  if(!c){
+    battleLog('分裂のツボ：このターン中、直前に使用したカードがありません。');
+    return false;
+  }
+  addCardCopyToHand(c, {costDelta:-7, tempExpiresTurnEnd:true});
+  battleLog(`分裂のツボ：このターン中直前に使用した${c.name}のコピーを手札へ。`);
+  return true;
+}
+
 function handleCardPlayedEvent({card, cost}={}){
   if(!card) return;
   const game = state.battle.game;
@@ -3599,6 +3657,7 @@ function handleCardPlayedEvent({card, cost}={}){
     battleLog(`やまびこのさとり：${card.name}のコピーを手札に加えました。`);
   }
   game.player.lastPlayedCardId = card.id;
+  setTurnPlayedCardTrackV124(card, 'player');
   if(isSpell(card)){
     game.player.usedSpellCardIds ||= [];
     game.player.usedSpellCardIds.push(card.id);
@@ -4721,6 +4780,7 @@ function handleEmptySlotClick(side, pos){
   if(isBattleLocked()) return toast('まだ操作できません。', false);
 
   const game = state.battle.game;
+  if(game.pendingEnemyHandPlacementV121 && side === 'enemy') return placePendingEnemyHandCardAtV121(pos);
   if(game?.finished) return;
   if(!game?.isMyTurn) return;
   if(side !== 'player') return;
@@ -5253,14 +5313,14 @@ function summonAdventurerFromDeckTemporaryByAkumanoKagami(){
   const empty = getEmptyBoardPositions('player');
   if(!empty.length){ battleLog('あくまのカガミ：場が埋まっているため場に出せません。'); return false; }
   const pos = chooseRandom(empty, 'akumanoKagamiSlot', {});
-  const unit = putUnitIntoPlayFromCard(pick.card, pos, 'player', {haste:true});
+  const unit = putUnitIntoPlayFromCard(pick.card, pos, 'player', {});
   if(unit){
     unit.temporaryDeckReturnAtTurnEnd = true;
-    unit.keywords.haste = true;
-    unit.canAttack = true;
-    unit.summoningSickness = false;
+    delete unit.keywords.haste;
+    unit.canAttack = false;
+    unit.summoningSickness = true;
     addStatus(unit, 'temporaryDeckReturnAtTurnEnd', {until:'turnEnd'});
-    battleLog(`あくまのカガミ：${pick.card.name}を場に出し、このターン中速攻とターン終了時デッキに混ぜる効果を付与。`);
+    battleLog(`あくまのカガミ：${pick.card.name}を場に出し、ターン終了時デッキに混ぜる効果を付与。`);
     return true;
   }
   return false;
@@ -6347,8 +6407,7 @@ function applyGenericCardUseEffect(card, cost){
     return;
   }
   if(card.name === '分裂のツボ'){
-    const c = byId(game.player.lastPlayedCardId);
-    if(c) addCardCopyToHand(c, {costDelta:-7, tempExpiresTurnEnd:true});
+    splitPotCopyThisTurnV124();
     return;
   }
   if(card.name === '剣豪の闘志'){
@@ -7525,7 +7584,9 @@ function applyTensionSkill(skill){
       };
       battleLog(`${effect.tokenName}を出しました。`);
     }
-  }else if(effect.type === 'drawFromDeckByType' || effect.type === 'multi'){
+  }else if(effect.type === 'drawFromDeckByType'){
+    drawFromDeckByTypeWithCostDeltaV124(effect.cardType || '特技', Number(effect.costChange ?? -1), name);
+  }else if(effect.type === 'multi'){
     drawCard(1);
     battleLog('カードを1枚引きました。');
   }else if(effect.type === 'temporaryLeaderBuff'){
@@ -7862,6 +7923,7 @@ function refreshUnitsForSideTurnV114(side){
 }
 function soloStartSideTurnV114(side){
   const game = state.battle.game;
+  clearTurnPlayedCardTrackV124(side);
   const obj = soloPlayerObjV114(side);
   obj.maxMp = Math.min(10, Number(obj.maxMp || 0) + 1);
   obj.mp = obj.maxMp;

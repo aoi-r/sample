@@ -66149,9 +66149,9 @@
     {
       "id": "token_pisaro_knight",
       "name": "ピサロナイト",
-      "cost": 1,
-      "attack": 1,
-      "hp": 1,
+      "cost": 2,
+      "attack": 3,
+      "hp": 2,
       "text": "",
       "rarity": "トークン",
       "cardType": "ユニット",

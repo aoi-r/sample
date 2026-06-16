@@ -1,0 +1,35 @@
+{
+  "version": "v124_turn_scoped_effects_fortune_tension",
+  "implemented": [
+    "ピサロナイトを2コスト/3攻撃/2HPへ補正。",
+    "魔剣士テンションスキル側のピサロナイトにもcost=2を明示。",
+    "分裂のツボは前ターンまで遡らず、このターン中に直前に使用したカードだけを見るように変更。",
+    "このターン中に使用したカード記録をターン開始時にリセット。",
+    "あくまのカガミで場に出した冒険者に速攻を付けないように変更。",
+    "相手ターン中の相手手札ユニット配置で、空マスクリック時にも配置先選択が通るように修正。",
+    "占い師テンションスキルを『山札から特技カードを1枚引き、そのカードのコスト-1』に修正。",
+    "v122の手札モーダル、v123の武器/耐久/反撃修正は維持。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v124 / buildable 1465 / total 1582",
+    "dataVersion": "v124_turn_scoped_effects_fortune_tension",
+    "appJsLength": 387842,
+    "attackUnitExists": true,
+    "handModalExists": true,
+    "startMatchExists": true,
+    "pisaroKnightCost2": true,
+    "makenshiTensionTokenCost2": true,
+    "splitPotUsesThisTurn": true,
+    "thisTurnCardTrackSet": true,
+    "thisTurnCardTrackClearTurnStart": true,
+    "akumanoNoHaste": true,
+    "enemyEmptySlotPlacementFixed": true,
+    "fortuneTensionCorrect": true,
+    "applyTensionDrawByType": true,
+    "drawByTypeDiscountFunction": true,
+    "v123WeaponPreserved": true,
+    "v122ModalPreserved": true
+  }
+}
