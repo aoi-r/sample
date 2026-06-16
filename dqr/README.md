@@ -1724,3 +1724,22 @@ node tools/sync_official_gameconductor.mjs
   - ソロ専用ターン切替ボタン: 維持
 - 追加ファイル:
   - `data/enemy_hand_play_fix_v118.json`
+
+
+## v119 update
+- 中央の後付けソロターン切替ボタン削除、相手手札クリック、怪盗ポイックリン、対象待ち解除を修正。
+- 起動画面表示:
+  - `v119 / buildable 1465 / total 1582`
+- 修正:
+  - 中央付近の後付けソロターン切替ボタンを削除。
+  - 相手手札ストリップのカードに `onpointerdown/onclick/ontouchend` のインラインハンドラを付与。
+  - 相手手札クリック処理を v119 へ統一。
+  - 怪盗ポイックリン召喚時に、相手手札からランダムコピーを自分手札へ追加し、その後自分手札1枚を選んで捨てる処理を追加。
+  - 対象未選択の相手特技/汎用効果をソロターン終了時に解除。
+  - ヒャド等で対象未選択のままターンを跨いでも、次ターンに対象待ちが残らないようにした。
+- 監査:
+  - `node --check`: OK
+  - 重複function宣言: 0件
+  - `startMatch`: 存在確認済み
+- 追加ファイル:
+  - `data/enemy_hand_inline_poicklin_cleanup_v119.json`

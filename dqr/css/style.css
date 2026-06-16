@@ -6014,3 +6014,17 @@
 .battle-arena.solo-test-mode[data-solo-active="enemy"] .solo-debug-card[data-solo-enemy-hand-index]{
   outline:2px solid rgba(255,229,143,.75);
 }
+
+
+/* v119: remove central forced turn button; keep normal turn button */
+#solo-force-turn-btn,
+.solo-force-turn-btn{
+  display:none !important;
+}
+
+/* v119: enemy hand strip clickable hard mode */
+.battle-arena.solo-test-mode .solo-debug-card[data-solo-enemy-hand-index],
+.battle-arena.solo-test-mode .solo-debug-card[data-solo-enemy-hand-index] *{
+  pointer-events:auto !important;
+  touch-action:manipulation;
+}

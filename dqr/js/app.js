@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v118_enemy_hand_play_fix';
+const DATA_VERSION = 'v119_enemy_hand_inline_poicklin_cleanup';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -285,9 +285,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v118 ready / buildable 1465 / total 1582`;
+  if(label) label.textContent = `v119 ready / buildable 1465 / total 1582`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v118 ready / buildable 1465 / total 1582`;
+  if(badge) badge.textContent = `v119 ready / buildable 1465 / total 1582`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -1900,7 +1900,9 @@ function renderSoloDebugStripV103(){
     const img = getOfficialImage(card);
     const selected = isPlayer && game.selectedHandIndex === index ? ' selected' : '';
     const effectiveCostV117 = isPlayer ? getEffectiveCost(card) : Number(card.cost || 0);
-    const data = isPlayer ? `data-solo-hand-index="${index}"` : `data-solo-enemy-hand-index="${index}"`;
+    const data = isPlayer
+      ? `data-solo-hand-index="${index}"`
+      : `data-solo-enemy-hand-index="${index}" onpointerdown="return playEnemyHandFromInlineV119(${index}, event)" onclick="return playEnemyHandFromInlineV119(${index}, event)" ontouchend="return playEnemyHandFromInlineV119(${index}, event)"`;
     return `<button class="solo-debug-card${selected}" ${data} title="${escapeHtml(card.name)}">${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span>${effectiveCostV117}｜${escapeHtml(card.name)}</span></button>`;
   };
   handBox.innerHTML = (game.player.hand || []).map((id,i)=>cardBtn(id,i,true)).join('') || '<span style="color:#fff;padding:6px">0枚</span>';
@@ -3209,6 +3211,7 @@ function soloHardTurnSwitchV117(){
   game.soloActiveSide = next;
   game.isMyTurn = true;
   game.turn = Number(game.turn || 1) + 1;
+  clearPendingTargetsOnSoloTurnEndV119();
   game.selectedHandIndex = null;
   game.selectedAttacker = null;
   game.pendingGenericEffect = null;
@@ -3220,18 +3223,11 @@ function soloHardTurnSwitchV117(){
   return true;
 }
 function installSoloForceTurnButtonV117(){
+  // v119: 中央の後付けターン切替ボタンは不要になったため表示しない
   const btn = $('solo-force-turn-btn');
-  if(!btn) return;
-  if(!isSoloTestMode()){
-    btn.classList.add('hidden');
-    return;
-  }
-  btn.classList.remove('hidden');
-  const active = soloActiveSideV114();
-  btn.textContent = `${soloSideNameV114(active)}ターン終了`;
-  btn.onclick = e => { e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation?.(); soloHardTurnSwitchV117(); };
-  btn.ontouchend = e => { e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation?.(); soloHardTurnSwitchV117(); };
+  if(btn) btn.classList.add('hidden');
 }
+
 
 function parseKeywordFlags(card){
   const text = getCardText(card);
@@ -3700,6 +3696,7 @@ function applySummonTextEffect(unit, card){
   const text = getCardText(card);
   const pos = game.player.board.indexOf(unit);
   applyTribeBuffTextV111(text, unit, card.name);
+  if(card.name === '怪盗ポイックリン') applyPoicklinSummonV119(unit, card);
 
   const tribeBuffCount = text.match(/自分の場と手札にいる(スライム|ゾンビ|ドラゴン|魔王|冒険者|英雄)系?の数だけ[+＋](\d+)\/[+＋](\d+)/);
   if(tribeBuffCount){
@@ -4517,7 +4514,6 @@ function renderBattleArena(){
   installSoloCaptureV114();
   installSoloLeaderCaptureV114();
   renderLeaderWeaponsV110();
-  installSoloForceTurnButtonV117();
   installEnemyHandHardCaptureV118();
 }
 
@@ -7915,7 +7911,21 @@ function applyPendingEnemySpellV118(target){
   renderBattleArena();
   return true;
 }
-function soloEnemyPlayCardV118(index, force=true){
+
+// v119: direct enemy hand click + Poicklin + pending target cleanup
+function playEnemyHandFromInlineV119(index, ev){
+  try{
+    if(ev){ ev.preventDefault?.(); ev.stopPropagation?.(); ev.stopImmediatePropagation?.(); }
+    soloSafeRunV106('相手手札を直接使用', () => soloEnemyPlayCardV119(Number(index), true));
+  }catch(e){
+    console.error('playEnemyHandFromInlineV119 failed', e);
+    battleLog(`相手手札クリックエラー：${e?.message || e}`);
+  }
+  return false;
+}
+window.playEnemyHandFromInlineV119 = playEnemyHandFromInlineV119;
+
+function soloEnemyPlayCardV119(index, force=true){
   const game = ensureSoloGame(); if(!game) return false;
   game.enemy.hand ||= [];
   const id = game.enemy.hand[index];
@@ -7925,7 +7935,7 @@ function soloEnemyPlayCardV118(index, force=true){
   const active = soloActiveSideV114();
   const cost = enemyEffectiveCostV118(card);
   const consumeMp = active === 'enemy';
-  battleLog(`相手手札操作：${card.name} / 現在${soloSideNameV114(active)}ターン`);
+  battleLog(`相手手札使用：${card.name} / 現在${soloSideNameV114(active)}ターン`);
 
   if(consumeMp && Number(game.enemy.mp || 0) < cost){
     toast('相手MPが足りません。', false);
@@ -7971,6 +7981,52 @@ function soloEnemyPlayCardV118(index, force=true){
   renderBattleArena();
   return true;
 }
+function applyPoicklinSummonV119(unit, card){
+  const game = state.battle.game;
+  if(card?.name !== '怪盗ポイックリン') return false;
+  const enemyHand = (game.enemy.hand || []).map(id => byId(id)).filter(Boolean);
+  if(enemyHand.length){
+    const picked = chooseRandom(enemyHand, 'poicklinEnemyHandCopy', {});
+    addCardCopyToHandV110(picked, {}, '怪盗ポイックリン');
+    battleLog(`怪盗ポイックリン：相手手札の${picked.name}と同じカードを手札に加えました。`);
+  }else{
+    battleLog('怪盗ポイックリン：相手の手札がないためコピーなし。');
+  }
+  const own = game.player.hand || [];
+  if(own.length){
+    const options = own.map((id,i)=>`${i+1}. ${byId(id)?.name || id}`);
+    openChoiceModal('怪盗ポイックリン：捨てる手札を選択', options, (pickedLabel, i)=>{
+      const id = game.player.hand[i];
+      const c = byId(id);
+      if(id != null){
+        game.player.hand.splice(i,1);
+        battleLog(`怪盗ポイックリン：${c?.name || id}を捨てました。`);
+      }
+      renderBattleArena(); syncMyBattleState();
+    }, {kind:'poicklinDiscard'});
+  }else{
+    battleLog('怪盗ポイックリン：捨てる手札がありません。');
+  }
+  return true;
+}
+function clearPendingTargetsOnSoloTurnEndV119(){
+  const game = state.battle.game;
+  if(!game) return;
+  if(game.pendingEnemySpellV118){
+    battleLog(`対象未選択の相手特技 ${game.pendingEnemySpellV118.name || ''} を解除しました。`);
+  }
+  if(game.pendingGenericEffect){
+    battleLog('対象未選択の効果を解除しました。');
+  }
+  game.pendingEnemySpellV118 = null;
+  game.pendingGenericEffect = null;
+  game.pendingHeroSkill = null;
+}
+
+function soloEnemyPlayCardV118(index, force=true){
+  return soloEnemyPlayCardV119(index, true);
+}
+
 function installEnemyHandHardCaptureV118(){
   if(window.__enemyHandHardCaptureV118Installed) return;
   window.__enemyHandHardCaptureV118Installed = true;
@@ -7998,7 +8054,7 @@ function installEnemyHandHardCaptureV118(){
 }
 
 function soloEnemyPlayCardV114(index, force=false){
-  return soloEnemyPlayCardV118(index, true);
+  return soloEnemyPlayCardV119(index, true);
 }
 
 function installSoloCaptureV114(){
@@ -8019,7 +8075,7 @@ function installSoloCaptureV114(){
       e.preventDefault();
       e.stopPropagation();
       e.stopImmediatePropagation?.();
-      soloSafeRunV106('相手手札を使用/配置', () => soloEnemyPlayCardV118(Number(enemyBtn.dataset.soloEnemyHandIndex), true));
+      soloSafeRunV106('相手手札を使用/配置', () => soloEnemyPlayCardV119(Number(enemyBtn.dataset.soloEnemyHandIndex), true));
       return;
     }
     const playerBtn = e.target.closest?.('.solo-debug-card[data-solo-hand-index]');

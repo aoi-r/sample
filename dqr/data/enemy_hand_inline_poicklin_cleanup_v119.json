@@ -1,0 +1,31 @@
+{
+  "version": "v119_enemy_hand_inline_poicklin_cleanup",
+  "implemented": [
+    "中央付近の後付けソロターン切替ボタンをHTMLから削除し、CSSでも非表示化。",
+    "相手手札ストリップのカードに onpointerdown/onclick/ontouchend のインラインハンドラを付与。",
+    "相手手札クリック処理を v119 関数へ統一。",
+    "v118/v114の相手手札処理はv119へ委譲。",
+    "相手手札のユニット/建物/武器/特技使用ルートは維持。",
+    "怪盗ポイックリンの召喚時：相手手札からランダムコピーを自分手札へ追加し、その後自分手札1枚を選んで捨てる処理を追加。",
+    "対象未選択の相手特技/汎用効果をソロターン終了時に解除。",
+    "ヒャド等で対象未選択のままターンを跨いでも、次ターンに対象待ちが残らないようにした。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v119 / buildable 1465 / total 1582",
+    "dataVersion": "v119_enemy_hand_inline_poicklin_cleanup",
+    "totalCards": 1582,
+    "buildableCards": 1465,
+    "startMatchExists": true,
+    "forceTurnButtonRemovedFromHtml": true,
+    "forceTurnButtonHiddenCss": true,
+    "enemyHandInlineHandlers": true,
+    "enemyHandV119Play": true,
+    "oldEnemyPlayDelegates": true,
+    "enemySpellUseKept": true,
+    "poicklinFunction": true,
+    "poicklinSummonHook": true,
+    "pendingTargetsClearedOnTurnEnd": true
+  }
+}
