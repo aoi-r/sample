@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v120_enemy_hand_ibuur_zankyo_layout';
+const DATA_VERSION = 'v121_modal_enemy_place_rules_core';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -248,7 +248,7 @@ const VIRTUAL_CARD_DEFS = {
   'あらぶる光の世界': { name:'あらぶる光の世界', cost:3, attack:0, hp:4, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値4で踏破) 自分のターン開始時 耐久値+1 踏破時:味方のユニット以外のカードをランダムに3枚手札に加え それらのコスト-1', localImage:'./assets/custom_cards/あらぶる光の世界.png' },
   '強敵メタルキング': { name:'強敵メタルキング', cost:0, attack:3, hp:3, cardType:'ユニット', rarity:'トークン', text:'先制 メタルボディ', tags:['強敵'], localImage:'./assets/custom_cards/見えざる魔神の道.png' },
 
-  'イブールの本': { name:'イブールの本', cost:1, cardType:'特技', text:'使用するとカードを1枚引く。', effect:null },
+  'イブールの本': { name:'イブールの本', cost:0, cardType:'特技', text:'味方リーダーに2ダメージ。敵リーダーのHPを2回復。カードを1枚引く。', effect:null, localImage:'./assets/custom_cards/イブールの本.png' },
   'ホットストーン': { name:'ホットストーン', cost:0, cardType:'特技', text:'メルビンが封じられた石。後で画像差し替え予定。', effect:null },
   'うまのふん': { name:'うまのふん', cost:0, cardType:'特技', text:'特別な効果はない。', effect:null },
   'ミイラおとこ': { name:'ミイラおとこ', cost:3, attack:3, hp:3, cardType:'ユニット', text:'3/3のミイラおとこ。', effect:null },
@@ -285,9 +285,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v120 ready / buildable 1465 / total 1582`;
+  if(label) label.textContent = `v121 ready / buildable 1465 / total 1582`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v120 ready / buildable 1465 / total 1582`;
+  if(badge) badge.textContent = `v121 ready / buildable 1465 / total 1582`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -1901,8 +1901,8 @@ function renderSoloDebugStripV103(){
     const selected = isPlayer && game.selectedHandIndex === index ? ' selected' : '';
     const effectiveCostV117 = isPlayer ? getEffectiveCost(card) : Number(card.cost || 0);
     const data = isPlayer
-      ? `data-solo-hand-index="${index}"`
-      : `data-solo-enemy-hand-index="${index}" onpointerdown="return playEnemyHandIndexV120(${index}, event)" onclick="return playEnemyHandIndexV120(${index}, event)" ontouchend="return playEnemyHandIndexV120(${index}, event)"`;
+      ? `data-solo-hand-index="${index}" onpointerdown="return openSoloHandCardModalV121(\'player\', ${index}, event)" onclick="return openSoloHandCardModalV121(\'player\', ${index}, event)" ontouchend="return openSoloHandCardModalV121(\'player\', ${index}, event)"`
+      : `data-solo-enemy-hand-index="${index}" onpointerdown="return openSoloHandCardModalV121(\'enemy\', ${index}, event)" onclick="return openSoloHandCardModalV121(\'enemy\', ${index}, event)" ontouchend="return openSoloHandCardModalV121(\'enemy\', ${index}, event)"`;
     return `<button class="solo-debug-card${selected}" ${data} title="${escapeHtml(card.name)}">${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span>${effectiveCostV117}｜${escapeHtml(card.name)}</span></button>`;
   };
   handBox.innerHTML = (game.player.hand || []).map((id,i)=>cardBtn(id,i,true)).join('') || '<span style="color:#fff;padding:6px">0枚</span>';
@@ -1992,12 +1992,12 @@ function wireSoloControlsV103(){
 
   // 下部ストリップのカード操作は残す
   document.querySelectorAll('.solo-debug-card[data-solo-hand-index]').forEach(btn => {
-    btn.onclick = e => { e.preventDefault(); e.stopPropagation(); selectHandCard(Number(btn.dataset.soloHandIndex)); };
-    btn.ontouchend = e => { e.preventDefault(); e.stopPropagation(); selectHandCard(Number(btn.dataset.soloHandIndex)); };
+    btn.onclick = e => { openSoloHandCardModalV121('player', Number(btn.dataset.soloHandIndex), e); };
+    btn.ontouchend = e => { openSoloHandCardModalV121('player', Number(btn.dataset.soloHandIndex), e); };
   });
   document.querySelectorAll('.solo-debug-card[data-solo-enemy-hand-index]').forEach(btn => {
-    btn.onclick = e => { e.preventDefault(); e.stopPropagation(); soloSafeRunV106('相手手札を敵盤面へ配置', () => soloEnemyPlayCardV118(Number(btn.dataset.soloEnemyHandIndex), true)); };
-    btn.ontouchend = e => { e.preventDefault(); e.stopPropagation(); soloSafeRunV106('相手手札を敵盤面へ配置', () => soloEnemyPlayCardV118(Number(btn.dataset.soloEnemyHandIndex), true)); };
+    btn.onclick = e => { openSoloHandCardModalV121('enemy', Number(btn.dataset.soloEnemyHandIndex), e); };
+    btn.ontouchend = e => { openSoloHandCardModalV121('enemy', Number(btn.dataset.soloEnemyHandIndex), e); };
   });
 }
 
@@ -3208,6 +3208,7 @@ function soloHardTurnSwitchV117(){
   state.battle.matchLocked = false;
   $('battle-arena')?.classList.remove('battle-locked');
   const current = soloActiveSideV114();
+  applyEndTurnEffectsForSideV121(current);
   const next = current === 'player' ? 'enemy' : 'player';
   game.soloActiveSide = next;
   game.isMyTurn = true;
@@ -4363,6 +4364,7 @@ function isBoardPlaceableCardV112(card){
   return card.cardType === 'ユニット' || card.cardType === '建物';
 }
 function handleNonBoardCardFromHandV112(index, card){
+  if(isPrincessLoveCardV121(card)) return usePrincessLoveV121('player', index);
   if(isCoinResourceCard(card)) return useCoinFromHandV111(index);
   if(isWeapon(card)) return useNonUnitCard(index, card);
   return useNonUnitCard(index, card);
@@ -6679,6 +6681,7 @@ function applyGenericCardUseEffect(card, cost){
 
 function useNonUnitCard(index, card){
   const game = state.battle.game;
+  if(card?.name === 'イブールの本') return resolveIburBookV121('player', index);
   if(card?.name === 'コイン') return useCoinFromHandV110(index);
   const cost = getEffectiveCost(card);
   if(cost > game.player.mp) return;
@@ -6717,6 +6720,7 @@ function handleBoardClick(side, pos){
   if(isBattleLocked()) return toast('まだ操作できません。', false);
 
   const game = state.battle.game;
+  if(game.pendingEnemyHandPlacementV121 && side === 'enemy') return placePendingEnemyHandCardAtV121(pos);
   if(game.pendingEnemySpellV118 && side === 'player') return applyPendingEnemySpellV118({side, pos});
   if(handleEnemyBoardClickV114(side, pos)) return;
   if(game?.finished) return;
@@ -7021,6 +7025,7 @@ function attackUnit(attackerRef, defenderRef){
   const combatMult = Number(game.player.combatDamageMultiplier || 1);
   const dealtToDef = damageUnit(def, atk.attack * combatMult);
   emitDamageApplied(defenderRef, atk.attack * combatMult, dealtToDef, atk.name);
+  applyCounterDamageV121(atk, attackerRef, def, defenderRef);
   applyOrgoFourthSplash(atk, defenderRef, atk.attack);
   if(game.player.leaderVerticalSplashThisTurn && attackerRef.side === 'playerLeader'){
     const c = posToCoord(defenderRef.side, defenderRef.pos);
@@ -7139,6 +7144,11 @@ function applyDeathrattle(unit, side){
   const text = getCardText(byId(unit.cardId));
   const deathText = [extractAfterKeyword(text, '死亡時') || text, unit.extraDeathText || ''].filter(Boolean).join('。');
 
+  if(unit.name === 'ドラゴン' || unit.name === '立ち塞がるドラゴン' || deathText.includes('相手の手札に王女の愛')){
+    addCardToOpponentHandRelativeV121(side, '王女の愛', unit.name);
+    return;
+  }
+
   applyTextMiniEffect(deathText, unit.name);
 
   if(unit.deathSummonFish){ summonTokenByName('魚', {attack:2, hp:2}, side); }
@@ -7157,7 +7167,6 @@ function applyDeathrattle(unit, side){
   }
 
   if(String(unit.name || '').includes('オルゴ・デミーラ')) addOrgoNextForm(unit);
-  if(unit.name === '立ち塞がるドラゴン') addEnemyHandCardByName('王女の愛');
 
 
   if(unit.name === 'バラモス'){
@@ -7838,6 +7847,7 @@ function extractDamageAmountV118(text){
 }
 function enemyUseSpellV118(index, card, active){
   const game = state.battle.game;
+  if(card?.name === 'イブールの本') return resolveIburBookV121('enemy', index);
   const cost = enemyEffectiveCostV118(card);
   if(active === 'enemy' && Number(game.enemy.mp || 0) < cost){
     toast('相手MPが足りません。', false);
@@ -7915,6 +7925,185 @@ function applyPendingEnemySpellV118(target){
 // v119: direct enemy hand click + Poicklin + pending target cleanup
 
 // v120: enemy-hand container delegation / Ibur book / Zankyo cost discount / layout tweaks
+
+// v121: hand confirm modal, enemy placement target, dragon death ownership, counter damage, Hoimi, Ibur Book
+function isPrincessLoveCardV121(card){
+  return card?.name === '王女の愛';
+}
+function isNonBoardActionCardV121(card){
+  return isCoinResourceCard(card) || isWeapon(card) || isSpell(card) || isPrincessLoveCardV121(card);
+}
+function addCardToHandByNameForSideV121(side, name, source='効果'){
+  const game = state.battle.game;
+  const card = findCardByName(name) || ensureVirtualCard(name);
+  if(!card) return false;
+  const obj = side === 'enemy' ? game.enemy : game.player;
+  obj.hand ||= [];
+  if(obj.hand.length >= 10){
+    battleLog(`${source}：${side === 'enemy' ? '相手' : '自分'}手札上限のため${name}は破棄。`);
+    return false;
+  }
+  obj.hand.push(card.id);
+  if(side === 'enemy') obj.handCount = obj.hand.length;
+  battleLog(`${source}：${side === 'enemy' ? '相手' : '自分'}の手札に${name}を加えました。`);
+  return true;
+}
+function addCardToOpponentHandRelativeV121(ownerSide, name, source='効果'){
+  return addCardToHandByNameForSideV121(ownerSide === 'player' ? 'enemy' : 'player', name, source);
+}
+function usePrincessLoveV121(side='player', handIndex=null){
+  const game = state.battle.game;
+  const p = side === 'enemy' ? game.enemy : game.player;
+  p.tension = Math.min(3, Number(p.tension || 0) + 3);
+  if(handIndex != null && p.hand) p.hand.splice(handIndex,1);
+  if(side === 'enemy') p.handCount = p.hand.length;
+  battleLog(`${side === 'enemy' ? '相手' : '自分'}：王女の愛でテンション+3。`);
+  renderBattleArena();
+  return true;
+}
+function clearSoloHandPreviewV121(){
+  const old = document.getElementById('solo-card-preview-modal');
+  if(old) old.remove();
+}
+function openSoloHandCardModalV121(side, index, ev=null){
+  if(ev){ ev.preventDefault?.(); ev.stopPropagation?.(); ev.stopImmediatePropagation?.(); }
+  const game = state.battle.game;
+  if(!game || !isSoloTestMode()) return false;
+  const hand = side === 'enemy' ? game.enemy.hand : game.player.hand;
+  const id = hand?.[index];
+  const card = byId(id);
+  if(!card) return false;
+  clearSoloHandPreviewV121();
+  const img = getOfficialImage(card);
+  const modal = document.createElement('div');
+  modal.id = 'solo-card-preview-modal';
+  modal.className = 'solo-card-preview-backdrop';
+  modal.innerHTML = `
+    <div class="solo-card-preview-card">
+      <button class="solo-card-preview-close" type="button">×</button>
+      <div class="solo-card-preview-title">${escapeHtml(card.name)}</div>
+      <div class="solo-card-preview-image">${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name)}" referrerpolicy="no-referrer">` : `<div class="solo-card-preview-noimg">${escapeHtml(card.name)}</div>`}</div>
+      <div class="solo-card-preview-text">${escapeHtml(getCardText(card) || '')}</div>
+      <div class="solo-card-preview-actions">
+        <button class="primary" type="button" data-action="use">使用</button>
+        <button type="button" data-action="cancel">戻る</button>
+      </div>
+    </div>`;
+  const close = () => clearSoloHandPreviewV121();
+  modal.addEventListener('click', e => {
+    if(e.target === modal) close();
+  });
+  modal.querySelector('.solo-card-preview-close')?.addEventListener('click', close);
+  modal.querySelector('[data-action="cancel"]')?.addEventListener('click', close);
+  modal.querySelector('[data-action="use"]')?.addEventListener('click', e => {
+    e.preventDefault(); e.stopPropagation();
+    if(side === 'player') usePlayerHandFromModalV121(index);
+    else useEnemyHandFromModalV121(index);
+  });
+  document.body.appendChild(modal);
+  return false;
+}
+window.openSoloHandCardModalV121 = openSoloHandCardModalV121;
+
+function usePlayerHandFromModalV121(index){
+  const game = state.battle.game;
+  if(soloActiveSideV114() !== 'player') return toast('自分ターン中だけ自分手札を使用できます。', false);
+  clearSoloHandPreviewV121();
+  const card = byId(game.player.hand?.[index]);
+  if(isPrincessLoveCardV121(card)) return usePrincessLoveV121('player', index);
+  return selectHandCard(index);
+}
+function useEnemyHandFromModalV121(index){
+  const game = state.battle.game;
+  if(soloActiveSideV114() !== 'enemy') return toast('相手ターン中だけ相手手札を使用できます。', false);
+  const card = byId(game.enemy.hand?.[index]);
+  if(!card) return false;
+  clearSoloHandPreviewV121();
+  if(isPrincessLoveCardV121(card)) return usePrincessLoveV121('enemy', index);
+  if(isBoardPlaceableCardV112(card) && !isNonBoardActionCardV121(card)){
+    game.pendingEnemyHandPlacementV121 = {index, cardId:card.id};
+    battleLog(`相手${card.name}：配置先を選んでください。`);
+    renderBattleArena();
+    return true;
+  }
+  return soloEnemyPlayCardV119(index, true);
+}
+function placePendingEnemyHandCardAtV121(pos){
+  const game = state.battle.game;
+  const pending = game.pendingEnemyHandPlacementV121;
+  if(!pending) return false;
+  if(soloActiveSideV114() !== 'enemy') return toast('相手ターン中だけ配置できます。', false), true;
+  const idx = pending.index;
+  const id = game.enemy.hand?.[idx];
+  const card = byId(id);
+  if(!card || id !== pending.cardId){
+    game.pendingEnemyHandPlacementV121 = null;
+    return false;
+  }
+  if(!isBoardPlaceableCardV112(card) || isNonBoardActionCardV121(card)){
+    game.pendingEnemyHandPlacementV121 = null;
+    return soloEnemyPlayCardV119(idx, true);
+  }
+  if(game.enemy.board[pos]) return toast('そのマスには配置できません。', false), true;
+  const cost = enemyEffectiveCostV118(card);
+  if(Number(game.enemy.mp || 0) < cost) return toast('相手MPが足りません。', false), true;
+  game.enemy.mp -= cost;
+  const unit = makeSoloUnitFromCardSafeV107(card);
+  game.enemy.board[pos] = unit;
+  game.enemy.hand.splice(idx,1);
+  game.enemy.handCount = game.enemy.hand.length;
+  game.pendingEnemyHandPlacementV121 = null;
+  battleLog(`相手：${card.name}を指定マスへ配置。`);
+  renderBattleArena();
+  return true;
+}
+function applyCounterDamageV121(attacker, attackerRef, defender, defenderRef){
+  const game = state.battle.game;
+  if(!attacker || !defender || defender.isBuilding) return;
+  const counter = Math.max(0, Number(defender.attack || 0));
+  if(counter <= 0) return;
+  if(attacker.noCounter || attacker.keywords?.noCounter || unitKeywords(attacker).noCounter) return;
+  if(attackerRef.side === 'playerLeader'){
+    dealDamageToLeader('player', counter, `${defender.name}の反撃`);
+    battleLog(`反撃：味方リーダーが${counter}ダメージ。`);
+  }else if(attackerRef.side === 'enemyLeader'){
+    dealDamageToLeader('enemy', counter, `${defender.name}の反撃`);
+    battleLog(`反撃：敵リーダーが${counter}ダメージ。`);
+  }else{
+    dealDamageToUnit(attacker, counter, `${defender.name}の反撃`, attackerRef.side);
+    battleLog(`反撃：${attacker.name}が${counter}ダメージ。`);
+  }
+}
+function applyEndTurnEffectsForSideV121(side){
+  const game = state.battle.game;
+  const board = side === 'enemy' ? game.enemy.board : game.player.board;
+  for(const u of board){
+    if(!u || u.isBuilding) continue;
+    if(u.name === 'ホイミスライム'){
+      const damaged = board.filter(x => x && x !== u && !x.isBuilding && Number(x.hp || 0) < Number(x.maxHp || 0));
+      if(damaged.length){
+        const target = chooseRandom(damaged, 'hoimiSlimeEndTurn', {side});
+        healUnit(target, 2);
+        battleLog(`${side === 'enemy' ? '相手' : '自分'}ホイミスライム：${target.name}のHPを2回復。`);
+      }
+    }
+  }
+}
+function resolveIburBookV121(side='player', handIndex=null){
+  const game = state.battle.game;
+  const p = side === 'enemy' ? game.enemy : game.player;
+  const enemySide = side === 'enemy' ? 'player' : 'enemy';
+  p.hp = Math.max(0, Number(p.hp || 0) - 2);
+  const enemy = enemySide === 'enemy' ? game.enemy : game.player;
+  enemy.hp = Math.min(Number(enemy.maxHp || enemy.hp || 25), Number(enemy.hp || 0) + 2);
+  drawForSideV114(side, 1);
+  if(handIndex != null && p.hand) p.hand.splice(handIndex,1);
+  if(side === 'enemy') p.handCount = p.hand.length;
+  battleLog(`${side === 'enemy' ? '相手' : '自分'}：イブールの本を使用。自リーダー2ダメージ、敵リーダー2回復、1枚ドロー。`);
+  renderBattleArena();
+  return true;
+}
+
 function playEnemyHandIndexV120(index, ev=null){
   try{
     if(ev){ ev.preventDefault?.(); ev.stopPropagation?.(); ev.stopImmediatePropagation?.(); }
@@ -7934,7 +8123,7 @@ function installEnemyHandContainerDelegationV120(){
   const h = (e) => {
     const btn = e.target.closest?.('[data-solo-enemy-hand-index]');
     if(!btn) return;
-    playEnemyHandIndexV120(Number(btn.dataset.soloEnemyHandIndex), e);
+    openSoloHandCardModalV121('enemy', Number(btn.dataset.soloEnemyHandIndex), e);
   };
   box.addEventListener('pointerdown', h, true);
   box.addEventListener('pointerup', h, true);
@@ -8236,6 +8425,7 @@ function endTurn(){
   if(game?.finished) return;
   if(!game?.isMyTurn) return toast('相手のターンです。', false);
   if(!game) return;
+  applyEndTurnEffectsForSideV121('player');
 
   emitBattleEvent('ownTurnEnd', {side:'player'});
 

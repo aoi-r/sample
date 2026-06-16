@@ -6052,3 +6052,94 @@
   pointer-events:auto !important;
   touch-action:manipulation;
 }
+
+
+/* v121: card preview modal and layout polish */
+.solo-card-preview-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:7000;
+  background:rgba(0,0,0,.48);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:auto;
+}
+.solo-card-preview-card{
+  width:min(330px, 82vw);
+  max-height:90vh;
+  border:2px solid rgba(255,230,160,.75);
+  border-radius:20px;
+  background:linear-gradient(180deg, rgba(19,35,74,.98), rgba(10,15,31,.98));
+  box-shadow:0 18px 42px rgba(0,0,0,.62);
+  padding:14px;
+  color:#fff7cf;
+  position:relative;
+  text-align:center;
+}
+.solo-card-preview-close{
+  position:absolute;
+  right:8px;
+  top:8px;
+  width:32px;
+  height:32px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(0,0,0,.35);
+  color:#fff;
+  font-weight:900;
+}
+.solo-card-preview-title{
+  font-weight:900;
+  font-size:18px;
+  margin:6px 34px 10px;
+}
+.solo-card-preview-image img{
+  max-width:220px;
+  max-height:310px;
+  border-radius:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,.45);
+}
+.solo-card-preview-noimg{
+  min-height:180px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:rgba(255,255,255,.1);
+}
+.solo-card-preview-text{
+  margin:10px auto;
+  max-height:92px;
+  overflow:auto;
+  font-size:13px;
+  line-height:1.45;
+  color:#f6edcf;
+}
+.solo-card-preview-actions{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+}
+.solo-card-preview-actions button{
+  min-width:104px;
+  padding:10px 18px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.36);
+  font-weight:900;
+}
+.solo-card-preview-actions .primary{
+  background:linear-gradient(#f3da8b, #b9852e);
+  color:#1a1420;
+}
+
+/* v121: own leader further left, hand strip further left for log visibility */
+.battle-arena.solo-test-mode .player-leader{
+  transform:translateX(-54px) !important;
+}
+.battle-arena.solo-test-mode .solo-debug-strip{
+  left:28% !important;
+  right:auto !important;
+  transform:translateX(-8%) !important;
+  max-width:min(720px, 52vw) !important;
+}

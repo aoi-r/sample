@@ -1,0 +1,41 @@
+{
+  "version": "v121_modal_enemy_place_rules_core",
+  "implemented": [
+    "ソロ手札ストリップのカードタップを、即使用ではなくカード確認モーダルに変更。",
+    "モーダルにはカード画像/名前/効果を表示し、下部に『使用』『戻る』を配置。カード外タップでも閉じる。",
+    "相手手札は相手ターン中だけ使用可能に変更。自分ターン中は使用不可。",
+    "相手ユニット/建物は即自動配置せず、使用後に配置先マスを選ぶ方式へ変更。",
+    "武器/特技/王女の愛は盤面配置に入らない非配置カードとして扱う。",
+    "ドラゴン/立ち塞がるドラゴン死亡時の王女の愛は、召喚者から見て相手の手札へ入るように修正。",
+    "ユニット同士/リーダー対ユニット攻撃時、攻撃対象の攻撃力分の反撃ダメージを受ける処理を追加。",
+    "ホイミスライムの自分ターン終了時効果を追加。ダメージを受けている他の味方1体を2回復。",
+    "イブールの本をコスト0の特技として定義し、味方リーダー2ダメージ/敵リーダー2回復/1枚ドローに変更。",
+    "イブールの本用の禍々しい本カード画像を assets/custom_cards/イブールの本.png として追加。",
+    "自分リーダーアイコンをさらに左へ移動し、ソロ手札表示ウィンドウも左寄せ調整。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v121 / buildable 1465 / total 1582",
+    "dataVersion": "v121_modal_enemy_place_rules_core",
+    "totalCards": 1582,
+    "buildableCards": 1465,
+    "startMatchExists": true,
+    "modalExists": true,
+    "playerHandUsesModal": true,
+    "enemyHandUsesModal": true,
+    "enemyUseOnlyEnemyTurn": true,
+    "enemyPlacementSelect": true,
+    "weaponNonBoardGuard": true,
+    "princessLoveNonBoard": true,
+    "dragonDeathRelativeOpponent": true,
+    "counterDamage": true,
+    "hoimiEndTurn": true,
+    "hoimiCalledSolo": true,
+    "ibuurBookVirtual": true,
+    "ibuurBookImage": true,
+    "ibuurBookEffect": true,
+    "layoutCss": true,
+    "forceButtonRemoved": true
+  }
+}
