@@ -1743,3 +1743,24 @@ node tools/sync_official_gameconductor.mjs
   - `startMatch`: 存在確認済み
 - 追加ファイル:
   - `data/enemy_hand_inline_poicklin_cleanup_v119.json`
+
+
+## v120 update
+- 相手手札クリック、イブール、残響のようじゅつし、ソロ画面レイアウトを修正。
+- 起動画面表示:
+  - `v120 / buildable 1465 / total 1582`
+- 修正:
+  - 相手手札クリックをv120処理へ強化。
+  - カード単体のインラインイベントに加え、相手手札エリア親にもイベント委譲を追加。
+  - 相手手札エリアに `pointerdown/pointerup/click/touchend` を設定。
+  - イブールの召喚時/攻撃時に、イブールの本を相手デッキ一番上へ置く。
+  - 残響のようじゅつし召喚時に、対戦中に使用した特技1枚をコピーし、同名特技の手札/デッキ内カードをコスト-1コピーへ置換。
+  - 自分リーダーアイコンを左へ移動。
+  - ソロ手札表示ウィンドウを左へ寄せ、ログが見えやすいように調整。
+  - 中央の後付けターン切替ボタン削除状態を維持。
+- 監査:
+  - `node --check`: OK
+  - 重複function宣言: 0件
+  - `startMatch`: 存在確認済み
+- 追加ファイル:
+  - `data/enemy_hand_ibuur_zankyo_layout_v120.json`

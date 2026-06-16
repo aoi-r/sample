@@ -6028,3 +6028,27 @@
   pointer-events:auto !important;
   touch-action:manipulation;
 }
+
+
+/* v120: layout fine tuning */
+.battle-arena.solo-test-mode .player-leader{
+  transform:translateX(-26px);
+}
+.battle-arena.solo-test-mode .solo-debug-strip{
+  left:34% !important;
+  right:auto !important;
+  transform:translateX(-12%) !important;
+  max-width:min(760px, 58vw) !important;
+  z-index:240 !important;
+}
+.battle-arena.solo-test-mode #battle-log,
+.battle-arena.solo-test-mode .battle-log{
+  z-index:260 !important;
+}
+.battle-arena.solo-test-mode #solo-debug-enemy-hand,
+.battle-arena.solo-test-mode #solo-debug-enemy-hand *,
+.battle-arena.solo-test-mode .solo-debug-strip,
+.battle-arena.solo-test-mode .solo-debug-strip *{
+  pointer-events:auto !important;
+  touch-action:manipulation;
+}

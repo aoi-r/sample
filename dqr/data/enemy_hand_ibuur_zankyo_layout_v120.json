@@ -1,0 +1,30 @@
+{
+  "version": "v120_enemy_hand_ibuur_zankyo_layout",
+  "implemented": [
+    "相手手札クリックをv120処理へ強化。カード単体のインラインイベントに加え、相手手札エリア親にもイベント委譲を追加。",
+    "相手手札エリアにpointerdown/pointerup/click/touchendを設定。",
+    "イブールの召喚時にもイブールの本を相手デッキ一番上へ置く処理を追加。",
+    "イブールの攻撃時も同じv120共通処理へ整理。",
+    "残響のようじゅつし召喚時に、対戦中に使用した特技1枚をコピーし、同名特技の手札/デッキ内カードをコスト-1コピーへ置換。",
+    "自分リーダーアイコンを左へ移動。",
+    "ソロ手札表示ウィンドウを左へ寄せ、ログが見えやすいように調整。",
+    "中央の後付けターン切替ボタン削除状態を維持。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v120 / buildable 1465 / total 1582",
+    "dataVersion": "v120_enemy_hand_ibuur_zankyo_layout",
+    "totalCards": 1582,
+    "buildableCards": 1465,
+    "startMatchExists": true,
+    "enemyHandV120": true,
+    "enemyHandInlineUsesV120": true,
+    "enemyHandParentDelegation": true,
+    "ibuurBookSummonAndAttack": true,
+    "zankyoCostDown": true,
+    "oldZankyoNeutralized": true,
+    "layoutCss": true,
+    "forceButtonRemoved": true
+  }
+}

@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v119_enemy_hand_inline_poicklin_cleanup';
+const DATA_VERSION = 'v120_enemy_hand_ibuur_zankyo_layout';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -285,9 +285,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v119 ready / buildable 1465 / total 1582`;
+  if(label) label.textContent = `v120 ready / buildable 1465 / total 1582`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v119 ready / buildable 1465 / total 1582`;
+  if(badge) badge.textContent = `v120 ready / buildable 1465 / total 1582`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -1902,11 +1902,12 @@ function renderSoloDebugStripV103(){
     const effectiveCostV117 = isPlayer ? getEffectiveCost(card) : Number(card.cost || 0);
     const data = isPlayer
       ? `data-solo-hand-index="${index}"`
-      : `data-solo-enemy-hand-index="${index}" onpointerdown="return playEnemyHandFromInlineV119(${index}, event)" onclick="return playEnemyHandFromInlineV119(${index}, event)" ontouchend="return playEnemyHandFromInlineV119(${index}, event)"`;
+      : `data-solo-enemy-hand-index="${index}" onpointerdown="return playEnemyHandIndexV120(${index}, event)" onclick="return playEnemyHandIndexV120(${index}, event)" ontouchend="return playEnemyHandIndexV120(${index}, event)"`;
     return `<button class="solo-debug-card${selected}" ${data} title="${escapeHtml(card.name)}">${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span>${effectiveCostV117}｜${escapeHtml(card.name)}</span></button>`;
   };
   handBox.innerHTML = (game.player.hand || []).map((id,i)=>cardBtn(id,i,true)).join('') || '<span style="color:#fff;padding:6px">0枚</span>';
   enemyBox.innerHTML = (game.enemy.hand || []).map((id,i)=>cardBtn(id,i,false)).join('') || '<span style="color:#fff;padding:6px">0枚</span>';
+  installEnemyHandContainerDelegationV120();
 }
 
 function soloPlaceFirstEmptyV103(side, card){
@@ -3697,6 +3698,8 @@ function applySummonTextEffect(unit, card){
   const pos = game.player.board.indexOf(unit);
   applyTribeBuffTextV111(text, unit, card.name);
   if(card.name === '怪盗ポイックリン') applyPoicklinSummonV119(unit, card);
+  if(card.name === '残響のようじゅつし') applyZankyoYojutsuV120(unit, card);
+  if(card.name === 'イブール') placeIburBookOnEnemyDeckTopV120('イブール召喚時');
 
   const tribeBuffCount = text.match(/自分の場と手札にいる(スライム|ゾンビ|ドラゴン|魔王|冒険者|英雄)系?の数だけ[+＋](\d+)\/[+＋](\d+)/);
   if(tribeBuffCount){
@@ -4054,8 +4057,7 @@ function applySummonTextEffect(unit, card){
     battleLog('暗黒大樹の番人：出す味方マスを選んでください。');
   }
   if(card.name === '残響のようじゅつし'){
-    addRandomUsedSpellToHand(card.name);
-    buffHandCopiesOfUsedSpellsCost(-1);
+    // v120: handled by applyZankyoYojutsuV120 near summon start.
   }
   if(card.name === '稽古相手'){
     game.pendingGenericEffect = {kind:'summonSpecificToken', tokenName:'マッスルアニマル', attack:1, hp:1, source:card.name, target:'friendlyEmptySlot'};
@@ -6925,12 +6927,10 @@ function applyAttackTextEffects(atk, def, defenderRef){
     battleLog('カンダタ：攻撃時効果を処理しました。');
   }
   if(atk.name === 'イブール'){
-    const book = findCardByName('イブールの本') || ensureVirtualCard('イブールの本');
-    if(book){ game.enemy.deck ||= []; game.enemy.deck.unshift(book.id); }
-    battleLog('イブール：相手デッキの一番上にイブールの本を置きました。');
+    placeIburBookOnEnemyDeckTopV120('イブール攻撃時');
   }
   if(atk.name === 'グランマーズ'){
-    chooseFromOwnTopCards(3, 'グランマーズ', null, (chosenCard, chosenId)=>{ game.player.hand.push(chosenId); });
+    triggerGrandmazTop3V117('グランマーズ攻撃時');
   }
   if(atk.name === 'ラグアス王子'){
     const top = byId(game.enemy.deck?.[0]);
@@ -7913,6 +7913,97 @@ function applyPendingEnemySpellV118(target){
 }
 
 // v119: direct enemy hand click + Poicklin + pending target cleanup
+
+// v120: enemy-hand container delegation / Ibur book / Zankyo cost discount / layout tweaks
+function playEnemyHandIndexV120(index, ev=null){
+  try{
+    if(ev){ ev.preventDefault?.(); ev.stopPropagation?.(); ev.stopImmediatePropagation?.(); }
+    return soloEnemyPlayCardV119(Number(index), true);
+  }catch(e){
+    console.error('playEnemyHandIndexV120 failed', e);
+    battleLog(`相手手札クリックエラー：${e?.message || e}`);
+    return false;
+  }
+}
+window.playEnemyHandIndexV120 = playEnemyHandIndexV120;
+
+function installEnemyHandContainerDelegationV120(){
+  const box = $('solo-debug-enemy-hand');
+  if(!box || box.dataset.v120Bound === '1') return;
+  box.dataset.v120Bound = '1';
+  const h = (e) => {
+    const btn = e.target.closest?.('[data-solo-enemy-hand-index]');
+    if(!btn) return;
+    playEnemyHandIndexV120(Number(btn.dataset.soloEnemyHandIndex), e);
+  };
+  box.addEventListener('pointerdown', h, true);
+  box.addEventListener('pointerup', h, true);
+  box.addEventListener('click', h, true);
+  box.addEventListener('touchend', h, true);
+}
+
+function placeIburBookOnEnemyDeckTopV120(source='イブール'){
+  const game = state.battle.game;
+  const book = findCardByName('イブールの本') || ensureVirtualCard('イブールの本');
+  if(!book?.id){ battleLog(`${source}：イブールの本が見つかりません。`); return false; }
+  game.enemy.deck ||= [];
+  game.enemy.deck.unshift(book.id);
+  battleLog(`${source}：相手デッキの一番上にイブールの本を置きました。`);
+  return true;
+}
+
+function makeDiscountedSpellCopyV120(card, delta=-1, source='残響のようじゅつし'){
+  if(!card) return null;
+  const copy = JSON.parse(JSON.stringify(card));
+  copy.id = `copy_${card.id}_${Date.now()}_${safeRandomId('zankyo').slice(0,8)}`;
+  copy.originalCardId = card.originalCardId || card.id;
+  copy.cost = Math.max(0, Number(card.cost || 0) + Number(delta || 0));
+  copy.flags ||= {};
+  copy.flags.deckBuildable = false;
+  copy.flags.generatedOrEvolved = true;
+  copy.searchText = `${copy.searchText || ''} ${source} コスト変更 ${copy.cost}`.trim();
+  state.allCards.push(copy);
+  state.cards.push(copy);
+  return copy;
+}
+
+function replaceHandDeckSpellByDiscountedCopiesV120(name, delta=-1, source='残響のようじゅつし'){
+  const game = state.battle.game;
+  if(!name) return 0;
+  let changed = 0;
+  for(let i=0;i<(game.player.hand || []).length;i++){
+    const c = byId(game.player.hand[i]);
+    if(c && isSpell(c) && c.name === name){
+      const cp = makeDiscountedSpellCopyV120(c, delta, source);
+      if(cp){ game.player.hand[i] = cp.id; changed++; }
+    }
+  }
+  for(let i=0;i<(game.player.deck || []).length;i++){
+    const c = byId(game.player.deck[i]);
+    if(c && isSpell(c) && c.name === name){
+      const cp = makeDiscountedSpellCopyV120(c, delta, source);
+      if(cp){ game.player.deck[i] = cp.id; changed++; }
+    }
+  }
+  return changed;
+}
+
+function applyZankyoYojutsuV120(unit, card){
+  const game = state.battle.game;
+  if(card?.name !== '残響のようじゅつし') return false;
+  const usedIds = game.player.usedSpellCardIds || [];
+  const usedCards = usedIds.map(id => byId(id)).filter(c => c && isSpell(c));
+  if(!usedCards.length){
+    battleLog('残響のようじゅつし：対戦中に使用した特技がありません。');
+    return true;
+  }
+  const picked = chooseRandom(usedCards, 'zankyoUsedSpell', {});
+  const added = addCardCopyToHandV110(picked, {}, '残響のようじゅつし');
+  const changed = replaceHandDeckSpellByDiscountedCopiesV120(picked.name, -1, '残響のようじゅつし');
+  battleLog(`残響のようじゅつし：${picked.name}を手札へ。同名特技${changed}枚をコスト-1。`);
+  return true;
+}
+
 function playEnemyHandFromInlineV119(index, ev){
   try{
     if(ev){ ev.preventDefault?.(); ev.stopPropagation?.(); ev.stopImmediatePropagation?.(); }
@@ -8075,7 +8166,7 @@ function installSoloCaptureV114(){
       e.preventDefault();
       e.stopPropagation();
       e.stopImmediatePropagation?.();
-      soloSafeRunV106('相手手札を使用/配置', () => soloEnemyPlayCardV119(Number(enemyBtn.dataset.soloEnemyHandIndex), true));
+      soloSafeRunV106('相手手札を使用/配置', () => playEnemyHandIndexV120(Number(enemyBtn.dataset.soloEnemyHandIndex), e));
       return;
     }
     const playerBtn = e.target.closest?.('.solo-debug-card[data-solo-hand-index]');
