@@ -1806,3 +1806,26 @@ node tools/sync_official_gameconductor.mjs
   - 重複function宣言: 0件
 - 追加ファイル:
   - `data/smaller_hand_preview_modal_v122.json`
+
+
+## v123 update
+- お告げのほこら、武器装備/耐久、反撃ダメージを修正。
+- 起動画面表示:
+  - `v123 / buildable 1465 / total 1582`
+- 修正:
+  - お告げのほこらの上/下選択を、選択後にドローする方式へ変更。
+  - 「一番下に送る」は山札最下部へ移動する共通処理に整理。
+  - 武器判定を強化し、生成武器/武器タグ/代表武器名も武器扱い。
+  - こんぼうなど生成武器をcards.json上でも武器に補正。
+  - 手札モーダルの使用時、武器はマス選択に入らず即リーダー装備。
+  - 武器耐久値は攻撃1回ごとに-1、0で破壊。
+  - 反撃ダメージ処理を1本化し、二重反撃の危険を削除。
+  - リーダー横の武器表示を調整。
+- 監査:
+  - `node --check`: OK
+  - 重複function宣言: 0件
+  - `startMatch`: 存在確認済み
+  - `attackUnit`: 存在確認済み
+  - 手札モーダル: 維持
+- 追加ファイル:
+  - `data/oracle_weapon_counter_fix_v123.json`

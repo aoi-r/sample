@@ -25993,12 +25993,14 @@
       "hp": 1,
       "text": "",
       "rarity": "ノーマル",
-      "cardType": "ユニット",
+      "cardType": "武器",
       "classes": [
         "戦士"
       ],
       "tribes": [],
-      "tags": [],
+      "tags": [
+        "武器"
+      ],
       "sourceSheets": [
         "戦士"
       ],
@@ -26044,12 +26046,14 @@
       "hp": 2,
       "text": "",
       "rarity": "スーパーレア",
-      "cardType": "ユニット",
+      "cardType": "武器",
       "classes": [
         "戦士"
       ],
       "tribes": [],
-      "tags": [],
+      "tags": [
+        "武器"
+      ],
       "sourceSheets": [
         "戦士"
       ],

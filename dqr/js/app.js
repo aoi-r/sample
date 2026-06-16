@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v122_smaller_hand_preview_modal';
+const DATA_VERSION = 'v123_oracle_weapon_counter_fix';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -285,9 +285,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v122 ready / buildable 1465 / total 1582`;
+  if(label) label.textContent = `v123 ready / buildable 1465 / total 1582`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v122 ready / buildable 1465 / total 1582`;
+  if(badge) badge.textContent = `v123 ready / buildable 1465 / total 1582`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -1767,7 +1767,7 @@ function equipWeaponToLeaderV110(card, side='player'){
     applyWeaponBreakEffect(old);
     battleLog(`${side === 'enemy' ? '敵' : '味方'}の装備中の${old.name}は新しい武器装備により破棄されました。`);
   }
-  const durability = Number(card.hp || card.durability || 1);
+  const durability = Math.max(1, Number(card.hp || card.durability || 1));
   target.weapon = {
     cardId: card.id,
     name: card.name,
@@ -1776,13 +1776,15 @@ function equipWeaponToLeaderV110(card, side='player'){
     maxDurability: durability,
     cardText: getCardText(card),
     attacksLeft: parseKeywordFlags(card).doubleAttack ? 2 : 1,
-    doubleAttack: !!parseKeywordFlags(card).doubleAttack
+    doubleAttack: !!parseKeywordFlags(card).doubleAttack,
+    noCounter: String(getCardText(card)).includes('反撃ダメージを受けない')
   };
   if(side === 'player'){
     game.player.leaderAttack = Math.max(Number(game.player.leaderAttack || 0), Number(target.weapon.attack || 0));
     game.player.leaderCanAttack = Number(target.weapon.attack || 0) > 0;
   }
   emitBattleEvent('weaponEquipped', {side, card, weapon:target.weapon});
+  if(card.name === 'おうごんのつめ' && side === 'player') summonTokenByName('ミイラおとこ', {attack:3, hp:3}, 'enemy');
   battleLog(`${side === 'enemy' ? '敵' : '味方'}リーダーが${card.name}を装備しました。`);
   return true;
 }
@@ -2671,7 +2673,94 @@ function tribeFromText(text){
 
 
 function isSpell(card){ return card?.cardType === '特技'; }
-function isWeapon(card){ return card?.cardType === '武器'; }
+
+// v123: deck bottom correctness, robust weapon rules, single counter damage
+function isWeaponV123(card){
+  if(!card) return false;
+  const name = String(card.name || '');
+  const tagText = Array.isArray(card.tags) ? card.tags.join(' ') : String(card.tags || '');
+  const reason = JSON.stringify(card.flags || {});
+  if(card.cardType === '武器') return true;
+  if(card.flags?.nonDeckCategory === 'generated_weapon') return true;
+  if(reason.includes('generated_weapon')) return true;
+  if(tagText.includes('武器')) return true;
+  const weaponNames = ['こんぼう','パパスの剣','じごくのサーベル','おうごんのつめ','はがねのつるぎ','雷鳴の剣','福招きのそろばん','むげんの弓','きせきのつるぎ','はじゃのつるぎ','さんぞくのサーベル'];
+  return weaponNames.includes(name);
+}
+function moveDeckTopToBottomOptionalV123(side='player', source='効果', opts={}){
+  const game = state.battle.game;
+  const obj = side === 'enemy' ? game.enemy : game.player;
+  obj.deck ||= [];
+  const topId = obj.deck[0];
+  const top = byId(topId);
+  if(!top){
+    battleLog(`${source}：${side === 'enemy' ? '相手' : '自分'}山札がありません。`);
+    if(opts.drawAfter) drawForSideV114(side, 1);
+    return false;
+  }
+  openChoiceModal(`${source}：${top.name}`, ['一番下に送る','そのまま上に戻す'], (picked, i)=>{
+    if(i === 0){
+      const moved = obj.deck.shift();
+      obj.deck.push(moved);
+      battleLog(`${source}：${top.name}を${side === 'enemy' ? '相手' : '自分'}デッキの一番下へ移動しました。`);
+    }else{
+      battleLog(`${source}：${top.name}を${side === 'enemy' ? '相手' : '自分'}デッキの一番上に戻しました。`);
+    }
+    if(opts.drawAfter){
+      if(side === 'player') game.skipNextDrawForOracleV123 = false;
+      if(side === 'enemy') game.enemy.skipNextDrawForOracleV123 = false;
+      drawForSideV114(side, 1);
+    }
+    renderBattleArena(); syncMyBattleState();
+  }, {kind:'topDeckMoveChoiceV123', source, side});
+  return true;
+}
+function consumeWeaponDurabilityAfterLeaderAttackV123(side='player'){
+  const game = state.battle.game;
+  const obj = side === 'enemy' ? game.enemy : game.player;
+  const w = obj.weapon;
+  if(!w) return;
+  if(!(side === 'player' && game.player.leaderNoWeaponDurabilityLoss)){
+    w.durability = Math.max(0, Number(w.durability || 0) - 1);
+    battleLog(`${w.name}：攻撃後、耐久値-1 (${w.durability}/${w.maxDurability})。`);
+  }
+  w.attacksLeft = Math.max(0, Number(w.attacksLeft ?? 1) - 1);
+  emitBattleEvent('weaponAfterAttack', {side, weapon:w});
+  if(side === 'player') applyWeaponAfterAttack(w);
+  if(w.durability <= 0){
+    emitBattleEvent('weaponBroken', {side, weapon:w});
+    if(side === 'player') applyWeaponBreakEffect(w);
+    obj.weapon = null;
+    obj.leaderAttack = 0;
+    obj.leaderCanAttack = false;
+    battleLog(`${side === 'enemy' ? '相手' : '自分'}の${w.name}が壊れました。`);
+  }else{
+    if(side === 'player') refreshLeaderAttackFromWeaponV111('player');
+    else {
+      obj.leaderAttack = Number(w.attack || 0);
+      obj.leaderCanAttack = Number(w.attack || 0) > 0 && Number(w.attacksLeft || 0) > 0;
+    }
+  }
+}
+function applyCounterDamageV123(attacker, attackerRef, defender, defenderRef){
+  if(!attacker || !defender || defender.isBuilding) return;
+  const counter = Math.max(0, Number(defender.attack || 0));
+  if(counter <= 0) return;
+  const noCounter = !!(attacker.noCounter || attacker.keywords?.noCounter || (attackerRef.side === 'playerLeader' && state.battle.game.player.weapon?.noCounter) || (attackerRef.side === 'enemyLeader' && state.battle.game.enemy.weapon?.noCounter));
+  if(noCounter) return;
+  if(attackerRef.side === 'playerLeader'){
+    dealDamageToLeader('player', counter, `${defender.name}の反撃`);
+    battleLog(`反撃：味方リーダーが${counter}ダメージ。`);
+  }else if(attackerRef.side === 'enemyLeader'){
+    dealDamageToLeader('enemy', counter, `${defender.name}の反撃`);
+    battleLog(`反撃：敵リーダーが${counter}ダメージ。`);
+  }else{
+    dealDamageToUnit(attacker, counter, `${defender.name}の反撃`, attackerRef.side);
+    battleLog(`反撃：${attacker.name}が${counter}ダメージ。`);
+  }
+}
+
+function isWeapon(card){ return isWeaponV123(card); }
 function isBet(card){ return String(card?.text || card?.searchText || '').includes('BET'); }
 function getEffectiveCost(card){
   const game = state.battle.game;
@@ -4952,15 +5041,9 @@ function chooseFriendlyBuilding(title, filter, cb){
   return true;
 }
 function moveOwnTopToBottomOptional(source='効果'){
-  const game = state.battle.game;
-  const top = byId(game.player.deck?.[0]);
-  if(!top){ battleLog(`${source}：山札がありません。`); return; }
-  openChoiceModal(`${source}：${top.name}`, ['一番下に送る','そのまま上に戻す'], (picked, i)=>{
-    if(i === 0) game.player.deck.push(game.player.deck.shift());
-    battleLog(`${source}：${top.name}を${i === 0 ? 'デッキの下へ移動' : 'デッキの上に戻し'}ました。`);
-    renderBattleArena(); syncMyBattleState();
-  }, {kind:'topDeckMoveChoice', source});
+  return moveDeckTopToBottomOptionalV123('player', source, {});
 }
+
 function chooseFromOwnTopCards(count, title, filter, onChoose, restMode='bottom'){
   const game = state.battle.game;
   const top = game.player.deck.slice(0, count).map((id,i)=>({id,i,card:byId(id)})).filter(x=>x.card);
@@ -6859,30 +6942,9 @@ function applyPiercingDamage(attacker, defenderRef, amount){
 
 
 function consumeWeaponDurabilityAfterLeaderAttack(){
-  const game = state.battle.game;
-  const w = game.player.weapon;
-  if(!w) return;
-  w.attacksLeft = Math.max(0, Number(w.attacksLeft ?? 1) - 1);
-  if(w.attacksLeft <= 0){
-    if(!game.player.leaderNoWeaponDurabilityLoss){
-      w.durability = Math.max(0, Number(w.durability || 0) - 1);
-      battleLog(`${w.name}：攻撃後、耐久値-1 (${w.durability}/${w.maxDurability})。`);
-    }
-    w.attacksLeft = w.doubleAttack ? 2 : 1;
-  }
-  emitBattleEvent('weaponAfterAttack', {weapon:w});
-  applyWeaponAfterAttack(w);
-  if(w.durability <= 0){
-    emitBattleEvent('weaponBroken', {weapon:w});
-    applyWeaponBreakEffect(w);
-    game.player.weapon = null;
-    game.player.leaderAttack = 0;
-    game.player.leaderCanAttack = false;
-    battleLog(`${w.name}が壊れました。`);
-  }else{
-    refreshLeaderAttackFromWeaponV111('player');
-  }
+  return consumeWeaponDurabilityAfterLeaderAttackV123('player');
 }
+
 
 function applyWeaponAfterAttack(w){
   const text = String(w?.cardText || '');
@@ -7025,7 +7087,7 @@ function attackUnit(attackerRef, defenderRef){
   const combatMult = Number(game.player.combatDamageMultiplier || 1);
   const dealtToDef = damageUnit(def, atk.attack * combatMult);
   emitDamageApplied(defenderRef, atk.attack * combatMult, dealtToDef, atk.name);
-  applyCounterDamageV121(atk, attackerRef, def, defenderRef);
+  applyCounterDamageV123(atk, attackerRef, def, defenderRef);
   applyOrgoFourthSplash(atk, defenderRef, atk.attack);
   if(game.player.leaderVerticalSplashThisTurn && attackerRef.side === 'playerLeader'){
     const c = posToCoord(defenderRef.side, defenderRef.pos);
@@ -7047,21 +7109,12 @@ function attackUnit(attackerRef, defenderRef){
   }
   emitBattleEvent('afterAttack', {attacker:atk, targetRef:defenderRef, targetUnit:def, targetSide:defenderRef.side, damage:atk.attack});
   if(game.selectedAttacker.side === 'playerLeader'){
-    if(!game.player.weapon?.noCounter){
-      const counter = Math.max(0, def.attack);
-      game.player.hp = Math.max(0, game.player.hp - counter);
-      emitBattleEvent('counterDamage', {attackerRef, amount:counter, source:def.name});
-    }
-    consumeWeaponDurabilityAfterLeaderAttack();
+    consumeWeaponDurabilityAfterLeaderAttackV123('player');
     game.player.leaderCanAttack = game.player.weapon?.attacksLeft > 0;
     game.player.leaderAttackedThisTurn = true;
     triggerHeroAuto('leaderAttack', {});
     progressDungeonsByEvent('leaderAttack');
   }else{
-    if(def.hp > 0){
-      const counter = damageUnit(atk, def.attack * Number(game.enemy.combatDamageMultiplier || 1));
-      emitBattleEvent('counterDamage', {attackerRef, amount:counter, source:def.name});
-    }
     atk.attacksLeft = Math.max(0, (atk.attacksLeft ?? 1) - 1);
     atk.canAttack = atk.attacksLeft > 0;
   }
@@ -7099,7 +7152,7 @@ function attackLeader(targetSide){
   emitDamageApplied(leaderTargetRef, atk.attack, Math.max(0, beforeHp - afterHp), atk.name);
   emitBattleEvent('afterAttack', {attacker:atk, targetRef:{side: targetSide === 'enemy' ? 'enemyLeader' : 'playerLeader'}, targetSide: targetSide === 'enemy' ? 'enemyLeader' : 'playerLeader', damage:atk.attack});
   if(game.selectedAttacker.side === 'playerLeader'){
-    consumeWeaponDurabilityAfterLeaderAttack();
+    consumeWeaponDurabilityAfterLeaderAttackV123('player');
     game.player.leaderCanAttack = game.player.weapon?.attacksLeft > 0;
     game.player.leaderAttackedThisTurn = true;
     triggerHeroAuto('leaderAttack', {});
@@ -7524,7 +7577,8 @@ function applyBuildingTurnStart(unit){
   const text = getCardText(byId(unit.cardId));
   if(!unit?.isBuilding) return;
   if(unit.name === 'お告げのほこら'){
-    moveOwnTopToBottomOptional(unit.name);
+    game.skipNextDrawForOracleV123 = true;
+    moveDeckTopToBottomOptionalV123('player', unit.name, {drawAfter:true});
     adjustBuildingDurability(unit, -1, unit.name);
     return;
   }
@@ -7828,7 +7882,12 @@ function soloStartSideTurnV114(side){
     game.enemy.leaderCanAttack = !!game.enemy.weapon && Number(game.enemy.weapon.attack || 0) > 0;
   }
   refreshUnitsForSideTurnV114(side);
-  drawForSideV114(side, 1);
+  const skipOracleDraw = side === 'player' && game.skipNextDrawForOracleV123;
+  if(skipOracleDraw){
+    battleLog('お告げのほこら：選択後にドローします。');
+  }else{
+    drawForSideV114(side, 1);
+  }
   battleLog(`${soloSideNameV114(side)}ターン開始：MP ${obj.mp}/${obj.maxMp}`);
 }
 function soloEndTurnV114(){
@@ -8011,6 +8070,7 @@ function usePlayerHandFromModalV121(index){
   clearSoloHandPreviewV121();
   const card = byId(game.player.hand?.[index]);
   if(isPrincessLoveCardV121(card)) return usePrincessLoveV121('player', index);
+  if(isWeapon(card)) return handleNonBoardCardFromHandV112(index, card);
   return selectHandCard(index);
 }
 function useEnemyHandFromModalV121(index){
@@ -8020,6 +8080,7 @@ function useEnemyHandFromModalV121(index){
   if(!card) return false;
   clearSoloHandPreviewV121();
   if(isPrincessLoveCardV121(card)) return usePrincessLoveV121('enemy', index);
+  if(isWeapon(card)) return soloEnemyPlayCardV119(index, true);
   if(isBoardPlaceableCardV112(card) && !isNonBoardActionCardV121(card)){
     game.pendingEnemyHandPlacementV121 = {index, cardId:card.id};
     battleLog(`相手${card.name}：配置先を選んでください。`);
