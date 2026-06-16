@@ -1877,3 +1877,18 @@ node tools/sync_official_gameconductor.mjs
   - v126の文字化け回避/イチゴ爆弾画像修正は維持。
 - 追加ファイル:
   - `data/hyado_target_priority_fix_v127.json`
+
+
+## v128 update
+- ヒャドや攻撃対象選択で青ハイライトだけ残って進めない問題を修正。
+- 起動画面表示:
+  - `v128 / buildable 1465 / total 1583`
+- 修正:
+  - 効果対象/攻撃対象の処理を、古い相手配置待ちより優先。
+  - selectedAttacker がある場合、対象ユニットへの攻撃を優先。
+  - 対象選択中に空マスを押した場合、選択解除可能にした。
+  - 手札ストリップ上に「選択解除」ボタンを追加。
+  - 盤面外の無効な場所タップでも対象選択解除。
+  - 手札モーダルを開くと古い選択状態をクリア。
+- 追加ファイル:
+  - `data/selection_recovery_guard_v128.json`

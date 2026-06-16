@@ -6280,3 +6280,30 @@
   display:block;
   margin:0 auto 2px;
 }
+
+
+/* v128: clear stuck target / attack selection without ending turn */
+.solo-clear-selection-v128{
+  position:absolute;
+  top:-34px;
+  right:10px;
+  z-index:450;
+  border:1px solid rgba(255,255,255,.45);
+  border-radius:999px;
+  padding:6px 12px;
+  color:#fff;
+  background:linear-gradient(#566078, #222a3b);
+  box-shadow:0 4px 12px rgba(0,0,0,.35);
+  font-weight:900;
+  font-size:12px;
+  pointer-events:auto !important;
+  touch-action:manipulation;
+}
+.solo-clear-selection-v128.hidden{
+  display:none !important;
+}
+.battle-arena.solo-test-mode .board-slot.targetable,
+.battle-arena.solo-test-mode .board-slot.selected,
+.battle-arena.solo-test-mode .unit-card.selected{
+  box-shadow:0 0 0 3px rgba(91,230,255,.95), 0 0 18px rgba(91,230,255,.7) !important;
+}

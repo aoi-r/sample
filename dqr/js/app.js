@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v127_hyado_target_priority_fix';
+const DATA_VERSION = 'v128_selection_recovery_guard';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -4671,6 +4671,8 @@ function renderBattleArena(){
   installSoloLeaderCaptureV114();
   renderLeaderWeaponsV110();
   installEnemyHandHardCaptureV118();
+  installSelectionRecoveryV128();
+  renderSelectionClearButtonV128();
 }
 
 function renderBattleBoard(){
@@ -4784,6 +4786,10 @@ function handleEmptySlotClick(side, pos){
   if(isBattleLocked()) return toast('まだ操作できません。', false);
 
   const game = state.battle.game;
+  if(game.pendingGenericEffect || game.pendingEnemySpellV118 || game.selectedAttacker || game.pendingHeroSkill){
+    invalidTargetToastV128('空マスは対象にできません。');
+    return;
+  }
   if(game.pendingEnemyHandPlacementV121 && side === 'enemy'){
     if(soloActiveSideV114() === 'enemy') return placePendingEnemyHandCardAtV121(pos);
     game.pendingEnemyHandPlacementV121 = null;
@@ -6872,20 +6878,94 @@ function useNonUnitCard(index, card){
   syncMyBattleState();
 }
 
+
+// v128: target/attack selection recovery guard
+function hasPendingSelectionV128(){
+  const game = state.battle.game;
+  return !!(game && (
+    game.pendingGenericEffect ||
+    game.pendingEnemySpellV118 ||
+    game.pendingHeroSkill ||
+    game.pendingEnemyHandPlacementV121 ||
+    game.pendingTerrainPlacement ||
+    game.pendingTarget ||
+    game.selectedAttacker ||
+    game.selectedHandIndex != null
+  ));
+}
+function clearBattleSelectionV128(reason='選択解除'){
+  const game = state.battle.game;
+  if(!game) return false;
+  const had = hasPendingSelectionV128();
+  game.pendingGenericEffect = null;
+  game.pendingEnemySpellV118 = null;
+  game.pendingHeroSkill = null;
+  game.pendingEnemyHandPlacementV121 = null;
+  game.pendingTerrainPlacement = null;
+  game.pendingTarget = null;
+  game.selectedAttacker = null;
+  game.selectedHandIndex = null;
+  game.selectedHandCardId = null;
+  if(had) battleLog(`${reason}：対象選択を解除しました。`);
+  renderBattleArena();
+  return had;
+}
+window.clearBattleSelectionV128 = clearBattleSelectionV128;
+function installSelectionRecoveryV128(){
+  if(window.__selectionRecoveryV128Installed) return;
+  window.__selectionRecoveryV128Installed = true;
+  const handler = (e) => {
+    if(!isSoloTestMode()) return;
+    const game = state.battle.game;
+    if(!game || !hasPendingSelectionV128()) return;
+    const clearBtn = e.target.closest?.('#solo-clear-selection-v128');
+    if(clearBtn){
+      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation?.();
+      clearBattleSelectionV128('選択解除');
+      return;
+    }
+    if(e.target.closest?.('.board-slot,.unit-card,.battle-unit,.player-leader,.enemy-leader,.solo-debug-card,.solo-card-preview-backdrop,.choice-modal,.choice-backdrop,#end-turn-top,#solo-test-panel')) return;
+    e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation?.();
+    clearBattleSelectionV128('無効な場所をタップ');
+  };
+  document.addEventListener('pointerdown', handler, true);
+  document.addEventListener('click', handler, true);
+  document.addEventListener('touchend', handler, true);
+}
+function renderSelectionClearButtonV128(){
+  const strip = document.querySelector('.solo-debug-strip');
+  if(!strip) return;
+  let btn = document.getElementById('solo-clear-selection-v128');
+  if(!btn){
+    btn = document.createElement('button');
+    btn.id = 'solo-clear-selection-v128';
+    btn.className = 'solo-clear-selection-v128';
+    btn.type = 'button';
+    btn.textContent = '選択解除';
+    btn.onclick = e => { e.preventDefault(); e.stopPropagation(); clearBattleSelectionV128('選択解除'); };
+    btn.ontouchend = e => { e.preventDefault(); e.stopPropagation(); clearBattleSelectionV128('選択解除'); };
+    strip.appendChild(btn);
+  }
+  btn.classList.toggle('hidden', !hasPendingSelectionV128());
+}
+function invalidTargetToastV128(message='対象を選べません。選択解除できます。'){
+  toast(message, false);
+  renderSelectionClearButtonV128();
+}
+
 function handleBoardClick(side, pos){
   if(isBattleLocked()) return toast('まだ操作できません。', false);
 
   const game = state.battle.game;
-  // v127: spell/effect target selection must win over enemy hand placement wait.
-  // Enemy placement wait should only react during enemy turn and only on an empty enemy slot.
+  // v128: Resolve pending effects/attacks before any stale placement wait.
   if(game.pendingGenericEffect && side === 'enemy') return applyPendingGenericEffect(side, pos);
   if(game.pendingEnemySpellV118 && side === 'player') return applyPendingEnemySpellV118({side, pos});
-  if(game.pendingEnemyHandPlacementV121 && side === 'enemy'){
-    if(soloActiveSideV114() !== 'enemy') {
-      game.pendingEnemyHandPlacementV121 = null;
-    }else if(!game.enemy.board[pos]){
-      return placePendingEnemyHandCardAtV121(pos);
-    }
+  if(game.selectedAttacker){
+    const attacker = game.selectedAttacker;
+    if((attacker.side === 'player' || attacker.side === 'playerLeader') && side === 'enemy') return attackUnit(attacker, {side, pos});
+    if((attacker.side === 'enemy' || attacker.side === 'enemyLeader') && side === 'player') return attackUnit(attacker, {side, pos});
+    invalidTargetToastV128('その対象は攻撃できません。');
+    return;
   }
   if(game.pendingEnemySpellV118 && side === 'player') return applyPendingEnemySpellV118({side, pos});
   if(handleEnemyBoardClickV114(side, pos)) return;
@@ -8127,6 +8207,7 @@ function openSoloHandCardModalV121(side, index, ev=null){
   if(ev){ ev.preventDefault?.(); ev.stopPropagation?.(); ev.stopImmediatePropagation?.(); }
   const game = state.battle.game;
   if(!game || !isSoloTestMode()) return false;
+  clearBattleSelectionV128('手札選択');
   const hand = side === 'enemy' ? game.enemy.hand : game.player.hand;
   const id = hand?.[index];
   const card = byId(id);
