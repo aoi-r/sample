@@ -1,0 +1,10 @@
+{
+  "version": "v126_safe_ascii_assets_strawberry",
+  "implemented": [
+    "イチゴ爆弾の画像ファイル名を日本語からASCIIの strawberry_bomb.png に変更。",
+    "app.js内のイチゴ爆弾 localImage 参照をASCIIパスへ変更。",
+    "cards.json にイチゴ爆弾を正式追加。",
+    "ZIP内の新規追加画像が日本語ファイル名に依存しないように変更。",
+    "v125の家族の絆/ホイミン/ヒャド/赤文字位置修正は維持。"
+  ]
+}

@@ -6003,3 +6003,280 @@
   pointer-events:auto !important;
 }
 .solo-force-turn-btn.hidden{ display:none !important; }
+
+
+/* v118: enemy hand strip must always be touchable in solo */
+.battle-arena.solo-test-mode .solo-debug-card[data-solo-enemy-hand-index]{
+  pointer-events:auto !important;
+  cursor:pointer;
+  outline-offset:2px;
+}
+.battle-arena.solo-test-mode[data-solo-active="enemy"] .solo-debug-card[data-solo-enemy-hand-index]{
+  outline:2px solid rgba(255,229,143,.75);
+}
+
+
+/* v119: remove central forced turn button; keep normal turn button */
+#solo-force-turn-btn,
+.solo-force-turn-btn{
+  display:none !important;
+}
+
+/* v119: enemy hand strip clickable hard mode */
+.battle-arena.solo-test-mode .solo-debug-card[data-solo-enemy-hand-index],
+.battle-arena.solo-test-mode .solo-debug-card[data-solo-enemy-hand-index] *{
+  pointer-events:auto !important;
+  touch-action:manipulation;
+}
+
+
+/* v120: layout fine tuning */
+.battle-arena.solo-test-mode .player-leader{
+  transform:translateX(-26px);
+}
+.battle-arena.solo-test-mode .solo-debug-strip{
+  left:34% !important;
+  right:auto !important;
+  transform:translateX(-12%) !important;
+  max-width:min(760px, 58vw) !important;
+  z-index:240 !important;
+}
+.battle-arena.solo-test-mode #battle-log,
+.battle-arena.solo-test-mode .battle-log{
+  z-index:260 !important;
+}
+.battle-arena.solo-test-mode #solo-debug-enemy-hand,
+.battle-arena.solo-test-mode #solo-debug-enemy-hand *,
+.battle-arena.solo-test-mode .solo-debug-strip,
+.battle-arena.solo-test-mode .solo-debug-strip *{
+  pointer-events:auto !important;
+  touch-action:manipulation;
+}
+
+
+/* v121: card preview modal and layout polish */
+.solo-card-preview-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:7000;
+  background:rgba(0,0,0,.48);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:auto;
+}
+.solo-card-preview-card{
+  width:min(330px, 82vw);
+  max-height:90vh;
+  border:2px solid rgba(255,230,160,.75);
+  border-radius:20px;
+  background:linear-gradient(180deg, rgba(19,35,74,.98), rgba(10,15,31,.98));
+  box-shadow:0 18px 42px rgba(0,0,0,.62);
+  padding:14px;
+  color:#fff7cf;
+  position:relative;
+  text-align:center;
+}
+.solo-card-preview-close{
+  position:absolute;
+  right:8px;
+  top:8px;
+  width:32px;
+  height:32px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(0,0,0,.35);
+  color:#fff;
+  font-weight:900;
+}
+.solo-card-preview-title{
+  font-weight:900;
+  font-size:18px;
+  margin:6px 34px 10px;
+}
+.solo-card-preview-image img{
+  max-width:220px;
+  max-height:310px;
+  border-radius:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,.45);
+}
+.solo-card-preview-noimg{
+  min-height:180px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:rgba(255,255,255,.1);
+}
+.solo-card-preview-text{
+  margin:10px auto;
+  max-height:92px;
+  overflow:auto;
+  font-size:13px;
+  line-height:1.45;
+  color:#f6edcf;
+}
+.solo-card-preview-actions{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+}
+.solo-card-preview-actions button{
+  min-width:104px;
+  padding:10px 18px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.36);
+  font-weight:900;
+}
+.solo-card-preview-actions .primary{
+  background:linear-gradient(#f3da8b, #b9852e);
+  color:#1a1420;
+}
+
+/* v121: own leader further left, hand strip further left for log visibility */
+.battle-arena.solo-test-mode .player-leader{
+  transform:translateX(-54px) !important;
+}
+.battle-arena.solo-test-mode .solo-debug-strip{
+  left:28% !important;
+  right:auto !important;
+  transform:translateX(-8%) !important;
+  max-width:min(720px, 52vw) !important;
+}
+
+
+/* v122: smaller hand-card preview modal; keep action buttons reachable */
+.solo-card-preview-backdrop{
+  align-items:center !important;
+  justify-content:center !important;
+  padding:8px !important;
+  box-sizing:border-box !important;
+}
+.solo-card-preview-card{
+  width:min(280px, 74vw) !important;
+  max-height:min(84vh, 620px) !important;
+  padding:10px 10px 12px !important;
+  border-radius:16px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  overflow:hidden !important;
+  pointer-events:auto !important;
+}
+.solo-card-preview-title{
+  font-size:16px !important;
+  margin:2px 34px 6px !important;
+  line-height:1.15 !important;
+  flex:0 0 auto !important;
+}
+.solo-card-preview-image{
+  flex:0 1 auto !important;
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  min-height:0 !important;
+}
+.solo-card-preview-image img{
+  width:auto !important;
+  max-width:min(178px, 48vw) !important;
+  max-height:min(250px, 43vh) !important;
+  object-fit:contain !important;
+  border-radius:10px !important;
+}
+.solo-card-preview-noimg{
+  min-height:128px !important;
+}
+.solo-card-preview-text{
+  flex:1 1 auto !important;
+  min-height:34px !important;
+  max-height:70px !important;
+  margin:6px auto 8px !important;
+  font-size:12px !important;
+  line-height:1.35 !important;
+  overflow:auto !important;
+  -webkit-overflow-scrolling:touch !important;
+}
+.solo-card-preview-actions{
+  flex:0 0 auto !important;
+  display:flex !important;
+  gap:10px !important;
+  justify-content:center !important;
+  padding-top:6px !important;
+  position:relative !important;
+  z-index:3 !important;
+  pointer-events:auto !important;
+}
+.solo-card-preview-actions button{
+  min-width:92px !important;
+  padding:9px 14px !important;
+  font-size:14px !important;
+  line-height:1 !important;
+  pointer-events:auto !important;
+  touch-action:manipulation !important;
+}
+.solo-card-preview-close{
+  width:30px !important;
+  height:30px !important;
+  right:7px !important;
+  top:7px !important;
+  z-index:4 !important;
+  pointer-events:auto !important;
+}
+
+@media(max-width:900px) and (orientation:landscape){
+  .solo-card-preview-card{
+    width:min(260px, 58vw) !important;
+    max-height:82vh !important;
+    padding:8px 9px 10px !important;
+  }
+  .solo-card-preview-title{
+    font-size:15px !important;
+    margin-bottom:5px !important;
+  }
+  .solo-card-preview-image img{
+    max-width:min(154px, 34vw) !important;
+    max-height:38vh !important;
+  }
+  .solo-card-preview-text{
+    max-height:52px !important;
+    font-size:11px !important;
+    margin:5px auto 6px !important;
+  }
+  .solo-card-preview-actions button{
+    min-width:86px !important;
+    padding:8px 12px !important;
+    font-size:13px !important;
+  }
+}
+
+
+/* v123: weapon badge visibility near leaders */
+.leader-weapon-badge{
+  position:absolute !important;
+  right:-54px !important;
+  top:50% !important;
+  transform:translateY(-50%) !important;
+  z-index:360 !important;
+  min-width:62px;
+  max-width:96px;
+  border-radius:12px;
+  padding:3px 5px;
+  background:rgba(8,12,28,.78);
+  border:1px solid rgba(255,231,153,.7);
+  color:#fff5c8;
+  font-size:10px;
+  font-weight:800;
+  text-align:center;
+  pointer-events:none;
+}
+.enemy-leader .leader-weapon-badge{
+  left:-58px !important;
+  right:auto !important;
+}
+.leader-weapon-badge img{
+  width:38px;
+  height:52px;
+  object-fit:cover;
+  border-radius:5px;
+  display:block;
+  margin:0 auto 2px;
+}

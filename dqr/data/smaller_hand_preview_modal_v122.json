@@ -1,0 +1,20 @@
+{
+  "version": "v122_smaller_hand_preview_modal",
+  "implemented": [
+    "手札カード確認モーダルを小さく調整。",
+    "カード画像の最大サイズを縮小。",
+    "効果テキスト欄を小さくし、スクロール可能にした。",
+    "使用/戻るボタンをモーダル内で必ず見えるようにした。",
+    "横画面スマホ用にさらに小さいサイズを指定。",
+    "ボタン/閉じるボタンのpointer-events/touch-actionを明示。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v122 / buildable 1465 / total 1582",
+    "dataVersion": "v122_smaller_hand_preview_modal",
+    "modalCssV122": true,
+    "modalButtonsReachable": true,
+    "startMatchExists": true
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "version": "v123_oracle_weapon_counter_fix",
+  "implemented": [
+    "お告げのほこらの上/下選択を、選択後にドローする方式へ変更。",
+    "一番下に送る場合は deck.shift() → deck.push() で山札最下部へ送る共通処理に整理。",
+    "上/下操作の共通関数を自分/相手どちらにも対応できる形にした。",
+    "武器判定を強化し、cardType=武器だけでなくタグ/生成武器/代表武器名でも武器扱いにした。",
+    "こんぼうなど生成武器をcards.json上でも武器に補正。",
+    "手札モーダルの使用時、武器はマス選択に入らず即リーダー装備へ送る。",
+    "相手手札の武器もマス配置に入らず相手リーダー装備へ送る。",
+    "武器耐久値は攻撃1回ごとに-1され、0で破壊されるように修正。",
+    "むげんの弓などの反撃ダメージを受けない武器を装備時にnoCounterとして保持。",
+    "反撃ダメージ処理をv123の1本に整理し、既存の重複反撃処理を削除。",
+    "リーダー横の武器表示バッジを見やすく調整。"
+  ],
+  "checks": {
+    "nodeCheck": "passed",
+    "duplicateFunctionDeclarations": 0,
+    "bootLabel": "v123 / buildable 1465 / total 1582",
+    "dataVersion": "v123_oracle_weapon_counter_fix",
+    "appJsLength": 385403,
+    "attackUnitExists": true,
+    "handModalExists": true,
+    "totalCards": 1582,
+    "buildableCards": 1465,
+    "startMatchExists": true,
+    "weaponPredicateV123": true,
+    "weaponModalPlayerEquip": true,
+    "weaponModalEnemyEquip": true,
+    "weaponDurabilityV123": true,
+    "oldDurabilityDelegates": false,
+    "weaponNoCounter": true,
+    "counterSingleV123": true,
+    "oldCounterBlockRemoved": true,
+    "oracleChoiceV123": false,
+    "oracleSkipsAutoDraw": true,
+    "genericBottomHelperSideAware": true,
+    "weaponBadgeCss": true,
+    "konbouWeaponData": true,
+    "v122ModalPreserved": true
+  }
+}
