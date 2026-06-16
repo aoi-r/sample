@@ -1788,3 +1788,21 @@ node tools/sync_official_gameconductor.mjs
   - `startMatch`: 存在確認済み
 - 追加ファイル:
   - `data/modal_enemy_place_rules_core_v121.json`
+
+
+## v122 update
+- 手札カード確認モーダルを小さくして、使用/戻るボタンを押しやすく調整。
+- 起動画面表示:
+  - `v122 / buildable 1465 / total 1582`
+- 修正:
+  - モーダル幅を縮小。
+  - カード画像の最大サイズを縮小。
+  - 効果テキスト欄を小さくしスクロール可能化。
+  - 使用/戻るボタンがモーダル内で見えるように固定。
+  - 横画面スマホ向けにさらに小さめのサイズを指定。
+  - ボタン/閉じるボタンのタップ判定を明示。
+- 監査:
+  - `node --check`: OK
+  - 重複function宣言: 0件
+- 追加ファイル:
+  - `data/smaller_hand_preview_modal_v122.json`

@@ -6143,3 +6143,107 @@
   transform:translateX(-8%) !important;
   max-width:min(720px, 52vw) !important;
 }
+
+
+/* v122: smaller hand-card preview modal; keep action buttons reachable */
+.solo-card-preview-backdrop{
+  align-items:center !important;
+  justify-content:center !important;
+  padding:8px !important;
+  box-sizing:border-box !important;
+}
+.solo-card-preview-card{
+  width:min(280px, 74vw) !important;
+  max-height:min(84vh, 620px) !important;
+  padding:10px 10px 12px !important;
+  border-radius:16px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  overflow:hidden !important;
+  pointer-events:auto !important;
+}
+.solo-card-preview-title{
+  font-size:16px !important;
+  margin:2px 34px 6px !important;
+  line-height:1.15 !important;
+  flex:0 0 auto !important;
+}
+.solo-card-preview-image{
+  flex:0 1 auto !important;
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  min-height:0 !important;
+}
+.solo-card-preview-image img{
+  width:auto !important;
+  max-width:min(178px, 48vw) !important;
+  max-height:min(250px, 43vh) !important;
+  object-fit:contain !important;
+  border-radius:10px !important;
+}
+.solo-card-preview-noimg{
+  min-height:128px !important;
+}
+.solo-card-preview-text{
+  flex:1 1 auto !important;
+  min-height:34px !important;
+  max-height:70px !important;
+  margin:6px auto 8px !important;
+  font-size:12px !important;
+  line-height:1.35 !important;
+  overflow:auto !important;
+  -webkit-overflow-scrolling:touch !important;
+}
+.solo-card-preview-actions{
+  flex:0 0 auto !important;
+  display:flex !important;
+  gap:10px !important;
+  justify-content:center !important;
+  padding-top:6px !important;
+  position:relative !important;
+  z-index:3 !important;
+  pointer-events:auto !important;
+}
+.solo-card-preview-actions button{
+  min-width:92px !important;
+  padding:9px 14px !important;
+  font-size:14px !important;
+  line-height:1 !important;
+  pointer-events:auto !important;
+  touch-action:manipulation !important;
+}
+.solo-card-preview-close{
+  width:30px !important;
+  height:30px !important;
+  right:7px !important;
+  top:7px !important;
+  z-index:4 !important;
+  pointer-events:auto !important;
+}
+
+@media(max-width:900px) and (orientation:landscape){
+  .solo-card-preview-card{
+    width:min(260px, 58vw) !important;
+    max-height:82vh !important;
+    padding:8px 9px 10px !important;
+  }
+  .solo-card-preview-title{
+    font-size:15px !important;
+    margin-bottom:5px !important;
+  }
+  .solo-card-preview-image img{
+    max-width:min(154px, 34vw) !important;
+    max-height:38vh !important;
+  }
+  .solo-card-preview-text{
+    max-height:52px !important;
+    font-size:11px !important;
+    margin:5px auto 6px !important;
+  }
+  .solo-card-preview-actions button{
+    min-width:86px !important;
+    padding:8px 12px !important;
+    font-size:13px !important;
+  }
+}

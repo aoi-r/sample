@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v121_modal_enemy_place_rules_core';
+const DATA_VERSION = 'v122_smaller_hand_preview_modal';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -285,9 +285,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v121 ready / buildable 1465 / total 1582`;
+  if(label) label.textContent = `v122 ready / buildable 1465 / total 1582`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v121 ready / buildable 1465 / total 1582`;
+  if(badge) badge.textContent = `v122 ready / buildable 1465 / total 1582`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
