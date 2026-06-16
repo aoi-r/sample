@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v125_familybond_hoimin_hyado_strawberry';
+const DATA_VERSION = 'v126_safe_ascii_assets_strawberry';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -249,7 +249,7 @@ const VIRTUAL_CARD_DEFS = {
   '強敵メタルキング': { name:'強敵メタルキング', cost:0, attack:3, hp:3, cardType:'ユニット', rarity:'トークン', text:'先制 メタルボディ', tags:['強敵'], localImage:'./assets/custom_cards/見えざる魔神の道.png' },
 
   'イブールの本': { name:'イブールの本', cost:0, cardType:'特技', text:'味方リーダーに2ダメージ。敵リーダーのHPを2回復。カードを1枚引く。', effect:null, localImage:'./assets/custom_cards/イブールの本.png' },
-  'イチゴ爆弾': { name:'イチゴ爆弾', cost:1, attack:0, hp:3, cardType:'ユニット', text:'攻撃できない。\n死亡時：隣接するユニットに2ダメージを与える。', effect:null, localImage:'./assets/custom_cards/イチゴ爆弾.png' },
+  'イチゴ爆弾': { name:'イチゴ爆弾', cost:1, attack:0, hp:3, cardType:'ユニット', text:'攻撃できない。\n死亡時：隣接するユニットに2ダメージを与える。', effect:null, localImage:'./assets/custom_cards/strawberry_bomb.png' },
   'ホットストーン': { name:'ホットストーン', cost:0, cardType:'特技', text:'メルビンが封じられた石。後で画像差し替え予定。', effect:null },
   'うまのふん': { name:'うまのふん', cost:0, cardType:'特技', text:'特別な効果はない。', effect:null },
   'ミイラおとこ': { name:'ミイラおとこ', cost:3, attack:3, hp:3, cardType:'ユニット', text:'3/3のミイラおとこ。', effect:null },
@@ -286,9 +286,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v125 ready / buildable 1465 / total 1583`;
+  if(label) label.textContent = `v126 ready / buildable 1465 / total 1583`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v125 ready / buildable 1465 / total 1583`;
+  if(badge) badge.textContent = `v126 ready / buildable 1465 / total 1583`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -7358,7 +7358,7 @@ function applyDeathrattle(unit, side){
     if(d){ d.durability = Math.min(d.maxDurability, d.durability + 1); }
   }
   if(unit.name === 'イチゴ爆弾'){
-    for(const p of adjacentBoardPositions(side, unit.lastBoardPos ?? 0)){
+    for(const p of adjacentBoardPositions(side, unit.lastBoardPos ?? pos ?? 0)){
       const targetBoard = side === 'enemy' ? game.enemy.board : game.player.board;
       const target = targetBoard[p];
       if(target && !target.isBuilding){

@@ -1850,3 +1850,17 @@ node tools/sync_official_gameconductor.mjs
   - `attackUnit`: 存在確認済み
 - 追加ファイル:
   - `data/turn_scoped_effects_fortune_tension_v124.json`
+
+
+## v126 update
+- v125の日本語ファイル名によるZIP内文字化けリスクを修正。
+- 起動画面表示:
+  - `v126 / buildable 1465 / total 1583`
+- 修正:
+  - `assets/custom_cards/イチゴ爆弾.png` 参照を廃止。
+  - `assets/custom_cards/strawberry_bomb.png` に変更。
+  - `cards.json` に `イチゴ爆弾` を正式追加。
+  - v125の家族の絆/ホイミン/ヒャド/赤文字位置修正は維持。
+- 追加ファイル:
+  - `assets/custom_cards/strawberry_bomb.png`
+  - `data/safe_ascii_assets_strawberry_v126.json`

@@ -72950,6 +72950,29 @@
         "detailUrl": "https://gameconductor.com/dqrivals/c/d/682",
         "imageVerified": false
       }
+    },
+    {
+      "id": "token_strawberry_bomb",
+      "name": "イチゴ爆弾",
+      "cardType": "ユニット",
+      "class": "共通",
+      "cost": 1,
+      "attack": 0,
+      "hp": 3,
+      "tribe": "",
+      "rarity": "トークン",
+      "text": "攻撃できない。\n死亡時：隣接するユニットに2ダメージを与える。",
+      "imageUrl": "./assets/custom_cards/strawberry_bomb.png",
+      "localImage": "./assets/custom_cards/strawberry_bomb.png",
+      "flags": {
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "token": true
+      },
+      "tags": [
+        "トークン"
+      ]
     }
   ],
   "index": {

@@ -1,5 +1,5 @@
 {
-  "version": "v125_familybond_hoimin_hyado_strawberry",
+  "version": "v126_safe_ascii_assets_strawberry",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -28,7 +28,7 @@
   "loginUpdate": "ユーザ名入力を必須から任意に変更。初回アクセス時にlocalStorageのdeviceIdからPlayer-xxxxxxxxを自動生成。Firebase匿名UIDと併用。",
   "playerIdSpec": "初回のみ固定プレイヤーIDを必須入力。localStorageに保存し、Firebase保存パスは players/{playerId}/decks。",
   "battleScaffold": "保存済みデッキ選択、デッキ確認モーダル、合言葉IDマッチング、盤面/HP/MP/テンション/手札の初期UIを追加。",
-  "fix": "Pisaro Knight cost, split pot current turn only, Akumano Kagami no haste, enemy placement empty slots, fortune teller tension skill",
+  "fix": "Use ASCII-safe strawberry_bomb.png asset path and add strawberry bomb to cards.json",
   "deckConfirm": "確認画面を30枚俯瞰しやすい敷き詰めグリッドに変更。",
   "layoutFix": "スマホ横向きでカード間隔/上下余白をさらに圧縮し、コレクションカードを大型化。右側アクションボタンの見切れを軽減。",
   "firebase": "Firebase config embedded in js/firebase-config.js for dqr-sample.",
@@ -202,9 +202,9 @@
   "restoreFeatures": "cards/data/solo preset decks preserved",
   "cardsCount": 1582,
   "consoleErrorFixed": "Identifier 'isAdventurerCard' has already been declared",
-  "visibleBootLabel": "v125 / buildable 1465 / total 1583",
+  "visibleBootLabel": "v126 / buildable 1465 / total 1583",
   "rollbackBase": "v93_fix_duplicate_isAdventurerCard",
   "soloFix": "restore missing getCardText and ensureSoloGame helpers, wrap old solo functions",
   "soloFixFile": "data/solo_missing_helpers_fix_v107.json",
-  "fixFile": "data/familybond_hoimin_hyado_strawberry_v125.json"
+  "fixFile": "data/safe_ascii_assets_strawberry_v126.json"
 }
