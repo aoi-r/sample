@@ -1,5 +1,5 @@
 {
-  "version": "v124_turn_scoped_effects_fortune_tension",
+  "version": "v125_familybond_hoimin_hyado_strawberry",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -202,9 +202,9 @@
   "restoreFeatures": "cards/data/solo preset decks preserved",
   "cardsCount": 1582,
   "consoleErrorFixed": "Identifier 'isAdventurerCard' has already been declared",
-  "visibleBootLabel": "v124 / buildable 1465 / total 1582",
+  "visibleBootLabel": "v125 / buildable 1465 / total 1583",
   "rollbackBase": "v93_fix_duplicate_isAdventurerCard",
   "soloFix": "restore missing getCardText and ensureSoloGame helpers, wrap old solo functions",
   "soloFixFile": "data/solo_missing_helpers_fix_v107.json",
-  "fixFile": "data/turn_scoped_effects_fortune_tension_v124.json"
+  "fixFile": "data/familybond_hoimin_hyado_strawberry_v125.json"
 }

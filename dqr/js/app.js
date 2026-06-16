@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v124_turn_scoped_effects_fortune_tension';
+const DATA_VERSION = 'v125_familybond_hoimin_hyado_strawberry';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -222,7 +222,7 @@ const VIRTUAL_CARD_DEFS = {
   'コイン': { name:'コイン', cost:0, cardType:'特技', text:'BETを発動するために使う。', effect:{kind:'coin'} },
   'スライム': { name:'スライム', cost:0, attack:1, hp:1, cardType:'ユニット', text:'1/1のスライム。', effect:null },
   'メラリザード': { name:'メラリザード', cost:1, attack:1, hp:2, cardType:'ユニット', text:'1/2のメラリザード。', effect:null },
-  'ピサロナイト': { name:'ピサロナイト', cost:0, attack:1, hp:1, cardType:'ユニット', text:'1/1のピサロナイト。', effect:null },
+  'ピサロナイト': { name:'ピサロナイト', cost:2, attack:1, hp:1, cardType:'ユニット', text:'1/1のピサロナイト。', effect:null },
   'サラマンダー': { name:'サラマンダー', cost:0, attack:8, hp:8, cardType:'ユニット', text:'超貫通。ベビーサラマンダーがBET4回で変身する。', effect:null },
 
   '伝説の勇者': { name:'伝説の勇者', cost:2, cardType:'ヒーロー', rarity:'レジェンドレア', text:'伝説の勇者のヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る。', classes:['共通'], tribes:['英雄'], tags:['ヒーロー'], deckBuildable:true, localImage:'./assets/custom_cards/伝説の勇者_デッキ編成カード.png' },
@@ -249,6 +249,7 @@ const VIRTUAL_CARD_DEFS = {
   '強敵メタルキング': { name:'強敵メタルキング', cost:0, attack:3, hp:3, cardType:'ユニット', rarity:'トークン', text:'先制 メタルボディ', tags:['強敵'], localImage:'./assets/custom_cards/見えざる魔神の道.png' },
 
   'イブールの本': { name:'イブールの本', cost:0, cardType:'特技', text:'味方リーダーに2ダメージ。敵リーダーのHPを2回復。カードを1枚引く。', effect:null, localImage:'./assets/custom_cards/イブールの本.png' },
+  'イチゴ爆弾': { name:'イチゴ爆弾', cost:1, attack:0, hp:3, cardType:'ユニット', text:'攻撃できない。\n死亡時：隣接するユニットに2ダメージを与える。', effect:null, localImage:'./assets/custom_cards/イチゴ爆弾.png' },
   'ホットストーン': { name:'ホットストーン', cost:0, cardType:'特技', text:'メルビンが封じられた石。後で画像差し替え予定。', effect:null },
   'うまのふん': { name:'うまのふん', cost:0, cardType:'特技', text:'特別な効果はない。', effect:null },
   'ミイラおとこ': { name:'ミイラおとこ', cost:3, attack:3, hp:3, cardType:'ユニット', text:'3/3のミイラおとこ。', effect:null },
@@ -285,9 +286,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v124 ready / buildable 1465 / total 1582`;
+  if(label) label.textContent = `v125 ready / buildable 1465 / total 1583`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v124 ready / buildable 1465 / total 1582`;
+  if(badge) badge.textContent = `v125 ready / buildable 1465 / total 1583`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -3648,21 +3649,24 @@ function splitPotCopyThisTurnV124(){
   return true;
 }
 
-function handleCardPlayedEvent({card, cost}={}){
+function handleCardPlayedEvent({card, cost, side='player'}={}){
   if(!card) return;
   const game = state.battle.game;
-  if(isSpell(card) && game.player.copyNextSpellToHand && card.name !== 'やまびこのさとり'){
+  const actor = side === 'enemy' ? game.enemy : game.player;
+  const opponentLeaderSide = side === 'enemy' ? 'player' : 'enemy';
+  if(isSpell(card) && side === 'player' && game.player.copyNextSpellToHand && card.name !== 'やまびこのさとり'){
     addCardCopyToHand(card);
     game.player.copyNextSpellToHand = false;
     battleLog(`やまびこのさとり：${card.name}のコピーを手札に加えました。`);
   }
-  game.player.lastPlayedCardId = card.id;
-  setTurnPlayedCardTrackV124(card, 'player');
+  actor.lastPlayedCardId = card.id;
+  setTurnPlayedCardTrackV124(card, side);
   if(isSpell(card)){
-    game.player.usedSpellCardIds ||= [];
-    game.player.usedSpellCardIds.push(card.id);
+    actor.usedSpellCardIds ||= [];
+    actor.usedSpellCardIds.push(card.id);
   }
-  if(game.player.familyBondAura) dealDamageToLeader('enemy', 2, '家族の絆');
+  if(actor.familyBondAura) dealDamageToLeader(opponentLeaderSide, 2, '家族の絆');
+  if(side !== 'player') return;
   for(const u of game.player.board) if(u?.name === '稽古相手') { u.attack += 1; u.hp += 1; u.maxHp += 1; }
   if(String(card.searchText || card.text || card.name || '').includes('武術カード')) game.player.martialArtsUsedThisTurn = Number(game.player.martialArtsUsedThisTurn || 0) + 1;
   if(Number(cost ?? getEffectiveCost(card)) <= 1){
@@ -4196,7 +4200,7 @@ function applySummonTextEffect(unit, card){
     const empties = getEmptyBoardPositions('enemy');
     if(empties.length){
       openChoiceModal('怪獣プスゴン：イチゴ爆弾を出す敵マス', empties.map(p=>`敵マス${p+1}`), (picked,i)=>{
-        summonTokenAtPosition('イチゴ爆弾', empties[i], 'enemy', {attack:0, hp:1});
+        summonTokenAtPosition('イチゴ爆弾', empties[i], 'enemy', {attack:0, hp:3});
         renderBattleArena(); syncMyBattleState();
       }, {kind:'enemyEmptySlotChoice'});
     }
@@ -6804,6 +6808,13 @@ function applyGenericCardUseEffect(card, cost){
     beginTerrainPlacement(card, terrainName);
     return;
   }
+  if(card.name === 'ヒャド'){
+    const hasIce = (game.enemy.board || []).some(u => u?.name === '氷塊');
+    const amount = (hasIce ? 3 : 1) + getSpellDamageBonus();
+    game.pendingGenericEffect = {kind:'damage', amount, source:card.name, target:'enemyUnit', canLeader:false};
+    battleLog(`ヒャド：敵ユニットを選んでください。${hasIce ? '氷塊があるため3ダメージ。' : '1ダメージ。'}`);
+    return;
+  }
   const m = text.match(/(?:敵1体|敵１体|ユニット1体|ユニット１体|敵ユニット1体|敵ユニット１体).*?(\d+)ダメージ/);
   if(m){
     game.pendingGenericEffect = {kind:'damage', amount:Number(m[1]) + (isSpell(card) ? getSpellDamageBonus() : 0), source:card.name, target:'enemyAny'};
@@ -7292,10 +7303,10 @@ function applyDeathrattle(unit, side){
     if(pos >= 0){
       const c = posToCoord('player', pos);
       const enemyPos = coordToPos('enemy', c.row, 2);
-      if(enemyPos >= 0 && !game.enemy.board[enemyPos]) summonTokenAtPosition('イチゴ爆弾', enemyPos, 'enemy', {attack:0, hp:1});
+      if(enemyPos >= 0 && !game.enemy.board[enemyPos]) summonTokenAtPosition('イチゴ爆弾', enemyPos, 'enemy', {attack:0, hp:3});
       else {
         const p = randomEnemyEmptySlot();
-        if(p >= 0) summonTokenAtPosition('イチゴ爆弾', p, 'enemy', {attack:0, hp:1});
+        if(p >= 0) summonTokenAtPosition('イチゴ爆弾', p, 'enemy', {attack:0, hp:3});
       }
     }
   }
@@ -7345,6 +7356,16 @@ function applyDeathrattle(unit, side){
   if(deathText.includes('ランダムな味方のダンジョン') && deathText.includes('耐久値+1')){
     const d = randomFrom(game.player.board.filter(u => u?.isDungeon));
     if(d){ d.durability = Math.min(d.maxDurability, d.durability + 1); }
+  }
+  if(unit.name === 'イチゴ爆弾'){
+    for(const p of adjacentBoardPositions(side, unit.lastBoardPos ?? 0)){
+      const targetBoard = side === 'enemy' ? game.enemy.board : game.player.board;
+      const target = targetBoard[p];
+      if(target && !target.isBuilding){
+        dealDamageToUnit(target, 2, unit.name, side);
+      }
+    }
+    resolveDeaths();
   }
   battleLog(`死亡時：${unit.name}の効果を処理しました。`);
 }
@@ -7478,6 +7499,8 @@ function applyPendingGenericEffectToLeader(){
   const game = state.battle.game;
   const eff = game.pendingGenericEffect;
   if(!eff) return;
+  if(eff.target === 'enemyUnit') return toast('敵ユニットを選んでください。', false);
+  if(eff.canLeader === false) return toast('敵リーダーは対象にできません。', false);
   emitTargetSelected('genericEffectLeader', {side:'enemyLeader'}, {effect: makeEffectTargetPayload(eff, {side:'enemyLeader'})});
   if(eff.kind === 'damage'){
     const amount = (eff.source === '卑劣などくやずきん' && leaderHasStatus('enemy','poison')) ? 3 : eff.amount;
@@ -8004,8 +8027,9 @@ function enemyUseSpellV118(index, card, active){
   }
 
   if(dmg > 0 && needsTarget){
-    game.pendingEnemySpellV118 = {cardId:card.id, name:card.name, damage:dmg, canLeader:!text.includes('ユニットのみ')};
-    battleLog(`相手${card.name}：対象を選んでください。自分ユニットまたは自分リーダーをクリック。`);
+    const canLeader = !(text.includes('敵ユニット') || text.includes('ユニットのみ') || card.name === 'ヒャド');
+    game.pendingEnemySpellV118 = {cardId:card.id, name:card.name, damage:dmg, canLeader};
+    battleLog(`相手${card.name}：対象を選んでください。${canLeader ? '自分ユニットまたは自分リーダー' : '自分ユニット'}をクリック。`);
     renderBattleArena();
     return true;
   }
@@ -8202,12 +8226,13 @@ function applyEndTurnEffectsForSideV121(side){
   const board = side === 'enemy' ? game.enemy.board : game.player.board;
   for(const u of board){
     if(!u || u.isBuilding) continue;
-    if(u.name === 'ホイミスライム'){
+    const healAmount = u.name === 'ホイミン' ? 3 : (u.name === 'ホイミスライム' ? 2 : 0);
+    if(healAmount > 0){
       const damaged = board.filter(x => x && x !== u && !x.isBuilding && Number(x.hp || 0) < Number(x.maxHp || 0));
       if(damaged.length){
-        const target = chooseRandom(damaged, 'hoimiSlimeEndTurn', {side});
-        healUnit(target, 2);
-        battleLog(`${side === 'enemy' ? '相手' : '自分'}ホイミスライム：${target.name}のHPを2回復。`);
+        const target = chooseRandom(damaged, 'hoiminEndTurn', {side, source:u.name});
+        healUnit(target, healAmount);
+        battleLog(`${side === 'enemy' ? '相手' : '自分'}${u.name}：${target.name}のHPを${healAmount}回復。`);
       }
     }
   }
@@ -9100,7 +9125,7 @@ function relatedDetail(card){
 function findByCard(list, id){ return (list || []).find(x => x.cardId === id); }
 function block(title, html){ return `<div class="detail-block"><h4>${escapeHtml(title)}</h4>${html}</div>`; }
 
-function toast(msg, ok=true){ const div = document.createElement('div'); div.className = `toast ${ok?'ok':'bad'}`; div.textContent = msg; document.body.appendChild(div); setTimeout(()=>div.remove(), 2800); }
+function toast(msg, ok=true){ const div = document.createElement('div'); div.className = `toast ${ok?'ok':'bad'}`; div.textContent = msg; if(!ok){ div.style.left='16px'; div.style.top='72px'; div.style.right='auto'; div.style.bottom='auto'; } document.body.appendChild(div); setTimeout(()=>div.remove(), 2800); }
 function escapeHtml(s){ return String(s ?? '').replace(/[&<>\"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
 
 
