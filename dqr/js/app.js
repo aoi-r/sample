@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v128_selection_recovery_guard';
+const DATA_VERSION = 'v129_restore_hand_placement_priority';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -4786,24 +4786,36 @@ function handleEmptySlotClick(side, pos){
   if(isBattleLocked()) return toast('まだ操作できません。', false);
 
   const game = state.battle.game;
-  if(game.pendingGenericEffect || game.pendingEnemySpellV118 || game.selectedAttacker || game.pendingHeroSkill){
-    invalidTargetToastV128('空マスは対象にできません。');
-    return;
-  }
+  if(game?.finished) return;
+
+  // v129: placement waits must win over generic target-cancel guards.
+  // Enemy hand placement: only enemy turn + enemy empty slot.
   if(game.pendingEnemyHandPlacementV121 && side === 'enemy'){
     if(soloActiveSideV114() === 'enemy') return placePendingEnemyHandCardAtV121(pos);
     game.pendingEnemyHandPlacementV121 = null;
   }
-  if(game?.finished) return;
-  if(!game?.isMyTurn) return;
+
+  // Player hand placement: player turn + player empty slot.
+  if(side === 'player' && game.selectedHandIndex != null){
+    if(!game?.isMyTurn) return toast('相手のターンです。', false);
+    const card = byId(game.player.hand[game.selectedHandIndex]);
+    if(!card) return clearBattleSelectionV128('手札カードなし');
+    if(!isBoardPlaceableCardV112(card)) return handleNonBoardCardFromHandV112(game.selectedHandIndex, card);
+    return summonSelectedCard(pos);
+  }
+
+  // Empty slots are invalid targets for damage/attack/hero target selection, but this must run AFTER placement waits.
+  if(game.pendingGenericEffect || game.pendingEnemySpellV118 || game.selectedAttacker || game.pendingHeroSkill){
+    invalidTargetToastV128('空マスは対象にできません。');
+    clearBattleSelectionV128('空マスをタップ');
+    return;
+  }
+
   if(side !== 'player') return;
   if(game.pendingHeroSkill?.target === 'friendlyEmptySlot') return applyPendingHeroSkillToEmptySlot(pos);
   if(game.pendingGenericEffect?.target === 'friendlyEmptySlot') return applyPendingGenericEffectToEmptySlot(pos);
-  if(game.selectedHandIndex == null) return;
-  const card = byId(game.player.hand[game.selectedHandIndex]);
-  if(!isBoardPlaceableCardV112(card)){ return handleNonBoardCardFromHandV112(game.selectedHandIndex, card); }
-  summonSelectedCard(pos);
 }
+
 
 function summonSelectedCard(pos){
   const game = state.battle.game;
@@ -8252,6 +8264,7 @@ function usePlayerHandFromModalV121(index){
   game.pendingEnemyHandPlacementV121 = null;
   if(isPrincessLoveCardV121(card)) return usePrincessLoveV121('player', index);
   if(isWeapon(card)) return handleNonBoardCardFromHandV112(index, card);
+  // v129 placement selected
   return selectHandCard(index);
 }
 function useEnemyHandFromModalV121(index){
