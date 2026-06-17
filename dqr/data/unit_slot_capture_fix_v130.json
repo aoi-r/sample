@@ -1,0 +1,10 @@
+{
+  "version": "v130_unit_slot_capture_fix",
+  "implemented": [
+    "v128選択解除ガードの有効クリック判定に、実際の盤面マスクラス .unit-slot を追加。",
+    "空マスクリックがグローバル選択解除で横取りされないように修正。",
+    "自分ターンの自分手札配置、相手ターンの相手手札配置を document capture で直接拾う保険を追加。",
+    "v129の配置優先順修正、v128の選択解除機能、v126のstrawberry_bomb.pngは維持。"
+  ],
+  "reason": "盤面マスの実クラスが .unit-slot なのに、選択解除ガードが .board-slot だけを有効マス扱いしていたため。"
+}

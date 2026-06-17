@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v129_restore_hand_placement_priority';
+const DATA_VERSION = 'v130_unit_slot_capture_fix';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -4671,6 +4671,7 @@ function renderBattleArena(){
   installSoloLeaderCaptureV114();
   renderLeaderWeaponsV110();
   installEnemyHandHardCaptureV118();
+  installPlacementSlotCaptureV130();
   installSelectionRecoveryV128();
   renderSelectionClearButtonV128();
 }
@@ -6936,7 +6937,7 @@ function installSelectionRecoveryV128(){
       clearBattleSelectionV128('選択解除');
       return;
     }
-    if(e.target.closest?.('.board-slot,.unit-card,.battle-unit,.player-leader,.enemy-leader,.solo-debug-card,.solo-card-preview-backdrop,.choice-modal,.choice-backdrop,#end-turn-top,#solo-test-panel')) return;
+    if(e.target.closest?.('.unit-slot,.board-slot,.unit-card,.battle-unit,.player-leader,.enemy-leader,.solo-debug-card,.solo-card-preview-backdrop,.choice-modal,.choice-backdrop,#end-turn-top,#solo-test-panel')) return;
     e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation?.();
     clearBattleSelectionV128('無効な場所をタップ');
   };
@@ -6963,6 +6964,38 @@ function renderSelectionClearButtonV128(){
 function invalidTargetToastV128(message='対象を選べません。選択解除できます。'){
   toast(message, false);
   renderSelectionClearButtonV128();
+}
+
+
+// v130: direct slot placement capture before global selection recovery
+function installPlacementSlotCaptureV130(){
+  if(window.__placementSlotCaptureV130Installed) return;
+  window.__placementSlotCaptureV130Installed = true;
+  const h = (e) => {
+    if(!isSoloTestMode()) return;
+    const slot = e.target.closest?.('.unit-slot');
+    if(!slot) return;
+    const game = state.battle.game;
+    if(!game) return;
+    const side = slot.dataset.side;
+    const pos = Number(slot.dataset.pos);
+    const board = side === 'player' ? game.player.board : game.enemy.board;
+    const isEmpty = !board?.[pos];
+
+    if(isEmpty && side === 'player' && game.selectedHandIndex != null && soloActiveSideV114() === 'player'){
+      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation?.();
+      handleEmptySlotClick(side, pos);
+      return;
+    }
+    if(isEmpty && side === 'enemy' && game.pendingEnemyHandPlacementV121 && soloActiveSideV114() === 'enemy'){
+      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation?.();
+      handleEmptySlotClick(side, pos);
+      return;
+    }
+  };
+  document.addEventListener('pointerdown', h, true);
+  document.addEventListener('click', h, true);
+  document.addEventListener('touchend', h, true);
 }
 
 function handleBoardClick(side, pos){

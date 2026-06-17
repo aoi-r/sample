@@ -1906,3 +1906,16 @@ node tools/sync_official_gameconductor.mjs
   - v128の選択解除機能は維持。
 - 追加ファイル:
   - `data/restore_hand_placement_priority_v129.json`
+
+
+## v130 update
+- v129でも自分/相手の手札ユニットを配置できない問題を修正。
+- 起動画面表示:
+  - `v130 / buildable 1465 / total 1583`
+- 修正:
+  - 選択解除ガードの有効クリック判定に `.unit-slot` を追加。
+  - 空マスクリックが選択解除ガードに横取りされないように修正。
+  - 自分ターンの自分手札配置、相手ターンの相手手札配置をdocument captureで直接拾う保険を追加。
+  - v129の配置優先順、v128の選択解除、v126の文字化け回避は維持。
+- 追加ファイル:
+  - `data/unit_slot_capture_fix_v130.json`
