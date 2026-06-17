@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v131_akumano_slaringal_romia_swipe';
+const DATA_VERSION = 'v132_recruit_fortune_strawberry_fix';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -600,6 +600,7 @@ function visibleCards(){
 
 
 const CUSTOM_CARD_IMAGES = {
+  'イチゴ爆弾': './assets/custom_cards/strawberry_bomb.png',
   '伝説の勇者': './assets/custom_cards/伝説の勇者_デッキ編成カード.png',
   '出会いと別れの酒場': './assets/custom_cards/伝説の勇者_lv1.png',
   'ダーマの神殿へ': './assets/custom_cards/伝説の勇者_lv2.png',
@@ -1670,6 +1671,116 @@ function useCoinFromHandV111(index){
   battleLog('コイン：BET対象を選択してください。');
   return true;
 }
+
+// v132: strawberry bomb, queen slime, strict Akumano Kagami, recruit effects, special fortune fixes
+function isRealAdventurerForKagamiV132(card){
+  if(!card || card.name === 'あくまのカガミ') return false;
+  if(card.cardType !== 'ユニット') return false;
+  if(Number(card.cost || 0) > 5) return false;
+  const tribes = Array.isArray(card.tribes) ? card.tribes.map(String) : [String(card.tribes || '')];
+  return tribes.some(t => t.replace(/系$/,'') === '冒険者');
+}
+function applyQueenSlimeBuffV132(sourceUnit){
+  const game = state.battle.game;
+  let n = 0;
+  for(const u of game.player.board){
+    if(!u || u.isBuilding || (sourceUnit && u.id === sourceUnit.id)) continue;
+    const c = byId(u.cardId);
+    if(isSlimeCard(c) || String(u.name || '').includes('スライム')){
+      u.attack += 1; u.hp += 1; u.maxHp += 1; n++;
+    }
+  }
+  if(n) battleLog(`クイーンスライム：自分以外のスライム系味方ユニット${n}体を+1/+1。`);
+  else battleLog('クイーンスライム：強化対象のスライム系味方ユニットはいません。');
+  return n > 0;
+}
+function recruitEnemyUnitV132(defenderRef, unit, eff){
+  const game = state.battle.game;
+  if(!eff || !unit) return false;
+  if(defenderRef.side !== 'enemy') return toast('敵ユニットを選んでください。', false), true;
+  if(eff.maxAttack != null && Number(unit.attack || 0) > Number(eff.maxAttack || 0)) return toast('攻撃力条件を満たしていません。', false), true;
+  if(eff.maxHp != null && Number(unit.hp || 0) > Number(eff.maxHp || 0)) return toast('HP条件を満たしていません。', false), true;
+  if(eff.requireAdventurer && !isAdventurerCard(byId(unit.cardId))) return toast('冒険者ユニットを選んでください。', false), true;
+  const ownEmpty = getEmptyBoardPositions('player');
+  if(!ownEmpty.length) return toast('味方の空きマスがありません。', false), true;
+  game.enemy.board[defenderRef.pos] = null;
+  const pos = chooseRandom(ownEmpty, 'recruitSlotV132', {});
+  if(eff.haste){
+    unit.keywords ||= {};
+    unit.keywords.haste = true;
+    unit.canAttack = true;
+    unit.summoningSickness = false;
+  }
+  if(eff.attackBuff){ unit.attack += Number(eff.attackBuff || 0); }
+  if(eff.hpBuff){ unit.hp += Number(eff.hpBuff || 0); unit.maxHp += Number(eff.hpBuff || 0); }
+  if(eff.untilTurnEnd) unit.returnToEnemyAtTurnEnd = true;
+  if(eff.whileSourceAlive) unit.controlledWhileSourceAlive = eff.sourceUnitId || true;
+  game.player.board[pos] = unit;
+  battleLog(`${eff.source}：${unit.name}を${eff.untilTurnEnd ? 'このターン中' : ''}味方にしました。`);
+  game.pendingGenericEffect = null;
+  renderBattleArena(); syncMyBattleState();
+  return true;
+}
+function applySpecialFortuneOptionV132(card, optionText, optionIndex=0){
+  const game = state.battle.game;
+  const name = card?.name || '';
+  const opt = String(optionText || '');
+  if(name === '暴将 黒竜丸'){
+    if(optionIndex === 0 || opt.includes('4/4')){
+      const self = game.player.board.find(u => u?.cardId === card.id || u?.name === name);
+      for(const u of game.player.board){
+        if(!u || u.isBuilding || (self && u.id === self.id)) continue;
+        u.attack = 4; u.hp = 4; u.maxHp = 4;
+      }
+      battleLog('暴将 黒竜丸：他の全ての味方ユニットを4/4にしました。');
+    }else{
+      for(const u of game.enemy.board) if(u && !u.isBuilding) dealDamageToUnit(u, 3, name, 'enemy');
+      resolveDeaths();
+      battleLog('暴将 黒竜丸：全ての敵ユニットに3ダメージ。');
+    }
+    return true;
+  }
+  if(name === 'ジュリアンテ'){
+    if(optionIndex === 0 || opt.includes('+2/+2')){
+      const self = game.player.board.find(u => u?.cardId === card.id || u?.name === name);
+      for(const u of game.player.board){
+        if(!u || u.isBuilding || (self && u.id === self.id)) continue;
+        u.attack += 2; u.hp += 2; u.maxHp += 2;
+      }
+      battleLog('ジュリアンテ：他の全ての味方ユニットを+2/+2。');
+    }else{
+      const targets = game.enemy.board.map((u,i)=>({u,i})).filter(x=>x.u && !x.u.isBuilding);
+      shuffle(targets, 'julianteApathy', {});
+      for(const t of targets.slice(0,3)){ addStatus(t.u, 'apathy', {until:'turnStart'}); t.u.canAttack = false; }
+      battleLog(`ジュリアンテ：ランダムな敵${Math.min(3, targets.length)}体を次のターン攻撃不能にしました。`);
+    }
+    return true;
+  }
+  return false;
+}
+function applySpecialFortuneCardV132(card){
+  if(!card || !['暴将 黒竜丸','ジュリアンテ'].includes(card.name)) return false;
+  const game = state.battle.game;
+  const options = parseChoiceOptions(getCardText(card));
+  const list = options.length ? options : [getCardText(card)];
+  if(game.player.nextFortuneBoth || game.player.fortuneMode === 'super'){
+    game.player.nextFortuneBoth = false;
+    battleLog(`${card.name}：占い効果を両方発動。`);
+    list.slice(0,2).forEach((op,i)=>applySpecialFortuneOptionV132(card, op, i));
+    return true;
+  }
+  if(game.player.fortuneMode === 'hit'){
+    openChoiceModal(card.name + '：必中', list.slice(0,2), (picked, i)=>{
+      applySpecialFortuneOptionV132(card, picked, i);
+      renderBattleArena(); syncMyBattleState();
+    }, {kind:'fortuneHitV132', card:{id:card.id, name:card.name}});
+    return true;
+  }
+  const i = Math.floor(Math.random() * Math.min(2, list.length));
+  applySpecialFortuneOptionV132(card, list[i], i);
+  return true;
+}
+
 function applyTribeBuffTextV111(text, sourceUnit, sourceName='効果'){
   const game = state.battle.game;
   text = String(text || '');
@@ -3851,10 +3962,23 @@ function applySummonTextEffect(unit, card){
   const game = state.battle.game;
   const text = getCardText(card);
   const pos = game.player.board.indexOf(unit);
-  applyTribeBuffTextV111(text, unit, card.name);
+  const tribeBuffAppliedV132 = applyTribeBuffTextV111(text, unit, card.name);
+  if(card.name === 'クイーンスライム' && !tribeBuffAppliedV132) applyQueenSlimeBuffV132(unit);
   if(card.name === '怪盗ポイックリン') applyPoicklinSummonV119(unit, card);
   if(card.name === '残響のようじゅつし') applyZankyoYojutsuV120(unit, card);
-  if(card.name === 'イブール') placeIburBookOnEnemyDeckTopV120('イブール召喚時');
+  if(card.name === 'イブール') placeIburBookOnEnemyDeckTopV120('イブール召喚時');  if(card.name === 'デスマエストロ'){
+    game.pendingGenericEffect = {kind:'takeControlUntilEnd', maxAttack:1, source:card.name, target:'enemyUnit', haste:true, untilTurnEnd:true};
+    battleLog('デスマエストロ：攻撃力1以下の敵ユニットを選んでください。');
+  }
+  if(card.name === 'ホメロス'){
+    game.pendingGenericEffect = {kind:'takeControlPermanent', maxHp:2, source:card.name, target:'enemyUnit'};
+    battleLog('ホメロス：HP2以下の敵ユニットを選んでください。');
+  }
+  if(card.name === '妖魔軍王ブギー'){
+    game.pendingGenericEffect = {kind:'takeControlBuffWhileSource', requireAdventurer:true, attackBuff:2, hpBuff:2, source:card.name, sourceUnitId:unit.id, target:'enemyUnit'};
+    battleLog('妖魔軍王ブギー：敵の冒険者1体を選んでください。');
+  }
+
 
   const tribeBuffCount = text.match(/自分の場と手札にいる(スライム|ゾンビ|ドラゴン|魔王|冒険者|英雄)系?の数だけ[+＋](\d+)\/[+＋](\d+)/);
   if(tribeBuffCount){
@@ -5329,14 +5453,15 @@ function deckAndHandAdventurerCandidatesV131(){
   const out = [];
   (game.player.deck || []).forEach((id,i)=>{
     const card = byId(id);
-    if(card && card.cardType === 'ユニット' && Number(card.cost || 0) <= 5 && isAdventurerCard(card)) out.push({zone:'deck', index:i, id, card});
+    if(isRealAdventurerForKagamiV132(card)) out.push({zone:'deck', index:i, id, card});
   });
   (game.player.hand || []).forEach((id,i)=>{
     const card = byId(id);
-    if(card && card.cardType === 'ユニット' && Number(card.cost || 0) <= 5 && isAdventurerCard(card)) out.push({zone:'hand', index:i, id, card});
+    if(isRealAdventurerForKagamiV132(card)) out.push({zone:'hand', index:i, id, card});
   });
   return out;
 }
+
 function processSideTurnEndV131(side='player'){
   const game = state.battle.game;
   const obj = side === 'enemy' ? game.enemy : game.player;
@@ -5348,6 +5473,12 @@ function processSideTurnEndV131(side='player'){
       board[i] = null;
       putUnitIntoDeckAndShuffle(u, side, u.name || '一時ユニット');
       battleLog(`${u.name}：ターン終了時にデッキに戻りました。`);
+      continue;
+    }
+    if(u.returnToEnemyAtTurnEnd && side === 'player'){
+      board[i] = null;
+      const ep = game.enemy.board.findIndex(x=>!x);
+      if(ep >= 0){ delete u.returnToEnemyAtTurnEnd; game.enemy.board[ep] = u; battleLog(`${u.name}：ターン終了時、相手の場に戻りました。`); }
       continue;
     }
     if(u.doubleStatsAtTurnEnd){
@@ -6338,6 +6469,7 @@ function applyTextMiniEffect(text, source='効果'){
   }
 }
 function applyFortuneEffect(card){
+  if(applySpecialFortuneCardV132(card)) return;
   const game = state.battle.game;
   const text = getCardText(card);
   const options = parseChoiceOptions(text);
@@ -6563,13 +6695,13 @@ function applyGenericCardUseEffect(card, cost){
     return;
   }
   if(card.name === 'セクシービーム'){
-    game.pendingGenericEffect = {kind:'takeControlUntilEnd', maxAttack:2, source:card.name, target:'enemyUnit'};
+    game.pendingGenericEffect = {kind:'takeControlUntilEnd', maxAttack:2, source:card.name, target:'enemyUnit', haste:true, untilTurnEnd:true};
     battleLog('セクシービーム：攻撃力2以下の敵ユニットを選んでください。');
     return;
   }
   if(card.name === 'テンプテーション'){
     const limit = game.player.hand.some(id=>isDemonKingCard(byId(id))) ? 6 : 3;
-    game.pendingGenericEffect = {kind:'takeControlUntilEnd', maxAttack:limit, source:card.name, target:'enemyUnit'};
+    game.pendingGenericEffect = {kind:'takeControlUntilEnd', maxAttack:limit, source:card.name, target:'enemyUnit', haste:true, untilTurnEnd:true};
     battleLog(`テンプテーション：攻撃力${limit}以下の敵ユニットを選んでください。`);
     return;
   }
@@ -6753,7 +6885,7 @@ function applyGenericCardUseEffect(card, cost){
   }
   if(card.name === 'セクシービーム' || card.name === 'テンプテーション' || card.name === 'デスマエストロ'){
     const limit = card.name === 'セクシービーム' ? 2 : (card.name === 'テンプテーション' && game.player.hand.some(id=>isDemonKingCard(byId(id))) ? 6 : 3);
-    game.pendingGenericEffect = {kind:'takeControlUntilEnd', maxAttack:limit, source:card.name, target:'enemyUnit'};
+    game.pendingGenericEffect = {kind:'takeControlUntilEnd', maxAttack:limit, source:card.name, target:'enemyUnit', haste:true, untilTurnEnd:true};
     battleLog(`${card.name}：一時的に味方にする敵ユニットを選んでください。`);
     return;
   }
@@ -7498,6 +7630,7 @@ function resolveDeaths(){
     const player = side === 'player' ? game.player : game.enemy;
     player.board.forEach((unit, i) => {
       if(unit && unit.hp <= 0){
+        unit.lastBoardPos = i;
         const snapshot = JSON.parse(JSON.stringify(unit));
         emitBattleEvent('unitDeath', {unit, side, pos:i, vanished:!!unit.vanished});
         if(!unit.vanished){
@@ -7612,14 +7745,17 @@ function applyDeathrattle(unit, side){
     if(d){ d.durability = Math.min(d.maxDurability, d.durability + 1); }
   }
   if(unit.name === 'イチゴ爆弾'){
-    for(const p of adjacentBoardPositions(side, unit.lastBoardPos ?? pos ?? 0)){
-      const targetBoard = side === 'enemy' ? game.enemy.board : game.player.board;
-      const target = targetBoard[p];
-      if(target && !target.isBuilding){
-        dealDamageToUnit(target, 2, unit.name, side);
+    const deathBoard = side === 'enemy' ? game.enemy.board : game.player.board;
+    const deathPos = Number.isInteger(unit.lastBoardPos) ? unit.lastBoardPos : deathBoard.indexOf(unit);
+    if(deathPos >= 0){
+      for(const p of adjacentBoardPositions(side, deathPos)){
+        const target = deathBoard[p];
+        if(target && !target.isBuilding && target.id !== unit.id){
+          dealDamageToUnit(target, 2, unit.name, side);
+        }
       }
+      battleLog('イチゴ爆弾：隣接するユニットに2ダメージ。');
     }
-    resolveDeaths();
   }
   battleLog(`死亡時：${unit.name}の効果を処理しました。`);
 }
@@ -7686,19 +7822,11 @@ function applyPendingGenericEffectToUnit(defenderRef){
     dealDamageToUnit(unit, eff.amount, eff.source || '効果', defenderRef.side);
     if(game.player.discardedThisTurn) drawCard(1);
   }
-  if(eff.kind === 'takeControlUntilEnd'){
-    if(Number(unit.attack || 0) > Number(eff.maxAttack || 0)) return toast('攻撃力条件を満たしていません。', false);
-    const enemyBoard = defenderRef.side === 'enemy' ? game.enemy.board : game.player.board;
-    const ownEmpty = getEmptyBoardPositions('player');
-    if(!ownEmpty.length) return toast('味方の空きマスがありません。', false);
-    enemyBoard[defenderRef.pos] = null;
-    const pos = chooseRandom(ownEmpty, 'takeControlSlot', {});
-    unit.keywords.haste = true; unit.canAttack = true; unit.summoningSickness = false;
-    unit.returnToEnemyAtTurnEnd = true;
-    game.player.board[pos] = unit;
-    battleLog(`${eff.source}：${unit.name}をこのターン中味方にしました。`);
-  }
+  if(eff.kind === 'takeControlUntilEnd') return recruitEnemyUnitV132(defenderRef, unit, {...eff, haste:true, untilTurnEnd:true});
+  if(eff.kind === 'takeControlPermanent') return recruitEnemyUnitV132(defenderRef, unit, eff);
+  if(eff.kind === 'takeControlBuffWhileSource') return recruitEnemyUnitV132(defenderRef, unit, eff);
   if(eff.kind === 'damageThenSummonToken'){
+
     dealDamageToUnit(unit, eff.amount, eff.source || '効果', defenderRef.side);
     summonTokenByName(eff.tokenName, {attack:eff.attack, hp:eff.hp}, 'player');
   }
@@ -7714,17 +7842,9 @@ function applyPendingGenericEffectToUnit(defenderRef){
     unit.hp += Number(eff.hp || 0);
     unit.maxHp += Number(eff.hp || 0);
   }
-  if(eff.kind === 'controlAndHaste'){
-    if(Number(unit.attack || 0) > Number(eff.maxAttack || 0)) return toast('攻撃力条件を満たしていません。', false);
-    const ownEmpty = getEmptyBoardPositions('player');
-    if(!ownEmpty.length) return toast('味方の空きマスがありません。', false);
-    board[defenderRef.pos] = null;
-    const p = chooseRandom(ownEmpty, 'controlSlot', {});
-    unit.keywords.haste = true; unit.canAttack = true; unit.summoningSickness = false;
-    unit.returnToEnemyAtTurnEnd = true;
-    game.player.board[p] = unit;
-  }
+  if(eff.kind === 'controlAndHaste') return recruitEnemyUnitV132(defenderRef, unit, {...eff, haste:true, untilTurnEnd:true});
   if(eff.kind === 'renkeiVanishAtk6GiveEnemy'){
+
     if(Number(unit.attack || 0) < 6) return toast('攻撃力6以上の敵ユニットを選んでください。', false);
     const cost = Number(byId(unit.cardId)?.cost || 0);
     unit.vanished = true; unit.hp = 0;

@@ -1934,3 +1934,11 @@ node tools/sync_official_gameconductor.mjs
   - 手札スワイプ後の誤タップ選択を移動量判定で抑制。
 - 追加ファイル:
   - `data/akumano_slaringal_romia_swipe_v131.json`
+
+
+## v132 update
+- イチゴ爆弾、クイーンスライム、あくまのカガミ、セクシービーム系、黒竜丸、ジュリアンテを修正。
+- 起動画面表示:
+  - `v132 / buildable 1465 / total 1583`
+- 追加ファイル:
+  - `data/recruit_fortune_strawberry_fix_v132.json`
