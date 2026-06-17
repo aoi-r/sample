@@ -6307,3 +6307,31 @@
 .battle-arena.solo-test-mode .unit-card.selected{
   box-shadow:0 0 0 3px rgba(91,230,255,.95), 0 0 18px rgba(91,230,255,.7) !important;
 }
+
+
+/* v131: face/back card choice modal with visible face-up cards */
+.face-back-choice-backdrop-v131{
+  position:fixed; inset:0; z-index:7200; background:rgba(0,0,0,.48);
+  display:flex; align-items:center; justify-content:center; padding:10px; box-sizing:border-box;
+}
+.face-back-choice-panel-v131{
+  width:min(520px, 92vw); max-height:88vh; overflow:auto; border-radius:18px;
+  background:linear-gradient(180deg, rgba(18,35,72,.98), rgba(7,13,27,.98));
+  border:2px solid rgba(255,225,150,.72); padding:12px; color:#fff4c5; text-align:center;
+  box-shadow:0 18px 42px rgba(0,0,0,.58);
+}
+.face-back-title-v131{ font-weight:900; font-size:18px; margin:4px 0 10px; }
+.face-back-option-v131{ display:block; width:100%; margin:8px 0; padding:8px; border-radius:14px; border:1px solid rgba(255,255,255,.28); background:rgba(255,255,255,.08); color:#fff; }
+.face-back-label-v131{ font-weight:900; margin-bottom:6px; color:#ffe99a; }
+.face-list-v131{ display:flex; justify-content:center; gap:10px; }
+.face-card-v131,.back-card-v131{ width:86px; min-height:120px; border-radius:10px; background:rgba(0,0,0,.28); display:flex; flex-direction:column; justify-content:center; align-items:center; }
+.face-card-v131 img{ max-width:76px; max-height:100px; object-fit:contain; border-radius:6px; }
+.face-card-v131 span{ font-size:10px; line-height:1.1; margin-top:3px; }
+.back-card-v131{ background:linear-gradient(135deg, #1b274d, #070b18); border:2px solid rgba(210,180,90,.65); }
+.back-card-v131 span{ font-size:34px; font-weight:900; color:#f5d277; }
+.face-back-cancel-v131{ margin-top:8px; min-width:120px; padding:9px 18px; border-radius:999px; border:1px solid rgba(255,255,255,.35); font-weight:900; }
+@media(max-width:900px) and (orientation:landscape){
+  .face-back-choice-panel-v131{ width:min(460px, 88vw); max-height:84vh; padding:9px; }
+  .face-card-v131,.back-card-v131{ width:70px; min-height:98px; }
+  .face-card-v131 img{ max-width:62px; max-height:78px; }
+}

@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v130_unit_slot_capture_fix';
+const DATA_VERSION = 'v131_akumano_slaringal_romia_swipe';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -1904,13 +1904,14 @@ function renderSoloDebugStripV103(){
     const selected = isPlayer && game.selectedHandIndex === index ? ' selected' : '';
     const effectiveCostV117 = isPlayer ? getEffectiveCost(card) : Number(card.cost || 0);
     const data = isPlayer
-      ? `data-solo-hand-index="${index}" onpointerdown="return openSoloHandCardModalV121(\'player\', ${index}, event)" onclick="return openSoloHandCardModalV121(\'player\', ${index}, event)" ontouchend="return openSoloHandCardModalV121(\'player\', ${index}, event)"`
-      : `data-solo-enemy-hand-index="${index}" onpointerdown="return openSoloHandCardModalV121(\'enemy\', ${index}, event)" onclick="return openSoloHandCardModalV121(\'enemy\', ${index}, event)" ontouchend="return openSoloHandCardModalV121(\'enemy\', ${index}, event)"`;
+      ? `data-solo-hand-index="${index}" onpointerdown="return recordSoloHandPointerV131(event)" onclick="return openSoloHandCardModalTapSafeV131(\'player\', ${index}, event)" ontouchend="return openSoloHandCardModalTapSafeV131(\'player\', ${index}, event)"`
+      : `data-solo-enemy-hand-index="${index}" onpointerdown="return recordSoloHandPointerV131(event)" onclick="return openSoloHandCardModalTapSafeV131(\'enemy\', ${index}, event)" ontouchend="return openSoloHandCardModalTapSafeV131(\'enemy\', ${index}, event)"`;
     return `<button class="solo-debug-card${selected}" ${data} title="${escapeHtml(card.name)}">${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span>${effectiveCostV117}｜${escapeHtml(card.name)}</span></button>`;
   };
   handBox.innerHTML = (game.player.hand || []).map((id,i)=>cardBtn(id,i,true)).join('') || '<span style="color:#fff;padding:6px">0枚</span>';
   enemyBox.innerHTML = (game.enemy.hand || []).map((id,i)=>cardBtn(id,i,false)).join('') || '<span style="color:#fff;padding:6px">0枚</span>';
   installEnemyHandContainerDelegationV120();
+  installSoloHandSwipeGuardV131();
 }
 
 function soloPlaceFirstEmptyV103(side, card){
@@ -3299,6 +3300,7 @@ function soloHardTurnSwitchV117(){
   $('battle-arena')?.classList.remove('battle-locked');
   const current = soloActiveSideV114();
   applyEndTurnEffectsForSideV121(current);
+  processSideTurnEndV131(current);
   const next = current === 'player' ? 'enemy' : 'player';
   game.soloActiveSide = next;
   game.isMyTurn = true;
@@ -4027,16 +4029,7 @@ function applySummonTextEffect(unit, card){
     }
   }
   if(card.name === 'ロミア'){
-    const top = game.player.deck.splice(0, Math.min(4, game.player.deck.length));
-    const faceA = top.slice(0,2), faceB = top.slice(2,4);
-    openChoiceModal('ロミア', ['表の2枚を引く','裏の2枚を引く'], (picked, i)=>{
-      const chosen = i === 0 ? faceA : faceB;
-      const discarded = i === 0 ? faceB : faceA;
-      game.player.hand.push(...chosen);
-      game.player.discarded ||= [];
-      game.player.discarded.push(...discarded);
-      renderBattleArena(); syncMyBattleState();
-    }, {kind:'romiaChoice'});
+    resolveRomiaChoiceV131();
   }
   if(card.name === 'ラグアス王子'){
     const top = byId(game.enemy.deck?.[0]);
@@ -5329,24 +5322,147 @@ function putUnitIntoDeckAndShuffle(unit, side='player', source='効果'){
   battleLog(`${unit.name}をデッキに混ぜました。`);
   return true;
 }
+
+// v131: Akumano Kagami correct source search, Slaringal turn-end processing, face-up choice images, swipe-safe hand tap
+function deckAndHandAdventurerCandidatesV131(){
+  const game = state.battle.game;
+  const out = [];
+  (game.player.deck || []).forEach((id,i)=>{
+    const card = byId(id);
+    if(card && card.cardType === 'ユニット' && Number(card.cost || 0) <= 5 && isAdventurerCard(card)) out.push({zone:'deck', index:i, id, card});
+  });
+  (game.player.hand || []).forEach((id,i)=>{
+    const card = byId(id);
+    if(card && card.cardType === 'ユニット' && Number(card.cost || 0) <= 5 && isAdventurerCard(card)) out.push({zone:'hand', index:i, id, card});
+  });
+  return out;
+}
+function processSideTurnEndV131(side='player'){
+  const game = state.battle.game;
+  const obj = side === 'enemy' ? game.enemy : game.player;
+  const board = obj.board || [];
+  for(let i=0;i<board.length;i++){
+    const u = board[i];
+    if(!u) continue;
+    if(u.temporaryDeckReturnAtTurnEnd){
+      board[i] = null;
+      putUnitIntoDeckAndShuffle(u, side, u.name || '一時ユニット');
+      battleLog(`${u.name}：ターン終了時にデッキに戻りました。`);
+      continue;
+    }
+    if(u.doubleStatsAtTurnEnd){
+      u.attack = Number(u.attack || 0) * 2;
+      u.hp = Number(u.hp || 0) * 2;
+      u.maxHp = Number(u.maxHp || 0) * 2;
+      delete u.doubleStatsAtTurnEnd;
+      battleLog(`${u.name}：ターン終了時、攻撃力とHPが2倍。`);
+    }
+    if(u.statuses){
+      const before = u.statuses.length;
+      u.statuses = u.statuses.filter(s => s.until !== 'turnEnd');
+      if(before !== u.statuses.length && u.name === 'スラリンガル') battleLog('スラリンガル：このターン中のダメージ無効が終了しました。');
+    }
+    if(u.cannotAttackLeaderThisTurn) delete u.cannotAttackLeaderThisTurn;
+  }
+}
+function recordSoloHandPointerV131(e){
+  const p = e.touches?.[0] || e.changedTouches?.[0] || e;
+  window.__soloHandGestureV131 = {x:Number(p.clientX || 0), y:Number(p.clientY || 0), t:Date.now(), moved:false};
+  return true;
+}
+function installSoloHandSwipeGuardV131(){
+  if(window.__soloHandSwipeGuardV131Installed) return;
+  window.__soloHandSwipeGuardV131Installed = true;
+  const mark = (e) => {
+    const g = window.__soloHandGestureV131;
+    if(!g) return;
+    const p = e.touches?.[0] || e.changedTouches?.[0] || e;
+    const dx = Math.abs(Number(p.clientX || 0) - g.x);
+    const dy = Math.abs(Number(p.clientY || 0) - g.y);
+    if(dx > 14 || dy > 14){ g.moved = true; window.__soloHandSwipeSuppressUntilV131 = Date.now() + 450; }
+  };
+  document.addEventListener('pointermove', mark, true);
+  document.addEventListener('touchmove', mark, {capture:true, passive:true});
+}
+function openSoloHandCardModalTapSafeV131(side, index, ev=null){
+  const g = window.__soloHandGestureV131;
+  const p = ev?.changedTouches?.[0] || ev?.touches?.[0] || ev;
+  let moved = !!g?.moved || Date.now() < Number(window.__soloHandSwipeSuppressUntilV131 || 0);
+  if(g && p && p.clientX != null){
+    const dx = Math.abs(Number(p.clientX || 0) - g.x);
+    const dy = Math.abs(Number(p.clientY || 0) - g.y);
+    if(dx > 14 || dy > 14) moved = true;
+  }
+  if(moved){
+    window.__soloHandSwipeSuppressUntilV131 = Date.now() + 450;
+    return true;
+  }
+  return openSoloHandCardModalV121(side, index, ev);
+}
+window.recordSoloHandPointerV131 = recordSoloHandPointerV131;
+window.openSoloHandCardModalTapSafeV131 = openSoloHandCardModalTapSafeV131;
+function openFaceBackChoiceModalV131(title, faceIds, backIds, cb){
+  const old = document.getElementById('face-back-choice-modal-v131');
+  if(old) old.remove();
+  const faceCards = (faceIds || []).map(id=>byId(id)).filter(Boolean);
+  const modal = document.createElement('div');
+  modal.id = 'face-back-choice-modal-v131';
+  modal.className = 'face-back-choice-backdrop-v131';
+  const faceHtml = faceCards.map(c=>{
+    const img = getOfficialImage(c);
+    return `<div class="face-card-v131">${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(c.name)}" referrerpolicy="no-referrer">` : `<div class="face-card-noimg-v131">${escapeHtml(c.name)}</div>`}<span>${escapeHtml(c.name)}</span></div>`;
+  }).join('');
+  const backHtml = (backIds || []).map(()=>`<div class="back-card-v131"><span>?</span></div>`).join('');
+  modal.innerHTML = `<div class="face-back-choice-panel-v131">
+    <div class="face-back-title-v131">${escapeHtml(title)}</div>
+    <button class="face-back-option-v131" data-pick="0"><div class="face-back-label-v131">表のカードを引く</div><div class="face-list-v131">${faceHtml}</div></button>
+    <button class="face-back-option-v131" data-pick="1"><div class="face-back-label-v131">裏のカードを引く</div><div class="face-list-v131">${backHtml}</div></button>
+    <button class="face-back-cancel-v131">戻る</button>
+  </div>`;
+  modal.addEventListener('click', e => { if(e.target === modal) modal.remove(); });
+  modal.querySelector('.face-back-cancel-v131')?.addEventListener('click', ()=>modal.remove());
+  modal.querySelectorAll('[data-pick]').forEach(btn => btn.addEventListener('click', e=>{
+    const i = Number(btn.dataset.pick || 0);
+    modal.remove();
+    cb(i);
+  }));
+  document.body.appendChild(modal);
+}
+function resolveRomiaChoiceV131(){
+  const game = state.battle.game;
+  const top = game.player.deck.splice(0, Math.min(4, game.player.deck.length));
+  if(!top.length) return false;
+  const faceA = top.slice(0,2), faceB = top.slice(2,4);
+  openFaceBackChoiceModalV131('ロミア：どちらを引きますか？', faceA, faceB, (i)=>{
+    const chosen = i === 0 ? faceA : faceB;
+    const discarded = i === 0 ? faceB : faceA;
+    game.player.hand.push(...chosen);
+    game.player.discarded ||= [];
+    game.player.discarded.push(...discarded);
+    battleLog(`ロミア：${i === 0 ? '表' : '裏'}の${chosen.length}枚を手札へ。残りを捨てました。`);
+    renderBattleArena(); syncMyBattleState();
+  });
+  return true;
+}
+
 function summonAdventurerFromDeckTemporaryByAkumanoKagami(){
   const game = state.battle.game;
-  const candidates = game.player.deck
-    .map((id,i)=>({id,i,card:byId(id)}))
-    .filter(x => x.card && x.card.cardType === 'ユニット' && Number(x.card.cost || 0) <= 5 && isAdventurerCard(x.card));
-  if(!candidates.length){ battleLog('あくまのカガミ：デッキに5コスト以下の冒険者がありません。'); return false; }
+  const candidates = deckAndHandAdventurerCandidatesV131();
+  if(!candidates.length){ battleLog('あくまのカガミ：山札・手札に5コスト以下の冒険者ユニットがありません。'); return false; }
   const pick = chooseRandom(candidates, 'akumanoKagamiAdventurer', {});
   const empty = getEmptyBoardPositions('player');
   if(!empty.length){ battleLog('あくまのカガミ：場が埋まっているため場に出せません。'); return false; }
   const pos = chooseRandom(empty, 'akumanoKagamiSlot', {});
-  const unit = putUnitIntoPlayFromCard(pick.card, pos, 'player', {});
+  const unit = putUnitIntoPlayFromCard(pick.card, pos, 'player', {haste:true});
   if(unit){
     unit.temporaryDeckReturnAtTurnEnd = true;
-    delete unit.keywords.haste;
-    unit.canAttack = false;
-    unit.summoningSickness = true;
+    unit.summonedByAkumanoKagami = true;
+    unit.keywords ||= {};
+    unit.keywords.haste = true;
+    unit.canAttack = true;
+    unit.summoningSickness = false;
     addStatus(unit, 'temporaryDeckReturnAtTurnEnd', {until:'turnEnd'});
-    battleLog(`あくまのカガミ：${pick.card.name}を場に出し、ターン終了時デッキに混ぜる効果を付与。`);
+    battleLog(`あくまのカガミ：${pick.card.name}を${pick.zone === 'hand' ? '手札' : '山札'}からコピーして場に出し、速攻とターン終了時デッキに戻る効果を付与。`);
     return true;
   }
   return false;
