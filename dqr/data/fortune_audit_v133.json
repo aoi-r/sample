@@ -1,0 +1,1061 @@
+{
+  "version": "v133",
+  "fortuneCardCount": 58,
+  "notes": "占い：を含むカードをDB textからスキャン。recognizedOptionsは汎用処理に乗せた候補、unresolvedOptionsは解釈確認が必要な候補。",
+  "cards": [
+    {
+      "id": "card_53eef9e2",
+      "name": "みわくのランプ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "text": "自分が占いカードを使う度ランダムな占い師のカード1枚を手札に加える",
+      "recognizedOptions": [],
+      "unresolvedOptions": [
+        "自分が占いカードを使う度ランダムな占い師のカード1枚を手札に加える"
+      ]
+    },
+    {
+      "id": "card_14926367",
+      "name": "デスファレーナ",
+      "cardType": "ユニット",
+      "cost": 1,
+      "text": "占い：(1)攻撃力+2、(2)HP+2",
+      "recognizedOptions": [
+        {
+          "option": "攻撃力+2",
+          "recognizedAs": [
+            "stats"
+          ]
+        },
+        {
+          "option": "HP+2",
+          "recognizedAs": [
+            "stats"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_7052acf3",
+      "name": "節制のタロット",
+      "cardType": "特技",
+      "cost": 1,
+      "text": "占い:(1)1/1のスライムを2体出す、(2)カードを1枚引く",
+      "recognizedOptions": [
+        {
+          "option": "1/1のスライムを2体出す",
+          "recognizedAs": [
+            "summon"
+          ]
+        },
+        {
+          "option": "カードを1枚引く",
+          "recognizedAs": [
+            "draw"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_98b3bd16",
+      "name": "ベルフェゴル",
+      "cardType": "ユニット",
+      "cost": 4,
+      "text": "自分が占いを持つ手札を使う度+1/+1",
+      "recognizedOptions": [
+        {
+          "option": "自分が占いを持つ手札を使う度+1/+1",
+          "recognizedAs": [
+            "stats"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_d8835650",
+      "name": "太陽のタロット",
+      "cardType": "特技",
+      "cost": 4,
+      "text": "占い：(1)全ての敵ユニットに2ダメージ、(2)味方リーダーのHPを7回復",
+      "recognizedOptions": [
+        {
+          "option": "全ての敵ユニットに2ダメージ",
+          "recognizedAs": [
+            "damage"
+          ]
+        },
+        {
+          "option": "味方リーダーのHPを7回復",
+          "recognizedAs": [
+            "heal"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_028880ce",
+      "name": "星のタロット",
+      "cardType": "特技",
+      "cost": 3,
+      "text": "占い：(1)カードを2枚引く(2)におうだち3/3ビッグフェイスを出す",
+      "recognizedOptions": [
+        {
+          "option": "カードを2枚引く",
+          "recognizedAs": [
+            "draw"
+          ]
+        },
+        {
+          "option": "におうだち3/3ビッグフェイスを出す",
+          "recognizedAs": [
+            "keyword/status"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_2f9c499f",
+      "name": "塔のタロット",
+      "cardType": "特技",
+      "cost": 2,
+      "text": "占い：(1)ユニット1体のHPを1にする、(2)ユニット1体に1ダメージを与えた後カードを1枚引く",
+      "recognizedOptions": [
+        {
+          "option": "ユニット1体のHPを1にする",
+          "recognizedAs": [
+            "stats"
+          ]
+        },
+        {
+          "option": "ユニット1体に1ダメージを与えた後カードを1枚引く",
+          "recognizedAs": [
+            "draw"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_2e9d61a8",
+      "name": "びっくりサタン",
+      "cardType": "ユニット",
+      "cost": 3,
+      "text": "自分の占いで(1)の効果が発動する度カードを1枚引く",
+      "recognizedOptions": [
+        {
+          "option": "の効果が発動する度カードを1枚引く",
+          "recognizedAs": [
+            "draw"
+          ]
+        }
+      ],
+      "unresolvedOptions": [
+        "自分の占いで"
+      ]
+    },
+    {
+      "id": "card_52cde336",
+      "name": "ケセランパセラン",
+      "cardType": "ユニット",
+      "cost": 3,
+      "text": "自分の占いで(1)の効果が発動する度味方リーダーのHPを2回復",
+      "recognizedOptions": [
+        {
+          "option": "の効果が発動する度味方リーダーのHPを2回復",
+          "recognizedAs": [
+            "heal"
+          ]
+        }
+      ],
+      "unresolvedOptions": [
+        "自分の占いで"
+      ]
+    },
+    {
+      "id": "card_700c487c",
+      "name": "皇帝のタロット",
+      "cardType": "特技",
+      "cost": 3,
+      "text": "占い：(1)ユニット1体を+2/+3、(2)ユニット1体に速攻と貫通を付与",
+      "recognizedOptions": [
+        {
+          "option": "ユニット1体を+2/+3",
+          "recognizedAs": [
+            "stats"
+          ]
+        },
+        {
+          "option": "ユニット1体に速攻と貫通を付与",
+          "recognizedAs": [
+            "keyword/status"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_d329867b",
+      "name": "パペットこぞう",
+      "cardType": "ユニット",
+      "cost": 2,
+      "text": "占い：(1)味方リーダーのテンション-1、(2)+1/+1を得る",
+      "recognizedOptions": [
+        {
+          "option": "味方リーダーのテンション-1",
+          "recognizedAs": [
+            "deck/tension"
+          ]
+        },
+        {
+          "option": "+1/+1を得る",
+          "recognizedAs": [
+            "stats"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_0fb5ba79",
+      "name": "エビルドライブ",
+      "cardType": "ユニット",
+      "cost": 4,
+      "text": "占い：(1)カードを1枚引く、(2)攻撃力+3",
+      "recognizedOptions": [
+        {
+          "option": "カードを1枚引く",
+          "recognizedAs": [
+            "draw"
+          ]
+        },
+        {
+          "option": "攻撃力+3",
+          "recognizedAs": [
+            "stats"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_725483e4",
+      "name": "おばけトマト",
+      "cardType": "ユニット",
+      "cost": 5,
+      "text": "占い：(1)敵ユニット1体の攻撃力を1にする、(2)敵ユニット1体のHPを1にする",
+      "recognizedOptions": [
+        {
+          "option": "敵ユニット1体の攻撃力を1にする",
+          "recognizedAs": [
+            "stats"
+          ]
+        },
+        {
+          "option": "敵ユニット1体のHPを1にする",
+          "recognizedAs": [
+            "stats"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_a3f1284b",
+      "name": "隠者のタロット",
+      "cardType": "特技",
+      "cost": 5,
+      "text": "占い:(1)ユニットのコピーを自分の手札に加える、(2)ユニット1体を1/1のスライムに返信",
+      "recognizedOptions": [],
+      "unresolvedOptions": [
+        "ユニットのコピーを自分の手札に加える",
+        "ユニット1体を1/1のスライムに返信"
+      ]
+    },
+    {
+      "id": "card_5f6a5488",
+      "name": "ダイス・ド・デビル",
+      "cardType": "ユニット",
+      "cost": 6,
+      "text": "占い：(1)1/1のスライムを出す、(2)4/4のホースデビルを出す",
+      "recognizedOptions": [
+        {
+          "option": "1/1のスライムを出す",
+          "recognizedAs": [
+            "summon"
+          ]
+        },
+        {
+          "option": "4/4のホースデビルを出す",
+          "recognizedAs": [
+            "summon"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_4b2ece59",
+      "name": "悪魔のタロット",
+      "cardType": "特技",
+      "cost": 8,
+      "text": "占い：(1)全ての敵ユニットに4ダメージ、(2)4/4のホースデビルを2体出す",
+      "recognizedOptions": [
+        {
+          "option": "全ての敵ユニットに4ダメージ",
+          "recognizedAs": [
+            "damage"
+          ]
+        },
+        {
+          "option": "4/4のホースデビルを2体出す",
+          "recognizedAs": [
+            "summon"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_ec0b6371",
+      "name": "ジュリアンテ",
+      "cardType": "ユニット",
+      "cost": 7,
+      "text": "占い：(1)他の全ての味方ユニット+2/+2、(2)ランダムな敵3体を次のターン攻撃不能にする",
+      "recognizedOptions": [
+        {
+          "option": "他の全ての味方ユニット+2/+2",
+          "recognizedAs": [
+            "stats"
+          ]
+        },
+        {
+          "option": "ランダムな敵3体を次のターン攻撃不能にする",
+          "recognizedAs": [
+            "keyword/status"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_e084603d",
+      "name": "あばれうしどり",
+      "cardType": "ユニット",
+      "cost": 1,
+      "text": "占い：①攻撃力+1と貫通を得る、②速攻を得る",
+      "recognizedOptions": [
+        {
+          "option": "攻撃力+1と貫通を得る",
+          "recognizedAs": [
+            "stats",
+            "keyword/status"
+          ]
+        },
+        {
+          "option": "速攻を得る",
+          "recognizedAs": [
+            "keyword/status"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_3d8e1905",
+      "name": "シャイニング",
+      "cardType": "ユニット",
+      "cost": 3,
+      "text": "召喚時：自分が次に使用する占いカードは発動する効果を選べるようになる。",
+      "recognizedOptions": [],
+      "unresolvedOptions": [
+        "召喚時：自分が次に使用する占いカードは発動する効果を選べるようになる"
+      ]
+    },
+    {
+      "id": "card_582b846a",
+      "name": "愚者のタロット",
+      "cardType": "特技",
+      "cost": 4,
+      "text": "占い:①全ての敵ユニットの攻撃力を1にする②全ての敵ユニットのHPを1にする",
+      "recognizedOptions": [
+        {
+          "option": "全ての敵ユニットの攻撃力を1にする",
+          "recognizedAs": [
+            "stats"
+          ]
+        },
+        {
+          "option": "全ての敵ユニットのHPを1にする",
+          "recognizedAs": [
+            "stats"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_5944a72f",
+      "name": "魔術師のタロット",
+      "cardType": "特技",
+      "cost": 4,
+      "text": "占い：①デッキの一番上のカードのコスト-3 ②デッキの一番上のカードを手札に加える。さらにそのコピー1枚を手札に加える",
+      "recognizedOptions": [
+        {
+          "option": "デッキの一番上のカードのコスト-3",
+          "recognizedAs": [
+            "deck/tension"
+          ]
+        },
+        {
+          "option": "デッキの一番上のカードを手札に加える。さらにそのコピー1枚を手札に加える",
+          "recognizedAs": [
+            "deck/tension"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_fe1e824d",
+      "name": "戦車のタロット",
+      "cardType": "特技",
+      "cost": 2,
+      "text": "占い:①全てのユニットに1ダメージ、②ランダムな敵1体に3ダメージ",
+      "recognizedOptions": [
+        {
+          "option": "全てのユニットに1ダメージ",
+          "recognizedAs": [
+            "damage"
+          ]
+        },
+        {
+          "option": "ランダムな敵1体に3ダメージ",
+          "recognizedAs": [
+            "damage"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_23d5d5f7",
+      "name": "力のタロット",
+      "cardType": "特技",
+      "cost": 2,
+      "text": "占い：①全ての味方ユニットの攻撃力+1、②ランダムな味方ユニット1体を+3/+2",
+      "recognizedOptions": [
+        {
+          "option": "全ての味方ユニットの攻撃力+1",
+          "recognizedAs": [
+            "stats"
+          ]
+        },
+        {
+          "option": "ランダムな味方ユニット1体を+3/+2",
+          "recognizedAs": [
+            "stats"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_2331f997",
+      "name": "キースドラゴン",
+      "cardType": "ユニット",
+      "cost": 5,
+      "text": "占い：①味方リーダーのHPを5回復、②正面にいる全ての敵ユニットに2ダメージ",
+      "recognizedOptions": [
+        {
+          "option": "味方リーダーのHPを5回復",
+          "recognizedAs": [
+            "heal"
+          ]
+        },
+        {
+          "option": "正面にいる全ての敵ユニットに2ダメージ",
+          "recognizedAs": [
+            "damage"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_1f7d61c0",
+      "name": "審判のタロット",
+      "cardType": "ユニット",
+      "cost": 0,
+      "text": "占い：①カードを1枚引く、②味方リーダーのHPを2回復",
+      "recognizedOptions": [
+        {
+          "option": "カードを1枚引く",
+          "recognizedAs": [
+            "draw"
+          ]
+        },
+        {
+          "option": "味方リーダーのHPを2回復",
+          "recognizedAs": [
+            "heal"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_0e5370de",
+      "name": "タロットフォーチュン",
+      "cardType": "特技",
+      "cost": 13,
+      "text": "敵ユニット1体に7ダメージ。7/7のダースドラゴンを出す。 対戦中に自分が使った占いカードの回数分コスト-1。",
+      "recognizedOptions": [
+        {
+          "option": "敵ユニット1体に7ダメージ。7/7のダースドラゴンを出す。 対戦中に自分が使った占いカードの回数分コスト-1",
+          "recognizedAs": [
+            "summon"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_7f8b3f52",
+      "name": "ポムポムボム",
+      "cardType": "ユニット",
+      "cost": 3,
+      "text": "占いカードを使う度速攻1/1のバブリンを出す",
+      "recognizedOptions": [
+        {
+          "option": "占いカードを使う度速攻1/1のバブリンを出す",
+          "recognizedAs": [
+            "summon",
+            "keyword/status"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_b1d3a142",
+      "name": "なぞの神官",
+      "cardType": "ユニット",
+      "cost": 3,
+      "text": "味方ヒーローがいる場合占いカードのコスト-1",
+      "recognizedOptions": [],
+      "unresolvedOptions": [
+        "味方ヒーローがいる場合占いカードのコスト-1"
+      ]
+    },
+    {
+      "id": "card_1ac5e9c5",
+      "name": "バルーンコール",
+      "cardType": "特技",
+      "cost": 2,
+      "text": "占い：①におうだち、2/3のプヨンターゲットを出す。②速攻 1/1のバブリンを2体出す",
+      "recognizedOptions": [
+        {
+          "option": "におうだち、2/3のプヨンターゲットを出す",
+          "recognizedAs": [
+            "summon",
+            "keyword/status"
+          ]
+        },
+        {
+          "option": "速攻 1/1のバブリンを2体出す",
+          "recognizedAs": [
+            "summon",
+            "keyword/status"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_02ebd665",
+      "name": "ブルホーク",
+      "cardType": "ユニット",
+      "cost": 3,
+      "text": "占い:①自分のデッキから占いカードを1枚手札に加える ② 味方リーダーのテンション+2",
+      "recognizedOptions": [
+        {
+          "option": "自分のデッキから占いカードを1枚手札に加える",
+          "recognizedAs": [
+            "deck/tension"
+          ]
+        },
+        {
+          "option": "味方リーダーのテンション+2",
+          "recognizedAs": [
+            "deck/tension"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_a743e254",
+      "name": "召竜の儀式",
+      "cardType": "特技",
+      "cost": 7,
+      "text": "占い:①7/7のダースドラゴンを出す ②3/3のいばらドラゴンを3体出す",
+      "recognizedOptions": [
+        {
+          "option": "7/7のダースドラゴンを出す",
+          "recognizedAs": [
+            "summon"
+          ]
+        },
+        {
+          "option": "3/3のいばらドラゴンを3体出す",
+          "recognizedAs": [
+            "summon"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_3203c5f0",
+      "name": "チャネリング",
+      "cardType": "特技",
+      "cost": 2,
+      "text": "自分のデッキにある占いカードを同じカードを1枚手札に加える。そのカードのコスト-1。",
+      "recognizedOptions": [],
+      "unresolvedOptions": [
+        "自分のデッキにある占いカードを同じカードを1枚手札に加える。そのカードのコスト-1"
+      ]
+    },
+    {
+      "id": "card_73ecbde1",
+      "name": "メタルドラゴン",
+      "cardType": "ユニット",
+      "cost": 5,
+      "text": "絶好調、占い：①自分のデッキからコスト2以下の絶好調を持つユニットを2体出す、②絶好調を持つ全ての味方ユニットを+1/+1",
+      "recognizedOptions": [
+        {
+          "option": "絶好調を持つ全ての味方ユニットを+1/+1",
+          "recognizedAs": [
+            "stats"
+          ]
+        }
+      ],
+      "unresolvedOptions": [
+        "自分のデッキからコスト2以下の絶好調を持つユニットを2体出す"
+      ]
+    },
+    {
+      "id": "card_6446e1d9",
+      "name": "メイジバピラス",
+      "cardType": "ユニット",
+      "cost": 2,
+      "text": "絶好調、絶好調状態の味方ユニットが攻撃する度自分のデッキから占いカードを1枚引く",
+      "recognizedOptions": [
+        {
+          "option": "絶好調、絶好調状態の味方ユニットが攻撃する度自分のデッキから占いカードを1枚引く",
+          "recognizedAs": [
+            "draw",
+            "deck/tension"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_91dfea63",
+      "name": "恋人のタロット",
+      "cardType": "特技",
+      "cost": 6,
+      "text": "占い：①全ての味方ユニットを+2/+2、②全ての味方ユニットを絶好調状態に戻して+1/+1",
+      "recognizedOptions": [
+        {
+          "option": "全ての味方ユニットを+2/+2",
+          "recognizedAs": [
+            "stats"
+          ]
+        },
+        {
+          "option": "全ての味方ユニットを絶好調状態に戻して+1/+1",
+          "recognizedAs": [
+            "stats"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_c6e27d2d",
+      "name": "のろいのランプ",
+      "cardType": "ユニット",
+      "cost": 3,
+      "text": "絶好調、占いを持つ特技カードを使った後このユニットが絶好調状態なら同じカードを手札に加える。その後絶好調状態ではなくなる。",
+      "recognizedOptions": [],
+      "unresolvedOptions": [
+        "絶好調、占いを持つ特技カードを使った後このユニットが絶好調状態なら同じカードを手札に加える。その後絶好調状態ではなくなる"
+      ]
+    },
+    {
+      "id": "card_6fcffda8",
+      "name": "リゼロッタ&ルコリア",
+      "cardType": "ユニット",
+      "cost": 4,
+      "text": "占い：①この対戦中に死亡したランダムな味方ユニットを2枚手札に加える、②自分の手札とデッキの攻撃力2以下のユニットカードを+1/+1する",
+      "recognizedOptions": [
+        {
+          "option": "自分の手札とデッキの攻撃力2以下のユニットカードを+1/+1する",
+          "recognizedAs": [
+            "stats"
+          ]
+        }
+      ],
+      "unresolvedOptions": [
+        "この対戦中に死亡したランダムな味方ユニットを2枚手札に加える"
+      ]
+    },
+    {
+      "id": "card_ff50494e",
+      "name": "ゾディアックコード",
+      "cardType": "特技",
+      "cost": 6,
+      "text": "必殺技：この対戦中超必中モードになる。自分のデッキから占いカードを1枚手札に加えてコスト-3する。無いなら代わりに審判のタロットを手札に加える。",
+      "recognizedOptions": [
+        {
+          "option": "必殺技：この対戦中超必中モードになる。自分のデッキから占いカードを1枚手札に加えてコスト-3する。無いなら代わりに審判のタロットを手札に加える",
+          "recognizedAs": [
+            "deck/tension"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_d2b7c014",
+      "name": "あくましんかん",
+      "cardType": "ユニット",
+      "cost": 2,
+      "text": "占い：(1)「死亡時：この場所に復活する」を得る(2)におうだちHP+1",
+      "recognizedOptions": [
+        {
+          "option": "におうだちHP+1",
+          "recognizedAs": [
+            "stats",
+            "keyword/status"
+          ]
+        }
+      ],
+      "unresolvedOptions": [
+        "「死亡時：この場所に復活する」を得る"
+      ]
+    },
+    {
+      "id": "card_1de531ec",
+      "name": "死神のタロット",
+      "cardType": "特技",
+      "cost": 5,
+      "text": "占い：①全てのユニットに3ダメージ、②：2/2のナイトウィスプを3体出す",
+      "recognizedOptions": [
+        {
+          "option": "全てのユニットに3ダメージ",
+          "recognizedAs": [
+            "damage"
+          ]
+        },
+        {
+          "option": "：2/2のナイトウィスプを3体出す",
+          "recognizedAs": [
+            "summon"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_f9180cb7",
+      "name": "たまねぎマン",
+      "cardType": "ユニット",
+      "cost": 3,
+      "text": "占い：①ユニット1体の攻撃力を2にする②：ユニット1体のHPを2にする",
+      "recognizedOptions": [],
+      "unresolvedOptions": [
+        "ユニット1体の攻撃力を2にする",
+        "：ユニット1体のHPを2にする"
+      ]
+    },
+    {
+      "id": "card_59727aad",
+      "name": "教皇のタロット",
+      "cardType": "特技",
+      "cost": 3,
+      "text": "占い：①全ての味方のHPを5回復、②全て飲み方に「次の相手のターン終了時まで戦闘ダメージとデッキ切れによるダメージのみ受ける」を付与する",
+      "recognizedOptions": [
+        {
+          "option": "全ての味方のHPを5回復",
+          "recognizedAs": [
+            "heal"
+          ]
+        }
+      ],
+      "unresolvedOptions": [
+        "全て飲み方に「次の相手のターン終了時まで戦闘ダメージとデッキ切れによるダメージのみ受ける」を付与する"
+      ]
+    },
+    {
+      "id": "card_16835f67",
+      "name": "エドガンの錬金術",
+      "cardType": "特技",
+      "cost": 2,
+      "text": "占い：(1)GET(2)、(2)0/1のサボテンゴールド1体出す。その後手札にあるコインの枚数分+1/+1",
+      "recognizedOptions": [
+        {
+          "option": "0/1のサボテンゴールド1体出す。その後手札にあるコインの枚数分+1/+1",
+          "recognizedAs": [
+            "stats"
+          ]
+        }
+      ],
+      "unresolvedOptions": [
+        "GET"
+      ]
+    },
+    {
+      "id": "card_887207c9",
+      "name": "スピンサタン",
+      "cardType": "ユニット",
+      "cost": 2,
+      "text": "召喚時:自分が次に使用する占いカードは発動する効果を選べる 味方リーダーが必中モードの場合手札のこのカードのコスト-1",
+      "recognizedOptions": [],
+      "unresolvedOptions": [
+        "召喚時:自分が次に使用する占いカードは発動する効果を選べる 味方リーダーが必中モードの場合手札のこのカードのコスト-1"
+      ]
+    },
+    {
+      "id": "card_b32cf4aa",
+      "name": "あばれ足鳥",
+      "cardType": "ユニット",
+      "cost": 2,
+      "text": "占い:(1)速攻と貫通を得る、(2)+1/+1",
+      "recognizedOptions": [
+        {
+          "option": "速攻と貫通を得る",
+          "recognizedAs": [
+            "keyword/status"
+          ]
+        },
+        {
+          "option": "+1/+1",
+          "recognizedAs": [
+            "stats"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_97548726",
+      "name": "かみかぜ",
+      "cardType": "特技",
+      "cost": 2,
+      "text": "おうえん、占い:(1)合計3ダメージをランダムな敵ユニットに割り振る(2)ランダムなコスト2のユニットを1体出す",
+      "recognizedOptions": [],
+      "unresolvedOptions": [
+        "合計3ダメージをランダムな敵ユニットに割り振る",
+        "ランダムなコスト2のユニットを1体出す"
+      ]
+    },
+    {
+      "id": "card_865d7b2b",
+      "name": "ヘルプラネット",
+      "cardType": "ユニット",
+      "cost": 4,
+      "text": "におうだち。れんけい：自分が次に使う占いカード1枚のみ効果が両方発動する。",
+      "recognizedOptions": [
+        {
+          "option": "におうだち。れんけい：自分が次に使う占いカード1枚のみ効果が両方発動する",
+          "recognizedAs": [
+            "keyword/status"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_884157d9",
+      "name": "逆転への兆し",
+      "cardType": "特技",
+      "cost": 6,
+      "text": "占い：(1)全てのユニットを1/1にする(2)ランダムなコスト3のユニットを2体出す",
+      "recognizedOptions": [],
+      "unresolvedOptions": [
+        "全てのユニットを1/1にする",
+        "ランダムなコスト3のユニットを2体出す"
+      ]
+    },
+    {
+      "id": "card_69933399",
+      "name": "占い小屋",
+      "cardType": "建物",
+      "cost": 1,
+      "text": "自分が使用する占いカードは発動する効果を選べる。自分のターン終了時耐久値-1。召喚時:ランダムな占いをもるカード1枚を手札に加える",
+      "recognizedOptions": [],
+      "unresolvedOptions": [
+        "自分が使用する占いカードは発動する効果を選べる。自分のターン終了時耐久値-1。召喚時:ランダムな占いをもるカード1枚を手札に加える"
+      ]
+    },
+    {
+      "id": "card_d39b2341",
+      "name": "ヘラクライザー",
+      "cardType": "ユニット",
+      "cost": 7,
+      "text": "におうだち、自分がデッキからカードを手札に加える度ランダムな敵1体に2ダメージ、占い：(1)カードを1枚引く、(2)味方リーダーのテンション+2",
+      "recognizedOptions": [
+        {
+          "option": "カードを1枚引く",
+          "recognizedAs": [
+            "draw"
+          ]
+        },
+        {
+          "option": "味方リーダーのテンション+2",
+          "recognizedAs": [
+            "deck/tension"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_a753c7d2",
+      "name": "未熟なベビーサタン",
+      "cardType": "ユニット",
+      "cost": 0,
+      "text": "占い：(1)イオナズンを唱える、(2)メガンテを唱える",
+      "recognizedOptions": [],
+      "unresolvedOptions": [
+        "イオナズンを唱える",
+        "メガンテを唱える"
+      ]
+    },
+    {
+      "id": "card_de982b53",
+      "name": "炎のほこら",
+      "cardType": "建物",
+      "cost": 1,
+      "text": "ダンジョン（耐久値7で踏破)、自分が占いカードを使う度耐久値+1、踏破時:占い三人衆を1枚ずつ手札に加えそれらのコストを1にする",
+      "recognizedOptions": [],
+      "unresolvedOptions": [
+        "ダンジョン（耐久値7で踏破)、自分が占いカードを使う度耐久値+1、踏破時:占い三人衆を1枚ずつ手札に加えそれらのコストを1にする"
+      ]
+    },
+    {
+      "id": "card_fa51cb1d",
+      "name": "ビッグボック",
+      "cardType": "ユニット",
+      "cost": 3,
+      "text": "占い:(1)味方リーダーのテンション+1、このユニットのHP+1、(2)味方リーダーのテンション+2",
+      "recognizedOptions": [
+        {
+          "option": "味方リーダーのテンション+1、このユニットのHP+1",
+          "recognizedAs": [
+            "stats",
+            "deck/tension"
+          ]
+        },
+        {
+          "option": "味方リーダーのテンション+2",
+          "recognizedAs": [
+            "deck/tension"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_42052164",
+      "name": "フォステイル",
+      "cardType": "ユニット",
+      "cost": 3,
+      "text": "おうえん、自分のターン開始時ランダムな占いを持つカード1枚を手札に加える。そのカードのコスト-1。スキルリンク：1ターン先の未来へ旅立つ",
+      "recognizedOptions": [],
+      "unresolvedOptions": [
+        "おうえん、自分のターン開始時ランダムな占いを持つカード1枚を手札に加える。そのカードのコスト-1。スキルリンク：1ターン先の未来へ旅立つ"
+      ]
+    },
+    {
+      "id": "card_b1863a12",
+      "name": "ドラゴビショップ",
+      "cardType": "ユニット",
+      "cost": 5,
+      "text": "召喚時:カードを2枚引く、このターン中に使った占いカードの枚数分デッキと手札にあるこのカードのコスト-1",
+      "recognizedOptions": [
+        {
+          "option": "召喚時:カードを2枚引く、このターン中に使った占いカードの枚数分デッキと手札にあるこのカードのコスト-1",
+          "recognizedAs": [
+            "draw"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_7b11152e",
+      "name": "サイコマスター",
+      "cardType": "ユニット",
+      "cost": 6,
+      "text": "この対戦中に自分が使った占いカードの枚数分攻撃力+1、召喚時:このユニットの攻撃力が4以上あるなら敵1体に4ダメージ",
+      "recognizedOptions": [
+        {
+          "option": "この対戦中に自分が使った占いカードの枚数分攻撃力+1、召喚時:このユニットの攻撃力が4以上あるなら敵1体に4ダメージ",
+          "recognizedAs": [
+            "stats"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_8bc0d225",
+      "name": "テーブル・ターニング",
+      "cardType": "特技",
+      "cost": 6,
+      "text": "占い:(1)4/4のホースデビルを2体出す(2)2/2のモーモンを4体出す",
+      "recognizedOptions": [
+        {
+          "option": "4/4のホースデビルを2体出す",
+          "recognizedAs": [
+            "summon"
+          ]
+        },
+        {
+          "option": "2/2のモーモンを4体出す",
+          "recognizedAs": [
+            "summon"
+          ]
+        }
+      ],
+      "unresolvedOptions": []
+    },
+    {
+      "id": "card_19b11529",
+      "name": "暴将 黒竜丸",
+      "cardType": "ユニット",
+      "cost": 8,
+      "text": "占い:(1)他の全ての味方ユニットを4/4にする(2)全ての敵ユニットに3ダメージ",
+      "recognizedOptions": [
+        {
+          "option": "全ての敵ユニットに3ダメージ",
+          "recognizedAs": [
+            "damage"
+          ]
+        }
+      ],
+      "unresolvedOptions": [
+        "他の全ての味方ユニットを4/4にする"
+      ]
+    }
+  ]
+}

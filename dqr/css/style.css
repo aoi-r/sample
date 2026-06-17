@@ -6335,3 +6335,16 @@
   .face-card-v131,.back-card-v131{ width:70px; min-height:98px; }
   .face-card-v131 img{ max-width:62px; max-height:78px; }
 }
+
+
+/* v133: iPhone hand swipe should scroll, not select */
+.solo-debug-strip,
+.solo-debug-hand,
+.solo-debug-enemy-hand{
+  touch-action: pan-x !important;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+.solo-debug-card{
+  touch-action: pan-x !important;
+}

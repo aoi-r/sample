@@ -1942,3 +1942,14 @@ node tools/sync_official_gameconductor.mjs
   - `v132 / buildable 1465 / total 1583`
 - 追加ファイル:
   - `data/recruit_fortune_strawberry_fix_v132.json`
+
+
+## v133 update
+- 占い汎用エンジン、○○系ユニット効果、分類/未解釈レポート、iPhone手札スワイプ対策を追加。
+- 起動画面表示:
+  - `v133 / buildable 1465 / total 1583`
+- 追加ファイル:
+  - `data/fortune_audit_v133.json`
+  - `data/fortune_unresolved_v133.json`
+  - `data/tribe_effect_audit_v133.json`
+  - `data/tribe_unknown_units_v133.json`

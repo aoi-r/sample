@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v132_recruit_fortune_strawberry_fix';
+const DATA_VERSION = 'v133_fortune_tribe_engine_swipe_guard';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -2015,8 +2015,8 @@ function renderSoloDebugStripV103(){
     const selected = isPlayer && game.selectedHandIndex === index ? ' selected' : '';
     const effectiveCostV117 = isPlayer ? getEffectiveCost(card) : Number(card.cost || 0);
     const data = isPlayer
-      ? `data-solo-hand-index="${index}" onpointerdown="return recordSoloHandPointerV131(event)" onclick="return openSoloHandCardModalTapSafeV131(\'player\', ${index}, event)" ontouchend="return openSoloHandCardModalTapSafeV131(\'player\', ${index}, event)"`
-      : `data-solo-enemy-hand-index="${index}" onpointerdown="return recordSoloHandPointerV131(event)" onclick="return openSoloHandCardModalTapSafeV131(\'enemy\', ${index}, event)" ontouchend="return openSoloHandCardModalTapSafeV131(\'enemy\', ${index}, event)"`;
+      ? `data-solo-hand-index="${index}" onpointerdown="return recordSoloHandPointerV131(event)" onclick="return openSoloHandCardModalTapSafeV131(\'player\', ${index}, event)"`
+      : `data-solo-enemy-hand-index="${index}" onpointerdown="return recordSoloHandPointerV131(event)" onclick="return openSoloHandCardModalTapSafeV131(\'enemy\', ${index}, event)"`;
     return `<button class="solo-debug-card${selected}" ${data} title="${escapeHtml(card.name)}">${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span>${effectiveCostV117}｜${escapeHtml(card.name)}</span></button>`;
   };
   handBox.innerHTML = (game.player.hand || []).map((id,i)=>cardBtn(id,i,true)).join('') || '<span style="color:#fff;padding:6px">0枚</span>';
@@ -3962,7 +3962,7 @@ function applySummonTextEffect(unit, card){
   const game = state.battle.game;
   const text = getCardText(card);
   const pos = game.player.board.indexOf(unit);
-  const tribeBuffAppliedV132 = applyTribeBuffTextV111(text, unit, card.name);
+  const tribeBuffAppliedV132 = applyTribeBuffTextV111(text, unit, card.name) || applyTribeEffectTextV133(text, unit, card.name);
   if(card.name === 'クイーンスライム' && !tribeBuffAppliedV132) applyQueenSlimeBuffV132(unit);
   if(card.name === '怪盗ポイックリン') applyPoicklinSummonV119(unit, card);
   if(card.name === '残響のようじゅつし') applyZankyoYojutsuV120(unit, card);
@@ -4560,21 +4560,7 @@ function triggerTensionLinks(reason, payload={}){
   }
 }
 function applyPowerfulBadges(){
-  const game = state.battle.game;
-  if(!game?.player?.powerfulBadges?.length) return;
-  for(const unit of game.player.board){
-    if(!unit || unit._badgeApplied || unit.isBuilding || isSealed(unit)) continue;
-    const card = byId(unit.cardId);
-    const tribeText = String(card?.searchText || '') + String(card?.text || '');
-    for(const badge of game.player.powerfulBadges){
-      if(badge.text.includes('ゾンビ系') && !tribeText.includes('ゾンビ系')) continue;
-      if(badge.text.includes('速攻')) unit.keywords.haste = true, unit.canAttack = true;
-      if(badge.text.includes('貫通')) unit.keywords.piercing = true;
-      if(badge.text.includes('HP+1') || badge.text.includes('HP＋1')) unit.hp += 1, unit.maxHp += 1;
-      if(badge.text.includes('攻撃力+1') || badge.text.includes('攻撃力＋1')) unit.attack += 1;
-    }
-    unit._badgeApplied = true;
-  }
+  return applyPowerfulBadgesV133();
 }
 
 
@@ -5510,7 +5496,7 @@ function installSoloHandSwipeGuardV131(){
     const p = e.touches?.[0] || e.changedTouches?.[0] || e;
     const dx = Math.abs(Number(p.clientX || 0) - g.x);
     const dy = Math.abs(Number(p.clientY || 0) - g.y);
-    if(dx > 14 || dy > 14){ g.moved = true; window.__soloHandSwipeSuppressUntilV131 = Date.now() + 450; }
+    if(dx > 6 || dy > 10){ g.moved = true; window.__soloHandSwipeSuppressUntilV131 = Date.now() + 900; }
   };
   document.addEventListener('pointermove', mark, true);
   document.addEventListener('touchmove', mark, {capture:true, passive:true});
@@ -5522,10 +5508,10 @@ function openSoloHandCardModalTapSafeV131(side, index, ev=null){
   if(g && p && p.clientX != null){
     const dx = Math.abs(Number(p.clientX || 0) - g.x);
     const dy = Math.abs(Number(p.clientY || 0) - g.y);
-    if(dx > 14 || dy > 14) moved = true;
+    if(dx > 6 || dy > 10) moved = true;
   }
   if(moved){
-    window.__soloHandSwipeSuppressUntilV131 = Date.now() + 450;
+    window.__soloHandSwipeSuppressUntilV131 = Date.now() + 900;
     return true;
   }
   return openSoloHandCardModalV121(side, index, ev);
@@ -6417,7 +6403,7 @@ function applyTextMiniEffect(text, source='効果'){
     const m = text.match(/敵リーダーに(\d+)ダメージ/); if(m) dealDamageToLeader('enemy', Number(m[1]), source);
   }
 
-  applyTribeBuffTextV111(text, null, source);
+  if(!applyTribeBuffTextV111(text, null, source)) applyTribeEffectTextV133(text, null, source);
 
   // ランダム対象
   let mRand = text.match(/ランダムな敵(?:ユニット)?1体に(\d+)ダメージ/);
@@ -6468,44 +6454,250 @@ function applyTextMiniEffect(text, source='効果'){
     if(text.includes(t)){ setTerrain(game.player.board.findIndex(x=>!x), t, source); break; }
   }
 }
+
+// v133: broad fortune and tribe-effect engine
+const TRIBE_NAMES_V133 = ['スライム','ゾンビ','ドラゴン','魔王','冒険者','英雄','物質','獣','鳥','悪魔','植物','虫','マシン'];
+
+function cardTextPoolV133(card){
+  if(!card) return '';
+  const parts = [card.name, card.tribe, card.tribes, card.tags, card.text, card.searchText, card.cardType];
+  return parts.flat ? parts.flat().filter(Boolean).join(' ') : parts.filter(Boolean).join(' ');
+}
+function isUnitOfTribeV133(unitOrCard, tribe){
+  if(!unitOrCard || !tribe) return false;
+  const card = unitOrCard.cardId ? byId(unitOrCard.cardId) : unitOrCard;
+  const pool = cardTextPoolV133(card);
+  if(pool.includes(`${tribe}系`) || pool.includes(tribe)) return true;
+  // common name fallbacks for DB rows without tribe metadata.
+  const name = String(card?.name || unitOrCard?.name || '');
+  if(tribe === 'スライム' && /スライム|スラ|ホイミン|ホイミスライム|バブリン|プヨン|スラリンガル|キング|クイーンスライム/.test(name)) return true;
+  if(tribe === 'ドラゴン' && /ドラゴン|竜|りゅう|ドレイク|リザード/.test(name)) return true;
+  if(tribe === 'ゾンビ' && /ゾンビ|ゴースト|マミー|くさった|ワイト|シャドー|ボーン|スカル/.test(name)) return true;
+  if(tribe === '魔王' && /竜王|シドー|ゾーマ|デスピサロ|エスターク|ミルドラース|デスタムーア|オルゴ|ラプソーン|ネルゲル|ドレアム/.test(name)) return true;
+  return false;
+}
+function allUnitsOfSideV133(side='player'){
+  const game = state.battle.game;
+  const board = side === 'enemy' ? game.enemy.board : game.player.board;
+  return board.map((u,pos)=>({u,pos,side})).filter(x=>x.u && !x.u.isBuilding);
+}
+function buffUnitV133(u, atk=0, hp=0, source='効果'){
+  if(!u) return;
+  u.attack += Number(atk || 0);
+  u.hp += Number(hp || 0);
+  u.maxHp += Number(hp || 0);
+}
+function applyTribeEffectTextV133(text, sourceUnit=null, sourceName='効果'){
+  const game = state.battle.game;
+  text = String(text || '');
+  let applied = false;
+  const tribeRx = TRIBE_NAMES_V133.join('|');
+
+  // Friendly tribe +X/+Y, with optional "自分以外".
+  let m = text.match(new RegExp(`(?:自分以外の|このユニットを除く)?(?:味方の|自分の)?(${tribeRx})系?の?味方?ユニット(?:全て|すべて|全員)?を[+＋](\\d+)\\/[+＋]?(\\d+)`));
+  if(m){
+    const [, tribe, a, h] = m;
+    for(const {u} of allUnitsOfSideV133('player')){
+      if(sourceUnit && u.id === sourceUnit.id && /自分以外|このユニットを除く/.test(text)) continue;
+      if(isUnitOfTribeV133(u, tribe)){ buffUnitV133(u, Number(a), Number(h), sourceName); applied = true; }
+    }
+    if(applied) battleLog(`${sourceName}：${tribe}系味方ユニットを+${a}/+${h}。`);
+  }
+
+  // Friendly tribe attack or HP only.
+  m = text.match(new RegExp(`(?:味方の|自分の)?(${tribeRx})系?ユニット(?:全て|すべて|全員)?の攻撃力[+＋](\\d+)`));
+  if(m){
+    const [, tribe, a] = m;
+    for(const {u} of allUnitsOfSideV133('player')) if(isUnitOfTribeV133(u, tribe)){ buffUnitV133(u, Number(a), 0, sourceName); applied = true; }
+    if(applied) battleLog(`${sourceName}：${tribe}系味方ユニットの攻撃力+${a}。`);
+  }
+  m = text.match(new RegExp(`(?:味方の|自分の)?(${tribeRx})系?ユニット(?:全て|すべて|全員)?のHP[+＋](\\d+)`));
+  if(m){
+    const [, tribe, h] = m;
+    for(const {u} of allUnitsOfSideV133('player')) if(isUnitOfTribeV133(u, tribe)){ buffUnitV133(u, 0, Number(h), sourceName); applied = true; }
+    if(applied) battleLog(`${sourceName}：${tribe}系味方ユニットのHP+${h}。`);
+  }
+
+  // Tribe-wide damage.
+  m = text.match(new RegExp(`(?:敵の|相手の)?(${tribeRx})系?ユニット(?:全て|すべて|全員)?に(\\d+)ダメージ`));
+  if(m){
+    const [, tribe, d] = m;
+    for(const {u, side} of allUnitsOfSideV133(text.includes('敵') || text.includes('相手') ? 'enemy' : 'player')){
+      if(isUnitOfTribeV133(u, tribe)){ dealDamageToUnit(u, Number(d), sourceName, side); applied = true; }
+    }
+    if(applied){ battleLog(`${sourceName}：${tribe}系ユニットに${d}ダメージ。`); resolveDeaths(); }
+  }
+
+  // Powerful badge registration. It will be applied by applyPowerfulBadges().
+  if(text.includes('パワフルバッジ')){
+    game.player.powerfulBadges ||= [];
+    if(!game.player.powerfulBadges.some(b => b.source === sourceName)){
+      game.player.powerfulBadges.push({source:sourceName, text});
+      battleLog(`${sourceName}：パワフルバッジを登録しました。`);
+    }
+    applied = true;
+  }
+
+  return applied;
+}
+
+function applyPowerfulBadgesV133(){
+  const game = state.battle.game;
+  if(!game?.player?.powerfulBadges?.length) return;
+  for(const unit of game.player.board){
+    if(!unit || unit._badgeApplied || unit.isBuilding || isSealed(unit)) continue;
+    for(const badge of game.player.powerfulBadges){
+      let tribeOk = true;
+      for(const tribe of TRIBE_NAMES_V133){
+        if(String(badge.text).includes(`${tribe}系`)) tribeOk = isUnitOfTribeV133(unit, tribe);
+      }
+      if(!tribeOk) continue;
+      unit.keywords ||= {};
+      if(badge.text.includes('速攻')) unit.keywords.haste = true, unit.canAttack = true;
+      if(badge.text.includes('貫通')) unit.keywords.piercing = true;
+      let m = badge.text.match(/攻撃力[+＋](\d+)/); if(m) unit.attack += Number(m[1]);
+      m = badge.text.match(/HP[+＋](\d+)/); if(m){ unit.hp += Number(m[1]); unit.maxHp += Number(m[1]); }
+    }
+    unit._badgeApplied = true;
+  }
+}
+
+function parseFortuneOptionsV133(text){
+  const body = String(text || '').replace(/^.*?占い[:：]/, '');
+  let parts = body.split(/①|②|③|④|\(1\)|\(2\)|\(3\)|\(4\)/).map(s => s.trim().replace(/^[:：、。]+|[、。]+$/g,'')).filter(Boolean);
+  if(parts.length <= 1) parts = parseChoiceOptions(String(text || ''));
+  return parts.length ? parts.slice(0,4) : [body.trim()];
+}
+function selfUnitForCardV133(card){
+  const game = state.battle.game;
+  return game.player.board.find(u => u?.cardId === card?.id || u?.name === card?.name);
+}
+function summonTokenFromFortuneTextV133(text, source='占い'){
+  const game = state.battle.game;
+  let applied = false;
+  const rx = /(?:におうだち[、, ]*)?(?:速攻[、, ]*)?(\d+)\/(\d+)の([^、。]+?)(?:を)?(?:(\d+)体)?出す/g;
+  let m;
+  while((m = rx.exec(text))){
+    const atk = Number(m[1]), hp = Number(m[2]);
+    const name = m[3].replace(/を$/,'').trim();
+    const count = Number(m[4] || 1);
+    for(let i=0;i<count;i++){
+      const ok = summonTokenByName(name, {attack:atk, hp});
+      if(ok){
+        const u = state.battle.game.player.board.find(x=>x?.name === name && Number(x.attack) === atk && Number(x.hp) === hp);
+        if(u && text.includes('におうだち')) u.keywords.taunt = true;
+        if(u && text.includes('速攻')) u.keywords.haste = true, u.canAttack = true, u.summoningSickness = false;
+      }
+      applied = true;
+    }
+  }
+  if(text.includes('スライムを2体出す') || text.includes('スライムを２体出す')){ summonTokenByName('スライム', {attack:1,hp:1}); summonTokenByName('スライム', {attack:1,hp:1}); applied = true; }
+  else if(text.includes('スライムを出す')){ summonTokenByName('スライム', {attack:1,hp:1}); applied = true; }
+  return applied;
+}
+function applyFortuneOptionTextV133(card, option, optionIndex=0){
+  const game = state.battle.game;
+  const text = String(option || '');
+  let applied = false;
+
+  if(applyTribeEffectTextV133(text, selfUnitForCardV133(card), card.name)) applied = true;
+
+  let m = text.match(/カードを(\d+)枚引く|カードを([一二三１２３])枚引く/);
+  if(m){
+    const map = {'一':1,'二':2,'三':3,'１':1,'２':2,'３':3};
+    drawCard(Number(m[1] || map[m[2]] || 1)); applied = true;
+  }
+  m = text.match(/HPを(\d+)回復/);
+  if(m){ healLeader(Number(m[1])); applied = true; }
+  m = text.match(/テンション[+＋](\d+)/);
+  if(m){ gainTension(Number(m[1]), card.name); applied = true; }
+  if(text.includes('味方リーダーのテンション-1')){ game.player.tension = Math.max(0, Number(game.player.tension || 0) - 1); applied = true; }
+
+  m = text.match(/全ての敵ユニットに(\d+)ダメージ/);
+  if(m){ const d=Number(m[1])+getSpellDamageBonus(); for(const u of game.enemy.board) if(u && !u.isBuilding) dealDamageToUnit(u,d,card.name,'enemy'); resolveDeaths(); applied = true; }
+  m = text.match(/全てのユニットに(\d+)ダメージ/);
+  if(m){ const d=Number(m[1])+getSpellDamageBonus(); for(const u of [...game.player.board,...game.enemy.board]) if(u && !u.isBuilding) dealDamageToUnit(u,d,card.name); resolveDeaths(); applied = true; }
+  m = text.match(/ランダムな敵(?:ユニット)?1体に(\d+)ダメージ|ランダムな敵1体に(\d+)ダメージ/);
+  if(m){ damageRandomEnemy(Number(m[1] || m[2]), !text.includes('敵ユニット')); applied = true; }
+
+  if(summonTokenFromFortuneTextV133(text, card.name)) applied = true;
+
+  if(text.includes('全ての敵ユニットの攻撃力を1にする')){ for(const u of game.enemy.board) if(u && !u.isBuilding) u.attack = 1; applied = true; }
+  if(text.includes('全ての敵ユニットのHPを1にする')){ for(const u of game.enemy.board) if(u && !u.isBuilding){ u.hp = Math.min(u.hp,1); u.maxHp = Math.min(u.maxHp,1); } applied = true; }
+
+  if(text.includes('敵ユニット1体の攻撃力を1にする')){ game.pendingGenericEffect = {kind:'setAttack', value:1, source:card.name, target:'enemyUnit'}; battleLog(`${card.name}：敵ユニットを選んでください。`); applied = true; }
+  if(text.includes('敵ユニット1体のHPを1にする')){ game.pendingGenericEffect = {kind:'setHp', value:1, source:card.name, target:'enemyUnit'}; battleLog(`${card.name}：敵ユニットを選んでください。`); applied = true; }
+  if(text.includes('ユニット1体のHPを1にする')){ game.pendingGenericEffect = {kind:'setHp', value:1, source:card.name, target:'unitAny'}; battleLog(`${card.name}：ユニットを選んでください。`); applied = true; }
+  m = text.match(/ユニット1体に(\d+)ダメージ/);
+  if(m){ game.pendingGenericEffect = {kind:'damage', amount:Number(m[1])+getSpellDamageBonus(), source:card.name, target:'unitAny'}; battleLog(`${card.name}：ユニットを選んでください。`); applied = true; }
+  m = text.match(/ユニット1体を[+＋](\d+)\/[+＋]?(\d+)/);
+  if(m){ game.pendingGenericEffect = {kind:'buffStats', attack:Number(m[1]), hp:Number(m[2]), source:card.name, target:'unitAny'}; battleLog(`${card.name}：ユニットを選んでください。`); applied = true; }
+  if(text.includes('ユニット1体に速攻と貫通')){ game.pendingGenericEffect = {kind:'grantKeywords', keywords:{haste:true,piercing:true}, source:card.name, target:'unitAny'}; battleLog(`${card.name}：ユニットを選んでください。`); applied = true; }
+  if(text.includes('ユニットのコピーを自分の手札に加える')){ game.pendingGenericEffect = {kind:'copyUnitToHand', source:card.name, target:'unitAny'}; battleLog(`${card.name}：コピーするユニットを選んでください。`); applied = true; }
+  if(text.includes('1/1のスライムに')){ game.pendingGenericEffect = {kind:'transformToSlime', source:card.name, target:'unitAny'}; battleLog(`${card.name}：1/1スライムに変えるユニットを選んでください。`); applied = true; }
+
+  if(text.includes('デッキの一番上のカードのコスト-3') && game.player.deck.length){
+    const id = game.player.deck[0]; const c = byId(id);
+    const copy = JSON.parse(JSON.stringify(c)); copy.id = `copy_${c.id}_${Date.now()}_${safeRandomId('fortune').slice(0,8)}`; copy.cost = Math.max(0, Number(c.cost||0)-3); copy.flags ||= {}; copy.flags.generatedOrEvolved = true; state.allCards.push(copy); state.cards.push(copy); game.player.deck[0] = copy.id; applied = true;
+  }
+  if(text.includes('デッキの一番上のカードを手札に加える')){
+    if(game.player.deck.length){
+      const id = game.player.deck.shift();
+      game.player.hand.push(id);
+      if(text.includes('コピー')) addCardCopyToHand(byId(id));
+      applied = true;
+    }
+  }
+  if(text.includes('デッキから占いカードを1枚手札に加える')){
+    const idx = game.player.deck.findIndex(id => getCardText(byId(id)).includes('占い'));
+    if(idx >= 0) game.player.hand.push(game.player.deck.splice(idx,1)[0]);
+    applied = true;
+  }
+
+  // self-unit buffs for fortune units like デスファレーナ/エビルドライブ.
+  const self = selfUnitForCardV133(card);
+  if(self){
+    m = text.match(/^攻撃力[+＋](\d+)/); if(m){ self.attack += Number(m[1]); applied = true; }
+    m = text.match(/^HP[+＋](\d+)/); if(m){ self.hp += Number(m[1]); self.maxHp += Number(m[1]); applied = true; }
+    if(text.includes('速攻を得る')){ self.keywords ||= {}; self.keywords.haste = true; self.canAttack = true; applied = true; }
+    if(text.includes('貫通を得る')){ self.keywords ||= {}; self.keywords.piercing = true; applied = true; }
+  }
+
+  if(applied) battleLog(`${card.name}：占い効果「${text}」を処理しました。`);
+  return applied;
+}
+
 function applyFortuneEffect(card){
   if(applySpecialFortuneCardV132(card)) return;
   const game = state.battle.game;
-  const text = getCardText(card);
-  const options = parseChoiceOptions(text);
-  const list = options.length ? options : [text];
+  const options = parseFortuneOptionsV133(getCardText(card));
+  const run = (op, idx=0) => {
+    if(!applyFortuneOptionTextV133(card, op, idx)){
+      applyTextMiniEffect(op, card.name);
+      battleLog(`${card.name}：占い効果を簡易処理しました。`);
+    }
+  };
 
-  if(game.player.nextFortuneBoth && options.length){
-    battleLog('ヘルプラネット：次の占い効果を両方発動。');
+  if((game.player.nextFortuneBoth || game.player.fortuneMode === 'super') && options.length >= 2){
     game.player.nextFortuneBoth = false;
-    emitChoiceSelected('fortuneBoth', card.name, options, -1, '両方', {card:{id:card.id, name:card.name}});
-    for(const op of options) applyTextMiniEffect(op, card.name);
+    battleLog(`${game.player.fortuneMode === 'super' ? '超必中モード' : 'ヘルプラネット'}：占い効果を両方発動。`);
+    options.slice(0,2).forEach((op,i)=>run(op,i));
     return;
   }
 
-  if(game.player.fortuneMode === 'super' && options.length){
-    battleLog('超必中モード：占い効果を両方発動。');
-    emitChoiceSelected('fortuneBoth', card.name, options, -1, '両方', {card:{id:card.id, name:card.name}});
-    for(const op of options) applyTextMiniEffect(op, card.name);
-    return;
-  }
-
-  if(game.player.fortuneMode === 'hit' && options.length){
+  if(game.player.fortuneMode === 'hit' && options.length >= 2){
     battleLog('必中モード：発動する占い効果を選んでください。');
-    openChoiceModal(card.name + '：必中', options, (picked, idx) => {
-      emitChoiceSelected('fortuneHit', card.name, options, idx, picked, {card:{id:card.id, name:card.name}});
-      battleLog(`占い：${picked}`);
-      applyTextMiniEffect(picked, card.name);
+    openChoiceModal(card.name + '：必中', options.slice(0,2), (picked, idx) => {
+      run(picked, idx);
       renderBattleArena(); syncMyBattleState();
-    }, {kind:'fortuneHit', card:{id:card.id, name:card.name}});
+    }, {kind:'fortuneHitV133', card:{id:card.id, name:card.name}});
     return;
   }
 
-  const picked = chooseRandom(list, 'fortune', {cardId:card.id, name:card.name});
-  emitChoiceSelected('fortune', card.name, list, Math.max(0, list.indexOf(picked)), picked, {card:{id:card.id, name:card.name}});
-  battleLog(`占い：${picked}`);
-  applyTextMiniEffect(picked, card.name);
+  const idx = Math.floor(Math.random() * Math.min(2, options.length));
+  run(options[idx], idx);
 }
+
 function applyChoiceEffect(card){
   const game = state.battle.game;
   if(card?.name === 'スラリンガル'){
@@ -7781,6 +7973,12 @@ function applyPendingGenericEffectToUnit(defenderRef){
     return;
   }
   emitTargetSelected('genericEffectUnit', defenderRef, {effect: makeEffectTargetPayload(eff, defenderRef)});
+  if(eff.kind === 'setAttack'){ unit.attack = Number(eff.value || 0); }
+  if(eff.kind === 'setHp'){ unit.hp = Math.min(Number(unit.hp || 0), Number(eff.value || 0)); unit.maxHp = Math.min(Number(unit.maxHp || 0), Number(eff.value || 0)); }
+  if(eff.kind === 'buffStats'){ unit.attack += Number(eff.attack || 0); unit.hp += Number(eff.hp || 0); unit.maxHp += Number(eff.hp || 0); }
+  if(eff.kind === 'grantKeywords'){ unit.keywords ||= {}; Object.assign(unit.keywords, eff.keywords || {}); if(eff.keywords?.haste){ unit.canAttack = true; unit.summoningSickness = false; } }
+  if(eff.kind === 'copyUnitToHand'){ addCardCopyToHand(byId(unit.cardId)); }
+  if(eff.kind === 'transformToSlime'){ const slime = findCardByName('スライム') || ensureVirtualCard('スライム'); unit.cardId = slime.id; unit.name = 'スライム'; unit.attack = 1; unit.hp = 1; unit.maxHp = 1; unit.keywords = {}; }
   if(eff.kind === 'damage'){
     const amount = (eff.source === '卑劣などくやずきん' && (hasStatus(unit,'poison') || leaderHasStatus(defenderRef.side,'poison'))) ? 3 : eff.amount;
     dealDamageToUnit(unit, amount, eff.source || '効果', defenderRef.side);
