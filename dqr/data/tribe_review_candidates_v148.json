@@ -35,7 +35,7 @@
       "attack": 0,
       "hp": 3,
       "text": "攻撃できない。\n死亡時：隣接するユニットに2ダメージを与える。",
-      "imageUrl": "./assets/custom_cards/strawberry_bomb.png",
+      "imageUrl": "./assets/custom_cards/ichigo_bakudan.png",
       "officialDbPage": "",
       "officialDbSearchQuery": "イチゴ爆弾 ドラゴンクエストライバルズ 攻略データベース",
       "checkHint": "公式DBページ/カード画像下部で系統表記があれば修正。表記がなければ「なし」。",

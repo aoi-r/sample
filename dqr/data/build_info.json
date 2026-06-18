@@ -1,5 +1,5 @@
 {
-  "version": "v159_custom_card_safe_filenames",
+  "version": "v160_romanized_asset_filenames",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -239,5 +239,10 @@
     "image_rewrite_policy": "元画像ファイルは変更せず、DOMオーバーレイで表示する。"
   },
   "base": "v158_visible_stat_cost_modifiers",
-  "filenameSanitization": "custom_cards filenames normalized to short ASCII names to avoid File name too long on checkout/build"
+  "filenameSanitization": "custom_cards filenames normalized to short ASCII names to avoid File name too long on checkout/build",
+  "data_version": "v160_romanized_asset_filenames",
+  "label": "v160 / buildable 1460 / total 1583",
+  "notes": [
+    "v160: assets/custom_cards filenames romanized to readable ASCII and mojibake mapping data removed."
+  ]
 }

@@ -25572,7 +25572,7 @@
       },
       "official": {
         "imageVerified": true,
-        "imageUrl": "./assets/custom_cards/custom_card_013.png"
+        "imageUrl": "./assets/custom_cards/rekku_deck_card.png"
       }
     },
     {
@@ -25832,7 +25832,7 @@
       },
       "official": {
         "imageVerified": true,
-        "imageUrl": "./assets/custom_cards/custom_card_019.png"
+        "imageUrl": "./assets/custom_cards/densetsu_no_yuusha_deck_card.png"
       }
     },
     {
@@ -79254,8 +79254,8 @@
       "tribe": "なし",
       "rarity": "トークン",
       "text": "攻撃できない。\n死亡時：隣接するユニットに2ダメージを与える。",
-      "imageUrl": "./assets/custom_cards/strawberry_bomb.png",
-      "localImage": "./assets/custom_cards/strawberry_bomb.png",
+      "imageUrl": "./assets/custom_cards/ichigo_bakudan.png",
+      "localImage": "./assets/custom_cards/ichigo_bakudan.png",
       "flags": {
         "deckBuildable": false,
         "obtainOnly": true,

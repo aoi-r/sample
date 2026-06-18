@@ -3401,7 +3401,7 @@ v137 系統確認候補
    現在: なし
    text: 攻撃できない。
 死亡時：隣接するユニットに2ダメージを与える。
-   image: ./assets/custom_cards/strawberry_bomb.png
+   image: ./assets/custom_cards/ichigo_bakudan.png
    回答: 
 
 682. [低] 紋章を探す旅 / cost:1 / 0/0

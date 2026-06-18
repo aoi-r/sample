@@ -9542,7 +9542,7 @@
       "attack": 0,
       "hp": 3,
       "text": "攻撃できない。\n死亡時：隣接するユニットに2ダメージを与える。",
-      "imageUrl": "./assets/custom_cards/strawberry_bomb.png",
+      "imageUrl": "./assets/custom_cards/ichigo_bakudan.png",
       "reason": "v136分類: なし / 推定方法: db_explicit_none / 名称/説明上はなし系統の可能性が高いが確認用に残す",
       "manualAnswer": ""
     },
