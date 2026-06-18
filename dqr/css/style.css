@@ -6364,3 +6364,127 @@
   -webkit-user-select:none;
   -webkit-touch-callout:none;
 }
+
+/* v158: visible stat/cost modifier overlays */
+.hand-card{
+  position:relative;
+}
+.hand-cost-mod{
+  position:absolute;
+  top:-8px;
+  left:50%;
+  transform:translateX(-50%);
+  min-width:28px;
+  padding:2px 7px;
+  border-radius:999px;
+  background:#1f7ae0;
+  color:#fff;
+  font-size:13px;
+  font-weight:900;
+  line-height:1;
+  text-align:center;
+  text-shadow:0 1px 2px rgba(0,0,0,.85);
+  box-shadow:0 2px 8px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.55) inset;
+  z-index:12;
+  pointer-events:none;
+}
+.hand-cost-mod.negative{
+  background:#2581e8;
+}
+.unit-stat-mod{
+  position:absolute;
+  bottom:-15px;
+  min-width:22px;
+  padding:1px 4px;
+  border-radius:999px;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+  line-height:1.05;
+  text-align:center;
+  text-shadow:0 1px 2px rgba(0,0,0,.9);
+  box-shadow:0 1px 6px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.45) inset;
+  z-index:8;
+  pointer-events:none;
+}
+.unit-stat-mod.positive{
+  background:#1f9a53;
+}
+.unit-stat-mod.negative{
+  background:#b83442;
+}
+.unit-atk-mod{
+  left:4px;
+}
+.unit-hp-mod{
+  right:4px;
+}
+.battle-card-zoom-frame{
+  position:relative;
+  display:inline-block;
+  line-height:0;
+}
+.battle-card-zoom-frame img{
+  display:block;
+}
+.zoom-stat-mod,.zoom-cost-mod{
+  position:absolute;
+  min-width:38px;
+  padding:4px 10px;
+  border-radius:999px;
+  color:#fff;
+  font-weight:900;
+  line-height:1;
+  text-align:center;
+  text-shadow:0 1px 3px rgba(0,0,0,.9);
+  box-shadow:0 4px 16px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.55) inset;
+  pointer-events:none;
+}
+.zoom-stat-mod{
+  bottom:4.5%;
+  font-size:20px;
+}
+.zoom-stat-mod.positive{
+  background:#1f9a53;
+}
+.zoom-stat-mod.negative{
+  background:#b83442;
+}
+.zoom-atk-mod{
+  left:8.5%;
+}
+.zoom-hp-mod{
+  right:8.5%;
+}
+.zoom-cost-mod{
+  top:3.5%;
+  left:50%;
+  transform:translateX(-50%);
+  background:#2581e8;
+  font-size:22px;
+}
+.zoom-cost-mod[hidden],.zoom-stat-mod[hidden]{
+  display:none !important;
+}
+@media(max-width:900px) and (orientation:landscape){
+  .unit-stat-mod{
+    bottom:-12px;
+    min-width:18px;
+    font-size:8px;
+    padding:1px 3px;
+  }
+  .hand-cost-mod{
+    top:-6px;
+    min-width:22px;
+    font-size:11px;
+    padding:2px 5px;
+  }
+  .zoom-stat-mod{
+    font-size:15px;
+    padding:3px 8px;
+  }
+  .zoom-cost-mod{
+    font-size:16px;
+    padding:3px 8px;
+  }
+}

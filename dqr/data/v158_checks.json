@@ -1,0 +1,22 @@
+{
+  "node_check": "OK",
+  "duplicate_functions": 0,
+  "duplicate_function_names": {},
+  "label": "v158 / buildable 1460 / total 1583",
+  "data_version": "v158_visible_stat_cost_modifiers",
+  "base": "v157_tribe_effect_badge_foundation",
+  "implemented": [
+    "board attack/HP/durability delta overlays",
+    "hand cost-down overlay",
+    "zoom delta overlays",
+    "base stat storage for newly created units",
+    "image rewrite avoided; DOM overlay used"
+  ],
+  "html_zoom_frame": "#battle-card-zoom-frame",
+  "css_overlay_classes": [
+    "unit-stat-mod",
+    "hand-cost-mod",
+    "zoom-stat-mod",
+    "zoom-cost-mod"
+  ]
+}

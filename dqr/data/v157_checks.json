@@ -1,0 +1,32 @@
+{
+  "node_check": "OK",
+  "duplicate_functions": 0,
+  "duplicate_function_names": {},
+  "label": "v157 / buildable 1460 / total 1583",
+  "data_version": "v157_tribe_effect_badge_foundation",
+  "base": "v156_manual_tribe_answers_applied",
+  "implemented": [
+    "parseContinuousTribeAuraSpecsV157",
+    "refreshContinuousTribeAurasV157",
+    "registerPowerfulBadgeV157",
+    "applyPowerfulBadges",
+    "removePowerfulBadgesV157",
+    "triggerPowerfulBadgeCardPlayedV157",
+    "triggerPowerfulBadgeTurnEndV157",
+    "getPowerfulBadgeCostDeltaV157"
+  ],
+  "audit_counts": {
+    "powerful_badge_cards": 26,
+    "continuous_tribe_aura_candidates": 52,
+    "summon_time_tribe_effect_candidates": 45
+  },
+  "strict_tribe_detection": true,
+  "powerful_badge_player_status": true,
+  "continuous_aura_recalculation_on_summon_and_death": true,
+  "enemy_badge_array_initialized": true,
+  "notes": [
+    "applyPowerfulBadges now recalculates badge modifiers instead of one-time _badgeApplied direct stacking.",
+    "isUnitOfTribeV134/isDemonTribeCard no longer infer tribes from effect text/searchText."
+  ],
+  "enemy_summon_badge_registration_side_aware": true
+}

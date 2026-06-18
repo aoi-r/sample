@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v156_manual_tribe_answers_applied';
+const DATA_VERSION = 'v158_visible_stat_cost_modifiers';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -286,9 +286,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v156 / buildable 1460 / total 1583`;
+  if(label) label.textContent = `v158 / buildable 1460 / total 1583`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v156 / buildable 1460 / total 1583`;
+  if(badge) badge.textContent = `v158 / buildable 1460 / total 1583`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -2649,6 +2649,7 @@ function initLocalBattleGame(){
       maxMp: 1,
       mp: 1,
       tension: 0,
+      powerfulBadges: [],
       hand: [],
       handCount: 0,
       board: makeDummyEnemyBoard()
@@ -2704,10 +2705,13 @@ function makeUnitFromCard(card){
     attack: Number(card.attack ?? 0),
     hp: Number(card.hp ?? 1),
     maxHp: Number(card.hp ?? 1),
+    _baseAttack: Number(card.attack ?? 0),
+    _baseHp: Number(card.hp ?? 1),
     statuses: [],
     canAttack: false,
     summoningSickness: true,
     keywords: parseKeywordFlags(card),
+    _baseKeywords: parseKeywordFlags(card),
     statuses: []
   };
 }
@@ -2801,6 +2805,277 @@ function tribeFromText(text){
   return m ? m[1] : '';
 }
 
+// v157: 系統常在効果 / パワフルバッジ基盤
+// 方針：召喚時は召喚時点の場だけに直接付与、召喚時でない系統強化は場にいる間だけの継続補正、パワフルバッジはプレイヤー側の永続ステータスとして扱う。
+const TRIBE_EFFECT_NAMES_V157 = ['スライム','ゾンビ','ドラゴン','冒険者','魔王'];
+function sideObjV157(side='player'){
+  const game = state.battle.game;
+  return side === 'enemy' ? game.enemy : game.player;
+}
+function sideBoardV157(side='player'){
+  return sideObjV157(side)?.board || [];
+}
+function normalizeTribeV157(t){
+  const s = String(t || '').trim().replace(/系$/,'');
+  if(s === '魔王系') return '魔王';
+  return s;
+}
+function unitHasTribeV157(unit, tribe){
+  if(!unit || unit.isBuilding) return false;
+  return isTribeCard(byId(unit.cardId), normalizeTribeV157(tribe));
+}
+function modifierStoreV157(unit){
+  unit._continuousModifiers ||= {};
+  unit._keywordModifierGrants ||= {};
+  unit._baseKeywords ||= {...(unit.keywords || {})};
+  return unit._continuousModifiers;
+}
+function removeUnitModifierV157(unit, key){
+  if(!unit?._continuousModifiers?.[key]) return false;
+  const mod = unit._continuousModifiers[key];
+  const a = Number(mod.attack || 0), h = Number(mod.hp || 0);
+  unit.attack = Number(unit.attack || 0) - a;
+  unit.maxHp = Math.max(0, Number(unit.maxHp || 0) - h);
+  unit.hp = Math.min(Number(unit.hp || 0) - h, Number(unit.maxHp || 0));
+  if(unit.hp < 0) unit.hp = 0;
+  for(const kw of Object.keys(mod.keywords || {})){
+    unit._keywordModifierGrants[kw] ||= new Set();
+    unit._keywordModifierGrants[kw].delete(key);
+    if(unit._keywordModifierGrants[kw].size === 0 && mod.addedKeywords?.[kw]){
+      unit.keywords ||= {};
+      unit.keywords[kw] = !!unit._baseKeywords?.[kw];
+    }
+  }
+  delete unit._continuousModifiers[key];
+  return true;
+}
+function applyUnitModifierV157(unit, key, spec={}, source='効果'){
+  if(!unit || unit.isBuilding) return false;
+  removeUnitModifierV157(unit, key);
+  const store = modifierStoreV157(unit);
+  const a = Number(spec.attack || 0), h = Number(spec.hp || 0);
+  const keywords = spec.keywords || {};
+  const addedKeywords = {};
+  unit.attack = Number(unit.attack || 0) + a;
+  unit.maxHp = Number(unit.maxHp || 0) + h;
+  unit.hp = Number(unit.hp || 0) + h;
+  unit.keywords ||= {};
+  for(const [kw,val] of Object.entries(keywords)){
+    if(!val) continue;
+    unit._keywordModifierGrants ||= {};
+    unit._keywordModifierGrants[kw] ||= new Set();
+    if(!unit.keywords[kw]) addedKeywords[kw] = true;
+    unit.keywords[kw] = true;
+    unit._keywordModifierGrants[kw].add(key);
+    if(kw === 'haste'){
+      unit.canAttack = true;
+      unit.summoningSickness = false;
+    }
+  }
+  if(spec.spellDamageImmune) unit.spellDamageImmune = true;
+  store[key] = {attack:a, hp:h, keywords, addedKeywords, source};
+  return true;
+}
+function removeModifiersByPrefixV157(unit, prefix){
+  if(!unit?._continuousModifiers) return;
+  for(const key of Object.keys(unit._continuousModifiers)){
+    if(key.startsWith(prefix)) removeUnitModifierV157(unit, key);
+  }
+}
+function keywordTextToFlagsV157(text){
+  const out = {};
+  if(/速攻/.test(text)) out.haste = true;
+  if(/超貫通/.test(text)) out.superPiercing = true;
+  else if(/貫通/.test(text)) out.piercing = true;
+  if(/におうだち/.test(text)) out.taunt = true;
+  if(/ねらい撃ち/.test(text)) out.snipe = true;
+  if(/ステルス/.test(text)) out.stealth = true;
+  return out;
+}
+function splitEffectSentencesV157(text){
+  return String(text || '').replace(/：/g, '：').split(/[。\n]/).map(s => s.trim()).filter(Boolean);
+}
+function isTriggeredSentenceV157(sentence){
+  return /(召喚時|死亡時|攻撃時|テンションリンク|スキルリンク|れんけい|BET|GET|ターン終了時|ターン開始時|使う度|場に出る度|死亡した時|攻撃した後|この武器が壊れた時)/.test(sentence);
+}
+function parseContinuousTribeAuraSpecsV157(text){
+  const specs = [];
+  for(const sentence of splitEffectSentencesV157(text)){
+    if(/パワフルバッジ/.test(sentence)) continue;
+    if(isTriggeredSentenceV157(sentence)) continue;
+    const excludeSelf = /(このユニットを除く|自分以外)/.test(sentence);
+    let m;
+    const rxAll = new RegExp(`(?:このユニットを除く|自分以外の)?(?:味方の|自分の)?(${TRIBE_EFFECT_NAMES_V157.join('|')})系?(?:の)?味方?ユニット(?:全て|すべて|全員)?を[+＋](\\d+)\\/[+＋]?(\\d+)`);
+    m = sentence.match(rxAll);
+    if(m){ specs.push({tribe:m[1], attack:Number(m[2]), hp:Number(m[3]), excludeSelf, text:sentence}); continue; }
+    const rxAtk = new RegExp(`(?:このユニットを除く|自分以外の)?(?:味方の|自分の)?(${TRIBE_EFFECT_NAMES_V157.join('|')})系?(?:の)?味方?ユニット(?:全て|すべて|全員)?の攻撃力[+＋](\\d+)`);
+    m = sentence.match(rxAtk);
+    if(m){ specs.push({tribe:m[1], attack:Number(m[2]), hp:0, excludeSelf, text:sentence}); continue; }
+    const rxHp = new RegExp(`(?:このユニットを除く|自分以外の)?(?:味方の|自分の)?(${TRIBE_EFFECT_NAMES_V157.join('|')})系?(?:の)?味方?ユニット(?:全て|すべて|全員)?のHP[+＋](\\d+)`);
+    m = sentence.match(rxHp);
+    if(m){ specs.push({tribe:m[1], attack:0, hp:Number(m[2]), excludeSelf, text:sentence}); continue; }
+    const rxKw = new RegExp(`(?:このユニットを除く|自分以外の)?(?:味方の|自分の)?(${TRIBE_EFFECT_NAMES_V157.join('|')})系?(?:の)?味方?ユニット(?:全て|すべて|全員)?は(.+?)(?:を得る|を受けない|になる|$)`);
+    m = sentence.match(rxKw);
+    if(m){
+      specs.push({tribe:m[1], attack:0, hp:0, keywords:keywordTextToFlagsV157(m[2]), spellDamageImmune:/特技ダメージを受けない/.test(sentence), excludeSelf, text:sentence});
+    }
+  }
+  return specs;
+}
+function refreshContinuousTribeAurasV157(side='player'){
+  const board = sideBoardV157(side);
+  for(const unit of board){ if(unit) removeModifiersByPrefixV157(unit, 'aura:'); }
+  for(const sourceUnit of board){
+    if(!sourceUnit || sourceUnit.isBuilding || isSealed(sourceUnit)) continue;
+    const sourceCard = byId(sourceUnit.cardId);
+    const specs = parseContinuousTribeAuraSpecsV157(getCardText(sourceCard));
+    specs.forEach((spec, idx) => {
+      for(const target of board){
+        if(!target || target.isBuilding) continue;
+        if(spec.excludeSelf && target.id === sourceUnit.id) continue;
+        if(!unitHasTribeV157(target, spec.tribe)) continue;
+        applyUnitModifierV157(target, `aura:${sourceUnit.id}:${idx}`, spec, sourceCard?.name || sourceUnit.name || '常在効果');
+      }
+    });
+  }
+}
+function parsePowerfulBadgeSpecV157(text){
+  const raw = String(text || '');
+  const body = raw.split(/パワフルバッジ[:：]/)[1] || raw;
+  const tribe = normalizeTribeV157((body.match(/(スライム|ゾンビ|ドラゴン|冒険者|魔王)系?/) || [,''])[1]);
+  const spec = {tribe, attack:0, hp:0, keywords:{}, triggers:[], handCostDelta:0, text:body};
+  let m = body.match(/攻撃力[+＋](\d+)/); if(m) spec.attack += Number(m[1]);
+  m = body.match(/HP[+＋](\d+)/); if(m) spec.hp += Number(m[1]);
+  m = body.match(/[+＋](\d+)\/[+＋]?(\d+)/); if(m){ spec.attack += Number(m[1]); spec.hp += Number(m[2]); }
+  spec.keywords = keywordTextToFlagsV157(body);
+  if(/特技ダメージを受けない/.test(body)) spec.spellDamageImmune = true;
+  m = body.match(/手札にある.*?(スライム|ゾンビ|ドラゴン|冒険者|魔王)系?.*?ユニットカードのコスト[-－−](\d+)/);
+  if(m){ spec.handCostTribe = normalizeTribeV157(m[1]); spec.handCostDelta = -Number(m[2]); }
+  if(/ユニットカードを使う度/.test(body)){
+    if(/HPを(\d+)回復/.test(body)) spec.triggers.push({event:'cardPlayed', tribe, kind:'healLeader', amount:Number((body.match(/HPを(\d+)回復/)||[])[1]||1)});
+    if(/敵リーダーに(\d+)ダメージ/.test(body)) spec.triggers.push({event:'cardPlayed', tribe, kind:'damageEnemyLeader', amount:Number((body.match(/敵リーダーに(\d+)ダメージ/)||[])[1]||1)});
+    if(/テンション[+＋](\d+)/.test(body)) spec.triggers.push({event:'cardPlayed', tribe, kind:'gainTension', amount:Number((body.match(/テンション[+＋](\d+)/)||[])[1]||1)});
+    if(/MPが(\d+)回復/.test(body)) spec.triggers.push({event:'cardPlayed', tribe, kind:'recoverMp', amount:Number((body.match(/MPが(\d+)回復/)||[])[1]||1)});
+    if(/武器の攻撃力[-－−](\d+)/.test(body)) spec.triggers.push({event:'cardPlayed', tribe, kind:'enemyWeaponAttackMinus', amount:Number((body.match(/武器の攻撃力[-－−](\d+)/)||[])[1]||1)});
+  }
+  if(/ターン終了時/.test(body)){
+    if(/[+＋](\d+)\/[+＋]?(\d+)/.test(body)){
+      const mm = body.match(/[+＋](\d+)\/[+＋]?(\d+)/);
+      spec.triggers.push({event:'turnEnd', tribe, kind:'buffBoard', attack:Number(mm[1]), hp:Number(mm[2])});
+    }
+  }
+  return spec;
+}
+function registerPowerfulBadgeV157(card, unit=null, side='player'){
+  const obj = sideObjV157(side);
+  obj.powerfulBadges ||= [];
+  const text = getCardText(card);
+  const existing = obj.powerfulBadges.find(b => b.source === card.name && b.text === text);
+  if(existing) return false;
+  obj.powerfulBadges.push({
+    id:`badge_${Date.now()}_${safeRandomId('badge').slice(0,8)}`,
+    source:card.name,
+    sourceCardId:card.id,
+    sourceUnitId:unit?.id || '',
+    text,
+    spec:parsePowerfulBadgeSpecV157(text),
+    active:true
+  });
+  battleLog(`パワフルバッジ：${card.name}の効果が付与されました。`);
+  applyPowerfulBadges(side);
+  return true;
+}
+function removePowerfulBadgesV157(side='enemy', count=1, source='効果'){
+  const obj = sideObjV157(side);
+  obj.powerfulBadges ||= [];
+  const active = obj.powerfulBadges.filter(b => b?.active !== false);
+  if(!active.length){ battleLog(`${source}：消せるパワフルバッジはありません。`); return 0; }
+  let removed = 0;
+  while(active.length && removed < count){
+    const i = Math.floor(Math.random() * active.length);
+    const [b] = active.splice(i, 1);
+    b.active = false;
+    removed++;
+    battleLog(`${source}：${side === 'enemy' ? '相手' : '味方'}のパワフルバッジ「${b.source}」を消しました。`);
+  }
+  applyPowerfulBadges(side);
+  return removed;
+}
+function applyPowerfulBadges(side='player'){
+  const obj = sideObjV157(side);
+  const board = sideBoardV157(side);
+  for(const unit of board){ if(unit) removeModifiersByPrefixV157(unit, 'badge:'); }
+  for(const badge of obj?.powerfulBadges || []){
+    if(!badge || badge.active === false) continue;
+    badge.spec ||= parsePowerfulBadgeSpecV157(badge.text);
+    const spec = badge.spec;
+    // 「使う度」「手札コスト」だけのバッジは盤面補正なし。
+    if(!spec.attack && !spec.hp && !Object.values(spec.keywords || {}).some(Boolean) && !spec.spellDamageImmune) continue;
+    for(const unit of board){
+      if(!unit || unit.isBuilding) continue;
+      if(spec.tribe && !unitHasTribeV157(unit, spec.tribe)) continue;
+      applyUnitModifierV157(unit, `badge:${badge.id}`, spec, badge.source);
+    }
+  }
+}
+function getPowerfulBadgeCostDeltaV157(card, side='player'){
+  const obj = sideObjV157(side);
+  let delta = 0;
+  for(const badge of obj?.powerfulBadges || []){
+    if(!badge || badge.active === false) continue;
+    badge.spec ||= parsePowerfulBadgeSpecV157(badge.text);
+    const spec = badge.spec;
+    if(!spec.handCostDelta) continue;
+    if(card.cardType !== 'ユニット') continue;
+    if(spec.handCostTribe && !isTribeCard(card, spec.handCostTribe)) continue;
+    delta += Number(spec.handCostDelta || 0);
+  }
+  return delta;
+}
+function triggerPowerfulBadgeCardPlayedV157(card, side='player'){
+  if(!card || card.cardType !== 'ユニット') return;
+  const obj = sideObjV157(side);
+  const opponent = side === 'enemy' ? 'player' : 'enemy';
+  for(const badge of obj?.powerfulBadges || []){
+    if(!badge || badge.active === false) continue;
+    badge.spec ||= parsePowerfulBadgeSpecV157(badge.text);
+    for(const tr of badge.spec.triggers || []){
+      if(tr.event !== 'cardPlayed') continue;
+      if(tr.tribe && !isTribeCard(card, tr.tribe)) continue;
+      if(tr.kind === 'healLeader') healLeader(tr.amount);
+      if(tr.kind === 'damageEnemyLeader') dealDamageToLeader(opponent, tr.amount, badge.source);
+      if(tr.kind === 'gainTension') gainTension(tr.amount, badge.source);
+      if(tr.kind === 'recoverMp') obj.mp = Math.min(Number(obj.maxMp || 0), Number(obj.mp || 0) + Number(tr.amount || 0));
+      if(tr.kind === 'enemyWeaponAttackMinus'){
+        const enemyObj = sideObjV157(opponent);
+        if(enemyObj.weapon){ enemyObj.weapon.attack = Math.max(0, Number(enemyObj.weapon.attack || 0) - Number(tr.amount || 0)); }
+      }
+      battleLog(`パワフルバッジ：${badge.source}が発動しました。`);
+    }
+  }
+}
+function triggerPowerfulBadgeTurnEndV157(side='player'){
+  const obj = sideObjV157(side);
+  for(const badge of obj?.powerfulBadges || []){
+    if(!badge || badge.active === false) continue;
+    badge.spec ||= parsePowerfulBadgeSpecV157(badge.text);
+    for(const tr of badge.spec.triggers || []){
+      if(tr.event !== 'turnEnd') continue;
+      let n = 0;
+      for(const unit of sideBoardV157(side)){
+        if(!unit || unit.isBuilding) continue;
+        if(tr.tribe && !unitHasTribeV157(unit, tr.tribe)) continue;
+        buffUnitV133(unit, tr.attack || 0, tr.hp || 0, badge.source);
+        n++;
+      }
+      if(n) battleLog(`パワフルバッジ：${badge.source}で${n}体を強化しました。`);
+    }
+  }
+}
+function refreshContinuousBoardEffectsV157(side='player'){
+  refreshContinuousTribeAurasV157(side);
+  applyPowerfulBadges(side);
+}
 
 function isSpell(card){ return card?.cardType === '特技'; }
 
@@ -2900,6 +3175,7 @@ function getEffectiveCost(card){
   const nextUnitDelta = card.cardType === 'ユニット' ? Number(game?.player?.nextUnitCostDelta || 0) : 0;
   const nextSpellDelta = isSpell(card) ? Number(game?.player?.nextSpellCostDelta || 0) : 0;
   let dynamicDelta = nextSpellDelta + (isSpell(card) ? Number(game?.player?.thisTurnSpellCostDelta || 0) : 0);
+  dynamicDelta += getPowerfulBadgeCostDeltaV157(card, 'player');
   const nextDiscounts = game?.player?.nextCardDiscounts || [];
   for(const d of [...nextDiscounts]){
     let ok = true;
@@ -2910,11 +3186,11 @@ function getEffectiveCost(card){
   }
   const text = getCardText(card);
   if(text.includes('スキルブースト') && text.includes('コスト-')){
-    const m = text.match(/コスト[-－](\d+)/);
+    const m = text.match(/コスト[-－−](\d+)/);
     dynamicDelta -= Number(m?.[1] || 1) * Number(game?.player?.tensionSkillUseCount || 0);
   }
   if(text.includes('シンクロ') && text.includes('召喚コスト-') && getHeroLevel() >= 2){
-    const m = text.match(/召喚コスト[-－](\d+)/);
+    const m = text.match(/召喚コスト[-－−](\d+)/);
     dynamicDelta -= Number(m?.[1] || 2);
   }
   const tribeCost = text.match(/自分の場と手札にいる(スライム|ゾンビ|ドラゴン|魔王|冒険者|英雄)系?の数だけコストが下がる/);
@@ -2924,6 +3200,85 @@ function getEffectiveCost(card){
   if(text.includes('このターン中に使った占いカードの枚数分デッキと手札にあるこのカードのコスト-')) dynamicDelta -= Number(game?.player?.fortuneCardsUsedThisTurn || 0);
   if(text.includes('このターン中死亡したユニットの数分手札にあるこのカードのコスト-')) dynamicDelta -= Number(game?.player?.unitsDiedThisTurn || 0);
   return Math.max(0, Number(card.cost || 0) + delta + nextUnitDelta + dynamicDelta);
+}
+
+// v158: visible modifier overlays for board cards, hand cards, and zoomed cards.
+// 画像そのものは書き換えず、現在値と本来値の差分だけを上に重ねる。
+function signedDeltaTextV158(value){
+  const n = Number(value || 0);
+  if(!n) return '';
+  return `${n > 0 ? '+' : ''}${n}`;
+}
+function baseCardAttackV158(card, unit=null){
+  if(unit?._baseAttack != null) return Number(unit._baseAttack || 0);
+  return Number(card?.attack ?? 0);
+}
+function baseCardHpV158(card, unit=null){
+  if(unit?._baseHp != null) return Number(unit._baseHp || 0);
+  return Number(card?.hp ?? card?.health ?? 0);
+}
+function baseCardDurabilityV158(card, unit=null){
+  if(unit?._baseDurability != null) return Number(unit._baseDurability || 0);
+  const text = getCardText(card);
+  const dungeon = text.match(/耐久値\s*(\d+)/);
+  if(dungeon) return Number(dungeon[1] || 0);
+  return Number(card?.hp || card?.durability || card?.attack || 0);
+}
+function statModifierDisplayV158(card, unit){
+  if(!card || !unit) return {attackText:'', hpText:'', hpKind:'HP'};
+  const attackDelta = unit.isBuilding ? 0 : Number(unit.attack || 0) - baseCardAttackV158(card, unit);
+  let hpDelta = 0;
+  let hpKind = 'HP';
+  if(unit.isBuilding){
+    hpKind = '耐久';
+    const currentMax = Number(unit.maxDurability ?? unit.maxHp ?? unit.durability ?? 0);
+    hpDelta = currentMax - baseCardDurabilityV158(card, unit);
+  }else{
+    hpDelta = Number(unit.maxHp ?? unit.hp ?? 0) - baseCardHpV158(card, unit);
+  }
+  return {
+    attackText: signedDeltaTextV158(attackDelta),
+    hpText: signedDeltaTextV158(hpDelta),
+    hpKind
+  };
+}
+function statModifierClassV158(text){
+  if(!text) return '';
+  return String(text).startsWith('-') ? ' negative' : ' positive';
+}
+function handCostModifierTextV158(card){
+  if(!card) return '';
+  const base = Number(card.cost || 0);
+  const effective = getEffectiveCost(card);
+  const delta = Number(effective || 0) - base;
+  return delta < 0 ? signedDeltaTextV158(delta) : '';
+}
+function renderBoardModifierOverlaysV158(card, unit){
+  const mod = statModifierDisplayV158(card, unit);
+  const atk = mod.attackText ? `<span class="unit-stat-mod unit-atk-mod${statModifierClassV158(mod.attackText)}">${escapeHtml(mod.attackText)}</span>` : '';
+  const hp = mod.hpText ? `<span class="unit-stat-mod unit-hp-mod${statModifierClassV158(mod.hpText)}" title="${escapeHtml(mod.hpKind)}補正">${escapeHtml(mod.hpText)}</span>` : '';
+  return atk + hp;
+}
+function renderHandCostOverlayV158(card){
+  const text = handCostModifierTextV158(card);
+  return text ? `<span class="hand-cost-mod${statModifierClassV158(text)}">${escapeHtml(text)}</span>` : '';
+}
+function updateBattleCardZoomModifiersV158(card, context={}){
+  const atkEl = $('battle-card-zoom-atk-mod');
+  const hpEl = $('battle-card-zoom-hp-mod');
+  const costEl = $('battle-card-zoom-cost-mod');
+  const setText = (el, text, title='') => {
+    if(!el) return;
+    el.textContent = text || '';
+    el.hidden = !text;
+    el.classList.toggle('negative', !!text && String(text).startsWith('-'));
+    el.classList.toggle('positive', !!text && !String(text).startsWith('-'));
+    if(title) el.title = title;
+  };
+  const mod = context?.unit ? statModifierDisplayV158(card, context.unit) : {attackText:'', hpText:'', hpKind:'HP'};
+  setText(atkEl, mod.attackText);
+  setText(hpEl, mod.hpText, `${mod.hpKind || 'HP'}補正`);
+  setText(costEl, context?.hand ? handCostModifierTextV158(card) : '');
 }
 
 function emitDamageApplied(targetRef, amount, actual, source='effect'){
@@ -3024,7 +3379,7 @@ function applySynchroEffectText(effectText, targetUnit=null, source='シンク�
     targetUnit.keywords.deathrattle = true;
   }
   if(targetUnit && text.includes('召喚コスト-')){
-    const m = text.match(/召喚コスト[-－](\d+)/);
+    const m = text.match(/召喚コスト[-－−](\d+)/);
     targetUnit._synchroCostReduction = Number(m?.[1] || 0);
   }
 }
@@ -3163,7 +3518,7 @@ function applySkillBoostText(effectText, targetUnit=null, source='スキルブ�
   const n = Math.max(1, Number(count || 1));
   applyCommonKeywordAndBuffText(text, targetUnit, source, n);
   if(targetUnit && text.includes('コスト-')){
-    const m = text.match(/コスト[-－](\d+)/);
+    const m = text.match(/コスト[-－−](\d+)/);
     targetUnit._skillBoostCostReduction = Number(m?.[1] || 1) * n;
   }
 }
@@ -3653,7 +4008,8 @@ function handleOpponentTurnEndEvent(payload={}){
 }
 function handleTurnStartEvent(payload={}){
   const game = state.battle.game;
-  clearTurnPlayedCardTrackV124('player');
+  const side = payload?.side || 'player';
+  clearTurnPlayedCardTrackV124(side);
   if(side === 'player') game.player.fortuneThisTurnCount = 0;
   returnDelayedUnitsAtTurnStart();
   clearUntilOwnTurnStart();
@@ -3684,6 +4040,7 @@ function handleTurnStartEvent(payload={}){
 function handleTurnEndEvent(payload={}){
   const game = state.battle.game;
   discardTempCopiesAtTurnEnd();
+  triggerPowerfulBadgeTurnEndV157('player');
   for(const u of [...game.player.board]){
     if(!u) continue;
     if(u.temporaryDeckReturnAtTurnEnd){
@@ -3792,6 +4149,7 @@ function handleCardPlayedEvent({card, cost, side='player'}={}){
   }
   actor.lastPlayedCardId = card.id;
   setTurnPlayedCardTrackV124(card, side);
+  triggerPowerfulBadgeCardPlayedV157(card, side);
   if(isSpell(card)){
     actor.usedSpellCardIds ||= [];
     actor.usedSpellCardIds.push(card.id);
@@ -3815,15 +4173,16 @@ function handleSpellPlayedEvent({card, cost}={}){
     summonRandomUnitByCost(cost);
   }
 }
-function handleUnitSummonedEvent({unit, card, pos, cost}={}){
+function handleUnitSummonedEvent({unit, card, pos, cost, side='player'}={}){
   if(!unit || !card) return;
-  applySummonKeywords(unit, card);
+  applySummonKeywords(unit, card, side);
   if(hasZekkochoTextV134(card)) grantZekkochoV134(unit, card.name);
   applyStoredAdventurerBuff(unit, card);
   applyPendingDemonSummonBuff(unit, card);
   if(state.battle.game.player.nextSummonBuff){ const b=state.battle.game.player.nextSummonBuff; unit.attack += Number(b.attack||0); unit.hp += Number(b.hp||0); unit.maxHp += Number(b.hp||0); state.battle.game.player.nextSummonBuff=null; }
   applySynchroIfAny(card, unit);
   applyRenkeiIfActive(card, unit);
+  refreshContinuousBoardEffectsV157(side);
   triggerHeroAuto('adventurerSummon', {card});
   progressDungeonsByEvent('summon', {card, cost});
   if(isSlimeCard(card) && state.battle.game.player.weapon?.name === 'いしのツメ'){
@@ -3835,6 +4194,7 @@ function handleUnitSummonedEvent({unit, card, pos, cost}={}){
 function handleUnitPutIntoPlayEvent({unit, card, pos, side}={}){
   if(!unit || !card) return;
   applyBaseKeywordsOnly(unit, card);
+  refreshContinuousBoardEffectsV157(side || 'player');
 }
 
 function handleAttackDeclaredEvent({attackerRef, defenderRef, targetSide}={}){
@@ -3891,14 +4251,16 @@ function applyBaseKeywordsOnly(unit, card){
   if(flags.taunt) unit.keywords.taunt = true;
   if(flags.snipe) unit.keywords.snipe = true;
   if(flags.piercing) unit.keywords.piercing = true;
+  unit._baseKeywords = {...(unit.keywords || {})};
 }
+
 function putUnitIntoPlayFromCard(card, pos, side='player', stats={}){
   const game = state.battle.game;
   const board = side === 'player' ? game.player.board : game.enemy.board;
   if(!card || pos == null || pos < 0 || pos >= board.length || board[pos]) return null;
   const unit = makeUnitFromCard(card);
-  if(stats.attack != null) unit.attack = Number(stats.attack);
-  if(stats.hp != null){ unit.hp = Number(stats.hp); unit.maxHp = Number(stats.hp); }
+  if(stats.attack != null){ unit.attack = Number(stats.attack); unit._baseAttack = Number(stats.attack); }
+  if(stats.hp != null){ unit.hp = Number(stats.hp); unit.maxHp = Number(stats.hp); unit._baseHp = Number(stats.hp); }
   if(stats.keywords) unit.keywords = {...unit.keywords, ...stats.keywords};
   if(stats.canAttack || stats.haste){ unit.canAttack = true; unit.summoningSickness = false; unit.keywords.haste = true; }
   if(stats.taunt) unit.keywords.taunt = true;
@@ -3915,9 +4277,10 @@ function summonUnitFromHandToBoard(card, pos, cost){
   return unit;
 }
 
-function applySummonKeywords(unit, card){
+function applySummonKeywords(unit, card, side='player'){
   const flags = parseKeywordFlags(card);
   unit.keywords = flags;
+  unit._baseKeywords = {...flags};
   unit.attacksLeft = flags.doubleAttack ? 2 : 1;
   if(flags.haste || flags.firstStrike){
     unit.canAttack = true;
@@ -3932,19 +4295,14 @@ function applySummonKeywords(unit, card){
   if(flags.conditionGood) addStatus(unit, 'conditionGood');
   if(flags.apathy) addStatus(unit, 'apathy');
   if(flags.powerBadge){
-    state.battle.game.player.powerfulBadges.push({
-      source: card.name,
-      text: getCardText(card),
-      flags
-    });
-    battleLog(`パワフルバッジ：${card.name}の効果が永続しました。`);
-    applyPowerfulBadges();
+    registerPowerfulBadgeV157(card, unit, side);
   }
   if(flags.building){
     unit.isBuilding = true;
     const dungeon = getCardText(card).match(/耐久値\s*(\d+)/);
     unit.durability = dungeon ? 0 : (Number(card.hp || card.attack || 2) || 2);
     unit.maxDurability = dungeon ? Number(dungeon[1]) : unit.durability;
+    unit._baseDurability = Number(unit.maxDurability || unit.durability || 0);
     unit.isDungeon = !!dungeon;
     unit.canAttack = false;
     unit.attack = 0;
@@ -3958,7 +4316,7 @@ function applySummonKeywords(unit, card){
   if(flags.summon){
     applySummonTextEffect(unit, card);
   }
-  applyPowerfulBadges();
+  applyPowerfulBadges(side);
   const pos = state.battle.game.player.board.indexOf(unit);
   if(pos >= 0) triggerTerrainOnSummon(unit, pos);
   triggerTensionLinks('summon', {unit, card});
@@ -3993,6 +4351,15 @@ function applySummonTextEffect(unit, card){
     game.pendingGenericEffect = {kind:'takeControlPermanent', maxHp:2, source:card.name, target:'enemyUnit'};
     battleLog('ホメロス：HP2以下の敵ユニットを選んでください。');
   }
+
+  if(card.name === 'カーディナルナイト'){
+    removePowerfulBadgesV157('enemy', 1, card.name);
+  }
+  if(card.name === 'あんこくまどう'){
+    const removed = removePowerfulBadgesV157('enemy', 2, card.name);
+    if(removed > 0){ unit.attack += 1; unit.hp += 1; unit.maxHp += 1; }
+  }
+
   if(card.name === '妖魔軍王ブギー'){
     game.pendingGenericEffect = {kind:'takeControlBuffWhileSource', requireAdventurer:true, attackBuff:2, hpBuff:2, source:card.name, sourceUnitId:unit.id, target:'enemyUnit'};
     battleLog('妖魔軍王ブギー：敵の冒険者1体を選んでください。');
@@ -4585,23 +4952,7 @@ function triggerTensionLinks(reason, payload={}){
     battleLog(`${reason === 'skillUse' ? 'スキルリンク' : 'テンションリンク'}：${unit.name}が発動。`);
   }
 }
-function applyPowerfulBadges(){
-  const game = state.battle.game;
-  if(!game?.player?.powerfulBadges?.length) return;
-  for(const unit of game.player.board){
-    if(!unit || unit._badgeApplied || unit.isBuilding || isSealed(unit)) continue;
-    const card = byId(unit.cardId);
-    const tribeText = String(card?.searchText || '') + String(card?.text || '');
-    for(const badge of game.player.powerfulBadges){
-      if(badge.text.includes('ゾンビ系') && !tribeText.includes('ゾンビ系')) continue;
-      if(badge.text.includes('速攻')) unit.keywords.haste = true, unit.canAttack = true;
-      if(badge.text.includes('貫通')) unit.keywords.piercing = true;
-      if(badge.text.includes('HP+1') || badge.text.includes('HP＋1')) unit.hp += 1, unit.maxHp += 1;
-      if(badge.text.includes('攻撃力+1') || badge.text.includes('攻撃力＋1')) unit.attack += 1;
-    }
-    unit._badgeApplied = true;
-  }
-}
+// v157 applyPowerfulBadges is defined above. This stub is kept only to avoid older call-site drift.
 
 
 function isBuildingUnit(unit){
@@ -4839,9 +5190,10 @@ function renderBattleBoard(){
       const kwBase = summarizeKeywords(unitKeywords(unit) || {});
       const st = (unit.statuses || []).map(s => s?.type || s).filter(Boolean).map(s => ({poison:'毒', sealed:'封', immuneDamage:'壁', darkRobe:'衣', conditionGood:'絶', apathy:'無'}[s] || '')).filter(Boolean).join('/');
       const kw = [kwBase, st].filter(Boolean).join('/');
-      slot.innerHTML = `${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(unit.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}${kw ? `<em class="unit-keyword">${escapeHtml(kw)}</em>` : ''}<span class="unit-atk">${unit.isBuilding ? '建' : unit.attack}</span><span class="unit-hp">${unit.isBuilding ? (unit.durability ?? unit.hp) : unit.hp}</span><span class="unit-hpbar"><i style="width:${Math.max(0, Math.min(100, Math.round(((unit.isBuilding ? (unit.durability ?? unit.hp) : unit.hp) / Math.max(1, unit.isBuilding ? (unit.maxDurability || unit.maxHp || unit.hp || 1) : unit.maxHp)) * 100)))}%"></i></span>`;
+      const statMods = renderBoardModifierOverlaysV158(card, unit);
+      slot.innerHTML = `${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(unit.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}${kw ? `<em class="unit-keyword">${escapeHtml(kw)}</em>` : ''}<span class="unit-atk">${unit.isBuilding ? '建' : unit.attack}</span><span class="unit-hp">${unit.isBuilding ? (unit.durability ?? unit.hp) : unit.hp}</span>${statMods}<span class="unit-hpbar"><i style="width:${Math.max(0, Math.min(100, Math.round(((unit.isBuilding ? (unit.durability ?? unit.hp) : unit.hp) / Math.max(1, unit.isBuilding ? (unit.maxDurability || unit.maxHp || unit.hp || 1) : unit.maxHp)) * 100)))}%"></i></span>`;
       slot.onclick = () => handleBoardClick(side, pos);
-      attachLongPress(slot, () => showBattleCardZoom(card));
+      attachLongPress(slot, () => showBattleCardZoom(card, {unit, side}));
     }else{
       slot.innerHTML = terrain ? `<span class="terrain-label">${escapeHtml(terrain.type)}</span>` : '';
       slot.ondragover = e => { if(side === 'player'){ e.preventDefault(); slot.classList.add('drop-ready'); } };
@@ -4873,7 +5225,7 @@ function renderBattleHand(){
     const img = getOfficialImage(card);
     const playable = getEffectiveCost(card) <= game.player.mp;
     btn.classList.toggle('unplayable', !playable);
-    btn.innerHTML = `${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span>${escapeHtml(card.name)}</span>`;
+    btn.innerHTML = `${renderHandCostOverlayV158(card)}${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span>${escapeHtml(card.name)}</span>`;
     btn.draggable = true;
     btn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); selectHandCard(index); });
     btn.addEventListener('touchend', e => { e.preventDefault(); e.stopPropagation(); selectHandCard(index); });
@@ -4884,7 +5236,7 @@ function renderBattleHand(){
       renderBattleLog();
     });
     btn.addEventListener('dragend', () => btn.classList.remove('dragging'));
-    attachLongPress(btn, () => showBattleCardZoom(card));
+    attachLongPress(btn, () => showBattleCardZoom(card, {hand:true, handIndex:index, side:'player'}));
     hand.appendChild(btn);
   });
 }
@@ -5036,8 +5388,8 @@ function openChoiceModal(title, options, callback, meta={}){
 
 
 function isDemonTribeCard(card){
-  const text = `${card?.tribes || ''} ${card?.tags || ''} ${card?.text || ''} ${card?.searchText || ''}`;
-  return text.includes('魔王系');
+  // v157: 効果文に「魔王系」と書いてあるだけのカードを魔王扱いしない。
+  return isTribeCard(card, '魔王');
 }
 function hasDemonInHand(){
   return state.battle.game.player.hand.some(id => isDemonTribeCard(byId(id)));
@@ -5495,6 +5847,7 @@ function processSideTurnEndV131(side='player'){
   const game = state.battle.game;
   const obj = side === 'enemy' ? game.enemy : game.player;
   const board = obj.board || [];
+  triggerPowerfulBadgeTurnEndV157(side);
   for(let i=0;i<board.length;i++){
     const u = board[i];
     if(!u) continue;
@@ -6799,19 +7152,15 @@ function addRandomFortuneTellerCardV134(source='占い'){
   return drawFortuneCardFromDeckOrPoolV134(source);
 }
 function isUnitOfTribeV134(unitOrCard, tribe){
+  // v157: 系統判定は分類フィールドのみ。効果文/searchTextからは推測しない。
   if(!TRIBE_NAMES_V134.includes(tribe)) return false;
   const card = unitOrCard?.cardId ? byId(unitOrCard.cardId) : unitOrCard;
   if(!card) return false;
-  const tribes = Array.isArray(card.tribes) ? card.tribes : (card.tribe ? [card.tribe] : []);
-  const extraTribes = Array.isArray(card.extraTribes) ? card.extraTribes : [];
-  // v142: normally one official base tribe. ドランゴなどの例外だけ extraTribes で追加恩恵を受ける。
-  if(tribes.length || extraTribes.length){
-    if(tribe === 'なし') return tribes[0] === 'なし' || tribes[0] === '系統なし';
-    return tribes[0] === tribe || tribes[0] === `${tribe}系` || extraTribes.includes(tribe) || extraTribes.includes(`${tribe}系`);
+  if(tribe === 'なし'){
+    const raw = Array.isArray(card.tribes) ? card.tribes : (card.tribe ? [card.tribe] : []);
+    return raw.some(t => ['なし','系統なし'].includes(String(t || '').trim())) || cardTribes(card).size === 0;
   }
-  const pool = `${card?.name || ''} ${card?.tribe || ''} ${card?.tags || ''} ${card?.text || ''} ${card?.searchText || ''}`;
-  if(tribe === 'なし') return /系統なし|無系統|(^|[\s,、/])なし($|[\s,、/])/.test(pool);
-  return pool.includes(`${tribe}系`) || pool.includes(tribe);
+  return isTribeCard(card, tribe);
 }
 
 function applyTribeEffectTextV134(text, sourceUnit=null, sourceName='効果'){
@@ -8116,6 +8465,8 @@ function resolveDeaths(){
       }
     });
   }
+  refreshContinuousBoardEffectsV157('player');
+  refreshContinuousBoardEffectsV157('enemy');
 }
 function applyDeathrattle(unit, side){
   if(!unit?.keywords?.deathrattle && !getCardText(byId(unit.cardId)).includes('死亡時')) return;
@@ -9931,17 +10282,19 @@ function attachLongPress(el, callback){
   el.addEventListener('mouseleave', cancel);
 }
 
-function showBattleCardZoom(card){
+function showBattleCardZoom(card, context={}){
   const img = getOfficialImage(card);
   if(!img) return;
   $('battle-card-zoom-img').src = img;
   $('battle-card-zoom-img').alt = card.name;
+  updateBattleCardZoomModifiersV158(card, context || {});
   $('battle-card-zoom').classList.remove('hidden');
 }
 
 function closeBattleCardZoom(){
   $('battle-card-zoom').classList.add('hidden');
   $('battle-card-zoom-img').src = '';
+  updateBattleCardZoomModifiersV158(null, {});
 }
 
 function exportDeck(){ const payload = makeDeckPayload(); const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${payload.deckName || 'deck'}.json`; a.click(); URL.revokeObjectURL(a.href); }

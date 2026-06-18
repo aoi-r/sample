@@ -1,7 +1,7 @@
 {
   "schemaVersion": "deckbuilder-card-json-v6-official-guarded",
   "source": "dqr_full_project_v154_ocr_tribe_all_remaining_closed + v155 notation colon unified",
-  "generatedFor": "DQR local remake project",
+  "generatedFor": "DQR local remake project dqr_full_project_v157_tribe_effect_badge_foundation",
   "columns": {
     "識別用": "id, name, sourceSheets, sheetRows, classes, cardType, tribes",
     "表示用": "name, cost, attack, hp, text, rarity",
@@ -90894,5 +90894,14 @@
     "heroCards": "0枚でも複数枚でも編成可能。同名は通常のレジェンド制限に従う。最初の手札に必ず来るデメリットをユーザー側で考慮する。",
     "generatedCards": "効果・ヒーロースキル・進化・トークンで取得するカードはcards.jsonに残すがflags.deckBuildable=falseにする。",
     "officialImages": "画像はgameconductor詳細ページの名称確認済みのみimageVerified=trueとして表示する。未検証の画像URLは使用しない。"
+  },
+  "mechanicsNotes": {
+    "tribeEffectBadgeFoundationV157": {
+      "summon_time_direct_buffs": true,
+      "continuous_board_auras": true,
+      "powerful_badge_player_status": true,
+      "powerful_badge_removal_recalculation": true,
+      "text_guessing_for_tribe_disabled": true
+    }
   }
 }

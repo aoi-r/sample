@@ -1,5 +1,5 @@
 {
-  "version": "v156_manual_tribe_answers_applied",
+  "version": "v158_visible_stat_cost_modifiers",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -28,7 +28,7 @@
   "loginUpdate": "ユーザ名入力を必須から任意に変更。初回アクセス時にlocalStorageのdeviceIdからPlayer-xxxxxxxxを自動生成。Firebase匿名UIDと併用。",
   "playerIdSpec": "初回のみ固定プレイヤーIDを必須入力。localStorageに保存し、Firebase保存パスは players/{playerId}/decks。",
   "battleScaffold": "保存済みデッキ選択、デッキ確認モーダル、合言葉IDマッチング、盤面/HP/MP/テンション/手札の初期UIを追加。",
-  "fix": "v156 手動確認Excelの回答をProjectのみ系統あり83件へ反映。cardTribes helperから効果文/検索文による系統推測を除外。",
+  "fix": "v158: ステータス強化/弱体化と手札コストダウンをカード画像上のオーバーレイで可視化。画像ファイル自体は書き換えず、盤面カード・拡大表示・手札カードの再描画で差分表示を出し入れする。",
   "deckConfirm": "確認画面を30枚俯瞰しやすい敷き詰めグリッドに変更。",
   "layoutFix": "スマホ横向きでカード間隔/上下余白をさらに圧縮し、コレクションカードを大型化。右側アクションボタンの見切れを軽減。",
   "firebase": "Firebase config embedded in js/firebase-config.js for dqr-sample.",
@@ -224,5 +224,18 @@
     "base": "v155_notation_colon_unified",
     "note": "公式DB/カード画像の手動確認結果を反映。"
   },
-  "tribeHelperFix": "cardTribesはtribe/tribes/tagsの完全一致とtreatedAsTribesだけを見る。効果文中の○○系からカード自身の系統を推測しない。"
+  "tribeHelperFix": "cardTribesはtribe/tribes/tagsの完全一致とtreatedAsTribesだけを見る。効果文中の○○系からカード自身の系統を推測しない。",
+  "tribeEffectBadgeFoundation": {
+    "summon_timing": "「召喚時：」の系統強化は、召喚時点で場にいる対象へ直接付与。付与元が死亡しても残るが、後から出たユニットには乗らない。",
+    "continuous_aura": "「召喚時：」がなく強化内容だけが書かれている系統効果は、効果元ユニットが場にいる間だけ有効。後から出た対象にも乗り、効果元が場を離れると外れる。",
+    "powerful_badge": "パワフルバッジは召喚したplayer側に登録される対戦中永続ステータス。バッジ解除効果でactive=falseとなり、盤面補正を再計算して外す。",
+    "strict_tribe_detection": "系統判定はtribe/tribes/tags/treatedAsTribesのみ。効果文/searchTextからは推測しない。"
+  },
+  "visibleModifiers": {
+    "board_stat_modifiers": "盤面ユニットは現在攻撃力と本来攻撃力の差分を左下、最大HP/最大耐久値と本来値の差分を右下に表示。0なら非表示。",
+    "zoom_stat_modifiers": "盤面カードを長押し拡大したときも同じ差分をカード画像上に表示。",
+    "hand_cost_down": "手札カードは有効コストが本来コストより下がっている場合だけ、カード上部にコスト差分を表示。",
+    "removal_behavior": "効果が消えた場合はステータス再計算・再描画により表示も消える。",
+    "image_rewrite_policy": "元画像ファイルは変更せず、DOMオーバーレイで表示する。"
+  }
 }
