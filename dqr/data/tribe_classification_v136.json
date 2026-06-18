@@ -2840,7 +2840,7 @@
     },
     {
       "id": "card_58e57516",
-      "name": "オルゴ・デミーラ:第2形態",
+      "name": "オルゴ・デミーラ：第2形態",
       "tribe": "魔王",
       "method": "db_explicit",
       "cost": 5,
@@ -2851,7 +2851,7 @@
     },
     {
       "id": "card_a707a36b",
-      "name": "オルゴ・デミーラ:第3形態",
+      "name": "オルゴ・デミーラ：第3形態",
       "tribe": "魔王",
       "method": "db_explicit",
       "cost": 6,
@@ -7064,7 +7064,7 @@
     },
     {
       "id": "card_2f9f7e7c",
-      "name": "武術:飛び蹴り",
+      "name": "武術：飛び蹴り",
       "tribe": "なし",
       "method": "db_explicit_none",
       "cost": 0,
@@ -7075,7 +7075,7 @@
     },
     {
       "id": "card_2c9322d6",
-      "name": "武術:ストレートパンチ",
+      "name": "武術：ストレートパンチ",
       "tribe": "なし",
       "method": "db_explicit_none",
       "cost": 0,
@@ -7086,7 +7086,7 @@
     },
     {
       "id": "card_51be9348",
-      "name": "武術:精神統一",
+      "name": "武術：精神統一",
       "tribe": "なし",
       "method": "db_explicit_none",
       "cost": 1,
@@ -8945,7 +8945,7 @@
     },
     {
       "id": "card_ce558ab3",
-      "name": "道具:ちからのたね",
+      "name": "道具：ちからのたね",
       "tribe": "なし",
       "method": "db_explicit_none",
       "cost": 0,
@@ -8956,7 +8956,7 @@
     },
     {
       "id": "card_4551fa99",
-      "name": "道具:いのちのきのみ",
+      "name": "道具：いのちのきのみ",
       "tribe": "なし",
       "method": "db_explicit_none",
       "cost": 0,
@@ -8967,7 +8967,7 @@
     },
     {
       "id": "card_ece92ef0",
-      "name": "道具:しあわせのたね",
+      "name": "道具：しあわせのたね",
       "tribe": "なし",
       "method": "db_explicit_none",
       "cost": 1,
@@ -9066,7 +9066,7 @@
     },
     {
       "id": "card_2cdcf87d",
-      "name": "道具:大きなパン",
+      "name": "道具：大きなパン",
       "tribe": "なし",
       "method": "db_explicit_none",
       "cost": 0,
@@ -9077,7 +9077,7 @@
     },
     {
       "id": "card_020b67d1",
-      "name": "道具:弟切草",
+      "name": "道具：弟切草",
       "tribe": "なし",
       "method": "db_explicit_none",
       "cost": 1,
@@ -9088,7 +9088,7 @@
     },
     {
       "id": "card_e6268038",
-      "name": "道具:火炎草",
+      "name": "道具：火炎草",
       "tribe": "なし",
       "method": "db_explicit_none",
       "cost": 2,
@@ -9957,7 +9957,7 @@
     },
     {
       "id": "card_e317fe90",
-      "name": "マーニャ:ドラゴラム",
+      "name": "マーニャ：ドラゴラム",
       "tribe": "冒険者",
       "method": "db_multi_resolved_by_name",
       "cost": 6,

@@ -238,7 +238,7 @@
     },
     {
       "id": "card_2c9322d6",
-      "name": "武術:ストレートパンチ",
+      "name": "武術：ストレートパンチ",
       "currentTribe": "なし",
       "priority": "高",
       "method": "db_explicit_none",
@@ -252,7 +252,7 @@
     },
     {
       "id": "card_2f9f7e7c",
-      "name": "武術:飛び蹴り",
+      "name": "武術：飛び蹴り",
       "currentTribe": "なし",
       "priority": "高",
       "method": "db_explicit_none",
@@ -280,7 +280,7 @@
     },
     {
       "id": "card_4551fa99",
-      "name": "道具:いのちのきのみ",
+      "name": "道具：いのちのきのみ",
       "currentTribe": "なし",
       "priority": "高",
       "method": "db_explicit_none",
@@ -294,7 +294,7 @@
     },
     {
       "id": "card_2cdcf87d",
-      "name": "道具:大きなパン",
+      "name": "道具：大きなパン",
       "currentTribe": "なし",
       "priority": "高",
       "method": "db_explicit_none",
@@ -1372,7 +1372,7 @@
     },
     {
       "id": "card_51be9348",
-      "name": "武術:精神統一",
+      "name": "武術：精神統一",
       "currentTribe": "なし",
       "priority": "高",
       "method": "db_explicit_none",
@@ -1442,7 +1442,7 @@
     },
     {
       "id": "card_ece92ef0",
-      "name": "道具:しあわせのたね",
+      "name": "道具：しあわせのたね",
       "currentTribe": "なし",
       "priority": "高",
       "method": "db_explicit_none",
@@ -1456,7 +1456,7 @@
     },
     {
       "id": "card_020b67d1",
-      "name": "道具:弟切草",
+      "name": "道具：弟切草",
       "currentTribe": "なし",
       "priority": "高",
       "method": "db_explicit_none",
@@ -3598,7 +3598,7 @@
     },
     {
       "id": "card_e6268038",
-      "name": "道具:火炎草",
+      "name": "道具：火炎草",
       "currentTribe": "なし",
       "priority": "高",
       "method": "db_explicit_none",
@@ -9506,7 +9506,7 @@
     },
     {
       "id": "card_ce558ab3",
-      "name": "道具:ちからのたね",
+      "name": "道具：ちからのたね",
       "currentTribe": "なし",
       "priority": "低",
       "method": "db_explicit_none",

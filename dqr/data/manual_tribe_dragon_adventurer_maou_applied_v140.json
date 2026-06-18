@@ -655,7 +655,7 @@
     },
     {
       "id": "card_e317fe90",
-      "name": "マーニャ:ドラゴラム",
+      "name": "マーニャ：ドラゴラム",
       "appliedTribe": "ドラゴン",
       "before": {
         "cardType": "ユニット",
@@ -3201,7 +3201,7 @@
     },
     {
       "id": "card_58e57516",
-      "name": "オルゴ・デミーラ:第2形態",
+      "name": "オルゴ・デミーラ：第2形態",
       "appliedTribe": "魔王",
       "before": {
         "cardType": "ユニット",
@@ -3239,7 +3239,7 @@
     },
     {
       "id": "card_a707a36b",
-      "name": "オルゴ・デミーラ:第3形態",
+      "name": "オルゴ・デミーラ：第3形態",
       "appliedTribe": "魔王",
       "before": {
         "cardType": "ユニット",
@@ -3640,7 +3640,7 @@
   "notFound": [],
   "conflicts": [
     {
-      "name": "マーニャ:ドラゴラム",
+      "name": "マーニャ：ドラゴラム",
       "oldTribe": "冒険者",
       "newTribe": "ドラゴン"
     },

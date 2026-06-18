@@ -1,0 +1,385 @@
+{
+  "version": "v147",
+  "base": "v145_official_image_batch2_checked",
+  "policy": [
+    "OCR/カード画像下部の系統表記を優先",
+    "画像で読めない/不明瞭な場合は公式DB本文のカテゴリ/種族欄を確認",
+    "不明・怪しいものだけユーザー確認へ回す"
+  ],
+  "historyApplied445_479None": [
+    "もみじこぞう",
+    "わかめ王子",
+    "レッサーデーモン",
+    "スウィートバッグ",
+    "スノーモン",
+    "ナイトウォーカー",
+    "くもの大王",
+    "アルミラージ",
+    "ランドゲーロ",
+    "ともしびこぞう",
+    "カロン",
+    "ぐんたいアリ",
+    "つかいま",
+    "ニードルマン",
+    "ビーンファイター",
+    "牙王ゴースネル"
+  ],
+  "manualFixes": {
+    "キラーファング": "スライム",
+    "ホメロス": "なし"
+  },
+  "batch480_499Applied": {
+    "エンタシスマン": "なし",
+    "オクトセントリー": "なし",
+    "オーシャンクロー": "なし",
+    "キラークリムゾン": "なし",
+    "キラーマシン": "なし",
+    "キラーリカント": "なし",
+    "キングムーチョ": "なし",
+    "ギガンテス": "なし",
+    "ギュメイ将軍": "なし",
+    "クイーンモーモン": "なし",
+    "グランマーズ": "冒険者",
+    "ゲルニック将軍": "なし",
+    "ゲレゲレ": "なし",
+    "ゴレオン将軍": "なし",
+    "ゴールドオーク": "なし",
+    "シードッグ": "なし",
+    "スターキメラ": "なし",
+    "スノーホムンクルス": "なし",
+    "スロットマジーン": "なし",
+    "セラフィ": "冒険者"
+  },
+  "appliedCount": 38,
+  "changedCount": 4,
+  "notFound": [],
+  "changed": [
+    {
+      "name": "キラーファング",
+      "from": "なし",
+      "to": "スライム"
+    },
+    {
+      "name": "ホメロス",
+      "from": "冒険者",
+      "to": "なし"
+    },
+    {
+      "name": "グランマーズ",
+      "from": "なし",
+      "to": "冒険者"
+    },
+    {
+      "name": "セラフィ",
+      "from": "なし",
+      "to": "冒険者"
+    }
+  ],
+  "details": [
+    {
+      "name": "もみじこぞう",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 445,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/445",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_445.jpg"
+    },
+    {
+      "name": "わかめ王子",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 447,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/447",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_447.jpg"
+    },
+    {
+      "name": "レッサーデーモン",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 448,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/448",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_448.jpg"
+    },
+    {
+      "name": "スウィートバッグ",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 449,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/449",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_449.jpg"
+    },
+    {
+      "name": "スノーモン",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 451,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/451",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_451.jpg"
+    },
+    {
+      "name": "ナイトウォーカー",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 452,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/452",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_452.jpg"
+    },
+    {
+      "name": "くもの大王",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 453,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/453",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_453.jpg"
+    },
+    {
+      "name": "アルミラージ",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 454,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/454",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_454.jpg"
+    },
+    {
+      "name": "ランドゲーロ",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 464,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/464",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_464.jpg"
+    },
+    {
+      "name": "ともしびこぞう",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 466,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/466",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_466.jpg"
+    },
+    {
+      "name": "カロン",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 467,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/467",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_467.jpg"
+    },
+    {
+      "name": "ぐんたいアリ",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 471,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/471",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_471.jpg"
+    },
+    {
+      "name": "つかいま",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 472,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/472",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_472.jpg"
+    },
+    {
+      "name": "ニードルマン",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 473,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/473",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_473.jpg"
+    },
+    {
+      "name": "ビーンファイター",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 474,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/474",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_474.jpg"
+    },
+    {
+      "name": "牙王ゴースネル",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 476,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/476",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_476.jpg"
+    },
+    {
+      "name": "キラーファング",
+      "from": "なし",
+      "to": "スライム",
+      "officialId": 479,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/479",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_479.jpg"
+    },
+    {
+      "name": "ホメロス",
+      "from": "冒険者",
+      "to": "なし",
+      "officialId": 485,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/485",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_485.jpg"
+    },
+    {
+      "name": "エンタシスマン",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 566,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/566",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_566.jpg"
+    },
+    {
+      "name": "オクトセントリー",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 458,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/458",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_458.jpg"
+    },
+    {
+      "name": "オーシャンクロー",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 304,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/304",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_304.jpg"
+    },
+    {
+      "name": "キラークリムゾン",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 1527,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1527",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1527.jpg"
+    },
+    {
+      "name": "キラーマシン",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 250,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/250",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_250.jpg"
+    },
+    {
+      "name": "キラーリカント",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 1364,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1364",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1364.jpg"
+    },
+    {
+      "name": "キングムーチョ",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 1253,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1253",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1253.jpg"
+    },
+    {
+      "name": "ギガンテス",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 136,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/136",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_136.jpg"
+    },
+    {
+      "name": "ギュメイ将軍",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 1065,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1065",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1065.jpg"
+    },
+    {
+      "name": "クイーンモーモン",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 748,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/748",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_748.jpg"
+    },
+    {
+      "name": "グランマーズ",
+      "from": "なし",
+      "to": "冒険者",
+      "officialId": 1021,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1021",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1021.jpg"
+    },
+    {
+      "name": "ゲルニック将軍",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 1358,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1358",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1358.jpg"
+    },
+    {
+      "name": "ゲレゲレ",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 1118,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1118",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1118.jpg"
+    },
+    {
+      "name": "ゴレオン将軍",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 1178,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1178",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1178.jpg"
+    },
+    {
+      "name": "ゴールドオーク",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 123,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/123",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_123.jpg"
+    },
+    {
+      "name": "シードッグ",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 710,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/710",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_710.jpg"
+    },
+    {
+      "name": "スターキメラ",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 270,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/270",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_270.jpg"
+    },
+    {
+      "name": "スノーホムンクルス",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 870,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/870",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_870.jpg"
+    },
+    {
+      "name": "スロットマジーン",
+      "from": "なし",
+      "to": "なし",
+      "officialId": 1218,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1218",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1218.jpg"
+    },
+    {
+      "name": "セラフィ",
+      "from": "なし",
+      "to": "冒険者",
+      "officialId": 1198,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1198",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1198.jpg"
+    }
+  ],
+  "userCheckNeeded": []
+}

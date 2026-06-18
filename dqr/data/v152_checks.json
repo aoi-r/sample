@@ -1,0 +1,23 @@
+{
+  "node_check": "OK",
+  "duplicate_functions": 0,
+  "duplicate_function_names": {},
+  "label": "v152 / buildable 1460 / total 1583",
+  "data_version": "v152_ocr_tribe_remaining_head_121_150",
+  "base": "v151_ocr_tribe_remaining_head_091_120",
+  "rule_applied": "魔王一覧にない & ユニットカードである & カード画像下に○○系表示がない & DBにも表記がない => なし",
+  "checked_count": 30,
+  "none_confirmed_count": 30,
+  "target_outside_count": 0,
+  "changed_tribe_count": 0,
+  "remaining_candidates": 435,
+  "tribe_counts": {
+    "スライム": 80,
+    "ゾンビ": 100,
+    "なし": 1167,
+    "ドラゴン": 88,
+    "冒険者": 94,
+    "魔王": 54
+  },
+  "manual_review_needed": []
+}

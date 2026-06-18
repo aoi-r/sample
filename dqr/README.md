@@ -2106,7 +2106,7 @@ node tools/sync_official_gameconductor.mjs
 ## v145 update
 - 公式DB/カード画像確認 batch2。
 - 起動画面表示:
-  - `v146 / buildable 1460 / total 1583`
+  - `v145 / buildable 1460 / total 1583`
 - 修正:
   - ドラキー / いたずらもぐら / おばけキャンドル / モーモン / おばけヒトデ / おおくちばし / ゆめにゅうどう を「なし確認済み」に監査マーク付け。
   - 残り確認候補を再生成。

@@ -268,7 +268,7 @@
     },
     {
       "id": "card_2c9322d6",
-      "name": "武術:ストレートパンチ",
+      "name": "武術：ストレートパンチ",
       "manualAnswer": "特技です",
       "appliedAs": "特技",
       "before": {
@@ -290,7 +290,7 @@
     },
     {
       "id": "card_2f9f7e7c",
-      "name": "武術:飛び蹴り",
+      "name": "武術：飛び蹴り",
       "manualAnswer": "特技です",
       "appliedAs": "特技",
       "before": {
@@ -334,7 +334,7 @@
     },
     {
       "id": "card_4551fa99",
-      "name": "道具:いのちのきのみ",
+      "name": "道具：いのちのきのみ",
       "manualAnswer": "特技です",
       "appliedAs": "特技",
       "before": {
@@ -356,7 +356,7 @@
     },
     {
       "id": "card_2cdcf87d",
-      "name": "道具:大きなパン",
+      "name": "道具：大きなパン",
       "manualAnswer": "特技です",
       "appliedAs": "特技",
       "before": {

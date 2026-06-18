@@ -1,0 +1,69 @@
+{
+  "node_check": "OK",
+  "duplicate_functions": 0,
+  "duplicate_function_names": {},
+  "label": "v156 / buildable 1460 / total 1583",
+  "data_version": "v156_manual_tribe_answers_applied",
+  "base": "v155_notation_colon_unified",
+  "manual_answer_source": "あ(2).xlsx",
+  "manual_rows_applied": 83,
+  "manual_rows_changed": 73,
+  "answer_breakdown": {
+    "なし": 64,
+    "スライム": 2,
+    "特技": 3,
+    "武器": 2,
+    "生成/効果カード": 3,
+    "ドラゴン": 1,
+    "冒険者": 6,
+    "なし+魔王系扱い": 1,
+    "魔王": 1
+  },
+  "record_tribe_counts": {
+    "スライム": 67,
+    "なし": 737,
+    "ドラゴン": 74,
+    "ゾンビ": 77,
+    "冒険者": 86,
+    "魔王": 39,
+    "": 503
+  },
+  "explicit_tribe_counts_by_record": {
+    "スライム": 67,
+    "ドラゴン": 74,
+    "ゾンビ": 77,
+    "冒険者": 86,
+    "魔王系": 39
+  },
+  "explicit_tribe_counts_by_unique_name": {
+    "スライム": 67,
+    "ドラゴン": 74,
+    "ゾンビ": 77,
+    "冒険者": 86,
+    "魔王系": 37
+  },
+  "by_type_counts": {
+    "ユニット": 1080,
+    "建物": 27,
+    "特技": 353,
+    "トークン": 44,
+    "ヒーロー": 22,
+    "武器": 57
+  },
+  "remaining_candidates": 0,
+  "treated_as_tribes": [
+    {
+      "name": "まおうのかめん",
+      "tribe": "なし",
+      "treatedAsTribes": [
+        "魔王"
+      ],
+      "zones": [
+        "hand",
+        "board"
+      ]
+    }
+  ],
+  "cardTribes_helper_fixed": true,
+  "cardTribes_helper_note": "効果文/検索文からの系統推測をやめ、分類データだけを参照。"
+}

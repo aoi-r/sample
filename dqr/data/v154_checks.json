@@ -1,0 +1,73 @@
+{
+  "node_check": "OK",
+  "duplicate_functions": 0,
+  "duplicate_function_names": {},
+  "label": "v154 / buildable 1460 / total 1583",
+  "data_version": "v154_ocr_tribe_all_remaining_closed",
+  "base": "v153_ocr_tribe_remaining_head_151_180",
+  "rule_applied": "魔王一覧にない & ユニットカードである & カード画像下に○○系表示がない & DBにも表記がない => なし",
+  "checked_count": 405,
+  "none_confirmed_count": 402,
+  "target_outside_count": 3,
+  "changed_tribe_count": 0,
+  "remaining_candidates": 0,
+  "tribe_counts": {
+    "スライム": 80,
+    "ゾンビ": 100,
+    "なし": 1148,
+    "ドラゴン": 88,
+    "冒険者": 94,
+    "魔王": 54,
+    "": 19
+  },
+  "by_type_counts": {
+    "ユニット": 1088,
+    "建物": 27,
+    "特技": 350,
+    "トークン": 41,
+    "ヒーロー": 22,
+    "武器": 55
+  },
+  "manual_review_needed": [],
+  "target_outside": [
+    {
+      "name": "ゲントの杖",
+      "beforeCardType": "ユニット",
+      "afterCardType": "武器",
+      "reason": "公式DBカテゴリはトークン、考察に「チャモロ死亡時に装備される武器」。効果も武器耐久力-1。"
+    },
+    {
+      "name": "神鳥の杖",
+      "beforeCardType": "ユニット",
+      "afterCardType": "武器",
+      "reason": "名称が杖で、効果上も味方リーダー装備武器として扱う生成カード。系統分類対象外。"
+    },
+    {
+      "name": "恐怖のツメ",
+      "beforeCardType": "ユニット",
+      "afterCardType": "武器",
+      "reason": "名称・攻撃力/耐久力型から武器生成カード。系統分類対象外。"
+    }
+  ],
+  "suspicious_but_resolved": [
+    "かみさま",
+    "まおうのかげ",
+    "アトラス",
+    "カンダタ",
+    "キングレオ",
+    "トーマ王子",
+    "ドルマゲス",
+    "ハンフリー",
+    "バズズ",
+    "ベリアル",
+    "マルチェロ",
+    "ラーミア",
+    "怪蟲アラグネ",
+    "悪霊の神々アトラス",
+    "悪霊の神々バズズ",
+    "悪霊の神々ベリアル",
+    "百獣の王キングレオ",
+    "覇海軍王ジャコラ",
+    "魔女グレイツェル"
+  ]
+}

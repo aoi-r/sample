@@ -60,7 +60,7 @@
       "generatedBy": []
     },
     {
-      "name": "オルゴ・デミーラ:第2形態",
+      "name": "オルゴ・デミーラ：第2形態",
       "cardId": "card_58e57516",
       "reason": [
         "official_zero_score_generated_or_system"
@@ -69,7 +69,7 @@
       "generatedBy": []
     },
     {
-      "name": "オルゴ・デミーラ:第3形態",
+      "name": "オルゴ・デミーラ：第3形態",
       "cardId": "card_a707a36b",
       "reason": [
         "official_zero_score_generated_or_system"
@@ -1026,7 +1026,7 @@
       "generatedBy": []
     },
     {
-      "name": "武術:飛び蹴り",
+      "name": "武術：飛び蹴り",
       "cardId": "card_2f9f7e7c",
       "reason": [
         "generated_token_prefix",
@@ -1036,7 +1036,7 @@
       "generatedBy": []
     },
     {
-      "name": "武術:ストレートパンチ",
+      "name": "武術：ストレートパンチ",
       "cardId": "card_2c9322d6",
       "reason": [
         "generated_token_prefix",
@@ -1046,7 +1046,7 @@
       "generatedBy": []
     },
     {
-      "name": "武術:精神統一",
+      "name": "武術：精神統一",
       "cardId": "card_51be9348",
       "reason": [
         "generated_token_prefix",
@@ -1125,7 +1125,7 @@
       "generatedBy": []
     },
     {
-      "name": "道具:ちからのたね",
+      "name": "道具：ちからのたね",
       "cardId": "card_ce558ab3",
       "reason": [
         "generated_token_prefix",
@@ -1135,7 +1135,7 @@
       "generatedBy": []
     },
     {
-      "name": "道具:いのちのきのみ",
+      "name": "道具：いのちのきのみ",
       "cardId": "card_4551fa99",
       "reason": [
         "generated_token_prefix",
@@ -1145,7 +1145,7 @@
       "generatedBy": []
     },
     {
-      "name": "道具:しあわせのたね",
+      "name": "道具：しあわせのたね",
       "cardId": "card_ece92ef0",
       "reason": [
         "generated_token_prefix",
@@ -1155,7 +1155,7 @@
       "generatedBy": []
     },
     {
-      "name": "道具:大きなパン",
+      "name": "道具：大きなパン",
       "cardId": "card_2cdcf87d",
       "reason": [
         "generated_token_prefix",
@@ -1165,7 +1165,7 @@
       "generatedBy": []
     },
     {
-      "name": "道具:弟切草",
+      "name": "道具：弟切草",
       "cardId": "card_020b67d1",
       "reason": [
         "generated_token_prefix",
@@ -1175,7 +1175,7 @@
       "generatedBy": []
     },
     {
-      "name": "道具:火炎草",
+      "name": "道具：火炎草",
       "cardId": "card_e6268038",
       "reason": [
         "generated_token_prefix",
@@ -1247,7 +1247,7 @@
       "generatedBy": []
     },
     {
-      "name": "マーニャ:ドラゴラム",
+      "name": "マーニャ：ドラゴラム",
       "cardId": "card_e317fe90",
       "reason": [
         "official_zero_score_generated_or_system"

@@ -1,0 +1,400 @@
+{
+  "version": "v148",
+  "base": "v147_ocr_tribe_batch480_499",
+  "batch": "remaining_candidates_head_001_030",
+  "checkedCount": 30,
+  "changedCount": 0,
+  "manualReviewNeeded": [],
+  "records": [
+    {
+      "name": "せみもぐら",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 826,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/826",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_826.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "まほうおばば",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1130,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1130",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1130.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "占い師"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "マッスルアニマル",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 696,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/696",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_696.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "武闘家"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "未熟なベビーサタン",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1531,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1531",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1531.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "占い師"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "あくまのツボ",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1425,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1425",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1425.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "盗賊"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "あばれうしどり",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 398,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/398",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_398.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "占い師"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "あばれこまいぬ",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 92,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/92",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_92.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "うらぎりこぞう",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1404,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1404",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1404.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "盗賊"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "おおありくい",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 921,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/921",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_921.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "戦士"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "おおさそり",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 486,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/486",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_486.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "かくとうパンサー",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 225,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/225",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_225.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "武闘家"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "かわいいモーモン",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1222,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1222",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1222.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "くみひもこぞう",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 388,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/388",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_388.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "さつじんえい",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 998,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/998",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_998.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "商人"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "つちわらし",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 285,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/285",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_285.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "商人"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "とうのへいたい",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 496,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/496",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_496.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "武闘家"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "とげぼうず",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 939,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/939",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_939.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "とつげきうお",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1435,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1435",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1435.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "占い師"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "どくあおむし",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1004,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1004",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1004.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "魔剣士"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "ねこまどう",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 89,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/89",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_89.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "はさみくわがた",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 697,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/697",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_697.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "商人"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "はりせんもぐら",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 387,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/387",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_387.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "武闘家"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "ばくだんベビー",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1072,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1072",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1072.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "ふゆうじゅ",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 263,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/263",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_263.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "僧侶"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "みならいあくま",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 205,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/205",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_205.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "魔法使い"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "やまねずみ",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1070,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1070",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1070.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "やみしばり",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1229,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1229",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1229.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "わらいぐさ",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1265,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1265",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1265.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "武闘家"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "アイアンアント",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 706,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/706",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_706.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "魔剣士"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    },
+    {
+      "name": "アイスコンドル",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 989,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/989",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_989.jpg",
+      "cardType": "ユニット",
+      "sourceSheets": [
+        "魔法使い"
+      ],
+      "note": "OCR/画像下部優先。系統表記なし。画像未取得/不安定分は公式DB本文でカテゴリと種族欄なしを確認。"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "version": "v154",
+  "rule": "魔王一覧にない & ユニットカードである & カード画像下に○○系表示がない & DBにも表記がない => なし",
+  "note": "v152から採用。v154でv153残候補全件に適用。杖/ツメなど武器トークンは系統分類対象外。",
+  "manualReviewPolicy": "怪しいものは targetOutside または suspiciousButResolved に記録。ユーザー回答が必要なものだけ manualReviewNeeded に残す。"
+}

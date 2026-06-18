@@ -1,0 +1,431 @@
+{
+  "version": "v149",
+  "base": "v148_ocr_tribe_batch_remaining_head_001_030",
+  "batch": "remaining_candidates_head_031_060",
+  "checkedCount": 30,
+  "noneConfirmedCount": 29,
+  "targetOutsideCount": 1,
+  "changedTribeCount": 0,
+  "manualReviewNeeded": [],
+  "records": [
+    {
+      "name": "アントベア",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 487,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/487",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_487.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "イチゴ爆弾",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": null,
+      "detailUrl": null,
+      "imageUrl": "./assets/custom_cards/strawberry_bomb.png",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "オニオーン",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 41,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/41",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_41.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "オニムカデ",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1456,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1456",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1456.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "カメレオンマン",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 164,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/164",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_164.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "戦士"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "ガップリン",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1423,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1423",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1423.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "僧侶"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "キラースコップ",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1171,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1171",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1171.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "サボテンゴールド",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1131,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1131",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1131.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "占い師"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "スパイクヘッド",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 809,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/809",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_809.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "魔剣士"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "スマイルロック",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 874,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/874",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_874.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "武闘家"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "スモーク",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 883,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/883",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_883.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "占い師"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "タホドラキー",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1114,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1114",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1114.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "テンタコルス",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 720,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/720",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_720.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "デスファレーナ",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 315,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/315",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_315.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "占い師"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "デンダの子分",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1433,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1433",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1433.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "商人"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "ドルマゲスの分身",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 718,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/718",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_718.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "魔剣士"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "ビッグハット",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 975,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/975",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_975.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "ピッキー",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 785,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/785",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_785.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "フェアリーバット",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1264,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1264",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1264.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "武闘家"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "フォンデュ",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1015,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1015",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1015.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "ブラックタヌー",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1159,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1159",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1159.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "商人"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "ブレッドハンド",
+      "result": "対象外:武器",
+      "currentBefore": "なし",
+      "officialId": 1157,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1157",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1157.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "武器",
+      "sourceSheets": [
+        "商人"
+      ],
+      "note": "OCR/カード画像下部で武器表示を確認。公式DB本文はカテゴリ=トークンだが効果文も「この武器」で、ユニット系統分類の対象外として除外。",
+      "typeCorrected": true
+    },
+    {
+      "name": "プチさまようよろい",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1395,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1395",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1395.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "魔剣士"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "プチアーノン",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 91,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/91",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_91.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "プチファイター",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 916,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/916",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_916.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "プチプリースト",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 927,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/927",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_927.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "僧侶"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "プチマージ",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 923,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/923",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_923.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "魔法使い"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "マーマン",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 1291,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/1291",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_1291.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "占い師"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "ミノーン",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 635,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/635",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_635.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "共通"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    },
+    {
+      "name": "メイジドラキー",
+      "result": "なし",
+      "currentBefore": "なし",
+      "officialId": 528,
+      "detailUrl": "https://gameconductor.com/dqrivals/c/d/528",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_528.jpg",
+      "cardTypeBefore": "ユニット",
+      "cardTypeAfter": "ユニット",
+      "sourceSheets": [
+        "占い師"
+      ],
+      "note": "OCR/カード画像下部優先。系統表記なし。公式DB本文でカテゴリと種族欄なしも確認。"
+    }
+  ]
+}

@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v146_post145_445_479_tribe_ocr_fix';
+const DATA_VERSION = 'v156_manual_tribe_answers_applied';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -286,9 +286,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v127 / buildable 1465 / total 1583`;
+  if(label) label.textContent = `v156 / buildable 1460 / total 1583`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v127 / buildable 1465 / total 1583`;
+  if(badge) badge.textContent = `v156 / buildable 1460 / total 1583`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -2739,14 +2739,30 @@ function isDemon(card){ return isDemonKingCard(card); }
 function cardTribes(card){
   const out = new Set();
   if(!card) return out;
+  const normalize = (value) => {
+    const s = String(value || '').trim().replace(/系$/,'');
+    if(!s || s === 'なし' || s === '系統なし' || s === '系統分類対象外') return '';
+    if(s === '魔王系') return '魔王';
+    return s;
+  };
+  const add = (value) => {
+    const s = normalize(value);
+    if(['スライム','ゾンビ','ドラゴン','魔王','冒険者','英雄'].includes(s)) out.add(s);
+  };
   const raw = card.tribes;
-  if(Array.isArray(raw)) raw.forEach(t => out.add(String(t).replace(/系$/,'')));
-  else if(raw) out.add(String(raw).replace(/系$/,''));
-  const joined = `${card.name || ''} ${card.text || ''} ${card.searchText || ''} ${card.tags || ''}`;
-  for(const base of ['スライム','ゾンビ','ドラゴン','魔王','冒険者','英雄']){
-    if(joined.includes(base + '系') || joined.includes(base)) out.add(base === '魔王' ? '魔王' : base);
+  if(Array.isArray(raw)) raw.forEach(add);
+  else add(raw);
+  add(card.tribe);
+  if(Array.isArray(card.tags)){
+    for(const tag of card.tags){
+      const s = String(tag || '').trim();
+      // タグは完全一致だけを系統として扱う。効果文・検索文からの推測はしない。
+      if(['スライム系','ゾンビ系','ドラゴン系','魔王系','冒険者系','英雄系','スライム','ゾンビ','ドラゴン','魔王','冒険者','英雄'].includes(s)) add(s);
+    }
   }
-  if(joined.includes('魔王系')) out.add('魔王');
+  if(Array.isArray(card.treatedAsTribes)){
+    card.treatedAsTribes.forEach(add);
+  }
   return out;
 }
 function isTribeCard(card, tribe){
@@ -7317,9 +7333,9 @@ function applyGenericCardUseEffect(card, cost){
     game.player.turnSpellDamageBonus = Number(game.player.turnSpellDamageBonus || 0) + 1;
     return;
   }
-  if(card.name === '魔力解放' || card.name === '道具:大きなパン'){
-    if(card.name === '道具:大きなパン' && game.player.usedBigBreadThisTurn) return;
-    if(card.name === '道具:大きなパン') game.player.usedBigBreadThisTurn = true;
+  if(card.name === '魔力解放' || card.name === '道具：大きなパン'){
+    if(card.name === '道具：大きなパン' && game.player.usedBigBreadThisTurn) return;
+    if(card.name === '道具：大きなパン') game.player.usedBigBreadThisTurn = true;
     game.player.mp += 1;
     game.player.tempMpBonus = Number(game.player.tempMpBonus || 0) + 1;
     return;

@@ -1,5 +1,5 @@
 {
-  "version": "v146_post145_445_479_tribe_ocr_fix",
+  "version": "v156_manual_tribe_answers_applied",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -28,7 +28,7 @@
   "loginUpdate": "ユーザ名入力を必須から任意に変更。初回アクセス時にlocalStorageのdeviceIdからPlayer-xxxxxxxxを自動生成。Firebase匿名UIDと併用。",
   "playerIdSpec": "初回のみ固定プレイヤーIDを必須入力。localStorageに保存し、Firebase保存パスは players/{playerId}/decks。",
   "battleScaffold": "保存済みデッキ選択、デッキ確認モーダル、合言葉IDマッチング、盤面/HP/MP/テンション/手札の初期UIを追加。",
-  "fix": "v145 exact base + post-v145 445-479 tribe/OCR corrections",
+  "fix": "v156 手動確認Excelの回答をProjectのみ系統あり83件へ反映。cardTribes helperから効果文/検索文による系統推測を除外。",
   "deckConfirm": "確認画面を30枚俯瞰しやすい敷き詰めグリッドに変更。",
   "layoutFix": "スマホ横向きでカード間隔/上下余白をさらに圧縮し、コレクションカードを大型化。右側アクションボタンの見切れを軽減。",
   "firebase": "Firebase config embedded in js/firebase-config.js for dqr-sample.",
@@ -202,10 +202,27 @@
   "restoreFeatures": "cards/data/solo preset decks preserved",
   "cardsCount": 1582,
   "consoleErrorFixed": "Identifier 'isAdventurerCard' has already been declared",
-  "visibleBootLabel": "v146 / buildable 1460 / total 1583",
+  "visibleBootLabel": "v145 / buildable 1460 / total 1583",
   "rollbackBase": "v93_fix_duplicate_isAdventurerCard",
   "soloFix": "restore missing getCardText and ensureSoloGame helpers, wrap old solo functions",
   "soloFixFile": "data/solo_missing_helpers_fix_v107.json",
   "fixFile": "data/official_db_image_checked_batch2_v145.json",
-  "post145Replay": "v145 zip実物を正本として、445〜479番台、キラーファング=スライム、ホメロス=なし、破滅への導き=特技を反映。"
+  "tribeOcrBatch3": "480〜499を公式DBカード画像下部優先で確認。読める系統は反映し、表記なしはなし確認済み。",
+  "v147Checks": "data/v147_checks.json",
+  "tribeBatchV148": {
+    "base": "v147_ocr_tribe_batch480_499",
+    "checkedCount": 30,
+    "changedCount": 0,
+    "remainingCandidates": 555,
+    "manualReviewNeeded": 0
+  },
+  "tribeReview": "v154: checked 405, remaining 0, manual review 0, target outside 3. v155: notation only, tribe counts unchanged.",
+  "notationNormalization": "半角コロン表記のカード名を全角コロン表記に統一。対象: オルゴ・デミーラ第2/第3形態、マーニャ：ドラゴラム、武術/道具カード名。",
+  "manualTribeAnswers": {
+    "source": "あ(2).xlsx",
+    "appliedRows": 83,
+    "base": "v155_notation_colon_unified",
+    "note": "公式DB/カード画像の手動確認結果を反映。"
+  },
+  "tribeHelperFix": "cardTribesはtribe/tribes/tagsの完全一致とtreatedAsTribesだけを見る。効果文中の○○系からカード自身の系統を推測しない。"
 }

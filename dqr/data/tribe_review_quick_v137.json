@@ -237,7 +237,7 @@
     },
     {
       "id": "card_2c9322d6",
-      "name": "武術:ストレートパンチ",
+      "name": "武術：ストレートパンチ",
       "currentTribe": "なし",
       "priority": "高",
       "method": "db_explicit_none",
@@ -251,7 +251,7 @@
     },
     {
       "id": "card_2f9f7e7c",
-      "name": "武術:飛び蹴り",
+      "name": "武術：飛び蹴り",
       "currentTribe": "なし",
       "priority": "高",
       "method": "db_explicit_none",
@@ -279,7 +279,7 @@
     },
     {
       "id": "card_4551fa99",
-      "name": "道具:いのちのきのみ",
+      "name": "道具：いのちのきのみ",
       "currentTribe": "なし",
       "priority": "高",
       "method": "db_explicit_none",
@@ -293,7 +293,7 @@
     },
     {
       "id": "card_2cdcf87d",
-      "name": "道具:大きなパン",
+      "name": "道具：大きなパン",
       "currentTribe": "なし",
       "priority": "高",
       "method": "db_explicit_none",
