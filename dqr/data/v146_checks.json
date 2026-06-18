@@ -1,0 +1,41 @@
+{
+  "node_check": "OK",
+  "duplicate_functions": 0,
+  "label": "v146 / buildable 1460 / total 1583",
+  "data_version": "v146_post145_445_479_tribe_ocr_fix",
+  "base": "v145_official_image_batch2_checked",
+  "post145_checked_total_from_log": 35,
+  "none_confirmed_added": 16,
+  "ocr_fix": {
+    "キラーファング": "スライム"
+  },
+  "user_confirmed_none": [
+    "ホメロス"
+  ],
+  "card_type_corrections": {
+    "フローズンリンク": "特技",
+    "魔術師のタロット": "特技",
+    "神速の剣圧": "特技",
+    "らせん打ち": "特技",
+    "メラガイアー": "特技",
+    "とうこん討ち": "特技",
+    "福音の杖": "武器",
+    "変化の巻物": "特技",
+    "妖精の祝福": "特技",
+    "つむじかぜ": "特技",
+    "投げキッス": "特技",
+    "背水の陣": "特技",
+    "破滅への導き": "特技"
+  },
+  "remaining_candidates": 605,
+  "tribe_counts": {
+    "スライム": 80,
+    "ゾンビ": 100,
+    "なし": 677,
+    "ドラゴン": 88,
+    "冒険者": 92,
+    "魔王": 54
+  },
+  "multiple_invalid_units": 0,
+  "duplicate_function_names": []
+}

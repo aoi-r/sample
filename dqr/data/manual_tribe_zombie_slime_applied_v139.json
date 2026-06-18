@@ -1,0 +1,2726 @@
+{
+  "version": "v139",
+  "zombieInputCount": 77,
+  "slimeInputCount": 65,
+  "appliedCount": 142,
+  "notFoundCount": 0,
+  "conflictCount": 3,
+  "applied": [
+    {
+      "id": "card_e96efcff",
+      "name": "くさった死体",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_849c9084",
+      "name": "ブラッドハンド",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_6d44771b",
+      "name": "バイキングソウル",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_f78f7523",
+      "name": "ゴースト",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_c1e90290",
+      "name": "しにがみ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_a7a355ee",
+      "name": "マドハンド",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_637fcf8d",
+      "name": "ボーンナイト",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_f35349de",
+      "name": "グール",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_d90b9d85",
+      "name": "かげのきし",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_5ec15c8d",
+      "name": "コープスフライ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_f929b37f",
+      "name": "マミー",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_071c8ce4",
+      "name": "ヘルゴースト",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_5be2f7e5",
+      "name": "ワイトキング",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_d9eaae6c",
+      "name": "バラモスゾンビ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_a6d11f9e",
+      "name": "ぼうれい剣士",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_d265df6b",
+      "name": "しにがみきぞく",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_cd91144e",
+      "name": "メトロゴースト",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_09cd85f8",
+      "name": "ボーンバット",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_0fb5ba79",
+      "name": "エビルドライブ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_3ac76f82",
+      "name": "デュラハーン",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_758850fa",
+      "name": "ウィッチネイル",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_e6384355",
+      "name": "がいこつ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_499bacbe",
+      "name": "ボーンプリズナー",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_f6441410",
+      "name": "マッドフィンガー",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_b075e00c",
+      "name": "リビングデッド",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_cc254f2d",
+      "name": "タタリ御前",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_7c0ec16a",
+      "name": "妖剣士オーレン",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_c123b2d5",
+      "name": "ゆうれいせんちょう",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_f339baf1",
+      "name": "なげきの亡霊",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_6b25774d",
+      "name": "ボーンファイター",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_40a53d1d",
+      "name": "デュラハンナイト",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_3d44e776",
+      "name": "ゲマ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_daea1c5a",
+      "name": "ウインドマージ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_c6debf01",
+      "name": "まおうのつかい",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_d5b99382",
+      "name": "デスプリースト",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_61988626",
+      "name": "しのどれい",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_4840a653",
+      "name": "ドロル",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_4caf5013",
+      "name": "どくろ大臣",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_cb6f8c12",
+      "name": "ヘルオーディン",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_d4d9415d",
+      "name": "どくどくゾンビ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_a1d4a4e6",
+      "name": "黒騎士レオコーン",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_f8ed7b96",
+      "name": "アスラ王",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_576028ad",
+      "name": "屍騎軍王ゾルデ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_3fa888c3",
+      "name": "大怨霊マアモン",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_8952dfca",
+      "name": "ことだまつかい",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_2242c067",
+      "name": "悪鬼丸",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_0594147f",
+      "name": "暗黒皇帝ガナサダイ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_4f6e6bb5",
+      "name": "屍騎軍王ゾルデ・影",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_09281b83",
+      "name": "アンデッドマン",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_7a08b71e",
+      "name": "ヘルガーディアン",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_9631238e",
+      "name": "ミイラおとこ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_4734a7fe",
+      "name": "デッドエンペラー",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_1d6a5c3b",
+      "name": "じごくのきし",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_c618cad7",
+      "name": "ほねコウモリ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_a60d441a",
+      "name": "エビルスピリッツ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_71ffdefc",
+      "name": "フラワーゾンビ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_9d277745",
+      "name": "がいこつへい",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_5871f2be",
+      "name": "スケアフレイル",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_8578242d",
+      "name": "ファントムシャドウ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_24f84902",
+      "name": "ゆうれい",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_445931e1",
+      "name": "ネクロマンサー",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_71e1d7db",
+      "name": "シルバーマント",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_b67f808e",
+      "name": "ソードファントム",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_9c7d968c",
+      "name": "ソードイド",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_0562e62d",
+      "name": "ナイトリッチ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_aeb2197a",
+      "name": "あくまのめだま",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_96cf13d8",
+      "name": "薄命のボーンバット",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_cd3abc2a",
+      "name": "パラサキス",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_26906064",
+      "name": "ナイトキング",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_4172aae0",
+      "name": "船長",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_78e37c49",
+      "name": "突貫のしにがみきぞく",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_620155b1",
+      "name": "しりょうのきし",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_5082098d",
+      "name": "ヘルチェイサー",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_58f0d9cb",
+      "name": "邪教の使徒ゲマ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_906a83ec",
+      "name": "怨恨のバラモスゾンビ",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_cbda4c10",
+      "name": "デーモンスピリット",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "card_c37310d1",
+      "name": "なげきの妖剣士オーレン",
+      "appliedTribe": "ゾンビ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ]
+      }
+    },
+    {
+      "id": "token_slime_1_1",
+      "name": "スライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "token_slime_bess_2_1",
+      "name": "スライムベス",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_20ad0865",
+      "name": "スライムつむり",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_d40564aa",
+      "name": "メタルスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_cfe42222",
+      "name": "スライムナイト",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_d8e3589a",
+      "name": "バブルスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_bab58015",
+      "name": "ホイミスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_94168f26",
+      "name": "はぐれメタル",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_0a0e15fb",
+      "name": "スライムタワー",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_052480b4",
+      "name": "つららスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_1d7c86bb",
+      "name": "クイーンスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_9a92bd30",
+      "name": "メタルライダー",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_46e8c68f",
+      "name": "キングスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_7be4965e",
+      "name": "メタルキング",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_6633e37a",
+      "name": "ゴールデンスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_d9404380",
+      "name": "ベスキング",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_b348c207",
+      "name": "ダークランサー",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_4a6a4ae2",
+      "name": "スライムファング",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_5a30ca9a",
+      "name": "グランスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_67b8a29e",
+      "name": "もりもりスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_7606cee8",
+      "name": "ホミロン軍曹",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_2f08bce9",
+      "name": "だんごスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_4a0d84fa",
+      "name": "まどうスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_e9215650",
+      "name": "メタルブラザーズ",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_e3f708b3",
+      "name": "スライムダーク",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_df4dc7a1",
+      "name": "ダークキング",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_f6b9b3de",
+      "name": "はねスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_e4f79767",
+      "name": "エンゼルスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_c4e07996",
+      "name": "ダイヤモンドスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_219999f4",
+      "name": "ももいろ三姉妹",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_47295620",
+      "name": "ホイミン",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_e7be76a8",
+      "name": "ダークスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_f1c82881",
+      "name": "スライムツリー",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_f36e8634",
+      "name": "マリンスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_d5eb68dc",
+      "name": "ドラゴスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_df9d5093",
+      "name": "プレミアムスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_188b5598",
+      "name": "青い闘魂スラぼう",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_8fc27d7d",
+      "name": "まおうのたまご",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_65206277",
+      "name": "レモンキング",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_0375fb61",
+      "name": "ベホイミスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_d757a3cd",
+      "name": "ボックススライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_b3d0e530",
+      "name": "ぶちスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_b5452145",
+      "name": "つむりんママ",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_a23db7e5",
+      "name": "ゴールデントーテム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_acdc8cb0",
+      "name": "ルーキー",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_7f950171",
+      "name": "プラチナキング",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_ea5d50ab",
+      "name": "ぷちメタル",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_30ebb9e9",
+      "name": "ドラゴメタル",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_e0c0d5f6",
+      "name": "マンドラ",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_c9f19467",
+      "name": "スライムスノー",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_28ca38de",
+      "name": "スライムタール",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_30a68de9",
+      "name": "もりもりベス",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_775f9128",
+      "name": "トマトマーレ",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_e5c1ffb9",
+      "name": "チョコタワー",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_9a8f3b7f",
+      "name": "メタッツ",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_6a130f33",
+      "name": "マッシュスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_6f20cd44",
+      "name": "バブルキング",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_3db909f1",
+      "name": "コスモスライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_ea7f35ec",
+      "name": "石炭つむり",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_1b4f98fc",
+      "name": "じめじめバブル",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_75c0f22c",
+      "name": "スライムジェネラル",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_885702ea",
+      "name": "スノーム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_041183dc",
+      "name": "スラッピー",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_ac2072b1",
+      "name": "スライムボーグ",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    },
+    {
+      "id": "card_1b25679d",
+      "name": "チェリースライム",
+      "appliedTribe": "スライム",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      }
+    }
+  ],
+  "notFound": [],
+  "conflicts": [
+    {
+      "name": "バラモスゾンビ",
+      "oldTribe": "魔王",
+      "newTribe": "ゾンビ"
+    },
+    {
+      "name": "アスラ王",
+      "oldTribe": "スライム",
+      "newTribe": "ゾンビ"
+    },
+    {
+      "name": "怨恨のバラモスゾンビ",
+      "oldTribe": "魔王",
+      "newTribe": "ゾンビ"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "version": "v142",
+  "rule": "基本系統は1つだけ。ドランゴは例外として tribe=ドラゴン、extraTribes=[冒険者] を持ち、冒険者対象効果の恩恵も受ける。",
+  "updates": [
+    {
+      "id": "card_2eab1cc2",
+      "name": "ドランゴ",
+      "before": {
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "extraTribes": null,
+        "tags": [
+          "ユニット",
+          "ドラゴン系",
+          "冒険者扱い"
+        ]
+      },
+      "after": {
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "extraTribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "ユニット",
+          "ドラゴン系",
+          "冒険者扱い"
+        ]
+      }
+    }
+  ]
+}

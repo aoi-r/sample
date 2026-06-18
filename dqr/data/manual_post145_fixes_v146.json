@@ -1,0 +1,210 @@
+{
+  "version": "v146",
+  "base": "v145_official_image_batch2_checked",
+  "notes": "v145 zip実物を正本として、最新会話履歴の445〜479番台とユーザー修正を反映。",
+  "noneConfirmed": [
+    "もみじこぞう",
+    "わかめ王子",
+    "レッサーデーモン",
+    "スウィートバッグ",
+    "スノーモン",
+    "ナイトウォーカー",
+    "くもの大王",
+    "アルミラージ",
+    "ランドゲーロ",
+    "ともしびこぞう",
+    "カロン",
+    "ぐんたいアリ",
+    "つかいま",
+    "ニードルマン",
+    "ビーンファイター",
+    "牙王ゴースネル"
+  ],
+  "slimeConfirmed": [
+    "キラーファング"
+  ],
+  "userConfirmedNone": [
+    "ホメロス"
+  ],
+  "classifiedSkip": {
+    "ゲマ": "ゾンビ",
+    "デュラン": "魔王",
+    "ダークランサー": "スライム",
+    "ウインドマージ": "ゾンビ",
+    "グレイグ": "冒険者"
+  },
+  "nonUnitConfirmed": {
+    "フローズンリンク": "特技",
+    "魔術師のタロット": "特技",
+    "神速の剣圧": "特技",
+    "らせん打ち": "特技",
+    "メラガイアー": "特技",
+    "とうこん討ち": "特技",
+    "福音の杖": "武器",
+    "変化の巻物": "特技",
+    "妖精の祝福": "特技",
+    "つむじかぜ": "特技",
+    "投げキッス": "特技",
+    "背水の陣": "特技",
+    "破滅への導き": "特技"
+  },
+  "applied": [
+    {
+      "name": "もみじこぞう",
+      "result": "なし",
+      "type": "none_confirmed"
+    },
+    {
+      "name": "わかめ王子",
+      "result": "なし",
+      "type": "none_confirmed"
+    },
+    {
+      "name": "レッサーデーモン",
+      "result": "なし",
+      "type": "none_confirmed"
+    },
+    {
+      "name": "スウィートバッグ",
+      "result": "なし",
+      "type": "none_confirmed"
+    },
+    {
+      "name": "スノーモン",
+      "result": "なし",
+      "type": "none_confirmed"
+    },
+    {
+      "name": "ナイトウォーカー",
+      "result": "なし",
+      "type": "none_confirmed"
+    },
+    {
+      "name": "くもの大王",
+      "result": "なし",
+      "type": "none_confirmed"
+    },
+    {
+      "name": "アルミラージ",
+      "result": "なし",
+      "type": "none_confirmed"
+    },
+    {
+      "name": "ランドゲーロ",
+      "result": "なし",
+      "type": "none_confirmed"
+    },
+    {
+      "name": "ともしびこぞう",
+      "result": "なし",
+      "type": "none_confirmed"
+    },
+    {
+      "name": "カロン",
+      "result": "なし",
+      "type": "none_confirmed"
+    },
+    {
+      "name": "ぐんたいアリ",
+      "result": "なし",
+      "type": "none_confirmed"
+    },
+    {
+      "name": "つかいま",
+      "result": "なし",
+      "type": "none_confirmed"
+    },
+    {
+      "name": "ニードルマン",
+      "result": "なし",
+      "type": "none_confirmed"
+    },
+    {
+      "name": "ビーンファイター",
+      "result": "なし",
+      "type": "none_confirmed"
+    },
+    {
+      "name": "牙王ゴースネル",
+      "result": "なし",
+      "type": "none_confirmed"
+    },
+    {
+      "name": "キラーファング",
+      "result": "スライム",
+      "type": "ocr_user_fix"
+    },
+    {
+      "name": "ホメロス",
+      "result": "なし",
+      "type": "user_confirmed"
+    },
+    {
+      "name": "フローズンリンク",
+      "result": "特技",
+      "type": "card_type_confirmed"
+    },
+    {
+      "name": "魔術師のタロット",
+      "result": "特技",
+      "type": "card_type_confirmed"
+    },
+    {
+      "name": "神速の剣圧",
+      "result": "特技",
+      "type": "card_type_confirmed"
+    },
+    {
+      "name": "らせん打ち",
+      "result": "特技",
+      "type": "card_type_confirmed"
+    },
+    {
+      "name": "メラガイアー",
+      "result": "特技",
+      "type": "card_type_confirmed"
+    },
+    {
+      "name": "とうこん討ち",
+      "result": "特技",
+      "type": "card_type_confirmed"
+    },
+    {
+      "name": "福音の杖",
+      "result": "武器",
+      "type": "card_type_confirmed"
+    },
+    {
+      "name": "変化の巻物",
+      "result": "特技",
+      "type": "card_type_confirmed"
+    },
+    {
+      "name": "妖精の祝福",
+      "result": "特技",
+      "type": "card_type_confirmed"
+    },
+    {
+      "name": "つむじかぜ",
+      "result": "特技",
+      "type": "card_type_confirmed"
+    },
+    {
+      "name": "投げキッス",
+      "result": "特技",
+      "type": "card_type_confirmed"
+    },
+    {
+      "name": "背水の陣",
+      "result": "特技",
+      "type": "card_type_confirmed"
+    },
+    {
+      "name": "破滅への導き",
+      "result": "特技",
+      "type": "card_type_confirmed"
+    }
+  ],
+  "missing": [],
+  "remainingCandidates": 605
+}

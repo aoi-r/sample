@@ -6348,3 +6348,19 @@
 .solo-debug-card{
   touch-action: pan-x !important;
 }
+
+
+/* v134: stronger iPhone hand swipe prevention */
+.solo-debug-strip,
+.solo-debug-hand,
+.solo-debug-enemy-hand{
+  touch-action: pan-x !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-x: contain;
+}
+.solo-debug-card{
+  touch-action: pan-x !important;
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-touch-callout:none;
+}

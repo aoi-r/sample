@@ -1,0 +1,13 @@
+{
+  "node_check": "OK",
+  "duplicate_functions": 0,
+  "label": "v134 / buildable 1465 / total 1583",
+  "data_version": "v134_rules_summon_zekkocho_tribes",
+  "summon_rule_helper": true,
+  "zekkocho_status": true,
+  "tribe_scope_4": true,
+  "fortune_triggers": true,
+  "swipe_guard_v134": true,
+  "unknown_units_v134_count": 726,
+  "user_rules_saved": true
+}

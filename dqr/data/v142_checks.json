@@ -1,0 +1,20 @@
+{
+  "node_check": "OK",
+  "duplicate_functions": 0,
+  "label": "v142 / buildable 1460 / total 1583",
+  "data_version": "v142_official_db_image_check_targets",
+  "drango_updates": 1,
+  "remaining_none_candidates": 645,
+  "direct_official_db_page_targets": 16,
+  "search_only_targets": 629,
+  "tribe_counts": {
+    "スライム": 79,
+    "ゾンビ": 100,
+    "なし": 678,
+    "ドラゴン": 88,
+    "冒険者": 93,
+    "魔王": 54
+  },
+  "multiple_invalid_units": 0,
+  "extra_tribe_runtime": true
+}

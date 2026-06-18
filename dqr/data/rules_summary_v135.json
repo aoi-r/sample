@@ -1,0 +1,14 @@
+{
+  "version": "v135",
+  "tribesImplemented": [
+    "ゾンビ",
+    "スライム",
+    "ドラゴン",
+    "冒険者",
+    "魔王",
+    "なし"
+  ],
+  "tribeEffectRule": "○○系ユニット対象効果は tribes/searchText/tags の補完後、ゾンビ/スライム/ドラゴン/冒険者/魔王/なし のいずれかで判定する。複数系統カードは該当する各系統効果を受ける。",
+  "noneRule": "「なし」は系統を持たないユニットの明示分類。なし系ユニットを対象とする効果があればこの分類を使用する。",
+  "unresolvedFile": "data/tribe_classification_unresolved_v135.json"
+}

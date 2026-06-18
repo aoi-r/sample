@@ -1953,3 +1953,165 @@ node tools/sync_official_gameconductor.mjs
   - `data/fortune_unresolved_v133.json`
   - `data/tribe_effect_audit_v133.json`
   - `data/tribe_unknown_units_v133.json`
+
+
+## v134 update
+- ユーザー提供ルールを反映。
+- 起動画面表示:
+  - `v134 / buildable 1465 / total 1583`
+- 修正:
+  - 「出す」共通ルールを前列上→中→下、後列上→中→下の優先順に統一。
+  - 絶好調ステータスを実装。攻撃で消費、再付与可能。
+  - 系統エンジンをゾンビ/スライム/ドラゴン/冒険者に絞って補強。
+  - 占い発動トリガー（ベルフェゴル/びっくりサタン/ケセランパセラン/ポムポムボム等）を補強。
+  - iPhone手札スワイプ誤選択ガードをさらに強化。
+- 追加ファイル:
+  - `data/user_rule_notes_v134.txt`
+  - `data/rules_summary_v134.json`
+  - `data/tribe_unknown_units_v134.json`
+  - `data/zekkocho_notes_v134.json`
+
+
+## v135 update
+- 系統分類に `魔王系` と `なし` を追加。
+- 起動画面表示:
+  - `v135 / buildable 1465 / total 1583`
+- 修正:
+  - cards.jsonの全ユニットに `tribes` / `tribe` / `tags` / `searchText` を補完。
+  - 系統判定エンジンを `ゾンビ / スライム / ドラゴン / 冒険者 / 魔王 / なし` に拡張。
+  - 分類に迷う候補を `data/tribe_classification_unresolved_v135.json` に出力。
+- 追加ファイル:
+  - `data/tribe_classification_v135.json`
+  - `data/tribe_classification_unresolved_v135.json`
+  - `data/rules_summary_v135.json`
+
+
+## v136 update
+- 系統分類を「1ユニット最大1系統」に修正。
+- 起動画面表示:
+  - `v136 / buildable 1465 / total 1583`
+- 修正:
+  - cards.json の全ユニット `tribes` を単一配列に統一。
+  - `tribe` も単一文字列に統一。
+  - 系統効果エンジンは `tribes[0]` を正として判定。
+  - 魔王系・なしを含めて分類し直し。
+  - 不明候補のみ `data/tribe_classification_unresolved_v136.json` に出力。
+- 追加ファイル:
+  - `data/tribe_classification_v136.json`
+  - `data/tribe_classification_unresolved_v136.json`
+  - `data/rules_summary_v136.json`
+
+
+## v137 update
+- v136で「なし」に寄せた分類について、手動確認用ファイルを追加。
+- 起動画面表示:
+  - `v137 / buildable 1465 / total 1583`
+- 追加ファイル:
+  - `data/tribe_review_candidates_v137.json`
+  - `data/tribe_review_candidates_v137.txt`
+  - `data/tribe_review_candidates_v137.csv`
+  - `data/tribe_review_quick_v137.json`
+- 注意:
+  - ゲーム挙動の分類自体はv136から変更していません。
+  - ここで確認した回答を元に、次版でcards.jsonへ正式反映します。
+
+
+## v138 update
+- ユーザー回答を反映し、特技/ヒーローカードを系統分類候補から除外。
+- 起動画面表示:
+  - `v138 / buildable 1460 / total 1583`
+- 修正:
+  - manualAnswer が特技/とくぎのカードは cardType=特技、系統情報なし。
+  - manualAnswer がヒーローカードのカードは cardType=ヒーロー、系統情報なし。
+  - manualAnswer がなしのユニットは tribe=なし。
+  - 新しい確認候補は cardType=ユニット かつ attack/hp を持つカードのみに限定。
+- 追加ファイル:
+  - `data/manual_answers_applied_v138.json`
+  - `data/tribe_review_candidates_v138.json`
+  - `data/tribe_review_candidates_v138.txt`
+  - `data/tribe_review_candidates_v138.csv`
+  - `data/non_unit_removed_from_tribe_review_v138.json`
+
+
+## v139 update
+- ユーザー提供のゾンビ系・スライム系リストを正式反映。
+- 起動画面表示:
+  - `v139 / buildable 1460 / total 1583`
+- 追加ファイル:
+  - `data/manual_tribe_zombie_slime_applied_v139.json`
+  - `data/tribe_review_candidates_v139.json`
+  - `data/tribe_review_candidates_v139.txt`
+  - `data/tribe_review_candidates_v139.csv`
+  - `data/tribe_classification_v139.json`
+
+
+## v140 update
+- ユーザー提供のドラゴン系・冒険者・魔王系リストを正式反映。
+- 起動画面表示:
+  - `v140 / buildable 1460 / total 1583`
+- 追加ファイル:
+  - `data/manual_tribe_dragon_adventurer_maou_applied_v140.json`
+  - `data/tribe_review_candidates_v140.json`
+  - `data/tribe_review_candidates_v140.txt`
+  - `data/tribe_review_candidates_v140.csv`
+  - `data/tribe_classification_v140.json`
+
+
+## v142 update
+- ドランゴ例外処理を保持。
+- 起動画面表示:
+  - `v142 / buildable 1460 / total 1583`
+- 修正:
+  - `extraTribes` を系統効果判定で参照。
+  - 残り「なし」ユニットを公式DB/カード画像下部確認用の作業リストに整理。
+  - 過去の仮分類が混ざる `searchText` からの自動分類は避けた。
+- 追加ファイル:
+  - `data/drango_extra_tribe_v142.json`
+  - `data/official_db_image_check_targets_v142.json`
+  - `data/tribe_review_candidates_v142.json`
+  - `data/tribe_review_candidates_v142.txt`
+  - `data/tribe_review_candidates_v142.csv`
+  - `data/tribe_classification_v142.json`
+
+
+## v143 update
+- 公式DB/カード画像確認 batch1。
+- 起動画面表示:
+  - `v143 / buildable 1460 / total 1583`
+- 修正:
+  - 公式DB直リンクがある残り候補のうち、10件を画像確認し「なし」維持として監査マーク付け。
+  - 画像取得/クリック不安定な6件を未確定として記録。
+- 追加ファイル:
+  - `data/official_db_image_checked_batch1_v143.json`
+  - `data/tribe_review_candidates_v143.json`
+  - `data/tribe_review_candidates_v143.txt`
+
+
+## v144 update
+- v143未確定6件をユーザー回答により「なし」で確定。
+- 起動画面表示:
+  - `v144 / buildable 1460 / total 1583`
+- 修正:
+  - キラーアーマー / わらいぶくろ / なげきムーン / ツンドラキー / シールドオーガ / レッドアーチャー を「なし確認済み」に監査マーク付け。
+  - 今後の画像/DB確認方針を `data/image_db_check_policy_v144.json` に追加。
+  - 残り確認候補を再生成。
+- 追加ファイル:
+  - `data/manual_none_answers_applied_v144.json`
+  - `data/image_db_check_policy_v144.json`
+  - `data/tribe_review_candidates_v144.json`
+  - `data/tribe_review_candidates_v144.txt`
+  - `data/tribe_classification_v144.json`
+
+
+## v145 update
+- 公式DB/カード画像確認 batch2。
+- 起動画面表示:
+  - `v146 / buildable 1460 / total 1583`
+- 修正:
+  - ドラキー / いたずらもぐら / おばけキャンドル / モーモン / おばけヒトデ / おおくちばし / ゆめにゅうどう を「なし確認済み」に監査マーク付け。
+  - 残り確認候補を再生成。
+- 追加ファイル:
+  - `data/official_db_image_checked_batch2_v145.json`
+  - `data/tribe_review_candidates_v145.json`
+  - `data/tribe_review_candidates_v145.txt`
+  - `data/tribe_classification_v145.json`

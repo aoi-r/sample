@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v133_fortune_tribe_engine_swipe_guard';
+const DATA_VERSION = 'v146_post145_445_479_tribe_ocr_fix';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -2023,6 +2023,7 @@ function renderSoloDebugStripV103(){
   enemyBox.innerHTML = (game.enemy.hand || []).map((id,i)=>cardBtn(id,i,false)).join('') || '<span style="color:#fff;padding:6px">0枚</span>';
   installEnemyHandContainerDelegationV120();
   installSoloHandSwipeGuardV131();
+  installSoloHandSwipeGuardV134();
 }
 
 function soloPlaceFirstEmptyV103(side, card){
@@ -3637,6 +3638,7 @@ function handleOpponentTurnEndEvent(payload={}){
 function handleTurnStartEvent(payload={}){
   const game = state.battle.game;
   clearTurnPlayedCardTrackV124('player');
+  if(side === 'player') game.player.fortuneThisTurnCount = 0;
   returnDelayedUnitsAtTurnStart();
   clearUntilOwnTurnStart();
   if(game.player.familyBondPending){ game.player.familyBondAura = true; game.player.familyBondPending = false; battleLog('家族の絆：家族の絆オーラを得ました。'); }
@@ -3800,6 +3802,7 @@ function handleSpellPlayedEvent({card, cost}={}){
 function handleUnitSummonedEvent({unit, card, pos, cost}={}){
   if(!unit || !card) return;
   applySummonKeywords(unit, card);
+  if(hasZekkochoTextV134(card)) grantZekkochoV134(unit, card.name);
   applyStoredAdventurerBuff(unit, card);
   applyPendingDemonSummonBuff(unit, card);
   if(state.battle.game.player.nextSummonBuff){ const b=state.battle.game.player.nextSummonBuff; unit.attack += Number(b.attack||0); unit.hp += Number(b.hp||0); unit.maxHp += Number(b.hp||0); state.battle.game.player.nextSummonBuff=null; }
@@ -3962,7 +3965,7 @@ function applySummonTextEffect(unit, card){
   const game = state.battle.game;
   const text = getCardText(card);
   const pos = game.player.board.indexOf(unit);
-  const tribeBuffAppliedV132 = applyTribeBuffTextV111(text, unit, card.name) || applyTribeEffectTextV133(text, unit, card.name);
+  const tribeBuffAppliedV132 = applyTribeBuffTextV111(text, unit, card.name) || applyTribeEffectTextV134(text, unit, card.name) || applyTribeEffectTextV133(text, unit, card.name);
   if(card.name === 'クイーンスライム' && !tribeBuffAppliedV132) applyQueenSlimeBuffV132(unit);
   if(card.name === '怪盗ポイックリン') applyPoicklinSummonV119(unit, card);
   if(card.name === '残響のようじゅつし') applyZankyoYojutsuV120(unit, card);
@@ -3977,6 +3980,13 @@ function applySummonTextEffect(unit, card){
   if(card.name === '妖魔軍王ブギー'){
     game.pendingGenericEffect = {kind:'takeControlBuffWhileSource', requireAdventurer:true, attackBuff:2, hpBuff:2, source:card.name, sourceUnitId:unit.id, target:'enemyUnit'};
     battleLog('妖魔軍王ブギー：敵の冒険者1体を選んでください。');
+  }
+  if(card.name === 'シャイニング' || card.name === 'スピンサタン'){
+    game.player.nextFortuneHitFromHut = true;
+    battleLog(`${card.name}：次に使う占いカードの効果を選べます。`);
+  }
+  if(card.name === '占い小屋'){
+    game.player.nextFortuneHitFromHut = true;
   }
 
 
@@ -4560,7 +4570,21 @@ function triggerTensionLinks(reason, payload={}){
   }
 }
 function applyPowerfulBadges(){
-  return applyPowerfulBadgesV133();
+  const game = state.battle.game;
+  if(!game?.player?.powerfulBadges?.length) return;
+  for(const unit of game.player.board){
+    if(!unit || unit._badgeApplied || unit.isBuilding || isSealed(unit)) continue;
+    const card = byId(unit.cardId);
+    const tribeText = String(card?.searchText || '') + String(card?.text || '');
+    for(const badge of game.player.powerfulBadges){
+      if(badge.text.includes('ゾンビ系') && !tribeText.includes('ゾンビ系')) continue;
+      if(badge.text.includes('速攻')) unit.keywords.haste = true, unit.canAttack = true;
+      if(badge.text.includes('貫通')) unit.keywords.piercing = true;
+      if(badge.text.includes('HP+1') || badge.text.includes('HP＋1')) unit.hp += 1, unit.maxHp += 1;
+      if(badge.text.includes('攻撃力+1') || badge.text.includes('攻撃力＋1')) unit.attack += 1;
+    }
+    unit._badgeApplied = true;
+  }
 }
 
 
@@ -4955,13 +4979,9 @@ function consumeCoins(n=1){
   return used === n;
 }
 function summonTokenByName(name, stats={}, side='player'){
-  const game = state.battle.game;
-  const board = side === 'player' ? game.player.board : game.enemy.board;
-  const idx = board.findIndex(x => !x);
-  if(idx < 0) return false;
-  const card = findCardByName(name) || ensureVirtualCard(name) || {id:`token_${name}`, name, attack:stats.attack ?? 1, hp:stats.hp ?? 1, cardType:'ユニット', text:''};
-  return !!putUnitIntoPlayFromCard(card, idx, side, stats);
+  return summonTokenByRuleV134(name, stats, side, '出す');
 }
+
 function addRandomCardByPredicate(predicate, fallbackName='スライム'){
   const pool = state.allCards.filter(c => predicate(c));
   if(pool.length) state.battle.game.player.hand.push(chooseRandom(pool).id);
@@ -5140,7 +5160,14 @@ function applyPoisonEndOfTurnDamage(){
   resolveDeaths();
 }
 
-function isAdventurerCard(card){ return isAdventurerCard2(card); }
+function isAdventurerCard(card){
+  if(!card) return false;
+  if(Array.isArray(card.extraTribes) && (card.extraTribes.includes('冒険者') || card.extraTribes.includes('冒険者系'))) return true;
+  if(Array.isArray(card.tribes) && (card.tribes.includes('冒険者') || card.tribes.includes('冒険者系'))) return true;
+  if(card.tribe === '冒険者' || card.tribe === '冒険者系') return true;
+  const text = `${card.name || ''} ${card.tags || ''} ${card.text || ''} ${card.searchText || ''}`;
+  return text.includes('冒険者');
+}
 
 function addCardCopyToHand(card, opts={}){
   if(!card) return false;
@@ -6403,7 +6430,7 @@ function applyTextMiniEffect(text, source='効果'){
     const m = text.match(/敵リーダーに(\d+)ダメージ/); if(m) dealDamageToLeader('enemy', Number(m[1]), source);
   }
 
-  if(!applyTribeBuffTextV111(text, null, source)) applyTribeEffectTextV133(text, null, source);
+  if(!applyTribeBuffTextV111(text, null, source) && !applyTribeEffectTextV134(text, null, source)) applyTribeEffectTextV133(text, null, source);
 
   // ランダム対象
   let mRand = text.match(/ランダムな敵(?:ユニット)?1体に(\d+)ダメージ/);
@@ -6456,7 +6483,7 @@ function applyTextMiniEffect(text, source='効果'){
 }
 
 // v133: broad fortune and tribe-effect engine
-const TRIBE_NAMES_V133 = ['スライム','ゾンビ','ドラゴン','魔王','冒険者','英雄','物質','獣','鳥','悪魔','植物','虫','マシン'];
+const TRIBE_NAMES_V133 = ['ゾンビ','スライム','ドラゴン','冒険者','魔王','なし'];
 
 function cardTextPoolV133(card){
   if(!card) return '';
@@ -6464,29 +6491,9 @@ function cardTextPoolV133(card){
   return parts.flat ? parts.flat().filter(Boolean).join(' ') : parts.filter(Boolean).join(' ');
 }
 function isUnitOfTribeV133(unitOrCard, tribe){
-  if(!unitOrCard || !tribe) return false;
-  const card = unitOrCard.cardId ? byId(unitOrCard.cardId) : unitOrCard;
-  const pool = cardTextPoolV133(card);
-  if(pool.includes(`${tribe}系`) || pool.includes(tribe)) return true;
-  // common name fallbacks for DB rows without tribe metadata.
-  const name = String(card?.name || unitOrCard?.name || '');
-  if(tribe === 'スライム' && /スライム|スラ|ホイミン|ホイミスライム|バブリン|プヨン|スラリンガル|キング|クイーンスライム/.test(name)) return true;
-  if(tribe === 'ドラゴン' && /ドラゴン|竜|りゅう|ドレイク|リザード/.test(name)) return true;
-  if(tribe === 'ゾンビ' && /ゾンビ|ゴースト|マミー|くさった|ワイト|シャドー|ボーン|スカル/.test(name)) return true;
-  if(tribe === '魔王' && /竜王|シドー|ゾーマ|デスピサロ|エスターク|ミルドラース|デスタムーア|オルゴ|ラプソーン|ネルゲル|ドレアム/.test(name)) return true;
-  return false;
+  return isUnitOfTribeV134(unitOrCard, tribe);
 }
-function allUnitsOfSideV133(side='player'){
-  const game = state.battle.game;
-  const board = side === 'enemy' ? game.enemy.board : game.player.board;
-  return board.map((u,pos)=>({u,pos,side})).filter(x=>x.u && !x.u.isBuilding);
-}
-function buffUnitV133(u, atk=0, hp=0, source='効果'){
-  if(!u) return;
-  u.attack += Number(atk || 0);
-  u.hp += Number(hp || 0);
-  u.maxHp += Number(hp || 0);
-}
+
 function applyTribeEffectTextV133(text, sourceUnit=null, sourceName='効果'){
   const game = state.battle.game;
   text = String(text || '');
@@ -6664,7 +6671,258 @@ function applyFortuneOptionTextV133(card, option, optionIndex=0){
   }
 
   if(applied) battleLog(`${card.name}：占い効果「${text}」を処理しました。`);
+  triggerFortuneResolvedV134(card, optionIndex, text);
   return applied;
+}
+
+
+// v134: official-ish "出す" rule, 絶好調, 4-tribe scope, fortune triggers, stronger hand swipe
+const SUMMON_ORDER_V134 = [0,1,2,3,4,5];
+const TRIBE_NAMES_V134 = ['ゾンビ','スライム','ドラゴン','冒険者','魔王','なし'];
+
+function firstEmptySummonPosV134(side='player'){
+  const game = state.battle.game;
+  const board = side === 'enemy' ? game.enemy.board : game.player.board;
+  for(const p of SUMMON_ORDER_V134){
+    if(!board[p]) return p;
+  }
+  return -1;
+}
+function summonCardByRuleV134(card, side='player', stats={}, source='出す'){
+  if(!card) return false;
+  const pos = firstEmptySummonPosV134(side);
+  if(pos < 0){
+    battleLog(`${source}：空きマスがないため${card.name}を出せません。`);
+    return false;
+  }
+  return !!putUnitIntoPlayFromCard(card, pos, side, stats);
+}
+function summonTokenByRuleV134(name, stats={}, side='player', source='出す'){
+  const card = findCardByName(name) || ensureVirtualCard(name) || {id:`token_${name}`, name, attack:stats.attack ?? 1, hp:stats.hp ?? 1, cardType:'ユニット', text:''};
+  return summonCardByRuleV134(card, side, stats, source);
+}
+function summonFromDeckOrHandByPredicateV134(predicate, count=1, side='player', source='出す'){
+  const game = state.battle.game;
+  const obj = side === 'enemy' ? game.enemy : game.player;
+  obj.hand ||= []; obj.deck ||= [];
+  let done = 0;
+  for(let pass=0; pass<2 && done<count; pass++){
+    const zone = pass === 0 ? obj.hand : obj.deck;
+    for(let i=0; i<zone.length && done<count; i++){
+      const card = byId(zone[i]);
+      if(!predicate(card)) continue;
+      if(firstEmptySummonPosV134(side) < 0) return done;
+      const [id] = zone.splice(i,1); i--;
+      if(summonCardByRuleV134(byId(id), side, {}, source)) done++;
+    }
+  }
+  return done;
+}
+function hasZekkochoTextV134(card){
+  return /絶好調/.test(getCardText(card)) || /絶好調/.test(String(card?.searchText || ''));
+}
+function grantZekkochoV134(unit, source='絶好調'){
+  if(!unit) return false;
+  unit.statuses ||= [];
+  if(!unit.statuses.some(s => (s.type || s) === 'zekkocho')) unit.statuses.push({type:'zekkocho'});
+  unit.zekkocho = true;
+  battleLog(`${unit.name}：絶好調状態になりました。`);
+  return true;
+}
+function isZekkochoV134(unit){
+  return !!(unit?.zekkocho || unit?.statuses?.some(s => (s.type || s) === 'zekkocho'));
+}
+function removeZekkochoV134(unit, reason='攻撃'){
+  if(!unit || !isZekkochoV134(unit)) return false;
+  unit.zekkocho = false;
+  unit.statuses = (unit.statuses || []).filter(s => (s.type || s) !== 'zekkocho');
+  battleLog(`${unit.name}：${reason}により絶好調を失いました。`);
+  return true;
+}
+function consumeZekkochoOnAttackV134(attacker, attackerRef, defenderRef){
+  if(!attacker || !attackerRef) return;
+  if(attackerRef.side !== 'player' && attackerRef.side !== 'enemy') return;
+  // 敵ユニット・敵リーダーへの攻撃で失う。ソロ双方操作では相手側を攻撃した場合に失う。
+  const attacksEnemySide = (attackerRef.side === 'player' && String(defenderRef?.side || '').startsWith('enemy')) ||
+                           (attackerRef.side === 'enemy' && String(defenderRef?.side || '').startsWith('player'));
+  if(attacksEnemySide) {
+    triggerZekkochoAttackWatchersV134(attacker, attackerRef);
+    removeZekkochoV134(attacker, '攻撃');
+  }
+}
+function triggerZekkochoAttackWatchersV134(attacker, attackerRef){
+  const game = state.battle.game;
+  if(attackerRef.side !== 'player' || !isZekkochoV134(attacker)) return;
+  for(const u of game.player.board){
+    if(!u || u.isBuilding) continue;
+    if(u.name === 'メイジバピラス'){
+      drawFortuneCardFromDeckOrPoolV134('メイジバピラス');
+    }
+  }
+}
+function drawFortuneCardFromDeckOrPoolV134(source='占い'){
+  const game = state.battle.game;
+  const idx = game.player.deck.findIndex(id => getCardText(byId(id)).includes('占い'));
+  if(idx >= 0){
+    const [id] = game.player.deck.splice(idx,1);
+    if(game.player.hand.length < 10) game.player.hand.push(id);
+    battleLog(`${source}：山札から占いカードを1枚手札に加えました。`);
+    return true;
+  }
+  const pool = state.allCards.filter(c => getCardText(c).includes('占い'));
+  if(pool.length && game.player.hand.length < 10){
+    addCardCopyToHand(chooseRandom(pool, 'fortunePoolV134', {source}), {}, source);
+    battleLog(`${source}：デッキ外を含む占いカードを1枚手札に加えました。`);
+    return true;
+  }
+  return false;
+}
+function addRandomFortuneTellerCardV134(source='占い'){
+  const pool = state.allCards.filter(c => String(c.class || c.job || c.leader || c.searchText || '').includes('占い師'));
+  if(pool.length) return addCardCopyToHand(chooseRandom(pool, 'fortuneTellerPoolV134', {source}), {}, source);
+  return drawFortuneCardFromDeckOrPoolV134(source);
+}
+function isUnitOfTribeV134(unitOrCard, tribe){
+  if(!TRIBE_NAMES_V134.includes(tribe)) return false;
+  const card = unitOrCard?.cardId ? byId(unitOrCard.cardId) : unitOrCard;
+  if(!card) return false;
+  const tribes = Array.isArray(card.tribes) ? card.tribes : (card.tribe ? [card.tribe] : []);
+  const extraTribes = Array.isArray(card.extraTribes) ? card.extraTribes : [];
+  // v142: normally one official base tribe. ドランゴなどの例外だけ extraTribes で追加恩恵を受ける。
+  if(tribes.length || extraTribes.length){
+    if(tribe === 'なし') return tribes[0] === 'なし' || tribes[0] === '系統なし';
+    return tribes[0] === tribe || tribes[0] === `${tribe}系` || extraTribes.includes(tribe) || extraTribes.includes(`${tribe}系`);
+  }
+  const pool = `${card?.name || ''} ${card?.tribe || ''} ${card?.tags || ''} ${card?.text || ''} ${card?.searchText || ''}`;
+  if(tribe === 'なし') return /系統なし|無系統|(^|[\s,、/])なし($|[\s,、/])/.test(pool);
+  return pool.includes(`${tribe}系`) || pool.includes(tribe);
+}
+
+function applyTribeEffectTextV134(text, sourceUnit=null, sourceName='効果'){
+  const game = state.battle.game;
+  text = String(text || '');
+  let applied = false;
+  const tribeRx = TRIBE_NAMES_V134.join('|');
+  const friendly = game.player.board.filter(u => u && !u.isBuilding);
+
+  let m = text.match(new RegExp(`(?:自分以外の|このユニットを除く)?(?:味方の|自分の)?(${tribeRx})系?の?味方?ユニット(?:全て|すべて|全員)?を[+＋](\\d+)\\/[+＋]?(\\d+)`));
+  if(m){
+    const [, tribe, a, h] = m;
+    for(const u of friendly){
+      if(sourceUnit && u.id === sourceUnit.id && /自分以外|このユニットを除く/.test(text)) continue;
+      if(isUnitOfTribeV134(u, tribe)){ buffUnitV133(u, Number(a), Number(h), sourceName); applied = true; }
+    }
+    if(applied) battleLog(`${sourceName}：${tribe}系味方ユニットを+${a}/+${h}。`);
+  }
+  m = text.match(new RegExp(`(?:味方の|自分の)?(${tribeRx})系?ユニット(?:全て|すべて|全員)?の攻撃力[+＋](\\d+)`));
+  if(m){
+    const [, tribe, a] = m;
+    for(const u of friendly) if(isUnitOfTribeV134(u, tribe)){ buffUnitV133(u, Number(a), 0, sourceName); applied = true; }
+  }
+  m = text.match(new RegExp(`(?:味方の|自分の)?(${tribeRx})系?ユニット(?:全て|すべて|全員)?のHP[+＋](\\d+)`));
+  if(m){
+    const [, tribe, h] = m;
+    for(const u of friendly) if(isUnitOfTribeV134(u, tribe)){ buffUnitV133(u, 0, Number(h), sourceName); applied = true; }
+  }
+  return applied;
+}
+function summonFromTextByRuleV134(text, source='占い'){
+  text = String(text || '');
+  let applied = false;
+  const rx = /(?:におうだち[、, ]*)?(?:速攻[、, ]*)?(\d+)\/(\d+)の([^、。]+?)(?:(\d+)体)?出す/g;
+  let m;
+  while((m = rx.exec(text))){
+    const atk = Number(m[1]), hp = Number(m[2]);
+    const name = m[3].replace(/を$/,'').trim();
+    const count = Number(m[4] || 1);
+    for(let i=0;i<count;i++){
+      const ok = summonTokenByRuleV134(name, {attack:atk, hp}, 'player', source);
+      if(ok){
+        const u = state.battle.game.player.board.find(x => x?.name === name && Number(x.attack) === atk && Number(x.hp) === hp);
+        if(u && text.includes('におうだち')) u.keywords.taunt = true;
+        if(u && text.includes('速攻')) { u.keywords.haste = true; u.canAttack = true; u.summoningSickness = false; }
+      }
+      applied = true;
+    }
+  }
+  if(text.includes('スライムを2体出す') || text.includes('スライムを２体出す')){ summonTokenByRuleV134('スライム', {attack:1,hp:1}, 'player', source); summonTokenByRuleV134('スライム', {attack:1,hp:1}, 'player', source); applied = true; }
+  else if(text.includes('スライムを出す')){ summonTokenByRuleV134('スライム', {attack:1,hp:1}, 'player', source); applied = true; }
+  return applied;
+}
+function applyZekkochoFortuneTextV134(card, text){
+  const game = state.battle.game;
+  let applied = false;
+  if(text.includes('コスト2以下の絶好調を持つユニットを2体出す')){
+    const n = summonFromDeckOrHandByPredicateV134(c => c?.cardType === 'ユニット' && Number(c.cost||0) <= 2 && hasZekkochoTextV134(c), 2, 'player', card.name);
+    battleLog(`${card.name}：絶好調ユニットを${n}体出しました。`);
+    applied = true;
+  }
+  if(text.includes('絶好調を持つ全ての味方ユニット') && text.includes('+1/+1')){
+    for(const u of game.player.board) if(u && !u.isBuilding && isZekkochoV134(u)) buffUnitV133(u,1,1,card.name);
+    applied = true;
+  }
+  if(text.includes('全ての味方ユニットを絶好調状態に戻して') && text.includes('+1/+1')){
+    for(const u of game.player.board) if(u && !u.isBuilding){ grantZekkochoV134(u, card.name); buffUnitV133(u,1,1,card.name); }
+    applied = true;
+  }
+  return applied;
+}
+function triggerFortuneResolvedV134(card, optionIndex=0, optionText=''){
+  const game = state.battle.game;
+  game.player.fortuneUsedCount = Number(game.player.fortuneUsedCount || 0) + 1;
+  game.player.fortuneThisTurnCount = Number(game.player.fortuneThisTurnCount || 0) + 1;
+
+  for(const u of game.player.board){
+    if(!u || u.isBuilding) continue;
+    if(u.name === 'ベルフェゴル'){ buffUnitV133(u,1,1,'ベルフェゴル'); }
+    if(optionIndex === 0 && u.name === 'びっくりサタン'){ drawCard(1); }
+    if(optionIndex === 0 && u.name === 'ケセランパセラン'){ healLeader(2); }
+    if(u.name === 'ポムポムボム'){ 
+      const ok = summonTokenByRuleV134('バブリン', {attack:1,hp:1}, 'player', 'ポムポムボム');
+      if(ok){ const b = game.player.board.find(x=>x?.name==='バブリン'); if(b){ b.keywords.haste = true; b.canAttack = true; b.summoningSickness = false; } }
+    }
+    if(u.name === 'みわくのランプ'){ addRandomFortuneTellerCardV134('みわくのランプ'); }
+    if(u.name === 'のろいのランプ' && isZekkochoV134(u) && card.cardType === '特技'){
+      addCardCopyToHand(card, {}, 'のろいのランプ');
+      removeZekkochoV134(u, '占い特技コピー');
+    }
+  }
+  for(const b of game.player.board){
+    if(b?.name === '炎のほこら' && b.isDungeon){ b.durability = Math.min(Number(b.maxDurability || 7), Number(b.durability || 0) + 1); }
+    if(b?.name === '占い小屋'){ game.player.nextFortuneHitFromHut = true; }
+  }
+}
+function installSoloHandSwipeGuardV134(){
+  if(window.__soloHandSwipeGuardV134Installed) return;
+  window.__soloHandSwipeGuardV134Installed = true;
+  const mark = (e) => {
+    const p = e.touches?.[0] || e.changedTouches?.[0] || e;
+    const card = e.target.closest?.('.solo-debug-card');
+    if(e.type === 'pointerdown' || e.type === 'touchstart'){
+      window.__soloHandGestureV131 = {x:Number(p.clientX || 0), y:Number(p.clientY || 0), t:Date.now(), moved:false};
+      return;
+    }
+    const g = window.__soloHandGestureV131;
+    if(!g) return;
+    const dx = Math.abs(Number(p.clientX || 0) - g.x);
+    const dy = Math.abs(Number(p.clientY || 0) - g.y);
+    if(dx > 4 || dy > 8){
+      g.moved = true;
+      window.__soloHandSwipeSuppressUntilV131 = Date.now() + 1400;
+    }
+  };
+  const blockClick = (e) => {
+    if(Date.now() < Number(window.__soloHandSwipeSuppressUntilV131 || 0)){
+      const card = e.target.closest?.('.solo-debug-card');
+      if(card){ e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation?.(); return false; }
+    }
+  };
+  document.addEventListener('pointerdown', mark, true);
+  document.addEventListener('pointermove', mark, true);
+  document.addEventListener('touchstart', mark, {capture:true, passive:true});
+  document.addEventListener('touchmove', mark, {capture:true, passive:true});
+  document.addEventListener('click', blockClick, true);
+  document.addEventListener('touchend', blockClick, true);
 }
 
 function applyFortuneEffect(card){
@@ -6674,6 +6932,7 @@ function applyFortuneEffect(card){
   const run = (op, idx=0) => {
     if(!applyFortuneOptionTextV133(card, op, idx)){
       applyTextMiniEffect(op, card.name);
+      triggerFortuneResolvedV134(card, idx, op);
       battleLog(`${card.name}：占い効果を簡易処理しました。`);
     }
   };
@@ -6685,7 +6944,8 @@ function applyFortuneEffect(card){
     return;
   }
 
-  if(game.player.fortuneMode === 'hit' && options.length >= 2){
+  if((game.player.fortuneMode === 'hit' || game.player.nextFortuneHitFromHut) && options.length >= 2){
+    game.player.nextFortuneHitFromHut = false;
     battleLog('必中モード：発動する占い効果を選んでください。');
     openChoiceModal(card.name + '：必中', options.slice(0,2), (picked, idx) => {
       run(picked, idx);
@@ -7794,6 +8054,7 @@ function attackLeader(targetSide){
   emitBattleEvent('attackDeclared', {attackerRef:game.selectedAttacker, defenderRef:leaderTargetRef, attacker:atk, targetSide:leaderTargetRef.side});
   animateAttackMotion(game.selectedAttacker, leaderTargetRef);
   applyAttackTextEffects(atk, null, {side:'enemyLeader'});
+  consumeZekkochoOnAttackV134(atk, game.selectedAttacker, leaderTargetRef);
   const beforeHp = targetSide === 'enemy' ? game.enemy.hp : game.player.hp;
   damageLeader(targetSide, atk.attack);
   const afterHp = targetSide === 'enemy' ? game.enemy.hp : game.player.hp;

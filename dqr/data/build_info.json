@@ -1,5 +1,5 @@
 {
-  "version": "v133_fortune_tribe_engine_swipe_guard",
+  "version": "v146_post145_445_479_tribe_ocr_fix",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -28,7 +28,7 @@
   "loginUpdate": "ユーザ名入力を必須から任意に変更。初回アクセス時にlocalStorageのdeviceIdからPlayer-xxxxxxxxを自動生成。Firebase匿名UIDと併用。",
   "playerIdSpec": "初回のみ固定プレイヤーIDを必須入力。localStorageに保存し、Firebase保存パスは players/{playerId}/decks。",
   "battleScaffold": "保存済みデッキ選択、デッキ確認モーダル、合言葉IDマッチング、盤面/HP/MP/テンション/手札の初期UIを追加。",
-  "fix": "Generic fortune engine, tribe unit effects, audit reports, stronger iPhone swipe guard",
+  "fix": "v145 exact base + post-v145 445-479 tribe/OCR corrections",
   "deckConfirm": "確認画面を30枚俯瞰しやすい敷き詰めグリッドに変更。",
   "layoutFix": "スマホ横向きでカード間隔/上下余白をさらに圧縮し、コレクションカードを大型化。右側アクションボタンの見切れを軽減。",
   "firebase": "Firebase config embedded in js/firebase-config.js for dqr-sample.",
@@ -202,9 +202,10 @@
   "restoreFeatures": "cards/data/solo preset decks preserved",
   "cardsCount": 1582,
   "consoleErrorFixed": "Identifier 'isAdventurerCard' has already been declared",
-  "visibleBootLabel": "v133 / buildable 1465 / total 1583",
+  "visibleBootLabel": "v146 / buildable 1460 / total 1583",
   "rollbackBase": "v93_fix_duplicate_isAdventurerCard",
   "soloFix": "restore missing getCardText and ensureSoloGame helpers, wrap old solo functions",
   "soloFixFile": "data/solo_missing_helpers_fix_v107.json",
-  "fixFile": "data/fortune_audit_v133.json"
+  "fixFile": "data/official_db_image_checked_batch2_v145.json",
+  "post145Replay": "v145 zip実物を正本として、445〜479番台、キラーファング=スライム、ホメロス=なし、破滅への導き=特技を反映。"
 }

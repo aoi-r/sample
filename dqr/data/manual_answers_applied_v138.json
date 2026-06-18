@@ -1,0 +1,2013 @@
+{
+  "version": "v138",
+  "sourceUploadedFile": "貼り付けられたテキスト（1 点）(9).txt",
+  "count": 80,
+  "applied": [
+    {
+      "id": "card_f9015853",
+      "name": "いいえ",
+      "manualAnswer": "「悪の化身りゅうおう」の召喚時効果で、次の敵のターン開始時に敵が選択する2択のうちの１つです。デッキ編成不可の特技に分類されるのでユニット分類はありません。",
+      "appliedAs": "特技",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "特技",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_4ab4223a",
+      "name": "いのりのゆびわ",
+      "manualAnswer": "占い師の「占い師の交換所」で交換できる、デッキ編成不可のカードで特技扱いです。ユニット分類はありません。",
+      "appliedAs": "特技",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "特技",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_660bed56",
+      "name": "せみもぐら",
+      "manualAnswer": "なしです",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_c92b4cda",
+      "name": "はい",
+      "manualAnswer": "悪の化身りゅうおう」の召喚時効果で、次の敵のターン開始時に敵が選択する2択のうちの１つです。デッキ編成不可の特技に分類されるのでユニット分類はありません。",
+      "appliedAs": "特技",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "特技",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_a64a1c61",
+      "name": "まほうおばば",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_79b87cb3",
+      "name": "やくそう",
+      "manualAnswer": "エマの効果で手に入るデッキ編成不可カード。特技扱いです。",
+      "appliedAs": "特技",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "特技",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_e753e7e3",
+      "name": "ジゴデイン",
+      "manualAnswer": "特技です",
+      "appliedAs": "特技",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "特技",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_252601dd",
+      "name": "タマゴ",
+      "manualAnswer": "エッグラ＆チキーラ召喚時の次のターンに発動する効果の１つ。特技です。",
+      "appliedAs": "特技",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "特技",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_1c5c5c71",
+      "name": "ニワトリ",
+      "manualAnswer": "エッグラ＆チキーラ召喚時の次のターンに発動する効果の１つ。特技です。",
+      "appliedAs": "特技",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "特技",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_c05416f1",
+      "name": "マッスルアニマル",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_bf650963",
+      "name": "夢と現実の再会",
+      "manualAnswer": "特技です",
+      "appliedAs": "特技",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "特技",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_1f7d61c0",
+      "name": "審判のタロット",
+      "manualAnswer": "とくぎです",
+      "appliedAs": "特技",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "特技",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_f9f18c64",
+      "name": "小さな相棒",
+      "manualAnswer": "ヒーローカードなので分類はないです。デッキ編成不可カードです",
+      "appliedAs": "ヒーロー",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ヒーロー",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_dbf04d8c",
+      "name": "悲しげな犬",
+      "manualAnswer": "ヒーローカードなので分類はないです。デッキ編成不可カードです",
+      "appliedAs": "ヒーロー",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ヒーロー",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_2e2c9193",
+      "name": "挑戦!バトルロード",
+      "manualAnswer": "ヒーローカードなので分類はないです。デッキ編成不可カードです",
+      "appliedAs": "ヒーロー",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ヒーロー",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_a753c7d2",
+      "name": "未熟なベビーサタン",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_2c9322d6",
+      "name": "武術:ストレートパンチ",
+      "manualAnswer": "特技です",
+      "appliedAs": "特技",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "特技",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_2f9f7e7c",
+      "name": "武術:飛び蹴り",
+      "manualAnswer": "特技です",
+      "appliedAs": "特技",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "特技",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_6bf41b47",
+      "name": "背水のかまえ",
+      "manualAnswer": "特技です",
+      "appliedAs": "特技",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "特技",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_4551fa99",
+      "name": "道具:いのちのきのみ",
+      "manualAnswer": "特技です",
+      "appliedAs": "特技",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "特技",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_2cdcf87d",
+      "name": "道具:大きなパン",
+      "manualAnswer": "特技です",
+      "appliedAs": "特技",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "特技",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_e7aa3b04",
+      "name": "あくまのツボ",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_e084603d",
+      "name": "あばれうしどり",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_205cdb83",
+      "name": "あばれこまいぬ",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_c762fb53",
+      "name": "いたずらもぐら",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_a8f40292",
+      "name": "うまのふん",
+      "manualAnswer": "特技です",
+      "appliedAs": "特技",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "特技",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_ca1467a2",
+      "name": "うらぎりこぞう",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_b967603e",
+      "name": "おおありくい",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_4d7fa9dd",
+      "name": "おおくちばし",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_7cf29b7b",
+      "name": "おおさそり",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_1322ef2c",
+      "name": "おばけキャンドル",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_dd2f4cdc",
+      "name": "おばけヒトデ",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_dc1b77fa",
+      "name": "かくとうパンサー",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_a649d91a",
+      "name": "かわいいモーモン",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_76df765d",
+      "name": "くみひもこぞう",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_3e93256f",
+      "name": "ぐんたいアリ",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_4f51ef82",
+      "name": "さつじんえい",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_773b2a31",
+      "name": "つちわらし",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_94fdbc76",
+      "name": "とげぼうず",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_d13eb6d5",
+      "name": "とつげきうお",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_ccef8f4b",
+      "name": "どくあおむし",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_1fab9780",
+      "name": "ねこまどう",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_2cb4a0a1",
+      "name": "はさみくわがた",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_44193806",
+      "name": "はりせんもぐら",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_4fab031d",
+      "name": "ばくだんベビー",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_13658a44",
+      "name": "ふゆうじゅ",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_d29f59a3",
+      "name": "みならいあくま",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_03f70ef3",
+      "name": "やまねずみ",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_a165257c",
+      "name": "やみしばり",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_521e84df",
+      "name": "ゆめにゅうどう",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_64609c1d",
+      "name": "わらいぐさ",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_5c962cf6",
+      "name": "アイアンアント",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_34ee96db",
+      "name": "アイスコンドル",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_c21c039d",
+      "name": "アントベア",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_e992bbd7",
+      "name": "エッチな本",
+      "manualAnswer": "特技です",
+      "appliedAs": "特技",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "特技",
+        "tribe": "",
+        "tribes": [],
+        "tags": []
+      }
+    },
+    {
+      "id": "card_95f69f39",
+      "name": "オニオーン",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_dfeb4cd3",
+      "name": "オニムカデ",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_8f33cf11",
+      "name": "カメレオンマン",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_f64215af",
+      "name": "ガップリン",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_40d4b786",
+      "name": "キラースコップ",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_1f4a583f",
+      "name": "サボテンゴールド",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_3a0e0c79",
+      "name": "スパイクヘッド",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_3dc5fbef",
+      "name": "スマイルロック",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_bc2c76e5",
+      "name": "スモーク",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_d35b28aa",
+      "name": "タホドラキー",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_4c84797f",
+      "name": "テンタコルス",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_14926367",
+      "name": "デスファレーナ",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_9f7964cb",
+      "name": "デンダの子分",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_471ba4e7",
+      "name": "ドラキー",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_867ccc35",
+      "name": "ドルマゲスの分身",
+      "manualAnswer": "なし。デッキ編成不可カード",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_4114f12b",
+      "name": "ニードルマン",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_5be4320b",
+      "name": "ビッグハット",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_a515a629",
+      "name": "ビーンファイター",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_4d7940de",
+      "name": "ピッキー",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_1244e07b",
+      "name": "ファーラット",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_99408259",
+      "name": "フェアリーバット",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_f130960a",
+      "name": "フォンデュ",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "token_black_tanuki",
+      "name": "ブラックタヌー",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "トークン",
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "トークン",
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_9ae14791",
+      "name": "ブレッドハンド",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "id": "card_91c13223",
+      "name": "プチさまようよろい",
+      "manualAnswer": "なし",
+      "appliedAs": "ユニット_なし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    }
+  ]
+}

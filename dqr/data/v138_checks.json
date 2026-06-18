@@ -1,0 +1,12 @@
+{
+  "node_check": "OK",
+  "duplicate_functions": 0,
+  "label": "v138 / buildable 1460 / total 1583",
+  "data_version": "v138_unit_only_tribe_review",
+  "manual_answers_read": 80,
+  "manual_answers_applied": 80,
+  "non_units_removed_from_review": 19,
+  "unit_review_candidates_v137": 80,
+  "unit_review_candidates_v138": 645,
+  "review_has_only_units": true
+}
