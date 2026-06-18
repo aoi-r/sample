@@ -1,5 +1,5 @@
 {
-  "version": "v158_visible_stat_cost_modifiers",
+  "version": "v159_custom_card_safe_filenames",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -237,5 +237,7 @@
     "hand_cost_down": "手札カードは有効コストが本来コストより下がっている場合だけ、カード上部にコスト差分を表示。",
     "removal_behavior": "効果が消えた場合はステータス再計算・再描画により表示も消える。",
     "image_rewrite_policy": "元画像ファイルは変更せず、DOMオーバーレイで表示する。"
-  }
+  },
+  "base": "v158_visible_stat_cost_modifiers",
+  "filenameSanitization": "custom_cards filenames normalized to short ASCII names to avoid File name too long on checkout/build"
 }

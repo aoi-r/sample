@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v158_visible_stat_cost_modifiers';
+const DATA_VERSION = 'v159_custom_card_safe_filenames';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -225,30 +225,30 @@ const VIRTUAL_CARD_DEFS = {
   'ピサロナイト': { name:'ピサロナイト', cost:2, attack:1, hp:1, cardType:'ユニット', text:'1/1のピサロナイト。', effect:null },
   'サラマンダー': { name:'サラマンダー', cost:0, attack:8, hp:8, cardType:'ユニット', text:'超貫通。ベビーサラマンダーがBET4回で変身する。', effect:null },
 
-  '伝説の勇者': { name:'伝説の勇者', cost:2, cardType:'ヒーロー', rarity:'レジェンドレア', text:'伝説の勇者のヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る。', classes:['共通'], tribes:['英雄'], tags:['ヒーロー'], deckBuildable:true, localImage:'./assets/custom_cards/伝説の勇者_デッキ編成カード.png' },
-  '出会いと別れの酒場': { name:'出会いと別れの酒場', cost:0, cardType:'ヒーロースキル', rarity:'トークン', text:'自分のデッキの上7枚から冒険者カードを1枚引き、残りをデッキの下に戻す。', localImage:'./assets/custom_cards/伝説の勇者_lv1.png' },
-  'ダーマの神殿へ': { name:'ダーマの神殿へ', cost:1, cardType:'ヒーロースキル', rarity:'トークン', text:'味方空きマスにダーマの神殿を出した後、自分が各職業の初期テンションスキルなら自分の職業を含む初期テンションスキル3種類から1つ選び変更する。', localImage:'./assets/custom_cards/伝説の勇者_lv2.png' },
-  '魔王討伐': { name:'魔王討伐', cost:2, cardType:'ヒーロースキル', rarity:'トークン', text:'ユニット1体に1ダメージ。味方冒険者が出る度+1ダメージ。上限は+3ダメージ。', localImage:'./assets/custom_cards/伝説の勇者_lv3.png' },
-  'そして伝説へ': { name:'そして伝説へ', cost:25, cardType:'ヒーロースキル', rarity:'トークン', text:'敵リーダーに25ダメージ。自分が冒険者カードを3回使う度、このカードのレベル+1、カードを1枚引き、このヒーロースキルのコスト-5。', localImage:'./assets/custom_cards/伝説の勇者_lv4.png' },
-  'ダーマの神殿': { name:'ダーマの神殿', cost:1, attack:0, hp:5, cardType:'建物', rarity:'トークン', text:'味方冒険者が場に出た後それを+1/+1し耐久値-1。スキルリンク：自分が各職業の初期テンションスキルなら自分の職業を含む初期テンションスキル3種類から1つ選び変更する。', localImage:'./assets/custom_cards/伝説の勇者_ダーマ神殿.png' },
+  '伝説の勇者': { name:'伝説の勇者', cost:2, cardType:'ヒーロー', rarity:'レジェンドレア', text:'伝説の勇者のヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る。', classes:['共通'], tribes:['英雄'], tags:['ヒーロー'], deckBuildable:true, localImage:'./assets/custom_cards/custom_card_019.png' },
+  '出会いと別れの酒場': { name:'出会いと別れの酒場', cost:0, cardType:'ヒーロースキル', rarity:'トークン', text:'自分のデッキの上7枚から冒険者カードを1枚引き、残りをデッキの下に戻す。', localImage:'./assets/custom_cards/custom_card_014_lv1.png' },
+  'ダーマの神殿へ': { name:'ダーマの神殿へ', cost:1, cardType:'ヒーロースキル', rarity:'トークン', text:'味方空きマスにダーマの神殿を出した後、自分が各職業の初期テンションスキルなら自分の職業を含む初期テンションスキル3種類から1つ選び変更する。', localImage:'./assets/custom_cards/custom_card_015_lv2.png' },
+  '魔王討伐': { name:'魔王討伐', cost:2, cardType:'ヒーロースキル', rarity:'トークン', text:'ユニット1体に1ダメージ。味方冒険者が出る度+1ダメージ。上限は+3ダメージ。', localImage:'./assets/custom_cards/custom_card_016_lv3.png' },
+  'そして伝説へ': { name:'そして伝説へ', cost:25, cardType:'ヒーロースキル', rarity:'トークン', text:'敵リーダーに25ダメージ。自分が冒険者カードを3回使う度、このカードのレベル+1、カードを1枚引き、このヒーロースキルのコスト-5。', localImage:'./assets/custom_cards/custom_card_017_lv4.png' },
+  'ダーマの神殿': { name:'ダーマの神殿', cost:1, attack:0, hp:5, cardType:'建物', rarity:'トークン', text:'味方冒険者が場に出た後それを+1/+1し耐久値-1。スキルリンク：自分が各職業の初期テンションスキルなら自分の職業を含む初期テンションスキル3種類から1つ選び変更する。', localImage:'./assets/custom_cards/custom_card_018.png' },
 
-  '勇者レック': { name:'勇者レック', cost:1, cardType:'ヒーロー', rarity:'レジェンドレア', text:'勇者レックのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る。', classes:['共通'], tribes:['英雄'], tags:['ヒーロー'], deckBuildable:true, localImage:'./assets/custom_cards/レック_デッキ編成カード.png' },
-  'いつか見た光景': { name:'いつか見た光景', cost:0, cardType:'ヒーロースキル', rarity:'トークン', text:'自分の手札から熟練度を持つカード1枚を選ぶ。そのカードの熟練度+1。選んだカードの熟練度が1以下の場合代わりに熟練度+2。レベル2になる時カードを1枚引く。', localImage:'./assets/custom_cards/レック_lv1.png' },
-  '呼び覚まされし記憶': { name:'呼び覚まされし記憶', cost:0, cardType:'ヒーロースキル', rarity:'トークン', text:'熟練度を持つカードを自分が使用した後、味方リーダーのテンション+1。この効果は条件を満たすと自動的に発動する。', localImage:'./assets/custom_cards/レック_lv2.png' },
-  '未来を信じて': { name:'未来を信じて', cost:2, cardType:'ヒーロースキル', rarity:'トークン', text:'カードを1枚引く。その後手札から熟練度を持つカードを1枚選び、そのカードの熟練度+2。', localImage:'./assets/custom_cards/レック_lv3.png' },
+  '勇者レック': { name:'勇者レック', cost:1, cardType:'ヒーロー', rarity:'レジェンドレア', text:'勇者レックのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る。', classes:['共通'], tribes:['英雄'], tags:['ヒーロー'], deckBuildable:true, localImage:'./assets/custom_cards/custom_card_013.png' },
+  'いつか見た光景': { name:'いつか見た光景', cost:0, cardType:'ヒーロースキル', rarity:'トークン', text:'自分の手札から熟練度を持つカード1枚を選ぶ。そのカードの熟練度+1。選んだカードの熟練度が1以下の場合代わりに熟練度+2。レベル2になる時カードを1枚引く。', localImage:'./assets/custom_cards/custom_card_010_lv1.png' },
+  '呼び覚まされし記憶': { name:'呼び覚まされし記憶', cost:0, cardType:'ヒーロースキル', rarity:'トークン', text:'熟練度を持つカードを自分が使用した後、味方リーダーのテンション+1。この効果は条件を満たすと自動的に発動する。', localImage:'./assets/custom_cards/custom_card_011_lv2.png' },
+  '未来を信じて': { name:'未来を信じて', cost:2, cardType:'ヒーロースキル', rarity:'トークン', text:'カードを1枚引く。その後手札から熟練度を持つカードを1枚選び、そのカードの熟練度+2。', localImage:'./assets/custom_cards/custom_card_012_lv3.png' },
   '精霊王ルビスの加護': { name:'精霊王ルビスの加護', cost:0, cardType:'ヒーロースキル', rarity:'トークン', text:'自分がコスト3以上の特技を使った後、そのコストにより追加効果が発動する。コスト3以上:MP1回復。コスト5以上:テンション+1。コスト7以上:カードを1枚引く。' },
-  '宝の地図': { name:'宝の地図', cost:0, cardType:'特技', rarity:'トークン', text:'味方空きマスに、対戦中踏破した回数に応じた地図ダンジョンを出す。0回:うす暗き獣の洞くつ。1回:ざわめく風の坑道。2回以上:ランダムな6種類の地図ダンジョンから1つを出す。', localImage:'./assets/custom_cards/宝の地図.png' },
-  'うす暗き獣の洞くつ': { name:'うす暗き獣の洞くつ', cost:1, attack:0, hp:3, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値3で踏破) 自分のターン開始時 耐久値+1 踏破時:カードを1枚引く', localImage:'./assets/custom_cards/うす暗き獣の洞くつ.png' },
-  'ざわめく風の坑道': { name:'ざわめく風の坑道', cost:2, attack:0, hp:3, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値3で踏破) 自分のターン開始時 耐久値+1 踏破時:ランダムなコスト2のユニットをこの場所に出す カードを1枚引く', localImage:'./assets/custom_cards/ざわめく風の坑道.png' },
-  '見えざる魔神の道': { name:'見えざる魔神の道', cost:3, attack:0, hp:5, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値5で踏破) 自分のターン開始時 耐久値+1 踏破時:先制 メタルボディ 3/3の強敵メタルキングを2体出す', localImage:'./assets/custom_cards/見えざる魔神の道.png' },
-  '放たれし大地のじごく': { name:'放たれし大地のじごく', cost:3, attack:0, hp:2, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値2で踏破) 自分のターン開始時 耐久値+1 踏破時:敵味方全体に2ダメージ', localImage:'./assets/custom_cards/放たれし大地のじごく.png' },
-  '残された神々の水脈': { name:'残された神々の水脈', cost:3, attack:0, hp:3, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値3で踏破) 自分のターン開始時 耐久値+1 踏破時:味方リーダーのHPを3回復し テンション+3 カードを1枚引く', localImage:'./assets/custom_cards/残された神々の水脈.png' },
-  '呪われし魂の氷河': { name:'呪われし魂の氷河', cost:3, attack:0, hp:2, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値2で踏破) 自分のターン開始時 耐久値+1 踏破時:ランダムな敵ユニット1体に5ダメージ', localImage:'./assets/custom_cards/呪われし魂の氷河.png' },
-  '大魔王の間': { name:'大魔王の間', cost:3, attack:0, hp:5, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値5で踏破) 自分のターン開始時 耐久値+1 踏破時:ランダムなコスト6以上の魔王系ユニット1体を出す', localImage:'./assets/custom_cards/大魔王の間.png' },
-  'あらぶる光の世界': { name:'あらぶる光の世界', cost:3, attack:0, hp:4, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値4で踏破) 自分のターン開始時 耐久値+1 踏破時:味方のユニット以外のカードをランダムに3枚手札に加え それらのコスト-1', localImage:'./assets/custom_cards/あらぶる光の世界.png' },
-  '強敵メタルキング': { name:'強敵メタルキング', cost:0, attack:3, hp:3, cardType:'ユニット', rarity:'トークン', text:'先制 メタルボディ', tags:['強敵'], localImage:'./assets/custom_cards/見えざる魔神の道.png' },
+  '宝の地図': { name:'宝の地図', cost:0, cardType:'特技', rarity:'トークン', text:'味方空きマスに、対戦中踏破した回数に応じた地図ダンジョンを出す。0回:うす暗き獣の洞くつ。1回:ざわめく風の坑道。2回以上:ランダムな6種類の地図ダンジョンから1つを出す。', localImage:'./assets/custom_cards/custom_card_025.png' },
+  'うす暗き獣の洞くつ': { name:'うす暗き獣の洞くつ', cost:1, attack:0, hp:3, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値3で踏破) 自分のターン開始時 耐久値+1 踏破時:カードを1枚引く', localImage:'./assets/custom_cards/custom_card_003.png' },
+  'ざわめく風の坑道': { name:'ざわめく風の坑道', cost:2, attack:0, hp:3, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値3で踏破) 自分のターン開始時 耐久値+1 踏破時:ランダムなコスト2のユニットをこの場所に出す カードを1枚引く', localImage:'./assets/custom_cards/custom_card_004.png' },
+  '見えざる魔神の道': { name:'見えざる魔神の道', cost:3, attack:0, hp:5, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値5で踏破) 自分のターン開始時 耐久値+1 踏破時:先制 メタルボディ 3/3の強敵メタルキングを2体出す', localImage:'./assets/custom_cards/custom_card_029.png' },
+  '放たれし大地のじごく': { name:'放たれし大地のじごく', cost:3, attack:0, hp:2, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値2で踏破) 自分のターン開始時 耐久値+1 踏破時:敵味方全体に2ダメージ', localImage:'./assets/custom_cards/custom_card_026.png' },
+  '残された神々の水脈': { name:'残された神々の水脈', cost:3, attack:0, hp:3, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値3で踏破) 自分のターン開始時 耐久値+1 踏破時:味方リーダーのHPを3回復し テンション+3 カードを1枚引く', localImage:'./assets/custom_cards/custom_card_028.png' },
+  '呪われし魂の氷河': { name:'呪われし魂の氷河', cost:3, attack:0, hp:2, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値2で踏破) 自分のターン開始時 耐久値+1 踏破時:ランダムな敵ユニット1体に5ダメージ', localImage:'./assets/custom_cards/custom_card_022.png' },
+  '大魔王の間': { name:'大魔王の間', cost:3, attack:0, hp:5, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値5で踏破) 自分のターン開始時 耐久値+1 踏破時:ランダムなコスト6以上の魔王系ユニット1体を出す', localImage:'./assets/custom_cards/custom_card_024.png' },
+  'あらぶる光の世界': { name:'あらぶる光の世界', cost:3, attack:0, hp:4, cardType:'建物', rarity:'トークン', tags:['建物','ダンジョン'], text:'ダンジョン(耐久値4で踏破) 自分のターン開始時 耐久値+1 踏破時:味方のユニット以外のカードをランダムに3枚手札に加え それらのコスト-1', localImage:'./assets/custom_cards/custom_card_001.png' },
+  '強敵メタルキング': { name:'強敵メタルキング', cost:0, attack:3, hp:3, cardType:'ユニット', rarity:'トークン', text:'先制 メタルボディ', tags:['強敵'], localImage:'./assets/custom_cards/custom_card_029.png' },
 
-  'イブールの本': { name:'イブールの本', cost:0, cardType:'特技', text:'味方リーダーに2ダメージ。敵リーダーのHPを2回復。カードを1枚引く。', effect:null, localImage:'./assets/custom_cards/イブールの本.png' },
+  'イブールの本': { name:'イブールの本', cost:0, cardType:'特技', text:'味方リーダーに2ダメージ。敵リーダーのHPを2回復。カードを1枚引く。', effect:null, localImage:'./assets/custom_cards/custom_card_007.png' },
   'イチゴ爆弾': { name:'イチゴ爆弾', cost:1, attack:0, hp:3, cardType:'ユニット', text:'攻撃できない。\n死亡時：隣接するユニットに2ダメージを与える。', effect:null, localImage:'./assets/custom_cards/strawberry_bomb.png' },
   'ホットストーン': { name:'ホットストーン', cost:0, cardType:'特技', text:'メルビンが封じられた石。後で画像差し替え予定。', effect:null },
   'うまのふん': { name:'うまのふん', cost:0, cardType:'特技', text:'特別な効果はない。', effect:null },
@@ -601,25 +601,25 @@ function visibleCards(){
 
 const CUSTOM_CARD_IMAGES = {
   'イチゴ爆弾': './assets/custom_cards/strawberry_bomb.png',
-  '伝説の勇者': './assets/custom_cards/伝説の勇者_デッキ編成カード.png',
-  '出会いと別れの酒場': './assets/custom_cards/伝説の勇者_lv1.png',
-  'ダーマの神殿へ': './assets/custom_cards/伝説の勇者_lv2.png',
-  '魔王討伐': './assets/custom_cards/伝説の勇者_lv3.png',
-  'そして伝説へ': './assets/custom_cards/伝説の勇者_lv4.png',
-  'ダーマの神殿': './assets/custom_cards/伝説の勇者_ダーマ神殿.png',
-  '勇者レック': './assets/custom_cards/レック_デッキ編成カード.png',
-  'いつか見た光景': './assets/custom_cards/レック_lv1.png',
-  '呼び覚まされし記憶': './assets/custom_cards/レック_lv2.png',
-  '未来を信じて': './assets/custom_cards/レック_lv3.png',
-  '宝の地図': './assets/custom_cards/宝の地図.png',
-  'うす暗き獣の洞くつ': './assets/custom_cards/うす暗き獣の洞くつ.png',
-  'ざわめく風の坑道': './assets/custom_cards/ざわめく風の坑道.png',
-  '見えざる魔神の道': './assets/custom_cards/見えざる魔神の道.png',
-  '放たれし大地のじごく': './assets/custom_cards/放たれし大地のじごく.png',
-  '残された神々の水脈': './assets/custom_cards/残された神々の水脈.png',
-  '呪われし魂の氷河': './assets/custom_cards/呪われし魂の氷河.png',
-  '大魔王の間': './assets/custom_cards/大魔王の間.png',
-  'あらぶる光の世界': './assets/custom_cards/あらぶる光の世界.png'
+  '伝説の勇者': './assets/custom_cards/custom_card_019.png',
+  '出会いと別れの酒場': './assets/custom_cards/custom_card_014_lv1.png',
+  'ダーマの神殿へ': './assets/custom_cards/custom_card_015_lv2.png',
+  '魔王討伐': './assets/custom_cards/custom_card_016_lv3.png',
+  'そして伝説へ': './assets/custom_cards/custom_card_017_lv4.png',
+  'ダーマの神殿': './assets/custom_cards/custom_card_018.png',
+  '勇者レック': './assets/custom_cards/custom_card_013.png',
+  'いつか見た光景': './assets/custom_cards/custom_card_010_lv1.png',
+  '呼び覚まされし記憶': './assets/custom_cards/custom_card_011_lv2.png',
+  '未来を信じて': './assets/custom_cards/custom_card_012_lv3.png',
+  '宝の地図': './assets/custom_cards/custom_card_025.png',
+  'うす暗き獣の洞くつ': './assets/custom_cards/custom_card_003.png',
+  'ざわめく風の坑道': './assets/custom_cards/custom_card_004.png',
+  '見えざる魔神の道': './assets/custom_cards/custom_card_029.png',
+  '放たれし大地のじごく': './assets/custom_cards/custom_card_026.png',
+  '残された神々の水脈': './assets/custom_cards/custom_card_028.png',
+  '呪われし魂の氷河': './assets/custom_cards/custom_card_022.png',
+  '大魔王の間': './assets/custom_cards/custom_card_024.png',
+  'あらぶる光の世界': './assets/custom_cards/custom_card_001.png'
 };
 
 function getOfficialImage(card){

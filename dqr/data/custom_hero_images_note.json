@@ -1,16 +1,16 @@
 {
   "version": "v50_legend_reck_nine_hero_images",
   "uploaded_images": {
-    "伝説の勇者_デッキ編成カード": "./assets/custom_cards/伝説の勇者_デッキ編成カード.png",
-    "伝説の勇者_lv1": "./assets/custom_cards/伝説の勇者_lv1.png",
-    "伝説の勇者_lv2": "./assets/custom_cards/伝説の勇者_lv2.png",
-    "伝説の勇者_lv3": "./assets/custom_cards/伝説の勇者_lv3.png",
-    "伝説の勇者_lv4": "./assets/custom_cards/伝説の勇者_lv4.png",
-    "伝説の勇者_ダーマ神殿": "./assets/custom_cards/伝説の勇者_ダーマ神殿.png",
-    "レック_デッキ編成カード": "./assets/custom_cards/レック_デッキ編成カード.png",
-    "レック_lv1": "./assets/custom_cards/レック_lv1.png",
-    "レック_lv2": "./assets/custom_cards/レック_lv2.png",
-    "レック_lv3": "./assets/custom_cards/レック_lv3.png"
+    "伝説の勇者_デッキ編成カード": "./assets/custom_cards/custom_card_019.png",
+    "伝説の勇者_lv1": "./assets/custom_cards/custom_card_014_lv1.png",
+    "伝説の勇者_lv2": "./assets/custom_cards/custom_card_015_lv2.png",
+    "伝説の勇者_lv3": "./assets/custom_cards/custom_card_016_lv3.png",
+    "伝説の勇者_lv4": "./assets/custom_cards/custom_card_017_lv4.png",
+    "伝説の勇者_ダーマ神殿": "./assets/custom_cards/custom_card_018.png",
+    "レック_デッキ編成カード": "./assets/custom_cards/custom_card_013.png",
+    "レック_lv1": "./assets/custom_cards/custom_card_010_lv1.png",
+    "レック_lv2": "./assets/custom_cards/custom_card_011_lv2.png",
+    "レック_lv3": "./assets/custom_cards/custom_card_012_lv3.png"
   },
   "implemented": {
     "伝説の勇者": {

@@ -1,0 +1,18 @@
+{
+  "node_check": "OK",
+  "duplicate_functions": 0,
+  "label": "v159 / buildable 1460 / total 1583",
+  "data_version": "v159_custom_card_safe_filenames",
+  "base": "v158_visible_stat_cost_modifiers",
+  "custom_card_filename_sanitization": {
+    "unique_custom_card_images": 31,
+    "renamed_unique_count": 30,
+    "deduped_duplicate_zip_entries": 9,
+    "max_custom_card_basename_bytes_after": 23,
+    "bad_custom_card_filenames_after": 0,
+    "dangling_custom_card_refs_after": 0,
+    "custom_card_file_count_after": 31,
+    "custom_card_refs_checked_after": 22
+  },
+  "duplicate_function_names": {}
+}

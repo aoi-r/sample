@@ -1,0 +1,138 @@
+{
+  "version": "v159_custom_card_safe_filenames",
+  "base": "v158_visible_stat_cost_modifiers",
+  "reason": "Fix build checkout errors caused by very long mojibake custom card image filenames. References now point to short ASCII image names.",
+  "unique_custom_card_images": 31,
+  "renamed_unique_count": 30,
+  "deduped_duplicate_zip_entries": 9,
+  "intended_name_to_safe_filename": {
+    "strawberry_bomb.png": "strawberry_bomb.png",
+    "あらぶる光の世界.png": "custom_card_001.png",
+    "いつか見た光景.png": "custom_card_002.png",
+    "うす暗き獣の洞くつ.png": "custom_card_003.png",
+    "ざわめく風の坑道.png": "custom_card_004.png",
+    "そして伝説へ.png": "custom_card_005.png",
+    "イチゴ爆弾.png": "custom_card_006.png",
+    "イブールの本.png": "custom_card_007.png",
+    "ダーマの神殿.png": "custom_card_008.png",
+    "ダーマの神殿へ.png": "custom_card_009.png",
+    "レック_lv1.png": "custom_card_010_lv1.png",
+    "レック_lv2.png": "custom_card_011_lv2.png",
+    "レック_lv3.png": "custom_card_012_lv3.png",
+    "レック_デッキ編成カード.png": "custom_card_013.png",
+    "伝説の勇者_lv1.png": "custom_card_014_lv1.png",
+    "伝説の勇者_lv2.png": "custom_card_015_lv2.png",
+    "伝説の勇者_lv3.png": "custom_card_016_lv3.png",
+    "伝説の勇者_lv4.png": "custom_card_017_lv4.png",
+    "伝説の勇者_ダーマ神殿.png": "custom_card_018.png",
+    "伝説の勇者_デッキ編成カード.png": "custom_card_019.png",
+    "出会いと別れの酒場.png": "custom_card_020.png",
+    "勇者レック_デッキ編成カード.png": "custom_card_021.png",
+    "呪われし魂の氷河.png": "custom_card_022.png",
+    "呼び覚まされし記憶.png": "custom_card_023.png",
+    "大魔王の間.png": "custom_card_024.png",
+    "宝の地図.png": "custom_card_025.png",
+    "放たれし大地のじごく.png": "custom_card_026.png",
+    "未来を信じて.png": "custom_card_027.png",
+    "残された神々の水脈.png": "custom_card_028.png",
+    "見えざる魔神の道.png": "custom_card_029.png",
+    "魔王討伐.png": "custom_card_030.png"
+  },
+  "old_zip_entry_to_safe_path": {
+    "dqr_full_project/assets/custom_cards/╬ô├▓┬╝Γö£ΓòæΓò¼├┤Γö£ΓûôΓö¼├æ╬ô├╢┬╝Γö£├ª╬ô├▓┬╝Γö¼┬¼╬ô├╢┬╝Γö¼Γò¥╬ô├╢┬╝╬ô├▓┬Ñ╬ô├▓┬║Γö£├º╬ô├╢┬ú╬ô├▓┬Ñ╬ô├╢┬╝Γö¼Γò£╬ô├▓┬║Γö£├│╬ô├╢┬úΓö¼Γòù╬ô├╢┬úΓö¼Γòæ╬ô├▓┬╝Γö¼┬¼╬ô├╢┬úΓö£┬║╬ô├╢┬úΓö£├¡_lv1.png": "dqr_full_project/assets/custom_cards/custom_card_014_lv1.png",
+    "dqr_full_project/assets/custom_cards/╬ô├▓┬╝Γö£ΓòæΓò¼├┤Γö£ΓûôΓö¼├æ╬ô├╢┬╝Γö£├ª╬ô├▓┬╝Γö¼┬¼╬ô├╢┬╝Γö¼Γò¥╬ô├╢┬╝╬ô├▓┬Ñ╬ô├▓┬║Γö£├º╬ô├╢┬ú╬ô├▓┬Ñ╬ô├╢┬╝Γö¼Γò£╬ô├▓┬║Γö£├│╬ô├╢┬úΓö¼Γòù╬ô├╢┬úΓö¼Γòæ╬ô├▓┬╝Γö¼┬¼╬ô├╢┬úΓö£┬║╬ô├╢┬úΓö£├¡_lv2.png": "dqr_full_project/assets/custom_cards/custom_card_015_lv2.png",
+    "dqr_full_project/assets/custom_cards/╬ô├▓┬╝Γö£ΓòæΓò¼├┤Γö£ΓûôΓö¼├æ╬ô├╢┬╝Γö£├ª╬ô├▓┬╝Γö¼┬¼╬ô├╢┬╝Γö¼Γò¥╬ô├╢┬╝╬ô├▓┬Ñ╬ô├▓┬║Γö£├º╬ô├╢┬ú╬ô├▓┬Ñ╬ô├╢┬╝Γö¼Γò£╬ô├▓┬║Γö£├│╬ô├╢┬úΓö¼Γòù╬ô├╢┬úΓö¼Γòæ╬ô├▓┬╝Γö¼┬¼╬ô├╢┬úΓö£┬║╬ô├╢┬úΓö£├¡_lv3.png": "dqr_full_project/assets/custom_cards/custom_card_016_lv3.png",
+    "dqr_full_project/assets/custom_cards/╬ô├▓┬╝Γö£ΓòæΓò¼├┤Γö£ΓûôΓö¼├æ╬ô├╢┬╝Γö£├ª╬ô├▓┬╝Γö¼┬¼╬ô├╢┬╝Γö¼Γò¥╬ô├╢┬╝╬ô├▓┬Ñ╬ô├▓┬║Γö£├º╬ô├╢┬ú╬ô├▓┬Ñ╬ô├╢┬╝Γö¼Γò£╬ô├▓┬║Γö£├│╬ô├╢┬úΓö¼Γòù╬ô├╢┬úΓö¼Γòæ╬ô├▓┬╝Γö¼┬¼╬ô├╢┬úΓö£┬║╬ô├╢┬úΓö£├¡_lv4.png": "dqr_full_project/assets/custom_cards/custom_card_017_lv4.png",
+    "dqr_full_project/assets/custom_cards/╬ô├▓┬║Γö£├º╬ô├╢┬úΓö£Γöé╬ô├╢┬╝╬ô├▓┬Ñ╬ô├▓┬║Γö£├º╬ô├╢┬úΓö£Γöé╬ô├╢┬úΓö£Γöé╬ô├▓┬║Γö£├º╬ô├╢┬ú╬ô├«├ë╬ô├╢┬╝╬ô├▓├╣_lv1.png": "dqr_full_project/assets/custom_cards/custom_card_010_lv1.png",
+    "dqr_full_project/assets/custom_cards/╬ô├▓┬║Γö£├º╬ô├╢┬úΓö£Γöé╬ô├╢┬╝╬ô├▓┬Ñ╬ô├▓┬║Γö£├º╬ô├╢┬úΓö£Γöé╬ô├╢┬úΓö£Γöé╬ô├▓┬║Γö£├º╬ô├╢┬ú╬ô├«├ë╬ô├╢┬╝╬ô├▓├╣_lv2.png": "dqr_full_project/assets/custom_cards/custom_card_011_lv2.png",
+    "dqr_full_project/assets/custom_cards/╬ô├▓┬║Γö£├º╬ô├╢┬úΓö£Γöé╬ô├╢┬╝╬ô├▓┬Ñ╬ô├▓┬║Γö£├º╬ô├╢┬úΓö£Γöé╬ô├╢┬úΓö£Γöé╬ô├▓┬║Γö£├º╬ô├╢┬ú╬ô├«├ë╬ô├╢┬╝╬ô├▓├╣_lv3.png": "dqr_full_project/assets/custom_cards/custom_card_012_lv3.png",
+    "dqr_full_project/assets/custom_cards/╬ô├▓┬║Γö£├│╬ô├╢┬╝Γö¼Γò£╬ô├╢┬╝Γö£├ª╬ô├▓┬║Γö£├º╬ô├╢┬ú╬ô├▓┬Ñ╬ô├╢┬╝Γö¼Γò£╬ô├▓┬║Γö£├│╬ô├╢┬╝Γö£ΓòæΓò¼├┤Γö£ΓòùΓö£┬¬╬ô├▓┬║Γö£├│╬ô├╢┬╝Γö£ΓöéΓò¼├┤Γö£ΓòóΓö£ΓîÉ.png": "dqr_full_project/assets/custom_cards/custom_card_025.png",
+    "dqr_full_project/assets/custom_cards/╬ô├▓┬║Γö£├│╬ô├╢┬ú╬ô├╗├å╬ô├╢┬╝╬ô├▓├ª╬ô├▓┬╝Γö£ΓöÉ╬ô├╢┬╝Γö£┬í╬ô├╢┬ú╬ô├▓├│╬ô├▓┬║Γö£├▒╬ô├╢┬úΓö£├▒╬ô├╢┬úΓö¼Γòù╬ô├▓┬║Γö£├º╬ô├╢┬ú╬ô├▓┬Ñ╬ô├╢┬╝Γö¼Γò£╬ô├▓┬╝Γö£ΓöÉ╬ô├╢┬ú╬ô├▓├╣╬ô├╢┬ú╬ô├╢├▒.png": "dqr_full_project/assets/custom_cards/custom_card_024.png",
+    "dqr_full_project/assets/custom_cards/Γòº├çΓö£Γò¥Γö£ΓîÉΓòº├çΓö£ΓîÉΓö£┬╜Γòº├çΓö£Γò¥╬ô├▓├│Γòº├çΓö£ΓîÉΓö£┬╗Γòº├óΓö£├íΓö£┬╜Γòº├çΓö£Γò¥Γö¼┬╜Γò¼├║╬ô├▓├▓Γö£ΓòùΓòº├ñΓö£ΓûôΓö£┬½.png": "dqr_full_project/assets/custom_cards/custom_card_001.png",
+    "dqr_full_project/assets/custom_cards/Γòº├çΓö£Γò¥Γö£├æΓòº├çΓö£Γò¥Γö£├╗Γö¼ΓòíΓö£┬úΓö£ΓòúΓòº├çΓö£Γò¥Γö£┬╝Γòº├ñΓö£┬╝Γö£ΓòæΓòº├çΓö£Γò¥Γö¼┬╜Γö¼Γòí╬ô├╢├▒╬ô├⌐┬║Γòº├çΓö£Γò¥Γö£├áΓòº├çΓö£Γò¥Γö£ΓûÆ.png": "dqr_full_project/assets/custom_cards/custom_card_003.png",
+    "dqr_full_project/assets/custom_cards/Γòº├çΓö£Γò¥Γö£ΓòùΓòº├çΓö£ΓîÉΓö£├áΓòº├çΓö£ΓîÉΓö£Γò¥Γòº├çΓö£Γò¥Γö£├áΓò¼├┐Γö£ΓöéΓö¼ΓöÉΓòº├çΓö£Γò¥Γö¼┬╜Γòº├óΓö¼├æΓö£┬¬Γò¼├┐Γö£Γò¥Γö£Γöñ.png": "dqr_full_project/assets/custom_cards/custom_card_004.png",
+    "dqr_full_project/assets/custom_cards/Γòº├çΓö£Γò¥Γö£├▒Γòº├çΓö£Γò¥Γö£ΓûÆΓòº├çΓö£Γò¥Γö£┬╗Γò¼┬¬Γö¼┬¼Γö£┬╗Γòº├çΓö£Γò¥Γò₧├åΓòº├óΓö£├íΓö£┬╜Γö¼ΓòíΓö£├╗Γö¼Γòù.png": "dqr_full_project/assets/custom_cards/custom_card_002.png",
+    "dqr_full_project/assets/custom_cards/Γòº├óΓö£┬¬╬ô├▓┬ÑΓòº├çΓö£Γò¥╬ô├╢├⌐Γò¼┬¬Γö¼┬¼Γö£┬úΓòº├çΓö£Γò¥╬ô├▓┬óΓòº├çΓö£Γò¥Γö£ΓûôΓòº├çΓö£ΓîÉΓö£┬½Γòº├çΓö£Γò¥Γö£ΓòúΓò¼┬¬Γö¼ΓöÉΓö£ΓöÉΓö¼ΓòíΓö£├æ╬ô├▓├│.png": "dqr_full_project/assets/custom_cards/custom_card_023.png",
+    "dqr_full_project/assets/custom_cards/Γö¼ΓòíΓö¼├║Γö¼┬╝Γö¼ΓòíΓö¼├æΓö£├ªΓòº├çΓö£ΓîÉΓö£├ÑΓò¼├║╬ô├╢├ëΓö£┬íΓòº├çΓö£Γò¥Γö£ΓöÉΓòº├çΓö£Γò¥Γö¼┬¼.png": "dqr_full_project/assets/custom_cards/custom_card_027.png",
+    "dqr_full_project/assets/custom_cards/Γòº├óΓö£┬╗Γö£┬║Γò¼┬¬Γö£├ºΓö£├íΓòº├çΓö£├│Γö¼Γò¥Γòº├çΓö£├│Γö£├│Γòº├çΓö£ΓîÉΓö¼Γòù_Γòº├çΓö£├│Γö£┬║Γòº├çΓö£├│Γö£├│Γòº├çΓö£ΓîÉΓö¼├¡Γòº├ñ╬ô├▓├╗Γö¼ΓöÉΓö¼ΓòíΓö£┬¼Γö£├½Γòº├çΓö£ΓîÉΓö¼Γò£Γòº├çΓö£├│╬ô├▓┬ÑΓòº├çΓö£├│Γö£┬╜.png": "dqr_full_project/assets/custom_cards/custom_card_021.png",
+    "dqr_full_project/assets/custom_cards/Γòº├óΓö£┬║╬ô├▓├ªΓò¼├║╬ô├▓┬ÑΓö£┬úΓòº├çΓö£Γò¥Γö£├▒Γòº├çΓö£Γò¥Γö¼ΓöÉΓòº├óΓö£┬¼Γö£├ªΓòº├çΓö£ΓîÉΓö£┬½Γòº├çΓö£Γò¥Γö¼┬╜Γò¼├┐Γö£├íΓö£├ÑΓòº├óΓö£├¡╬ô├╢├▒.png": "dqr_full_project/assets/custom_cards/custom_card_020.png",
+    "dqr_full_project/assets/custom_cards/Γòº├çΓö£├│Γö£├ºΓòº├çΓö£├│╬ô├▓┬ÑΓòº├çΓö£├│╬ô├⌐┬║Γòº├çΓö£Γò¥Γö¼┬╜Γòº├ñΓö£├ª╬ô├⌐┬║Γö¼ΓòíΓö¼┬╜╬ô├╢├ëΓòº├çΓö£Γò¥╬ô├▓├▓.png": "dqr_full_project/assets/custom_cards/custom_card_009.png",
+    "dqr_full_project/assets/custom_cards/Γò¼├┐Γö¼├¡Γö£ΓòóΓòº├ñΓö£├ñΓö£┬╗Γò¼┬¬Γö¼ΓöÉΓö£├ñΓò¼├║╬ô├▓┬ÑΓö£├½.png": "dqr_full_project/assets/custom_cards/custom_card_030.png",
+    "dqr_full_project/assets/custom_cards/Γòº├çΓö£Γò¥Γö¼├æΓòº├çΓö£Γò¥Γö£ΓòúΓòº├çΓö£Γò¥Γö¼┬¼Γò¼├║╬ô├▓┬ÑΓö¼├æΓò¼┬¬Γö¼┬╝Γö¼Γò¥Γòº├çΓö£Γò¥╬ô├▓├▓.png": "dqr_full_project/assets/custom_cards/custom_card_005.png",
+    "dqr_full_project/assets/custom_cards/Γòº├çΓö£├│Γö£├ºΓòº├çΓö£├│╬ô├▓┬ÑΓòº├çΓö£├│╬ô├⌐┬║Γòº├çΓö£Γò¥Γö¼┬╜Γòº├ñΓö£├ª╬ô├⌐┬║Γö¼ΓòíΓö¼┬╜╬ô├╢├ë.png": "dqr_full_project/assets/custom_cards/custom_card_008.png",
+    "dqr_full_project/assets/custom_cards/Γò¼├║╬ô├▓┬ÑΓö¼├æΓò¼┬¬Γö¼┬╝Γö¼Γò¥Γòº├çΓö£Γò¥Γö¼┬╜Γòº├óΓö£┬╗Γö£┬║Γò¼┬¬Γö£├ºΓö£├í_Γòº├çΓö£├│Γö£┬║Γòº├çΓö£├│Γö£├│Γòº├çΓö£ΓîÉΓö¼├¡Γòº├ñ╬ô├▓├╗Γö¼ΓöÉΓö¼ΓòíΓö£┬¼Γö£├½Γòº├çΓö£ΓîÉΓö¼Γò£Γòº├çΓö£├│╬ô├▓┬ÑΓòº├çΓö£├│Γö£┬╜.png": "dqr_full_project/assets/custom_cards/custom_card_019.png",
+    "dqr_full_project/assets/custom_cards/Γòº├óΓö£┬¬Γö¼┬╝Γòº├çΓö£ΓîÉΓö£├áΓòº├çΓö£ΓîÉΓö£┬½Γòº├çΓö£Γò¥Γö£ΓòúΓò¼├┐Γö¼├¡Γö£ΓîÉΓòº├çΓö£Γò¥Γö¼┬╜Γö¼Γòí╬ô├╗├ª╬ô├▓├╗Γö¼Γòí╬ô├╗├┤╬ô├╢├⌐.png": "dqr_full_project/assets/custom_cards/custom_card_022.png",
+    "dqr_full_project/assets/custom_cards/Γòº├óΓö£ΓûÆΓö¼ΓòæΓò¼├┐Γö¼├¡Γö£ΓòóΓòº├ñΓö£├ñΓö£┬╗Γòº├çΓö£Γò¥Γö¼┬╜Γò¼├┐Γö£ΓòùΓö£Γöñ.png": "dqr_full_project/assets/custom_cards/custom_card_024.png",
+    "dqr_full_project/assets/custom_cards/Γòº├óΓö¼┬╜Γö¼├æΓòº├çΓö£Γò¥Γö¼┬╜Γòº├óΓö¼├║╬ô├╗├ªΓòº├óΓö¼├│╬ô├╢├⌐.png": "dqr_full_project/assets/custom_cards/custom_card_025.png",
+    "dqr_full_project/assets/custom_cards/Γö¼ΓòíΓö£Γòó╬ô├▓┬óΓòº├çΓö£Γò¥Γò₧├åΓòº├çΓö£ΓîÉΓö£┬½Γòº├çΓö£Γò¥Γö£ΓòúΓòº├óΓö£ΓûÆΓö¼ΓòæΓòº├óΓö¼├║╬ô├╗├ªΓòº├çΓö£Γò¥Γö¼┬╜Γòº├çΓö£Γò¥Γö£ΓöÉΓòº├çΓö£Γò¥Γö£ΓòóΓòº├çΓö£Γò¥Γö£├á.png": "dqr_full_project/assets/custom_cards/custom_card_026.png",
+    "dqr_full_project/assets/custom_cards/Γö¼ΓòíΓö¼┬╜Γö£┬╗Γòº├çΓö£Γò¥Γö£ΓûôΓòº├çΓö£ΓîÉΓö£┬½Γòº├çΓö£Γò¥Γò₧├åΓòº├ñΓö£├ª╬ô├⌐┬║Γòº├çΓö£├ºΓö£├íΓòº├çΓö£Γò¥Γö¼┬╜Γö¼Γòí╬ô├╗├ª╬ô├╢├▒Γò¼┬¬Γö£├▒Γö£┬¼.png": "dqr_full_project/assets/custom_cards/custom_card_028.png",
+    "dqr_full_project/assets/custom_cards/Γò¼┬¬Γö¼┬¼Γö£┬╗Γòº├çΓö£Γò¥Γö£┬¼Γòº├çΓö£Γò¥Γö£ΓòùΓòº├çΓö£ΓîÉΓö£┬╗Γò¼├┐Γö¼├¡Γö£ΓòóΓòº├ñΓö£├ª╬ô├⌐┬║Γòº├çΓö£Γò¥Γö¼┬╜Γò¼├┐Γö£Γò¥Γö£Γöñ.png": "dqr_full_project/assets/custom_cards/custom_card_029.png",
+    "dqr_full_project/assets/custom_cards/Γòº├çΓö£├│Γö¼Γò¥Γòº├çΓö£├│Γö£├│Γòº├çΓö£ΓîÉΓö¼Γòù_Γòº├çΓö£├│Γö£┬║Γòº├çΓö£├│Γö£├│Γòº├çΓö£ΓîÉΓö¼├¡Γòº├ñ╬ô├▓├╗Γö¼ΓöÉΓö¼ΓòíΓö£┬¼Γö£├½Γòº├çΓö£ΓîÉΓö¼Γò£Γòº├çΓö£├│╬ô├▓┬ÑΓòº├çΓö£├│Γö£┬╜.png": "dqr_full_project/assets/custom_cards/custom_card_013.png",
+    "dqr_full_project/assets/custom_cards/Γòº├çΓö£├│Γö¼Γò¥Γòº├çΓö£├│Γö£├│Γòº├çΓö£ΓîÉΓö¼Γòù_lv1.png": "dqr_full_project/assets/custom_cards/custom_card_010_lv1.png",
+    "dqr_full_project/assets/custom_cards/Γòº├çΓö£├│Γö¼Γò¥Γòº├çΓö£├│Γö£├│Γòº├çΓö£ΓîÉΓö¼Γòù_lv2.png": "dqr_full_project/assets/custom_cards/custom_card_011_lv2.png",
+    "dqr_full_project/assets/custom_cards/Γòº├çΓö£├│Γö¼Γò¥Γòº├çΓö£├│Γö£├│Γòº├çΓö£ΓîÉΓö¼Γòù_lv3.png": "dqr_full_project/assets/custom_cards/custom_card_012_lv3.png",
+    "dqr_full_project/assets/custom_cards/Γò¼├║╬ô├▓┬ÑΓö¼├æΓò¼┬¬Γö¼┬╝Γö¼Γò¥Γòº├çΓö£Γò¥Γö¼┬╜Γòº├óΓö£┬╗Γö£┬║Γò¼┬¬Γö£├ºΓö£├í_lv1.png": "dqr_full_project/assets/custom_cards/custom_card_014_lv1.png",
+    "dqr_full_project/assets/custom_cards/Γò¼├║╬ô├▓┬ÑΓö¼├æΓò¼┬¬Γö¼┬╝Γö¼Γò¥Γòº├çΓö£Γò¥Γö¼┬╜Γòº├óΓö£┬╗Γö£┬║Γò¼┬¬Γö£├ºΓö£├í_lv2.png": "dqr_full_project/assets/custom_cards/custom_card_015_lv2.png",
+    "dqr_full_project/assets/custom_cards/Γò¼├║╬ô├▓┬ÑΓö¼├æΓò¼┬¬Γö¼┬╝Γö¼Γò¥Γòº├çΓö£Γò¥Γö¼┬╜Γòº├óΓö£┬╗Γö£┬║Γò¼┬¬Γö£├ºΓö£├í_lv3.png": "dqr_full_project/assets/custom_cards/custom_card_016_lv3.png",
+    "dqr_full_project/assets/custom_cards/Γò¼├║╬ô├▓┬ÑΓö¼├æΓò¼┬¬Γö¼┬╝Γö¼Γò¥Γòº├çΓö£Γò¥Γö¼┬╜Γòº├óΓö£┬╗Γö£┬║Γò¼┬¬Γö£├ºΓö£├í_lv4.png": "dqr_full_project/assets/custom_cards/custom_card_017_lv4.png",
+    "dqr_full_project/assets/custom_cards/Γò¼├║╬ô├▓┬ÑΓö¼├æΓò¼┬¬Γö¼┬╝Γö¼Γò¥Γòº├çΓö£Γò¥Γö¼┬╜Γòº├óΓö£┬╗Γö£┬║Γò¼┬¬Γö£├ºΓö£├í_Γòº├çΓö£├│Γö£├ºΓòº├çΓö£├│╬ô├▓┬ÑΓòº├çΓö£├│╬ô├⌐┬║Γòº├ñΓö£├ª╬ô├⌐┬║Γö¼ΓòíΓö¼┬╜╬ô├╢├ë.png": "dqr_full_project/assets/custom_cards/custom_card_018.png",
+    "dqr_full_project/assets/custom_cards/Γòº├çΓö£ΓîÉΓö£ΓûÆΓòº├çΓö£├│Γö£ΓòùΓòº├çΓö£├│╬ô├▓┬ÑΓòº├çΓö£├│Γö¼Γò£Γòº├çΓö£Γò¥Γö¼┬╜Γö¼ΓòíΓö¼├║Γö¼Γò¥.png": "dqr_full_project/assets/custom_cards/custom_card_007.png",
+    "dqr_full_project/assets/custom_cards/Γòº├çΓö£ΓîÉΓö£ΓûÆΓòº├çΓö£├│Γö£Γò¥Γòº├çΓö£ΓîÉ╬ô├╢├▒Γòº├ñΓö£┬¼Γö£├æΓòº├ó╬ô├▓┬Ñ╬ô├▓┬ó.png": "dqr_full_project/assets/custom_cards/custom_card_006.png",
+    "dqr_full_project/assets/custom_cards/strawberry_bomb.png": "dqr_full_project/assets/custom_cards/strawberry_bomb.png"
+  },
+  "skipped_duplicate_entries": [
+    {
+      "old_path": "dqr_full_project/assets/custom_cards/Γòº├óΓö£ΓûÆΓö¼ΓòæΓò¼├┐Γö¼├¡Γö£ΓòóΓòº├ñΓö£├ñΓö£┬╗Γòº├çΓö£Γò¥Γö¼┬╜Γò¼├┐Γö£ΓòùΓö£Γöñ.png",
+      "deduped_to": "dqr_full_project/assets/custom_cards/custom_card_024.png",
+      "intended_name": "大魔王の間.png"
+    },
+    {
+      "old_path": "dqr_full_project/assets/custom_cards/Γòº├óΓö¼┬╜Γö¼├æΓòº├çΓö£Γò¥Γö¼┬╜Γòº├óΓö¼├║╬ô├╗├ªΓòº├óΓö¼├│╬ô├╢├⌐.png",
+      "deduped_to": "dqr_full_project/assets/custom_cards/custom_card_025.png",
+      "intended_name": "宝の地図.png"
+    },
+    {
+      "old_path": "dqr_full_project/assets/custom_cards/Γòº├çΓö£├│Γö¼Γò¥Γòº├çΓö£├│Γö£├│Γòº├çΓö£ΓîÉΓö¼Γòù_lv1.png",
+      "deduped_to": "dqr_full_project/assets/custom_cards/custom_card_010_lv1.png",
+      "intended_name": "レック_lv1.png"
+    },
+    {
+      "old_path": "dqr_full_project/assets/custom_cards/Γòº├çΓö£├│Γö¼Γò¥Γòº├çΓö£├│Γö£├│Γòº├çΓö£ΓîÉΓö¼Γòù_lv2.png",
+      "deduped_to": "dqr_full_project/assets/custom_cards/custom_card_011_lv2.png",
+      "intended_name": "レック_lv2.png"
+    },
+    {
+      "old_path": "dqr_full_project/assets/custom_cards/Γòº├çΓö£├│Γö¼Γò¥Γòº├çΓö£├│Γö£├│Γòº├çΓö£ΓîÉΓö¼Γòù_lv3.png",
+      "deduped_to": "dqr_full_project/assets/custom_cards/custom_card_012_lv3.png",
+      "intended_name": "レック_lv3.png"
+    },
+    {
+      "old_path": "dqr_full_project/assets/custom_cards/Γò¼├║╬ô├▓┬ÑΓö¼├æΓò¼┬¬Γö¼┬╝Γö¼Γò¥Γòº├çΓö£Γò¥Γö¼┬╜Γòº├óΓö£┬╗Γö£┬║Γò¼┬¬Γö£├ºΓö£├í_lv1.png",
+      "deduped_to": "dqr_full_project/assets/custom_cards/custom_card_014_lv1.png",
+      "intended_name": "伝説の勇者_lv1.png"
+    },
+    {
+      "old_path": "dqr_full_project/assets/custom_cards/Γò¼├║╬ô├▓┬ÑΓö¼├æΓò¼┬¬Γö¼┬╝Γö¼Γò¥Γòº├çΓö£Γò¥Γö¼┬╜Γòº├óΓö£┬╗Γö£┬║Γò¼┬¬Γö£├ºΓö£├í_lv2.png",
+      "deduped_to": "dqr_full_project/assets/custom_cards/custom_card_015_lv2.png",
+      "intended_name": "伝説の勇者_lv2.png"
+    },
+    {
+      "old_path": "dqr_full_project/assets/custom_cards/Γò¼├║╬ô├▓┬ÑΓö¼├æΓò¼┬¬Γö¼┬╝Γö¼Γò¥Γòº├çΓö£Γò¥Γö¼┬╜Γòº├óΓö£┬╗Γö£┬║Γò¼┬¬Γö£├ºΓö£├í_lv3.png",
+      "deduped_to": "dqr_full_project/assets/custom_cards/custom_card_016_lv3.png",
+      "intended_name": "伝説の勇者_lv3.png"
+    },
+    {
+      "old_path": "dqr_full_project/assets/custom_cards/Γò¼├║╬ô├▓┬ÑΓö¼├æΓò¼┬¬Γö¼┬╝Γö¼Γò¥Γòº├çΓö£Γò¥Γö¼┬╜Γòº├óΓö£┬╗Γö£┬║Γò¼┬¬Γö£├ºΓö£├í_lv4.png",
+      "deduped_to": "dqr_full_project/assets/custom_cards/custom_card_017_lv4.png",
+      "intended_name": "伝説の勇者_lv4.png"
+    }
+  ],
+  "changed_text_files": [
+    "dqr_full_project/README.md",
+    "dqr_full_project/data/build_info.json",
+    "dqr_full_project/data/cards.json",
+    "dqr_full_project/data/custom_hero_images_note.json",
+    "dqr_full_project/data/modal_enemy_place_rules_core_v121.json",
+    "dqr_full_project/js/app.js"
+  ]
+}

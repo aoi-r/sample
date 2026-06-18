@@ -1780,7 +1780,7 @@ node tools/sync_official_gameconductor.mjs
   - 攻撃時、攻撃対象の攻撃力分の反撃ダメージを追加。
   - ホイミスライムの自分ターン終了時回復効果を追加。
   - イブールの本をコスト0、味方リーダー2ダメージ/敵リーダー2回復/1枚ドローに変更。
-  - `assets/custom_cards/イブールの本.png` を追加。
+  - `assets/custom_cards/custom_card_007.png` を追加。
   - 自分リーダーアイコンと手札表示ウィンドウ位置を調整。
 - 監査:
   - `node --check`: OK
@@ -1857,7 +1857,7 @@ node tools/sync_official_gameconductor.mjs
 - 起動画面表示:
   - `v126 / buildable 1465 / total 1583`
 - 修正:
-  - `assets/custom_cards/イチゴ爆弾.png` 参照を廃止。
+  - `assets/custom_cards/custom_card_006.png` 参照を廃止。
   - `assets/custom_cards/strawberry_bomb.png` に変更。
   - `cards.json` に `イチゴ爆弾` を正式追加。
   - v125の家族の絆/ホイミン/ヒャド/赤文字位置修正は維持。
