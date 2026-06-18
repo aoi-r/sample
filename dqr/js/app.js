@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v160_romanized_asset_filenames';
+const DATA_VERSION = 'v161_modifier_overlay_visibility_fix';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -286,9 +286,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v158 / buildable 1460 / total 1583`;
+  if(label) label.textContent = `v161 / buildable 1460 / total 1583`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v158 / buildable 1460 / total 1583`;
+  if(badge) badge.textContent = `v161 / buildable 1460 / total 1583`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -317,6 +317,12 @@ async function loadData(){
   state.systems = systems; state.strategies = strategies; state.choices = choices; state.coin = coin;
   state.dungeons = dungeons; state.fortune = fortune; state.heroes = heroes; state.exchanges = exchanges; state.generatedCards = generatedCards; state.tensionSystem = tensionSystem;
   state.allCards = cards.cards || [];
+  // v161: 手札コスト差分表示用に、読み込み時点の本来コストを保持する。
+  // 後から生成/コピーされたカードも JSON.stringify 等でこの値を引き継げるため、
+  // 一時的なコスト低下が card.cost に反映された場合でも差分を出しやすくなる。
+  for(const c of state.allCards){
+    if(c && c._baseCostOriginal == null) c._baseCostOriginal = Number(c.cost || 0);
+  }
   state.cards = state.allCards.filter(c => c.flags?.deckBuildable !== false && c.cardType !== "トークン");
   if(!state.cards.length){
     const msg = 'カードDBを読み込めませんでした。data/cards.json の配置やキャッシュを確認してください。';
@@ -3246,22 +3252,28 @@ function statModifierClassV158(text){
   if(!text) return '';
   return String(text).startsWith('-') ? ' negative' : ' positive';
 }
+function handCostBaseForDisplayV161(card){
+  if(!card) return 0;
+  // 通常カードは読み込み時点の本来コスト、生成/コピーカードは元カードから引き継いだ値を優先。
+  const raw = card._baseCostOriginal ?? card.originalCost ?? card.baseCost ?? card.defaultCost ?? card.cost ?? 0;
+  return Number(raw || 0);
+}
 function handCostModifierTextV158(card){
   if(!card) return '';
-  const base = Number(card.cost || 0);
+  const base = handCostBaseForDisplayV161(card);
   const effective = getEffectiveCost(card);
   const delta = Number(effective || 0) - base;
   return delta < 0 ? signedDeltaTextV158(delta) : '';
 }
 function renderBoardModifierOverlaysV158(card, unit){
   const mod = statModifierDisplayV158(card, unit);
-  const atk = mod.attackText ? `<span class="unit-stat-mod unit-atk-mod${statModifierClassV158(mod.attackText)}">${escapeHtml(mod.attackText)}</span>` : '';
-  const hp = mod.hpText ? `<span class="unit-stat-mod unit-hp-mod${statModifierClassV158(mod.hpText)}" title="${escapeHtml(mod.hpKind)}補正">${escapeHtml(mod.hpText)}</span>` : '';
+  const atk = mod.attackText ? `<span class="unit-stat-mod unit-atk-mod${statModifierClassV158(mod.attackText)}" title="攻撃力補正 ${escapeHtml(mod.attackText)}">${escapeHtml(mod.attackText)}</span>` : '';
+  const hp = mod.hpText ? `<span class="unit-stat-mod unit-hp-mod${statModifierClassV158(mod.hpText)}" title="${escapeHtml(mod.hpKind)}補正 ${escapeHtml(mod.hpText)}">${escapeHtml(mod.hpText)}</span>` : '';
   return atk + hp;
 }
 function renderHandCostOverlayV158(card){
   const text = handCostModifierTextV158(card);
-  return text ? `<span class="hand-cost-mod${statModifierClassV158(text)}">${escapeHtml(text)}</span>` : '';
+  return text ? `<span class="hand-cost-mod${statModifierClassV158(text)}" title="コスト補正 ${escapeHtml(text)}">${escapeHtml(text)}</span>` : '';
 }
 function updateBattleCardZoomModifiersV158(card, context={}){
   const atkEl = $('battle-card-zoom-atk-mod');
@@ -7014,7 +7026,7 @@ function applyFortuneOptionTextV133(card, option, optionIndex=0){
 
   if(text.includes('デッキの一番上のカードのコスト-3') && game.player.deck.length){
     const id = game.player.deck[0]; const c = byId(id);
-    const copy = JSON.parse(JSON.stringify(c)); copy.id = `copy_${c.id}_${Date.now()}_${safeRandomId('fortune').slice(0,8)}`; copy.cost = Math.max(0, Number(c.cost||0)-3); copy.flags ||= {}; copy.flags.generatedOrEvolved = true; state.allCards.push(copy); state.cards.push(copy); game.player.deck[0] = copy.id; applied = true;
+    const copy = JSON.parse(JSON.stringify(c)); copy.id = `copy_${c.id}_${Date.now()}_${safeRandomId('fortune').slice(0,8)}`; copy._baseCostOriginal ??= Number(c._baseCostOriginal ?? c.cost ?? 0); copy.cost = Math.max(0, Number(c.cost||0)-3); copy.flags ||= {}; copy.flags.generatedOrEvolved = true; state.allCards.push(copy); state.cards.push(copy); game.player.deck[0] = copy.id; applied = true;
   }
   if(text.includes('デッキの一番上のカードを手札に加える')){
     if(game.player.deck.length){

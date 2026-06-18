@@ -6488,3 +6488,80 @@
     padding:3px 8px;
   }
 }
+
+
+/* v161: make stat/cost modifier overlays clearly visible for verification. */
+.battle-arena,
+.battle-arena .side-board,
+.battle-arena .unit-row,
+.battle-arena .board-grid,
+.unit-slot{
+  overflow:visible !important;
+}
+.unit-slot{
+  z-index:1;
+}
+.unit-slot.has-unit{
+  z-index:2;
+}
+.unit-slot.has-unit:hover,
+.unit-slot.selected{
+  z-index:20;
+}
+.unit-stat-mod{
+  bottom:-12px !important;
+  min-width:25px !important;
+  height:15px !important;
+  padding:2px 5px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  font-size:11px !important;
+  letter-spacing:.02em !important;
+  border:1px solid rgba(255,255,255,.85) !important;
+  z-index:70 !important;
+  opacity:1 !important;
+}
+.unit-atk-mod{
+  left:2px !important;
+}
+.unit-hp-mod{
+  right:2px !important;
+}
+.player-hand{
+  padding-top:10px !important;
+}
+.hand-card{
+  position:relative !important;
+  overflow:visible !important;
+}
+.hand-cost-mod{
+  top:2px !important;
+  left:50% !important;
+  transform:translateX(-50%) !important;
+  min-width:32px !important;
+  padding:3px 8px !important;
+  font-size:14px !important;
+  border:1px solid rgba(255,255,255,.9) !important;
+  z-index:80 !important;
+  opacity:1 !important;
+}
+.zoom-stat-mod,.zoom-cost-mod{
+  z-index:90 !important;
+  border:1px solid rgba(255,255,255,.9) !important;
+}
+@media(max-width:900px) and (orientation:landscape){
+  .unit-stat-mod{
+    bottom:-10px !important;
+    min-width:21px !important;
+    height:13px !important;
+    font-size:9px !important;
+    padding:1px 4px !important;
+  }
+  .hand-cost-mod{
+    top:2px !important;
+    min-width:26px !important;
+    font-size:12px !important;
+    padding:2px 6px !important;
+  }
+}

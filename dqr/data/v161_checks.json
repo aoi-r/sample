@@ -1,0 +1,11 @@
+{
+  "version": "v161_modifier_overlay_visibility_fix",
+  "label": "v161 / buildable 1460 / total 1583",
+  "node_check_ok": true,
+  "node_check_stderr": "",
+  "duplicate_function_declarations": [],
+  "custom_cards_non_ascii_count": 0,
+  "custom_cards_long_filename_count": 0,
+  "overlay_css_fix": "visible overflow + inside hand cost badge",
+  "base_cost_snapshot": "_baseCostOriginal added on loadData"
+}

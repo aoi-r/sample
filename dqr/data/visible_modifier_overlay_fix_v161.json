@@ -1,0 +1,16 @@
+{
+  "version": "v161_modifier_overlay_visibility_fix",
+  "base": "v160_romanized_asset_filenames",
+  "fixes": [
+    "盤面の攻撃/HP/耐久値補正表示がunit-slotのoverflowで隠れやすかったため、盤面側のoverflowをvisibleへ補強",
+    "手札コストダウン表示をカード上外側からカード内上部に移動して、player-handのスクロール領域に隠れないように変更",
+    "読み込み時点の本来コストを_baseCostOriginalに保持し、生成/コピーカードでもコスト差分を出しやすくした",
+    "拡大表示の差分ラベルもz-index/枠線を強化"
+  ],
+  "display_rules": {
+    "board_attack": "左下の攻撃力丸の下に差分を表示",
+    "board_hp_or_durability": "右下のHP/耐久値丸の下に差分を表示",
+    "hand_cost": "手札内で有効コストが本来コストより下がっているカードの上部に差分を表示",
+    "clear": "差分が0になったら再描画時に表示しない"
+  }
+}
