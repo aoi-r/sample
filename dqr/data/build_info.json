@@ -1,5 +1,5 @@
 {
-  "version": "v161_modifier_overlay_visibility_fix",
+  "version": "v162_official_default_test_decks",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -240,10 +240,27 @@
   },
   "base": "v158_visible_stat_cost_modifiers",
   "filenameSanitization": "custom_cards filenames normalized to short ASCII names to avoid File name too long on checkout/build",
-  "data_version": "v161_modifier_overlay_visibility_fix",
-  "label": "v161 / buildable 1460 / total 1583",
+  "data_version": "v162_official_default_test_decks",
+  "label": "v162 / buildable 1460 / total 1583",
   "notes": [
     "v160: assets/custom_cards filenames romanized to readable ASCII and mojibake mapping data removed.",
-    "v161: ステータス補正/手札コストダウン表示が見えづらい問題を修正。盤面スロットのoverflowを可視化し、手札コスト差分をカード内上部へ移動。本来コストの読み込み時スナップショットも追加。"
-  ]
+    "v161: ステータス補正/手札コストダウン表示が見えづらい問題を修正。盤面スロットのoverflowを可視化し、手札コスト差分をカード内上部へ移動。本来コストの読み込み時スナップショットも追加。",
+    "v162: 既定テストデッキを指定公式DBの5デッキへ置換。武闘家#413/僧侶#393は掲載リストが空のため未実装。"
+  ],
+  "defaultTestDecks": {
+    "file": "data/default_test_decks_v162.json",
+    "replaced": "旧ソロテスト用プリセット5種類を機能上削除し、指定された公式DB公開デッキ5種へ差し替え。",
+    "implemented": [
+      "戦士 #325",
+      "魔法使い #324",
+      "商人 #326",
+      "占い師 #329",
+      "魔剣士 #298"
+    ],
+    "notImplemented": [
+      "武闘家 #413（デッキリスト空）",
+      "僧侶 #393（デッキリスト空）"
+    ],
+    "sourceCountPolicy": "#325は公式掲載31枚、#298は公式掲載29枚。自動補充・切り捨てなし。"
+  }
 }

@@ -1,0 +1,81 @@
+{
+  "version": "v162_official_default_test_decks",
+  "purpose": "バトル/ソロ効果テストの既定デッキを公式DBの指定公開デッキへ差し替え。旧5種のテストプリセットは機能上削除。",
+  "policy": [
+    "公式DBのデッキリストにカード行があるページのみ実装する。",
+    "カード不足時の自動補充・30枚への水増し・31枚からの切り捨てはしない。",
+    "公式DBの掲載行から算出した枚数をそのまま表示・使用する。"
+  ],
+  "sources": [
+    {
+      "deckNo": 325,
+      "deckName": "イレブンテリー",
+      "className": "戦士",
+      "sourceUrl": "https://gameconductor.com/dqrivals/deck/detail/?no=325",
+      "sourceListedTotal": 31,
+      "implemented": true,
+      "reason": "公式DBのデッキリストあり。掲載カードを補充・削除せず、そのまま採用。"
+    },
+    {
+      "deckNo": 324,
+      "deckName": "デボラゼシカ",
+      "className": "魔法使い",
+      "sourceUrl": "https://gameconductor.com/dqrivals/deck/detail/?no=324",
+      "sourceListedTotal": 30,
+      "implemented": true,
+      "reason": "公式DBのデッキリストあり。"
+    },
+    {
+      "deckNo": 413,
+      "deckName": "ピラミッドアリーナ",
+      "className": "武闘家",
+      "sourceUrl": "https://gameconductor.com/dqrivals/deck/detail/?no=413",
+      "sourceListedTotal": 0,
+      "implemented": false,
+      "reason": "公式DBページのデッキリストにカード行がないため、ユーザー指定に従い実装しない。"
+    },
+    {
+      "deckNo": 393,
+      "deckName": "フローラドラゴンククール",
+      "className": "僧侶",
+      "sourceUrl": "https://gameconductor.com/dqrivals/deck/detail/?no=393",
+      "sourceListedTotal": 0,
+      "implemented": false,
+      "reason": "公式DBページのデッキリストにカード行がないため、ユーザー指定に従い実装しない。"
+    },
+    {
+      "deckNo": 326,
+      "deckName": "デボラトルネコ",
+      "className": "商人",
+      "sourceUrl": "https://gameconductor.com/dqrivals/deck/detail/?no=326",
+      "sourceListedTotal": 30,
+      "implemented": true,
+      "reason": "公式DBのデッキリストあり。"
+    },
+    {
+      "deckNo": 329,
+      "deckName": "タバサドラゴンミネア",
+      "className": "占い師",
+      "sourceUrl": "https://gameconductor.com/dqrivals/deck/detail/?no=329",
+      "sourceListedTotal": 30,
+      "implemented": true,
+      "reason": "公式DBのデッキリストあり。"
+    },
+    {
+      "deckNo": 298,
+      "deckName": "ゾーマ魔王ピサロ",
+      "className": "魔剣士",
+      "sourceUrl": "https://gameconductor.com/dqrivals/deck/detail/?no=298",
+      "sourceListedTotal": 29,
+      "implemented": true,
+      "reason": "公式DB掲載行の合計が29枚。補充カードを追加せず、掲載内容をそのまま採用。"
+    }
+  ],
+  "activeDeckIds": [
+    "default_warrior_325",
+    "default_mage_324",
+    "default_merchant_326",
+    "default_fortune_329",
+    "default_demon_swordsman_298"
+  ]
+}

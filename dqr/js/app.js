@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v161_modifier_overlay_visibility_fix';
+const DATA_VERSION = 'v162_official_default_test_decks';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -286,9 +286,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v161 / buildable 1460 / total 1583`;
+  if(label) label.textContent = `v162 / buildable 1460 / total 1583`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v161 / buildable 1460 / total 1583`;
+  if(badge) badge.textContent = `v162 / buildable 1460 / total 1583`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -862,67 +862,96 @@ function countDeckOther(deckCards){
 }
 
 
+// v162: 既存のソロ用テストプリセットを、公式DBの公開デッキから取得した既定デッキへ置換。
+// URL側のデッキリストにカード行が無い職業（武闘家 #413 / 僧侶 #393）は実装しない。
+// 公式ページの行数をそのまま採用し、枚数合わせ用の補充カードは絶対に入れない。
 const SOLO_PRESET_DECK_DEFS = [
   {
-    id:'solo_complex',
-    deckName:'【テスト】複雑効果まとめ',
-    className:'占い師',
-    names:['あくまのカガミ','フォステイル','スラリンガル','タロットフォーチュン','テンプテーション','セクシービーム','デスマエストロ','グランマーズ','ロミア','分裂のツボ','家族の絆','怪獣プスゴン','フライングデス','覇海軍王ジャコラ','魔王の書']
-  },
-  {
-    id:'solo_building',
-    deckName:'【テスト】建物・ダンジョン',
-    className:'僧侶',
-    names:['デルカダール地下水路','墓所','占い小屋','武器屋','牢屋','修道院','塔','お告げのほこら','氷の館','ロンダルキアへの洞くつ','不思議のダンジョン','仙人のほら穴','守りのほこら','沼地の洞くつ','炎のほこら']
-  },
-  {
-    id:'solo_hand_deck',
-    deckName:'【テスト】手札・山札干渉',
-    className:'盗賊',
-    names:['ぬすむ','ぬすっと斬り','やみのとうぞく','怪盗ポイックリン','ラグアス王子','きめんどうし','ミレーユ','垣間見る未来','魂の写し身','やまびこの心得','残響のようじゅつし','メルビン','イブール','マヤ','グランマーズ']
-  },
-  {
-    id:'solo_bet_coin',
-    deckName:'【テスト】BET・コイン',
-    className:'商人',
-    names:['コイン','ぷちメタル','まかいファイター','ジラフマスター','ギガデーモン','ベホイミスライム','クラウンヘッド','クラーゴン','かっちゅうアリ','きりかぶおばけ','インプ','ミリオンゼニー','むげんの弓','福招きのそろばん','特訓の成果']
-  },
-  {
-    id:'solo_tribe_timing',
-    deckName:'【テスト】系統・期限効果',
+    id:'default_warrior_325',
+    deckName:'イレブンテリー',
     className:'戦士',
-    names:['クイーンスライム','ワイトキング','グレイトドラゴン','キングリザード','ドラゴンソルジャー','ヒドラ','ライアン','バイキルトのツボ','バイキルトの巻物','剣豪の闘志','孤高の剣技','青い閃光','魔力かくせい','魔力解放','覇海軍王ジャコラ']
+    sourceUrl:'https://gameconductor.com/dqrivals/deck/detail/?no=325',
+    sourceDeckNo:325,
+    sourceTotal:31,
+    cards:[
+      ['しっぷう突き',2],['とげぼうず',2],['勇者イレブン',1],['アルゴリザード',2],['トンネラー',2],['かくれんぼう',2],['ナイトキング',2],['メルビン',2],['ブラッドレディ',2],['シーゴーレム',2],['ラプソーン',1],['最後の砦の英雄グレイグ',1],['コンガオンガ',1],['フェイスボール',2],['ギュメイ将軍',1],['シュプリンガー',1],['グレイトマムー',2],['いなずまのけん',2],['ウルノーガ&ウルナーガ',1]
+    ]
+  },
+  {
+    id:'default_mage_324',
+    deckName:'デボラゼシカ',
+    className:'魔法使い',
+    sourceUrl:'https://gameconductor.com/dqrivals/deck/detail/?no=324',
+    sourceDeckNo:324,
+    sourceTotal:30,
+    cards:[
+      ['メラ',2],['魔法使いの交換所',2],['プチマージ',2],['イオ',2],['メラミ',2],['ボックススライム',2],['スラ・ストライク',2],['ベホイミスライム',2],['天空の花嫁デボラ',1],['黄金兵',2],['メラゾーマ',2],['少女マリベル',1],['マデサゴーラ',1],['キャプテン・クロウ',1],['アークマージ',2],['エルギオス',1],['魔導召喚',1],['ゴールデンタイタス',2]
+    ]
+  },
+  {
+    id:'default_merchant_326',
+    deckName:'デボラトルネコ',
+    className:'商人',
+    sourceUrl:'https://gameconductor.com/dqrivals/deck/detail/?no=326',
+    sourceDeckNo:326,
+    sourceTotal:30,
+    cards:[
+      ['商人の交換所',2],['コインのたね',1],['とげぼうず',2],['プチファイター',2],['ケダモン',2],['ぷちメタル',2],['くらやみハーピー',1],['ベホイミスライム',2],['天空の花嫁デボラ',1],['ルドマン',1],['怪獣プスゴン',1],['ラプソーン',1],['黄金兵',2],['痛みわけの杖',1],['ブラバニクイーン',2],['福招きのそろばん',1],['マデサゴーラ',1],['ハンフリー',1],['レッドプレデター',2],['ゴールデンタイタス',2]
+    ]
+  },
+  {
+    id:'default_fortune_329',
+    deckName:'タバサドラゴンミネア',
+    className:'占い師',
+    sourceUrl:'https://gameconductor.com/dqrivals/deck/detail/?no=329',
+    sourceDeckNo:329,
+    sourceTotal:30,
+    cards:[
+      ['魂の写し身',1],['タバサ',1],['風の導き',2],['銀のタロット',2],['クロウズ',1],['バルーンコール',2],['かみかぜ',2],['バルンバ',2],['太陽のタロット',2],['サイコロン',2],['キースドラゴン',2],['死神のタロット',2],['イブール',1],['ゾディアックコード',2],['逆転への兆し',2],['召竜の儀式',2],['しんりゅう',1],['タロットフォーチュン',1]
+    ]
+  },
+  {
+    id:'default_demon_swordsman_298',
+    deckName:'ゾーマ魔王ピサロ',
+    className:'魔剣士',
+    sourceUrl:'https://gameconductor.com/dqrivals/deck/detail/?no=298',
+    sourceDeckNo:298,
+    sourceTotal:29,
+    cards:[
+      ['魔力解放',2],['闇への供物',2],['プチターク',1],['どくあおむし',2],['メラゴースト',2],['まおうのたまご',2],['つかいま',2],['ラプソーン',1],['大魔王ゾーマ',1],['死者の魂',2],['オルゴ・デミーラ',1],['デスタムーア',1],['あくまのきし',2],['れんごくちょう',1],['アスラ王',2],['ヘルバオム',2],['ソードイド',2],['エビルプリースト',1]
+    ]
   }
 ];
 
 function makeSoloPresetDeck(def){
-  const ids = [];
-  for(const name of def.names || []){
-    const card = findCardByName(name);
-    if(card) ids.push(card.id);
-  }
-  const fillerNames = ['スライム','メラリザード','ピサロナイト','コイン','ヒャド','こんぼう'];
-  let f = 0;
-  while(ids.length < 30){
-    const card = findCardByName(fillerNames[f % fillerNames.length]) || state.allCards.find(c => c.cardType === 'ユニット');
-    if(card) ids.push(card.id);
-    f++;
-    if(f > 80) break;
-  }
   const grouped = [];
-  for(const id of ids.slice(0,30)){
-    const g = grouped.find(x => x.cardId === id);
-    if(g) g.count += 1;
-    else grouped.push({cardId:id, count:1});
+  const unresolvedCards = [];
+  for(const item of def.cards || []){
+    const name = Array.isArray(item) ? item[0] : item?.name;
+    const count = Math.max(1, Number(Array.isArray(item) ? item[1] : item?.count) || 1);
+    const card = findCardByName(name);
+    if(!card){
+      unresolvedCards.push({name, count});
+      continue;
+    }
+    const g = grouped.find(x => x.cardId === card.id);
+    if(g) g.count += count;
+    else grouped.push({cardId:card.id, count});
   }
+  const resolvedTotal = grouped.reduce((sum, item) => sum + Number(item.count || 0), 0);
   return {
     id:def.id,
     deckName:def.deckName,
     className:def.className || '戦士',
-    total:30,
+    total:resolvedTotal,
+    sourceTotal:Number(def.sourceTotal || resolvedTotal),
     cards:grouped,
     isSoloPreset:true,
-    updatedAtLocal:'solo_preset'
+    isOfficialDefaultDeck:true,
+    sourceDeckNo:def.sourceDeckNo || null,
+    sourceUrl:def.sourceUrl || '',
+    unresolvedCards,
+    updatedAtLocal:'official_default_v162'
   };
 }
 
@@ -990,7 +1019,7 @@ function renderBattleDeckList(){
     const row = document.createElement('button');
     row.className = `battle-deck-card ${state.battle.selectedDeckId === id ? 'selected' : ''}`;
     const hero = (deck.cards || []).map(x => byId(x.cardId)).filter(c => c?.cardType === 'ヒーロー').map(c => c.name).join(' / ') || 'ヒーローなし';
-    row.innerHTML = `<strong>${escapeHtml(deck.deckName || '無名デッキ')}</strong><span>${escapeHtml(deck.className || '')} / ${deck.total || 0}枚${deck.isSoloPreset ? ' / プリセット' : ''}</span><small>${escapeHtml(hero)}</small>`;
+    row.innerHTML = `<strong>${escapeHtml(deck.deckName || '無名デッキ')}</strong><span>${escapeHtml(deck.className || '')} / ${deck.total || 0}枚${deck.isSoloPreset ? ' / 既定デッキ' : ''}</span><small>${escapeHtml(hero)}</small>`;
     row.addEventListener('click', () => openBattleDeckModal(id, deck));
     box.appendChild(row);
   }
