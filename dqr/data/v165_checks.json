@@ -1,0 +1,20 @@
+{
+  "version": "v165_default_decks_remove_demon_swordsman_and_effect_audit",
+  "base": "v164_shinryu_wishes_and_default_deck_adjustments",
+  "activeDefaultDeckCount": 4,
+  "activeDefaultDecks": [
+    "イレブンテリー",
+    "デボラゼシカ",
+    "デボラトルネコ",
+    "タバサドラゴンミネア"
+  ],
+  "removedDefaultDeck": "ゾーマ魔王ピサロ / default_demon_swordsman_298",
+  "activeDeckTotalCards": 120,
+  "effectAuditRecords": 49,
+  "highPriorityAuditRecords": 38,
+  "notes": "魔剣士デッキはSOLO_PRESET_DECK_DEFSおよび既定テストデッキJSONから除去済み。ユーザー保存デッキとカードDBは保持。",
+  "removedHistoricalDefaultDeckFiles": [
+    "data/default_test_decks_v162.json",
+    "data/default_test_decks_v164.json"
+  ]
+}

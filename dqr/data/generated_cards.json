@@ -2263,7 +2263,7 @@
       "classes": [
         "占い師"
       ],
-      "cardType": "ユニット",
+      "cardType": "トークン",
       "cost": 8,
       "attack": 0,
       "hp": 0,
@@ -2278,6 +2278,12 @@
         "imageVerified": false,
         "nameVerified": false,
         "imageStatus": "not_synced"
+      },
+      "flags": {
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "nonDeckCategory": "choice_reward"
       }
     },
     {
@@ -2286,7 +2292,7 @@
       "classes": [
         "占い師"
       ],
-      "cardType": "ユニット",
+      "cardType": "トークン",
       "cost": 8,
       "attack": 0,
       "hp": 0,
@@ -2301,6 +2307,12 @@
         "imageVerified": false,
         "nameVerified": false,
         "imageStatus": "not_synced"
+      },
+      "flags": {
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "nonDeckCategory": "choice_reward"
       }
     },
     {
@@ -2309,7 +2321,7 @@
       "classes": [
         "占い師"
       ],
-      "cardType": "ユニット",
+      "cardType": "トークン",
       "cost": 8,
       "attack": 0,
       "hp": 0,
@@ -2324,6 +2336,12 @@
         "imageVerified": false,
         "nameVerified": false,
         "imageStatus": "not_synced"
+      },
+      "flags": {
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "nonDeckCategory": "choice_reward"
       }
     },
     {
@@ -2332,7 +2350,7 @@
       "classes": [
         "占い師"
       ],
-      "cardType": "ユニット",
+      "cardType": "トークン",
       "cost": 8,
       "attack": 0,
       "hp": 0,
@@ -2347,6 +2365,12 @@
         "imageVerified": false,
         "nameVerified": false,
         "imageStatus": "not_synced"
+      },
+      "flags": {
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "nonDeckCategory": "choice_reward"
       }
     },
     {

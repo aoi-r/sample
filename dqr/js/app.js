@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v162_official_default_test_decks';
+const DATA_VERSION = 'v166_manual_effect_requirements_batch';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -220,6 +220,7 @@ const VIRTUAL_CARD_DEFS = {
   '棺桶': { name:'棺桶', cost:0, attack:0, hp:1, cardType:'ユニット', text:'サマルトリアの王子の効果で出る棺桶。', effect:null },
   'ゲレゲレ': { name:'ゲレゲレ', cost:0, attack:4, hp:4, cardType:'ユニット', text:'速攻。天空の花嫁ビアンカのヒーロースキルで出る。', effect:null },
   'コイン': { name:'コイン', cost:0, cardType:'特技', text:'BETを発動するために使う。', effect:{kind:'coin'} },
+  'グリンガムのムチ': { name:'グリンガムのムチ', cost:3, attack:3, hp:2, cardType:'武器', rarity:'トークン', text:'敵リーダーを攻撃できない。反撃ダメージを受けない。攻撃時、選択した対象の列全員に同じダメージを与える。', effect:null, localImage:'./assets/custom_cards/guringamu_no_muchi.png' },
   'スライム': { name:'スライム', cost:0, attack:1, hp:1, cardType:'ユニット', text:'1/1のスライム。', effect:null },
   'メラリザード': { name:'メラリザード', cost:1, attack:1, hp:2, cardType:'ユニット', text:'1/2のメラリザード。', effect:null },
   'ピサロナイト': { name:'ピサロナイト', cost:2, attack:1, hp:1, cardType:'ユニット', text:'1/1のピサロナイト。', effect:null },
@@ -286,9 +287,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v162 / buildable 1460 / total 1583`;
+  if(label) label.textContent = `v166 / buildable 1460 / total 1583`;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v162 / buildable 1460 / total 1583`;
+  if(badge) badge.textContent = `v166 / buildable 1460 / total 1583`;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -606,6 +607,7 @@ function visibleCards(){
 
 
 const CUSTOM_CARD_IMAGES = {
+  'グリンガムのムチ': './assets/custom_cards/guringamu_no_muchi.png',
   'イチゴ爆弾': './assets/custom_cards/ichigo_bakudan.png',
   '伝説の勇者': './assets/custom_cards/densetsu_no_yuusha_deck_card.png',
   '出会いと別れの酒場': './assets/custom_cards/densetsu_no_yuusha_lv1.png',
@@ -862,8 +864,8 @@ function countDeckOther(deckCards){
 }
 
 
-// v162: 既存のソロ用テストプリセットを、公式DBの公開デッキから取得した既定デッキへ置換。
-// URL側のデッキリストにカード行が無い職業（武闘家 #413 / 僧侶 #393）は実装しない。
+// v165: 既定テストデッキは、公式DBの公開デッキを土台にした4デッキのみ。魔剣士 #298 は次のテストデッキ作成まで完全に非表示。
+// URL側のデッキリストにカード行が無い職業（武闘家 #413 / 僧侶 #393）と、差し替え待ちの魔剣士 #298 は実装しない。
 // 公式ページの行数をそのまま採用し、枚数合わせ用の補充カードは絶対に入れない。
 const SOLO_PRESET_DECK_DEFS = [
   {
@@ -872,9 +874,9 @@ const SOLO_PRESET_DECK_DEFS = [
     className:'戦士',
     sourceUrl:'https://gameconductor.com/dqrivals/deck/detail/?no=325',
     sourceDeckNo:325,
-    sourceTotal:31,
+    sourceTotal:30,
     cards:[
-      ['しっぷう突き',2],['とげぼうず',2],['勇者イレブン',1],['アルゴリザード',2],['トンネラー',2],['かくれんぼう',2],['ナイトキング',2],['メルビン',2],['ブラッドレディ',2],['シーゴーレム',2],['ラプソーン',1],['最後の砦の英雄グレイグ',1],['コンガオンガ',1],['フェイスボール',2],['ギュメイ将軍',1],['シュプリンガー',1],['グレイトマムー',2],['いなずまのけん',2],['ウルノーガ&ウルナーガ',1]
+      ['しっぷう突き',2],['とげぼうず',2],['勇者イレブン',1],['アルゴリザード',2],['トンネラー',2],['かくれんぼう',2],['ナイトキング',2],['わたぼう',1],['ブラッドレディ',2],['シーゴーレム',2],['ラプソーン',1],['最後の砦の英雄グレイグ',1],['コンガオンガ',1],['フェイスボール',2],['ギュメイ将軍',1],['シュプリンガー',1],['グレイトマムー',2],['いなずまのけん',2],['ウルノーガ&ウルナーガ',1]
     ]
   },
   {
@@ -910,17 +912,6 @@ const SOLO_PRESET_DECK_DEFS = [
       ['魂の写し身',1],['タバサ',1],['風の導き',2],['銀のタロット',2],['クロウズ',1],['バルーンコール',2],['かみかぜ',2],['バルンバ',2],['太陽のタロット',2],['サイコロン',2],['キースドラゴン',2],['死神のタロット',2],['イブール',1],['ゾディアックコード',2],['逆転への兆し',2],['召竜の儀式',2],['しんりゅう',1],['タロットフォーチュン',1]
     ]
   },
-  {
-    id:'default_demon_swordsman_298',
-    deckName:'ゾーマ魔王ピサロ',
-    className:'魔剣士',
-    sourceUrl:'https://gameconductor.com/dqrivals/deck/detail/?no=298',
-    sourceDeckNo:298,
-    sourceTotal:29,
-    cards:[
-      ['魔力解放',2],['闇への供物',2],['プチターク',1],['どくあおむし',2],['メラゴースト',2],['まおうのたまご',2],['つかいま',2],['ラプソーン',1],['大魔王ゾーマ',1],['死者の魂',2],['オルゴ・デミーラ',1],['デスタムーア',1],['あくまのきし',2],['れんごくちょう',1],['アスラ王',2],['ヘルバオム',2],['ソードイド',2],['エビルプリースト',1]
-    ]
-  }
 ];
 
 function makeSoloPresetDeck(def){
@@ -951,7 +942,7 @@ function makeSoloPresetDeck(def){
     sourceDeckNo:def.sourceDeckNo || null,
     sourceUrl:def.sourceUrl || '',
     unresolvedCards,
-    updatedAtLocal:'official_default_v162'
+    updatedAtLocal:'official_default_v166'
   };
 }
 
@@ -1931,6 +1922,8 @@ function equipWeaponToLeaderV110(card, side='player'){
     game.player.leaderCanAttack = Number(target.weapon.attack || 0) > 0;
   }
   emitBattleEvent('weaponEquipped', {side, card, weapon:target.weapon});
+  if(side === 'player' && card.name === 'いなずまのけん'){ for(const u of allEnemyUnits()) dealDamageToUnit(u,2,card.name,'enemy'); resolveDeaths(); }
+  if(side === 'player' && card.name === 'グリンガムのムチ'){ target.weapon.cannotAttackLeader = true; target.weapon.rowSplash = true; }
   if(card.name === 'おうごんのつめ' && side === 'player') summonTokenByName('ミイラおとこ', {attack:3, hp:3}, 'enemy');
   battleLog(`${side === 'enemy' ? '敵' : '味方'}リーダーが${card.name}を装備しました。`);
   return true;
@@ -2768,7 +2761,11 @@ function ensureVirtualCard(name){
 }
 function addCardToHandByName(name){
   const card = findCardByName(name);
-  if(card) return addCardIdToPlayerHandV110(card.id, name);
+  if(card){
+    const ok = addCardIdToPlayerHandV110(card.id, name);
+    if(ok && name === 'コイン') state.battle.game.player.coinsAddedThisGame = Number(state.battle.game.player.coinsAddedThisGame || 0) + 1;
+    return ok;
+  }
   return false;
 }
 
@@ -3234,6 +3231,8 @@ function getEffectiveCost(card){
   if(text.includes('自分が味方にさくせんを出した回数分手札のこのカードのコスト-')) dynamicDelta -= Number(game?.player?.strategyCount || 0);
   if(text.includes('このターン中に使った占いカードの枚数分デッキと手札にあるこのカードのコスト-')) dynamicDelta -= Number(game?.player?.fortuneCardsUsedThisTurn || 0);
   if(text.includes('このターン中死亡したユニットの数分手札にあるこのカードのコスト-')) dynamicDelta -= Number(game?.player?.unitsDiedThisTurn || 0);
+  if(card.name === 'タロットフォーチュン') dynamicDelta -= Number(game?.player?.totalFortuneEffectsUsed || game?.player?.fortuneUsedCount || 0);
+  if(card.name === 'ゴールデンタイタス') dynamicDelta -= Number(game?.player?.coinsAddedThisGame || 0);
   return Math.max(0, Number(card.cost || 0) + delta + nextUnitDelta + dynamicDelta);
 }
 
@@ -3335,7 +3334,7 @@ function refForUnit(unit, sideHint='player'){
   return {side:sideHint, pos:-1};
 }
 function dealDamageToUnit(unit, amount, source='effect', sideHint='player'){
-  const actual = damageUnit(unit, amount);
+  const actual = damageUnit(unit, amount, {source});
   emitDamageApplied(refForUnit(unit, sideHint), amount, actual, source);
   return actual;
 }
@@ -3351,10 +3350,12 @@ function dealDamageToLeader(side, amount, source='effect'){
 function damageUnit(unit, amount, options={}){
   if(!unit) return 0;
   let dmg = Number(amount || 0);
+  if(shouldPreventDamageByGyumeiV166(options?.source || '', false)){ battleLog('ギュメイ将軍：効果ダメージを防ぎました。'); dmg = 0; }
   if(unit.keywords?.hardMetal && dmg <= 5) dmg = 1;
   else if(unit.keywords?.metal && dmg <= 3) dmg = 1;
   if(unit.statuses?.some(s => s.type === 'immuneDamage')) dmg = 0;
   if(unitKeywords(unit).darkRobe && dmg > 0) dmg = 0;
+  if(unit._zekkochoEnemyDamageIsOne && isOpponentTurnForUnitV163(unit) && dmg > 0) dmg = 1;
   if(unit.damageReduction && dmg > 0) dmg = Math.max(0, dmg - Number(unit.damageReduction || 0));
   unit.hp -= dmg;
   return dmg;
@@ -3363,6 +3364,7 @@ function damageLeader(side, amount){
   const g = state.battle.game;
   const p = side === 'player' ? g.player : g.enemy;
   let dmg = Number(amount || 0);
+  if(shouldPreventDamageByGyumeiV166(source, true)){ battleLog('ギュメイ将軍：効果ダメージを防ぎました。'); dmg = 0; }
   const red = getLeaderDamageReduction(side);
   if(red && dmg > 0) dmg = Math.max(0, dmg - red);
   p.hp = Math.max(0, p.hp - dmg);
@@ -3451,6 +3453,7 @@ function applyRenkeiIfActive(card, targetUnit=null){
   battleLog('れんけい：追加効果を発動。');
   const name = card.name;
   const pos = targetUnit ? game.player.board.indexOf(targetUnit) : -1;
+  if(applyRenkeiV166(card, targetUnit)) return true;
 
   if(name === 'コンガオンガ'){
     game.pendingGenericEffect = {kind:'renkeiVanishAtk6GiveEnemy', source:name, target:'enemyUnit'};
@@ -3696,6 +3699,7 @@ function getSpellDamageBonus(){
     if(m) bonus += Number(m[1] || 0);
     else if(!u.isBuilding && unitKeywords(u).spellDamagePlus) bonus += 1;
   }
+  bonus += getArkmageSpellDamageBonusV166();
   return bonus;
 }
 function getProficiencyLevel(cardId){
@@ -3847,6 +3851,93 @@ function installSoloForceTurnButtonV117(){
 }
 
 
+// v163: 絶好調の「初期キーワード」と「絶好調状態なら」を分けて扱う。
+// 文面中に絶好調という文字があるだけでは、カード自身が絶好調を持つとは判定しない。
+function hasInnateZekkochoV163(card){
+  const text = String(getCardText(card) || '');
+  return /(^|[、。]\s*)絶好調(?:[、。]|$)/.test(text);
+}
+function getZekkochoSelfConditionSpecV163(card){
+  const text = String(getCardText(card) || '');
+  const marker = 'このユニットが絶好調状態なら';
+  const i = text.indexOf(marker);
+  if(i < 0) return null;
+  const body = text.slice(i + marker.length).split('。')[0];
+  const atk = body.match(/攻撃力\s*[+＋]\s*(\d+)/);
+  const hp = body.match(/HP\s*[+＋]\s*(\d+)/);
+  return {
+    attack:Number(atk?.[1] || 0),
+    hp:Number(hp?.[1] || 0),
+    taunt:body.includes('におうだち'),
+    cannotAttackLeader:body.includes('敵リーダーを攻撃できない'),
+    poisonOnDamage:body.includes('ダメージを与えたユニットを毒'),
+    enemyTurnDamageIsOne:body.includes('相手のターン中') && body.includes('受けるダメージは1')
+  };
+}
+function fixConditionalZekkochoKeywordFlagsV163(unit, card){
+  if(!unit || !card) return;
+  const text = String(getCardText(card) || '');
+  const i = text.indexOf('このユニットが絶好調状態なら');
+  if(i < 0) return;
+  const before = text.slice(0, i);
+  // 条件文の中で初めて得るキーワードは、常時キーワードとして残さない。
+  if(!before.includes('におうだち')) unit.keywords.taunt = false;
+  if(!before.includes('毒')) unit.grantsPoisonOnDamage = false;
+}
+function refreshZekkochoSelfConditionV163(unit, card=null){
+  if(!unit) return;
+  card ||= byId(unit.cardId);
+  const spec = getZekkochoSelfConditionSpecV163(card);
+  const oldAtk = Number(unit._zekkochoSelfAttackBonus || 0);
+  const oldHp = Number(unit._zekkochoSelfHpBonus || 0);
+  if(oldAtk) unit.attack -= oldAtk;
+  if(oldHp){
+    unit.maxHp -= oldHp;
+    unit.hp = Math.min(unit.hp, unit.maxHp);
+  }
+  unit._zekkochoSelfAttackBonus = 0;
+  unit._zekkochoSelfHpBonus = 0;
+  if(unit._zekkochoSelfTauntApplied){
+    unit.keywords.taunt = !!unit._zekkochoSelfTauntBefore;
+    unit._zekkochoSelfTauntApplied = false;
+  }
+  if(unit._zekkochoSelfPoisonApplied){
+    unit.grantsPoisonOnDamage = !!unit._zekkochoSelfPoisonBefore;
+    unit._zekkochoSelfPoisonApplied = false;
+  }
+  unit._zekkochoCannotAttackLeader = false;
+  unit._zekkochoEnemyDamageIsOne = false;
+  if(!spec || !isZekkochoV134(unit)) return;
+  if(spec.attack){
+    unit.attack += spec.attack;
+    unit._zekkochoSelfAttackBonus = spec.attack;
+  }
+  if(spec.hp){
+    unit.hp += spec.hp;
+    unit.maxHp += spec.hp;
+    unit._zekkochoSelfHpBonus = spec.hp;
+  }
+  if(spec.taunt){
+    unit._zekkochoSelfTauntBefore = !!unit.keywords.taunt;
+    unit.keywords.taunt = true;
+    unit._zekkochoSelfTauntApplied = true;
+  }
+  if(spec.poisonOnDamage){
+    unit._zekkochoSelfPoisonBefore = !!unit.grantsPoisonOnDamage;
+    unit.grantsPoisonOnDamage = true;
+    unit._zekkochoSelfPoisonApplied = true;
+  }
+  if(spec.cannotAttackLeader) unit._zekkochoCannotAttackLeader = true;
+  if(spec.enemyTurnDamageIsOne) unit._zekkochoEnemyDamageIsOne = true;
+}
+function isOpponentTurnForUnitV163(unit){
+  const game = state.battle?.game;
+  if(!game || !unit) return false;
+  const isPlayerUnit = (game.player?.board || []).includes(unit);
+  const activeSide = game.soloActiveSide || (game.isMyTurn ? 'player' : 'enemy');
+  return isPlayerUnit ? activeSide === 'enemy' : activeSide === 'player';
+}
+
 function parseKeywordFlags(card){
   const text = getCardText(card);
   return {
@@ -3858,7 +3949,7 @@ function parseKeywordFlags(card){
     stealth: text.includes('ステルス'),
     seal: text.includes('封印'),
     darkRobe: text.includes('闇の衣'),
-    conditionGood: text.includes('絶好調'),
+    conditionGood: hasInnateZekkochoV163(card),
     synchro: text.includes('シンクロ'),
     proficiency: text.includes('熟練度'),
     spellDamagePlus: text.includes('特技ダメージ＋') || text.includes('特技ダメージ+'),
@@ -4191,7 +4282,9 @@ function handleCardPlayedEvent({card, cost, side='player'}={}){
   actor.lastPlayedCardId = card.id;
   setTurnPlayedCardTrackV124(card, side);
   triggerPowerfulBadgeCardPlayedV157(card, side);
+  v166OnCardPlayed(card, cost, side);
   if(isSpell(card)){
+    if(side === 'player') game.player.spellsUsedThisGame = Number(game.player.spellsUsedThisGame||0)+1;
     actor.usedSpellCardIds ||= [];
     actor.usedSpellCardIds.push(card.id);
   }
@@ -4260,12 +4353,14 @@ function handleAfterAttackEvent({attacker, targetRef, targetUnit, targetSide}={}
   }
 }
 function handleUnitDeathEvent({unit, side, pos, vanished}={}){
-  if(!unit || vanished) return;
+  if(!unit) return;
+  v166OnUnitDeath(unit, side, pos, vanished);
+  if(vanished) return;
   if(side === 'player') triggerLemonKingSlimeDeath(unit);
 }
 function handleBetActivatedEvent({unit, weapon, source}={}){
   triggerHeroAuto('betActivated', {unit, weapon});
-  if(unit || weapon || source === 'specialCoin') onFriendlyBetActivated(unit || null);
+  if(unit || weapon || source === 'specialCoin' || source === 'coinOnly') { onFriendlyBetActivated(unit || null); v166OnBetActivated(unit || null); }
 }
 function handleWeaponEquippedEvent({card}={}){
   if(card?.name === '福招きのそろばん') addCardToHandByName('コイン');
@@ -4279,17 +4374,20 @@ function handleWeaponBrokenEvent({weapon}={}){
 function applyBaseKeywordsOnly(unit, card){
   const flags = parseKeywordFlags(card);
   unit.keywords = {...unit.keywords, ...flags};
+  fixConditionalZekkochoKeywordFlagsV163(unit, card);
   unit.attacksLeft = flags.doubleAttack ? 2 : (unit.attacksLeft || 1);
   if(flags.haste || flags.firstStrike){
     unit.canAttack = true;
     unit.summoningSickness = false;
   }
   if(flags.stealth) addStatus(unit, 'stealth');
-  if(flags.poison) unit.grantsPoisonOnDamage = true;
+  if(flags.poison && !getZekkochoSelfConditionSpecV163(card)?.poisonOnDamage) unit.grantsPoisonOnDamage = true;
   if(flags.darkRobe) addStatus(unit, 'darkRobe');
-  if(flags.conditionGood) addStatus(unit, 'conditionGood');
   if(flags.apathy) addStatus(unit, 'apathy');
   if(flags.taunt) unit.keywords.taunt = true;
+  fixConditionalZekkochoKeywordFlagsV163(unit, card);
+  if(flags.conditionGood) grantZekkochoV134(unit, card.name);
+  refreshZekkochoSelfConditionV163(unit, card);
   if(flags.snipe) unit.keywords.snipe = true;
   if(flags.piercing) unit.keywords.piercing = true;
   unit._baseKeywords = {...(unit.keywords || {})};
@@ -4321,7 +4419,8 @@ function summonUnitFromHandToBoard(card, pos, cost){
 function applySummonKeywords(unit, card, side='player'){
   const flags = parseKeywordFlags(card);
   unit.keywords = flags;
-  unit._baseKeywords = {...flags};
+  fixConditionalZekkochoKeywordFlagsV163(unit, card);
+  unit._baseKeywords = {...unit.keywords};
   unit.attacksLeft = flags.doubleAttack ? 2 : 1;
   if(flags.haste || flags.firstStrike){
     unit.canAttack = true;
@@ -4331,10 +4430,11 @@ function applySummonKeywords(unit, card, side='player'){
     gainTension(1, 'おうえん');
   }
   if(flags.stealth) addStatus(unit, 'stealth');
-  if(flags.poison) unit.grantsPoisonOnDamage = true;
+  if(flags.poison && !getZekkochoSelfConditionSpecV163(card)?.poisonOnDamage) unit.grantsPoisonOnDamage = true;
   if(flags.darkRobe) addStatus(unit, 'darkRobe');
-  if(flags.conditionGood) addStatus(unit, 'conditionGood');
+  if(flags.conditionGood) grantZekkochoV134(unit, card.name);
   if(flags.apathy) addStatus(unit, 'apathy');
+  refreshZekkochoSelfConditionV163(unit, card);
   if(flags.powerBadge){
     registerPowerfulBadgeV157(card, unit, side);
   }
@@ -4376,10 +4476,105 @@ function gainTension(amount=1, reason=''){
   progressDungeonsByEvent('tensionLink', {amount});
 }
 
+
+// v164: しんりゅうの4つの願い事。
+// 通常は4択から1つ、超必中モードなら 1→2→3→4 の順ですべて解決する。
+function replaceHandCardWithDiscountCopyV164(handIndex, amount, source){
+  const game = state.battle.game;
+  const id = game?.player?.hand?.[handIndex];
+  const card = byId(id);
+  if(!card) return false;
+  const copy = JSON.parse(JSON.stringify(card));
+  copy.id = `copy_${card.id}_${Date.now()}_${safeRandomId('shinryu').slice(0,8)}`;
+  copy._baseCostOriginal ??= Number(card._baseCostOriginal ?? card.cost ?? 0);
+  copy.cost = Math.max(0, Number(card.cost || 0) - Number(amount || 0));
+  copy.originalCardId = card.originalCardId || card.id;
+  copy.costDeltaApplied = Number(card.costDeltaApplied || 0) - Number(amount || 0);
+  copy.flags ||= {};
+  copy.flags.deckBuildable = false;
+  copy.flags.generatedOrEvolved = true;
+  copy.searchText = `${copy.searchText || ''} ${source} コスト-${amount}`.trim();
+  state.allCards.push(copy);
+  state.cards.push(copy);
+  game.player.hand[handIndex] = copy.id;
+  return true;
+}
+function applyShinryuWishV164(index){
+  const game = state.battle.game;
+  if(!game?.player) return false;
+  const wishes = [
+    'てふだをふやしたい',
+    'ドラゴンをだしやすくしたい',
+    'ドラゴンをつよくしたい',
+    'エッチなほんがよみたい'
+  ];
+  const name = wishes[index];
+  if(!name) return false;
+  if(index === 0){
+    const count = Math.max(0, 7 - Number(game.player.hand?.length || 0));
+    const drawn = drawCard(count);
+    battleLog(`しんりゅう：${name}（手札が7枚になるまで ${drawn}枚ドロー）。`);
+    return true;
+  }
+  if(index === 1){
+    let changed = 0;
+    for(let i=0; i<game.player.hand.length; i++){
+      const card = byId(game.player.hand[i]);
+      if(card?.cardType === 'ユニット' && isDragonCard(card)){
+        if(replaceHandCardWithDiscountCopyV164(i, 5, name)) changed++;
+      }
+    }
+    battleLog(`しんりゅう：${name}（手札のドラゴン系ユニット ${changed}枚のコスト-5）。`);
+    return true;
+  }
+  if(index === 2){
+    const badgeCard = findCardByName(name);
+    if(!badgeCard){
+      battleLog(`しんりゅう：${name}の効果カードが見つかりません。`);
+      return false;
+    }
+    registerPowerfulBadgeV157(badgeCard, null, 'player');
+    battleLog(`しんりゅう：${name}（ドラゴン系の味方ユニットを+2/+2するパワフルバッジ）。`);
+    return true;
+  }
+  if(index === 3){
+    const ok = addCardToHandByName('エッチな本');
+    battleLog(`しんりゅう：${name}${ok ? '（エッチな本を手札に加えました）。' : '（手札上限のため加えられません）。'}`);
+    return ok;
+  }
+  return false;
+}
+function resolveShinryuWishesV164(card){
+  const game = state.battle.game;
+  const names = [
+    'てふだをふやしたい',
+    'ドラゴンをだしやすくしたい',
+    'ドラゴンをつよくしたい',
+    'エッチなほんがよみたい'
+  ];
+  if(game.player.fortuneMode === 'super'){
+    battleLog('しんりゅう：超必中モードのため、4つの願い事をすべてかなえます。');
+    for(let i=0; i<names.length; i++) applyShinryuWishV164(i);
+    renderBattleArena();
+    syncMyBattleState();
+    return;
+  }
+  openChoiceModal('しんりゅう：願い事を選択', names, (_picked, index)=>{
+    applyShinryuWishV164(index);
+    renderBattleArena();
+    syncMyBattleState();
+  }, {kind:'shinryuWishV164', card:{id:card.id, name:card.name}});
+}
+
 function applySummonTextEffect(unit, card){
   const game = state.battle.game;
   const text = getCardText(card);
   const pos = game.player.board.indexOf(unit);
+  if(applySummonV166(unit, card)) return;
+  if(card.name === 'しんりゅう'){
+    resolveShinryuWishesV164(card);
+    return;
+  }
   const tribeBuffAppliedV132 = applyTribeBuffTextV111(text, unit, card.name) || applyTribeEffectTextV134(text, unit, card.name) || applyTribeEffectTextV133(text, unit, card.name);
   if(card.name === 'クイーンスライム' && !tribeBuffAppliedV132) applyQueenSlimeBuffV132(unit);
   if(card.name === '怪盗ポイックリン') applyPoicklinSummonV119(unit, card);
@@ -5229,7 +5424,7 @@ function renderBattleBoard(){
       const card = byId(unit.cardId);
       const img = getOfficialImage(card);
       const kwBase = summarizeKeywords(unitKeywords(unit) || {});
-      const st = (unit.statuses || []).map(s => s?.type || s).filter(Boolean).map(s => ({poison:'毒', sealed:'封', immuneDamage:'壁', darkRobe:'衣', conditionGood:'絶', apathy:'無'}[s] || '')).filter(Boolean).join('/');
+      const st = (unit.statuses || []).map(s => s?.type || s).filter(Boolean).map(s => ({poison:'毒', sealed:'封', immuneDamage:'壁', darkRobe:'衣', zekkocho:'絶', conditionGood:'絶', apathy:'無'}[s] || '')).filter(Boolean).join('/');
       const kw = [kwBase, st].filter(Boolean).join('/');
       const statMods = renderBoardModifierOverlaysV158(card, unit);
       slot.innerHTML = `${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(unit.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}${kw ? `<em class="unit-keyword">${escapeHtml(kw)}</em>` : ''}<span class="unit-atk">${unit.isBuilding ? '建' : unit.attack}</span><span class="unit-hp">${unit.isBuilding ? (unit.durability ?? unit.hp) : unit.hp}</span>${statMods}<span class="unit-hpbar"><i style="width:${Math.max(0, Math.min(100, Math.round(((unit.isBuilding ? (unit.durability ?? unit.hp) : unit.hp) / Math.max(1, unit.isBuilding ? (unit.maxDurability || unit.maxHp || unit.hp || 1) : unit.maxHp)) * 100)))}%"></i></span>`;
@@ -6109,6 +6304,19 @@ function applyTargetedBet(unit){
   const game = state.battle.game;
   const card = byId(unit.cardId);
   const name = unit.name;
+  if(name === 'ボックススライム'){
+    const pick = chooseRandom(['draw','hp','tension'], 'boxSlimeBetV166', {});
+    if(pick === 'draw') drawCard(1);
+    else if(pick === 'hp'){ unit.hp += 1; unit.maxHp += 1; }
+    else gainTension(1, name);
+    battleLog('ボックススライムBET：3択からランダムに1つ発動。');
+    return true;
+  }
+  if(name === 'マデサゴーラ'){
+    drawFromDeckByPredicateV166(c => isBet(c), name);
+    battleLog('マデサゴーラBET：山札からBETを持つカードを1枚引きます。');
+    return true;
+  }
   if(name === 'デビルパピヨン'){
     poisonRandomEnemyUnit();
     battleLog('デビルパピヨンBET：ランダムな敵ユニットを毒にしました。');
@@ -6648,10 +6856,7 @@ function summonCost3OrLessUnitFromHandOrDeck(){
 function onFriendlyBetActivated(sourceUnit=null){
   const game = state.battle.game;
   game.player.totalFriendlyBetCount = Number(game.player.totalFriendlyBetCount || 0) + 1;
-  if(game.player.totalFriendlyBetCount % 4 === 0){
-    const hasLudman = game.player.board.some(u => u?.name === 'ルドマン');
-    if(hasLudman) summonCost3OrLessUnitFromHandOrDeck();
-  }
+  // v166: ルドマンは各ルドマンごとに召喚後0からBET回数を数えるため、実処理は v166OnBetActivated 側へ移動。
 }
 function triggerLemonKingSlimeDeath(unit){
   const game = state.battle.game;
@@ -7129,23 +7334,28 @@ function summonFromDeckOrHandByPredicateV134(predicate, count=1, side='player', 
   return done;
 }
 function hasZekkochoTextV134(card){
-  return /絶好調/.test(getCardText(card)) || /絶好調/.test(String(card?.searchText || ''));
+  return hasInnateZekkochoV163(card);
 }
 function grantZekkochoV134(unit, source='絶好調'){
   if(!unit) return false;
   unit.statuses ||= [];
+  const already = isZekkochoV134(unit);
   if(!unit.statuses.some(s => (s.type || s) === 'zekkocho')) unit.statuses.push({type:'zekkocho'});
   unit.zekkocho = true;
-  battleLog(`${unit.name}：絶好調状態になりました。`);
-  return true;
+  unit.conditionGood = true; // 既存のconditionGood参照との互換性を維持
+  refreshZekkochoSelfConditionV163(unit);
+  if(!already) battleLog(`${unit.name}：絶好調状態になりました。`);
+  return !already;
 }
 function isZekkochoV134(unit){
-  return !!(unit?.zekkocho || unit?.statuses?.some(s => (s.type || s) === 'zekkocho'));
+  return !!(unit?.zekkocho || unit?.conditionGood || unit?.statuses?.some(s => ['zekkocho','conditionGood'].includes(s.type || s)));
 }
 function removeZekkochoV134(unit, reason='攻撃'){
   if(!unit || !isZekkochoV134(unit)) return false;
   unit.zekkocho = false;
-  unit.statuses = (unit.statuses || []).filter(s => (s.type || s) !== 'zekkocho');
+  unit.conditionGood = false;
+  unit.statuses = (unit.statuses || []).filter(s => !['zekkocho','conditionGood'].includes(s.type || s));
+  refreshZekkochoSelfConditionV163(unit);
   battleLog(`${unit.name}：${reason}により絶好調を失いました。`);
   return true;
 }
@@ -7525,10 +7735,311 @@ function useExchangeCard(card){
   });
 }
 
+
+
+// v166: 手動回答Excelを元にした既定テストデッキ用の効果補強。
+function v166Log(msg){ battleLog(`v166：${msg}`); }
+function gameSideObjV166(side='player'){ const g=state.battle.game; return side === 'enemy' ? g.enemy : g.player; }
+function boardForSideV166(side='player'){ return gameSideObjV166(side)?.board || []; }
+function allUnitsForSideV166(side='player'){ return boardForSideV166(side).map((u,pos)=>({u,pos,side})).filter(x=>x.u && !x.u.isBuilding); }
+function allUnitsBothV166(){ return [...allUnitsForSideV166('player'), ...allUnitsForSideV166('enemy')]; }
+function randomCostUnitCardV166(cost, pred=()=>true){
+  const pool = state.allCards.filter(c => c && c.cardType === 'ユニット' && Number(c.cost||0) === Number(cost) && c.flags?.deckBuildable !== false && pred(c));
+  return chooseRandom(pool, `randomCost${cost}UnitV166`, {}) || null;
+}
+function addRandomClassSpellToHandV166(className='魔法使い', source='効果'){
+  const pool = state.allCards.filter(c => c && isSpell(c) && Array.isArray(c.classes) && c.classes.includes(className) && c.flags?.deckBuildable !== false);
+  const card = chooseRandom(pool, 'randomClassSpellV166', {className, source});
+  if(card) addCardCopyToHand(card, {}, source);
+  return !!card;
+}
+function drawFromDeckByPredicateV166(predicate, source='ドロー', opts={}){
+  const g=state.battle.game;
+  const idx=(g.player.deck||[]).findIndex(id => predicate(byId(id)));
+  if(idx < 0) return false;
+  const id=g.player.deck.splice(idx,1)[0];
+  const c=byId(id);
+  if(opts.costDelta){ addCardCopyToHand(c, {costDelta:opts.costDelta}, source); }
+  else addCardIdToPlayerHandV110(id, source);
+  return true;
+}
+function topDeckLookAndBottomChoiceV166(source='山札確認'){
+  const g=state.battle.game;
+  const topId=g.player.deck?.[0];
+  const top=byId(topId);
+  if(!top){ battleLog(`${source}：山札がありません。`); return false; }
+  openChoiceModal(`${source}：${top.name}`, ['上に戻す','下に送る'], (_picked,i)=>{
+    if(i===1){ g.player.deck.push(g.player.deck.shift()); battleLog(`${source}：${top.name}を山札の下へ送りました。`); }
+    else battleLog(`${source}：${top.name}を山札の上に戻しました。`);
+    renderBattleArena(); syncMyBattleState();
+  }, {kind:'topDeckLookV166'});
+  return true;
+}
+function frontEnemyUnitsSameRowV166(playerPos){
+  const g=state.battle.game;
+  const c=posToCoord('player', playerPos);
+  const out=[];
+  for(const col of [1,2]){
+    const p=coordToPos('enemy', c.row, col);
+    const u=g.enemy.board[p];
+    if(u && !u.isBuilding) out.push({unit:u,pos:p});
+  }
+  return out;
+}
+function randomEnemyUnitV166(){ const arr=allUnitsForSideV166('enemy'); return arr.length ? chooseRandom(arr, 'randomEnemyUnitV166', {}) : null; }
+function summonRandomUnitToFriendlyEmptyV166(cost, pred=()=>true, source='効果'){
+  const g=state.battle.game;
+  const empties=g.player.board.map((u,i)=>u?null:i).filter(i=>i!=null);
+  if(!empties.length) return false;
+  const card=randomCostUnitCardV166(cost, pred);
+  if(!card) return false;
+  const pos=chooseRandom(empties, 'summonEmptyV166', {source});
+  putUnitIntoPlayFromCard(card, pos, 'player');
+  battleLog(`${source}：${card.name}を場に出しました。`);
+  return true;
+}
+function addCardCopyToDeckV166(card, count=1, source='効果'){
+  const g=state.battle.game;
+  if(!card) return false;
+  for(let i=0;i<count;i++){
+    const copy=JSON.parse(JSON.stringify(card));
+    copy.id=`copy_${card.id}_${Date.now()}_${safeRandomId('deckcopy').slice(0,8)}_${i}`;
+    copy.originalCardId=card.originalCardId || card.id;
+    copy.flags ||= {}; copy.flags.deckBuildable=false;
+    state.allCards.push(copy); state.cards.push(copy);
+    g.player.deck.push(copy.id);
+  }
+  shuffle(g.player.deck, 'deckCopyV166', {source});
+  return true;
+}
+function v166OnCardPlayed(card, cost, side='player'){
+  const g=state.battle.game; if(!g || side !== 'player' || !card) return;
+  if(isSpell(card)){
+    for(const u of allFriendlyUnits()) if(u?.name === 'キャプテン・クロウ') { drawCard(1); battleLog('キャプテン・クロウ：特技使用で1枚ドロー。'); }
+  }
+  if(hasFortuneEffect(card)) g.player.totalFortuneEffectsUsed = Number(g.player.totalFortuneEffectsUsed||0) + 1;
+  refreshArkmageV166();
+}
+function v166OnBetActivated(sourceUnit=null){
+  const g=state.battle.game;
+  // 黄金兵：自分がコイン/BETを使う度、このターン中手札の黄金兵コスト-2。カードコピーへ一時costDeltaを積む。
+  for(let i=0;i<(g.player.hand||[]).length;i++){
+    const c=byId(g.player.hand[i]);
+    if(c?.name === '黄金兵'){
+      const copy=JSON.parse(JSON.stringify(c));
+      copy.id=`copy_${c.id}_${Date.now()}_${safeRandomId('golden').slice(0,8)}_${i}`;
+      copy.originalCardId=c.originalCardId || c.id;
+      copy._baseCostOriginal ??= Number(c._baseCostOriginal ?? c.cost ?? 0);
+      copy.cost = Math.max(0, Number(c.cost||0)-2);
+      copy.flags ||= {}; copy.flags.deckBuildable=false; copy._tempCostUntilTurnEnd=true;
+      state.allCards.push(copy); state.cards.push(copy); g.player.hand[i]=copy.id;
+    }
+  }
+  for(const u of allFriendlyUnits()){
+    if(u.name === 'ルドマン'){
+      u.ludmanBetCount = Number(u.ludmanBetCount||0)+1;
+      if(u.ludmanBetCount % 4 === 0) summonCost3OrLessUnitFromHandOrDeck();
+    }
+  }
+}
+function refreshArkmageV166(){
+  const g=state.battle.game;
+  for(const u of allFriendlyUnits()){
+    if(u.name !== 'アークマージ') continue;
+    const base=Number(u._baseAttack ?? byId(u.cardId)?.attack ?? 0);
+    const old=Number(u._arkmageBonus||0);
+    if(old) u.attack -= old;
+    const bonus=Number(g.player.heroSkillUseCountTotal||g.player.tensionSkillUseCount||0);
+    if(bonus){ u.attack += bonus; u._arkmageBonus=bonus; }
+    u._spellDamageAuraPlus2 = Number(u.attack||0) >= 5;
+  }
+}
+function getArkmageSpellDamageBonusV166(){ return allFriendlyUnits().some(u=>u?._spellDamageAuraPlus2) ? 2 : 0; }
+function v166HasGyumei(side='player'){
+  const g=state.battle.game;
+  return [...(g.player.board||[]), ...(g.enemy.board||[])].some(u => u && u.name === 'ギュメイ将軍' && u.hp > 0);
+}
+function isCombatLikeSourceV166(source){
+  const s=String(source||'');
+  return !s || s === 'combat' || s.includes('反撃') || s.includes('デッキ切れ') || s.includes('攻撃');
+}
+function shouldPreventDamageByGyumeiV166(source, targetIsLeader=false){
+  if(!v166HasGyumei()) return false;
+  if(targetIsLeader) return !isCombatLikeSourceV166(source) && !String(source||'').includes('デッキ切れ');
+  return !isCombatLikeSourceV166(source);
+}
+function applySummonV166(unit, card){
+  const g=state.battle.game; if(!unit || !card) return false;
+  const name=card.name; const pos=g.player.board.indexOf(unit);
+  if(name === 'ブラッドレディ'){
+    g.pendingGenericEffect={kind:'damage', amount:2, source:name, target:'unitAny'};
+    battleLog('ブラッドレディ：2ダメージを与えるユニットを選んでください。'); return true;
+  }
+  if(name === 'シーゴーレム'){
+    if(g.player.heroSkill || g.player.heroLevel > 0){ unit.hp += 2; unit.maxHp += 2; unit.keywords.taunt = true; battleLog('シーゴーレム：味方ヒーローがいるためHP+2とにおうだち。'); }
+    return false;
+  }
+  if(name === '最後の砦の英雄グレイグ'){
+    // れんけいは applyRenkeiIfActive 側、死亡監視はフラグで保持。
+    unit._gainAttackWhenEnemyDiesV166 = true; return false;
+  }
+  if(name === 'ケダモン'){
+    grantLeaderTempAttack(1, name); return true;
+  }
+  if(name === 'くらやみハーピー'){
+    g.pendingGenericEffect={kind:'setHpToAttack', source:name, target:'unitAny'};
+    battleLog('くらやみハーピー：HPを攻撃力と同じにするユニットを選んでください。'); return true;
+  }
+  if(name === 'ハンフリー'){
+    g.pendingGenericEffect={kind:'hanfuri', source:name, target:'unitAny', sourceUnitId:unit.id};
+    battleLog('ハンフリー：攻撃力/HPを参照するユニットを選んでください。'); return true;
+  }
+  if(name === 'レッドプレデター'){
+    unit.attack += Number(g.player.spellsUsedThisGame || 0);
+    g.pendingGenericEffect={kind:'damageBySourceAttack', source:name, target:'enemyAny', sourceUnitId:unit.id};
+    battleLog('レッドプレデター：ダメージ対象を選んでください。'); return true;
+  }
+  if(name === 'エルギオス'){
+    let n=0; const loop=()=>{ if(n++>=4){ renderBattleArena(); syncMyBattleState(); return; } applyStrategyToUnit(unit); setTimeout(loop, 250); };
+    loop(); return true;
+  }
+  if(name === 'サイコロン'){
+    if(g.player.heroSkill || g.player.heroLevel>0){ for(let i=0;i<5;i++){ const t=chooseRandom([...allUnitsForSideV166('player'),...allUnitsForSideV166('enemy')].filter(x=>x.u!==unit), 'saikoronV166', {}); if(t) dealDamageToUnit(t.u,1,name,t.side); } resolveDeaths(); }
+    return true;
+  }
+  if(name === 'キースドラゴン'){
+    openChoiceModal('キースドラゴン：占い', ['味方リーダーのHPを5回復','正面にいる全ての敵ユニットに2ダメージ'], (_p,i)=>{
+      if(i===0) healLeader(5); else { for(const t of frontEnemyUnitsSameRowV166(pos)) dealDamageToUnit(t.unit,2,name,'enemy'); resolveDeaths(); }
+      renderBattleArena(); syncMyBattleState();
+    }, {kind:'kiesDragonFortuneV166'});
+    return true;
+  }
+  if(name === 'イブール'){
+    g.enemySpellCostAuraPlus = Number(g.enemySpellCostAuraPlus||0)+1; // 簡易：相手手札の特技コスト+1表示/計算用
+    return false;
+  }
+  return false;
+}
+function applyRenkeiV166(card, targetUnit=null){
+  const g=state.battle.game; const name=card?.name; if(!targetUnit) return false;
+  const pos=g.player.board.indexOf(targetUnit);
+  if(name === 'アルゴリザード'){
+    g.pendingGenericEffect={kind:'damage', amount:2, source:name, target:'enemyUnit'};
+    battleLog('アルゴリザード：2ダメージを与える敵ユニットを選んでください。'); return true;
+  }
+  if(name === '最後の砦の英雄グレイグ'){
+    for(const t of frontEnemyUnitsSameRowV166(pos)) dealDamageToUnit(t.unit,2,name,'enemy');
+    resolveDeaths(); battleLog('最後の砦の英雄グレイグ：正面の敵ユニットに2ダメージ。'); return true;
+  }
+  if(name === 'グレイトマムー'){
+    g.pendingGenericEffect={kind:'damage', amount:5, source:name, target:'enemyUnit'};
+    battleLog('グレイトマムー：5ダメージを与える敵ユニットを選んでください。'); return true;
+  }
+  if(name === 'フェイスボール'){
+    grantLeaderTempDamageReduction(2, 'opponentTurnEnd', name); return true;
+  }
+  return false;
+}
+function applyCardUseV166(card, cost){
+  const g=state.battle.game; if(!card) return false; const name=card.name;
+  if(name === 'しっぷう突き'){
+    g.pendingGenericEffect={kind:'shippuTsuki', source:name, target:'unitAny'};
+    battleLog('しっぷう突き：ダメージを与えるユニットを選んでください。'); return true;
+  }
+  if(name === 'コインのたね'){
+    g.pendingGenericEffect={kind:'coinSeed', source:name, target:'unitAny'};
+    battleLog('コインのたね：攻撃力+1するユニットを選んでください。'); return true;
+  }
+  if(name === 'スラ・ストライク'){
+    g.pendingGenericEffect={kind:'damageThenAddSlime', amount:2+getSpellDamageBonus(), source:name, target:'enemyUnit'};
+    battleLog('スラ・ストライク：2ダメージを与える敵ユニットを選んでください。'); return true;
+  }
+  if(name === '魔導召喚'){
+    const lv=Math.max(1, Number(getHeroLevel()||1));
+    for(let i=0;i<lv;i++) summonTokenByName('スノーホムンクルス', {attack:3, hp:3}, 'player');
+    battleLog(`魔導召喚：ヒーローLv.${lv}に応じてスノーホムンクルスを${lv}体出しました。`); return true;
+  }
+  if(name === '風の導き'){
+    g.pendingGenericEffect={kind:'damageThenTopDeckChoice', amount:3+getSpellDamageBonus(), source:name, target:'enemyUnit'};
+    battleLog('風の導き：3ダメージを与える敵ユニットを選んでください。'); return true;
+  }
+  if(name === '銀のタロット'){
+    if(g.player.fortuneMode === 'hit' || g.player.fortuneMode === 'super') gainTension(2, name);
+    else { g.player.fortuneMode='hit'; battleLog('銀のタロット：必中モードになりました。'); }
+    addCardToHandByName('運命の輪'); return true;
+  }
+  if(name === 'クロウズ'){
+    g.player.fortuneMode='hit'; battleLog('クロウズ：必中モードになりました。'); return false;
+  }
+  if(name === 'かみかぜ'){
+    openChoiceModal('かみかぜ：占い', ['敵ユニットに合計3ダメージをランダム割り振り','ランダムなコスト2ユニットを2体出す'], (_p,i)=>{
+      if(i===0){ for(let k=0;k<3;k++){ const t=randomEnemyUnitV166(); if(t) dealDamageToUnit(t.u,1,name,'enemy'); } resolveDeaths(); }
+      else { summonRandomUnitToFriendlyEmptyV166(2, ()=>true, name); summonRandomUnitToFriendlyEmptyV166(2, ()=>true, name); }
+      renderBattleArena(); syncMyBattleState();
+    }, {kind:'kamikazeFortuneV166'}); return true;
+  }
+  if(name === 'ゾディアックコード'){
+    g.player.fortuneMode='super';
+    const ok=drawFromDeckByPredicateV166(c=>hasFortuneEffect(c), name, {costDelta:-3});
+    if(!ok) addCardToHandByName('審判のタロット');
+    battleLog(`ゾディアックコード：超必中モード。${ok?'占いカードを引きコスト-3。':'審判のタロットを手札へ。'}`); return true;
+  }
+  if(name === '逆転への兆し'){
+    openChoiceModal('逆転への兆し：占い', ['全てのユニットを1/1にする','ランダムなコスト3ユニットを2体出す'], (_p,i)=>{
+      if(i===0){ for(const x of allUnitsBothV166()){ x.u.attack=1; x.u.hp=1; x.u.maxHp=1; } }
+      else { summonRandomUnitToFriendlyEmptyV166(3, ()=>true, name); summonRandomUnitToFriendlyEmptyV166(3, ()=>true, name); }
+      renderBattleArena(); syncMyBattleState();
+    }, {kind:'gyakutenFortuneV166'}); return true;
+  }
+  return false;
+}
+function v166ApplyEndTurn(side='player'){
+  const g=state.battle.game; if(!g) return;
+  const board=boardForSideV166(side);
+  const own=gameSideObjV166(side);
+  const hasWatabou=[...(g.player.board||[]), ...(g.enemy.board||[])].some(u=>u?.name==='わたぼう');
+  if(hasWatabou){ drawForSideV114(side,1); battleLog(`わたぼう：${soloSideNameV114 ? soloSideNameV114(side) : side}がターン終了時に1枚ドロー。`); }
+  for(const u of board){
+    if(!u || u.isBuilding) continue;
+    const text = getCardText(byId(u.cardId));
+    if(side === 'player' && text.includes('自分のターン終了時GET(1)')) addCardToHandByName('コイン');
+  }
+}
+function v166OnUnitDeath(unit, side, pos, vanished){
+  const g=state.battle.game; if(!unit || vanished) return;
+  if(unit.name === 'イブール') g.enemySpellCostAuraPlus = Math.max(0, Number(g.enemySpellCostAuraPlus || 0)-1);
+  if(side === 'enemy'){
+    for(const u of allFriendlyUnits()) if(u?._gainAttackWhenEnemyDiesV166){ u.attack += 1; battleLog(`${u.name}：敵ユニット死亡で攻撃力+1。`); }
+  }
+  // ラプソーン：死亡時に敵ユニットへ死亡時ラプソーン召喚を付与。
+  if(unit.name === 'ラプソーン'){
+    const enemySide=side === 'player' ? 'enemy' : 'player';
+    const arr=allUnitsForSideV166(enemySide);
+    const target=arr.length ? chooseRandom(arr,'rapthorneMarkV166',{}) : null;
+    if(target?.u){ target.u.rapthorneDeathSummonForSide = side; target.u.keywords ||= {}; target.u.keywords.deathrattle = true; battleLog('ラプソーン：ランダムな敵ユニットに死亡時ラプソーン召喚を付与。'); }
+  }
+  if(unit.rapthorneDeathSummonForSide){
+    const card=findCardByName('ラプソーン');
+    const destSide=unit.rapthorneDeathSummonForSide;
+    const board=boardForSideV166(destSide);
+    const empty=board.findIndex(x=>!x);
+    if(card && empty>=0) putUnitIntoPlayFromCard(card, empty, destSide);
+  }
+}
+function v166CleanupTurnStart(){
+  const g=state.battle.game;
+  // 手札一時コストコピーを本来カードに戻すのは難しいため、costをbaseへ戻す
+  for(let i=0;i<(g.player.hand||[]).length;i++){
+    const c=byId(g.player.hand[i]);
+    if(c?._tempCostUntilTurnEnd){ c.cost = Number(c._baseCostOriginal ?? c.cost ?? 0); c._tempCostUntilTurnEnd=false; }
+  }
+}
+
 function applyGenericCardUseEffect(card, cost){
   const game = state.battle.game;
   const text = getCardText(card);
   clearDarkRobeByOrb(card);
+  if(applyCardUseV166(card, cost)) return;
 
 
 
@@ -7679,7 +8190,7 @@ function applyGenericCardUseEffect(card, cost){
   }
   if(card.name === 'バイキルトのツボ' || card.name === 'ファイトいっぱつ'){
     grantTempAttackAllFriendly(card.name === 'バイキルトのツボ' ? 2 : 1, card.name);
-    if(card.name === 'ファイトいっぱつ') for(const u of allFriendlyUnits()) u.conditionGood = true;
+    if(card.name === 'ファイトいっぱつ') for(const u of allFriendlyUnits()) grantZekkochoV134(u, card.name);
     return;
   }
   if(card.name === 'ビッグシールド'){
@@ -7716,7 +8227,7 @@ function applyGenericCardUseEffect(card, cost){
   }
   if(card.name === '青い閃光'){
     grantLeaderTempAttack(2, card.name);
-    for(const u of allFriendlyUnits()) u.conditionGood = true;
+    for(const u of allFriendlyUnits()) grantZekkochoV134(u, card.name);
     return;
   }
   if(card.name === '魔力かくせい'){
@@ -8401,6 +8912,7 @@ function attackUnit(attackerRef, defenderRef){
   const combatMult = Number(game.player.combatDamageMultiplier || 1);
   const dealtToDef = damageUnit(def, atk.attack * combatMult);
   emitDamageApplied(defenderRef, atk.attack * combatMult, dealtToDef, atk.name);
+  if(attackerRef.side === 'playerLeader' && game.player.weapon?.rowSplash){ const c=posToCoord(defenderRef.side, defenderRef.pos); for(const col of [1,2]){ const p=coordToPos(defenderRef.side,c.row,col); if(p!==defenderRef.pos){ const u=defBoard[p]; if(u) dealDamageToUnit(u, atk.attack * combatMult, game.player.weapon.name, defenderRef.side); } } }
   applyCounterDamageV123(atk, attackerRef, def, defenderRef);
   applyOrgoFourthSplash(atk, defenderRef, atk.attack);
   if(game.player.leaderVerticalSplashThisTurn && attackerRef.side === 'playerLeader'){
@@ -8416,6 +8928,7 @@ function attackUnit(attackerRef, defenderRef){
   if(kAtk.conditionGood && atk.hp === atk.maxHp){ atk.attack += 1; battleLog('絶好調：攻撃力+1。'); }
   applyAttackTextEffects(atk, def, defenderRef);
   applyPiercingDamage(atk, defenderRef, atk.attack);
+  consumeZekkochoOnAttackV134(atk, attackerRef, defenderRef);
   if(atk.gainAttackOnKillThisTurn && def.hp <= 0){
     atk.attack += 1;
     atk.attacksLeft = Math.max(Number(atk.attacksLeft || 0), 1);
@@ -8453,18 +8966,19 @@ function attackLeader(targetSide){
   if(game.selectedAttacker.side === 'playerLeader') atk = { name:'味方リーダー', attack: game.player.leaderAttack, canAttack: game.player.leaderCanAttack, keywords:{} };
   else { const atkBoard = game.selectedAttacker.side === 'player' ? game.player.board : game.enemy.board; atk = atkBoard[game.selectedAttacker.pos]; }
   if(!atk || !atk.canAttack) return;
+  if(game.selectedAttacker?.side === 'playerLeader' && game.player.weapon?.cannotAttackLeader && targetSide === 'enemy') return toast('この武器では敵リーダーを攻撃できません。', false);
   if(atk.name === 'どくろあらい' && targetSide === 'enemy') addTempAttack(atk, 2, atk.name);
-  if(targetSide === 'enemy' && atk.cannotAttackLeaderThisTurn) return toast('このターン中、敵リーダーを攻撃できません。', false);
+  if(targetSide === 'enemy' && (atk.cannotAttackLeaderThisTurn || atk._zekkochoCannotAttackLeader)) return toast('このターン中、敵リーダーを攻撃できません。', false);
   const leaderTargetRef = {side: targetSide === 'enemy' ? 'enemyLeader' : 'playerLeader'};
   emitTargetSelected('attackLeader', leaderTargetRef, {attackerRef:game.selectedAttacker});
   emitBattleEvent('attackDeclared', {attackerRef:game.selectedAttacker, defenderRef:leaderTargetRef, attacker:atk, targetSide:leaderTargetRef.side});
   animateAttackMotion(game.selectedAttacker, leaderTargetRef);
   applyAttackTextEffects(atk, null, {side:'enemyLeader'});
-  consumeZekkochoOnAttackV134(atk, game.selectedAttacker, leaderTargetRef);
   const beforeHp = targetSide === 'enemy' ? game.enemy.hp : game.player.hp;
   damageLeader(targetSide, atk.attack);
   const afterHp = targetSide === 'enemy' ? game.enemy.hp : game.player.hp;
   emitDamageApplied(leaderTargetRef, atk.attack, Math.max(0, beforeHp - afterHp), atk.name);
+  consumeZekkochoOnAttackV134(atk, game.selectedAttacker, leaderTargetRef);
   emitBattleEvent('afterAttack', {attacker:atk, targetRef:{side: targetSide === 'enemy' ? 'enemyLeader' : 'playerLeader'}, targetSide: targetSide === 'enemy' ? 'enemyLeader' : 'playerLeader', damage:atk.attack});
   if(game.selectedAttacker.side === 'playerLeader'){
     consumeWeaponDurabilityAfterLeaderAttackV123('player');
@@ -8514,6 +9028,7 @@ function applyDeathrattle(unit, side){
   const game = state.battle.game;
   const text = getCardText(byId(unit.cardId));
   const deathText = [extractAfterKeyword(text, '死亡時') || text, unit.extraDeathText || ''].filter(Boolean).join('。');
+  if(unit.name === 'プチマージ' && deathText.includes('魔法使い') && deathText.includes('特技')){ addRandomClassSpellToHandV166('魔法使い', unit.name); }
 
   if(unit.name === 'ドラゴン' || unit.name === '立ち塞がるドラゴン' || deathText.includes('相手の手札に王女の愛')){
     addCardToOpponentHandRelativeV121(side, '王女の愛', unit.name);
@@ -8642,6 +9157,42 @@ function applyPendingGenericEffectToUnit(defenderRef){
     return;
   }
   emitTargetSelected('genericEffectUnit', defenderRef, {effect: makeEffectTargetPayload(eff, defenderRef)});
+
+  if(eff.kind === 'shippuTsuki'){
+    const damaged = Number(unit.hp||0) < Number(unit.maxHp||0);
+    dealDamageToUnit(unit, damaged ? 3 : 1, eff.source || 'しっぷう突き', defenderRef.side);
+    battleLog(`${eff.source}：${unit.name}に${damaged ? 3 : 1}ダメージ。`);
+    game.pendingGenericEffect = null; resolveDeaths(); renderBattleArena(); syncMyBattleState(); return;
+  }
+  if(eff.kind === 'coinSeed'){
+    unit.attack += 1; addCardToHandByName('コイン');
+    battleLog('コインのたね：攻撃力+1、GET(1)。');
+    game.pendingGenericEffect = null; renderBattleArena(); syncMyBattleState(); return;
+  }
+  if(eff.kind === 'damageThenAddSlime'){
+    dealDamageToUnit(unit, eff.amount, eff.source || 'スラ・ストライク', defenderRef.side);
+    addCardToHandByName('スライム');
+    game.pendingGenericEffect = null; resolveDeaths(); renderBattleArena(); syncMyBattleState(); return;
+  }
+  if(eff.kind === 'damageThenTopDeckChoice'){
+    dealDamageToUnit(unit, eff.amount, eff.source || '風の導き', defenderRef.side);
+    game.pendingGenericEffect = null; resolveDeaths(); topDeckLookAndBottomChoiceV166(eff.source || '風の導き'); renderBattleArena(); syncMyBattleState(); return;
+  }
+  if(eff.kind === 'setHpToAttack'){
+    const v=Math.max(0, Number(unit.attack||0)); unit.maxHp=v; unit.hp=Math.min(v, Number(unit.hp||v));
+    battleLog(`${eff.source}：${unit.name}のHPを攻撃力と同じ${v}にしました。`);
+    game.pendingGenericEffect = null; resolveDeaths(); renderBattleArena(); syncMyBattleState(); return;
+  }
+  if(eff.kind === 'hanfuri'){
+    const src=allFriendlyUnits().find(x=>x.id===eff.sourceUnitId);
+    if(src){ src.attack = Number(unit.attack||0); src.maxHp=Number(unit.maxHp||unit.hp||0); src.hp=Math.min(src.maxHp, src.maxHp); unit.attack=2; unit.maxHp=2; unit.hp=Math.min(unit.hp,2); }
+    game.pendingGenericEffect = null; renderBattleArena(); syncMyBattleState(); return;
+  }
+  if(eff.kind === 'damageBySourceAttack'){
+    const src=allFriendlyUnits().find(x=>x.id===eff.sourceUnitId); const amount=Number(src?.attack||0);
+    dealDamageToUnit(unit, amount, eff.source || '効果', defenderRef.side);
+    game.pendingGenericEffect = null; resolveDeaths(); renderBattleArena(); syncMyBattleState(); return;
+  }
   if(eff.kind === 'setAttack'){ unit.attack = Number(eff.value || 0); }
   if(eff.kind === 'setHp'){ unit.hp = Math.min(Number(unit.hp || 0), Number(eff.value || 0)); unit.maxHp = Math.min(Number(unit.maxHp || 0), Number(eff.value || 0)); }
   if(eff.kind === 'buffStats'){ unit.attack += Number(eff.attack || 0); unit.hp += Number(eff.hp || 0); unit.maxHp += Number(eff.hp || 0); }
@@ -8743,7 +9294,11 @@ function applyPendingGenericEffectToLeader(){
   if(eff.target === 'enemyUnit') return toast('敵ユニットを選んでください。', false);
   if(eff.canLeader === false) return toast('敵リーダーは対象にできません。', false);
   emitTargetSelected('genericEffectLeader', {side:'enemyLeader'}, {effect: makeEffectTargetPayload(eff, {side:'enemyLeader'})});
-  if(eff.kind === 'damage'){
+  if(eff.kind === 'damageBySourceAttack'){
+    const src=allFriendlyUnits().find(x=>x.id===eff.sourceUnitId); const amount=Number(src?.attack||0);
+    dealDamageToLeader('enemy', amount, eff.source || '効果');
+    battleLog(`${eff.source}：敵リーダーに${amount}ダメージ。`);
+  }else if(eff.kind === 'damage'){
     const amount = (eff.source === '卑劣などくやずきん' && leaderHasStatus('enemy','poison')) ? 3 : eff.amount;
     dealDamageToLeader('enemy', amount, eff.source || '効果');
     battleLog(`${eff.source}：敵リーダーに${amount}ダメージ。`);
@@ -9223,7 +9778,8 @@ function soloEndTurnV114(){
 
 // v118: robust enemy-hand play / enemy spell use
 function enemyEffectiveCostV118(card){
-  return Math.max(0, Number(card?.cost || 0));
+  const aura = (card && isSpell(card)) ? Number(state.battle.game?.enemySpellCostAuraPlus || 0) : 0;
+  return Math.max(0, Number(card?.cost || 0) + aura);
 }
 function extractDamageAmountV118(text){
   text = String(text || '');
@@ -9466,6 +10022,7 @@ function applyCounterDamageV121(attacker, attackerRef, defender, defenderRef){
   }
 }
 function applyEndTurnEffectsForSideV121(side){
+  v166ApplyEndTurn(side);
   const game = state.battle.game;
   const board = side === 'enemy' ? game.enemy.board : game.player.board;
   for(const u of board){
@@ -9822,6 +10379,7 @@ function endTurn(){
   emitBattleEvent('ownTurnEnd', {side:'player'});
 
   game.turn += 1;
+  v166CleanupTurnStart();
   game.player.maxMp = Math.min(10, game.player.maxMp + 1);
   game.player.mp = game.player.maxMp;
   game.player.tensionUsedThisTurn = false;
@@ -9981,6 +10539,7 @@ function useHeroSkillCard(skillArg=null, target={}){
   game.player.mp -= check.cost;
   if(skill.requiredTension) game.player.tension = 0;
   game.player.heroSkillUsedThisTurn = true;
+  game.player.heroSkillUseCountTotal = Number(game.player.heroSkillUseCountTotal || 0) + 1;
   if(skill.name === 'この手に切り札を') drawRandomBetFromDeck();
   applyHeroSkillEffect(skill, target);
   battleLog(`${skill.name}を使用しました。`);

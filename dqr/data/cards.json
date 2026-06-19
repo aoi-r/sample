@@ -63718,14 +63718,14 @@
       "hp": 0,
       "text": "自分の手札が7枚になるようにカードを引く",
       "rarity": "レジェンドレア",
-      "cardType": "ユニット",
+      "cardType": "トークン",
       "classes": [
         "占い師"
       ],
-      "tribes": [
-        "なし"
-      ],
+      "tribes": [],
       "tags": [
+        "トークン",
+        "生成カード",
         "系統なし"
       ],
       "sourceSheets": [
@@ -63740,7 +63740,8 @@
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
           "official_zero_score_generated_or_system"
-        ]
+        ],
+        "nonDeckCategory": "choice_reward"
       },
       "classKey": "占い師",
       "tribeKey": "",
@@ -63756,8 +63757,7 @@
         "verifiedName": "てふだをふやしたい",
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
-      },
-      "tribe": "なし"
+      }
     },
     {
       "id": "card_4c6e21f8",
@@ -63773,6 +63773,7 @@
       ],
       "tribes": [],
       "tags": [
+        "トークン",
         "生成カード",
         "系統分類対象外"
       ],
@@ -63829,6 +63830,7 @@
       ],
       "tribes": [],
       "tags": [
+        "トークン",
         "生成カード",
         "系統分類対象外"
       ],
@@ -63879,14 +63881,14 @@
       "hp": 0,
       "text": "自分の手札にエッチな本を加える",
       "rarity": "レジェンドレア",
-      "cardType": "ユニット",
+      "cardType": "トークン",
       "classes": [
         "占い師"
       ],
-      "tribes": [
-        "なし"
-      ],
+      "tribes": [],
       "tags": [
+        "トークン",
+        "生成カード",
         "系統なし"
       ],
       "sourceSheets": [
@@ -63901,7 +63903,8 @@
         "generatedOrEvolved": true,
         "deckBuildRuleReason": [
           "official_zero_score_generated_or_system"
-        ]
+        ],
+        "nonDeckCategory": "choice_reward"
       },
       "classKey": "占い師",
       "tribeKey": "",
@@ -63917,8 +63920,7 @@
         "verifiedName": "エッチなほんがよみたい",
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
-      },
-      "tribe": "なし"
+      }
     },
     {
       "id": "card_de2ffa5f",

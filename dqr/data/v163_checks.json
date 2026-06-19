@@ -1,0 +1,15 @@
+{
+  "version": "v163_zekkocho_self_condition_fix",
+  "base": "v162_official_default_test_decks",
+  "checks": [
+    "node --check js/app.js",
+    "絶好調自己条件文の静的監査",
+    "既定デッキカード参照確認"
+  ],
+  "expectedTest": {
+    "card": "とげぼうず",
+    "base": "1/2",
+    "onSummon": "絶好調状態・攻撃力3/HP2・攻撃補正+2表示",
+    "afterEnemyAttack": "絶好調解除・攻撃力1/HP2・攻撃補正表示なし"
+  }
+}
