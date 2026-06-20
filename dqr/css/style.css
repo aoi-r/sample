@@ -6706,3 +6706,38 @@
   .choice-option-title{ font-size:11px; }
   .choice-option-desc{ font-size:10px; }
 }
+
+
+/* v171: hero skill card button for 勇者イレブン */
+.hero-skill-orb.hero-skill-card-btn{
+  width:72px;
+  height:98px;
+  border-radius:10px;
+  background:#141414 center/cover no-repeat;
+  border:2px solid rgba(255,255,255,.68);
+  box-shadow:0 6px 18px rgba(0,0,0,.42), 0 0 10px rgba(255,220,120,.25);
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+}
+.hero-skill-card-badge{
+  position:absolute;
+  left:4px;
+  bottom:4px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:2px 6px;
+  border-radius:999px;
+  background:rgba(10,18,32,.82);
+  border:1px solid rgba(255,255,255,.45);
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+  text-shadow:0 1px 2px #000;
+}
+.hero-skill-orb.hero-skill-card-btn.used{ filter:grayscale(.25); opacity:.78; }
+@media(max-width:900px) and (orientation:landscape){
+  .hero-skill-orb.hero-skill-card-btn{ width:60px; height:82px; }
+  .hero-skill-card-badge{ font-size:9px; padding:1px 5px; }
+}

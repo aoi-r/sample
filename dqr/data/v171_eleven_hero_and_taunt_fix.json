@@ -1,0 +1,15 @@
+{
+  "version": "v171_eleven_hero_and_taunt_fix",
+  "changes": [
+    "におうだちの対象制限を攻撃時のみに修正。特技/召喚時/発動時ダメージはにおうだちで制限されない。",
+    "ステルスは引き続き敵の単体対象効果では選択不可。",
+    "勇者イレブンのヒーロースキル Lv1/Lv2/Lv3 を実装。",
+    "勇者イレブン用ヒーロースキル画像3種を切り出して assets/hero_skill_cards に追加。",
+    "ヒーロースキル表示ボタンにカード画像を使用するUIを追加。"
+  ],
+  "heroSkillImages": [
+    "assets/hero_skill_cards/eleven_lv1.png",
+    "assets/hero_skill_cards/eleven_lv2.png",
+    "assets/hero_skill_cards/eleven_lv3.png"
+  ]
+}
