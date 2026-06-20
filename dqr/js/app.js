@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v172_attack_hero_confirm_fix';
+const DATA_VERSION = 'v173_taunt_renkei_bloodlady_fix';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -3718,13 +3718,17 @@ function hasTauntKeywordV172(unit){
   if(!unit || isSealed(unit)) return false;
   const kw = unitKeywords(unit);
   const statusTypes = (unit.statuses || []).map(s => typeof s === 'string' ? s : s?.type).filter(Boolean);
-  return !!(kw.taunt || kw.nioudachi || kw.guard || statusTypes.includes('taunt') || statusTypes.includes('nioudachi') || getCardText(byId(unit.cardId)).includes('におうだち'));
+  const card = byId(unit.cardId) || findCardByName(unit.name);
+  const text = `${getCardText(card)} ${unit.extraText || ''} ${unit.extraDeathText || ''}`;
+  return !!(kw.taunt || kw.nioudachi || kw.guard || kw['におうだち'] || statusTypes.includes('taunt') || statusTypes.includes('nioudachi') || statusTypes.includes('におうだち') || text.includes('におうだち'));
 }
 function hasStealthKeywordV172(unit){
   if(!unit || isSealed(unit)) return false;
   const kw = unitKeywords(unit);
   const statusTypes = (unit.statuses || []).map(s => typeof s === 'string' ? s : s?.type).filter(Boolean);
-  return !!(kw.stealth || statusTypes.includes('stealth') || getCardText(byId(unit.cardId)).includes('ステルス'));
+  const card = byId(unit.cardId) || findCardByName(unit.name);
+  const text = `${getCardText(card)} ${unit.extraText || ''}`;
+  return !!(kw.stealth || kw['ステルス'] || statusTypes.includes('stealth') || statusTypes.includes('ステルス') || text.includes('ステルス'));
 }
 function getSpellDamageBonus(){
   const game = state.battle.game;
@@ -4336,6 +4340,10 @@ function handleCardPlayedEvent({card, cost, side='player'}={}){
   }
   if(card.cardType === '建物') game.player.nextCardDiscounts = (game.player.nextCardDiscounts || []).filter(d => !(d.cardType === '建物'));
   if(card.cardType === 'ユニット' && isDragonCard(card)) game.player.nextCardDiscounts = (game.player.nextCardDiscounts || []).filter(d => !(d.tribe === 'ドラゴン'));
+  if(hasRenkei(card)){
+    game.player.usedRenkeiCardIds ||= [];
+    game.player.usedRenkeiCardIds.push(card.originalCardId || card.id);
+  }
   triggerCardPlayedForHero(card);
   progressDungeonsByEvent('cardUse', {card, cost});
   if(isBet(card)) triggerHeroAuto('betActivated', {card});
@@ -5264,9 +5272,13 @@ function buildingHasEndTurnDurabilityGain(unit){
   const text = getCardText(byId(unit.cardId));
   return unit?.isDungeon && /自分のターン終了時/.test(text) && /耐久値[+＋]1/.test(text);
 }
-function hasEnemyTaunt(){
+function hasTauntOnSideV173(side){
   const game = state.battle.game;
-  return game.enemy.board.some(u => isAttackableUnit(u) && hasTauntKeywordV172(u) && !hasStealthKeywordV172(u));
+  const board = side === 'player' ? game.player.board : game.enemy.board;
+  return (board || []).some(u => isAttackableUnit(u) && hasTauntKeywordV172(u) && !hasStealthKeywordV172(u));
+}
+function hasEnemyTaunt(){
+  return hasTauntOnSideV173('enemy');
 }
 function sourceUnitForEffectV170(effect=null){
   const game = state.battle.game;
@@ -5292,17 +5304,29 @@ function selectedAttackerBypassesTargetGuardsV170(){
   const kw = unitKeywords(atk);
   return !!(kw.snipe || kw.aim || getCardText(byId(atk?.cardId)).includes('ねらい撃ち'));
 }
-function canTargetEnemyUnit(unit){
-  const game = state.battle.game;
+function canAttackTargetUnitV173(unit, targetSide, attackerRef=null){
   if(!isAttackableUnit(unit)) return false;
-  const atkRef = game.selectedAttacker;
-  if(!atkRef) return true;
-  const atk = atkRef.side === 'playerLeader' ? {keywords:{snipe:false}} : (atkRef.side === 'player' ? game.player.board : game.enemy.board)[atkRef.pos];
+  const game = state.battle.game;
+  const ref = attackerRef || game.selectedAttacker;
+  if(!ref) return true;
+  const atk = ref.side === 'playerLeader' ? {keywords:{}} : (ref.side === 'player' ? game.player.board : game.enemy.board)?.[ref.pos];
   const atkKw = unitKeywords(atk);
   if(atkKw.snipe || atkKw.aim || getCardText(byId(atk?.cardId)).includes('ねらい撃ち')) return true;
   if(hasStealthKeywordV172(unit)) return false;
-  if(hasEnemyTaunt()) return !!hasTauntKeywordV172(unit);
+  if(hasTauntOnSideV173(targetSide)) return !!hasTauntKeywordV172(unit);
   return true;
+}
+function canAttackLeaderV173(targetSide, attackerRef=null){
+  const game = state.battle.game;
+  const ref = attackerRef || game.selectedAttacker;
+  if(!ref) return false;
+  const atk = ref.side === 'playerLeader' ? {keywords:{}} : (ref.side === 'player' ? game.player.board : game.enemy.board)?.[ref.pos];
+  const atkKw = unitKeywords(atk);
+  if(atkKw.snipe || atkKw.aim || getCardText(byId(atk?.cardId)).includes('ねらい撃ち')) return true;
+  return !hasTauntOnSideV173(targetSide);
+}
+function canTargetEnemyUnit(unit){
+  return canAttackTargetUnitV173(unit, 'enemy', state.battle.game?.selectedAttacker);
 }
 
 
@@ -5384,16 +5408,17 @@ function updateTargetHighlights(){
     }
   }
   if(game.selectedAttacker){
-    document.querySelectorAll('.unit-slot[data-side="enemy"]').forEach(slot => {
+    const targetSide = (game.selectedAttacker.side === 'enemy' || game.selectedAttacker.side === 'enemyLeader') ? 'player' : 'enemy';
+    document.querySelectorAll(`.unit-slot[data-side="${targetSide}"]`).forEach(slot => {
       const pos = Number(slot.dataset.pos);
-      const unit = game.enemy.board[pos];
+      const unit = targetSide === 'player' ? game.player.board[pos] : game.enemy.board[pos];
       if(!unit) return;
-      const ok = canTargetEnemyUnit(unit);
+      const ok = canAttackTargetUnitV173(unit, targetSide, game.selectedAttacker);
       slot.classList.toggle('targetable', ok);
       slot.classList.toggle('blocked-target', !ok);
     });
-    const enemyLeader = document.querySelector('.enemy-leader');
-    if(enemyLeader) enemyLeader.classList.toggle('targetable', !hasEnemyTaunt() || selectedAttackerBypassesTargetGuardsV170());
+    const leader = document.querySelector(targetSide === 'enemy' ? '.enemy-leader' : '.player-leader');
+    if(leader) leader.classList.toggle('targetable', canAttackLeaderV173(targetSide, game.selectedAttacker));
   }
 }
 
@@ -8081,7 +8106,7 @@ function applySummonV166(unit, card){
   const g=state.battle.game; if(!unit || !card) return false;
   const name=card.name; const pos=g.player.board.indexOf(unit);
   if(name === 'ブラッドレディ'){
-    g.pendingGenericEffect={kind:'damage', amount:2, source:name, target:'unitAny'};
+    g.pendingGenericEffect={kind:'damage', amount:2, source:name, target:'unitAny', ignoreTargetsUntil:Date.now()+450, sourceUnitId:unit.id};
     battleLog('ブラッドレディ：2ダメージを与えるユニットを選んでください。'); return true;
   }
   if(name === 'シーゴーレム'){
@@ -9149,7 +9174,7 @@ function attackUnit(attackerRef, defenderRef){
     return;
   }
   if(def.isBuilding) return toast('建物/ダンジョンは攻撃対象にできません。', false);
-  if((attackerRef.side === 'player' || attackerRef.side === 'playerLeader') && defenderRef.side === 'enemy' && !canTargetEnemyUnit(def)){
+  if(!canAttackTargetUnitV173(def, defenderRef.side, attackerRef)){
     if(hasStealthKeywordV172(def)) return toast('ステルス中の敵ユニットは攻撃対象にできません。', false);
     return toast('におうだちを持つユニットを先に攻撃してください。', false);
   }
@@ -9209,7 +9234,7 @@ function attackLeader(targetSide){
   // enemy leader attack v114
   if(game.pendingHeroSkill && targetSide === 'enemy') return applyPendingHeroSkillToLeader();
   if(game.pendingGenericEffect && targetSide === 'enemy') return applyPendingGenericEffectToLeader();
-  if(targetSide === 'enemy' && hasEnemyTaunt() && !selectedAttackerBypassesTargetGuardsV170()) return toast('におうだちを持つユニットを先に攻撃してください。', false);
+  if(game.selectedAttacker && !canAttackLeaderV173(targetSide, game.selectedAttacker)) return toast('におうだちを持つユニットを先に攻撃してください。', false);
   if(!game.selectedAttacker) return;
   let atk;
   if(game.selectedAttacker.side === 'playerLeader') atk = { name:'味方リーダー', attack: game.player.leaderAttack, canAttack: game.player.leaderCanAttack, keywords:{} };
@@ -9390,6 +9415,7 @@ function applyPendingGenericEffectToUnit(defenderRef){
   const board = defenderRef.side === 'player' ? game.player.board : game.enemy.board;
   const unit = board[defenderRef.pos];
   if(!eff || !unit) return;
+  if(eff.ignoreTargetsUntil && Date.now() < eff.ignoreTargetsUntil) return;
   if(eff.kind === 'setEnemyBuildingDurability2'){
     if(defenderRef.side !== 'enemy' || !unit.isBuilding || unit.isDungeon) return toast('ダンジョンではない敵建物を選んでください。', false);
     unit.durability = 2;
@@ -9554,6 +9580,7 @@ function applyPendingGenericEffectToLeader(){
   const game = state.battle.game;
   const eff = game.pendingGenericEffect;
   if(!eff) return;
+  if(eff.ignoreTargetsUntil && Date.now() < eff.ignoreTargetsUntil) return;
   if(eff.target === 'enemyUnit') return toast('敵ユニットを選んでください。', false);
   if(eff.canLeader === false) return toast('敵リーダーは対象にできません。', false);
   emitTargetSelected('genericEffectLeader', {side:'enemyLeader'}, {effect: makeEffectTargetPayload(eff, {side:'enemyLeader'})});
@@ -10947,6 +10974,14 @@ function triggerCardPlayedForHero(card){
   }
   const hs = game?.player?.heroSkill;
   if(!hs) return;
+  if(hasRenkei(card) && hs.heroCardName === '勇者イレブン' && hs.level === 2 && hs.elevenBondActive){
+    if(game.player.tension >= 3){
+      game.player.mp = Math.min(game.player.maxMp, Number(game.player.mp || 0) + 1);
+      battleLog('一心同体：れんけいカードの使用でMPを1回復。');
+    }else{
+      battleLog('一心同体：テンション3未満でもれんけいが発動可能。');
+    }
+  }
   if(hs.heroCardName === 'ローレシアの王子' && hs.level === 3 && !isSpell(card)){
     hs.loreLv3Damage = Number(hs.loreLv3Damage || 1) + 1;
     battleLog('ローレシアLv3：破壊神との決戦のダメージ+1。');
@@ -10974,7 +11009,7 @@ function applyHeroSkillEffect(skill, target){
   const e = skill.effect || {};
   if(e.kind === 'damage'){
     const amount = getHeroSkillDamage(skill);
-    if(target.side === 'enemyLeader') dealDamageToLeader('enemy', amount, eff.source || '効果');
+    if(target.side === 'enemyLeader') dealDamageToLeader('enemy', amount, skill.name || 'ヒーロースキル');
     else if(target.unit) dealDamageToUnit(target.unit, amount, skill.name, target.side);
     if(e.resetAfterUse) game.player.heroSkill.loreLv3Damage = 1;
   }else if(e.kind === 'damageAndDraw'){
@@ -10997,18 +11032,15 @@ function applyHeroSkillEffect(skill, target){
   }else if(e.kind === 'elevenSeekPast'){
     game.player.tension = Math.min(3, Number(game.player.tension || 0) + Number(e.tension || 3));
     game.player.heroSkill.elevenLv3Used = true;
-    game.player.costOverrides ||= {};
     const used = [...(game.player.usedRenkeiCardIds || [])];
     let added = 0, burned = 0;
     for(const id of used){
       const card = byId(id);
       if(!card) continue;
       if((game.player.hand || []).length >= 10){ burned++; continue; }
-      game.player.hand.push(id);
-      game.player.costOverrides[id] = Math.max(0, Number(card.cost || 0) + Number(e.handCostDelta || -2));
-      added++;
+      if(addDiscountedCopyToHandV117(card, Number(e.handCostDelta || -2), skill.name)) added++;
     }
-    battleLog(`${skill.name}：れんけいカードを${added}枚手札に戻しました。${burned ? ` 手札上限で${burned}枚は破棄。` : ''}`);
+    battleLog(`${skill.name}：使用済みれんけいカードを${added}枚手札に加えました。${burned ? ` 手札上限で${burned}枚は破棄。` : ''}`);
   }else if(e.kind === 'drawFromDeck'){
     const ok = findAndDrawFromDeck(c => e.filter === 'adventurer' ? isAdventurer(c) : e.filter === 'bet' ? isBet(c) : (isSpell(c) || isWeapon(c)));
     if(!ok) battleLog('対象カードがデッキにありません。');
