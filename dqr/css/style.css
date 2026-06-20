@@ -6741,3 +6741,9 @@
   .hero-skill-orb.hero-skill-card-btn{ width:60px; height:82px; }
   .hero-skill-card-badge{ font-size:9px; padding:1px 5px; }
 }
+
+/* v172: hero skill confirm modal emphasis */
+.hero-skill-modal .hero-skill-confirm .primary{
+  margin-top:8px;
+  min-width:180px;
+}

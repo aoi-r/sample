@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v171_eleven_hero_and_taunt_fix';
+const DATA_VERSION = 'v172_attack_hero_confirm_fix';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -523,7 +523,7 @@ function bindEvents(){
   const battleExitConfirm = $('battle-exit-confirm');
   if(battleExitConfirm) battleExitConfirm.addEventListener('click', leaveBattleAsDefeat);
   const heroSkillBtn = $('hero-skill-button');
-  if(heroSkillBtn) heroSkillBtn.addEventListener('click', openHeroSkillModal);
+  if(heroSkillBtn) heroSkillBtn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); openHeroSkillModal(); });
   const heroSkillClose = $('hero-skill-close');
   if(heroSkillClose) heroSkillClose.addEventListener('click', () => $('hero-skill-modal').close());
   // battle-top-exit-interceptor-v49
@@ -1864,7 +1864,7 @@ function refreshLeaderAttackFromWeaponV111(side='player'){
   const target = side === 'enemy' ? game.enemy : game.player;
   if(side === 'player'){
     game.player.leaderAttack = target.weapon ? Number(target.weapon.attack || 0) : 0;
-    game.player.leaderCanAttack = !!target.weapon && Number(target.weapon.attack || 0) > 0;
+    game.player.leaderCanAttack = !!target.weapon && Number(target.weapon.attack || 0) > 0 && Number(target.weapon.attacksLeft ?? 1) > 0;
   }
 }
 function destroyWeaponV111(side='player', reason='破壊'){
@@ -3365,7 +3365,7 @@ function dealDamageToUnit(unit, amount, source='effect', sideHint='player'){
 function dealDamageToLeader(side, amount, source='effect'){
   const game = state.battle.game;
   const before = side === 'player' ? game.player.hp : game.enemy.hp;
-  damageLeader(side, amount);
+  damageLeader(side, amount, source);
   const after = side === 'player' ? game.player.hp : game.enemy.hp;
   const actual = Math.max(0, before - after);
   emitDamageApplied({side: side === 'player' ? 'playerLeader' : 'enemyLeader'}, amount, actual, source);
@@ -3384,7 +3384,7 @@ function damageUnit(unit, amount, options={}){
   unit.hp -= dmg;
   return dmg;
 }
-function damageLeader(side, amount){
+function damageLeader(side, amount, source='effect'){
   const g = state.battle.game;
   const p = side === 'player' ? g.player : g.enemy;
   let dmg = Number(amount || 0);
@@ -3713,6 +3713,18 @@ function isSealed(unit){
 }
 function unitKeywords(unit){
   return isSealed(unit) ? {} : (unit?.keywords || {});
+}
+function hasTauntKeywordV172(unit){
+  if(!unit || isSealed(unit)) return false;
+  const kw = unitKeywords(unit);
+  const statusTypes = (unit.statuses || []).map(s => typeof s === 'string' ? s : s?.type).filter(Boolean);
+  return !!(kw.taunt || kw.nioudachi || kw.guard || statusTypes.includes('taunt') || statusTypes.includes('nioudachi') || getCardText(byId(unit.cardId)).includes('におうだち'));
+}
+function hasStealthKeywordV172(unit){
+  if(!unit || isSealed(unit)) return false;
+  const kw = unitKeywords(unit);
+  const statusTypes = (unit.statuses || []).map(s => typeof s === 'string' ? s : s?.type).filter(Boolean);
+  return !!(kw.stealth || statusTypes.includes('stealth') || getCardText(byId(unit.cardId)).includes('ステルス'));
 }
 function getSpellDamageBonus(){
   const game = state.battle.game;
@@ -5235,7 +5247,7 @@ function canEffectTargetUnitV167(unit, side, effect=null){
   if(!canNormalTargetUnit(unit, effect)) return false;
   // 敵単体対象ではステルス不可。におうだちは攻撃時のみ対象制限を行う。
   if(side === 'enemy'){
-    if(unitKeywords(unit).stealth && !effectBypassesTargetGuardsV170(effect)) return false;
+    if(hasStealthKeywordV172(unit) && !effectBypassesTargetGuardsV170(effect)) return false;
   }
   return true;
 }
@@ -5254,7 +5266,7 @@ function buildingHasEndTurnDurabilityGain(unit){
 }
 function hasEnemyTaunt(){
   const game = state.battle.game;
-  return game.enemy.board.some(u => isAttackableUnit(u) && unitKeywords(u).taunt && !unitKeywords(u).stealth);
+  return game.enemy.board.some(u => isAttackableUnit(u) && hasTauntKeywordV172(u) && !hasStealthKeywordV172(u));
 }
 function sourceUnitForEffectV170(effect=null){
   const game = state.battle.game;
@@ -5270,7 +5282,7 @@ function effectBypassesTargetGuardsV170(effect=null){
 }
 function enemyTauntBlocksTargetV170(unit, effect=null){
   if(effectBypassesTargetGuardsV170(effect)) return false;
-  return hasEnemyTaunt() && !unitKeywords(unit).taunt;
+  return hasEnemyTaunt() && !hasTauntKeywordV172(unit);
 }
 function selectedAttackerBypassesTargetGuardsV170(){
   const game = state.battle.game;
@@ -5288,8 +5300,8 @@ function canTargetEnemyUnit(unit){
   const atk = atkRef.side === 'playerLeader' ? {keywords:{snipe:false}} : (atkRef.side === 'player' ? game.player.board : game.enemy.board)[atkRef.pos];
   const atkKw = unitKeywords(atk);
   if(atkKw.snipe || atkKw.aim || getCardText(byId(atk?.cardId)).includes('ねらい撃ち')) return true;
-  if(unitKeywords(unit).stealth) return false;
-  if(hasEnemyTaunt()) return !!unitKeywords(unit).taunt;
+  if(hasStealthKeywordV172(unit)) return false;
+  if(hasEnemyTaunt()) return !!hasTauntKeywordV172(unit);
   return true;
 }
 
@@ -9138,7 +9150,7 @@ function attackUnit(attackerRef, defenderRef){
   }
   if(def.isBuilding) return toast('建物/ダンジョンは攻撃対象にできません。', false);
   if((attackerRef.side === 'player' || attackerRef.side === 'playerLeader') && defenderRef.side === 'enemy' && !canTargetEnemyUnit(def)){
-    if(unitKeywords(def).stealth) return toast('ステルス中の敵ユニットは攻撃対象にできません。', false);
+    if(hasStealthKeywordV172(def)) return toast('ステルス中の敵ユニットは攻撃対象にできません。', false);
     return toast('におうだちを持つユニットを先に攻撃してください。', false);
   }
   emitTargetSelected('attackUnit', defenderRef, {attackerRef});
@@ -9212,7 +9224,7 @@ function attackLeader(targetSide){
   animateAttackMotion(game.selectedAttacker, leaderTargetRef);
   applyAttackTextEffects(atk, null, {side:'enemyLeader'});
   const beforeHp = targetSide === 'enemy' ? game.enemy.hp : game.player.hp;
-  damageLeader(targetSide, atk.attack);
+  damageLeader(targetSide, atk.attack, `${atk.name || 'リーダー'}の攻撃`);
   const afterHp = targetSide === 'enemy' ? game.enemy.hp : game.player.hp;
   emitDamageApplied(leaderTargetRef, atk.attack, Math.max(0, beforeHp - afterHp), atk.name);
   consumeZekkochoOnAttackV134(atk, game.selectedAttacker, leaderTargetRef);
@@ -9390,7 +9402,7 @@ function applyPendingGenericEffectToUnit(defenderRef){
   if(eff.target?.includes('enemy') && defenderRef.side !== 'enemy') return toast('敵ユニットを選んでください。', false);
   if(eff.target === 'unitAny' && defenderRef.side !== 'player' && defenderRef.side !== 'enemy') return toast('ユニットを選んでください。', false);
   if(!canEffectTargetUnitV167(unit, defenderRef.side, eff)){
-    if(defenderRef.side === 'enemy' && unitKeywords(unit).stealth && !effectBypassesTargetGuardsV170(eff)) toast('ステルス中の敵ユニットは対象にできません。', false);
+    if(defenderRef.side === 'enemy' && hasStealthKeywordV172(unit) && !effectBypassesTargetGuardsV170(eff)) toast('ステルス中の敵ユニットは対象にできません。', false);
     else toast('建物/ダンジョンはこの効果の対象にできません。', false);
     return;
   }
@@ -10750,7 +10762,6 @@ function canUseHeroSkill(skill){
 }
 function openHeroSkillModal(){
   if(isBattleLocked()) return toast('まだ操作できません。', false);
-  if(isSoloTestMode()) return soloEndTurnV114();
 
   const game = state.battle.game;
   const hs = game?.player?.heroSkill;
@@ -10764,6 +10775,7 @@ function openHeroSkillModal(){
   const progressText = skill.progress ? `進行: ${hs.progressCount || 0}/${skill.progress.uses || skill.progress.triggers}` : '最終レベル';
   const usable = canUseHeroSkill(skill);
   const isAuto = skill.type === 'auto';
+  const confirmLabel = usable.ok ? `コスト${cost}で使用する` : escapeHtml(usable.reason);
   $('hero-skill-body').innerHTML = `
     <div class="hero-skill-confirm">
       ${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(skill.name)}" referrerpolicy="no-referrer">` : ''}
@@ -10771,7 +10783,7 @@ function openHeroSkillModal(){
         <h4>${escapeHtml(skill.name)} <small>コスト${cost}</small></h4>
         <p>${escapeHtml(card?.text || describeHeroSkill(skill))}</p>
         <p class="hint">${escapeHtml(isAuto ? '自動発動スキルです。条件を満たすと発動します。' : progressText)}</p>
-        ${isAuto ? '' : `<button id="use-hero-skill-confirm" class="primary" ${usable.ok ? '' : 'disabled'}>${usable.ok ? '使用する' : escapeHtml(usable.reason)}</button>`}
+        ${isAuto ? '' : `<button id="use-hero-skill-confirm" class="primary" ${usable.ok ? '' : 'disabled'}>${confirmLabel}</button>`}
       </div>
     </div>`;
   const btn = $('use-hero-skill-confirm');
@@ -10831,7 +10843,7 @@ function applyPendingHeroSkillToUnit(side, pos){
   if(skill.target === 'friendlyUnit' && side !== 'player') return toast('味方ユニットを選んでください。', false);
   if(skill.target === 'friendlyDungeon' && (side !== 'player' || !unit.isDungeon)) return toast('味方のダンジョンを選んでください。', false);
   if(skill.target !== 'friendlyDungeon' && !canEffectTargetUnitV167(unit, side, skill)){
-    if(side === 'enemy' && unitKeywords(unit).stealth && !effectBypassesTargetGuardsV170(skill)) return toast('ステルス中の敵ユニットは対象にできません。', false);
+    if(side === 'enemy' && hasStealthKeywordV172(unit) && !effectBypassesTargetGuardsV170(skill)) return toast('ステルス中の敵ユニットは対象にできません。', false);
     return toast('建物/ダンジョンはこの効果の対象にできません。', false);
   }
   emitTargetSelected('heroSkillUnit', {side, pos}, {skillName:skill.name, skillTarget:skill.target});
