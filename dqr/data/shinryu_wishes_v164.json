@@ -1,0 +1,34 @@
+{
+  "version": "v164_shinryu_wishes",
+  "sourceCard": "しんりゅう",
+  "rule": "通常は4択から1つ。味方リーダーが超必中モードなら4つすべてを順に実行。",
+  "wishes": [
+    {
+      "cardName": "てふだをふやしたい",
+      "effect": "自分の手札が7枚になるようにカードを引く",
+      "implemented": "drawCard(7 - currentHandSize)"
+    },
+    {
+      "cardName": "ドラゴンをだしやすくしたい",
+      "effect": "自分の手札にあるドラゴン系のユニットカードのコスト-5",
+      "implemented": "current hand only; unique discounted copies so later draws are unaffected"
+    },
+    {
+      "cardName": "ドラゴンをつよくしたい",
+      "effect": "パワフルバッジ：ドラゴン系の味方ユニットを+2/+2",
+      "implemented": "registerPowerfulBadgeV157; applies to current and future dragon units"
+    },
+    {
+      "cardName": "エッチなほんがよみたい",
+      "effect": "自分の手札にエッチな本を加える",
+      "implemented": "addCardToHandByName(エッチな本)"
+    }
+  ],
+  "cardRecordsFound": [
+    "てふだをふやしたい",
+    "ドラゴンをだしやすくしたい",
+    "ドラゴンをつよくしたい",
+    "エッチなほんがよみたい",
+    "エッチな本"
+  ]
+}

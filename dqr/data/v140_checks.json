@@ -1,0 +1,22 @@
+{
+  "node_check": "OK",
+  "duplicate_functions": 0,
+  "label": "v140 / buildable 1460 / total 1583",
+  "data_version": "v140_dragon_adventurer_maou_tribes_applied",
+  "dragon_input": 73,
+  "adventurer_input": 80,
+  "maou_input": 36,
+  "applied": 191,
+  "not_found": 0,
+  "conflicts_overwritten": 4,
+  "remaining_review_candidates": 645,
+  "tribe_counts": {
+    "スライム": 79,
+    "ゾンビ": 100,
+    "なし": 678,
+    "ドラゴン": 88,
+    "冒険者": 93,
+    "魔王": 54
+  },
+  "multiple_invalid_units": 0
+}

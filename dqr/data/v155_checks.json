@@ -1,0 +1,64 @@
+{
+  "node_check": "OK",
+  "duplicate_functions": 0,
+  "duplicate_function_names": {},
+  "label": "v155 / buildable 1460 / total 1583",
+  "data_version": "v155_notation_colon_unified",
+  "base": "v154_ocr_tribe_all_remaining_closed",
+  "change_type": "notation-only",
+  "normalization_rule": "カード名の区切りコロンは全角「：」に統一。効果文中の召喚時: などは対象外。",
+  "replacement_counts": {
+    "オルゴ・デミーラ:第2形態": 14,
+    "オルゴ・デミーラ:第3形態": 14,
+    "武術:飛び蹴り": 17,
+    "武術:ストレートパンチ": 17,
+    "武術:精神統一": 15,
+    "道具:ちからのたね": 15,
+    "道具:いのちのきのみ": 17,
+    "道具:しあわせのたね": 15,
+    "道具:大きなパン": 26,
+    "道具:弟切草": 15,
+    "道具:火炎草": 15,
+    "マーニャ:ドラゴラム": 13
+  },
+  "changed_files_count": 26,
+  "halfwidth_colon_card_names_remaining": [],
+  "fullwidth_colon_card_names": [
+    "オルゴ・デミーラ：第2形態",
+    "オルゴ・デミーラ：第3形態",
+    "武術：飛び蹴り",
+    "武術：ストレートパンチ",
+    "武術：精神統一",
+    "道具：ちからのたね",
+    "道具：いのちのきのみ",
+    "道具：しあわせのたね",
+    "道具：大きなパン",
+    "道具：弟切草",
+    "道具：火炎草",
+    "マーニャ：ドラゴラム",
+    "オルゴ・デミーラ：第2形態",
+    "オルゴ・デミーラ：第3形態"
+  ],
+  "duplicate_colon_names_after_normalization": {
+    "オルゴ・デミーラ：第2形態": 2,
+    "オルゴ・デミーラ：第3形態": 2
+  },
+  "tribe_counts": {
+    "スライム": 80,
+    "ゾンビ": 100,
+    "なし": 672,
+    "ドラゴン": 88,
+    "冒険者": 94,
+    "魔王": 54,
+    "": 495
+  },
+  "by_type_counts": {
+    "ユニット": 1088,
+    "建物": 27,
+    "特技": 350,
+    "トークン": 41,
+    "ヒーロー": 22,
+    "武器": 55
+  },
+  "remaining_candidates": 0
+}

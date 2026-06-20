@@ -1,0 +1,2280 @@
+{
+  "version": "v156",
+  "dataVersion": "v156_manual_tribe_answers_applied",
+  "base": "v155_notation_colon_unified",
+  "remainingCandidateCount": 0,
+  "sourceManualAnswer": "あ(2).xlsx",
+  "tribeCountsByRecord": {
+    "スライム": 67,
+    "なし": 737,
+    "ドラゴン": 74,
+    "ゾンビ": 77,
+    "冒険者": 86,
+    "魔王": 39,
+    "": 503
+  },
+  "explicitTribeCountsByRecord": {
+    "スライム": 67,
+    "ドラゴン": 74,
+    "ゾンビ": 77,
+    "冒険者": 86,
+    "魔王系": 39
+  },
+  "explicitTribeCountsByUniqueName": {
+    "スライム": 67,
+    "ドラゴン": 74,
+    "ゾンビ": 77,
+    "冒険者": 86,
+    "魔王系": 37
+  },
+  "treatedAsTribes": [
+    {
+      "name": "まおうのかめん",
+      "tribe": "なし",
+      "treatedAsTribes": [
+        "魔王"
+      ],
+      "zones": [
+        "hand",
+        "board"
+      ]
+    }
+  ],
+  "manualRowsApplied": 83,
+  "changes": [
+    {
+      "no": 1,
+      "name": "しにがみのきし",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 2,
+      "name": "エビルマスター",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 3,
+      "name": "ガスト",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 4,
+      "name": "シャドー",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 5,
+      "name": "シャドーサタン",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 6,
+      "name": "シャーマン",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 7,
+      "name": "スカルガルー",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 8,
+      "name": "スモールグール",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 9,
+      "name": "セイレーンゴースト",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 10,
+      "name": "ゾンビマスター",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 11,
+      "name": "デザートゴースト",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 12,
+      "name": "デッドペッカー",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 13,
+      "name": "デビルウィザード",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 14,
+      "name": "ナイトウィスプ",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 15,
+      "name": "ヌボーン",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 16,
+      "name": "ホイップゴースト",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 17,
+      "name": "ホロゴースト",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 18,
+      "name": "ホワイトパンサー",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 19,
+      "name": "ホワイトビート",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 20,
+      "name": "メラゴースト",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 21,
+      "name": "亡者のひとだま",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 22,
+      "name": "無影のゴースト",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 23,
+      "name": "白煙のホワイトビート",
+      "projectTribeBefore": "ゾンビ",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ゾンビ",
+        "tribes": [
+          "ゾンビ"
+        ],
+        "tags": [
+          "ゾンビ系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 24,
+      "name": "てつのさそり",
+      "projectTribeBefore": "スライム",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ],
+        "tags": [
+          "スライム系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 25,
+      "name": "ぬかどこスライム",
+      "projectTribeBefore": "スライム",
+      "manualAnswer": "スライム系ケイ",
+      "target": "スライム",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ],
+        "tags": [
+          "スライム系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ],
+        "tags": [
+          "スライム系"
+        ]
+      }
+    },
+    {
+      "no": 26,
+      "name": "はなカワセミ",
+      "projectTribeBefore": "スライム",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ],
+        "tags": [
+          "スライム系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 27,
+      "name": "キラーエイプ",
+      "projectTribeBefore": "スライム",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ],
+        "tags": [
+          "スライム系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 28,
+      "name": "キラーファング",
+      "projectTribeBefore": "スライム",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ],
+        "tags": [
+          "スライム系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 29,
+      "name": "スライムスカウト",
+      "projectTribeBefore": "スライム",
+      "manualAnswer": "特技カードトクギ",
+      "target": "特技",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ],
+        "tags": [
+          "スライム系"
+        ]
+      },
+      "new": {
+        "cardType": "特技",
+        "tribe": null,
+        "tribes": [],
+        "tags": [
+          "特技",
+          "系統分類対象外"
+        ]
+      }
+    },
+    {
+      "no": 30,
+      "name": "スラリンガル",
+      "projectTribeBefore": "スライム",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ],
+        "tags": [
+          "スライム系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 31,
+      "name": "ドンガラドン",
+      "projectTribeBefore": "スライム",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ],
+        "tags": [
+          "スライム系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 32,
+      "name": "バブリン",
+      "projectTribeBefore": "スライム",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ],
+        "tags": [
+          "スライム系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 33,
+      "name": "パールスライム",
+      "projectTribeBefore": "スライム",
+      "manualAnswer": "スライム系ケイ",
+      "target": "スライム",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ],
+        "tags": [
+          "スライム系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ],
+        "tags": [
+          "スライム系"
+        ]
+      }
+    },
+    {
+      "no": 34,
+      "name": "フロッガー",
+      "projectTribeBefore": "スライム",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ],
+        "tags": [
+          "スライム系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 35,
+      "name": "プヨンターゲット",
+      "projectTribeBefore": "スライム",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ],
+        "tags": [
+          "スライム系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 36,
+      "name": "メタルキングの剣",
+      "projectTribeBefore": "スライム",
+      "manualAnswer": "武器ブキ",
+      "target": "武器",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ],
+        "tags": [
+          "スライム系"
+        ]
+      },
+      "new": {
+        "cardType": "武器",
+        "tribe": null,
+        "tribes": [],
+        "tags": [
+          "武器",
+          "系統分類対象外"
+        ]
+      }
+    },
+    {
+      "no": 37,
+      "name": "メタルハンター",
+      "projectTribeBefore": "スライム",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ],
+        "tags": [
+          "スライム系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 38,
+      "name": "闇の司祭",
+      "projectTribeBefore": "スライム",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ],
+        "tags": [
+          "スライム系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 39,
+      "name": "だいまどう",
+      "projectTribeBefore": "ドラゴン",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "tags": [
+          "ドラゴン系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 40,
+      "name": "ソルジャーブル",
+      "projectTribeBefore": "ドラゴン",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "tags": [
+          "ドラゴン系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 41,
+      "name": "ダックスビル",
+      "projectTribeBefore": "ドラゴン",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "tags": [
+          "ドラゴン系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 42,
+      "name": "ドラゴンをだしやすくしたい",
+      "projectTribeBefore": "ドラゴン",
+      "manualAnswer": "「しんりゅう」召喚時に４つから選べる効果カードの１つ。デッキ編成不可カード。ユニットではない。ショウカンジエラコウカヘンセイフカ",
+      "target": "生成/効果カード",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "tags": [
+          "ドラゴン系"
+        ]
+      },
+      "new": {
+        "cardType": "トークン",
+        "tribe": null,
+        "tribes": [],
+        "tags": [
+          "生成カード",
+          "系統分類対象外"
+        ]
+      }
+    },
+    {
+      "no": 43,
+      "name": "ドラゴンをつよくしたい",
+      "projectTribeBefore": "ドラゴン",
+      "manualAnswer": "「しんりゅう」召喚時に４つから選べる効果カードの１つ。デッキ編成不可カード。ユニットではない。ショウカンジエラコウカヘンセイフカ",
+      "target": "生成/効果カード",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "tags": [
+          "ドラゴン系"
+        ]
+      },
+      "new": {
+        "cardType": "トークン",
+        "tribe": null,
+        "tribes": [],
+        "tags": [
+          "生成カード",
+          "系統分類対象外"
+        ]
+      }
+    },
+    {
+      "no": 44,
+      "name": "ドラゴンシールド",
+      "projectTribeBefore": "ドラゴン",
+      "manualAnswer": "特技トクギ",
+      "target": "特技",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "tags": [
+          "ドラゴン系"
+        ]
+      },
+      "new": {
+        "cardType": "特技",
+        "tribe": null,
+        "tribes": [],
+        "tags": [
+          "特技",
+          "系統分類対象外"
+        ]
+      }
+    },
+    {
+      "no": 45,
+      "name": "ヒドラ",
+      "projectTribeBefore": "ドラゴン",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "tags": [
+          "ドラゴン系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 46,
+      "name": "ホークブリザード",
+      "projectTribeBefore": "ドラゴン",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "tags": [
+          "ドラゴン系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 47,
+      "name": "ポイズンリザード",
+      "projectTribeBefore": "ドラゴン",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "tags": [
+          "ドラゴン系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 48,
+      "name": "マーマンダイン",
+      "projectTribeBefore": "ドラゴン",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "tags": [
+          "ドラゴン系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 49,
+      "name": "メタルドラゴン",
+      "projectTribeBefore": "ドラゴン",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "tags": [
+          "ドラゴン系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 50,
+      "name": "リンリン",
+      "projectTribeBefore": "ドラゴン",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "tags": [
+          "ドラゴン系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 51,
+      "name": "暴将 黒竜丸",
+      "projectTribeBefore": "ドラゴン",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "tags": [
+          "ドラゴン系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 52,
+      "name": "竜戦士の装具",
+      "projectTribeBefore": "ドラゴン",
+      "manualAnswer": "「グレイナル」の召喚時に手札に加わるデッキ編成不可カード。特技カード扱いショウカンジテフダクワヘンセイフカトクギアツカ",
+      "target": "特技",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "tags": [
+          "ドラゴン系"
+        ]
+      },
+      "new": {
+        "cardType": "特技",
+        "tribe": null,
+        "tribes": [],
+        "tags": [
+          "特技",
+          "系統分類対象外"
+        ]
+      }
+    },
+    {
+      "no": 53,
+      "name": "邪竜軍王ガリンガ",
+      "projectTribeBefore": "ドラゴン",
+      "manualAnswer": "ドラゴン系ケイ",
+      "target": "ドラゴン",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "tags": [
+          "ドラゴン系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ],
+        "tags": [
+          "ドラゴン系"
+        ]
+      }
+    },
+    {
+      "no": 54,
+      "name": "キャプテン・クロウ",
+      "projectTribeBefore": "冒険者",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 55,
+      "name": "グランマーズ",
+      "projectTribeBefore": "冒険者",
+      "manualAnswer": "冒険者ボウケンシャ",
+      "target": "冒険者",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      }
+    },
+    {
+      "no": 56,
+      "name": "セラフィ",
+      "projectTribeBefore": "冒険者",
+      "manualAnswer": "冒険者ボウケンシャ",
+      "target": "冒険者",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      }
+    },
+    {
+      "no": 57,
+      "name": "ピサロのてさき",
+      "projectTribeBefore": "冒険者",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 58,
+      "name": "ヘルズクロウ",
+      "projectTribeBefore": "冒険者",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 59,
+      "name": "メガボーグ",
+      "projectTribeBefore": "冒険者",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 60,
+      "name": "ロミア",
+      "projectTribeBefore": "冒険者",
+      "manualAnswer": "冒険者ボウケンシャ",
+      "target": "冒険者",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      }
+    },
+    {
+      "no": 61,
+      "name": "宿王リッカ",
+      "projectTribeBefore": "冒険者",
+      "manualAnswer": "冒険者ボウケンシャ",
+      "target": "冒険者",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      }
+    },
+    {
+      "no": 62,
+      "name": "少女マリベル",
+      "projectTribeBefore": "冒険者",
+      "manualAnswer": "冒険者ボウケンシャ",
+      "target": "冒険者",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      }
+    },
+    {
+      "no": 63,
+      "name": "眠れる勇者",
+      "projectTribeBefore": "冒険者",
+      "manualAnswer": "ヒーローカード「アンルシア」のレベル１ヒーロースキル。デッキ編成不可カードヘンセイフカ",
+      "target": "生成/効果カード",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      },
+      "new": {
+        "cardType": "トークン",
+        "tribe": null,
+        "tribes": [],
+        "tags": [
+          "生成カード",
+          "系統分類対象外"
+        ]
+      }
+    },
+    {
+      "no": 64,
+      "name": "踊り子マーニャ",
+      "projectTribeBefore": "冒険者",
+      "manualAnswer": "冒険者ボウケンシャ",
+      "target": "冒険者",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      }
+    },
+    {
+      "no": 65,
+      "name": "魔勇者の剣",
+      "projectTribeBefore": "冒険者",
+      "manualAnswer": "武器ブキ",
+      "target": "武器",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      },
+      "new": {
+        "cardType": "武器",
+        "tribe": null,
+        "tribes": [],
+        "tags": [
+          "武器",
+          "系統分類対象外"
+        ]
+      }
+    },
+    {
+      "no": 66,
+      "name": "魔勇者アンルシア",
+      "projectTribeBefore": "冒険者",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 67,
+      "name": "魔軍司令ホメロス",
+      "projectTribeBefore": "冒険者",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ],
+        "tags": [
+          "冒険者系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 68,
+      "name": "あくまのきし",
+      "projectTribeBefore": "魔王",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ],
+        "tags": [
+          "魔王系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 69,
+      "name": "はめつの使者",
+      "projectTribeBefore": "魔王",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ],
+        "tags": [
+          "魔王系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 70,
+      "name": "まおうのかめん",
+      "projectTribeBefore": "魔王",
+      "manualAnswer": "「なし」だが「魔王系」として扱い恩恵を受けるマオウケイアツカオンケイウ",
+      "target": "なし+魔王系扱い",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ],
+        "tags": [
+          "魔王系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし",
+          "魔王系扱い"
+        ]
+      }
+    },
+    {
+      "no": 71,
+      "name": "まおうのランプ",
+      "projectTribeBefore": "魔王",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ],
+        "tags": [
+          "魔王系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 72,
+      "name": "れんごくちょう",
+      "projectTribeBefore": "魔王",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ],
+        "tags": [
+          "魔王系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 73,
+      "name": "セルゲイナス",
+      "projectTribeBefore": "魔王",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ],
+        "tags": [
+          "魔王系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 74,
+      "name": "ニセたいこう",
+      "projectTribeBefore": "魔王",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ],
+        "tags": [
+          "魔王系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 75,
+      "name": "ネルゲルの配下",
+      "projectTribeBefore": "魔王",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ],
+        "tags": [
+          "魔王系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 76,
+      "name": "バラモスエビル",
+      "projectTribeBefore": "魔王",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ],
+        "tags": [
+          "魔王系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 77,
+      "name": "バラモスブロス",
+      "projectTribeBefore": "魔王",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ],
+        "tags": [
+          "魔王系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 78,
+      "name": "ビッグモアイ",
+      "projectTribeBefore": "魔王",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ],
+        "tags": [
+          "魔王系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 79,
+      "name": "ヘルビースト",
+      "projectTribeBefore": "魔王",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ],
+        "tags": [
+          "魔王系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 80,
+      "name": "ポイズンキッス",
+      "projectTribeBefore": "魔王",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ],
+        "tags": [
+          "魔王系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 81,
+      "name": "マジックリップス",
+      "projectTribeBefore": "魔王",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ],
+        "tags": [
+          "魔王系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    },
+    {
+      "no": 82,
+      "name": "地獄の帝王エスターク",
+      "projectTribeBefore": "魔王",
+      "manualAnswer": "魔王系マオウケイ",
+      "target": "魔王",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ],
+        "tags": [
+          "魔王系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ],
+        "tags": [
+          "魔王系"
+        ]
+      }
+    },
+    {
+      "no": 83,
+      "name": "魔王の書",
+      "projectTribeBefore": "魔王",
+      "manualAnswer": "なし",
+      "target": "なし",
+      "old": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ],
+        "tags": [
+          "魔王系"
+        ]
+      },
+      "new": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "tags": [
+          "系統なし"
+        ]
+      }
+    }
+  ]
+}

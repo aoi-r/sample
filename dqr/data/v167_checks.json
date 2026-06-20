@@ -1,0 +1,15 @@
+{
+  "version": "v167_targeting_frontrow_strategy_fix",
+  "nodeCheck": "OK",
+  "duplicateFunctionDeclarations": 0,
+  "duplicateFunctionNames": [],
+  "customCardsNonAsciiFilenames": 0,
+  "customCardsLongFilenames": 0,
+  "displayLabel": "v167 / buildable 1460 / total 1583",
+  "fixedIssues": [
+    "target selection click path",
+    "enemy stealth target highlight",
+    "front row/all front same row",
+    "sequential strategy choices"
+  ]
+}

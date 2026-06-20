@@ -122,7 +122,7 @@
     },
     {
       "cardId": "card_58e57516",
-      "name": "オルゴ・デミーラ:第2形態",
+      "name": "オルゴ・デミーラ：第2形態",
       "classes": [
         "共通"
       ],
@@ -146,7 +146,7 @@
     },
     {
       "cardId": "card_a707a36b",
-      "name": "オルゴ・デミーラ:第3形態",
+      "name": "オルゴ・デミーラ：第3形態",
       "classes": [
         "共通"
       ],
@@ -1890,7 +1890,7 @@
     },
     {
       "cardId": "card_2f9f7e7c",
-      "name": "武術:飛び蹴り",
+      "name": "武術：飛び蹴り",
       "classes": [
         "武闘家"
       ],
@@ -1914,7 +1914,7 @@
     },
     {
       "cardId": "card_2c9322d6",
-      "name": "武術:ストレートパンチ",
+      "name": "武術：ストレートパンチ",
       "classes": [
         "武闘家"
       ],
@@ -1938,7 +1938,7 @@
     },
     {
       "cardId": "card_51be9348",
-      "name": "武術:精神統一",
+      "name": "武術：精神統一",
       "classes": [
         "武闘家"
       ],
@@ -2115,7 +2115,7 @@
     },
     {
       "cardId": "card_ce558ab3",
-      "name": "道具:ちからのたね",
+      "name": "道具：ちからのたね",
       "classes": [
         "商人"
       ],
@@ -2139,7 +2139,7 @@
     },
     {
       "cardId": "card_4551fa99",
-      "name": "道具:いのちのきのみ",
+      "name": "道具：いのちのきのみ",
       "classes": [
         "商人"
       ],
@@ -2163,7 +2163,7 @@
     },
     {
       "cardId": "card_ece92ef0",
-      "name": "道具:しあわせのたね",
+      "name": "道具：しあわせのたね",
       "classes": [
         "商人"
       ],
@@ -2187,7 +2187,7 @@
     },
     {
       "cardId": "card_2cdcf87d",
-      "name": "道具:大きなパン",
+      "name": "道具：大きなパン",
       "classes": [
         "商人"
       ],
@@ -2211,7 +2211,7 @@
     },
     {
       "cardId": "card_020b67d1",
-      "name": "道具:弟切草",
+      "name": "道具：弟切草",
       "classes": [
         "商人"
       ],
@@ -2235,7 +2235,7 @@
     },
     {
       "cardId": "card_e6268038",
-      "name": "道具:火炎草",
+      "name": "道具：火炎草",
       "classes": [
         "商人"
       ],
@@ -2263,7 +2263,7 @@
       "classes": [
         "占い師"
       ],
-      "cardType": "ユニット",
+      "cardType": "トークン",
       "cost": 8,
       "attack": 0,
       "hp": 0,
@@ -2278,6 +2278,12 @@
         "imageVerified": false,
         "nameVerified": false,
         "imageStatus": "not_synced"
+      },
+      "flags": {
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "nonDeckCategory": "choice_reward"
       }
     },
     {
@@ -2286,7 +2292,7 @@
       "classes": [
         "占い師"
       ],
-      "cardType": "ユニット",
+      "cardType": "トークン",
       "cost": 8,
       "attack": 0,
       "hp": 0,
@@ -2301,6 +2307,12 @@
         "imageVerified": false,
         "nameVerified": false,
         "imageStatus": "not_synced"
+      },
+      "flags": {
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "nonDeckCategory": "choice_reward"
       }
     },
     {
@@ -2309,7 +2321,7 @@
       "classes": [
         "占い師"
       ],
-      "cardType": "ユニット",
+      "cardType": "トークン",
       "cost": 8,
       "attack": 0,
       "hp": 0,
@@ -2324,6 +2336,12 @@
         "imageVerified": false,
         "nameVerified": false,
         "imageStatus": "not_synced"
+      },
+      "flags": {
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "nonDeckCategory": "choice_reward"
       }
     },
     {
@@ -2332,7 +2350,7 @@
       "classes": [
         "占い師"
       ],
-      "cardType": "ユニット",
+      "cardType": "トークン",
       "cost": 8,
       "attack": 0,
       "hp": 0,
@@ -2347,6 +2365,12 @@
         "imageVerified": false,
         "nameVerified": false,
         "imageStatus": "not_synced"
+      },
+      "flags": {
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true,
+        "nonDeckCategory": "choice_reward"
       }
     },
     {
@@ -2405,7 +2429,7 @@
     },
     {
       "cardId": "card_e317fe90",
-      "name": "マーニャ:ドラゴラム",
+      "name": "マーニャ：ドラゴラム",
       "classes": [
         "占い師"
       ],

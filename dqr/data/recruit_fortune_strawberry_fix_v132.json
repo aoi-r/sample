@@ -1,7 +1,7 @@
 {
   "version": "v132_recruit_fortune_strawberry_fix",
   "implemented": [
-    "イチゴ爆弾の画像参照をstrawberry_bomb.pngへ補強し、CUSTOM_CARD_IMAGESにも登録。",
+    "イチゴ爆弾の画像参照をichigo_bakudan.pngへ補強し、CUSTOM_CARD_IMAGESにも登録。",
     "イチゴ爆弾の死亡時を、死亡位置を保存して隣接ユニットに2ダメージする処理へ修正。",
     "クイーンスライムの自分以外のスライム系味方ユニット+1/+1を明示補強。",
     "あくまのカガミの検索対象を実際に系統が冒険者の5コスト以下ユニットに限定し、自身が選ばれないように修正。",

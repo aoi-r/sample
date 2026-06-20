@@ -1,0 +1,22 @@
+{
+  "node_check": "OK",
+  "duplicate_functions": 0,
+  "duplicate_function_names": {},
+  "label": "v151 / buildable 1460 / total 1583",
+  "data_version": "v151_ocr_tribe_remaining_head_091_120",
+  "base": "v150_ocr_tribe_remaining_head_061_090",
+  "checked_count": 30,
+  "none_confirmed_count": 30,
+  "target_outside_count": 0,
+  "changed_tribe_count": 0,
+  "remaining_candidates": 465,
+  "tribe_counts": {
+    "スライム": 80,
+    "ゾンビ": 100,
+    "なし": 1167,
+    "ドラゴン": 88,
+    "冒険者": 94,
+    "魔王": 54
+  },
+  "manual_review_needed": []
+}

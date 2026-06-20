@@ -1,0 +1,34 @@
+{
+  "version": "v167_targeting_frontrow_strategy_fix",
+  "base": "v166_manual_effect_requirements_batch",
+  "fixes": [
+    {
+      "issue": "ブラッドレディ/アルゴリザード/しっぷう突き/グレイトマムーなどの対象ハイライトは出るが選択できない",
+      "cause": "enemy側ユニットクリック時に存在しない旧関数 applyPendingGenericEffect(side,pos) を呼んでいた",
+      "fix": "applyPendingGenericEffectToUnit({side,pos})へ統一し、ソロ用のpointer/touch/click捕捉も追加"
+    },
+    {
+      "issue": "リーダー自身の攻撃時にハイライトは出るが選択できない場合がある",
+      "fix": "ソロ環境でleader/unit target selectionをpointerdown/touchend/clickで捕捉して通常処理へ流す"
+    },
+    {
+      "issue": "最後の砦の英雄グレイグの「正面全て」が前列か後列片方だけだった",
+      "cause": "enemyの列番号を[1,2]として見ていたが、正しくは[2,3]",
+      "fix": "同じ行の相手前列・後列両方へ2ダメージ"
+    },
+    {
+      "issue": "ステルス持ちのフェイスボールが敵側対象ハイライトで光る",
+      "fix": "敵側ステルスユニットは単体対象効果のハイライト/選択対象から除外"
+    },
+    {
+      "issue": "シュプリンガーのさくせん1回目がすぐ消えて2回目が出る",
+      "cause": "2つの選択モーダルをsetTimeoutで連続表示していた",
+      "fix": "1回目の選択完了後に2回目を開く逐次選択へ変更。エルギオス4回さくせんも同方式へ変更"
+    },
+    {
+      "issue": "グリンガムのムチの同列範囲も列番号誤りの影響を受ける可能性",
+      "fix": "敵側同列は前列/後列[2,3]、味方側は[0,1]で処理"
+    }
+  ],
+  "manual_confirmation_needed": []
+}

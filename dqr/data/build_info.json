@@ -1,5 +1,5 @@
 {
-  "version": "v133_fortune_tribe_engine_swipe_guard",
+  "version": "v169_strategy_modal_all_badges",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -28,7 +28,7 @@
   "loginUpdate": "ユーザ名入力を必須から任意に変更。初回アクセス時にlocalStorageのdeviceIdからPlayer-xxxxxxxxを自動生成。Firebase匿名UIDと併用。",
   "playerIdSpec": "初回のみ固定プレイヤーIDを必須入力。localStorageに保存し、Firebase保存パスは players/{playerId}/decks。",
   "battleScaffold": "保存済みデッキ選択、デッキ確認モーダル、合言葉IDマッチング、盤面/HP/MP/テンション/手札の初期UIを追加。",
-  "fix": "Generic fortune engine, tribe unit effects, audit reports, stronger iPhone swipe guard",
+  "fix": "v158: ステータス強化/弱体化と手札コストダウンをカード画像上のオーバーレイで可視化。画像ファイル自体は書き換えず、盤面カード・拡大表示・手札カードの再描画で差分表示を出し入れする。",
   "deckConfirm": "確認画面を30枚俯瞰しやすい敷き詰めグリッドに変更。",
   "layoutFix": "スマホ横向きでカード間隔/上下余白をさらに圧縮し、コレクションカードを大型化。右側アクションボタンの見切れを軽減。",
   "firebase": "Firebase config embedded in js/firebase-config.js for dqr-sample.",
@@ -202,9 +202,82 @@
   "restoreFeatures": "cards/data/solo preset decks preserved",
   "cardsCount": 1582,
   "consoleErrorFixed": "Identifier 'isAdventurerCard' has already been declared",
-  "visibleBootLabel": "v133 / buildable 1465 / total 1583",
+  "visibleBootLabel": "v145 / buildable 1460 / total 1583",
   "rollbackBase": "v93_fix_duplicate_isAdventurerCard",
   "soloFix": "restore missing getCardText and ensureSoloGame helpers, wrap old solo functions",
   "soloFixFile": "data/solo_missing_helpers_fix_v107.json",
-  "fixFile": "data/fortune_audit_v133.json"
+  "fixFile": "data/official_db_image_checked_batch2_v145.json",
+  "tribeOcrBatch3": "480〜499を公式DBカード画像下部優先で確認。読める系統は反映し、表記なしはなし確認済み。",
+  "v147Checks": "data/v147_checks.json",
+  "tribeBatchV148": {
+    "base": "v147_ocr_tribe_batch480_499",
+    "checkedCount": 30,
+    "changedCount": 0,
+    "remainingCandidates": 555,
+    "manualReviewNeeded": 0
+  },
+  "tribeReview": "v154: checked 405, remaining 0, manual review 0, target outside 3. v155: notation only, tribe counts unchanged.",
+  "notationNormalization": "半角コロン表記のカード名を全角コロン表記に統一。対象: オルゴ・デミーラ第2/第3形態、マーニャ：ドラゴラム、武術/道具カード名。",
+  "manualTribeAnswers": {
+    "source": "あ(2).xlsx",
+    "appliedRows": 83,
+    "base": "v155_notation_colon_unified",
+    "note": "公式DB/カード画像の手動確認結果を反映。"
+  },
+  "tribeHelperFix": "cardTribesはtribe/tribes/tagsの完全一致とtreatedAsTribesだけを見る。効果文中の○○系からカード自身の系統を推測しない。",
+  "tribeEffectBadgeFoundation": {
+    "summon_timing": "「召喚時：」の系統強化は、召喚時点で場にいる対象へ直接付与。付与元が死亡しても残るが、後から出たユニットには乗らない。",
+    "continuous_aura": "「召喚時：」がなく強化内容だけが書かれている系統効果は、効果元ユニットが場にいる間だけ有効。後から出た対象にも乗り、効果元が場を離れると外れる。",
+    "powerful_badge": "パワフルバッジは召喚したplayer側に登録される対戦中永続ステータス。バッジ解除効果でactive=falseとなり、盤面補正を再計算して外す。",
+    "strict_tribe_detection": "系統判定はtribe/tribes/tags/treatedAsTribesのみ。効果文/searchTextからは推測しない。"
+  },
+  "visibleModifiers": {
+    "board_stat_modifiers": "盤面ユニットは現在攻撃力と本来攻撃力の差分を左下、最大HP/最大耐久値と本来値の差分を右下に表示。0なら非表示。",
+    "zoom_stat_modifiers": "盤面カードを長押し拡大したときも同じ差分をカード画像上に表示。",
+    "hand_cost_down": "手札カードは有効コストが本来コストより下がっている場合だけ、カード上部にコスト差分を表示。",
+    "removal_behavior": "効果が消えた場合はステータス再計算・再描画により表示も消える。",
+    "image_rewrite_policy": "元画像ファイルは変更せず、DOMオーバーレイで表示する。"
+  },
+  "base": "v158_visible_stat_cost_modifiers",
+  "filenameSanitization": "custom_cards filenames normalized to short ASCII names to avoid File name too long on checkout/build",
+  "data_version": "v165_default_decks_remove_demon_swordsman_and_effect_audit",
+  "label": "v169 / buildable 1460 / total 1583",
+  "notes": [
+    "v160: assets/custom_cards filenames romanized to readable ASCII and mojibake mapping data removed.",
+    "v161: ステータス補正/手札コストダウン表示が見えづらい問題を修正。盤面スロットのoverflowを可視化し、手札コスト差分をカード内上部へ移動。本来コストの読み込み時スナップショットも追加。",
+    "v162: 既定テストデッキを指定公式DBの5デッキへ置換。武闘家#413/僧侶#393は掲載リストが空のため未実装。",
+    "絶好調の初期キーワード判定と「このユニットが絶好調状態なら」の継続補正を分離。",
+    "とげぼうず等の自己攻撃力補正は召喚時に適用され、敵への攻撃後に絶好調喪失とともに解除される。",
+    "絶好調を敵ユニット攻撃・敵リーダー攻撃の双方で、ダメージ計算後に失うよう修正。",
+    "v165: 魔剣士 #298の既定テストデッキを完全に除外。ユーザー保存デッキとカードDBは保持。",
+    "v165: 残る4既定デッキだけを対象に、効果不足・不安定候補の静的コード監査を追加。"
+  ],
+  "defaultTestDecks": {
+    "file": "data/default_test_decks_v165.json",
+    "active": [
+      "戦士 #325",
+      "魔法使い #324",
+      "商人 #326",
+      "占い師 #329"
+    ],
+    "removed": [
+      "魔剣士 #298（新しいテストデッキに差し替えるまで既定デッキから除外）"
+    ],
+    "notImplemented": [
+      "武闘家 #413（デッキリスト空）",
+      "僧侶 #393（デッキリスト空）"
+    ],
+    "manualAdjustments": "戦士：メルビン2枚を削除、わたぼう1枚を追加。魔剣士 #298 はv165で既定デッキから完全除外。",
+    "notes": "既定テストデッキ定義は data/default_test_decks_v165.json のみを使用。v162/v164の古い既定テストデッキJSONは削除済み。"
+  },
+  "dataVersion": "v165_default_decks_remove_demon_swordsman_and_effect_audit",
+  "defaultTestDecksVersion": "v165_active_default_test_decks",
+  "defaultTestDecksFile": "data/default_test_decks_v165.json",
+  "shinryuWishes": "4つの願い事を通常は選択、超必中時は全実行。生成トークンの型をトークンに正規化。",
+  "manualDeckAdjustments": "戦士：メルビン2枚を削除、わたぼう1枚追加。魔剣士：デスタムーア1枚を削除、れんごくちょうは1枚維持。",
+  "defaultTestDeckEffectAuditFile": "data/default_test_deck_effect_audit_v165.json",
+  "defaultTestDeckEffectAuditTextFile": "data/default_test_deck_effect_audit_v165.txt",
+  "defaultDeckAudit": "魔剣士削除後の4既定デッキについて、ユーザー手動回答Excelの要件を取り込み。主要な対象選択/れんけい/BET/占い/武器/常在効果を補強。",
+  "manualEffectRequirements": "manual_effect_requirements_v166.json",
+  "fix_v167": "Fix pending target clicks for enemy units/leader attacks, stealth highlight filtering, 正面全て row targeting, and sequential さくせん choices."
 }

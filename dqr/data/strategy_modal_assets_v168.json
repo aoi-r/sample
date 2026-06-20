@@ -1,0 +1,21 @@
+{
+  "version": "v168_strategy_card_modal_images",
+  "strategyCardAssets": [
+    "gangan_ikouze.png",
+    "inochi_daijini.png",
+    "batchiri_ganbare.png",
+    "kokode_mamotte.png",
+    "katteni_shitene.png",
+    "tonikaku_nigete.png",
+    "senryoku_ubae.png",
+    "tension_tamero.png",
+    "support_tanomuzo.png",
+    "leader_wo_kaifukushiro.png"
+  ],
+  "notes": [
+    "さくせん選択モーダルで画像付き候補を表示",
+    "strategy option modal supports imagePath/description object options",
+    "さくせん候補プールを10種(画像対応)へ更新",
+    "テンションためろ/サポートたのむぞ/リーダーをかいふくしろ は死亡時効果として extraDeathText に付与"
+  ]
+}

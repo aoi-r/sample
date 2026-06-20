@@ -1,0 +1,15 @@
+{
+  "version": "v136",
+  "tribesImplemented": [
+    "ゾンビ",
+    "スライム",
+    "ドラゴン",
+    "冒険者",
+    "魔王",
+    "なし"
+  ],
+  "singleTribeRule": "複数系統なし。1ユニットは最大1つの系統だけを持つ。",
+  "noneRule": "なしは系統に入らないユニットの正式分類。",
+  "effectRule": "○○系ユニット効果は cards.json の tribes[0] を正として判定する。legacy tags/searchTextで複数候補があっても tribes があれば tribes[0] を優先。",
+  "unresolvedFile": "data/tribe_classification_unresolved_v136.json"
+}

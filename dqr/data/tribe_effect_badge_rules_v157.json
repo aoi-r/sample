@@ -1,0 +1,33 @@
+{
+  "version": "v157_tribe_effect_badge_foundation",
+  "base": "v156_manual_tribe_answers_applied",
+  "rules": [
+    {
+      "kind": "summon_time_tribe_effect",
+      "rule": "「召喚時：」の○○系ユニット強化は、召喚時点で場にいる対象へ直接付与する。付与元が死亡しても残り、後から出たユニットには乗らない。"
+    },
+    {
+      "kind": "continuous_tribe_aura",
+      "rule": "「召喚時：」がなく強化内容のみが書かれた○○系ユニット強化は、効果元ユニットが場にいる間だけ有効。後から出た対象にも乗り、効果元が死亡・離場すると失われる。"
+    },
+    {
+      "kind": "powerful_badge",
+      "rule": "パワフルバッジはその効果を持つユニットを召喚したplayer側に付与される追加ステータス。基本は対戦中永続。解除カードでactive=falseにし、効果を外す。"
+    },
+    {
+      "kind": "wording_priority",
+      "rule": "文面判断を優先し、召喚時/死亡時/攻撃時/ターン終了時/使う度などの明示トリガーを優先する。"
+    }
+  ],
+  "implemented_in_js": [
+    "parseContinuousTribeAuraSpecsV157",
+    "refreshContinuousTribeAurasV157",
+    "registerPowerfulBadgeV157",
+    "applyPowerfulBadges",
+    "removePowerfulBadgesV157",
+    "triggerPowerfulBadgeCardPlayedV157",
+    "triggerPowerfulBadgeTurnEndV157",
+    "getPowerfulBadgeCostDeltaV157"
+  ],
+  "known_scope": "主にplayer側のローカル/ソロ効果確認を優先。enemy側powerfulBadges配列とrefresh入口も用意済み。"
+}

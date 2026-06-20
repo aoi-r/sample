@@ -1,0 +1,25 @@
+{
+  "version": "v158_visible_stat_cost_modifiers",
+  "base": "v157_tribe_effect_badge_foundation",
+  "policy": "画像ファイル自体は書き換えず、カード画像上に差分表示を重ねる。これにより一時効果/解除/常在効果の再計算に追従しやすくする。",
+  "stat_display": {
+    "attack": "盤面カードと盤面カード拡大時、現在攻撃力 - 本来攻撃力 が0以外なら左下に +N / -N を表示。",
+    "hp": "盤面カードと盤面カード拡大時、現在最大HP - 本来HP が0以外なら右下に +N / -N を表示。ダメージによる現在HP低下は強化表示には使わない。",
+    "durability": "建物/ダンジョンは現在最大耐久値 - 本来最大耐久値 が0以外なら右下に表示。通常の耐久値進行/減少は強化表示に使わない。"
+  },
+  "cost_display": {
+    "hand_only": true,
+    "condition": "getEffectiveCost(card) < card.cost の場合だけ手札カード上部に差分を表示。",
+    "examples": [
+      "本来5→有効3なら -2",
+      "コスト増加や変化なしは非表示"
+    ]
+  },
+  "implemented_functions": [
+    "signedDeltaTextV158",
+    "statModifierDisplayV158",
+    "renderBoardModifierOverlaysV158",
+    "renderHandCostOverlayV158",
+    "updateBattleCardZoomModifiersV158"
+  ]
+}

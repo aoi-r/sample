@@ -6348,3 +6348,361 @@
 .solo-debug-card{
   touch-action: pan-x !important;
 }
+
+
+/* v134: stronger iPhone hand swipe prevention */
+.solo-debug-strip,
+.solo-debug-hand,
+.solo-debug-enemy-hand{
+  touch-action: pan-x !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-x: contain;
+}
+.solo-debug-card{
+  touch-action: pan-x !important;
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-touch-callout:none;
+}
+
+/* v158: visible stat/cost modifier overlays */
+.hand-card{
+  position:relative;
+}
+.hand-cost-mod{
+  position:absolute;
+  top:-8px;
+  left:50%;
+  transform:translateX(-50%);
+  min-width:28px;
+  padding:2px 7px;
+  border-radius:999px;
+  background:#1f7ae0;
+  color:#fff;
+  font-size:13px;
+  font-weight:900;
+  line-height:1;
+  text-align:center;
+  text-shadow:0 1px 2px rgba(0,0,0,.85);
+  box-shadow:0 2px 8px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.55) inset;
+  z-index:12;
+  pointer-events:none;
+}
+.hand-cost-mod.negative{
+  background:#2581e8;
+}
+.unit-stat-mod{
+  position:absolute;
+  bottom:-15px;
+  min-width:22px;
+  padding:1px 4px;
+  border-radius:999px;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+  line-height:1.05;
+  text-align:center;
+  text-shadow:0 1px 2px rgba(0,0,0,.9);
+  box-shadow:0 1px 6px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.45) inset;
+  z-index:8;
+  pointer-events:none;
+}
+.unit-stat-mod.positive{
+  background:#1f9a53;
+}
+.unit-stat-mod.negative{
+  background:#b83442;
+}
+.unit-atk-mod{
+  left:4px;
+}
+.unit-hp-mod{
+  right:4px;
+}
+.battle-card-zoom-frame{
+  position:relative;
+  display:inline-block;
+  line-height:0;
+}
+.battle-card-zoom-frame img{
+  display:block;
+}
+.zoom-stat-mod,.zoom-cost-mod{
+  position:absolute;
+  min-width:38px;
+  padding:4px 10px;
+  border-radius:999px;
+  color:#fff;
+  font-weight:900;
+  line-height:1;
+  text-align:center;
+  text-shadow:0 1px 3px rgba(0,0,0,.9);
+  box-shadow:0 4px 16px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.55) inset;
+  pointer-events:none;
+}
+.zoom-stat-mod{
+  bottom:4.5%;
+  font-size:20px;
+}
+.zoom-stat-mod.positive{
+  background:#1f9a53;
+}
+.zoom-stat-mod.negative{
+  background:#b83442;
+}
+.zoom-atk-mod{
+  left:8.5%;
+}
+.zoom-hp-mod{
+  right:8.5%;
+}
+.zoom-cost-mod{
+  top:3.5%;
+  left:50%;
+  transform:translateX(-50%);
+  background:#2581e8;
+  font-size:22px;
+}
+.zoom-cost-mod[hidden],.zoom-stat-mod[hidden]{
+  display:none !important;
+}
+@media(max-width:900px) and (orientation:landscape){
+  .unit-stat-mod{
+    bottom:-12px;
+    min-width:18px;
+    font-size:8px;
+    padding:1px 3px;
+  }
+  .hand-cost-mod{
+    top:-6px;
+    min-width:22px;
+    font-size:11px;
+    padding:2px 5px;
+  }
+  .zoom-stat-mod{
+    font-size:15px;
+    padding:3px 8px;
+  }
+  .zoom-cost-mod{
+    font-size:16px;
+    padding:3px 8px;
+  }
+}
+
+
+/* v161: make stat/cost modifier overlays clearly visible for verification. */
+.battle-arena,
+.battle-arena .side-board,
+.battle-arena .unit-row,
+.battle-arena .board-grid,
+.unit-slot{
+  overflow:visible !important;
+}
+.unit-slot{
+  z-index:1;
+}
+.unit-slot.has-unit{
+  z-index:2;
+}
+.unit-slot.has-unit:hover,
+.unit-slot.selected{
+  z-index:20;
+}
+.unit-stat-mod{
+  bottom:-12px !important;
+  min-width:25px !important;
+  height:15px !important;
+  padding:2px 5px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  font-size:11px !important;
+  letter-spacing:.02em !important;
+  border:1px solid rgba(255,255,255,.85) !important;
+  z-index:70 !important;
+  opacity:1 !important;
+}
+.unit-atk-mod{
+  left:2px !important;
+}
+.unit-hp-mod{
+  right:2px !important;
+}
+.player-hand{
+  padding-top:10px !important;
+}
+.hand-card{
+  position:relative !important;
+  overflow:visible !important;
+}
+.hand-cost-mod{
+  top:2px !important;
+  left:50% !important;
+  transform:translateX(-50%) !important;
+  min-width:32px !important;
+  padding:3px 8px !important;
+  font-size:14px !important;
+  border:1px solid rgba(255,255,255,.9) !important;
+  z-index:80 !important;
+  opacity:1 !important;
+}
+.zoom-stat-mod,.zoom-cost-mod{
+  z-index:90 !important;
+  border:1px solid rgba(255,255,255,.9) !important;
+}
+@media(max-width:900px) and (orientation:landscape){
+  .unit-stat-mod{
+    bottom:-10px !important;
+    min-width:21px !important;
+    height:13px !important;
+    font-size:9px !important;
+    padding:1px 4px !important;
+  }
+  .hand-cost-mod{
+    top:2px !important;
+    min-width:26px !important;
+    font-size:12px !important;
+    padding:2px 6px !important;
+  }
+}
+
+
+/* v168/v169: strategy modal card-image choices */
+.choice-modal{
+  width:min(980px, 96vw);
+}
+.choice-modal-body{
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  align-items:stretch;
+}
+.choice-option--card{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+}
+.choice-option-card-wrap{
+  display:flex;
+  justify-content:center;
+  width:100%;
+}
+.choice-option-card-image{
+  display:block;
+  width:min(100%, 220px);
+  height:auto;
+  object-fit:contain;
+  filter:drop-shadow(0 6px 12px rgba(0,0,0,.35));
+}
+.choice-option-copy{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  width:100%;
+  align-items:center;
+  text-align:center;
+}
+.choice-option-title{
+  font-size:16px;
+  font-weight:900;
+  line-height:1.2;
+}
+.choice-option-desc{
+  font-size:13px;
+  color:#dce7ff;
+  line-height:1.35;
+}
+.choice-option-sub{
+  font-size:11px;
+  color:#a5b4d4;
+}
+@media(max-width:900px){
+  .choice-modal{ width:min(96vw, 700px); }
+  .choice-modal-body{ grid-template-columns:repeat(2, minmax(0, 1fr)); gap:8px; }
+  .choice-option--card{ padding:8px; gap:6px; }
+  .choice-option-card-image{ width:min(100%, 170px); }
+  .choice-option-title{ font-size:13px; }
+  .choice-option-desc{ font-size:11px; }
+}
+@media(max-width:560px){
+  .choice-modal-body{ grid-template-columns:1fr; }
+}
+
+
+/* v169: force strategy choices into three horizontal card columns and show all-effects banner */
+.choice-modal-body--cards{
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:12px;
+  align-items:stretch;
+}
+.choice-modal-body--cards .choice-option--card{
+  min-width:0;
+}
+.choice-modal-body--cards .choice-option-card-image{
+  width:min(100%, 210px);
+}
+.choice-all-banner{
+  grid-column:1 / -1;
+  position:relative;
+  z-index:2;
+  width:100%;
+  border:1px solid rgba(255,224,120,.95);
+  border-radius:999px;
+  padding:10px 16px;
+  background:linear-gradient(90deg,#5b3400,#f4c85c,#5b3400);
+  color:#201000;
+  font-weight:1000;
+  font-size:16px;
+  letter-spacing:.05em;
+  text-align:center;
+  box-shadow:0 0 0 2px rgba(255,230,150,.22), 0 6px 18px rgba(0,0,0,.35);
+  cursor:pointer;
+}
+.choice-modal-body--all .choice-option--card{
+  border-color:rgba(255,224,120,.75);
+}
+.unit-effect-badges{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  display:flex;
+  flex-wrap:wrap;
+  gap:2px;
+  justify-content:center;
+  max-width:94%;
+  pointer-events:none;
+  z-index:8;
+}
+.unit-effect-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:24px;
+  height:17px;
+  padding:0 4px;
+  border-radius:999px;
+  background:rgba(10,16,28,.84);
+  border:1px solid rgba(255,255,255,.42);
+  color:#fff;
+  font-size:10px;
+  font-weight:1000;
+  line-height:1;
+  text-shadow:0 1px 2px #000;
+  box-shadow:0 2px 6px rgba(0,0,0,.35);
+}
+.unit-effect-badge.guard{ background:rgba(74,53,0,.88); border-color:rgba(255,213,84,.8); color:#ffe28a; }
+.unit-effect-badge.shield{ background:rgba(0,44,72,.88); border-color:rgba(128,220,255,.8); color:#bceeff; }
+.unit-effect-badge.death{ background:rgba(70,0,56,.88); border-color:rgba(255,120,225,.8); color:#ffd0fa; }
+.unit-effect-badge.tension{ background:rgba(75,30,0,.9); border-color:rgba(255,173,73,.85); color:#ffd3a2; }
+.unit-effect-badge.draw{ background:rgba(0,63,48,.9); border-color:rgba(113,255,200,.85); color:#c5ffe9; }
+.unit-effect-badge.heal{ background:rgba(17,84,24,.9); border-color:rgba(130,255,132,.85); color:#d3ffd4; }
+
+@media(max-width:700px){
+  .choice-modal-body--cards{ grid-template-columns:repeat(3, minmax(96px, 1fr)); gap:6px; overflow-x:auto; }
+  .choice-modal-body--cards .choice-option--card{ padding:6px; }
+  .choice-modal-body--cards .choice-option-card-image{ width:118px; max-width:100%; }
+  .choice-all-banner{ font-size:13px; padding:8px 10px; }
+  .choice-option-title{ font-size:11px; }
+  .choice-option-desc{ font-size:10px; }
+}

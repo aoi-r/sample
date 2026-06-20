@@ -1,0 +1,26 @@
+{
+  "node_check": "OK",
+  "duplicate_functions": 0,
+  "label": "v135 / buildable 1465 / total 1583",
+  "data_version": "v135_tribe_maou_none_classification",
+  "tribes": [
+    "ゾンビ",
+    "スライム",
+    "ドラゴン",
+    "冒険者",
+    "魔王",
+    "なし"
+  ],
+  "counts": {
+    "スライム": 81,
+    "ゾンビ": 103,
+    "なし": 697,
+    "ドラゴン": 93,
+    "冒険者": 95,
+    "魔王": 61
+  },
+  "unit_count": 1111,
+  "unresolved_count": 697,
+  "js_has_maou": true,
+  "js_has_none": true
+}

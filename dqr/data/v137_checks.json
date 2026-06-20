@@ -1,0 +1,12 @@
+{
+  "node_check": "OK",
+  "label": "v137 / buildable 1465 / total 1583",
+  "data_version": "v137_tribe_review_candidates",
+  "review_candidates": 697,
+  "high_priority": 676,
+  "quick_candidates": 80,
+  "gameplay_code_changed": "version only + reports",
+  "review_json_exists": true,
+  "review_txt_exists": true,
+  "review_csv_exists": true
+}

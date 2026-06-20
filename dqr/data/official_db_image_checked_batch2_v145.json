@@ -1,0 +1,307 @@
+{
+  "version": "v145",
+  "notes": "公式DB/カード画像確認 batch2。DBでユニット確認、画像下部に系統表記なしと確認できたカードを「なし確認済み」にした。",
+  "checkedCount": 7,
+  "appliedCount": 7,
+  "notFoundCount": 0,
+  "checkedAsNone": [
+    {
+      "name": "ドラキー",
+      "dbPage": "https://gameconductor.com/dqrivals/c/d/31",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_31.jpg",
+      "result": "なし",
+      "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+    },
+    {
+      "name": "いたずらもぐら",
+      "dbPage": "https://gameconductor.com/dqrivals/c/d/33",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_33.jpg",
+      "result": "なし",
+      "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+    },
+    {
+      "name": "おばけキャンドル",
+      "dbPage": "https://gameconductor.com/dqrivals/c/d/35",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_35.jpg",
+      "result": "なし",
+      "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+    },
+    {
+      "name": "モーモン",
+      "dbPage": "https://gameconductor.com/dqrivals/c/d/36",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_36.jpg",
+      "result": "なし",
+      "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+    },
+    {
+      "name": "おばけヒトデ",
+      "dbPage": "https://gameconductor.com/dqrivals/c/d/37",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_37.jpg",
+      "result": "なし",
+      "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+    },
+    {
+      "name": "おおくちばし",
+      "dbPage": "https://gameconductor.com/dqrivals/c/d/38",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_38.jpg",
+      "result": "なし",
+      "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+    },
+    {
+      "name": "ゆめにゅうどう",
+      "dbPage": "https://gameconductor.com/dqrivals/c/d/39",
+      "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_39.jpg",
+      "result": "なし",
+      "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+    }
+  ],
+  "applied": [
+    {
+      "id": "card_471ba4e7",
+      "name": "ドラキー",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": null
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": {
+          "tribeCheckedV145": {
+            "result": "なし",
+            "source": "official DB page + card image bottom visual check",
+            "dbPage": "https://gameconductor.com/dqrivals/c/d/31",
+            "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_31.jpg",
+            "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+          }
+        }
+      },
+      "source": {
+        "name": "ドラキー",
+        "dbPage": "https://gameconductor.com/dqrivals/c/d/31",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_31.jpg",
+        "result": "なし",
+        "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+      }
+    },
+    {
+      "id": "card_c762fb53",
+      "name": "いたずらもぐら",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": null
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": {
+          "tribeCheckedV145": {
+            "result": "なし",
+            "source": "official DB page + card image bottom visual check",
+            "dbPage": "https://gameconductor.com/dqrivals/c/d/33",
+            "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_33.jpg",
+            "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+          }
+        }
+      },
+      "source": {
+        "name": "いたずらもぐら",
+        "dbPage": "https://gameconductor.com/dqrivals/c/d/33",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_33.jpg",
+        "result": "なし",
+        "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+      }
+    },
+    {
+      "id": "card_1322ef2c",
+      "name": "おばけキャンドル",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": null
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": {
+          "tribeCheckedV145": {
+            "result": "なし",
+            "source": "official DB page + card image bottom visual check",
+            "dbPage": "https://gameconductor.com/dqrivals/c/d/35",
+            "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_35.jpg",
+            "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+          }
+        }
+      },
+      "source": {
+        "name": "おばけキャンドル",
+        "dbPage": "https://gameconductor.com/dqrivals/c/d/35",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_35.jpg",
+        "result": "なし",
+        "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+      }
+    },
+    {
+      "id": "card_4af3d843",
+      "name": "モーモン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": null
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": {
+          "tribeCheckedV145": {
+            "result": "なし",
+            "source": "official DB page + card image bottom visual check",
+            "dbPage": "https://gameconductor.com/dqrivals/c/d/36",
+            "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_36.jpg",
+            "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+          }
+        }
+      },
+      "source": {
+        "name": "モーモン",
+        "dbPage": "https://gameconductor.com/dqrivals/c/d/36",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_36.jpg",
+        "result": "なし",
+        "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+      }
+    },
+    {
+      "id": "card_dd2f4cdc",
+      "name": "おばけヒトデ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": null
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": {
+          "tribeCheckedV145": {
+            "result": "なし",
+            "source": "official DB page + card image bottom visual check",
+            "dbPage": "https://gameconductor.com/dqrivals/c/d/37",
+            "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_37.jpg",
+            "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+          }
+        }
+      },
+      "source": {
+        "name": "おばけヒトデ",
+        "dbPage": "https://gameconductor.com/dqrivals/c/d/37",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_37.jpg",
+        "result": "なし",
+        "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+      }
+    },
+    {
+      "id": "card_4d7fa9dd",
+      "name": "おおくちばし",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": null
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": {
+          "tribeCheckedV145": {
+            "result": "なし",
+            "source": "official DB page + card image bottom visual check",
+            "dbPage": "https://gameconductor.com/dqrivals/c/d/38",
+            "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_38.jpg",
+            "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+          }
+        }
+      },
+      "source": {
+        "name": "おおくちばし",
+        "dbPage": "https://gameconductor.com/dqrivals/c/d/38",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_38.jpg",
+        "result": "なし",
+        "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+      }
+    },
+    {
+      "id": "card_521e84df",
+      "name": "ゆめにゅうどう",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": null
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": {
+          "tribeCheckedV145": {
+            "result": "なし",
+            "source": "official DB page + card image bottom visual check",
+            "dbPage": "https://gameconductor.com/dqrivals/c/d/39",
+            "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_39.jpg",
+            "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+          }
+        }
+      },
+      "source": {
+        "name": "ゆめにゅうどう",
+        "dbPage": "https://gameconductor.com/dqrivals/c/d/39",
+        "imageUrl": "https://gameconductor.com/dqrivals/wp-content/uploads/card_img_39.jpg",
+        "result": "なし",
+        "note": "公式DBでユニット確認。カード画像下部に系統表記なし。"
+      }
+    }
+  ],
+  "notFound": [],
+  "unresolved": []
+}

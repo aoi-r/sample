@@ -1,0 +1,27 @@
+{
+  "node_check": "OK",
+  "duplicate_functions": 0,
+  "label": "v136 / buildable 1465 / total 1583",
+  "data_version": "v136_single_tribe_classification",
+  "tribes": [
+    "ゾンビ",
+    "スライム",
+    "ドラゴン",
+    "冒険者",
+    "魔王",
+    "なし"
+  ],
+  "counts": {
+    "スライム": 81,
+    "ゾンビ": 97,
+    "なし": 697,
+    "ドラゴン": 87,
+    "魔王": 57,
+    "冒険者": 92
+  },
+  "unit_count": 1111,
+  "multiple_or_invalid_tribe_units": 0,
+  "unresolved_count": 0,
+  "changed_from_v135": 20,
+  "js_uses_single_tribe": true
+}

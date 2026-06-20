@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.1.0",
   "type": "dqr.strategies",
-  "note": "「さくせん」10種類の候補効果を組み込み済み。カード側は strategy_pool_default を参照し、使用時にランダム3択から1つ選んで対象ユニットへ付与する。",
+  "note": "v169: さくせん10種に画像を組み込み。通常はランダム3択から1つ選択。全部発動条件では3択の上に「すべての効果を得る」ラベルを表示し、ラベルまたはカードタップで3効果すべてを付与する。",
   "pools": {
     "default": {
       "id": "strategy_pool_default",
@@ -14,6 +14,7 @@
           "name": "ガンガンいこうぜ",
           "displayText": "攻撃力+2",
           "effectText": "このユニットの攻撃力を+2する",
+          "imagePath": "assets/strategy_cards/gangan_ikouze.png",
           "effect": {
             "type": "buff",
             "target": "self",
@@ -27,6 +28,7 @@
           "name": "いのちだいじに",
           "displayText": "HP+2",
           "effectText": "このユニットのHPを+2する",
+          "imagePath": "assets/strategy_cards/inochi_daijini.png",
           "effect": {
             "type": "buff",
             "target": "self",
@@ -40,6 +42,7 @@
           "name": "バッチリがんばれ",
           "displayText": "攻撃力+1/HP+1",
           "effectText": "このユニットの攻撃力とHPを+1する",
+          "imagePath": "assets/strategy_cards/batchiri_ganbare.png",
           "effect": {
             "type": "buff",
             "target": "self",
@@ -49,10 +52,11 @@
           }
         },
         {
-          "id": "strategy_kokode_mattete",
-          "name": "ここでまってて",
+          "id": "strategy_kokode_mamotte",
+          "name": "ここでまもって",
           "displayText": "におうだち",
           "effectText": "このユニットに におうだち を付与する",
+          "imagePath": "assets/strategy_cards/kokode_mamotte.png",
           "effect": {
             "type": "grantKeyword",
             "target": "self",
@@ -66,6 +70,7 @@
           "name": "かってにしてね",
           "displayText": "特技ダメージを受けない",
           "effectText": "このユニットは特技ダメージを受けない",
+          "imagePath": "assets/strategy_cards/katteni_shitene.png",
           "effect": {
             "type": "grantImmunity",
             "target": "self",
@@ -78,6 +83,7 @@
           "name": "とにかくにげて",
           "displayText": "攻撃力-1/HP+3",
           "effectText": "このユニットの攻撃力を-1し、HPを+3する",
+          "imagePath": "assets/strategy_cards/tonikaku_nigete.png",
           "effect": {
             "type": "buff",
             "target": "self",
@@ -91,6 +97,7 @@
           "name": "せんりょくうばえ",
           "displayText": "このユニットに戦闘ダメージを与えたユニットは死亡する",
           "effectText": "このユニットに戦闘ダメージを与えたユニットを死亡させる",
+          "imagePath": "assets/strategy_cards/senryoku_ubae.png",
           "effect": {
             "type": "grantTriggeredAbility",
             "target": "self",
@@ -107,6 +114,7 @@
           "name": "テンションためろ",
           "displayText": "死亡時：テンション+1",
           "effectText": "このユニットの死亡時、味方リーダーのテンションを+1する",
+          "imagePath": "assets/strategy_cards/tension_tamero.png",
           "effect": {
             "type": "grantDeathrattle",
             "target": "self",
@@ -123,6 +131,7 @@
           "name": "サポートたのむぞ",
           "displayText": "死亡時：カードを1枚引く",
           "effectText": "このユニットの死亡時、カードを1枚引く",
+          "imagePath": "assets/strategy_cards/support_tanomuzo.png",
           "effect": {
             "type": "grantDeathrattle",
             "target": "self",
@@ -135,10 +144,11 @@
           }
         },
         {
-          "id": "strategy_leader_wo_kaifuku",
-          "name": "リーダーをかいふく！",
+          "id": "strategy_leader_wo_kaifukushiro",
+          "name": "リーダーをかいふくしろ",
           "displayText": "死亡時：味方リーダーのHPを3回復",
           "effectText": "このユニットの死亡時、味方リーダーのHPを3回復する",
+          "imagePath": "assets/strategy_cards/leader_wo_kaifukushiro.png",
           "effect": {
             "type": "grantDeathrattle",
             "target": "self",

@@ -1,0 +1,12 @@
+{
+  "version": "v164_shinryu_wishes_and_default_deck_adjustments",
+  "base": "v163_zekkocho_self_condition_fix",
+  "changes": [
+    "戦士デッキ：メルビン2枚削除、わたぼう1枚追加（31→30）",
+    "魔剣士デッキ：デスタムーア削除、れんごくちょう1枚維持（29→28）",
+    "しんりゅう：4願い選択 / 超必中時全実行",
+    "願い事トークン4枚のcardTypeをトークンに正規化"
+  ],
+  "nodeCheck": "OK",
+  "duplicateFunctionDeclarations": 0
+}

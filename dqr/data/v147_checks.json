@@ -1,0 +1,20 @@
+{
+  "node_check": "OK",
+  "duplicate_functions": 0,
+  "duplicate_function_names": {},
+  "label": "v147 / buildable 1460 / total 1583",
+  "data_version": "v147_ocr_tribe_batch480_499",
+  "base": "v145_official_image_batch2_checked",
+  "applied_count": 38,
+  "changed_count": 4,
+  "remaining_candidates": 585,
+  "tribe_counts": {
+    "スライム": 80,
+    "ゾンビ": 100,
+    "なし": 676,
+    "ドラゴン": 88,
+    "冒険者": 94,
+    "魔王": 54
+  },
+  "user_check_needed": []
+}

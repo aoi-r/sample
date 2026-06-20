@@ -1,0 +1,110 @@
+{
+  "version": "v143",
+  "notes": "公式DB直リンクがある残り「なし」候補のうち、最初の画像確認バッチ。画像下部に系統表記が見えないものは result=なし のまま維持。画像取得/クリック不安定なものは未確定へ回した。",
+  "checkedCount": 10,
+  "checkedAsNone": [
+    {
+      "name": "ファーラット",
+      "officialDbPage": "https://gameconductor.com/dqrivals/c/d/5",
+      "image": "card_img_5.jpg",
+      "result": "なし",
+      "note": "カード画像下部に系統表記なし。"
+    },
+    {
+      "name": "いっかくうさぎ",
+      "officialDbPage": "https://gameconductor.com/dqrivals/c/d/6",
+      "image": "card_img_6.jpg",
+      "result": "なし",
+      "note": "カード画像下部に系統表記なし。"
+    },
+    {
+      "name": "シールドこぞう",
+      "officialDbPage": "https://gameconductor.com/dqrivals/c/d/7",
+      "image": "card_img_7.jpg",
+      "result": "なし",
+      "note": "カード画像下部に系統表記なし。"
+    },
+    {
+      "name": "バードファイター",
+      "officialDbPage": "https://gameconductor.com/dqrivals/c/d/10",
+      "image": "card_img_10.jpg",
+      "result": "なし",
+      "note": "カード画像下部に系統表記なし。"
+    },
+    {
+      "name": "リビングスタチュー",
+      "officialDbPage": "https://gameconductor.com/dqrivals/c/d/11",
+      "image": "card_img_11.jpg",
+      "result": "なし",
+      "note": "カード画像下部に系統表記なし。"
+    },
+    {
+      "name": "ストーンマン",
+      "officialDbPage": "https://gameconductor.com/dqrivals/c/d/13",
+      "image": "card_img_13.jpg",
+      "result": "なし",
+      "note": "DBはユニット情報のみ。画像下部に系統表記なし。"
+    },
+    {
+      "name": "バアルゼブブ",
+      "officialDbPage": "https://gameconductor.com/dqrivals/c/d/14",
+      "image": "card_img_14.jpg",
+      "result": "なし",
+      "note": "DBはユニット情報のみ。画像下部に系統表記なし。"
+    },
+    {
+      "name": "ぐんたいガニ",
+      "officialDbPage": "https://gameconductor.com/dqrivals/c/d/24",
+      "image": "card_img_24.jpg",
+      "result": "なし",
+      "note": "DBはユニット情報のみ。画像下部に系統表記なし。"
+    },
+    {
+      "name": "キラーパンサー",
+      "officialDbPage": "https://gameconductor.com/dqrivals/c/d/26",
+      "image": "card_img_26.jpg",
+      "result": "なし",
+      "note": "DBはユニット情報のみ。画像下部に系統表記なし。"
+    },
+    {
+      "name": "プリーストナイト",
+      "officialDbPage": "https://gameconductor.com/dqrivals/c/d/27",
+      "image": "card_img_27.jpg",
+      "result": "なし",
+      "note": "DBはユニット情報のみ。画像下部に系統表記なし。"
+    }
+  ],
+  "notCompletedCount": 6,
+  "notCompleted": [
+    {
+      "name": "キラーアーマー",
+      "officialDbPage": "https://gameconductor.com/dqrivals/c/d/15",
+      "issue": "DBページは取得可。画像クリックが一度タイムアウトしたため未確定。"
+    },
+    {
+      "name": "わらいぶくろ",
+      "officialDbPage": "https://gameconductor.com/dqrivals/c/d/20",
+      "issue": "DBページ取得のみ。画像下部未確認。"
+    },
+    {
+      "name": "なげきムーン",
+      "officialDbPage": "https://gameconductor.com/dqrivals/c/d/22",
+      "issue": "未確認。"
+    },
+    {
+      "name": "ツンドラキー",
+      "officialDbPage": "https://gameconductor.com/dqrivals/c/d/23",
+      "issue": "未確認。"
+    },
+    {
+      "name": "シールドオーガ",
+      "officialDbPage": "https://gameconductor.com/dqrivals/c/d/28",
+      "issue": "DBページ取得可。画像クリック先が別ページに飛んだため画像下部未確定。"
+    },
+    {
+      "name": "レッドアーチャー",
+      "officialDbPage": "https://gameconductor.com/dqrivals/c/d/30",
+      "issue": "未確認。"
+    }
+  ]
+}

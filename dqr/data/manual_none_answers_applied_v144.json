@@ -1,0 +1,165 @@
+{
+  "version": "v144",
+  "notes": "v143で画像取得/クリック不安定として未確定にした6件を、ユーザー回答により「なし」として確定。",
+  "appliedCount": 6,
+  "notFoundCount": 0,
+  "applied": [
+    {
+      "id": "card_0996b970",
+      "name": "キラーアーマー",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": null
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": {
+          "tribeCheckedV144": {
+            "result": "なし",
+            "source": "user manual answer after v143 not-completed list",
+            "note": "v143で画像/クリック不安定として未確定にしたものをユーザー回答で確定。"
+          }
+        }
+      }
+    },
+    {
+      "id": "card_08f55531",
+      "name": "わらいぶくろ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": null
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": {
+          "tribeCheckedV144": {
+            "result": "なし",
+            "source": "user manual answer after v143 not-completed list",
+            "note": "v143で画像/クリック不安定として未確定にしたものをユーザー回答で確定。"
+          }
+        }
+      }
+    },
+    {
+      "id": "card_48ea99fd",
+      "name": "なげきムーン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": null
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": {
+          "tribeCheckedV144": {
+            "result": "なし",
+            "source": "user manual answer after v143 not-completed list",
+            "note": "v143で画像/クリック不安定として未確定にしたものをユーザー回答で確定。"
+          }
+        }
+      }
+    },
+    {
+      "id": "card_d5baebad",
+      "name": "ツンドラキー",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": null
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": {
+          "tribeCheckedV144": {
+            "result": "なし",
+            "source": "user manual answer after v143 not-completed list",
+            "note": "v143で画像/クリック不安定として未確定にしたものをユーザー回答で確定。"
+          }
+        }
+      }
+    },
+    {
+      "id": "card_83cf917e",
+      "name": "シールドオーガ",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": null
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": {
+          "tribeCheckedV144": {
+            "result": "なし",
+            "source": "user manual answer after v143 not-completed list",
+            "note": "v143で画像/クリック不安定として未確定にしたものをユーザー回答で確定。"
+          }
+        }
+      }
+    },
+    {
+      "id": "card_56b8d468",
+      "name": "レッドアーチャー",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": null
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "なし",
+        "tribes": [
+          "なし"
+        ],
+        "audit": {
+          "tribeCheckedV144": {
+            "result": "なし",
+            "source": "user manual answer after v143 not-completed list",
+            "note": "v143で画像/クリック不安定として未確定にしたものをユーザー回答で確定。"
+          }
+        }
+      }
+    }
+  ],
+  "notFound": []
+}

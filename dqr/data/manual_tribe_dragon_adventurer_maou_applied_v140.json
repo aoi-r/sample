@@ -1,0 +1,3663 @@
+{
+  "version": "v140",
+  "dragonInputCount": 73,
+  "adventurerInputCount": 80,
+  "maouInputCount": 36,
+  "appliedCount": 191,
+  "notFoundCount": 0,
+  "conflictCount": 4,
+  "applied": [
+    {
+      "id": "card_85b5c424",
+      "name": "リザードマン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_d02ff3e5",
+      "name": "りゅうき兵",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_3ced797c",
+      "name": "テラノライナー",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_9f518d14",
+      "name": "おにこんぼう",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_7902521c",
+      "name": "アックスドラゴン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_833eefb3",
+      "name": "メラリザード",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_1d7c1c73",
+      "name": "ダッシュラン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_7786b90f",
+      "name": "フェアリードラゴン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_34442b7d",
+      "name": "ガメゴン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_03d5f244",
+      "name": "ドラゴンキッズ",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_93e4c47b",
+      "name": "バトルレックス",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_6dc91dab",
+      "name": "ドラゴンゾンビ",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_fede32d5",
+      "name": "グレイトドラゴン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_7e4b289c",
+      "name": "キングリザード",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_ba8c67df",
+      "name": "ドラゴン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_36833618",
+      "name": "ドラゴンガイア",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_aa5be628",
+      "name": "やまたのおろち",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_52550e55",
+      "name": "ドラゴンソルジャー",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_ce06208f",
+      "name": "リトルライバーン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_cda1124f",
+      "name": "デンデン竜",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_e79b30dc",
+      "name": "樹氷の竜",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_5bc58e98",
+      "name": "リザードフライ",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_b5d334a0",
+      "name": "フォレストドラゴ",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_a9db5132",
+      "name": "ブラックドラゴン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_b172caa3",
+      "name": "バルンバ",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_33de804a",
+      "name": "しんりゅう",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_90ca23a3",
+      "name": "コドラ",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_8a601bff",
+      "name": "ドラゴンバゲージ",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_88da197d",
+      "name": "たつのこナイト",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_a6ad5317",
+      "name": "グレイナル",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_3c6824ea",
+      "name": "レジェンドウルフ",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_f8b33ead",
+      "name": "いっかく竜",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_2331f997",
+      "name": "キースドラゴン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_b9db6020",
+      "name": "エステラ・竜化の術",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_e317fe90",
+      "name": "マーニャ：ドラゴラム",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_c0493533",
+      "name": "竜王",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_6de32cec",
+      "name": "アンドレアル",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_dd8ac3ff",
+      "name": "ドラゴンロード",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_9c78e919",
+      "name": "グリーンドラゴン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_4b5a73f5",
+      "name": "ダースドラゴン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_722f7f5b",
+      "name": "いばらドラゴン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_d1581a32",
+      "name": "はしりとかげ",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_194a2d14",
+      "name": "ドラゴンヘビー",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_c4b0f476",
+      "name": "スカイドラゴン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_6446e1d9",
+      "name": "メイジバピラス",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_5b8941e3",
+      "name": "ベビーニュート",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_6ad49a58",
+      "name": "ギガデーモン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_41be5300",
+      "name": "ベビーサラマンダ",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_0ba93ecf",
+      "name": "サラマンダー",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_63b92c04",
+      "name": "まかいファイター",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_dca6b7ae",
+      "name": "アルゴリザード",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_6dba4ebc",
+      "name": "ワイバーンドッグ",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_b9e60809",
+      "name": "シュプリンガー",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_2eab1cc2",
+      "name": "ドランゴ",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_219aca1f",
+      "name": "怪獣プスゴン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_51d3e2e1",
+      "name": "イブール",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_26b61b11",
+      "name": "フーセンドラゴン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_1ff5c427",
+      "name": "立ち塞がるドラゴン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_73908ee8",
+      "name": "パピラス",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_ba0cd0b2",
+      "name": "アルゴングレート",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_320e0f79",
+      "name": "りゅうはかせ",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_d01f9f56",
+      "name": "テラノザース",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_2fb626d9",
+      "name": "りゅうせんし",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_1d5a8a96",
+      "name": "ゴールデンドラゴン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_3635d3c2",
+      "name": "オリハルゴン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_368e23b7",
+      "name": "デンタザウルス",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_fc9b7c6f",
+      "name": "ヘルジュラシック",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_306ee133",
+      "name": "スノードラゴン",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_eecd1072",
+      "name": "竜将ドラゴンガイア",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_29dd2f9d",
+      "name": "イエローファット",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_4ab6f01f",
+      "name": "ガメゴンレジェンド",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_b1863a12",
+      "name": "ドラゴビショップ",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_00c46baf",
+      "name": "怪竜やまたのおろち",
+      "appliedTribe": "ドラゴン",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      }
+    },
+    {
+      "id": "card_21f64a28",
+      "name": "ヒューザ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_0e6ffe6c",
+      "name": "カミュ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_80caa95f",
+      "name": "アンルシア",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_ee31da4a",
+      "name": "ラヴィエル",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_4fffad50",
+      "name": "ガボ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_595112e0",
+      "name": "マルティナ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_67086dac",
+      "name": "パパス",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_8673e5d1",
+      "name": "マリベル",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_39dc8feb",
+      "name": "ハッサン",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_445bf658",
+      "name": "クリフト",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_6dbafc11",
+      "name": "リッカ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_6e786fdd",
+      "name": "ミレーユ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_a79887e5",
+      "name": "フローラ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_0ef7493c",
+      "name": "デボラ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_60c1c0de",
+      "name": "ビアンカ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_879047ed",
+      "name": "モリー",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_6d430078",
+      "name": "ベロニカ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_c690525a",
+      "name": "トロデ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_d0ce7a52",
+      "name": "シルビア",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_a280038d",
+      "name": "ロウ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_0c785b70",
+      "name": "セーニャ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_f24d46ee",
+      "name": "グレイグ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_79a86f7b",
+      "name": "マーニャ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_379e1e2e",
+      "name": "バーバラ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_6e62f271",
+      "name": "キーファ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_5e20f19b",
+      "name": "サンディ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_aa235f4f",
+      "name": "マイユ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_551e596f",
+      "name": "エステラ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "ドラゴン",
+        "tribes": [
+          "ドラゴン"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_ea23bc07",
+      "name": "ライアン",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_868656b8",
+      "name": "ゲルダ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_6d7a2f86",
+      "name": "ルイーダ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_7d7bd537",
+      "name": "チャモロ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_1b3e9672",
+      "name": "クロウズ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_bf520fa8",
+      "name": "フォズ大神官",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_67400681",
+      "name": "少年テリー",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_12382095",
+      "name": "ザンクローネ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_57083be9",
+      "name": "妖精ベラ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_f33b0a12",
+      "name": "少年ヤンガス",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_6fcffda8",
+      "name": "リゼロッタ&ルコリア",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_f469314b",
+      "name": "ネネ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_7cee0686",
+      "name": "サンチョ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_7af39ca8",
+      "name": "ブライ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_de6fe436",
+      "name": "神官クリフト",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_aec8d6e1",
+      "name": "ヤンガス",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_b9560247",
+      "name": "ロクサーヌ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_ab91f8ac",
+      "name": "ラグアス王子",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_0a952d0b",
+      "name": "ルドマン",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_57348016",
+      "name": "チャゴス王子",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_71e6a494",
+      "name": "アイラ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_d8cdcd29",
+      "name": "賢者ルシェンダ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_1e988827",
+      "name": "ファーリス王子",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_c2dc31b2",
+      "name": "最後の砦の英雄グレイグ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_3d3c089b",
+      "name": "天才魔法使いベロニカ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_772275ee",
+      "name": "魅惑のマルティナ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_d1e8df66",
+      "name": "ニマ大師",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_c590982e",
+      "name": "決意の聖賢セーニャ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_aba0da7d",
+      "name": "シャール",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_5a752ec8",
+      "name": "亡国の先王ロウ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_6e5bff74",
+      "name": "セレン",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_19337e0c",
+      "name": "エマ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_06995365",
+      "name": "笑顔の伝道師シルビア",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_4cdc93e8",
+      "name": "マヤ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_030acd13",
+      "name": "イザヤール",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_0361945e",
+      "name": "メルビン",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_9b4f1346",
+      "name": "マミムメモリー",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_0e16006a",
+      "name": "運命の天使ラヴィエル",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_3b440865",
+      "name": "フウラ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_a9a6394f",
+      "name": "怪盗ポイックリン",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_3f6c516e",
+      "name": "アモス",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_325449f2",
+      "name": "流浪のヒューザ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_cc8dc473",
+      "name": "大魔女バーバラ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_0b92ff96",
+      "name": "大工の息子ハッサン",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_60e5b640",
+      "name": "メダル王女",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "スライム",
+        "tribes": [
+          "スライム"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_c45094d3",
+      "name": "ヘンリー",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_42052164",
+      "name": "フォステイル",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_1d03f208",
+      "name": "女盗賊ゲルダ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_548f8912",
+      "name": "ローシュ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_006d555f",
+      "name": "高潔な王パパス",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_839c7fe2",
+      "name": "セニカ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_c8b09830",
+      "name": "妖精サンディ",
+      "appliedTribe": "冒険者",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "冒険者",
+        "tribes": [
+          "冒険者"
+        ]
+      }
+    },
+    {
+      "id": "card_9a345999",
+      "name": "エスターク",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_1876b15e",
+      "name": "ハーゴン",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_74b5ecf8",
+      "name": "りゅうおう",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_494e86cf",
+      "name": "バラモス",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_da6452c0",
+      "name": "グラコス",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_22190279",
+      "name": "シドー",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_c30bd47a",
+      "name": "ゾーマ",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_911b72aa",
+      "name": "ゼルドラド",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_97d236ef",
+      "name": "ネルゲル",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_0b6eeb6e",
+      "name": "デュラン",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_10a989d5",
+      "name": "ジャミラス",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_cdf700cb",
+      "name": "デスタムーア",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_11d4585d",
+      "name": "ダークドレアム",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_63714a60",
+      "name": "魔道士ウルノーガ",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_9165abcd",
+      "name": "オルゴ・デミーラ",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_58e57516",
+      "name": "オルゴ・デミーラ：第2形態",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "token_orgodemira_2",
+      "name": "オルゴ・デミーラ：第2形態",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_a707a36b",
+      "name": "オルゴ・デミーラ：第3形態",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "token_orgodemira_3",
+      "name": "オルゴ・デミーラ：第3形態",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "token_orgodemira_4",
+      "name": "オルゴ・デミーラ第4形態",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_171a4bec",
+      "name": "ミルドラース",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_a72d97d7",
+      "name": "プチターク",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_a6daa25f",
+      "name": "ラプソーン",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_5ad987c6",
+      "name": "邪神官ハーゴン",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_e8c86029",
+      "name": "ムドー",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_8f583e5f",
+      "name": "破壊神シドー",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_3c04a559",
+      "name": "エビルプリースト",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_816c4ec0",
+      "name": "魔性の道化師ドルマゲス",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_756b0f38",
+      "name": "悪の化身りゅうおう",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_178ebf05",
+      "name": "全てを滅ぼす者ゾーマ",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_680ca5ed",
+      "name": "魔王バラモス",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_20e15c48",
+      "name": "マデサゴーラ",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_3a6eb611",
+      "name": "ウルノーガ&ウルナーガ",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_3331b78b",
+      "name": "ニズゼルファ",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_1f0ddb6c",
+      "name": "エルギオス",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_94068a9a",
+      "name": "アクバー",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_838b4cd5",
+      "name": "魔元帥ゼルドラド",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    },
+    {
+      "id": "card_d4a16563",
+      "name": "魔王グラコス",
+      "appliedTribe": "魔王",
+      "before": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      },
+      "after": {
+        "cardType": "ユニット",
+        "tribe": "魔王",
+        "tribes": [
+          "魔王"
+        ]
+      }
+    }
+  ],
+  "notFound": [],
+  "conflicts": [
+    {
+      "name": "マーニャ：ドラゴラム",
+      "oldTribe": "冒険者",
+      "newTribe": "ドラゴン"
+    },
+    {
+      "name": "竜王",
+      "oldTribe": "魔王",
+      "newTribe": "ドラゴン"
+    },
+    {
+      "name": "エステラ",
+      "oldTribe": "ドラゴン",
+      "newTribe": "冒険者"
+    },
+    {
+      "name": "メダル王女",
+      "oldTribe": "スライム",
+      "newTribe": "冒険者"
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "version": "v160_romanized_asset_filenames",
+  "base": "v158_visible_stat_cost_modifiers + v159 filename cleanup attempt",
+  "reason": "Use readable, short, lowercase ASCII romaji filenames for generated/local card images and remove mojibake audit data.",
+  "rule": "File names under assets/custom_cards are romaji-style lowercase ASCII with underscores only.",
+  "files": [
+    {
+      "display_name": "あらぶる光の世界",
+      "filename": "araburu_hikari_no_sekai.png",
+      "path": "assets/custom_cards/araburu_hikari_no_sekai.png"
+    },
+    {
+      "display_name": "ダーマの神殿",
+      "filename": "daama_no_shinden.png",
+      "path": "assets/custom_cards/daama_no_shinden.png"
+    },
+    {
+      "display_name": "ダーマの神殿へ",
+      "filename": "daama_no_shinden_e.png",
+      "path": "assets/custom_cards/daama_no_shinden_e.png"
+    },
+    {
+      "display_name": "大魔王の間",
+      "filename": "daimaou_no_ma.png",
+      "path": "assets/custom_cards/daimaou_no_ma.png"
+    },
+    {
+      "display_name": "出会いと別れの酒場",
+      "filename": "deai_to_wakare_no_sakaba.png",
+      "path": "assets/custom_cards/deai_to_wakare_no_sakaba.png"
+    },
+    {
+      "display_name": "伝説の勇者_ダーマ神殿",
+      "filename": "densetsu_no_yuusha_daama_shinden.png",
+      "path": "assets/custom_cards/densetsu_no_yuusha_daama_shinden.png"
+    },
+    {
+      "display_name": "伝説の勇者_デッキ編成カード",
+      "filename": "densetsu_no_yuusha_deck_card.png",
+      "path": "assets/custom_cards/densetsu_no_yuusha_deck_card.png"
+    },
+    {
+      "display_name": "伝説の勇者_lv1",
+      "filename": "densetsu_no_yuusha_lv1.png",
+      "path": "assets/custom_cards/densetsu_no_yuusha_lv1.png"
+    },
+    {
+      "display_name": "伝説の勇者_lv2",
+      "filename": "densetsu_no_yuusha_lv2.png",
+      "path": "assets/custom_cards/densetsu_no_yuusha_lv2.png"
+    },
+    {
+      "display_name": "伝説の勇者_lv3",
+      "filename": "densetsu_no_yuusha_lv3.png",
+      "path": "assets/custom_cards/densetsu_no_yuusha_lv3.png"
+    },
+    {
+      "display_name": "伝説の勇者_lv4",
+      "filename": "densetsu_no_yuusha_lv4.png",
+      "path": "assets/custom_cards/densetsu_no_yuusha_lv4.png"
+    },
+    {
+      "display_name": "放たれし大地のじごく",
+      "filename": "hanatareshi_daichi_no_jigoku.png",
+      "path": "assets/custom_cards/hanatareshi_daichi_no_jigoku.png"
+    },
+    {
+      "display_name": "イブールの本",
+      "filename": "iburu_no_hon.png",
+      "path": "assets/custom_cards/iburu_no_hon.png"
+    },
+    {
+      "display_name": "イチゴ爆弾",
+      "filename": "ichigo_bakudan.png",
+      "path": "assets/custom_cards/ichigo_bakudan.png"
+    },
+    {
+      "display_name": "いつか見た光景",
+      "filename": "itsuka_mita_koukei.png",
+      "path": "assets/custom_cards/itsuka_mita_koukei.png"
+    },
+    {
+      "display_name": "魔王討伐",
+      "filename": "maou_toubatsu.png",
+      "path": "assets/custom_cards/maou_toubatsu.png"
+    },
+    {
+      "display_name": "見えざる魔神の道",
+      "filename": "miezaru_majin_no_michi.png",
+      "path": "assets/custom_cards/miezaru_majin_no_michi.png"
+    },
+    {
+      "display_name": "未来を信じて",
+      "filename": "mirai_wo_shinjite.png",
+      "path": "assets/custom_cards/mirai_wo_shinjite.png"
+    },
+    {
+      "display_name": "残された神々の水脈",
+      "filename": "nokosareta_kamigami_no_suimyaku.png",
+      "path": "assets/custom_cards/nokosareta_kamigami_no_suimyaku.png"
+    },
+    {
+      "display_name": "呪われし魂の氷河",
+      "filename": "norowareshi_tamashii_no_hyouga.png",
+      "path": "assets/custom_cards/norowareshi_tamashii_no_hyouga.png"
+    },
+    {
+      "display_name": "レック_デッキ編成カード",
+      "filename": "rekku_deck_card.png",
+      "path": "assets/custom_cards/rekku_deck_card.png"
+    },
+    {
+      "display_name": "レック_lv1",
+      "filename": "rekku_lv1.png",
+      "path": "assets/custom_cards/rekku_lv1.png"
+    },
+    {
+      "display_name": "レック_lv2",
+      "filename": "rekku_lv2.png",
+      "path": "assets/custom_cards/rekku_lv2.png"
+    },
+    {
+      "display_name": "レック_lv3",
+      "filename": "rekku_lv3.png",
+      "path": "assets/custom_cards/rekku_lv3.png"
+    },
+    {
+      "display_name": "そして伝説へ",
+      "filename": "soshite_densetsu_e.png",
+      "path": "assets/custom_cards/soshite_densetsu_e.png"
+    },
+    {
+      "display_name": "宝の地図",
+      "filename": "takara_no_chizu.png",
+      "path": "assets/custom_cards/takara_no_chizu.png"
+    },
+    {
+      "display_name": "うす暗き獣の洞くつ",
+      "filename": "usuguraki_kemono_no_doukutsu.png",
+      "path": "assets/custom_cards/usuguraki_kemono_no_doukutsu.png"
+    },
+    {
+      "display_name": "呼び覚まされし記憶",
+      "filename": "yobisamasareshi_kioku.png",
+      "path": "assets/custom_cards/yobisamasareshi_kioku.png"
+    },
+    {
+      "display_name": "勇者レック_デッキ編成カード",
+      "filename": "yuusha_rekku_deck_card.png",
+      "path": "assets/custom_cards/yuusha_rekku_deck_card.png"
+    },
+    {
+      "display_name": "ざわめく風の坑道",
+      "filename": "zawameku_kaze_no_koudou.png",
+      "path": "assets/custom_cards/zawameku_kaze_no_koudou.png"
+    }
+  ]
+}
