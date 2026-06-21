@@ -7021,61 +7021,172 @@
 }
 
 
-/* v176: replace battle leader orb with class image */
+/* v176: replace old blue leader orb with class icon image */
+.battle-arena .leader.player-leader,
+.battle-arena .leader.enemy-leader,
 .battle-arena .player-leader,
 .battle-arena .enemy-leader{
   background:transparent !important;
   border:0 !important;
   box-shadow:none !important;
+  overflow:visible !important;
 }
-.battle-arena .player-leader span,
-.battle-arena .enemy-leader span{
+
+.battle-arena .player-leader .battle-side-identity,
+.battle-arena .enemy-leader .battle-side-identity{
+  width:76px !important;
+  height:96px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:3px !important;
+  padding:0 !important;
   background:transparent !important;
   border:0 !important;
+  box-shadow:none !important;
+  pointer-events:none !important;
+}
+
+/* Cancel old `.player-leader span` / `.enemy-leader span` blue-circle rules */
+.battle-arena .player-leader .battle-side-identity span,
+.battle-arena .enemy-leader .battle-side-identity span,
+.battle-arena .player-leader .battle-side-meta span,
+.battle-arena .enemy-leader .battle-side-meta span{
   width:auto !important;
   height:auto !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  max-width:74px !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  display:block !important;
+  color:#eaf2ff !important;
+  font-size:9px !important;
+  line-height:1.05 !important;
+  text-align:center !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  text-shadow:0 1px 3px rgba(0,0,0,.75) !important;
 }
-.battle-side-identity{
-  gap:5px;
-  padding:0 0 2px;
+
+.battle-arena .player-leader .battle-side-class-icon,
+.battle-arena .enemy-leader .battle-side-class-icon{
+  width:60px !important;
+  height:60px !important;
+  object-fit:contain !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  filter:drop-shadow(0 5px 8px rgba(0,0,0,.48)) !important;
+  display:block !important;
+  flex:0 0 auto !important;
 }
-.battle-leader-face{
-  display:block;
-  width:62px;
-  height:62px;
-  border-radius:18px;
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-  border:2px solid rgba(255,255,255,.34);
-  box-shadow:0 6px 16px rgba(0,0,0,.42), inset 0 0 0 1px rgba(255,255,255,.14);
-  background-color:rgba(16,26,44,.55);
+
+.battle-arena .player-leader .battle-side-class-fallback,
+.battle-arena .enemy-leader .battle-side-class-fallback{
+  width:56px !important;
+  height:56px !important;
+  min-width:56px !important;
+  min-height:56px !important;
+  border-radius:12px !important;
+  background:rgba(8,18,34,.68) !important;
+  border:1px solid rgba(255,255,255,.28) !important;
+  box-shadow:0 4px 10px rgba(0,0,0,.34) !important;
+  color:#f6db75 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  font-size:12px !important;
+  font-weight:900 !important;
 }
-.battle-leader-caption{
-  display:block;
-  max-width:72px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-  color:#fff;
-  font-size:10px;
-  font-weight:900;
-  line-height:1.05;
-  text-shadow:0 1px 3px rgba(0,0,0,.62);
+
+.battle-arena .player-leader .battle-side-meta,
+.battle-arena .enemy-leader .battle-side-meta{
+  width:76px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  gap:1px !important;
+  pointer-events:none !important;
 }
-.battle-side-meta,
-.battle-side-hero-strip,
-.battle-side-class-icon{
-  display:none !important;
+
+.battle-arena .player-leader .battle-side-meta strong,
+.battle-arena .enemy-leader .battle-side-meta strong{
+  width:auto !important;
+  height:auto !important;
+  max-width:76px !important;
+  padding:0 !important;
+  margin:0 !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  color:#fff !important;
+  display:block !important;
+  font-size:11px !important;
+  line-height:1.05 !important;
+  font-weight:900 !important;
+  text-align:center !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  text-shadow:0 1px 3px rgba(0,0,0,.8) !important;
 }
-@media(max-width:560px){
-  .battle-leader-face{
-    width:56px;
-    height:56px;
-    border-radius:16px;
+
+.battle-arena .player-leader .battle-side-hero-strip,
+.battle-arena .enemy-leader .battle-side-hero-strip{
+  display:flex !important;
+  gap:2px !important;
+  align-items:center !important;
+  justify-content:center !important;
+  height:22px !important;
+  margin-top:1px !important;
+}
+
+.battle-arena .player-leader .battle-side-hero-card,
+.battle-arena .enemy-leader .battle-side-hero-card{
+  width:16px !important;
+  height:22px !important;
+  object-fit:cover !important;
+  object-position:top center !important;
+  border-radius:3px !important;
+  border:1px solid rgba(255,255,255,.24) !important;
+  background:#142033 !important;
+  box-shadow:0 2px 5px rgba(0,0,0,.32) !important;
+}
+
+.battle-arena .player-leader .leader-weapon-badge,
+.battle-arena .enemy-leader .leader-weapon-badge{
+  z-index:12 !important;
+}
+
+@media(max-width:900px) and (orientation:landscape){
+  .battle-arena .player-leader .battle-side-class-icon,
+  .battle-arena .enemy-leader .battle-side-class-icon{
+    width:52px !important;
+    height:52px !important;
   }
-  .battle-leader-caption{
-    max-width:64px;
-    font-size:9px;
+  .battle-arena .player-leader .battle-side-identity,
+  .battle-arena .enemy-leader .battle-side-identity{
+    width:68px !important;
+    height:84px !important;
+  }
+  .battle-arena .player-leader .battle-side-meta strong,
+  .battle-arena .enemy-leader .battle-side-meta strong{
+    max-width:68px !important;
+    font-size:10px !important;
+  }
+  .battle-arena .player-leader .battle-side-identity span,
+  .battle-arena .enemy-leader .battle-side-identity span,
+  .battle-arena .player-leader .battle-side-meta span,
+  .battle-arena .enemy-leader .battle-side-meta span{
+    max-width:68px !important;
+    font-size:8px !important;
   }
 }

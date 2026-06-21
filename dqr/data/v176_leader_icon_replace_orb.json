@@ -1,0 +1,9 @@
+{
+  "version": "v176_leader_icon_replace_orb",
+  "base": "v175_class_icons_and_battle_leaders",
+  "changes": [
+    "対戦中の旧青丸リーダー表示を職業アイコン画像で置き換えるCSS補正",
+    "旧CSSの .player-leader span / .enemy-leader span が内部テキストを青丸化していた問題を上書き",
+    "職業アイコン、職業名、ヒーローサムネイルの配置を leader 内に収めるよう調整"
+  ]
+}

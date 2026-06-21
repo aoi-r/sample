@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v176_battle_leader_icon_replace';
+const DATA_VERSION = 'v176_leader_icon_replace_orb';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -708,13 +708,16 @@ function renderBattleSideHeroStripV175(side='player'){
 function renderBattleLeaderIdentityV175(side='player'){
   const className = getBattleSideClassNameV175(side);
   const classIcon = getClassIconImageV174(className);
+  const roleLabel = side === 'player' ? '自分リーダー' : '敵リーダー';
   const shortLabel = className || (side === 'player' ? '自分' : '相手');
   return `
     <div class="battle-side-identity battle-side-identity-${side}">
-      ${classIcon
-        ? `<span class="battle-leader-face" style="background-image:url('${escapeHtml(classIcon)}')" aria-label="${escapeHtml(shortLabel)}"></span>`
-        : `<span class="battle-leader-face battle-side-class-fallback">${escapeHtml(shortLabel.slice(0,2))}</span>`}
-      <small class="battle-leader-caption">${escapeHtml(shortLabel)}</small>
+      ${classIcon ? `<img class="battle-side-class-icon" src="${escapeHtml(classIcon)}" alt="${escapeHtml(shortLabel)}">` : `<span class="battle-side-class-fallback">${escapeHtml(shortLabel.slice(0,2))}</span>`}
+      <div class="battle-side-meta">
+        <strong>${escapeHtml(shortLabel)}</strong>
+        <span>${escapeHtml(roleLabel)}</span>
+      </div>
+      ${renderBattleSideHeroStripV175(side)}
     </div>`;
 }
 function renderBattleLeaderIdentitiesV175(){
