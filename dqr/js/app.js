@@ -62,7 +62,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v173_taunt_renkei_bloodlady_fix';
+const DATA_VERSION = 'v175_class_icons_and_battle_leaders';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -645,6 +645,89 @@ function getOfficialImage(card){
   return card.official?.imageVerified === true && card.official?.imageUrl ? card.official.imageUrl : '';
 }
 
+const CLASS_ICON_IMAGES_V174 = {
+  '戦士': './assets/player_icons/senshi.png',
+  '魔法使い': './assets/player_icons/mahotsukai.png',
+  '武闘家': './assets/player_icons/butoka.png',
+  '格闘家': './assets/player_icons/butoka.png',
+  '僧侶': './assets/player_icons/souryo.png',
+  '商人': './assets/player_icons/shonin.png',
+  '占い師': './assets/player_icons/uranaishi.png',
+  '魔剣士': './assets/player_icons/makenshi.png',
+  '盗賊': './assets/player_icons/touzoku.png'
+};
+function getClassIconImageV174(className){
+  return CLASS_ICON_IMAGES_V174[String(className || '').trim()] || '';
+}
+function getDeckHeroEntriesV174(deck){
+  return (deck?.cards || [])
+    .map(x => ({...x, card: byId(x.cardId)}))
+    .filter(x => x.card?.cardType === 'ヒーロー');
+}
+function getDeckHeroLabelV174(deck){
+  const names = getDeckHeroEntriesV174(deck).map(x => x.card.name);
+  return names.length ? names.join(' / ') : 'ヒーローなし';
+}
+function renderDeckHeroImagesV174(deck){
+  const heroes = getDeckHeroEntriesV174(deck);
+  if(!heroes.length) return `<span class="battle-deck-no-hero">Heroなし</span>`;
+  return heroes.map(x => {
+    const img = getOfficialImage(x.card);
+    if(img){
+      return `<img class="battle-deck-hero-img" src="${escapeHtml(img)}" alt="${escapeHtml(x.card.name)}" loading="lazy" referrerpolicy="no-referrer">`;
+    }
+    return `<span class="battle-deck-hero-placeholder">${escapeHtml(x.card.name.slice(0,2))}</span>`;
+  }).join('');
+}
+
+function getBattleSideDeckV175(side='player'){
+  if(side === 'player') return state.battle.selectedDeck || null;
+  return state.battle.opponentDeckMeta || null;
+}
+function getBattleSideClassNameV175(side='player'){
+  const game = state.battle.game || {};
+  if(side === 'player') return game.className || state.battle.selectedDeck?.className || '';
+  return game.enemy?.className || state.battle.opponentClassName || state.battle.opponentDeckMeta?.className || '';
+}
+function getBattleSideHeroCardsV175(side='player'){
+  const deck = getBattleSideDeckV175(side);
+  if(!deck) return [];
+  return getDeckHeroEntriesV174(deck).map(x => x.card).filter(Boolean);
+}
+function renderBattleSideHeroStripV175(side='player'){
+  const heroes = getBattleSideHeroCardsV175(side).slice(0, 2);
+  if(!heroes.length) return '';
+  return `<div class="battle-side-hero-strip">${heroes.map(card => {
+    const img = getOfficialImage(card);
+    if(img){
+      return `<img class="battle-side-hero-card" src="${escapeHtml(img)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">`;
+    }
+    return `<span class="battle-side-hero-card battle-side-hero-card--placeholder">${escapeHtml(card.name.slice(0,2))}</span>`;
+  }).join('')}</div>`;
+}
+function renderBattleLeaderIdentityV175(side='player'){
+  const className = getBattleSideClassNameV175(side);
+  const classIcon = getClassIconImageV174(className);
+  const roleLabel = side === 'player' ? '自分リーダー' : '敵リーダー';
+  const shortLabel = className || (side === 'player' ? '自分' : '相手');
+  return `
+    <div class="battle-side-identity battle-side-identity-${side}">
+      ${classIcon ? `<img class="battle-side-class-icon" src="${escapeHtml(classIcon)}" alt="${escapeHtml(shortLabel)}">` : `<span class="battle-side-class-fallback">${escapeHtml(shortLabel.slice(0,2))}</span>`}
+      <div class="battle-side-meta">
+        <strong>${escapeHtml(shortLabel)}</strong>
+        <span>${escapeHtml(roleLabel)}</span>
+      </div>
+      ${renderBattleSideHeroStripV175(side)}
+    </div>`;
+}
+function renderBattleLeaderIdentitiesV175(){
+  const playerLeader = document.querySelector('.player-leader');
+  const enemyLeader = document.querySelector('.enemy-leader');
+  if(playerLeader) playerLeader.innerHTML = renderBattleLeaderIdentityV175('player');
+  if(enemyLeader) enemyLeader.innerHTML = renderBattleLeaderIdentityV175('enemy');
+}
+
+
 function renderCards(){
   const grid = $('card-grid'); grid.innerHTML = '';
   if(!state.selectedClass){ $('card-count-label').textContent = 'まず職業を選択してください。'; return; }
@@ -1017,8 +1100,20 @@ function renderBattleDeckList(){
   for(const [id, deck] of entries){
     const row = document.createElement('button');
     row.className = `battle-deck-card ${state.battle.selectedDeckId === id ? 'selected' : ''}`;
-    const hero = (deck.cards || []).map(x => byId(x.cardId)).filter(c => c?.cardType === 'ヒーロー').map(c => c.name).join(' / ') || 'ヒーローなし';
-    row.innerHTML = `<strong>${escapeHtml(deck.deckName || '無名デッキ')}</strong><span>${escapeHtml(deck.className || '')} / ${deck.total || 0}枚${deck.isSoloPreset ? ' / 既定デッキ' : ''}</span><small>${escapeHtml(hero)}</small>`;
+    const hero = getDeckHeroLabelV174(deck);
+    const classIcon = getClassIconImageV174(deck.className || '');
+    const classLabel = deck.className || '';
+    const heroImages = renderDeckHeroImagesV174(deck);
+    row.innerHTML = `
+      <div class="battle-deck-card-media">
+        ${classIcon ? `<img class="battle-deck-class-icon" src="${escapeHtml(classIcon)}" alt="${escapeHtml(classLabel)}">` : `<span class="battle-deck-class-icon battle-deck-class-icon--empty">${escapeHtml((classLabel || '?').slice(0,2))}</span>`}
+        <div class="battle-deck-hero-images">${heroImages}</div>
+      </div>
+      <div class="battle-deck-card-main">
+        <strong>${escapeHtml(deck.deckName || '無名デッキ')}</strong>
+        <span>${escapeHtml(classLabel)} / ${deck.total || 0}枚${deck.isSoloPreset ? ' / 既定デッキ' : ''}</span>
+        <small>${escapeHtml(hero)}</small>
+      </div>`;
     row.addEventListener('click', () => openBattleDeckModal(id, deck));
     box.appendChild(row);
   }
@@ -2375,6 +2470,8 @@ function subscribeRoomPlayers(){
     state.battle.roomPlayers = players;
     const active = Object.values(players).filter(p => p && p.playerId && p.status === 'active');
     const others = active.filter(p => p.playerId !== state.playerId);
+    state.battle.opponentClassName = others[0]?.className || '';
+    state.battle.opponentDeckMeta = others[0] ? { deckName: others[0].deckName || '', className: others[0].className || '', cards: [] } : null;
     if(!state.battle.game) return;
 
     const metaSnap = await get(ref(state.firebase.db, `rooms/${roomId}/meta`));
@@ -5470,6 +5567,7 @@ function renderBattleArena(){
   $('player-mp').textContent = `${game.player.mp}/${game.player.maxMp}`;
   $('enemy-mp').textContent = `${game.enemy.mp}/${game.enemy.maxMp}` + (isSoloTestMode() ? ` 手札${game.enemy.handCount || game.enemy.hand?.length || 0}` : '');
   if($('battle-turn-label')) $('battle-turn-label').textContent = isSoloTestMode() ? `TURN ${game.turn} ${soloSideNameV114(soloActiveSideV114())}` : `TURN ${game.turn}`;
+  renderBattleLeaderIdentitiesV175();
   const endTop = $('end-turn-top');
   if(endTop){
     if(isSoloTestMode()){

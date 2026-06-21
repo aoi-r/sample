@@ -6747,3 +6747,275 @@
   margin-top:8px;
   min-width:180px;
 }
+
+
+/* v174: battle deck selector = 3 columns, 2 visible rows, vertical scroll */
+.battle-deck-list{
+  display:grid !important;
+  grid-template-columns:repeat(3, minmax(0, 1fr)) !important;
+  gap:12px !important;
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+  max-height:292px !important;
+  padding:2px 6px 8px 2px !important;
+  scroll-snap-type:y proximity;
+  align-items:stretch;
+}
+.battle-deck-list.empty{
+  display:block !important;
+  max-height:none !important;
+  overflow:visible !important;
+  padding:16px !important;
+}
+.battle-deck-card{
+  min-width:0 !important;
+  min-height:134px !important;
+  padding:12px !important;
+  display:grid !important;
+  grid-template-columns:64px minmax(0, 1fr) !important;
+  gap:10px !important;
+  align-items:center !important;
+  text-align:left !important;
+  overflow:hidden !important;
+  scroll-snap-align:start;
+}
+.battle-deck-card-media{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+.battle-deck-class-icon{
+  width:48px;
+  height:48px;
+  object-fit:contain;
+  border-radius:12px;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.38));
+}
+.battle-deck-class-icon--empty{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.2);
+  color:#f4d768;
+  font-weight:900;
+}
+.battle-deck-hero-images{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:3px;
+  min-height:46px;
+  max-width:62px;
+  overflow:hidden;
+}
+.battle-deck-hero-img{
+  width:34px;
+  height:46px;
+  object-fit:cover;
+  object-position:top center;
+  border-radius:6px;
+  border:1px solid rgba(255,255,255,.26);
+  box-shadow:0 3px 8px rgba(0,0,0,.35);
+  background:#111827;
+}
+.battle-deck-hero-placeholder,
+.battle-deck-no-hero{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:34px;
+  height:22px;
+  padding:0 5px;
+  border-radius:999px;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.18);
+  color:#d8e0f3;
+  font-size:10px;
+  font-weight:800;
+  white-space:nowrap;
+}
+.battle-deck-card-main{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.battle-deck-card-main strong{
+  display:block;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  font-size:19px;
+  line-height:1.18;
+}
+.battle-deck-card-main span{
+  display:block;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  font-size:13px;
+  line-height:1.25;
+}
+.battle-deck-card-main small{
+  display:block;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  font-size:12px;
+  line-height:1.25;
+  color:#dbe5fa;
+}
+@media(max-width:1000px){
+  .battle-deck-list{
+    gap:8px !important;
+    max-height:252px !important;
+    padding-right:4px !important;
+  }
+  .battle-deck-card{
+    min-height:116px !important;
+    padding:9px !important;
+    grid-template-columns:52px minmax(0, 1fr) !important;
+    gap:7px !important;
+  }
+  .battle-deck-class-icon{ width:40px; height:40px; border-radius:10px; }
+  .battle-deck-hero-images{ min-height:38px; max-width:52px; }
+  .battle-deck-hero-img{ width:28px; height:38px; border-radius:5px; }
+  .battle-deck-card-main{ gap:4px; }
+  .battle-deck-card-main strong{ font-size:15px; }
+  .battle-deck-card-main span{ font-size:11px; }
+  .battle-deck-card-main small{ font-size:10px; }
+}
+@media(max-width:560px){
+  .battle-deck-list{
+    grid-template-columns:repeat(3, minmax(84px, 1fr)) !important;
+    gap:6px !important;
+  }
+  .battle-deck-card{
+    grid-template-columns:1fr !important;
+    min-height:126px !important;
+    padding:7px !important;
+  }
+  .battle-deck-card-media{
+    flex-direction:row;
+    gap:5px;
+  }
+  .battle-deck-class-icon{ width:34px; height:34px; }
+  .battle-deck-hero-images{ min-height:34px; }
+  .battle-deck-hero-img{ width:24px; height:34px; }
+  .battle-deck-card-main strong{ font-size:13px; }
+  .battle-deck-card-main span,
+  .battle-deck-card-main small{ font-size:10px; }
+}
+
+
+/* v175: class icons for every leader + battle leader identity */
+.battle-side-identity{
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  padding:4px 2px 6px;
+  pointer-events:none;
+}
+.battle-side-class-icon,
+.battle-side-class-fallback{
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  object-fit:contain;
+  box-shadow:0 4px 10px rgba(0,0,0,.34);
+  background:rgba(8,18,34,.34);
+}
+.battle-side-class-fallback{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:#f6db75;
+  border:1px solid rgba(255,255,255,.2);
+  font-size:11px;
+  font-weight:900;
+}
+.battle-side-meta{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  min-width:0;
+  gap:1px;
+}
+.battle-side-meta strong{
+  display:block;
+  max-width:74px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#fff;
+  font-size:11px;
+  line-height:1.05;
+  text-shadow:0 1px 3px rgba(0,0,0,.6);
+}
+.battle-side-meta span{
+  display:block;
+  max-width:74px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#dbe8ff;
+  font-size:9px;
+  line-height:1.05;
+  text-shadow:0 1px 2px rgba(0,0,0,.55);
+}
+.battle-side-hero-strip{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:2px;
+}
+.battle-side-hero-card{
+  width:21px;
+  height:29px;
+  object-fit:cover;
+  object-position:top center;
+  border-radius:4px;
+  border:1px solid rgba(255,255,255,.24);
+  background:#142033;
+  box-shadow:0 2px 6px rgba(0,0,0,.32);
+}
+.battle-side-hero-card--placeholder{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:8px;
+  font-weight:800;
+}
+.battle-arena .player-leader,
+.battle-arena .enemy-leader{
+  overflow:visible !important;
+}
+@media(max-width:560px){
+  .battle-side-class-icon,
+  .battle-side-class-fallback{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+  }
+  .battle-side-meta strong{
+    max-width:66px;
+    font-size:10px;
+  }
+  .battle-side-meta span{
+    max-width:66px;
+    font-size:8px;
+  }
+  .battle-side-hero-card{
+    width:18px;
+    height:25px;
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "version": "v174_deck_grid_icons",
+  "base": "v173_taunt_renkei_bloodlady_fix",
+  "changes": [
+    "バトル用デッキ選択一覧を3列グリッド化",
+    "2行分が見える高さに抑え、増えた場合は縦スクロール",
+    "横スクロールを廃止",
+    "戦士用プレイヤーアイコンを assets/player_icons/senshi.png に追加",
+    "デッキカード上に職業アイコンとヒーローカード画像を表示",
+    "未提供の職業アイコンは職業名の短縮プレースホルダーを表示"
+  ],
+  "assets": {
+    "warriorIcon": "assets/player_icons/senshi.png",
+    "heroCardImages": "getOfficialImage(card) でヒーローカード画像を取得"
+  }
+}

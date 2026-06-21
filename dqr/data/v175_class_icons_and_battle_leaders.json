@@ -1,0 +1,12 @@
+{
+  "version": "v175_class_icons_and_battle_leaders",
+  "base": "v174_deck_grid_icons",
+  "changes": [
+    "リーダー一覧画像から 魔法使い / 武闘家(格闘家) / 僧侶 / 商人 / 占い師 / 魔剣士 / 盗賊 のアイコンを切り出して追加",
+    "戦士は既存単体画像を利用",
+    "デッキ選択画面の職業アイコン対応を全職業へ拡張",
+    "対戦中の player / enemy leader に職業アイコンを表示",
+    "対戦中の player leader にヒーローカード画像サムネイルを表示",
+    "ルーム対戦では 상대 className が取れれば enemy leader にも反映"
+  ]
+}
