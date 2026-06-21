@@ -1,0 +1,19 @@
+{
+  "version": "v178_rapthorne_random_title_version",
+  "base": "v177_kakurenbou_rapthorne_fix",
+  "changes": [
+    "ラプソーンの寄生対象を、行・列ではなく召喚者から見た敵の全マス上のユニットから完全ランダムに変更",
+    "ラプソーンの寄生は選択効果ではないため、ステルス持ちも候補に含む",
+    "敵の場にユニットがいない場合は不発、寄生先死亡時に元召喚者側の空きマスへ復活する処理は維持",
+    "タイトル画面の boot-version-label を v178 に更新",
+    "起動完了後のバージョン表示を BUILD_LABEL 定数化し、今後の更新漏れを減らす"
+  ],
+  "rapthorne": {
+    "targeting": "enemy board all unit slots, random",
+    "ignoresStealth": true,
+    "failsIf": [
+      "no enemy units",
+      "no empty slot on original owner's board when parasite dies"
+    ]
+  }
+}

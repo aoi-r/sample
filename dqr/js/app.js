@@ -62,7 +62,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v176_leader_icon_replace_orb';
+const DATA_VERSION = 'v178_rapthorne_random_title_version';
+const BUILD_LABEL = 'v178 / buildable 1460 / total 1583';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -295,9 +296,9 @@ async function init(){
   state.appReady = true;
   window.__dqrAppReady = true;
   const label = $('boot-version-label');
-  if(label) label.textContent = `v167 / buildable 1460 / total 1583`;
+  if(label) label.textContent = BUILD_LABEL;
   const badge = $('html-boot-status');
-  if(badge) badge.textContent = `v167 / buildable 1460 / total 1583`;
+  if(badge) badge.textContent = BUILD_LABEL;
   if(state.pendingEntry){
     state.pendingEntry = false;
     show(hasPlayerId() ? 'menu' : 'user');
@@ -3668,6 +3669,13 @@ function applyRenkeiIfActive(card, targetUnit=null){
   if(name === 'とうだいタイガー'){
     game.pendingGenericEffect = {kind:'renkeiReturnAtk3', source:name, target:'enemyUnit'};
     battleLog('とうだいタイガー：攻撃力3以下の敵ユニットを選んでください。');
+    return true;
+  }
+  if(name === 'かくれんぼう'){
+    const before = Number(game.player.hand?.length || 0);
+    drawCard(1);
+    const after = Number(game.player.hand?.length || 0);
+    battleLog(`かくれんぼう：れんけいでカードを1枚引きました（手札 ${before}→${after}）。`);
     return true;
   }
 
@@ -8337,25 +8345,72 @@ function v166ApplyEndTurn(side='player'){
     if(side === 'player' && text.includes('自分のターン終了時GET(1)')) addCardToHandByName('コイン');
   }
 }
+function rapthorneEnemyTargetCandidatesV177(ownerSide, ownerPos){
+  const enemySide = ownerSide === 'player' ? 'enemy' : 'player';
+  const board = boardForSideV166(enemySide);
+  // v178: ラプソーンは行・列・ステルスを見ない。召喚者から見た敵の全マスにいるユニットが完全ランダム候補。
+  return (board || [])
+    .map((unit, pos) => ({side: enemySide, pos, unit}))
+    .filter(x => x.unit && !x.unit.isBuilding);
+}
+function attachRapthorneParasiteV177(rapthorneUnit, ownerSide, ownerPos){
+  const targets = rapthorneEnemyTargetCandidatesV177(ownerSide, ownerPos);
+  if(!targets.length){
+    battleLog('ラプソーン：敵の場に寄生先ユニットがいないため不発。');
+    return false;
+  }
+  const target = chooseRandom(targets, 'rapthorneParasiteV178', {ownerSide, ownerPos});
+  target.unit.rapthorneParasiteV177 ||= [];
+  target.unit.rapthorneParasiteV177.push({
+    ownerSide,
+    ownerCardId: rapthorneUnit.cardId,
+    ownerName: rapthorneUnit.name || 'ラプソーン'
+  });
+  target.unit.keywords ||= {};
+  target.unit.keywords.deathrattle = true;
+  battleLog(`ラプソーン：敵の場からランダムに${target.unit.name}へ寄生しました。`);
+  return true;
+}
+function resolveRapthorneParasitesV177(deadUnit){
+  const g = state.battle.game;
+  const parasites = [...(deadUnit?.rapthorneParasiteV177 || [])];
+  if(!parasites.length) return false;
+  let revived = 0;
+  for(const p of parasites){
+    const destSide = p.ownerSide || 'player';
+    const board = boardForSideV166(destSide);
+    const empty = board.findIndex(x => !x);
+    if(empty < 0){
+      battleLog('ラプソーン：復活先の味方空きマスがないため不発。');
+      continue;
+    }
+    const card = byId(p.ownerCardId) || findCardByName(p.ownerName || 'ラプソーン') || findCardByName('ラプソーン');
+    if(!card){
+      battleLog('ラプソーン：カードデータが見つからず復活できません。');
+      continue;
+    }
+    putUnitIntoPlayFromCard(card, empty, destSide);
+    revived++;
+    battleLog(`ラプソーン：${deadUnit.name}の死亡時に${destSide === 'player' ? '味方' : '敵'}の場へ復活。`);
+  }
+  deadUnit.rapthorneParasiteV177 = [];
+  return revived > 0;
+}
 function v166OnUnitDeath(unit, side, pos, vanished){
   const g=state.battle.game; if(!unit || vanished) return;
   if(unit.name === 'イブール') g.enemySpellCostAuraPlus = Math.max(0, Number(g.enemySpellCostAuraPlus || 0)-1);
   if(side === 'enemy'){
     for(const u of allFriendlyUnits()) if(u?._gainAttackWhenEnemyDiesV166){ u.attack += 1; battleLog(`${u.name}：敵ユニット死亡で攻撃力+1。`); }
   }
-  // ラプソーン：死亡時に敵ユニットへ死亡時ラプソーン召喚を付与。
+  // ラプソーン v177：
+  // 死亡時、召喚者から見た敵の全マスにいるユニットから完全ランダムで寄生。ステルスも貫通。
+  // 寄生先が死亡した時、元の召喚者側の空きマスにラプソーンとして復活。
+  // 空きマスや寄生先がない場合は不発。復活後も死亡時効果を保持する。
   if(unit.name === 'ラプソーン'){
-    const enemySide=side === 'player' ? 'enemy' : 'player';
-    const arr=allUnitsForSideV166(enemySide);
-    const target=arr.length ? chooseRandom(arr,'rapthorneMarkV166',{}) : null;
-    if(target?.u){ target.u.rapthorneDeathSummonForSide = side; target.u.keywords ||= {}; target.u.keywords.deathrattle = true; battleLog('ラプソーン：ランダムな敵ユニットに死亡時ラプソーン召喚を付与。'); }
+    attachRapthorneParasiteV177(unit, side, Number.isInteger(pos) ? pos : unit.lastBoardPos ?? 0);
   }
-  if(unit.rapthorneDeathSummonForSide){
-    const card=findCardByName('ラプソーン');
-    const destSide=unit.rapthorneDeathSummonForSide;
-    const board=boardForSideV166(destSide);
-    const empty=board.findIndex(x=>!x);
-    if(card && empty>=0) putUnitIntoPlayFromCard(card, empty, destSide);
+  if(unit.rapthorneParasiteV177?.length){
+    resolveRapthorneParasitesV177(unit);
   }
 }
 function v166CleanupTurnStart(){
