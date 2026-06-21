@@ -7019,3 +7019,63 @@
     height:25px;
   }
 }
+
+
+/* v176: replace battle leader orb with class image */
+.battle-arena .player-leader,
+.battle-arena .enemy-leader{
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+.battle-arena .player-leader span,
+.battle-arena .enemy-leader span{
+  background:transparent !important;
+  border:0 !important;
+  width:auto !important;
+  height:auto !important;
+}
+.battle-side-identity{
+  gap:5px;
+  padding:0 0 2px;
+}
+.battle-leader-face{
+  display:block;
+  width:62px;
+  height:62px;
+  border-radius:18px;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  border:2px solid rgba(255,255,255,.34);
+  box-shadow:0 6px 16px rgba(0,0,0,.42), inset 0 0 0 1px rgba(255,255,255,.14);
+  background-color:rgba(16,26,44,.55);
+}
+.battle-leader-caption{
+  display:block;
+  max-width:72px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+  line-height:1.05;
+  text-shadow:0 1px 3px rgba(0,0,0,.62);
+}
+.battle-side-meta,
+.battle-side-hero-strip,
+.battle-side-class-icon{
+  display:none !important;
+}
+@media(max-width:560px){
+  .battle-leader-face{
+    width:56px;
+    height:56px;
+    border-radius:16px;
+  }
+  .battle-leader-caption{
+    max-width:64px;
+    font-size:9px;
+  }
+}
