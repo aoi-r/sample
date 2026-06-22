@@ -62,8 +62,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v190_shinryu_strategy_modal_fit';
-const BUILD_LABEL = 'v190 / buildable 1460 / total 1583';
+const DATA_VERSION = 'v191_tension_gyumei_tabasa_random_fix';
+const BUILD_LABEL = 'v191 / buildable 1460 / total 1583';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -1724,9 +1724,11 @@ function soloWarriorTensionV106(skill){
   const className = game.className || state.battle.selectedDeck?.className || '';
   const name = skill?.skillName || '';
   if(className.includes('戦士') || name.includes('戦士') || name.includes('剣') || name.includes('稲妻')){
-    game.player.leaderAttack = Math.max(Number(game.player.leaderAttack || 0), 2);
+    game.player.leaderAttack = Math.max(Number(game.player.leaderAttack || 0), 0) + 3;
     game.player.leaderCanAttack = true;
-    battleLog('テンションスキル：このターン中リーダー攻撃力+2。リーダーが攻撃できます。');
+    game.player.leaderKeywords ||= {};
+    game.player.leaderKeywords.piercing = true;
+    battleLog('稲妻の加護：このターン中リーダー攻撃力+3と貫通。リーダーが攻撃できます。');
     return true;
   }
   return false;
@@ -2189,7 +2191,7 @@ function soloUseTensionSkillV103(){
   applyTensionSkill(game.player.leaderSkill);
   triggerSkillBoostOnTensionSkill();
   triggerTensionLinks('skillUse', {skill:game.player.leaderSkill});
-  soloWarriorTensionV106(game.player.leaderSkill);
+  if(!game.player.leaderSkill?.effect) soloWarriorTensionV106(game.player.leaderSkill);
   game.player.tension = 0;
   game.player.tensionUsedThisTurn = true;
   battleLog('テンションスキルを発動しました。テンション0。');
@@ -3473,7 +3475,7 @@ function dealDamageToLeader(side, amount, source='effect'){
 function damageUnit(unit, amount, options={}){
   if(!unit) return 0;
   let dmg = Number(amount || 0);
-  if(shouldPreventDamageByGyumeiV166(options?.source || '', false)){ battleLog('ギュメイ将軍：効果ダメージを防ぎました。'); dmg = 0; }
+  if(shouldPreventDamageByGyumeiV166(options?.source || '', false, unit)){ battleLog('ギュメイ将軍：効果ダメージを防ぎました。'); dmg = 0; }
   if(unit.keywords?.hardMetal && dmg <= 5) dmg = 1;
   else if(unit.keywords?.metal && dmg <= 3) dmg = 1;
   if(unit.statuses?.some(s => s.type === 'immuneDamage')) dmg = 0;
@@ -8312,7 +8314,7 @@ function frontEnemyUnitsSameRowV166(playerPos){
 function randomEnemyUnitV166(){ const arr=allUnitsForSideV166('enemy'); return arr.length ? chooseRandom(arr, 'randomEnemyUnitV166', {}) : null; }
 function randomEnemyUnitOnlyV187(){
   const arr = (state.battle.game.enemy.board || [])
-    .map((u,pos)=>u && !u.isBuilding ? {u,pos,side:'enemy'} : null)
+    .map((u,pos)=>u && !u.isBuilding && Number(u.hp || 0) > 0 ? {u,pos,side:'enemy'} : null)
     .filter(Boolean);
   return arr.length ? chooseRandom(arr, 'randomEnemyUnitOnlyV187', {}) : null;
 }
@@ -8335,6 +8337,23 @@ function dealRandomEnemyUnitDamageSplitV187(total=1, source='効果'){
   }
   if(hit) resolveDeaths();
   battleLog(`${source}：ランダムな敵ユニットに合計${hit}ダメージ。`);
+  return hit;
+}
+function dealRandomUnitDamageSplitAliveV191(total=1, source='効果', excludeUnit=null){
+  const game = state.battle.game;
+  let hit = 0;
+  for(let i=0;i<Number(total||0);i++){
+    const candidates = [
+      ...(game.player.board || []).map((u,pos)=>u && !u.isBuilding && Number(u.hp || 0) > 0 && u !== excludeUnit ? {u,pos,side:'player'} : null),
+      ...(game.enemy.board || []).map((u,pos)=>u && !u.isBuilding && Number(u.hp || 0) > 0 && u !== excludeUnit ? {u,pos,side:'enemy'} : null)
+    ].filter(Boolean);
+    if(!candidates.length) break;
+    const t = chooseRandom(candidates, 'randomUnitSplitAliveV191', {source, i});
+    dealDamageToUnit(t.u, 1, source, t.side);
+    hit++;
+  }
+  if(hit) resolveDeaths();
+  battleLog(`${source}：ランダムなユニットに合計${hit}ダメージ。HP0以下のユニットは途中から候補外。`);
   return hit;
 }
 function resolveFortuneV187(source, optionLabels, applyOption, opts={}){
@@ -8509,11 +8528,13 @@ function v166HasGyumei(side='player'){
 }
 function isCombatLikeSourceV166(source){
   const s=String(source||'');
-  return !s || s === 'combat' || s.includes('反撃') || s.includes('デッキ切れ') || s.includes('攻撃');
+  // ギュメイ環境下で通すのは直接攻撃/反撃/貫通/デッキ切れだけ。
+  return !s || s === 'combat' || s.includes('反撃') || s.includes('デッキ切れ') || s.includes('攻撃') || s.includes('貫通');
 }
-function shouldPreventDamageByGyumeiV166(source, targetIsLeader=false){
+function shouldPreventDamageByGyumeiV166(source, targetIsLeader=false, targetUnit=null){
   if(!v166HasGyumei()) return false;
-  if(targetIsLeader) return !isCombatLikeSourceV166(source) && !String(source||'').includes('デッキ切れ');
+  // ギュメイ将軍自身は環境・特技ダメージも通常どおり受ける。
+  if(targetUnit?.name === 'ギュメイ将軍') return false;
   return !isCombatLikeSourceV166(source);
 }
 function applySummonV166(unit, card){
@@ -8560,7 +8581,9 @@ function applySummonV166(unit, card){
     return true;
   }
   if(name === 'サイコロン'){
-    if(g.player.heroSkill || g.player.heroLevel>0){ for(let i=0;i<5;i++){ const t=chooseRandom([...allUnitsForSideV166('player'),...allUnitsForSideV166('enemy')].filter(x=>x.u!==unit), 'saikoronV166', {}); if(t) dealDamageToUnit(t.u,1,name,t.side); } resolveDeaths(); }
+    if(g.player.heroSkill || g.player.heroLevel>0){
+      dealRandomUnitDamageSplitAliveV191(5, name, unit);
+    }
     return true;
   }
   if(name === 'キースドラゴン'){
@@ -9268,7 +9291,8 @@ function useNonUnitCard(index, card){
   emitBattleEvent('cardPlayed', {card, cost, source:'use'});
   if(isSpell(card)){
     game.player.usedSpellCostThisTurn = (game.player.usedSpellCostThisTurn || 0) + cost;
-    if(cost >= 2) game.player.usedSpells2Plus.push(card.originalCardId || card.id);
+    const originalSpellCardForPool = byId(card.originalCardId || card.id) || card;
+    if(Number(originalSpellCardForPool?.cost || 0) >= 2) game.player.usedSpells2Plus.push(originalSpellCardForPool.id || card.originalCardId || card.id);
     if(cost >= 1) triggerHeroAuto('spellCost1Plus', {card, cost});
     if(cost >= 2) triggerHeroAuto('spellCost2Plus', {card, cost});
     if(cost >= 3) triggerHeroAuto('spellCost3Plus', {card, cost});
@@ -9701,7 +9725,7 @@ function attackUnit(attackerRef, defenderRef){
   }
   const atkBoard = attackerRef.side === 'player' ? game.player.board : game.enemy.board;
   const defBoard = defenderRef.side === 'player' ? game.player.board : game.enemy.board;
-  const atk = attackerRef.side === 'playerLeader' ? {name:'味方リーダー', attack:game.player.leaderAttack, canAttack:game.player.leaderCanAttack, keywords:{}} : atkBoard[attackerRef.pos];
+  const atk = attackerRef.side === 'playerLeader' ? {name:'味方リーダー', attack:game.player.leaderAttack, canAttack:game.player.leaderCanAttack, keywords:{...(game.player.leaderKeywords || {})}} : atkBoard[attackerRef.pos];
   const def = defBoard[defenderRef.pos];
   const breadHandWatchV181 = attackerRef.side === 'playerLeader' && defenderRef.side === 'enemy' && game.player.weapon?.name === 'ブレッドハンド'
     ? game.enemy.board.map(u => (u && !u.isBuilding && Number(u.hp || 0) > 0) ? u.id : null)
@@ -9786,7 +9810,7 @@ function attackLeader(targetSide){
   if(game.selectedAttacker && !canAttackLeaderV173(targetSide, game.selectedAttacker)) return toast('におうだちを持つユニットを先に攻撃してください。', false);
   if(!game.selectedAttacker) return;
   let atk;
-  if(game.selectedAttacker.side === 'playerLeader') atk = { name:'味方リーダー', attack: game.player.leaderAttack, canAttack: game.player.leaderCanAttack, keywords:{} };
+  if(game.selectedAttacker.side === 'playerLeader') atk = { name:'味方リーダー', attack: game.player.leaderAttack, canAttack: game.player.leaderCanAttack, keywords:{...(game.player.leaderKeywords || {})} };
   else { const atkBoard = game.selectedAttacker.side === 'player' ? game.player.board : game.enemy.board; atk = atkBoard[game.selectedAttacker.pos]; }
   if(!atk || !atk.canAttack) return;
   if(game.selectedAttacker?.side === 'playerLeader' && game.player.weapon?.cannotAttackLeader && targetSide === 'enemy') return toast('この武器では敵リーダーを攻撃できません。', false);
@@ -10298,7 +10322,12 @@ function applyTensionSkill(skill){
     drawCard(1);
     battleLog('カードを1枚引きました。');
   }else if(effect.type === 'temporaryLeaderBuff'){
-    game.player.leaderAttack += Number(effect.attack || 0); game.player.leaderCanAttack = true; battleLog(`このターン中リーダー攻撃力+${effect.attack || 0}。リーダーが攻撃できます。`);
+    game.player.leaderAttack += Number(effect.attack || 0);
+    game.player.leaderCanAttack = true;
+    game.player.leaderKeywords ||= {};
+    if((effect.keywords || []).includes('貫通')) game.player.leaderKeywords.piercing = true;
+    if((effect.keywords || []).includes('超貫通')) game.player.leaderKeywords.superPiercing = true;
+    battleLog(`このターン中リーダー攻撃力+${effect.attack || 0}${game.player.leaderKeywords.piercing ? 'と貫通' : ''}。リーダーが攻撃できます。`);
   }else if(effect.type === 'equipWeapon'){
     game.player.leaderAttack = Math.max(game.player.leaderAttack, Number(effect.weapon?.attack || 0)); game.player.leaderCanAttack = true; battleLog(`${effect.weapon?.name || '武器'}を装備しました。リーダーが攻撃できます。`);
   }
@@ -10646,6 +10675,8 @@ function soloStartSideTurnV114(side){
     game.player.heroSkillUsedThisTurn = false;
     game.player.usedSpellCostThisTurn = 0;
     game.player.leaderAttackedThisTurn = false;
+    game.player.leaderKeywords = {};
+    game.player.leaderAttack = game.player.weapon ? Number(game.player.weapon.attack || 0) : 0;
     game.player.leaderCanAttack = !!game.player.weapon && Number(game.player.weapon.attack || 0) > 0;
     emitBattleEvent('ownTurnStart', {side:'player'});
   }else{
@@ -11296,6 +11327,7 @@ function endTurn(){
   game.player.unitDiedThisTurn = false;
   game.player.leaderAttack = 0;
   game.player.leaderCanAttack = false;
+  game.player.leaderKeywords = {};
   game.player.leaderDamageReduction = 0;
   game.player.leaderDamageReductionUntil = '';
   if(game.player.leaderApathy) game.player.tension = 0;
