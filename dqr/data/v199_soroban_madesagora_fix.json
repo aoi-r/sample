@@ -1,0 +1,10 @@
+{
+  "version": "v199_soroban_madesagora_fix",
+  "base": "v198_deborah_lv1_draw_level_fix",
+  "fixes": [
+    "福招きのそろばんのBET専用処理後に汎用BETドローへ落ちないよう return し、2枚ドローを防止。",
+    "マデサゴーラのターン終了時スペシャルコイン追加を applyEndTurnEffectsForSideV121 側へ移動し、ソロ/通常のターン終了処理で確実に発動。",
+    "マデサゴーラ効果を召喚者側ごとに処理し、自分側/相手側の場にいる枚数ぶんスペシャルコインを加えるよう補強。",
+    "古い player-only のマデサゴーラ呼び出しを削除して二重発動を防止。"
+  ]
+}

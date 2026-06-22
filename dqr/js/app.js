@@ -62,8 +62,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v198_deborah_lv1_draw_level_fix';
-const BUILD_LABEL = 'v198 / buildable 1468 / total 1602';
+const DATA_VERSION = 'v199_soroban_madesagora_fix';
+const BUILD_LABEL = 'v199 / buildable 1468 / total 1602';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -4317,6 +4317,7 @@ function handleOpponentTurnStartEvent(payload={}){
 }
 function handleOpponentTurnEndEvent(payload={}){
   const game = state.battle.game;
+  addSpecialCoinAtTurnEndIfMadesagora('enemy');
   for(const u of game.player.board){
     if(u){
       u.statuses = (u.statuses || []).filter(s => s.until !== 'opponentTurnEnd');
@@ -4382,7 +4383,7 @@ function handleTurnEndEvent(payload={}){
     u.betUsedTurn = null;
   }
   if(game.player.weapon?.name === 'むげんの弓') addCardToHandByName('コイン');
-  addSpecialCoinAtTurnEndIfMadesagora();
+  // v199: マデサゴーラは applyEndTurnEffectsForSideV121(side) で召喚者側ごとに処理する。
   game.player.nextSpellCostDelta = 0;
   game.player.nextTensionCostZero = false;
   applyPoisonEndOfTurnDamage();
@@ -7389,10 +7390,18 @@ function triggerLemonKingSlimeDeath(unit){
     if(hasLemonKing) dealDamageToLeader('enemy', 1, '効果');
   }
 }
-function addSpecialCoinAtTurnEndIfMadesagora(){
+function addSpecialCoinAtTurnEndIfMadesagora(side='player'){
   const game = state.battle.game;
-  const hasMadesagora = game.player.board.some(u => String(u?.name || '').includes('マデサゴーラ'));
-  if(hasMadesagora) addCardToHandByName('スペシャルコイン');
+  const obj = side === 'enemy' ? game.enemy : game.player;
+  const board = obj?.board || [];
+  const count = board.filter(u => String(u?.name || '').includes('マデサゴーラ') && Number(u?.hp || 0) > 0).length;
+  if(!count) return 0;
+  for(let i=0;i<count;i++){
+    if(side === 'enemy') addCardToHandByNameForSideV121('enemy', 'スペシャルコイン', 'マデサゴーラ');
+    else addCardToHandByName('スペシャルコイン');
+  }
+  battleLog(`マデサゴーラ：${side === 'enemy' ? '相手' : '自分'}のターン終了時、スペシャルコイン${count}枚を手札に加えました。`);
+  return count;
 }
 function applyBetToTarget(target){
   const game = state.battle.game;
@@ -8224,7 +8233,14 @@ function applyBetEffectFromText(text, sourceUnit=null){
     game.player.weapon.durability = Math.max(0, Number(game.player.weapon.durability || 0) - 1);
     drawCard(1);
     battleLog('福招きのそろばんBET：耐久力-1、カードを1枚引く。');
-    if(game.player.weapon.durability <= 0){ addCardToHandByName('コイン'); game.player.weapon = null; game.player.leaderAttack = 0; game.player.leaderCanAttack = false; }
+    if(game.player.weapon.durability <= 0){
+      addCardToHandByName('コイン');
+      game.player.weapon = null;
+      game.player.leaderAttack = 0;
+      game.player.leaderCanAttack = false;
+      battleLog('福招きのそろばん：耐久力0になったため壊れ、GET(1)。');
+    }
+    return true; // 専用処理で1枚ドロー済み。汎用BETドローを重複させない。
   }
 
   if(text.includes('BET') && (text.includes('攻撃力+1') || text.includes('攻撃力＋1')) && sourceUnit) sourceUnit.attack += 1;
@@ -11104,6 +11120,7 @@ function applyCounterDamageV121(attacker, attackerRef, defender, defenderRef){
 }
 function applyEndTurnEffectsForSideV121(side){
   v166ApplyEndTurn(side);
+  addSpecialCoinAtTurnEndIfMadesagora(side);
   const game = state.battle.game;
   if(side === 'player' && Number(game.player.bigBreadBonusThisTurn || 0) > 0){
     game.player.mp = Math.max(0, Number(game.player.mp || 0) - Number(game.player.bigBreadBonusThisTurn || 0));
