@@ -1,0 +1,11 @@
+{
+  "version": "v197_tabasa_sync_fix",
+  "base": "v196_gamegon_merami_fix",
+  "fixes": [
+    "ヒーロースキル進化時に game.player.heroLevel も同期更新するよう修正。",
+    "タバサLv1/Lv2のコスト2以上特技判定を実支払いコストではなく元カードコスト参照に変更。",
+    "タバサLv2 魔力共鳴のドローが発動しやすいよう、spellCost2Plus autoの判定経路を補強。",
+    "シンクロ本文内の速攻/貫通などを召喚時の素キーワードとして誤付与しないよう parseKeywordFlags を修正。",
+    "プチファイターはヒーローLv1:+攻撃力1 / Lv2:+HP1 / Lv3:速攻 の段階適用になるよう修正。"
+  ]
+}

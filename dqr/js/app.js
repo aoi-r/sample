@@ -62,8 +62,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v196_gamegon_merami_fix';
-const BUILD_LABEL = 'v196 / buildable 1468 / total 1602';
+const DATA_VERSION = 'v198_deborah_lv1_draw_level_fix';
+const BUILD_LABEL = 'v198 / buildable 1468 / total 1602';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -3319,7 +3319,17 @@ function applyCounterDamageV123(attacker, attackerRef, defender, defenderRef){
 }
 
 function isWeapon(card){ return isWeaponV123(card); }
-function isBet(card){ return String(card?.text || card?.searchText || '').includes('BET'); }
+function normalizeBetTextV198(card){
+  return String(card?.text || card?.searchText || card?.name || '')
+    .replace(/[Ｂｂ]/g,'B').replace(/[Ｅｅ]/g,'E').replace(/[Ｔｔ]/g,'T').toUpperCase();
+}
+function isBet(card){ return normalizeBetTextV198(card).includes('BET'); }
+function isDeborahBetDrawTargetV198(card){
+  if(!card) return false;
+  if(isBet(card)) return true;
+  // 表記揺れ・古い仮データ対策。デボラLv1は「BETを持つカード」を山札から引く。
+  return ['ぷちメタル','ベホイミスライム','ルドマン','福招きのそろばん','マデサゴーラ'].includes(card.name);
+}
 function countBoardUnitByNameV189(side='player', name=''){
   const game = state.battle.game;
   const board = side === 'enemy' ? game?.enemy?.board : game?.player?.board;
@@ -3579,7 +3589,7 @@ function parseLevelledEffectSegments(text, keyword){
   const raw = String(text || '');
   const part = (extractAfterKeyword(raw, keyword) || raw).trim();
   const matches = [...part.matchAll(/[①②③１２３123][\.、:：]?\s*([^①②③１２３123。]+)/g)];
-  if(matches.length) return matches.map(m => m[1].trim()).filter(Boolean);
+  if(matches.length) return matches.map(m => m[1].trim().replace(/[、，]+$/,'')).filter(Boolean);
   return [part];
 }
 function applySynchroIfAny(card, targetUnit=null){
@@ -4114,7 +4124,8 @@ function isOpponentTurnForUnitV163(unit){
 }
 
 function parseKeywordFlags(card){
-  const text = getCardText(card);
+  const fullText = getCardText(card);
+  const text = fullText.includes('シンクロ') ? fullText.slice(0, fullText.indexOf('シンクロ')) : fullText;
   return {
     taunt: text.includes('におうだち'),
     haste: text.includes('速攻'),
@@ -4125,17 +4136,17 @@ function parseKeywordFlags(card){
     seal: text.includes('封印'),
     darkRobe: text.includes('闇の衣'),
     conditionGood: hasInnateZekkochoV163(card),
-    synchro: text.includes('シンクロ'),
-    proficiency: text.includes('熟練度'),
+    synchro: fullText.includes('シンクロ'),
+    proficiency: fullText.includes('熟練度'),
     spellDamagePlus: text.includes('特技ダメージ＋') || text.includes('特技ダメージ+'),
-    terrainSlip: text.includes('すべる床'),
-    terrainTreasure: text.includes('宝箱'),
-    terrainBarrier: text.includes('バリア床'),
-    terrainBlade: text.includes('刃の紋章'),
-    terrainMagic: text.includes('魔法陣'),
-    terrainBlessing: text.includes('祝福の聖域'),
-    terrainHappy: text.includes('しあわせの国'),
-    terrainOracle: text.includes('天啓の神域'),
+    terrainSlip: fullText.includes('すべる床'),
+    terrainTreasure: fullText.includes('宝箱'),
+    terrainBarrier: fullText.includes('バリア床'),
+    terrainBlade: fullText.includes('刃の紋章'),
+    terrainMagic: fullText.includes('魔法陣'),
+    terrainBlessing: fullText.includes('祝福の聖域'),
+    terrainHappy: fullText.includes('しあわせの国'),
+    terrainOracle: fullText.includes('天啓の神域'),
     apathy: text.includes('無気力状態'),
     piercing: text.includes('貫通') && !text.includes('超貫通'),
     superPiercing: text.includes('超貫通'),
@@ -4149,17 +4160,17 @@ function parseKeywordFlags(card){
     deathrattle: text.includes('死亡時'),
     summon: text.includes('召喚時'),
     powerBadge: text.includes('パワフルバッジ') || text.includes('パワフルバッチ'),
-    building: card?.cardType === '建物' || text.includes('耐久値') || text.includes('自分のターン終了時耐久値'),
-    costBoost: text.includes('コスト-') || text.includes('コストを-') || text.includes('コストが') && text.includes('下がる'),
-    move: text.includes('移動') || text.includes('前列') || text.includes('後列') || text.includes('1マス上') || text.includes('1マス下'),
-    get: text.includes('GET'),
-    bet: text.includes('BET'),
-    dungeon: text.includes('ダンジョン'),
-    choice: text.includes('選択'),
+    building: card?.cardType === '建物' || fullText.includes('耐久値') || fullText.includes('自分のターン終了時耐久値'),
+    costBoost: fullText.includes('コスト-') || fullText.includes('コストを-') || fullText.includes('コストが') && fullText.includes('下がる'),
+    move: fullText.includes('移動') || fullText.includes('前列') || fullText.includes('後列') || fullText.includes('1マス上') || fullText.includes('1マス下'),
+    get: fullText.includes('GET'),
+    bet: fullText.includes('BET'),
+    dungeon: fullText.includes('ダンジョン'),
+    choice: fullText.includes('選択'),
     fortune: hasFortuneEffect(card),
-    synchro: text.includes('シンクロ'),
-    renkei: text.includes('れんけい'),
-    skillBoost: text.includes('スキルブースト')
+    synchro: fullText.includes('シンクロ'),
+    renkei: fullText.includes('れんけい'),
+    skillBoost: fullText.includes('スキルブースト')
   };
 }
 
@@ -9434,11 +9445,13 @@ function useNonUnitCard(index, card){
   if(isSpell(card)){
     game.player.usedSpellCostThisTurn = (game.player.usedSpellCostThisTurn || 0) + cost;
     const originalSpellCardForPool = byId(card.originalCardId || card.id) || card;
+    const originalSpellCostForHero = Number(originalSpellCardForPool?.cost ?? card.cost ?? cost);
     if(Number(originalSpellCardForPool?.cost || 0) >= 2) game.player.usedSpells2Plus.push(originalSpellCardForPool.id || card.originalCardId || card.id);
-    if(cost >= 1) triggerHeroAuto('spellCost1Plus', {card, cost});
-    if(cost >= 2) triggerHeroAuto('spellCost2Plus', {card, cost});
-    if(cost >= 3) triggerHeroAuto('spellCost3Plus', {card, cost});
-    emitBattleEvent('spellPlayed', {card, cost});
+    const heroCtx = {card, cost:originalSpellCostForHero, paidCost:cost, originalCost:originalSpellCostForHero};
+    if(originalSpellCostForHero >= 1) triggerHeroAuto('spellCost1Plus', heroCtx);
+    if(originalSpellCostForHero >= 2) triggerHeroAuto('spellCost2Plus', heroCtx);
+    if(originalSpellCostForHero >= 3) triggerHeroAuto('spellCost3Plus', heroCtx);
+    emitBattleEvent('spellPlayed', {card, cost, originalCost:originalSpellCostForHero});
   }
   renderBattleArena();
   syncMyBattleState();
@@ -11653,6 +11666,14 @@ function useHeroSkillCard(skillArg=null, target={}){
   applyHeroSkillEffect(skill, target);
   battleLog(`${skill.name}を使用しました。`);
   progressHeroSkill(skill, 'uses');
+  // v198: デボラLv1「この手に切り札を」の進化確認を明示。古い状態でも2回使用済みならLv2へ同期する。
+  if(hs?.heroCardName === '天空の花嫁デボラ' && skill.name === 'この手に切り札を' && Number(hs.progressCount || 0) >= 2 && Number(hs.level || 0) === 1){
+    hs.level = 2;
+    hs.progressCount = 0;
+    game.player.heroLevel = 2;
+    hs.currentCardName = getHeroLevelCardName(hs.heroCardName, hs.level);
+    battleLog('この手に切り札を：2回使用したためLv.2に進化しました。');
+  }
   game.pendingHeroSkill = null;
   const modal = $('hero-skill-modal'); if(modal?.open) modal.close();
   renderBattleArena();
@@ -11945,7 +11966,11 @@ function applyHeroSkillEffect(skill, target){
     }
     battleLog(`${skill.name}：使用済みれんけいカードを${added}枚手札に加えました。${burned ? ` 手札上限で${burned}枚は破棄。` : ''}`);
   }else if(e.kind === 'drawFromDeck'){
-    const ok = findAndDrawFromDeck(c => e.filter === 'adventurer' ? isAdventurer(c) : e.filter === 'bet' ? isBet(c) : (isSpell(c) || isWeapon(c)), skill.name || 'ヒーロースキル');
+    const ok = findAndDrawFromDeck(c => {
+      if(e.filter === 'adventurer') return isAdventurer(c);
+      if(e.filter === 'bet') return isDeborahBetDrawTargetV198(c);
+      return (isSpell(c) || isWeapon(c));
+    }, skill.name || 'ヒーロースキル');
     if(!ok) battleLog('対象カードがデッキにありません。');
   }else if(e.kind === 'setHandAdventurerCostZero'){
     game.player.costOverrides ||= {};
@@ -12102,7 +12127,7 @@ function progressHeroSkill(skill, mode){
   if(!hs || !skill.progress) return;
   const key = skill.progress.uses ? 'uses' : 'triggers';
   if(key !== mode) return;
-  hs.progressCount = (hs.progressCount || 0) + 1;
+  hs.progressCount = Number(hs.progressCount || 0) + 1;
   if(skill.dynamic?.costPlusPerUse || skill.dynamic?.damagePlusPerUse) hs.lv2UseCount = (hs.lv2UseCount || 0) + 1;
   let need = skill.progress[key];
   if(skill.dynamic?.usesEqualDungeonClears) need = getNineLv2RequiredUses();
@@ -12111,6 +12136,7 @@ function progressHeroSkill(skill, mode){
     if(skill.onLevelUp?.addToHand) addCardToHandByName(skill.onLevelUp.addToHand);
     if(skill.onLevelUp?.draw) drawCard(skill.onLevelUp.draw);
     hs.level += 1;
+    game.player.heroLevel = hs.level;
     hs.progressCount = 0;
     hs.lv2UseCount = 0;
     hs.loreLv3Damage = 1;
@@ -12137,13 +12163,14 @@ function triggerHeroAuto(trigger, ctx){
   }
   game.player.heroSkillUsedThisTurn = true;
   if(trigger === 'spellCost3Plus' && skill.effect?.kind === 'rubissBlessing'){
-    const cost = ctx.cost || 0;
+    const cost = Number(ctx.originalCost ?? ctx.cost ?? 0);
     if(cost >= 3) game.player.mp = Math.min(game.player.maxMp, game.player.mp + 1);
     if(cost >= 5) game.player.tension = Math.min(3, game.player.tension + 1);
     if(cost >= 7) drawCard(1);
   }else{
     applyHeroSkillEffect(skill, ctx || {});
   }
+  if(hs.heroCardName === 'タバサ') battleLog(`${skill.name}：元コスト${Number(ctx?.originalCost ?? ctx?.cost ?? 0)}の特技に反応しました。`);
   battleLog(`${skill.name}が自動発動しました。`);
   progressHeroSkill(skill, 'triggers');
 }

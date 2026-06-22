@@ -1,0 +1,18 @@
+{
+  "version": "v198_deborah_lv1_draw_level_fix",
+  "base": "v197_tabasa_sync_fix",
+  "fixes": [
+    "ユーザー指摘はタバサではなくデボラだったため、デボラLv1「この手に切り札を」を重点修正。",
+    "BET判定を全角/小文字表記揺れに強い normalizeBetTextV198 に変更。",
+    "デボラLv1のドロー対象は isDeborahBetDrawTargetV198 で判定し、既知のBETカードもフォールバック対象に追加。",
+    "progressCount を Number 変換して加算するようにして、文字列化などの古い状態でも進化条件が正しく判定されるよう補強。",
+    "デボラLv1が2回使用済みでLv1に残っている場合の防御的なLv2同期処理を追加。"
+  ],
+  "deborahLv1Targets": [
+    "ぷちメタル",
+    "ベホイミスライム",
+    "ルドマン",
+    "福招きのそろばん",
+    "マデサゴーラ"
+  ]
+}
