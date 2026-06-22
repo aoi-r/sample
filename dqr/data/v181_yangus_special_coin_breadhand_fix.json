@@ -1,0 +1,27 @@
+{
+  "version": "v181_yangus_special_coin_breadhand_fix",
+  "base": "v180_coin_requires_bet_target",
+  "implemented": [
+    "少年ヤンガス召喚時、この対戦中に味方効果で手に入る商人道具カードプールを 道具：弟切草 / 道具：火炎草 / 道具：大きなパン に置換",
+    "道具：弟切草 / 道具：火炎草 をデッキ編成不可の特技として使用可能化",
+    "道具：弟切草: ユニット1体のHPを3回復",
+    "道具：火炎草: ユニット1体に3ダメージ",
+    "スペシャルコインは場の味方BETユニット全てを発動。アゲていくわよはスペシャルコイン1枚につき1回だけ発動",
+    "スペシャルコインで複数体のBETが発動した場合、ルドマンのBET4回カウントは発動ユニット数ぶん進む",
+    "ブレッドハンドは直接対象だけでなく、武器攻撃によって死亡した敵ユニットがいれば道具：大きなパンを1枚手札に加える",
+    "タイトル画面/起動後表示をv181へ更新"
+  ],
+  "checks": {
+    "node_ok": true,
+    "no_duplicate_functions": true,
+    "version_v181": true,
+    "title_v181": true,
+    "yangus_pool_flag": true,
+    "yangus_pool_cards": true,
+    "special_coin_summary": true,
+    "special_coin_per_unit_ludman": true,
+    "breadhand_watch": true,
+    "new_tools_spells": true,
+    "new_tools_not_buildable": true
+  }
+}

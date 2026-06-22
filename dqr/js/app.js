@@ -62,8 +62,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v179_merchant_deborah_tools_fix';
-const BUILD_LABEL = 'v179 / buildable 1460 / total 1583';
+const DATA_VERSION = 'v183_deborah_torneko_remaining_fixes';
+const BUILD_LABEL = 'v183 / buildable 1460 / total 1583';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -1757,7 +1757,7 @@ function betTargetsV111(){
   game.player.board.forEach((u,pos) => {
     if(!u || u.isBuilding) return;
     const c = byId(u.cardId);
-    if(isBet(c)) out.push({type:'unit', label:`ユニット：${u.name}`, unit:u, pos, card:c});
+    if(isBet(c) && canActivateBetUnitNowV182(u)) out.push({type:'unit', label:`ユニット：${u.name}`, unit:u, pos, card:c});
   });
   return out;
 }
@@ -1771,7 +1771,7 @@ function activateBetTargetV111(target){
     return true;
   }
   if(target.type === 'unit'){
-    applyTargetedBet(target.unit);
+    if(!runUnitBetV182(target.unit, 'コイン')) return false;
     emitBattleEvent('betActivated', {source:'コイン', unit:target.unit});
     battleLog(`コイン：${target.unit.name}のBETを発動。`);
     return true;
@@ -2087,7 +2087,7 @@ function applyCoinBetToTargetV110(unit){
   if(!unit) return false;
   const card = byId(unit.cardId);
   if(!isBet(card)) return false;
-  applyTargetedBet(unit);
+  if(!runUnitBetV182(unit, 'コイン')) return false;
   emitBattleEvent('betActivated', {source:'コイン', targetUnit:{id:unit.id, name:unit.name}});
   battleLog(`コイン：${unit.name}のBETを発動。`);
   return true;
@@ -2869,7 +2869,7 @@ function addCardToHandByName(name){
   const card = findCardByName(name);
   if(card){
     const ok = addCardIdToPlayerHandV110(card.id, name);
-    if(ok && name === 'コイン') state.battle.game.player.coinsAddedThisGame = Number(state.battle.game.player.coinsAddedThisGame || 0) + 1;
+    if(ok && (name === 'コイン' || name === 'スペシャルコイン')) state.battle.game.player.coinsAddedThisGame = Number(state.battle.game.player.coinsAddedThisGame || 0) + 1;
     return ok;
   }
   return false;
@@ -4510,10 +4510,21 @@ function handleUnitDeathEvent({unit, side, pos, vanished}={}){
   if(vanished) return;
   if(side === 'player') triggerLemonKingSlimeDeath(unit);
 }
-function handleBetActivatedEvent({unit, weapon, source}={}){
-  const actualBet = !!(unit || weapon || source === 'specialCoin');
-  if(actualBet) triggerHeroAuto('betActivated', {unit, weapon, source});
-  if(actualBet) { onFriendlyBetActivated(unit || null); v166OnBetActivated(unit || null); }
+function handleBetActivatedEvent({unit, weapon, source, count}={}){
+  if(source === 'specialCoinSummary'){
+    if(Number(count || 0) > 0) triggerHeroAuto('betActivated', {source:'specialCoin', count});
+    return;
+  }
+  if(source === 'specialCoin' && unit){
+    onFriendlyBetActivated(unit);
+    v166OnBetActivated(unit);
+    return;
+  }
+  const actualBet = !!(unit || weapon);
+  if(!actualBet) return;
+  triggerHeroAuto('betActivated', {unit, weapon, source});
+  onFriendlyBetActivated(unit || null);
+  v166OnBetActivated(unit || null);
 }
 function handleWeaponEquippedEvent({card}={}){
   if(card?.name === '福招きのそろばん') addCardToHandByName('コイン');
@@ -5478,10 +5489,12 @@ function updateTargetHighlights(){
   }
   if(game.pendingHeroSkill || game.pendingGenericEffect){
     const target = game.pendingHeroSkill?.target || game.pendingGenericEffect?.target || '';
-    if(target === 'friendlyEmptySlot'){
-      document.querySelectorAll('.unit-slot[data-side="player"]').forEach(slot => {
+    if(target === 'friendlyEmptySlot' || target === 'enemyEmptySlot'){
+      const slotSide = target === 'enemyEmptySlot' ? 'enemy' : 'player';
+      const board = slotSide === 'enemy' ? game.enemy.board : game.player.board;
+      document.querySelectorAll(`.unit-slot[data-side="${slotSide}"]`).forEach(slot => {
         const pos = Number(slot.dataset.pos);
-        if(!game.player.board[pos]) slot.classList.add('summonable');
+        if(!board[pos]) slot.classList.add('summonable');
       });
       return;
     }
@@ -5764,6 +5777,13 @@ function handleEmptySlotClick(side, pos){
     if(!card) return clearBattleSelectionV128('手札カードなし');
     if(!isBoardPlaceableCardV112(card)) return handleNonBoardCardFromHandV112(game.selectedHandIndex, card);
     return summonSelectedCard(pos);
+  }
+
+  if(game.pendingGenericEffect?.target === 'enemyEmptySlot' && side === 'enemy'){
+    return applyPendingGenericEffectToEmptySlotV183(side, pos);
+  }
+  if(game.pendingGenericEffect?.target === 'friendlyEmptySlot' && side === 'player'){
+    return applyPendingGenericEffectToEmptySlotV183(side, pos);
   }
 
   // Empty slots are invalid targets for damage/attack/hero target selection, but this must run AFTER placement waits.
@@ -6625,6 +6645,29 @@ function oncePerTurnBetAllowed(unit){
   unit.lastBetTurn = game.turn;
   return true;
 }
+function isOncePerTurnBetUnitV182(unit){
+  if(!unit) return false;
+  const text = getCardText(byId(unit.cardId));
+  return /1ターンに1回|１ターンに１回/.test(text);
+}
+function canActivateBetUnitNowV182(unit){
+  const game = state.battle.game;
+  if(!unit || !isBetUnit(unit)) return false;
+  if(isOncePerTurnBetUnitV182(unit) && unit.lastBetTurn === game.turn) return false;
+  return true;
+}
+function runUnitBetV182(unit, source='BET'){
+  if(!unit) return false;
+  if(!canActivateBetUnitNowV182(unit)){
+    const msg = `${unit.name}のBETは1ターンに1回のみのため、このターンはもう発動できません。`;
+    toast(msg, false);
+    battleLog(msg);
+    return false;
+  }
+  const handled = applyTargetedBet(unit);
+  if(!handled) applyBetEffectFromText(getCardText(byId(unit.cardId)), unit);
+  return true;
+}
 function applyTargetedBet(unit){
   if(!unit) return false;
   const game = state.battle.game;
@@ -7076,14 +7119,18 @@ function summonSlimes(count=2){
 }
 function fireAllFriendlyBetOnce(){
   const game = state.battle.game;
+  let fired = 0;
   for(const unit of [...game.player.board]){
     if(isBetUnit(unit)){
       if(unit.name === 'スペシャルコイン') continue;
-      if(!applyTargetedBet(unit)) applyBetEffectFromText(getCardText(byId(unit.cardId)), unit);
+      if(!canActivateBetUnitNowV182(unit)) continue;
+      if(!runUnitBetV182(unit, 'スペシャルコイン')) continue;
+      fired++;
       emitBattleEvent('betActivated', {unit, source:'specialCoin'});
     }
   }
-  battleLog('スペシャルコイン：味方ユニット全てのBETを発動しました。');
+  if(fired > 0) emitBattleEvent('betActivated', {source:'specialCoinSummary', count:fired});
+  battleLog(`スペシャルコイン：味方ユニット${fired}体のBETを発動しました。`);
 }
 function drawRandomBetFromDeck(){
   const game = state.battle.game;
@@ -7100,7 +7147,7 @@ function drawRandomBetFromDeck(){
 }
 function availableBetTargets(){
   const game = state.battle.game;
-  const targets = game.player.board.map((u,pos)=>isBetUnit(u) ? {type:'unit', unit:u, pos, label:u.name} : null).filter(Boolean);
+  const targets = game.player.board.map((u,pos)=>isBetUnit(u) && canActivateBetUnitNowV182(u) ? {type:'unit', unit:u, pos, label:u.name} : null).filter(Boolean);
   if(game.player.weapon?.cardText?.includes('BET')) targets.push({type:'weapon', label:game.player.weapon.name || '装備中の武器'});
   return targets;
 }
@@ -7140,10 +7187,17 @@ function addMartialArtsCard(){
   battleLog('武術カードを1枚手札に加えました。');
 }
 const MERCHANT_TOOL_CARD_NAMES_V179 = ['道具：ちからのたね','道具：いのちのきのみ','道具：しあわせのたね'];
+const MERCHANT_TOOL_CARD_NAMES_YANGUS_V181 = ['道具：弟切草','道具：火炎草','道具：大きなパン'];
+function currentMerchantToolPoolV181(){
+  const g = state.battle.game;
+  return g?.player?.merchantToolsReplacedByYoungYangus ? MERCHANT_TOOL_CARD_NAMES_YANGUS_V181 : MERCHANT_TOOL_CARD_NAMES_V179;
+}
 function normalizeMerchantCardNameV179(name=''){
   let s = String(name || '').trim().replace(/:/g, '：');
   if(s === '超ちからの種') s = '超ちからのたね';
   if(s === '道具：大きなパン' || s === '大きなパン') return '道具：大きなパン';
+  if(s === '弟切草') return '道具：弟切草';
+  if(s === '火炎草') return '道具：火炎草';
   return s;
 }
 function addCardToHandByFlexibleNameV179(name, source='カード追加'){
@@ -7155,7 +7209,8 @@ function addCardToHandByFlexibleNameV179(name, source='カード追加'){
 function addMerchantToolCardsV179(count=1, source='道具カード'){
   const added = [];
   for(let i=0;i<Number(count || 1);i++){
-    const name = chooseRandom(MERCHANT_TOOL_CARD_NAMES_V179, 'merchantToolV179', {source, i});
+    const pool = currentMerchantToolPoolV181();
+    const name = chooseRandom(pool, 'merchantToolV181', {source, i, yangus:!!state.battle.game?.player?.merchantToolsReplacedByYoungYangus});
     if(addCardToHandByFlexibleNameV179(name, source)) added.push(name);
   }
   battleLog(`${source}：${added.length}枚の道具カードを手札に加えました${added.length ? `（${added.join(' / ')}）` : ''}。`);
@@ -7246,9 +7301,7 @@ function applyBetToTarget(target){
   }
   if(target.type === 'unit'){
     const unit = target.unit;
-    if(!applyTargetedBet(unit)){
-      applyBetEffectFromText(getCardText(byId(unit.cardId)), unit);
-    }
+    if(!runUnitBetV182(unit, 'コイン')) return false;
     emitBattleEvent('betActivated', {unit, source:'unit'});
     return true;
   }
@@ -7362,6 +7415,34 @@ function getAdjacentVerticalPositions(side, pos){
 function summonTokenAtPosition(name, pos, side='player', stats={}){
   const card = findCardByName(name) || ensureVirtualCard(name) || {id:`token_${name}`, name, attack:stats.attack || 1, hp:stats.hp || 1, cardType:'ユニット', text:''};
   return !!putUnitIntoPlayFromCard(card, pos, side, stats);
+}
+function enemySideOfV183(side='player'){
+  return side === 'enemy' ? 'player' : 'enemy';
+}
+function sameRowEnemyEmptySlotsV183(ownerSide='player', ownerPos=0){
+  const enemySide = enemySideOfV183(ownerSide);
+  const row = posToCoord(ownerSide, Number(ownerPos || 0)).row;
+  const cols = enemySide === 'enemy' ? [2, 3] : [1, 0];
+  const board = boardForSideV166(enemySide);
+  return cols.map(col => coordToPos(enemySide, row, col))
+    .filter(pos => pos >= 0 && !board[pos])
+    .map(pos => ({side:enemySide, pos}));
+}
+function summonStrawberryBombAtV183(side='enemy', pos=0, source='怪獣プスゴン'){
+  const board = boardForSideV166(side);
+  if(pos < 0 || pos >= board.length || board[pos]) return false;
+  const ok = summonTokenAtPosition('イチゴ爆弾', pos, side, {attack:0, hp:3});
+  if(ok) battleLog(`${source}：${side === 'enemy' ? '敵' : '味方'}マス${pos}にイチゴ爆弾を出しました。`);
+  return ok;
+}
+function summonStrawberryBombSameRowEnemyV183(ownerSide='player', ownerPos=0, source='怪獣プスゴン'){
+  const candidates = sameRowEnemyEmptySlotsV183(ownerSide, ownerPos);
+  if(!candidates.length){
+    battleLog(`${source}：正面の敵同列マスが埋まっているためイチゴ爆弾は出ません。`);
+    return false;
+  }
+  const pick = chooseRandom(candidates, 'pusgonDeathBombV183', {ownerSide, ownerPos});
+  return summonStrawberryBombAtV183(pick.side, pick.pos, source);
 }
 function summonAboveBelow(sourceUnit, tokenName){
   const game = state.battle.game;
@@ -8080,17 +8161,18 @@ function applyBetEffectFromText(text, sourceUnit=null){
 function useCoinCard(){
   const game = state.battle.game;
   const targets = availableBetTargets();
-  if(targets.length){
-    openChoiceModal('BET対象', targets.map(t => t.label), (picked, i) => {
-      const target = targets[i];
-      applyBetToTarget(target);
-      battleLog(`コインを使い、${target.label}のBETを発動しました。`);
-      renderBattleArena(); syncMyBattleState();
-    });
-    return;
+  if(!targets.length){
+    toast('BET対象が場にいないため、コインは使用できません。', false);
+    battleLog('コイン：BET対象が場にいないため使用できません。');
+    return false;
   }
-  emitBattleEvent('betActivated', {source:'coinOnly'});
-  battleLog('コインを使いました。BET対象はいません。');
+  openChoiceModal('BET対象', targets.map(t => t.label), (picked, i) => {
+    const target = targets[i];
+    applyBetToTarget(target);
+    battleLog(`コインを使い、${target.label}のBETを発動しました。`);
+    renderBattleArena(); syncMyBattleState();
+  });
+  return true;
 }
 function useExchangeCard(card){
   const coins = countCoinsInHand();
@@ -8250,6 +8332,10 @@ function shouldPreventDamageByGyumeiV166(source, targetIsLeader=false){
 function applySummonV166(unit, card){
   const g=state.battle.game; if(!unit || !card) return false;
   const name=card.name; const pos=g.player.board.indexOf(unit);
+  if(name === '少年ヤンガス'){
+    g.player.merchantToolsReplacedByYoungYangus = true;
+    battleLog('少年ヤンガス：この対戦中、味方効果で手に入る道具カードが弟切草/火炎草/大きなパンになります。');
+  }
   if(name === 'ブラッドレディ'){
     g.pendingGenericEffect={kind:'damage', amount:2, source:name, target:'unitAny', ignoreTargetsUntil:Date.now()+450, sourceUnitId:unit.id};
     battleLog('ブラッドレディ：2ダメージを与えるユニットを選んでください。'); return true;
@@ -8268,6 +8354,10 @@ function applySummonV166(unit, card){
   if(name === 'くらやみハーピー'){
     g.pendingGenericEffect={kind:'setHpToAttack', source:name, target:'unitAny'};
     battleLog('くらやみハーピー：HPを攻撃力と同じにするユニットを選んでください。'); return true;
+  }
+  if(name === '怪獣プスゴン'){
+    g.pendingGenericEffect={kind:'summonStrawberryBomb', source:name, target:'enemyEmptySlot', sourceUnitId:unit.id};
+    battleLog('怪獣プスゴン：イチゴ爆弾を出す敵の空きマスを選んでください。'); return true;
   }
   if(name === 'ハンフリー'){
     g.pendingGenericEffect={kind:'hanfuri', source:name, target:'unitAny', sourceUnitId:unit.id};
@@ -8337,6 +8427,14 @@ function applyCardUseV166(card, cost){
       battleLog('道具：大きなパン：このターン中は既にMP+1済みのため追加上昇なし。');
     }
     return true;
+  }
+  if(name === '道具：弟切草' || name === '道具:弟切草' || name === '弟切草'){
+    g.pendingGenericEffect={kind:'merchantToolHeal', amount:3, source:name, target:'unitAny'};
+    battleLog(`${name}：HPを3回復するユニットを選んでください。`); return true;
+  }
+  if(name === '道具：火炎草' || name === '道具:火炎草' || name === '火炎草'){
+    g.pendingGenericEffect={kind:'damage', amount:3, source:name, target:'unitAny'};
+    battleLog(`${name}：3ダメージを与えるユニットを選んでください。`); return true;
   }
   if(name === '道具：ちからのたね' || name === '道具:ちからのたね'){
     g.pendingGenericEffect={kind:'merchantToolSeed', attack:1, hp:0, source:name, target:'unitAny'};
@@ -8948,6 +9046,23 @@ function useNonUnitCard(index, card){
   const game = state.battle.game;
   if(card?.name === 'イブールの本') return resolveIburBookV121('player', index);
   if(card?.name === 'コイン') return useCoinFromHandV110(index);
+  if(card?.name === 'スペシャルコイン'){
+    const cost = getEffectiveCost(card);
+    if(cost > game.player.mp) return;
+    game.player.mp -= cost;
+    game.player.hand.splice(index, 1);
+    fireAllFriendlyBetOnce();
+    battleLog('スペシャルコインを使用しました。');
+    emitBattleEvent('cardPlayed', {card, cost, source:'use'});
+    renderBattleArena();
+    syncMyBattleState();
+    return;
+  }
+  if(card?.name?.includes('交換所') && getCardText(card).includes('交換') && countCoinsInHand() < 1){
+    toast('コインがないため交換所は使用できません。', false);
+    battleLog(`${card.name}：コインがないため使用できません。`);
+    return;
+  }
   const cost = getEffectiveCost(card);
   if(cost > game.player.mp) return;
   game.player.mp -= cost;
@@ -9403,6 +9518,9 @@ function attackUnit(attackerRef, defenderRef){
   const defBoard = defenderRef.side === 'player' ? game.player.board : game.enemy.board;
   const atk = attackerRef.side === 'playerLeader' ? {name:'味方リーダー', attack:game.player.leaderAttack, canAttack:game.player.leaderCanAttack, keywords:{}} : atkBoard[attackerRef.pos];
   const def = defBoard[defenderRef.pos];
+  const breadHandWatchV181 = attackerRef.side === 'playerLeader' && defenderRef.side === 'enemy' && game.player.weapon?.name === 'ブレッドハンド'
+    ? game.enemy.board.map(u => (u && !u.isBuilding && Number(u.hp || 0) > 0) ? u.id : null)
+    : null;
   if(!atk || !def || !atk.canAttack) return;
   if(def.name === 'チャゴス王子'){
     if(defenderRef.side === 'player') addCardToHandByName(def.name);
@@ -9425,10 +9543,6 @@ function attackUnit(attackerRef, defenderRef){
   const combatMult = Number(game.player.combatDamageMultiplier || 1);
   const dealtToDef = damageUnit(def, atk.attack * combatMult);
   emitDamageApplied(defenderRef, atk.attack * combatMult, dealtToDef, atk.name);
-  if(attackerRef.side === 'playerLeader' && defenderRef.side === 'enemy' && game.player.weapon?.name === 'ブレッドハンド' && Number(def.hp || 0) <= 0){
-    addCardToHandByFlexibleNameV179('道具：大きなパン', 'ブレッドハンド');
-    battleLog('ブレッドハンド：敵ユニットを死亡させたため、道具：大きなパンを手札に加えました。');
-  }
   if(attackerRef.side === 'playerLeader' && game.player.weapon?.rowSplash){ const c=posToCoord(defenderRef.side, defenderRef.pos); const cols = defenderRef.side === 'enemy' ? [2,3] : [0,1]; for(const col of cols){ const p=coordToPos(defenderRef.side,c.row,col); if(p!==defenderRef.pos){ const u=defBoard[p]; if(u) dealDamageToUnit(u, atk.attack * combatMult, game.player.weapon.name, defenderRef.side); } } }
   applyCounterDamageV123(atk, attackerRef, def, defenderRef);
   applyOrgoFourthSplash(atk, defenderRef, atk.attack);
@@ -9445,6 +9559,13 @@ function attackUnit(attackerRef, defenderRef){
   if(kAtk.conditionGood && atk.hp === atk.maxHp){ atk.attack += 1; battleLog('絶好調：攻撃力+1。'); }
   applyAttackTextEffects(atk, def, defenderRef);
   applyPiercingDamage(atk, defenderRef, atk.attack);
+  if(breadHandWatchV181){
+    const killedByWeaponAttack = game.enemy.board.some((u, i) => breadHandWatchV181[i] && u && u.id === breadHandWatchV181[i] && Number(u.hp || 0) <= 0);
+    if(killedByWeaponAttack){
+      addCardToHandByFlexibleNameV179('道具：大きなパン', 'ブレッドハンド');
+      battleLog('ブレッドハンド：武器攻撃で敵ユニットを死亡させたため、道具：大きなパンを手札に加えました。');
+    }
+  }
   consumeZekkochoOnAttackV134(atk, attackerRef, defenderRef);
   if(atk.gainAttackOnKillThisTurn && def.hp <= 0){
     atk.attack += 1;
@@ -9549,6 +9670,12 @@ function applyDeathrattle(unit, side){
 
   if(unit.name === 'ドラゴン' || unit.name === '立ち塞がるドラゴン' || deathText.includes('相手の手札に王女の愛')){
     addCardToOpponentHandRelativeV121(side, '王女の愛', unit.name);
+    return;
+  }
+  if(unit.name === '怪獣プスゴン'){
+    const board = side === 'enemy' ? game.enemy.board : game.player.board;
+    const deathPos = Number.isInteger(unit.lastBoardPos) ? unit.lastBoardPos : board.indexOf(unit);
+    summonStrawberryBombSameRowEnemyV183(side, deathPos, unit.name);
     return;
   }
 
@@ -9688,6 +9815,12 @@ function applyPendingGenericEffectToUnit(defenderRef){
     battleLog('コインのたね：攻撃力+1、GET(1)。');
     game.pendingGenericEffect = null; renderBattleArena(); syncMyBattleState(); return;
   }
+  if(eff.kind === 'merchantToolHeal'){
+    const amount = Number(eff.amount || 0);
+    healUnit(unit, amount);
+    battleLog(`${eff.source}：${unit.name}のHPを${amount}回復。`);
+    game.pendingGenericEffect = null; renderBattleArena(); syncMyBattleState(); return;
+  }
   if(eff.kind === 'merchantToolSeed'){
     const atk = Number(eff.attack || 0), hp = Number(eff.hp || 0);
     if(atk) unit.attack += atk;
@@ -9721,7 +9854,17 @@ function applyPendingGenericEffectToUnit(defenderRef){
   }
   if(eff.kind === 'hanfuri'){
     const src=allFriendlyUnits().find(x=>x.id===eff.sourceUnitId);
-    if(src){ src.attack = Number(unit.attack||0); src.maxHp=Number(unit.maxHp||unit.hp||0); src.hp=Math.min(src.maxHp, src.maxHp); unit.attack=2; unit.maxHp=2; unit.hp=Math.min(unit.hp,2); }
+    if(src){
+      const stolenAttack = Number(unit.attack || 0);
+      const stolenMaxHp = Number(unit.maxHp || unit.hp || 0);
+      src.attack = stolenAttack;
+      src.maxHp = stolenMaxHp;
+      src.hp = stolenMaxHp;
+      unit.attack = 2;
+      unit.maxHp = 2;
+      unit.hp = Math.min(Number(unit.hp || 0), 2);
+      battleLog(`ハンフリー：${unit.name}の攻撃力${stolenAttack}/最大HP${stolenMaxHp}を吸収し、対象を2/2にしました。`);
+    }
     game.pendingGenericEffect = null; renderBattleArena(); syncMyBattleState(); return;
   }
   if(eff.kind === 'damageBySourceAttack'){
@@ -9857,6 +10000,27 @@ function applyPendingGenericEffectToLeader(){
     addRandomOpponentDeckCopyToHand({costDelta:-1});
   }else{
     battleLog(`${eff.source}：敵リーダーに${eff.amount ?? ''}。`);
+  }
+  game.pendingGenericEffect = null;
+  renderBattleArena();
+  syncMyBattleState();
+}
+function applyPendingGenericEffectToEmptySlotV183(side='player', pos=0){
+  const game = state.battle.game;
+  const eff = game.pendingGenericEffect;
+  if(!eff) return;
+  if(eff.target === 'enemyEmptySlot' && side !== 'enemy') return toast('敵の空きマスを選んでください。', false);
+  if(eff.target === 'friendlyEmptySlot' && side !== 'player') return toast('味方の空きマスを選んでください。', false);
+  const board = side === 'enemy' ? game.enemy.board : game.player.board;
+  if(board[pos]) return toast('空きマスを選んでください。', false);
+  emitEmptySlotSelected('genericEffectEmptySlot', side, pos, {effect: makeEffectTargetPayload(eff, {side:`${side}Empty`, pos})});
+  if(eff.kind === 'summonStrawberryBomb'){
+    summonStrawberryBombAtV183(side, pos, eff.source || '怪獣プスゴン');
+  }else if(eff.kind === 'summonSpecificToken'){
+    summonTokenAtPosition(eff.tokenName, pos, side, {attack:eff.attack, hp:eff.hp});
+  }else if(side === 'player'){
+    // fall back to the legacy player empty-slot resolver for terrain/dungeon effects
+    return applyPendingGenericEffectToEmptySlot(pos);
   }
   game.pendingGenericEffect = null;
   renderBattleArena();

@@ -1,0 +1,29 @@
+{
+  "version": "v183_deborah_torneko_remaining_fixes",
+  "base": "v182_once_per_turn_bet_confirmed",
+  "implemented": [
+    "スペシャルコインを0コスト特技/使用カード化。盤面には出せず、使用時に味方BETユニット全体発動",
+    "スペシャルコインを手札に加えた場合もゴールデンタイタスのコスト軽減カウントに含める",
+    "交換所はコインが0枚なら使用前に止める。カード/M Pを消費しない",
+    "ゴールデンタイタスを8/8ユニットに補正。コイン獲得枚数ぶん10コストから低下する既存処理を維持",
+    "怪獣プスゴン召喚時は敵空きマスを指定してイチゴ爆弾を出す",
+    "怪獣プスゴン死亡時は同じ行の敵前列/後列空きマスからランダム。不在/埋まりなら不発",
+    "イチゴ爆弾は敵マス上の爆弾を起点に上下前後の同側ユニットへ2ダメージの既存処理を維持",
+    "ハンフリーは対象ユニットの攻撃力と最大HPを参照し、自身をその値かつHP満タンにする。対象は最大HP2/現在HP最大2へ"
+  ],
+  "checks": {
+    "node_ok": true,
+    "no_duplicate_functions": true,
+    "version_v183": true,
+    "title_v183": true,
+    "special_coin_spell": true,
+    "special_coin_use": true,
+    "exchange_precheck": true,
+    "golden_titus_8_8": true,
+    "golden_titus_discount": true,
+    "special_coin_counts_for_titus": true,
+    "pusgon_death_same_row": true,
+    "pusgon_summon_enemy_empty": true,
+    "hanfuri_max_hp": true
+  }
+}
