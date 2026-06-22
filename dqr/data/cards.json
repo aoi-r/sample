@@ -64154,7 +64154,9 @@
         "占い師": 69
       },
       "flags": {
-        "deckBuildable": false
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true
       },
       "classKey": "占い師",
       "tribeKey": "",
@@ -64188,7 +64190,7 @@
       "hp": 0,
       "text": "このターン中味方リーダーは超必中モードになる。既に超必中モードの場合テンション+1",
       "rarity": "レア",
-      "cardType": "ユニット",
+      "cardType": "特技",
       "classes": [
         "占い師"
       ],
@@ -64205,7 +64207,9 @@
         "占い師": 70
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true
       },
       "classKey": "占い師",
       "tribeKey": "",

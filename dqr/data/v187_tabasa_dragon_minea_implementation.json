@@ -1,0 +1,9 @@
+{
+  "version": "v187_tabasa_dragon_minea_implementation",
+  "base": "v186_warrior_merchant_audit_cleanup",
+  "label": "v187 / buildable 1460 / total 1583",
+  "reportFiles": [
+    "data/v187_tabasa_dragon_minea_implementation_report.json",
+    "data/v187_tabasa_dragon_minea_implementation_report.md"
+  ]
+}

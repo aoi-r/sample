@@ -7190,3 +7190,6 @@
     font-size:8px !important;
   }
 }
+
+/* v188: fortune super confirmation keeps the all-action button visually below card choices. */
+.choice-modal-body--cards.choice-modal-body--all .choice-all-banner{margin-top:.75rem;}
