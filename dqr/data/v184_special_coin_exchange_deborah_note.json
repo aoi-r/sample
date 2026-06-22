@@ -1,0 +1,16 @@
+{
+  "version": "v184_special_coin_exchange_deborah_note",
+  "base": "v183_deborah_torneko_remaining_fixes",
+  "changes": [
+    "交換所のコイン枚数カウントにスペシャルコインを含める",
+    "交換所の支払いは通常コイン優先、足りない分だけスペシャルコインを消費",
+    "コイン/スペシャルコインは特技扱いのまま。レッドプレデター/キャプテン・クロウ反応は正常扱い",
+    "タイトル画面/起動後表示をv184へ更新"
+  ],
+  "deborahCurrentProgress": {
+    "Lv1 この手に切り札を": "uses:2",
+    "Lv2 アゲていくわよ": "triggers:2",
+    "Lv3 小魚への施し": "final/no progress"
+  },
+  "note": "heroes.json側は天空の花嫁デボラ needsSkillDataReview=true で、回数詳細は本文DB由来ではなく app.js の HERO_SKILL_DEFS 側に手動補完されている。"
+}

@@ -62,8 +62,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v183_deborah_torneko_remaining_fixes';
-const BUILD_LABEL = 'v183 / buildable 1460 / total 1583';
+const DATA_VERSION = 'v186_warrior_merchant_audit_cleanup';
+const BUILD_LABEL = 'v186 / buildable 1460 / total 1583';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -956,7 +956,7 @@ function countDeckOther(deckCards){
 }
 
 
-// v165: 既定テストデッキは、公式DBの公開デッキを土台にした4デッキのみ。魔剣士 #298 は次のテストデッキ作成まで完全に非表示。
+// v165: 既定テストデッキは、公式DBの公開デッキを土台にした3デッキのみ。魔法使い #324 は差し替え予定のため非表示。魔剣士 #298 は次のテストデッキ作成まで完全に非表示。
 // URL側のデッキリストにカード行が無い職業（武闘家 #413 / 僧侶 #393）と、差し替え待ちの魔剣士 #298 は実装しない。
 // 公式ページの行数をそのまま採用し、枚数合わせ用の補充カードは絶対に入れない。
 const SOLO_PRESET_DECK_DEFS = [
@@ -969,17 +969,6 @@ const SOLO_PRESET_DECK_DEFS = [
     sourceTotal:30,
     cards:[
       ['しっぷう突き',2],['とげぼうず',2],['勇者イレブン',1],['アルゴリザード',2],['トンネラー',2],['かくれんぼう',2],['ナイトキング',2],['わたぼう',1],['ブラッドレディ',2],['シーゴーレム',2],['ラプソーン',1],['最後の砦の英雄グレイグ',1],['コンガオンガ',1],['フェイスボール',2],['ギュメイ将軍',1],['シュプリンガー',1],['グレイトマムー',2],['いなずまのけん',2],['ウルノーガ&ウルナーガ',1]
-    ]
-  },
-  {
-    id:'default_mage_324',
-    deckName:'デボラゼシカ',
-    className:'魔法使い',
-    sourceUrl:'https://gameconductor.com/dqrivals/deck/detail/?no=324',
-    sourceDeckNo:324,
-    sourceTotal:30,
-    cards:[
-      ['メラ',2],['魔法使いの交換所',2],['プチマージ',2],['イオ',2],['メラミ',2],['ボックススライム',2],['スラ・ストライク',2],['ベホイミスライム',2],['天空の花嫁デボラ',1],['黄金兵',2],['メラゾーマ',2],['少女マリベル',1],['マデサゴーラ',1],['キャプテン・クロウ',1],['アークマージ',2],['エルギオス',1],['魔導召喚',1],['ゴールデンタイタス',2]
     ]
   },
   {
@@ -4451,7 +4440,7 @@ function handleCardPlayedEvent({card, cost, side='player'}={}){
   }
   triggerCardPlayedForHero(card);
   progressDungeonsByEvent('cardUse', {card, cost});
-  if(isBet(card)) triggerHeroAuto('betActivated', {card});
+  // v186: BETを持つカードを使っただけではデボラLv2は発動しない。実際のBET発動イベントだけを見る。
 }
 function handleSpellPlayedEvent({card, cost}={}){
   const game = state.battle.game;
@@ -4517,14 +4506,14 @@ function handleBetActivatedEvent({unit, weapon, source, count}={}){
   }
   if(source === 'specialCoin' && unit){
     onFriendlyBetActivated(unit);
-    v166OnBetActivated(unit);
+    v166OnBetActivated(unit, 'specialCoin');
     return;
   }
   const actualBet = !!(unit || weapon);
   if(!actualBet) return;
   triggerHeroAuto('betActivated', {unit, weapon, source});
   onFriendlyBetActivated(unit || null);
-  v166OnBetActivated(unit || null);
+  v166OnBetActivated(unit || null, source || 'BET');
 }
 function handleWeaponEquippedEvent({card}={}){
   if(card?.name === '福招きのそろばん') addCardToHandByName('コイン');
@@ -5821,16 +5810,42 @@ function summonSelectedCard(pos){
   syncMyBattleState();
 }
 
+function isExchangeCoinCardV184(card){
+  return card?.name === 'コイン' || card?.name === 'スペシャルコイン';
+}
 function countCoinsInHand(){
-  return state.battle.game.player.hand.filter(id => byId(id)?.name === 'コイン').length;
+  return state.battle.game.player.hand.filter(id => isExchangeCoinCardV184(byId(id))).length;
 }
 function consumeCoins(n=1){
   const hand = state.battle.game.player.hand;
   let used = 0;
-  for(let i=hand.length-1;i>=0 && used<n;i--){
-    if(byId(hand[i])?.name === 'コイン'){ hand.splice(i,1); used++; }
+  // 交換所では通常コインを優先して消費し、足りない分だけスペシャルコインを消費する。
+  for(const targetName of ['コイン','スペシャルコイン']){
+    for(let i=hand.length-1;i>=0 && used<n;i--){
+      if(byId(hand[i])?.name === targetName){ hand.splice(i,1); used++; }
+    }
   }
   return used === n;
+}
+function applyGoldenSoldierCoinUseDiscountV186(source='コイン'){
+  const g = state.battle.game;
+  if(!g?.player?.hand) return 0;
+  let changed = 0;
+  for(let i=0;i<g.player.hand.length;i++){
+    const c = byId(g.player.hand[i]);
+    if(c?.name === '黄金兵'){
+      const copy=JSON.parse(JSON.stringify(c));
+      copy.id=`copy_${c.id}_${Date.now()}_${safeRandomId('golden').slice(0,8)}_${i}`;
+      copy.originalCardId=c.originalCardId || c.id;
+      copy._baseCostOriginal ??= Number(c._baseCostOriginal ?? c.cost ?? 0);
+      copy.cost = Math.max(0, Number(c.cost||0)-2);
+      copy.flags ||= {}; copy.flags.deckBuildable=false; copy._tempCostUntilTurnEnd=true;
+      state.allCards.push(copy); state.cards.push(copy); g.player.hand[i]=copy.id;
+      changed++;
+    }
+  }
+  if(changed) battleLog(`黄金兵：${source}使用により手札の黄金兵${changed}枚のコスト-2。`);
+  return changed;
 }
 function summonTokenByName(name, stats={}, side='player'){
   return summonTokenByRuleV134(name, stats, side, '出す');
@@ -8281,21 +8296,11 @@ function v166OnCardPlayed(card, cost, side='player'){
   if(hasFortuneEffect(card)) g.player.totalFortuneEffectsUsed = Number(g.player.totalFortuneEffectsUsed||0) + 1;
   refreshArkmageV166();
 }
-function v166OnBetActivated(sourceUnit=null){
+function v166OnBetActivated(sourceUnit=null, source='BET'){
   const g=state.battle.game;
-  // 黄金兵：自分がコイン/BETを使う度、このターン中手札の黄金兵コスト-2。カードコピーへ一時costDeltaを積む。
-  for(let i=0;i<(g.player.hand||[]).length;i++){
-    const c=byId(g.player.hand[i]);
-    if(c?.name === '黄金兵'){
-      const copy=JSON.parse(JSON.stringify(c));
-      copy.id=`copy_${c.id}_${Date.now()}_${safeRandomId('golden').slice(0,8)}_${i}`;
-      copy.originalCardId=c.originalCardId || c.id;
-      copy._baseCostOriginal ??= Number(c._baseCostOriginal ?? c.cost ?? 0);
-      copy.cost = Math.max(0, Number(c.cost||0)-2);
-      copy.flags ||= {}; copy.flags.deckBuildable=false; copy._tempCostUntilTurnEnd=true;
-      state.allCards.push(copy); state.cards.push(copy); g.player.hand[i]=copy.id;
-    }
-  }
+  // 黄金兵は「コインを使う度」なので、スペシャルコインで複数BETが発動しても1枚につき1回だけ。
+  if(source !== 'specialCoin') applyGoldenSoldierCoinUseDiscountV186(source === 'コイン' ? 'コイン' : 'コイン/BET');
+  // ルドマンは「BETが4回発動する度」なので、スペシャルコインでは実際に発動したBETユニット数ぶん進む。
   for(const u of allFriendlyUnits()){
     if(u.name === 'ルドマン'){
       u.ludmanBetCount = Number(u.ludmanBetCount||0)+1;
@@ -9051,6 +9056,7 @@ function useNonUnitCard(index, card){
     if(cost > game.player.mp) return;
     game.player.mp -= cost;
     game.player.hand.splice(index, 1);
+    applyGoldenSoldierCoinUseDiscountV186('スペシャルコイン');
     fireAllFriendlyBetOnce();
     battleLog('スペシャルコインを使用しました。');
     emitBattleEvent('cardPlayed', {card, cost, source:'use'});
@@ -9704,18 +9710,6 @@ function applyDeathrattle(unit, side){
   }
   if(unit.name === 'ベホイミスライム'){
     addCardToHandByName('コイン');
-  }
-  if(unit.name === '怪獣プスゴン'){
-    const pos = unit.lastBoardPos ?? -1;
-    if(pos >= 0){
-      const c = posToCoord('player', pos);
-      const enemyPos = coordToPos('enemy', c.row, 2);
-      if(enemyPos >= 0 && !game.enemy.board[enemyPos]) summonTokenAtPosition('イチゴ爆弾', enemyPos, 'enemy', {attack:0, hp:3});
-      else {
-        const p = randomEnemyEmptySlot();
-        if(p >= 0) summonTokenAtPosition('イチゴ爆弾', p, 'enemy', {attack:0, hp:3});
-      }
-    }
   }
   if(unit.reviveSamePlaceOnDeath){
     const pos = unit.lastBoardPos ?? -1;
@@ -11625,6 +11619,13 @@ function triggerHeroAuto(trigger, ctx){
   if(!hs) return;
   const skill = getHeroLevelDef(hs);
   if(!skill || skill.type !== 'auto' || skill.trigger !== trigger) return;
+  // v185: 自動発動型ヒーロースキルもヒーロースキルなので1ターン1回まで。
+  // デボラLv2「アゲていくわよ」は、BETが発動した時だけここに来る。スペシャルコインはsummaryイベント1回だけ。
+  if(game.player.heroSkillUsedThisTurn){
+    if(skill.name === 'アゲていくわよ') battleLog('アゲていくわよ：このターンは既にヒーロースキルを発動済みのため発動しません。');
+    return;
+  }
+  game.player.heroSkillUsedThisTurn = true;
   if(trigger === 'spellCost3Plus' && skill.effect?.kind === 'rubissBlessing'){
     const cost = ctx.cost || 0;
     if(cost >= 3) game.player.mp = Math.min(game.player.maxMp, game.player.mp + 1);

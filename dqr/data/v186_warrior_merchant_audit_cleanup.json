@@ -1,0 +1,15 @@
+{
+  "version": "v186_warrior_merchant_audit_cleanup",
+  "base": "v185_deborah_lv2_once_per_turn",
+  "label": "v186 / buildable 1460 / total 1583",
+  "changes": [
+    "デボラゼシカ既定デッキを削除",
+    "BETを持つカードを使用/召喚しただけでデボラLv2が誤発動する経路を削除",
+    "スペシャルコインで複数BETが発動しても黄金兵の手札コスト-2はスペシャルコイン1枚につき1回だけに整理",
+    "怪獣プスゴン死亡時の古いランダム敵空きマス処理の死にコードを除去"
+  ],
+  "auditReport": [
+    "data/v186_warrior_merchant_audit_report.json",
+    "data/v186_warrior_merchant_audit_report.md"
+  ]
+}
