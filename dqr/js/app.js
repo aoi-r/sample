@@ -62,8 +62,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v178_rapthorne_random_title_version';
-const BUILD_LABEL = 'v178 / buildable 1460 / total 1583';
+const DATA_VERSION = 'v179_merchant_deborah_tools_fix';
+const BUILD_LABEL = 'v179 / buildable 1460 / total 1583';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -4511,8 +4511,9 @@ function handleUnitDeathEvent({unit, side, pos, vanished}={}){
   if(side === 'player') triggerLemonKingSlimeDeath(unit);
 }
 function handleBetActivatedEvent({unit, weapon, source}={}){
-  triggerHeroAuto('betActivated', {unit, weapon});
-  if(unit || weapon || source === 'specialCoin' || source === 'coinOnly') { onFriendlyBetActivated(unit || null); v166OnBetActivated(unit || null); }
+  const actualBet = !!(unit || weapon || source === 'specialCoin');
+  if(actualBet) triggerHeroAuto('betActivated', {unit, weapon, source});
+  if(actualBet) { onFriendlyBetActivated(unit || null); v166OnBetActivated(unit || null); }
 }
 function handleWeaponEquippedEvent({card}={}){
   if(card?.name === '福招きのそろばん') addCardToHandByName('コイン');
@@ -7138,9 +7139,46 @@ function addMartialArtsCard(){
   addCardToHandByName('武術カード');
   battleLog('武術カードを1枚手札に加えました。');
 }
+const MERCHANT_TOOL_CARD_NAMES_V179 = ['道具：ちからのたね','道具：いのちのきのみ','道具：しあわせのたね'];
+function normalizeMerchantCardNameV179(name=''){
+  let s = String(name || '').trim().replace(/:/g, '：');
+  if(s === '超ちからの種') s = '超ちからのたね';
+  if(s === '道具：大きなパン' || s === '大きなパン') return '道具：大きなパン';
+  return s;
+}
+function addCardToHandByFlexibleNameV179(name, source='カード追加'){
+  const normalized = normalizeMerchantCardNameV179(name);
+  const card = state.allCards.find(c => c.name === normalized) || state.allCards.find(c => c.name === name);
+  if(card) return addCardIdToPlayerHandV110(card.id, source);
+  return addCardToHandByName(normalized);
+}
+function addMerchantToolCardsV179(count=1, source='道具カード'){
+  const added = [];
+  for(let i=0;i<Number(count || 1);i++){
+    const name = chooseRandom(MERCHANT_TOOL_CARD_NAMES_V179, 'merchantToolV179', {source, i});
+    if(addCardToHandByFlexibleNameV179(name, source)) added.push(name);
+  }
+  battleLog(`${source}：${added.length}枚の道具カードを手札に加えました${added.length ? `（${added.join(' / ')}）` : ''}。`);
+  return added.length;
+}
 function addToolCard(){
-  addCardToHandByName('道具カード');
-  battleLog('道具カードを1枚手札に加えました。');
+  return addMerchantToolCardsV179(1, '道具カード');
+}
+function addExchangeRewardV179(reward, source='交換所'){
+  let text = String(reward || '').trim().replace(/、|。/g, '');
+  const m = text.match(/^コスト\s*(\d+)\s*の\s*(.+)$/);
+  const targetCost = m ? Number(m[1]) : null;
+  let name = normalizeMerchantCardNameV179(m ? m[2].trim() : text);
+  const card = state.allCards.find(c => c.name === name) || state.allCards.find(c => normalizeMerchantCardNameV179(c.name) === name);
+  if(!card){
+    battleLog(`${source}：景品「${name}」のカードデータが見つかりません。`);
+    return false;
+  }
+  if(targetCost != null){
+    const delta = targetCost - Number(card.cost || 0);
+    return addDiscountedCopyToHandV117(card, delta, source);
+  }
+  return addCardIdToPlayerHandV110(card.id, source);
 }
 function buffRandomOtherFriendly(sourceUnit, atk=0, hp=0){
   const game = state.battle.game;
@@ -8059,7 +8097,7 @@ function useExchangeCard(card){
   if(coins < 1) return toast('コインがありません。', false);
   const text = getCardText(card);
   const choices = [];
-  const re = /([123])枚[:：]([^、。\n]+)/g;
+  const re = /([123])枚[:：]\s*([^、。\n]+)/g;
   let m;
   while((m = re.exec(text))) choices.push({coins:Number(m[1]), reward:m[2].trim()});
   const available = choices.filter(c => coins >= c.coins);
@@ -8067,12 +8105,13 @@ function useExchangeCard(card){
   openChoiceModal(card.name, available.map(c=>`${c.coins}枚：${c.reward}`), (picked, i) => {
     const c = available[i];
     if(!consumeCoins(c.coins)) return;
-    addCardToHandByName(c.reward.replace(/^コスト\d+の/, '').trim());
+    const ok = addExchangeRewardV179(c.reward, card.name);
     drawCard(1);
-    battleLog(`${card.name}：${picked}と交換しました。`);
+    battleLog(`${card.name}：コイン${c.coins}枚で${c.reward}と交換しました。${ok ? '' : '（景品追加失敗）'}`);
     renderBattleArena(); syncMyBattleState();
-  });
+  }, {kind:'exchangeV179', coinCount:coins});
 }
+
 
 
 
@@ -8282,6 +8321,43 @@ function applyRenkeiV166(card, targetUnit=null){
 }
 function applyCardUseV166(card, cost){
   const g=state.battle.game; if(!card) return false; const name=card.name;
+  if(name === '痛みわけの杖'){
+    for(const x of allUnitsBothV166()) dealDamageToUnit(x.u, 3, name, x.side);
+    resolveDeaths();
+    battleLog('痛みわけの杖：敵味方全てのユニットに3ダメージ。');
+    return true;
+  }
+  if(name === '道具：大きなパン' || name === '道具:大きなパン' || name === '大きなパン'){
+    if(!g.player.usedBigBreadThisTurn){
+      g.player.usedBigBreadThisTurn = true;
+      g.player.bigBreadBonusThisTurn = 1;
+      g.player.mp = Number(g.player.mp || 0) + 1;
+      battleLog('道具：大きなパン：このターン中、使用可能MP+1（上限突破可）。');
+    }else{
+      battleLog('道具：大きなパン：このターン中は既にMP+1済みのため追加上昇なし。');
+    }
+    return true;
+  }
+  if(name === '道具：ちからのたね' || name === '道具:ちからのたね'){
+    g.pendingGenericEffect={kind:'merchantToolSeed', attack:1, hp:0, source:name, target:'unitAny'};
+    battleLog(`${name}：攻撃力+1するユニットを選んでください。`); return true;
+  }
+  if(name === '道具：いのちのきのみ' || name === '道具:いのちのきのみ'){
+    g.pendingGenericEffect={kind:'merchantToolSeed', attack:0, hp:1, source:name, target:'unitAny'};
+    battleLog(`${name}：HP+1するユニットを選んでください。`); return true;
+  }
+  if(name === '道具：しあわせのたね' || name === '道具:しあわせのたね'){
+    g.pendingGenericEffect={kind:'merchantToolSeed', attack:1, hp:1, source:name, target:'unitAny'};
+    battleLog(`${name}：+1/+1するユニットを選んでください。`); return true;
+  }
+  if(name === '超ちからのたね' || name === '超ちからの種'){
+    g.pendingGenericEffect={kind:'merchantSuperPowerSeed', source:name, target:'unitAny'};
+    battleLog('超ちからのたね：攻撃力+2と貫通を付与するユニットを選んでください。'); return true;
+  }
+  if(name === 'バシルーラの杖'){
+    g.pendingGenericEffect={kind:'returnEnemyToHand', source:name, target:'enemyUnit'};
+    battleLog('バシルーラの杖：手札に戻す敵ユニットを選んでください。'); return true;
+  }
   if(name === 'しっぷう突き'){
     g.pendingGenericEffect={kind:'shippuTsuki', source:name, target:'unitAny'};
     battleLog('しっぷう突き：ダメージを与えるユニットを選んでください。'); return true;
@@ -8342,7 +8418,17 @@ function v166ApplyEndTurn(side='player'){
   for(const u of board){
     if(!u || u.isBuilding) continue;
     const text = getCardText(byId(u.cardId));
-    if(side === 'player' && text.includes('自分のターン終了時GET(1)')) addCardToHandByName('コイン');
+    if(side === 'player' && text.includes('自分のターン終了時GET(1)')){
+      if(u.name === 'ぷちメタル'){
+        if(!u._puchiMetalEndGetDone){
+          addCardToHandByName('コイン');
+          u._puchiMetalEndGetDone = true;
+          battleLog('ぷちメタル：ターン終了時GET(1)。このぷちメタルでは以後発動しません。');
+        }
+      }else{
+        addCardToHandByName('コイン');
+      }
+    }
   }
 }
 function rapthorneEnemyTargetCandidatesV177(ownerSide, ownerPos){
@@ -9339,6 +9425,10 @@ function attackUnit(attackerRef, defenderRef){
   const combatMult = Number(game.player.combatDamageMultiplier || 1);
   const dealtToDef = damageUnit(def, atk.attack * combatMult);
   emitDamageApplied(defenderRef, atk.attack * combatMult, dealtToDef, atk.name);
+  if(attackerRef.side === 'playerLeader' && defenderRef.side === 'enemy' && game.player.weapon?.name === 'ブレッドハンド' && Number(def.hp || 0) <= 0){
+    addCardToHandByFlexibleNameV179('道具：大きなパン', 'ブレッドハンド');
+    battleLog('ブレッドハンド：敵ユニットを死亡させたため、道具：大きなパンを手札に加えました。');
+  }
   if(attackerRef.side === 'playerLeader' && game.player.weapon?.rowSplash){ const c=posToCoord(defenderRef.side, defenderRef.pos); const cols = defenderRef.side === 'enemy' ? [2,3] : [0,1]; for(const col of cols){ const p=coordToPos(defenderRef.side,c.row,col); if(p!==defenderRef.pos){ const u=defBoard[p]; if(u) dealDamageToUnit(u, atk.attack * combatMult, game.player.weapon.name, defenderRef.side); } } }
   applyCounterDamageV123(atk, attackerRef, def, defenderRef);
   applyOrgoFourthSplash(atk, defenderRef, atk.attack);
@@ -9598,6 +9688,23 @@ function applyPendingGenericEffectToUnit(defenderRef){
     battleLog('コインのたね：攻撃力+1、GET(1)。');
     game.pendingGenericEffect = null; renderBattleArena(); syncMyBattleState(); return;
   }
+  if(eff.kind === 'merchantToolSeed'){
+    const atk = Number(eff.attack || 0), hp = Number(eff.hp || 0);
+    if(atk) unit.attack += atk;
+    if(hp){ unit.hp += hp; unit.maxHp += hp; }
+    const parts = [];
+    if(atk) parts.push(`攻撃力+${atk}`);
+    if(hp) parts.push(`HP+${hp}`);
+    battleLog(`${eff.source}：${unit.name}に${parts.join(' / ')}。`);
+    game.pendingGenericEffect = null; renderBattleArena(); syncMyBattleState(); return;
+  }
+  if(eff.kind === 'merchantSuperPowerSeed'){
+    unit.attack += 2;
+    unit.keywords ||= {};
+    unit.keywords.piercing = true;
+    battleLog(`${eff.source}：${unit.name}に攻撃力+2と貫通を付与。`);
+    game.pendingGenericEffect = null; renderBattleArena(); syncMyBattleState(); return;
+  }
   if(eff.kind === 'damageThenAddSlime'){
     dealDamageToUnit(unit, eff.amount, eff.source || 'スラ・ストライク', defenderRef.side);
     addCardToHandByName('スライム');
@@ -9848,6 +9955,8 @@ function applyTensionSkill(skill){
     }
   }else if(effect.type === 'drawFromDeckByType'){
     drawFromDeckByTypeWithCostDeltaV124(effect.cardType || '特技', Number(effect.costChange ?? -1), name);
+  }else if(effect.type === 'addRandomCardsToHand' && effect.pool === 'merchantTools'){
+    addMerchantToolCardsV179(Number(effect.count || 3), name);
   }else if(effect.type === 'multi'){
     drawCard(1);
     battleLog('カードを1枚引きました。');
@@ -10195,6 +10304,8 @@ function soloStartSideTurnV114(side){
   if(side === 'player'){
     game.isMyTurn = true;
     game.player.tensionUsedThisTurn = false;
+    game.player.usedBigBreadThisTurn = false;
+    game.player.bigBreadBonusThisTurn = 0;
     game.player.heroSkillUsedThisTurn = false;
     game.player.usedSpellCostThisTurn = 0;
     game.player.leaderAttackedThisTurn = false;
@@ -10467,6 +10578,12 @@ function applyCounterDamageV121(attacker, attackerRef, defender, defenderRef){
 function applyEndTurnEffectsForSideV121(side){
   v166ApplyEndTurn(side);
   const game = state.battle.game;
+  if(side === 'player' && Number(game.player.bigBreadBonusThisTurn || 0) > 0){
+    game.player.mp = Math.max(0, Number(game.player.mp || 0) - Number(game.player.bigBreadBonusThisTurn || 0));
+    game.player.bigBreadBonusThisTurn = 0;
+    game.player.usedBigBreadThisTurn = false;
+    battleLog('道具：大きなパン：ターン終了時に増えたMPが消えました。');
+  }
   const board = side === 'enemy' ? game.enemy.board : game.player.board;
   for(const u of board){
     if(!u || u.isBuilding) continue;
@@ -10832,6 +10949,7 @@ function endTurn(){
   game.player.copyNextSpellToHand = false;
   game.player.thisTurnSpellCostDelta = 0;
   game.player.usedBigBreadThisTurn = false;
+  game.player.bigBreadBonusThisTurn = 0;
   game.player.flashFistBonus = 0;
   game.player.healInvertsForEnemiesThisTurn = false;
   game.player.combatDamageMultiplier = 1;
@@ -11002,7 +11120,6 @@ function useHeroSkillCard(skillArg=null, target={}){
   if(skill.requiredTension) game.player.tension = 0;
   game.player.heroSkillUsedThisTurn = true;
   game.player.heroSkillUseCountTotal = Number(game.player.heroSkillUseCountTotal || 0) + 1;
-  if(skill.name === 'この手に切り札を') drawRandomBetFromDeck();
   applyHeroSkillEffect(skill, target);
   battleLog(`${skill.name}を使用しました。`);
   progressHeroSkill(skill, 'uses');

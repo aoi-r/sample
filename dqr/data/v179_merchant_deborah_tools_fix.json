@@ -1,0 +1,36 @@
+{
+  "version": "v179_merchant_deborah_tools_fix",
+  "base": "v178_rapthorne_random_title_version",
+  "implemented": [
+    "商人テンションスキル「お宝発見」: 道具：ちからのたね / 道具：いのちのきのみ / 道具：しあわせのたね からランダムに3枚手札へ",
+    "道具：ちからのたね / 道具：いのちのきのみ / 道具：しあわせのたね を対象選択型の特技として使用可能化",
+    "痛みわけの杖: 発動時点で場にいる敵味方全ユニットへ3ダメージ",
+    "交換所: 手持ちコイン枚数に応じて可変選択肢表示。コスト指定景品は指定コストのコピーとして手札へ",
+    "超ちからのたね: ユニット1体に攻撃力+2と貫通付与",
+    "バシルーラの杖: 敵ユニット1体を相手の手札へ戻す",
+    "ブレッドハンド: 攻撃3/耐久3武器。敵ユニットを攻撃で死亡させたら道具：大きなパンを手札へ",
+    "道具：大きなパン: このターン中まだ使っていない場合だけ使用可能MP+1。上限突破可。ターン終了で消滅",
+    "ルドマンBET: 商人テンションスキルと同じ道具カード3種からランダム1枚手札へ",
+    "ぷちメタル: ターン終了時GET(1)はそのユニットごとに一度だけ",
+    "デボラLv1: 二重ドロー疑惑を修正し、drawFromDeck(filter:'bet') の1回だけに統一",
+    "デボラLv2: coinOnlyではなく、実際のBET発動時だけ自動進行/テンション+1対象に修正",
+    "タイトル画面/起動完了後バージョンをv179へ更新"
+  ],
+  "checks": {
+    "merchant_tension_addRandomCardsToHand": true,
+    "merchant_tool_pool_three": true,
+    "itamawake_staff": true,
+    "exchange_discount_reward": true,
+    "super_power_seed": true,
+    "basiluula_staff": true,
+    "breadhand_kill_reward": true,
+    "big_bread_once": true,
+    "ludman_add_tool": true,
+    "puchi_metal_once": true,
+    "deborah_lv1_no_duplicate_special_draw": true,
+    "deborah_bet_actual_only": true,
+    "title_v179": true,
+    "build_label_v179": true,
+    "tool_cards_are_spells": true
+  }
+}
