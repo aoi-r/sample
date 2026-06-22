@@ -62,8 +62,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v188_tabasa_fortune_modal_confirm';
-const BUILD_LABEL = 'v188 / buildable 1460 / total 1583';
+const DATA_VERSION = 'v190_shinryu_strategy_modal_fit';
+const BUILD_LABEL = 'v190 / buildable 1460 / total 1583';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -3294,6 +3294,17 @@ function applyCounterDamageV123(attacker, attackerRef, defender, defenderRef){
 
 function isWeapon(card){ return isWeaponV123(card); }
 function isBet(card){ return String(card?.text || card?.searchText || '').includes('BET'); }
+function countBoardUnitByNameV189(side='player', name=''){
+  const game = state.battle.game;
+  const board = side === 'enemy' ? game?.enemy?.board : game?.player?.board;
+  return (board || []).filter(u => u && u.name === name && Number(u.hp || 0) > 0).length;
+}
+function playerSpellCostAuraFromEnemyV189(){
+  return countBoardUnitByNameV189('enemy', 'イブール');
+}
+function enemySpellCostAuraFromPlayerV189(){
+  return countBoardUnitByNameV189('player', 'イブール');
+}
 function getEffectiveCost(card){
   const game = state.battle.game;
   if(!card) return 0;
@@ -3302,6 +3313,7 @@ function getEffectiveCost(card){
   const nextUnitDelta = card.cardType === 'ユニット' ? Number(game?.player?.nextUnitCostDelta || 0) : 0;
   const nextSpellDelta = isSpell(card) ? Number(game?.player?.nextSpellCostDelta || 0) : 0;
   let dynamicDelta = nextSpellDelta + (isSpell(card) ? Number(game?.player?.thisTurnSpellCostDelta || 0) : 0);
+  if(isSpell(card)) dynamicDelta += playerSpellCostAuraFromEnemyV189();
   dynamicDelta += getPowerfulBadgeCostDeltaV157(card, 'player');
   const nextDiscounts = game?.player?.nextCardDiscounts || [];
   for(const d of [...nextDiscounts]){
@@ -4697,6 +4709,18 @@ function applyShinryuWishV164(index){
   }
   return false;
 }
+function shinryuWishOptionsV189(names){
+  return names.map((name, i) => {
+    const c = findCardByName(name);
+    return {
+      label:name,
+      description:getCardText(c),
+      sublabel:`願い${i + 1}`,
+      imagePath:c ? getOfficialImage(c) : '',
+      value:name
+    };
+  });
+}
 function resolveShinryuWishesV164(card){
   const game = state.battle.game;
   const names = [
@@ -4705,19 +4729,34 @@ function resolveShinryuWishesV164(card){
     'ドラゴンをつよくしたい',
     'エッチなほんがよみたい'
   ];
-  if(game.player.fortuneMode === 'super'){
-    battleLog('しんりゅう：超必中モードのため、4つの願い事をすべてかなえます。');
+  const options = shinryuWishOptionsV189(names);
+  const applyAll = () => {
+    battleLog('しんりゅう：すべてをねがう。4つの願い事をすべてかなえます。');
     for(let i=0; i<names.length; i++) applyShinryuWishV164(i);
     renderBattleArena();
     syncMyBattleState();
+  };
+  if(game.player.fortuneMode === 'super'){
+    openChoiceModal('しんりゅう：超必中', options, (_picked, index, picked)=>{
+      applyAll();
+    }, {
+      kind:'shinryuWishAllV189',
+      card:{id:card.id, name:card.name},
+      choiceLayout:'shinryu4',
+      applyAllOnAny:true,
+      allChoiceLabel:'すべてをねがう',
+      allBannerOverlay:true,
+      allValues:names
+    });
     return;
   }
-  openChoiceModal('しんりゅう：願い事を選択', names, (_picked, index)=>{
+  openChoiceModal('しんりゅう：願い事を選択', options, (_picked, index)=>{
     applyShinryuWishV164(index);
     renderBattleArena();
     syncMyBattleState();
-  }, {kind:'shinryuWishV164', card:{id:card.id, name:card.name}});
+  }, {kind:'shinryuWishV189', card:{id:card.id, name:card.name}, choiceLayout:'shinryu4'});
 }
+
 
 function applySummonTextEffect(unit, card){
   const game = state.battle.game;
@@ -5908,6 +5947,7 @@ function openStrategyChoiceModalV169(title, candidates, callback, meta={}){
   openChoiceModal(title, opts, (picked, i, info) => callback(picked, i, info), {
     ...(meta || {}),
     kind: meta.kind || (isAll ? 'strategyAllV169' : 'strategyChoiceV169'),
+    choiceLayout:'strategy3',
     applyAllOnAny: isAll,
     allChoiceLabel: 'すべての効果を得る',
     allValues: candidates
@@ -5941,12 +5981,18 @@ function normalizeChoiceOptionV168(op){
 }
 
 function openChoiceModal(title, options, callback, meta={}){
+  const dialog = $('choice-modal');
+  dialog.classList.toggle('choice-modal--strategy3', meta.choiceLayout === 'strategy3');
+  dialog.classList.toggle('choice-modal--shinryu4', meta.choiceLayout === 'shinryu4');
   $('choice-modal-title').textContent = title;
   const body = $('choice-modal-body');
   const normalized = (options || []).map(normalizeChoiceOptionV168);
   const hasCards = normalized.some(op => !!op.imagePath);
   body.classList.toggle('choice-modal-body--cards', hasCards);
   body.classList.toggle('choice-modal-body--all', !!meta.applyAllOnAny);
+  body.classList.toggle('choice-modal-body--overlay-all', !!meta.allBannerOverlay);
+  body.classList.toggle('choice-modal-body--strategy3', meta.choiceLayout === 'strategy3');
+  body.classList.toggle('choice-modal-body--shinryu4', meta.choiceLayout === 'shinryu4');
   const allBanner = meta.applyAllOnAny ? `<button class="choice-all-banner" type="button" data-all="1">${escapeHtml(meta.allChoiceLabel || 'すべての効果を得る')}</button>` : '';
   const optionHtml = normalized.map((op,i)=>{
     if(op.imagePath){
@@ -8522,7 +8568,7 @@ function applySummonV166(unit, card){
     return true;
   }
   if(name === 'イブール'){
-    g.enemySpellCostAuraPlus = Number(g.enemySpellCostAuraPlus||0)+1; // 簡易：相手手札の特技コスト+1表示/計算用
+    battleLog('イブール：場にいる間、相手の手札の特技カードのコスト+1。');
     return false;
   }
   return false;
@@ -8712,7 +8758,7 @@ function resolveRapthorneParasitesV177(deadUnit){
 }
 function v166OnUnitDeath(unit, side, pos, vanished){
   const g=state.battle.game; if(!unit || vanished) return;
-  if(unit.name === 'イブール') g.enemySpellCostAuraPlus = Math.max(0, Number(g.enemySpellCostAuraPlus || 0)-1);
+  if(unit.name === 'イブール') battleLog('イブール：特技コスト+1効果が終了しました。');
   if(side === 'enemy'){
     for(const u of allFriendlyUnits()) if(u?._gainAttackWhenEnemyDiesV166){ u.attack += 1; battleLog(`${u.name}：敵ユニット死亡で攻撃力+1。`); }
   }
@@ -9222,7 +9268,7 @@ function useNonUnitCard(index, card){
   emitBattleEvent('cardPlayed', {card, cost, source:'use'});
   if(isSpell(card)){
     game.player.usedSpellCostThisTurn = (game.player.usedSpellCostThisTurn || 0) + cost;
-    if(cost >= 2 && !game.player.usedSpells2Plus.includes(card.id)) game.player.usedSpells2Plus.push(card.id);
+    if(cost >= 2) game.player.usedSpells2Plus.push(card.originalCardId || card.id);
     if(cost >= 1) triggerHeroAuto('spellCost1Plus', {card, cost});
     if(cost >= 2) triggerHeroAuto('spellCost2Plus', {card, cost});
     if(cost >= 3) triggerHeroAuto('spellCost3Plus', {card, cost});
@@ -10623,7 +10669,7 @@ function soloEndTurnV114(){
 
 // v118: robust enemy-hand play / enemy spell use
 function enemyEffectiveCostV118(card){
-  const aura = (card && isSpell(card)) ? Number(state.battle.game?.enemySpellCostAuraPlus || 0) : 0;
+  const aura = (card && isSpell(card)) ? enemySpellCostAuraFromPlayerV189() : 0;
   return Math.max(0, Number(card?.cost || 0) + aura);
 }
 function extractDamageAmountV118(text){
@@ -11624,8 +11670,14 @@ function applyHeroSkillEffect(skill, target){
   }else if(e.kind === 'addToHand'){
     addCardToHandByName(e.name);
   }else if(e.kind === 'addUsedSpells2PlusDiscountUnique'){
-    game.player.costOverrides ||= {};
-    for(const id of game.player.usedSpells2Plus || []){ game.player.hand.push(id); const c=byId(id); game.player.costOverrides[id]=Math.max(0, Number(c?.cost || 0) - Number(e.discount || 0)); }
+    const pool = [...(game.player.usedSpells2Plus || [])].map(id => byId(id)).filter(c => c && isSpell(c) && Number(c.cost || 0) >= 2);
+    if(!pool.length){
+      battleLog('天空の英知：この対戦中に使用したコスト2以上の特技カードがありません。');
+    }else{
+      const base = chooseRandom(pool, 'tabasaLv3UsedSpellV189', {pool:pool.map(c=>c.name)});
+      addDiscountedCopyToHandV117(base, -Number(e.discount || 1), '天空の英知');
+      battleLog(`天空の英知：使用済みプールからランダムに${base.name}をコスト-1して手札に加えました。`);
+    }
   }else if(e.kind === 'randomEnemyDamage'){
     const amount = game.player.leaderAttackedThisTurn ? e.ifLeaderAttackedAmount : e.amount;
     const targets = game.enemy.board.map((u,i)=>u?{unit:u,pos:i}:null).filter(Boolean);
