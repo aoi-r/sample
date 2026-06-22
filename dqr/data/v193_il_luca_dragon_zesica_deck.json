@@ -1,0 +1,92 @@
+{
+  "version": "v193_il_luca_dragon_zesica_deck",
+  "base": "v192_il_luca_hero_framework",
+  "deck": {
+    "id": "default_mage_il_luca_dragon_zesica",
+    "name": "イルルカドラゴンゼシカ",
+    "className": "魔法使い",
+    "total": 30,
+    "cards": [
+      {
+        "name": "メラ",
+        "count": 2
+      },
+      {
+        "name": "パピラス",
+        "count": 2
+      },
+      {
+        "name": "イル＆ルカ",
+        "count": 1
+      },
+      {
+        "name": "メラミ",
+        "count": 2
+      },
+      {
+        "name": "とさかヘビ",
+        "count": 2
+      },
+      {
+        "name": "リザードキッズ",
+        "count": 2
+      },
+      {
+        "name": "デンタザウルス",
+        "count": 2
+      },
+      {
+        "name": "乙女の気まぐれ",
+        "count": 2
+      },
+      {
+        "name": "氷竜への祈り",
+        "count": 2
+      },
+      {
+        "name": "アルゴングレート",
+        "count": 2
+      },
+      {
+        "name": "サウルスロード",
+        "count": 2
+      },
+      {
+        "name": "メラゾーマ",
+        "count": 2
+      },
+      {
+        "name": "ギガントドラゴン",
+        "count": 2
+      },
+      {
+        "name": "ガメゴンロード",
+        "count": 2
+      },
+      {
+        "name": "竜将ドラゴンガイア",
+        "count": 1
+      },
+      {
+        "name": "ドラゴンプッシュ",
+        "count": 2
+      }
+    ]
+  },
+  "normalizedNames": [
+    {
+      "from": "イル&ルカ",
+      "to": "イル＆ルカ"
+    }
+  ],
+  "placeholderCards": [
+    "とさかヘビ",
+    "リザードキッズ",
+    "氷竜への祈り",
+    "サウルスロード",
+    "ギガントドラゴン",
+    "ガメゴンロード",
+    "ドラゴンプッシュ"
+  ],
+  "note": "公式DB未登録/詳細未確認カードは仮登録。デッキには入るが、効果は後から追加する前提。"
+}

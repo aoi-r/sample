@@ -1,0 +1,75 @@
+{
+  "version": "v194_il_luca_dragon_cards_ocr",
+  "base": "v193_il_luca_dragon_zesica_deck",
+  "rename": {
+    "old": "ドラゴンプッシュ",
+    "official": "ドラゴンブッシュ"
+  },
+  "cardsApplied": [
+    {
+      "name": "とさかヘビ",
+      "cost": 2,
+      "stats": "2/2",
+      "text": "召喚時：自分のデッキの上からカード4枚を見る。ドラゴン系のカードを1枚選びそれを引く。残りをデッキの下に戻す。"
+    },
+    {
+      "name": "リザードキッズ",
+      "cost": 2,
+      "stats": "5/3",
+      "text": "攻撃時：このターン中攻撃力-3。"
+    },
+    {
+      "name": "氷竜への祈り",
+      "cost": 3,
+      "text": "選択：せつげんりゅう1枚を手札に加える / 全ての敵に1ダメージ。"
+    },
+    {
+      "name": "せつげんりゅう",
+      "cost": 3,
+      "stats": "6/5",
+      "text": "召喚時：正面にいる全ての敵ユニットに2ダメージ。"
+    },
+    {
+      "name": "サウルスロード",
+      "cost": 3,
+      "stats": "4/3",
+      "text": "選択：特技ダメージ+1を得る / 武器ダメージ+1を得る。"
+    },
+    {
+      "name": "ギガントドラゴン",
+      "cost": 4,
+      "stats": "4/4",
+      "text": "召喚時：縦1列の全ての敵ユニットに1ダメージ。自分の場か手札に他のドラゴン系がいるなら+1ダメージ。"
+    },
+    {
+      "name": "ドラゴンブッシュ",
+      "cost": 6,
+      "stats": "6/7",
+      "text": "特技ダメージ+1。召喚時：自分の場か手札に攻撃力4以上の他のドラゴン系がいるなら特技ダメージ+1を得る。"
+    }
+  ],
+  "imageFiles": {
+    "とさかヘビ": "assets/official_cards/tosaka_hebi.png",
+    "リザードキッズ": "assets/official_cards/lizard_kids.png",
+    "氷竜への祈り": "assets/official_cards/hyoryu_he_no_inori.png",
+    "せつげんりゅう": "assets/official_cards/setsugen_ryu.png",
+    "サウルスロード": "assets/official_cards/saurus_road.png",
+    "ギガントドラゴン": "assets/official_cards/gigant_dragon.png",
+    "ドラゴンブッシュ": "assets/official_cards/dragon_bush.png"
+  },
+  "implementedHandlers": [
+    "とさかヘビ：山札上4枚からドラゴン系を画像付きモーダル選択",
+    "氷竜への祈り：2択効果",
+    "せつげんりゅう：正面同列2ダメージ",
+    "サウルスロード：特技/武器ダメージ選択",
+    "ギガントドラゴン：縦列ダメージ+条件強化",
+    "ドラゴンブッシュ：特技ダメージ+1/+2",
+    "リザードキッズ：攻撃後このターン中攻撃力-3"
+  ],
+  "stillPlaceholder": [
+    "ガメゴンロード"
+  ],
+  "notes": [
+    "サウルスロードの武器ダメージ+1はリーダー攻撃力への一時加算として仮実装。公式挙動差異があれば調整対象。"
+  ]
+}

@@ -1,0 +1,264 @@
+{
+  "version": "v186_warrior_merchant_audit_cleanup",
+  "base": "v185_deborah_lv2_once_per_turn",
+  "removedDecks": [
+    "default_mage_324 / デボラゼシカ"
+  ],
+  "decksAudited": {
+    "default_warrior_325 / イレブンテリー": {
+      "cards": [
+        {
+          "card": "しっぷう突き",
+          "count": 2,
+          "status": "OK",
+          "verification": "専用処理 shippuTsuki。ユニット1体、未ダメージ1/既ダメージ3。敵味方ユニット対象。"
+        },
+        {
+          "card": "とげぼうず",
+          "count": 2,
+          "status": "OK",
+          "verification": "絶好調の初期キーワードと条件付き攻撃力+2をv163系で分離処理。"
+        },
+        {
+          "card": "勇者イレブン",
+          "count": 1,
+          "status": "OK",
+          "verification": "Lv1/2/3実装済み。Lv2一心同体・Lv3過ぎ去りし時の回収も実装済み。"
+        },
+        {
+          "card": "アルゴリザード",
+          "count": 2,
+          "status": "OK",
+          "verification": "れんけい時、敵ユニット1体に2ダメージの対象選択。"
+        },
+        {
+          "card": "トンネラー",
+          "count": 2,
+          "status": "OK",
+          "verification": "におうだち基礎、れんけい+1/+1は汎用renkeiテキスト処理で適用。"
+        },
+        {
+          "card": "かくれんぼう",
+          "count": 2,
+          "status": "OK",
+          "verification": "ステルス基礎、れんけいは専用分岐で1枚だけドロー。"
+        },
+        {
+          "card": "ナイトキング",
+          "count": 2,
+          "status": "OK",
+          "verification": "におうだち基礎、れんけい:味方リーダーHP4回復は汎用処理。"
+        },
+        {
+          "card": "わたぼう",
+          "count": 1,
+          "status": "OK",
+          "verification": "ターン終了した側が1枚ドロー。ソロの両プレイヤーターン切替で適用。"
+        },
+        {
+          "card": "ブラッドレディ",
+          "count": 2,
+          "status": "OK",
+          "verification": "召喚時、敵味方ユニット1体に2ダメージ。配置直後の誤クリック防止あり。"
+        },
+        {
+          "card": "シーゴーレム",
+          "count": 2,
+          "status": "OK",
+          "verification": "味方ヒーローがいる場合HP+2/におうだち。"
+        },
+        {
+          "card": "ラプソーン",
+          "count": 1,
+          "status": "OK",
+          "verification": "死亡時、召喚者から見た敵全ユニットから完全ランダム。ステルス貫通。寄生先死亡で元側へ復活。"
+        },
+        {
+          "card": "最後の砦の英雄グレイグ",
+          "count": 1,
+          "status": "OK",
+          "verification": "におうだち基礎、れんけいで正面同列前後の敵に2ダメージ、敵死亡時攻撃力+1。"
+        },
+        {
+          "card": "コンガオンガ",
+          "count": 1,
+          "status": "OK",
+          "verification": "れんけいで攻撃力6以上の敵ユニットを選択、消滅、同コストランダムユニットを相手手札へ。"
+        },
+        {
+          "card": "フェイスボール",
+          "count": 2,
+          "status": "OK",
+          "verification": "ステルス基礎、れんけいで次の相手ターン終了まで味方リーダー被ダメージ-2。"
+        },
+        {
+          "card": "ギュメイ将軍",
+          "count": 1,
+          "status": "OK",
+          "verification": "自身以外への非戦闘/非デッキ切れダメージを防ぐ土台あり。戦闘・デッキ切れは通す。"
+        },
+        {
+          "card": "シュプリンガー",
+          "count": 1,
+          "status": "OK",
+          "verification": "れんけいで自身にさくせんを2回、順番に選択。"
+        },
+        {
+          "card": "グレイトマムー",
+          "count": 2,
+          "status": "OK",
+          "verification": "れんけいで敵ユニット1体に5ダメージの対象選択。"
+        },
+        {
+          "card": "いなずまのけん",
+          "count": 2,
+          "status": "OK",
+          "verification": "装備時と破壊時に敵ユニット全体2ダメージ。武器耐久処理あり。"
+        },
+        {
+          "card": "ウルノーガ&ウルナーガ",
+          "count": 1,
+          "status": "OK",
+          "verification": "れんけい。前列なら正面敵からランダム1体消滅、後列なら攻撃力6以上の他ユニット全死亡。"
+        }
+      ],
+      "summary": "デッキ内カードの説明と実装の大きな不一致はv186時点で未検出。"
+    },
+    "default_merchant_326 / デボラトルネコ": {
+      "cards": [
+        {
+          "card": "商人の交換所",
+          "count": 2,
+          "status": "OK",
+          "verification": "コイン/スペシャルコインを支払い対象。通常コイン優先消費。コイン0ならカード/MP消費なし。"
+        },
+        {
+          "card": "コインのたね",
+          "count": 1,
+          "status": "OK",
+          "verification": "ユニット1体攻撃力+1、その後GET(1)。"
+        },
+        {
+          "card": "とげぼうず",
+          "count": 2,
+          "status": "OK",
+          "verification": "絶好調処理確認済み。"
+        },
+        {
+          "card": "プチファイター",
+          "count": 2,
+          "status": "OK",
+          "verification": "シンクロ①攻撃力+1②HP+1③速攻。ヒーローLvに応じて段階適用。"
+        },
+        {
+          "card": "ケダモン",
+          "count": 2,
+          "status": "OK",
+          "verification": "速攻基礎、召喚時このターン中リーダー攻撃力+1。"
+        },
+        {
+          "card": "ぷちメタル",
+          "count": 2,
+          "status": "OK",
+          "verification": "BETは1ターン1回、通常/スペシャル順序問わず制限。ターン終了GET(1)は個体ごとに一度だけ。"
+        },
+        {
+          "card": "くらやみハーピー",
+          "count": 1,
+          "status": "OK",
+          "verification": "ユニット1体のHPを攻撃力と同値へ。"
+        },
+        {
+          "card": "ベホイミスライム",
+          "count": 2,
+          "status": "OK",
+          "verification": "死亡時GET(1)、BETは1ターン1回のみリーダー2回復。"
+        },
+        {
+          "card": "天空の花嫁デボラ",
+          "count": 1,
+          "status": "OK",
+          "verification": "Lv1/Lv2とも2回で進化。Lv2はBET実発動時だけ自動発動、1ターン1回。"
+        },
+        {
+          "card": "ルドマン",
+          "count": 1,
+          "status": "OK",
+          "verification": "召喚時GET(1)、BETで道具カード1枚。BET4回ごとにコスト3以下ユニットを手札/山札から場へ。スペシャルコインはBET実数でカウント。"
+        },
+        {
+          "card": "怪獣プスゴン",
+          "count": 1,
+          "status": "OK",
+          "verification": "召喚時は指定敵空きマス。死亡時は同じ行の敵前列/後列空きマスからランダム。埋まりなら不発。"
+        },
+        {
+          "card": "ラプソーン",
+          "count": 1,
+          "status": "OK",
+          "verification": "イレブンテリー側と同じく確認済み。"
+        },
+        {
+          "card": "黄金兵",
+          "count": 2,
+          "status": "OK",
+          "verification": "におうだち基礎。コイン使用時に手札の黄金兵コスト-2。スペシャルコインは1枚使用につき1回だけ。"
+        },
+        {
+          "card": "痛みわけの杖",
+          "count": 1,
+          "status": "OK",
+          "verification": "敵味方の場の全ユニットに3ダメージ。"
+        },
+        {
+          "card": "ブラバニクイーン",
+          "count": 2,
+          "status": "OK",
+          "verification": "シンクロ①貫通②速攻③攻撃力+1を段階適用。"
+        },
+        {
+          "card": "福招きのそろばん",
+          "count": 1,
+          "status": "OK",
+          "verification": "装備時GET(1)、BETで耐久-1して1ドロー、破壊時GET(1)。"
+        },
+        {
+          "card": "マデサゴーラ",
+          "count": 1,
+          "status": "OK",
+          "verification": "ターン終了時スペシャルコイン追加。BETで山札からBETカード1枚。"
+        },
+        {
+          "card": "ハンフリー",
+          "count": 1,
+          "status": "OK",
+          "verification": "対象の攻撃力/最大HPを参照。ハンフリーはその値で満タン、対象は2/2へ。"
+        },
+        {
+          "card": "レッドプレデター",
+          "count": 2,
+          "status": "OK",
+          "verification": "使用済み特技枚数ぶん攻撃力上昇、召喚時自身攻撃力ぶん敵ユニットにダメージ。コイン/スペシャルコインは特技扱いでカウント。"
+        },
+        {
+          "card": "ゴールデンタイタス",
+          "count": 2,
+          "status": "OK",
+          "verification": "8/8。手札に加えたコイン/スペシャルコイン枚数ぶん10コストから-1。"
+        }
+      ],
+      "summary": "デッキ内カードの説明と実装の大きな不一致はv186時点で未検出。"
+    }
+  },
+  "fixesFromAudit": [
+    "デボラゼシカ既定デッキを削除",
+    "BETを持つカードを使用/召喚しただけでデボラLv2が誤発動する経路を削除",
+    "スペシャルコインで複数BETが発動しても黄金兵の手札コスト-2はスペシャルコイン1枚につき1回だけに整理",
+    "怪獣プスゴン死亡時の古いランダム敵空きマス処理の死にコードを除去"
+  ],
+  "remainingSystemCaveats": [
+    "オンライン対戦時の相手側選択モーダル/ランダム同期は簡易実装が残る",
+    "DB説明と完全一致するかは、手動操作テストの最終確認でログを見るのが安全",
+    "タバサドラゴンミネアは未検証。次フェーズで個別確認対象"
+  ]
+}

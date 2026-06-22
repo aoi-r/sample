@@ -7190,3 +7190,173 @@
     font-size:8px !important;
   }
 }
+
+/* v188: fortune super confirmation keeps the all-action button visually below card choices. */
+.choice-modal-body--cards.choice-modal-body--all .choice-all-banner{margin-top:.75rem;}
+
+/* v189: しんりゅう超必中「すべてをねがう」 overlay label */
+.choice-modal-body--overlay-all{
+  position:relative;
+}
+.choice-modal-body--overlay-all .choice-all-banner{
+  position:absolute;
+  left:8%;
+  right:8%;
+  top:44%;
+  z-index:5;
+  transform:rotate(-4deg);
+  font-size:1.05rem;
+  font-weight:900;
+  letter-spacing:.08em;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+}
+.choice-modal-body--overlay-all .choice-option{
+  position:relative;
+  z-index:2;
+}
+
+
+/* v190: fit Shinryu 4 wishes and strategy 3 cards on one screen without vertical scrolling */
+.choice-modal--strategy3,
+.choice-modal--shinryu4{
+  max-height:94dvh !important;
+  overflow:hidden !important;
+}
+.choice-modal--strategy3 .modal-head,
+.choice-modal--shinryu4 .modal-head{
+  padding:8px 12px !important;
+}
+.choice-modal--strategy3 .modal-head h3,
+.choice-modal--shinryu4 .modal-head h3{
+  font-size:16px !important;
+  line-height:1.15 !important;
+}
+.choice-modal-body--strategy3,
+.choice-modal-body--shinryu4{
+  max-height:none !important;
+  overflow:visible !important;
+  padding:10px !important;
+  align-items:stretch !important;
+}
+.choice-modal--strategy3{
+  width:min(760px, 94vw) !important;
+}
+.choice-modal-body--strategy3{
+  grid-template-columns:repeat(3, minmax(0, 1fr)) !important;
+  gap:8px !important;
+}
+.choice-modal-body--strategy3 .choice-option--card{
+  padding:6px !important;
+  gap:4px !important;
+  border-radius:12px !important;
+}
+.choice-modal-body--strategy3 .choice-option-card-image{
+  width:auto !important;
+  max-width:100% !important;
+  height:min(38dvh, 210px) !important;
+  object-fit:contain !important;
+}
+.choice-modal-body--strategy3 .choice-option-title{
+  font-size:12px !important;
+}
+.choice-modal-body--strategy3 .choice-option-desc{
+  font-size:10px !important;
+  line-height:1.18 !important;
+  max-height:2.5em !important;
+  overflow:hidden !important;
+}
+.choice-modal-body--strategy3 .choice-option-sub{
+  font-size:9px !important;
+}
+.choice-modal--shinryu4{
+  width:min(1120px, 98vw) !important;
+}
+.choice-modal-body--shinryu4{
+  grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+  gap:8px !important;
+}
+.choice-modal-body--shinryu4 .choice-option--card{
+  padding:6px !important;
+  gap:4px !important;
+  border-radius:12px !important;
+}
+.choice-modal-body--shinryu4 .choice-option-card-image{
+  width:auto !important;
+  max-width:100% !important;
+  height:min(48dvh, 270px) !important;
+  object-fit:contain !important;
+}
+.choice-modal-body--shinryu4 .choice-option-title{
+  font-size:12px !important;
+  line-height:1.1 !important;
+}
+.choice-modal-body--shinryu4 .choice-option-desc{
+  font-size:10px !important;
+  line-height:1.18 !important;
+  max-height:4.8em !important;
+  overflow:hidden !important;
+}
+.choice-modal-body--shinryu4 .choice-option-sub{
+  font-size:9px !important;
+}
+.choice-modal--shinryu4 .choice-all-banner{
+  grid-column:1 / -1 !important;
+}
+.choice-modal--shinryu4 .choice-modal-body--overlay-all .choice-all-banner{
+  left:10% !important;
+  right:10% !important;
+  top:42% !important;
+  font-size:clamp(14px, 2.2vw, 24px) !important;
+  padding:10px 14px !important;
+}
+@media(max-width:900px) and (orientation:landscape){
+  .choice-modal--strategy3,
+  .choice-modal--shinryu4{
+    width:98vw !important;
+    max-height:92dvh !important;
+  }
+  .choice-modal-body--strategy3,
+  .choice-modal-body--shinryu4{
+    padding:6px !important;
+    gap:6px !important;
+  }
+  .choice-modal-body--strategy3 .choice-option-card-image{
+    height:min(34dvh, 156px) !important;
+  }
+  .choice-modal-body--shinryu4 .choice-option-card-image{
+    height:min(38dvh, 170px) !important;
+  }
+  .choice-modal-body--strategy3 .choice-option-title,
+  .choice-modal-body--shinryu4 .choice-option-title{
+    font-size:10px !important;
+  }
+  .choice-modal-body--strategy3 .choice-option-desc,
+  .choice-modal-body--shinryu4 .choice-option-desc{
+    font-size:8.5px !important;
+    line-height:1.1 !important;
+  }
+  .choice-modal-body--shinryu4 .choice-option-desc{
+    max-height:3.4em !important;
+  }
+}
+@media(max-width:560px){
+  .choice-modal-body--strategy3{
+    grid-template-columns:repeat(3, minmax(0, 1fr)) !important;
+  }
+  .choice-modal-body--shinryu4{
+    grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+  }
+  .choice-modal-body--strategy3 .choice-option--card,
+  .choice-modal-body--shinryu4 .choice-option--card{
+    padding:4px !important;
+  }
+  .choice-modal-body--strategy3 .choice-option-card-image{
+    height:min(30dvh, 128px) !important;
+  }
+  .choice-modal-body--shinryu4 .choice-option-card-image{
+    height:min(32dvh, 118px) !important;
+  }
+  .choice-modal-body--shinryu4 .choice-option-desc{
+    display:none !important;
+  }
+}

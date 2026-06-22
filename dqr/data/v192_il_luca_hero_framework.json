@@ -1,0 +1,61 @@
+{
+  "version": "v192_il_luca_hero_framework",
+  "base": "v191_tension_gyumei_tabasa_random_fix",
+  "purpose": "イルルカドラゴンゼシカ用のヒーローカード枠組み追加。デッキリストは後送前提。",
+  "imagesFromUploads": {
+    "イル＆ルカ": "assets/custom_cards/il_luca_hero_card.png",
+    "託されしたまご": "assets/hero_skill_cards/il_luca_lv1_egg.png",
+    "マスターへの道のり": "assets/hero_skill_cards/il_luca_lv2_master_road.png",
+    "モンスターとの絆": "assets/hero_skill_cards/il_luca_lv3_bond.png",
+    "めぐりあう仲間たち": "assets/hero_skill_cards/il_luca_lv3_meguriau.png",
+    "たまごサンプル": "assets/hero_skill_cards/il_luca_egg_sample.png"
+  },
+  "heroFramework": {
+    "starterCard": "イル＆ルカ",
+    "level1": {
+      "name": "託されしたまご",
+      "cost": 0,
+      "target": "冒険者以外の系統を1つだけ持つ味方ユニット",
+      "effect": "選んだ系統を記録し、その系統のたまご1枚を手札に加える",
+      "levelUp": "1回発動でLv2"
+    },
+    "level2": {
+      "name": "マスターへの道のり",
+      "cost": "1、使用ごとに-1",
+      "target": "このターン中にたまごから生まれた、選んだ系統の味方ユニット",
+      "effect": "対象にさくせんを1回出す",
+      "levelUp": "2回発動でLv3"
+    },
+    "level3": {
+      "startsFrom": "モンスターとの絆",
+      "rotation": [
+        {
+          "name": "モンスターとの絆",
+          "cost": 2,
+          "effect": "選んだ系統の育成効果を3択で選ぶ。使用後めぐりあう仲間たちへ変化"
+        },
+        {
+          "name": "めぐりあう仲間たち",
+          "cost": 1,
+          "effect": "山札から選んだ系統のカードをランダムに1枚手札へ。使用後モンスターとの絆へ変化"
+        }
+      ]
+    }
+  },
+  "eggFramework": {
+    "eggCards": [
+      "スライム系のたまご",
+      "ゾンビ系のたまご",
+      "ドラゴン系のたまご",
+      "魔王系のたまご",
+      "英雄系のたまご",
+      "系統のたまご"
+    ],
+    "effect": "使用すると2ターン後の自分のターン開始時に該当系統ユニットをランダムに場に出し+1/+1。空きがなければ不発。"
+  },
+  "pending": [
+    "イルルカドラゴンゼシカの30枚デッキ内容は未登録。ユーザー送付後に既定デッキへ追加予定。",
+    "画像はスクリーンショットからの暫定切り抜き。より正確なカード単体画像があれば差し替え可能。",
+    "モンスターとの絆の3択は紹介文ベースの実装。実カード詳細に差異があれば調整対象。"
+  ]
+}

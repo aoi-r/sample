@@ -1,0 +1,10 @@
+{
+  "version": "v180_coin_requires_bet_target",
+  "base": "v179_merchant_deborah_tools_fix",
+  "changes": [
+    "通常コインは、場に味方BET対象ユニット/装備武器がない場合は使用できないように変更",
+    "BET対象なしの coinOnly イベント/ログを廃止",
+    "アゲていくわよのBET発動時処理はv179のまま維持",
+    "タイトル画面/起動後表示をv180へ更新"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "version": "v196_gamegon_merami_fix",
+  "base": "v195_gamegon_deborah_lv1_fix",
+  "change": "ガメゴンロードの条件達成時に加えるカードをメラゴーストから特技：メラミ1枚へ修正。",
+  "gamegonRoadText": "におうだち。召喚時：自分の場か手札に攻撃力4以上の他のドラゴン系がいるなら特技：メラミを1枚手札に加える。"
+}

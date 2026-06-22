@@ -1,0 +1,16 @@
+{
+  "version": "v190_shinryu_strategy_modal_fit",
+  "base": "v189_tabasa_lv3_shinryu_ibur_fix",
+  "changes": [
+    "しんりゅうの4択モーダルを一画面に収まるコンパクト表示に変更",
+    "しんりゅうの願いカードを横4つ並びに固定",
+    "しんりゅう超必中の「すべてをねがう」前面ラベルは維持",
+    "さくせんモーダルを横3つ並び維持のまま、画像とテキストをコンパクト化",
+    "さくせんモーダルが下スクロール前提にならないよう、選択肢画像の高さ/本文高さを制限"
+  ],
+  "checks": [
+    "node --check js/app.js OK",
+    "duplicate function declarations 0",
+    "choiceLayout shinryu4/strategy3 static check OK"
+  ]
+}

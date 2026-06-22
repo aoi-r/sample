@@ -16777,7 +16777,7 @@
       "cost": 3,
       "attack": 0,
       "hp": 0,
-      "text": "この対戦中に自分が使用したコスト2以上の特技カード1枚をコスト-1して手札に加える。この効果で同名のカードは重複して手札に加わらない。",
+      "text": "この対戦中に自分が使用したコスト2以上の特技カードからランダムに1枚をコスト-1して手札に加える。使用済みプールからは取り除かれない。",
       "rarity": "レジェンドレア",
       "cardType": "トークン",
       "classes": [
@@ -21252,7 +21252,7 @@
       "hp": 0,
       "text": "マデサゴーラの能力で、自分のターン終了時に手札に加わる特殊なコイン。場に出ている味方ユニット全てのBETを発動する。相手ユニットは対象外。",
       "rarity": "スーパーレア",
-      "cardType": "ユニット",
+      "cardType": "特技",
       "classes": [
         "共通"
       ],
@@ -23948,9 +23948,9 @@
       "id": "card_bb86dc5c",
       "name": "ゴールデンタイタス",
       "cost": 10,
-      "attack": 0,
-      "hp": 0,
-      "text": "この対戦中にコインを自分の手札に加えた枚数分手札にあるこのカードのコスト-1",
+      "attack": 8,
+      "hp": 8,
+      "text": "8/8。この対戦中にコインを自分の手札に加えた枚数分手札にあるこのカードのコスト-1",
       "rarity": "スーパーレア",
       "cardType": "ユニット",
       "classes": [
@@ -56613,9 +56613,9 @@
       "cost": 0,
       "attack": 0,
       "hp": 0,
-      "text": "商人のテンションスキルや特技カードで３種類の道具カードのうちからランダムで加わるうちの一枚。",
+      "text": "ユニット1体の攻撃力+1",
       "rarity": "ノーマル",
-      "cardType": "ユニット",
+      "cardType": "特技",
       "classes": [
         "商人"
       ],
@@ -56711,7 +56711,7 @@
       "hp": 0,
       "text": "ユニット1体を+1/+1",
       "rarity": "ノーマル",
-      "cardType": "ユニット",
+      "cardType": "特技",
       "classes": [
         "商人"
       ],
@@ -57563,7 +57563,7 @@
       "hp": 0,
       "text": "HPを3回復",
       "rarity": "ノーマル",
-      "cardType": "ユニット",
+      "cardType": "特技",
       "classes": [
         "商人"
       ],
@@ -57613,7 +57613,7 @@
       "hp": 0,
       "text": "ユニット1体に3ダメージ",
       "rarity": "ノーマル",
-      "cardType": "ユニット",
+      "cardType": "特技",
       "classes": [
         "商人"
       ],
@@ -64154,7 +64154,9 @@
         "占い師": 69
       },
       "flags": {
-        "deckBuildable": false
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true
       },
       "classKey": "占い師",
       "tribeKey": "",
@@ -64188,7 +64190,7 @@
       "hp": 0,
       "text": "このターン中味方リーダーは超必中モードになる。既に超必中モードの場合テンション+1",
       "rarity": "レア",
-      "cardType": "ユニット",
+      "cardType": "特技",
       "classes": [
         "占い師"
       ],
@@ -64205,7 +64207,9 @@
         "占い師": 70
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "obtainOnly": true,
+        "generatedOrEvolved": true
       },
       "classKey": "占い師",
       "tribeKey": "",
@@ -79274,6 +79278,557 @@
       ],
       "searchText": "系統なし",
       "tribeKey": ""
+    },
+    {
+      "name": "イル＆ルカ",
+      "cost": 1,
+      "attack": 0,
+      "hp": 0,
+      "text": "イル＆ルカのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る。",
+      "rarity": "レジェンドレア",
+      "cardType": "ヒーロー",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [
+        "英雄"
+      ],
+      "tags": [
+        "ヒーロー",
+        "英雄系"
+      ],
+      "flags": {
+        "deckBuildable": true
+      },
+      "localImage": "./assets/custom_cards/il_luca_hero_card.png",
+      "sourceSheets": [
+        "custom"
+      ],
+      "searchText": "イル＆ルカ ヒーロー ヒーロースキル 最初の手札に必ず来る 英雄",
+      "id": "custom_5490b4c56b"
+    },
+    {
+      "name": "託されしたまご",
+      "cost": 0,
+      "attack": 0,
+      "hp": 0,
+      "text": "冒険者以外の系統を1つだけ持つ味方1体を選ぶ。選んだ系統のたまご1枚を手札に加える。",
+      "rarity": "トークン",
+      "cardType": "ヒーロースキル",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [
+        "英雄"
+      ],
+      "tags": [
+        "ヒーロースキル",
+        "英雄系"
+      ],
+      "flags": {
+        "deckBuildable": false,
+        "generatedOrEvolved": true
+      },
+      "localImage": "./assets/hero_skill_cards/il_luca_lv1_egg.png",
+      "sourceSheets": [
+        "custom"
+      ],
+      "searchText": "託されしたまご 冒険者以外の系統 味方 ヒーロースキル",
+      "id": "custom_a5158f4bd7"
+    },
+    {
+      "name": "マスターへの道のり",
+      "cost": 1,
+      "attack": 0,
+      "hp": 0,
+      "text": "このターン中に場に出た『託されしたまご』で選んだ系統の味方ユニット1体にさくせんを出す。このヒーロースキルのコスト-1。",
+      "rarity": "トークン",
+      "cardType": "ヒーロースキル",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [
+        "英雄"
+      ],
+      "tags": [
+        "ヒーロースキル",
+        "英雄系"
+      ],
+      "flags": {
+        "deckBuildable": false,
+        "generatedOrEvolved": true
+      },
+      "localImage": "./assets/hero_skill_cards/il_luca_lv2_master_road.png",
+      "sourceSheets": [
+        "custom"
+      ],
+      "searchText": "マスターへの道のり さくせん ヒーロースキル コスト-1",
+      "id": "custom_f326548c7a"
+    },
+    {
+      "name": "モンスターとの絆",
+      "cost": 2,
+      "attack": 0,
+      "hp": 0,
+      "text": "『託されしたまご』で選んだ系統のモンスターを育てる。ヒーロースキルが『めぐりあう仲間たち』になる。",
+      "rarity": "トークン",
+      "cardType": "ヒーロースキル",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [
+        "英雄"
+      ],
+      "tags": [
+        "ヒーロースキル",
+        "英雄系"
+      ],
+      "flags": {
+        "deckBuildable": false,
+        "generatedOrEvolved": true
+      },
+      "localImage": "./assets/hero_skill_cards/il_luca_lv3_bond.png",
+      "sourceSheets": [
+        "custom"
+      ],
+      "searchText": "モンスターとの絆 系統 強化 ヒーロースキル",
+      "id": "custom_228db76c25"
+    },
+    {
+      "name": "めぐりあう仲間たち",
+      "cost": 1,
+      "attack": 0,
+      "hp": 0,
+      "text": "自分のデッキから『託されしたまご』で選んだ系統のカードをランダムに1枚手札に加える。ヒーロースキルが『モンスターとの絆』になる。",
+      "rarity": "トークン",
+      "cardType": "ヒーロースキル",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [
+        "英雄"
+      ],
+      "tags": [
+        "ヒーロースキル",
+        "英雄系"
+      ],
+      "flags": {
+        "deckBuildable": false,
+        "generatedOrEvolved": true
+      },
+      "localImage": "./assets/hero_skill_cards/il_luca_lv3_meguriau.png",
+      "sourceSheets": [
+        "custom"
+      ],
+      "searchText": "めぐりあう仲間たち デッキ 系統 手札 ヒーロースキル",
+      "id": "custom_e12a058bf2"
+    },
+    {
+      "name": "スライム系のたまご",
+      "cost": 0,
+      "attack": 0,
+      "hp": 0,
+      "text": "2ターン後の自分のターン開始時にスライム系のユニットが+1/+1されて生まれる。",
+      "rarity": "トークン",
+      "cardType": "特技",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [],
+      "tags": [
+        "たまご",
+        "特技"
+      ],
+      "flags": {
+        "deckBuildable": false,
+        "generatedOrEvolved": true
+      },
+      "localImage": "./assets/hero_skill_cards/il_luca_egg_sample.png",
+      "sourceSheets": [
+        "custom"
+      ],
+      "searchText": "スライム系のたまご たまご 2ターン後 スライム系 ユニット +1/+1",
+      "id": "custom_4a95b07c8d"
+    },
+    {
+      "name": "ゾンビ系のたまご",
+      "cost": 0,
+      "attack": 0,
+      "hp": 0,
+      "text": "2ターン後の自分のターン開始時にゾンビ系のユニットが+1/+1されて生まれる。",
+      "rarity": "トークン",
+      "cardType": "特技",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [],
+      "tags": [
+        "たまご",
+        "特技"
+      ],
+      "flags": {
+        "deckBuildable": false,
+        "generatedOrEvolved": true
+      },
+      "localImage": "./assets/hero_skill_cards/il_luca_egg_sample.png",
+      "sourceSheets": [
+        "custom"
+      ],
+      "searchText": "ゾンビ系のたまご たまご 2ターン後 ゾンビ系 ユニット +1/+1",
+      "id": "custom_8125acac2c"
+    },
+    {
+      "name": "ドラゴン系のたまご",
+      "cost": 0,
+      "attack": 0,
+      "hp": 0,
+      "text": "2ターン後の自分のターン開始時にドラゴン系のユニットが+1/+1されて生まれる。",
+      "rarity": "トークン",
+      "cardType": "特技",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [],
+      "tags": [
+        "たまご",
+        "特技"
+      ],
+      "flags": {
+        "deckBuildable": false,
+        "generatedOrEvolved": true
+      },
+      "localImage": "./assets/hero_skill_cards/il_luca_egg_sample.png",
+      "sourceSheets": [
+        "custom"
+      ],
+      "searchText": "ドラゴン系のたまご たまご 2ターン後 ドラゴン系 ユニット +1/+1",
+      "id": "custom_79eef9a433"
+    },
+    {
+      "name": "魔王系のたまご",
+      "cost": 0,
+      "attack": 0,
+      "hp": 0,
+      "text": "2ターン後の自分のターン開始時に魔王系のユニットが+1/+1されて生まれる。",
+      "rarity": "トークン",
+      "cardType": "特技",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [],
+      "tags": [
+        "たまご",
+        "特技"
+      ],
+      "flags": {
+        "deckBuildable": false,
+        "generatedOrEvolved": true
+      },
+      "localImage": "./assets/hero_skill_cards/il_luca_egg_sample.png",
+      "sourceSheets": [
+        "custom"
+      ],
+      "searchText": "魔王系のたまご たまご 2ターン後 魔王系 ユニット +1/+1",
+      "id": "custom_474cae76de"
+    },
+    {
+      "name": "英雄系のたまご",
+      "cost": 0,
+      "attack": 0,
+      "hp": 0,
+      "text": "2ターン後の自分のターン開始時に英雄系のユニットが+1/+1されて生まれる。",
+      "rarity": "トークン",
+      "cardType": "特技",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [],
+      "tags": [
+        "たまご",
+        "特技"
+      ],
+      "flags": {
+        "deckBuildable": false,
+        "generatedOrEvolved": true
+      },
+      "localImage": "./assets/hero_skill_cards/il_luca_egg_sample.png",
+      "sourceSheets": [
+        "custom"
+      ],
+      "searchText": "英雄系のたまご たまご 2ターン後 英雄系 ユニット +1/+1",
+      "id": "custom_8dfffcaa00"
+    },
+    {
+      "name": "系統のたまご",
+      "cost": 0,
+      "attack": 0,
+      "hp": 0,
+      "text": "2ターン後の自分のターン開始時に選んだ系統のユニットが+1/+1されて生まれる。",
+      "rarity": "トークン",
+      "cardType": "特技",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [],
+      "tags": [
+        "たまご",
+        "特技"
+      ],
+      "flags": {
+        "deckBuildable": false,
+        "generatedOrEvolved": true
+      },
+      "localImage": "./assets/hero_skill_cards/il_luca_egg_sample.png",
+      "sourceSheets": [
+        "custom"
+      ],
+      "searchText": "系統のたまご たまご 2ターン後 系統 ユニット +1/+1",
+      "id": "custom_797d7b525a"
+    },
+    {
+      "name": "とさかヘビ",
+      "cost": 2,
+      "attack": 2,
+      "hp": 2,
+      "cardType": "ユニット",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [
+        "ドラゴン"
+      ],
+      "text": "召喚時：自分のデッキの上からカード4枚を見る。ドラゴン系のカードを1枚選びそれを引く。残りをデッキの下に戻す。",
+      "tags": [
+        "仮登録",
+        "ドラゴン系"
+      ],
+      "id": "custom_1efdebd2b5",
+      "rarity": "ノーマル",
+      "flags": {
+        "deckBuildable": true
+      },
+      "sourceSheets": [
+        "ocr_user_image"
+      ],
+      "searchText": "とさかヘビ イルルカドラゴンゼシカ OCR 召喚時：自分のデッキの上からカード4枚を見る。ドラゴン系のカードを1枚選びそれを引く。残りをデッキの下に戻す。",
+      "localImage": "./assets/official_cards/tosaka_hebi.png"
+    },
+    {
+      "name": "リザードキッズ",
+      "cost": 2,
+      "attack": 5,
+      "hp": 3,
+      "cardType": "ユニット",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [
+        "ドラゴン"
+      ],
+      "text": "攻撃時：このターン中攻撃力-3。",
+      "tags": [
+        "仮登録",
+        "ドラゴン系"
+      ],
+      "id": "custom_22277e5d89",
+      "rarity": "ノーマル",
+      "flags": {
+        "deckBuildable": true
+      },
+      "sourceSheets": [
+        "ocr_user_image"
+      ],
+      "searchText": "リザードキッズ イルルカドラゴンゼシカ OCR 攻撃時：このターン中攻撃力-3。",
+      "localImage": "./assets/official_cards/lizard_kids.png"
+    },
+    {
+      "name": "氷竜への祈り",
+      "cost": 3,
+      "attack": 0,
+      "hp": 0,
+      "cardType": "特技",
+      "classes": [
+        "魔法使い"
+      ],
+      "tribes": [],
+      "text": "選択：・せつげんりゅう1枚を手札に加える ・全ての敵に1ダメージ",
+      "tags": [
+        "仮登録"
+      ],
+      "id": "custom_292212dee7",
+      "rarity": "レア",
+      "flags": {
+        "deckBuildable": true
+      },
+      "sourceSheets": [
+        "ocr_user_image"
+      ],
+      "searchText": "氷竜への祈り イルルカドラゴンゼシカ OCR 選択：・せつげんりゅう1枚を手札に加える ・全ての敵に1ダメージ",
+      "localImage": "./assets/official_cards/hyoryu_he_no_inori.png"
+    },
+    {
+      "name": "サウルスロード",
+      "cost": 3,
+      "attack": 4,
+      "hp": 3,
+      "cardType": "ユニット",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [
+        "ドラゴン"
+      ],
+      "text": "選択：・特技ダメージ+1を得る ・武器ダメージ+1を得る",
+      "tags": [
+        "仮登録",
+        "ドラゴン系"
+      ],
+      "id": "custom_3ee12a22d6",
+      "rarity": "レア",
+      "flags": {
+        "deckBuildable": true
+      },
+      "sourceSheets": [
+        "ocr_user_image"
+      ],
+      "searchText": "サウルスロード イルルカドラゴンゼシカ OCR 選択：・特技ダメージ+1を得る ・武器ダメージ+1を得る",
+      "localImage": "./assets/official_cards/saurus_road.png"
+    },
+    {
+      "name": "ギガントドラゴン",
+      "cost": 4,
+      "attack": 4,
+      "hp": 4,
+      "cardType": "ユニット",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [
+        "ドラゴン"
+      ],
+      "text": "召喚時：縦1列の全ての敵ユニットに1ダメージ。自分の場か手札に他のドラゴン系がいるなら+1ダメージ。",
+      "tags": [
+        "仮登録",
+        "ドラゴン系"
+      ],
+      "id": "custom_7db1e7c61f",
+      "rarity": "レア",
+      "flags": {
+        "deckBuildable": true
+      },
+      "sourceSheets": [
+        "ocr_user_image"
+      ],
+      "searchText": "ギガントドラゴン イルルカドラゴンゼシカ OCR 召喚時：縦1列の全ての敵ユニットに1ダメージ。自分の場か手札に他のドラゴン系がいるなら+1ダメージ。",
+      "localImage": "./assets/official_cards/gigant_dragon.png"
+    },
+    {
+      "name": "ガメゴンロード",
+      "cost": 5,
+      "attack": 4,
+      "hp": 6,
+      "cardType": "ユニット",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [
+        "ドラゴン"
+      ],
+      "text": "におうだち。召喚時：自分の場か手札に攻撃力4以上の他のドラゴン系がいるなら特技：メラミを1枚手札に加える。",
+      "tags": [
+        "ドラゴン系",
+        "におうだち"
+      ],
+      "id": "custom_d90d4debfe",
+      "rarity": "レア",
+      "flags": {
+        "deckBuildable": true
+      },
+      "sourceSheets": [
+        "ocr_user_image_corrected"
+      ],
+      "searchText": "ガメゴンロード におうだち 召喚時 自分の場か手札に攻撃力4以上の他のドラゴン系がいるなら 特技 メラミ 1枚 手札に加える ドラゴン系",
+      "localImage": "./assets/official_cards/gamegon_road.png"
+    },
+    {
+      "name": "ドラゴンプッシュ",
+      "cost": 2,
+      "attack": 0,
+      "hp": 0,
+      "cardType": "特技",
+      "classes": [
+        "魔法使い"
+      ],
+      "tribes": [],
+      "text": "旧仮登録名。正式名称はドラゴンブッシュ。",
+      "tags": [
+        "仮登録"
+      ],
+      "id": "custom_5ad73558d3",
+      "rarity": "未確認",
+      "flags": {
+        "deckBuildable": false,
+        "deprecatedAlias": true
+      },
+      "sourceSheets": [
+        "custom_placeholder"
+      ],
+      "searchText": "ドラゴンプッシュ 旧名 正式名称 ドラゴンブッシュ"
+    },
+    {
+      "id": "custom_b629a17668",
+      "name": "せつげんりゅう",
+      "cost": 3,
+      "attack": 6,
+      "hp": 5,
+      "cardType": "ユニット",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [
+        "ドラゴン"
+      ],
+      "text": "召喚時：正面にいる全ての敵ユニットに2ダメージ。",
+      "rarity": "ノーマル",
+      "localImage": "./assets/official_cards/setsugen_ryu.png",
+      "tags": [
+        "ドラゴン系"
+      ],
+      "sourceSheets": [
+        "ocr_user_image"
+      ],
+      "searchText": "せつげんりゅう イルルカドラゴンゼシカ OCR 召喚時：正面にいる全ての敵ユニットに2ダメージ。",
+      "flags": {
+        "deckBuildable": false,
+        "generatedOrEvolved": true
+      }
+    },
+    {
+      "id": "custom_c3c8d551ea",
+      "name": "ドラゴンブッシュ",
+      "cost": 6,
+      "attack": 6,
+      "hp": 7,
+      "cardType": "ユニット",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [
+        "ドラゴン"
+      ],
+      "text": "特技ダメージ+1。召喚時：自分の場か手札に攻撃力4以上の他のドラゴン系がいるなら特技ダメージ+1を得る。",
+      "rarity": "スーパーレア",
+      "localImage": "./assets/official_cards/dragon_bush.png",
+      "tags": [
+        "ドラゴン系"
+      ],
+      "sourceSheets": [
+        "ocr_user_image"
+      ],
+      "searchText": "ドラゴンブッシュ イルルカドラゴンゼシカ OCR 特技ダメージ+1。召喚時：自分の場か手札に攻撃力4以上の他のドラゴン系がいるなら特技ダメージ+1を得る。",
+      "flags": {
+        "deckBuildable": true
+      }
     }
   ],
   "index": {

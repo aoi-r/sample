@@ -1,0 +1,15 @@
+{
+  "version": "v195_gamegon_deborah_lv1_fix",
+  "base": "v194_il_luca_dragon_cards_ocr",
+  "gamegonRoad": {
+    "image": "assets/official_cards/gamegon_road.png",
+    "ocr": "コスト5 / 4/6 / ドラゴン系 / におうだち。召喚時：自分の場か手札に攻撃力4以上の他のドラゴン系がいるならメラゴーストを手札に加える。",
+    "implemented": "におうだち付与。条件達成時メラゴーストを手札に加える。"
+  },
+  "deborahFix": {
+    "issue": "この手に切り札を使用時、未定義関数 findAndDrawFromDeck によりドロー/進化処理が止まる可能性があった。",
+    "fix": "findAndDrawFromDeck を追加。山札から条件一致カードをランダムに1枚手札へ。これにより useHeroSkillCard の progressHeroSkill まで正常到達する。"
+  },
+  "deckFix": "イルルカドラゴンゼシカの正式名ドラゴンブッシュ x2 を維持。",
+  "checks": []
+}
