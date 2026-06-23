@@ -1,0 +1,13 @@
+{
+  "version": "v213_landscape_title_screen",
+  "base": "v212_il_luca_official_images",
+  "changes": [
+    "タイトル画面をユーザー提供画像へ差し替え。",
+    "画像名を dqr_title_screen.png にして文字化けしないASCII名で配置。",
+    "横画面ではタイトル画像を画面いっぱいにcover表示。",
+    "縦画面では画像をcontain表示し、横画面推奨メッセージを重ねて表示。",
+    "manifest の orientation を landscape のまま維持し、背景色を黒へ変更。"
+  ],
+  "asset": "assets/title/dqr_title_screen.png",
+  "buildLabel": "v213 / buildable 1467 / total 1607"
+}

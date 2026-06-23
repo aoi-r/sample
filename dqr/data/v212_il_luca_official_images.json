@@ -1,0 +1,19 @@
+{
+  "version": "v212_il_luca_official_images",
+  "base": "v211_gigant_dragon_mage_spells_fix",
+  "changes": [
+    "イル＆ルカのデッキ編成カード画像を添付1枚目へ差し替え。",
+    "Lv1「託されしたまご」を添付2枚目へ差し替え。",
+    "Lv2「マスターへの道のり」は既存元画像からカードとして見える部分だけを切り出して作り直し。",
+    "Lv3「モンスターとの絆」を添付3枚目へ差し替え。",
+    "Lv3交互スキル「めぐりあう仲間たち」を添付4枚目へ差し替え。"
+  ],
+  "assets": {
+    "イル＆ルカ": "./assets/custom_cards/il_luca_hero_card.png",
+    "託されしたまご": "./assets/hero_skill_cards/il_luca_lv1_egg.png",
+    "マスターへの道のり": "./assets/hero_skill_cards/il_luca_lv2_master_road.png",
+    "モンスターとの絆": "./assets/hero_skill_cards/il_luca_lv3_bond.png",
+    "めぐりあう仲間たち": "./assets/hero_skill_cards/il_luca_lv3_meguriau.png"
+  },
+  "buildLabel": "v212 / buildable 1467 / total 1607"
+}

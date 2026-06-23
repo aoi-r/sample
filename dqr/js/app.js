@@ -62,8 +62,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v211_gigant_dragon_mage_spells_fix';
-const BUILD_LABEL = 'v211 / buildable 1467 / total 1607';
+const DATA_VERSION = 'v213_landscape_title_screen';
+const BUILD_LABEL = 'v213 / buildable 1467 / total 1607';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -408,6 +408,17 @@ async function setupFirebase(){
 }
 
 
+
+
+function updateTitleViewportV213(){
+  try{
+    const h = window.visualViewport?.height || window.innerHeight || document.documentElement.clientHeight;
+    document.documentElement.style.setProperty('--dqr-vh', `${h}px`);
+  }catch(e){}
+}
+window.addEventListener('resize', updateTitleViewportV213, {passive:true});
+window.addEventListener('orientationchange', updateTitleViewportV213, {passive:true});
+updateTitleViewportV213();
 
 function enterFromTitle(){
   tryLandscapeMode();

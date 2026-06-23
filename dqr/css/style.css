@@ -7601,3 +7601,100 @@
     height:min(18dvh, 92px) !important;
   }
 }
+
+
+/* v213: full-screen landscape title */
+html, body, #app{
+  min-height:100%;
+}
+.title-screen-v213{
+  padding:0 !important;
+  margin:0 !important;
+  width:100vw !important;
+  min-height:100dvh !important;
+  height:100dvh !important;
+  overflow:hidden !important;
+  background:#000 !important;
+}
+.title-screen-v213.active{
+  display:block !important;
+}
+.title-hit-area-v213{
+  position:relative;
+  display:block;
+  width:100vw;
+  height:100dvh;
+  overflow:hidden;
+  background:#000;
+  cursor:pointer;
+  user-select:none;
+  touch-action:manipulation;
+}
+.title-image-v213{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center center;
+  display:block;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.boot-version-label-v213{
+  position:absolute;
+  left:18px;
+  top:14px;
+  z-index:3;
+  color:rgba(255,255,255,.78);
+  text-shadow:0 2px 4px rgba(0,0,0,.85);
+  font-weight:800;
+  font-size:12px;
+  letter-spacing:.03em;
+  pointer-events:none;
+}
+.portrait-rotate-guide-v213{
+  display:none;
+}
+@media (orientation: portrait){
+  .title-screen-v213,
+  .title-hit-area-v213{
+    height:100dvh !important;
+    min-height:100dvh !important;
+  }
+  .title-image-v213{
+    object-fit:contain;
+    object-position:center center;
+    filter:brightness(.72);
+  }
+  .portrait-rotate-guide-v213{
+    position:absolute;
+    left:50%;
+    bottom:calc(24px + env(safe-area-inset-bottom));
+    transform:translateX(-50%);
+    z-index:4;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    width:min(88vw, 420px);
+    padding:14px 16px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.28);
+    background:rgba(0,0,0,.62);
+    color:#fff;
+    text-align:center;
+    box-shadow:0 12px 36px rgba(0,0,0,.45);
+    pointer-events:none;
+  }
+  .portrait-rotate-guide-v213 strong{
+    font-size:18px;
+    letter-spacing:.04em;
+  }
+  .portrait-rotate-guide-v213 span{
+    font-size:12px;
+    color:rgba(255,255,255,.82);
+  }
+}
+@media (orientation: landscape){
+  .portrait-rotate-guide-v213{ display:none !important; }
+}
