@@ -62,8 +62,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v210_il_luca_egg_card_images';
-const BUILD_LABEL = 'v210 / buildable 1467 / total 1607';
+const DATA_VERSION = 'v211_gigant_dragon_mage_spells_fix';
+const BUILD_LABEL = 'v211 / buildable 1467 / total 1607';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -8735,6 +8735,64 @@ function hasOtherDragonInBoardOrHandV194(unit=null, minAttack=null){
   }
   return false;
 }
+function activePowerfulBadgeAttackForCardV211(card, side='player'){
+  const obj = sideObjV157(side);
+  let bonus = 0;
+  for(const badge of obj?.powerfulBadges || []){
+    if(!badge || badge.active === false) continue;
+    badge.spec ||= parsePowerfulBadgeSpecV157(badge.text);
+    const spec = badge.spec || {};
+    if(!Number(spec.attack || 0)) continue;
+    if(spec.tribe && !isTribeCard(card, spec.tribe)) continue;
+    bonus += Number(spec.attack || 0);
+  }
+  return bonus;
+}
+function cardCurrentAttackInHandV211(card){
+  return Number(card?.attack || 0) + activePowerfulBadgeAttackForCardV211(card, 'player');
+}
+function hasOtherDragonAttackAtLeastV211(sourceUnit=null, minAttack=4){
+  const game = state.battle.game;
+  for(const u of game.player.board || []){
+    if(!u || u.isBuilding) continue;
+    if(sourceUnit && u.id === sourceUnit.id) continue;
+    const c = byId(u.cardId);
+    if(isDragonCard(c) && Number(u.attack || 0) >= Number(minAttack)) return true;
+  }
+  for(const id of game.player.hand || []){
+    const c = byId(id);
+    if(c && c.cardType === 'ユニット' && isDragonCard(c) && cardCurrentAttackInHandV211(c) >= Number(minAttack)) return true;
+  }
+  return false;
+}
+function openEnemyColumnDamageChoiceV211(source, amount, opts={}){
+  openChoiceModal(`${source}：敵の縦一列を選択`, ['敵前列','敵後列'], (_picked, i)=>{
+    const column = i === 1 ? 'back' : 'front';
+    const targets = enemyColumnUnitsV209(column);
+    for(const t of targets){
+      dealDamageToUnit(t.unit, amount, source, 'enemy');
+      if(opts.apathy){
+        addStatus(t.unit, 'apathy', {until:'opponentTurnEnd'});
+        t.unit.canAttack = false;
+      }
+    }
+    battleLog(`${source}：敵${i === 1 ? '後列' : '前列'}のユニット${targets.length}体に${amount}ダメージ${opts.apathy ? 'と攻撃不能' : ''}。`);
+    resolveDeaths();
+    renderBattleArena();
+    syncMyBattleState();
+  }, {kind:opts.kind || 'enemyColumnDamageV211'});
+}
+function startEnemyAnyDamageSpellV211(name, amount){
+  const game = state.battle.game;
+  game.pendingGenericEffect = {kind:'damage', amount:Number(amount || 0), source:name, target:'enemyAny', canLeader:true};
+  battleLog(`${name}：${amount}ダメージを与える敵ユニットまたは敵リーダーを選んでください。`);
+  setTimeout(() => {
+    const g = state.battle.game;
+    const eff = g?.pendingGenericEffect;
+    if(eff?.source === name && !eff._targetModalShownV208 && !$('choice-modal')?.open) openEffectTargetChoiceModalV208(eff);
+  }, 0);
+  return true;
+}
 function sameColumnEnemyUnitsV194(playerPos){
   const game = state.battle.game;
   const row = posToCoord('player', Number(playerPos || 0)).row;
@@ -8794,10 +8852,8 @@ function applySummonV166(unit, card){
     return true;
   }
   if(name === 'ギガントドラゴン'){
-    const amount = hasOtherDragonInBoardOrHandV194(unit) ? 2 : 1;
-    for(const t of sameColumnEnemyUnitsV194(pos)) dealDamageToUnit(t.unit, amount, name, 'enemy');
-    resolveDeaths();
-    battleLog(`ギガントドラゴン：縦1列の敵ユニットに${amount}ダメージ。`);
+    const amount = hasOtherDragonAttackAtLeastV211(unit, 4) ? 2 : 1;
+    openEnemyColumnDamageChoiceV211(name, amount, {kind:'gigantDragonColumnV211'});
     return true;
   }
   if(name === 'ドラゴンブッシュ'){
@@ -8823,19 +8879,7 @@ function applySummonV166(unit, card){
       battleLog('竜将ドラゴンガイア：手札にコスト3以上の特技カードがありません。');
       return true;
     }
-    openChoiceModal('竜将ドラゴンガイア：敵の縦一列を選択', ['敵前列','敵後列'], (_picked, i)=>{
-      const column = i === 1 ? 'back' : 'front';
-      const targets = enemyColumnUnitsV209(column);
-      for(const t of targets){
-        dealDamageToUnit(t.unit, 2, name, 'enemy');
-        addStatus(t.unit, 'apathy', {until:'opponentTurnEnd'});
-        t.unit.canAttack = false;
-      }
-      battleLog(`竜将ドラゴンガイア：敵${i === 1 ? '後列' : '前列'}のユニット${targets.length}体に2ダメージと攻撃不能。`);
-      resolveDeaths();
-      renderBattleArena();
-      syncMyBattleState();
-    }, {kind:'dragonGaiaColumnV209'});
+    openEnemyColumnDamageChoiceV211(name, 2, {kind:'dragonGaiaColumnV209', apathy:true});
     return true;
   }
   if(name === 'ガメゴンロード'){
@@ -8925,6 +8969,10 @@ function applyRenkeiV166(card, targetUnit=null){
 }
 function applyCardUseV166(card, cost){
   const g=state.battle.game; if(!card) return false; const name=card.name;
+  if(name === 'メラ' || name === 'メラミ' || name === 'メラゾーマ'){
+    const base = name === 'メラ' ? 1 : (name === 'メラミ' ? 3 : 5);
+    return startEnemyAnyDamageSpellV211(name, base + getSpellDamageBonus());
+  }
   const eggMatchV192 = String(name || '').match(/^(.*)系のたまご$/);
   if(eggMatchV192 || name === '系統のたまご'){
     battleLog(`${name}：たまごは使用できません。2ターン後に手札でユニットカードへ変身します。`);
@@ -9566,8 +9614,15 @@ function applyGenericCardUseEffect(card, cost){
   }
   const m = text.match(/(?:敵1体|敵１体|ユニット1体|ユニット１体|敵ユニット1体|敵ユニット１体).*?(\d+)ダメージ/);
   if(m){
-    game.pendingGenericEffect = {kind:'damage', amount:Number(m[1]) + (isSpell(card) ? getSpellDamageBonus() : 0), source:card.name, target:'enemyAny'};
+    game.pendingGenericEffect = {kind:'damage', amount:Number(m[1]) + (isSpell(card) ? getSpellDamageBonus() : 0), source:card.name, target:'enemyAny', canLeader:true};
     battleLog(`${card.name}：ダメージ対象を選んでください。`);
+    return;
+  }
+  const mSimpleTargetDamageV211 = isSpell(card) ? text.match(/^(\d+)ダメージを与える$/) : null;
+  if(mSimpleTargetDamageV211){
+    game.pendingGenericEffect = {kind:'damage', amount:Number(mSimpleTargetDamageV211[1]) + getSpellDamageBonus(), source:card.name, target:'enemyAny', canLeader:true};
+    battleLog(`${card.name}：ダメージ対象を選んでください。`);
+    return;
   }
   if(text.includes('カードを1枚引く') || text.includes('カードを１枚引く')) drawCard(1);
   if(text.includes('カードを2枚引く') || text.includes('カードを２枚引く')) drawCard(2);
