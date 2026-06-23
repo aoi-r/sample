@@ -1,0 +1,20 @@
+{
+  "version": "v210_il_luca_egg_card_images",
+  "base": "v209_mage_deck_core_impl",
+  "changes": [
+    "イル＆ルカ用たまごカード画像を生成して組み込み。",
+    "スライム/ゾンビ/ドラゴン/魔王/冒険者/英雄/系統のたまごに個別localImageを設定。",
+    "公式DBの『まおうのたまご』は別カードとして維持。",
+    "ランタイム生成される○○系のたまごにも、系統に応じた画像パスを付与。"
+  ],
+  "eggImages": {
+    "スライム": "assets/custom_cards/il_luca_eggs/slime_egg.png",
+    "ゾンビ": "assets/custom_cards/il_luca_eggs/zombie_egg.png",
+    "ドラゴン": "assets/custom_cards/il_luca_eggs/dragon_egg.png",
+    "魔王": "assets/custom_cards/il_luca_eggs/demon_king_egg.png",
+    "冒険者": "assets/custom_cards/il_luca_eggs/adventurer_egg.png",
+    "英雄": "assets/custom_cards/il_luca_eggs/hero_egg.png",
+    "系統": "assets/custom_cards/il_luca_eggs/generic_egg.png"
+  },
+  "buildLabel": "v210 / buildable 1467 / total 1607"
+}

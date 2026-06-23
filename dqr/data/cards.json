@@ -79431,25 +79431,28 @@
       "attack": 0,
       "hp": 0,
       "text": "使用不可。2ターン後、スライム系のランダムなユニットカードに変身し+1/+1を得る。",
-      "rarity": "トークン",
+      "rarity": "ノーマル",
       "cardType": "特技",
       "classes": [
         "共通"
       ],
       "tribes": [],
       "tags": [
+        "生成カード",
+        "特技",
         "たまご",
-        "特技"
+        "イル＆ルカ"
       ],
       "flags": {
         "deckBuildable": false,
-        "generatedOrEvolved": true
+        "generatedOrEvolved": true,
+        "obtainOnly": true
       },
-      "localImage": "./assets/hero_skill_cards/il_luca_egg_sample.png",
+      "localImage": "./assets/custom_cards/il_luca_eggs/slime_egg.png",
       "sourceSheets": [
         "custom"
       ],
-      "searchText": "スライム系のたまご 使用不可。2ターン後、スライム系のランダムなユニットカードに変身し+1/+1を得る。",
+      "searchText": "スライム系のたまご 使用不可。2ターン後、スライム系のランダムなユニットカードに変身し+1/+1を得る。 イル＆ルカ たまご 生成カード",
       "id": "custom_4a95b07c8d"
     },
     {
@@ -79458,25 +79461,28 @@
       "attack": 0,
       "hp": 0,
       "text": "使用不可。2ターン後、ゾンビ系のランダムなユニットカードに変身し+1/+1を得る。",
-      "rarity": "トークン",
+      "rarity": "ノーマル",
       "cardType": "特技",
       "classes": [
         "共通"
       ],
       "tribes": [],
       "tags": [
+        "生成カード",
+        "特技",
         "たまご",
-        "特技"
+        "イル＆ルカ"
       ],
       "flags": {
         "deckBuildable": false,
-        "generatedOrEvolved": true
+        "generatedOrEvolved": true,
+        "obtainOnly": true
       },
-      "localImage": "./assets/hero_skill_cards/il_luca_egg_sample.png",
+      "localImage": "./assets/custom_cards/il_luca_eggs/zombie_egg.png",
       "sourceSheets": [
         "custom"
       ],
-      "searchText": "ゾンビ系のたまご 使用不可。2ターン後、ゾンビ系のランダムなユニットカードに変身し+1/+1を得る。",
+      "searchText": "ゾンビ系のたまご 使用不可。2ターン後、ゾンビ系のランダムなユニットカードに変身し+1/+1を得る。 イル＆ルカ たまご 生成カード",
       "id": "custom_8125acac2c"
     },
     {
@@ -79485,25 +79491,28 @@
       "attack": 0,
       "hp": 0,
       "text": "使用不可。2ターン後、ドラゴン系のランダムなユニットカードに変身し+1/+1を得る。",
-      "rarity": "トークン",
+      "rarity": "ノーマル",
       "cardType": "特技",
       "classes": [
         "共通"
       ],
       "tribes": [],
       "tags": [
+        "生成カード",
+        "特技",
         "たまご",
-        "特技"
+        "イル＆ルカ"
       ],
       "flags": {
         "deckBuildable": false,
-        "generatedOrEvolved": true
+        "generatedOrEvolved": true,
+        "obtainOnly": true
       },
-      "localImage": "./assets/hero_skill_cards/il_luca_egg_sample.png",
+      "localImage": "./assets/custom_cards/il_luca_eggs/dragon_egg.png",
       "sourceSheets": [
         "custom"
       ],
-      "searchText": "ドラゴン系のたまご 使用不可。2ターン後、ドラゴン系のランダムなユニットカードに変身し+1/+1を得る。",
+      "searchText": "ドラゴン系のたまご 使用不可。2ターン後、ドラゴン系のランダムなユニットカードに変身し+1/+1を得る。 イル＆ルカ たまご 生成カード",
       "id": "custom_79eef9a433"
     },
     {
@@ -79512,25 +79521,28 @@
       "attack": 0,
       "hp": 0,
       "text": "使用不可。2ターン後、魔王系のランダムなユニットカードに変身し+1/+1を得る。",
-      "rarity": "トークン",
+      "rarity": "ノーマル",
       "cardType": "特技",
       "classes": [
         "共通"
       ],
       "tribes": [],
       "tags": [
+        "生成カード",
+        "特技",
         "たまご",
-        "特技"
+        "イル＆ルカ"
       ],
       "flags": {
         "deckBuildable": false,
-        "generatedOrEvolved": true
+        "generatedOrEvolved": true,
+        "obtainOnly": true
       },
-      "localImage": "./assets/hero_skill_cards/il_luca_egg_sample.png",
+      "localImage": "./assets/custom_cards/il_luca_eggs/demon_king_egg.png",
       "sourceSheets": [
         "custom"
       ],
-      "searchText": "魔王系のたまご 使用不可。2ターン後、魔王系のランダムなユニットカードに変身し+1/+1を得る。",
+      "searchText": "魔王系のたまご 使用不可。2ターン後、魔王系のランダムなユニットカードに変身し+1/+1を得る。 イル＆ルカ たまご 生成カード",
       "id": "custom_474cae76de"
     },
     {
@@ -79539,25 +79551,28 @@
       "attack": 0,
       "hp": 0,
       "text": "使用不可。2ターン後、英雄系のランダムなユニットカードに変身し+1/+1を得る。",
-      "rarity": "トークン",
+      "rarity": "ノーマル",
       "cardType": "特技",
       "classes": [
         "共通"
       ],
       "tribes": [],
       "tags": [
+        "生成カード",
+        "特技",
         "たまご",
-        "特技"
+        "イル＆ルカ"
       ],
       "flags": {
         "deckBuildable": false,
-        "generatedOrEvolved": true
+        "generatedOrEvolved": true,
+        "obtainOnly": true
       },
-      "localImage": "./assets/hero_skill_cards/il_luca_egg_sample.png",
+      "localImage": "./assets/custom_cards/il_luca_eggs/hero_egg.png",
       "sourceSheets": [
         "custom"
       ],
-      "searchText": "英雄系のたまご 使用不可。2ターン後、英雄系のランダムなユニットカードに変身し+1/+1を得る。",
+      "searchText": "英雄系のたまご 使用不可。2ターン後、英雄系のランダムなユニットカードに変身し+1/+1を得る。 イル＆ルカ たまご 生成カード",
       "id": "custom_8dfffcaa00"
     },
     {
@@ -79566,25 +79581,28 @@
       "attack": 0,
       "hp": 0,
       "text": "使用不可。2ターン後、選んだ系統のランダムなユニットカードに変身し+1/+1を得る。",
-      "rarity": "トークン",
+      "rarity": "ノーマル",
       "cardType": "特技",
       "classes": [
         "共通"
       ],
       "tribes": [],
       "tags": [
+        "生成カード",
+        "特技",
         "たまご",
-        "特技"
+        "イル＆ルカ"
       ],
       "flags": {
         "deckBuildable": false,
-        "generatedOrEvolved": true
+        "generatedOrEvolved": true,
+        "obtainOnly": true
       },
-      "localImage": "./assets/hero_skill_cards/il_luca_egg_sample.png",
+      "localImage": "./assets/custom_cards/il_luca_eggs/generic_egg.png",
       "sourceSheets": [
         "custom"
       ],
-      "searchText": "系統のたまご 使用不可。2ターン後、選んだ系統のランダムなユニットカードに変身し+1/+1を得る。",
+      "searchText": "系統のたまご 使用不可。2ターン後、選んだ系統のランダムなユニットカードに変身し+1/+1を得る。 イル＆ルカ たまご 生成カード",
       "id": "custom_797d7b525a"
     },
     {
@@ -79911,6 +79929,33 @@
         "貫通",
         "におうだち"
       ]
+    },
+    {
+      "id": "virtual_il_luca_冒険者_egg_v210",
+      "name": "冒険者系のたまご",
+      "cost": 0,
+      "attack": 0,
+      "hp": 0,
+      "text": "使用不可。2ターン後、冒険者系のランダムなユニットカードに変身し+1/+1を得る。",
+      "rarity": "ノーマル",
+      "cardType": "特技",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [],
+      "tags": [
+        "生成カード",
+        "特技",
+        "たまご",
+        "イル＆ルカ"
+      ],
+      "flags": {
+        "deckBuildable": false,
+        "generatedOrEvolved": true,
+        "obtainOnly": true
+      },
+      "localImage": "./assets/custom_cards/il_luca_eggs/adventurer_egg.png",
+      "searchText": "冒険者系のたまご 使用不可。2ターン後、冒険者系のランダムなユニットカードに変身し+1/+1を得る。 イル＆ルカ たまご 生成カード"
     }
   ],
   "index": {

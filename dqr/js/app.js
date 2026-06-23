@@ -62,8 +62,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v209_mage_deck_core_impl';
-const BUILD_LABEL = 'v209 / buildable 1467 / total 1606';
+const DATA_VERSION = 'v210_il_luca_egg_card_images';
+const BUILD_LABEL = 'v210 / buildable 1467 / total 1607';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -12277,6 +12277,19 @@ function enemyColumnUnitsV209(column='front'){
   return positions.map(pos => ({pos, unit:game.enemy.board[pos]}))
     .filter(x => x.unit && !x.unit.isBuilding && Number(x.unit.hp || 0) > 0);
 }
+
+function ilLucaEggImagePathV210(tribe='系統'){
+  const map = {
+    'スライム':'./assets/custom_cards/il_luca_eggs/slime_egg.png',
+    'ゾンビ':'./assets/custom_cards/il_luca_eggs/zombie_egg.png',
+    'ドラゴン':'./assets/custom_cards/il_luca_eggs/dragon_egg.png',
+    '魔王':'./assets/custom_cards/il_luca_eggs/demon_king_egg.png',
+    '冒険者':'./assets/custom_cards/il_luca_eggs/adventurer_egg.png',
+    '英雄':'./assets/custom_cards/il_luca_eggs/hero_egg.png',
+    '系統':'./assets/custom_cards/il_luca_eggs/generic_egg.png'
+  };
+  return map[tribe] || map['系統'];
+}
 function createIlLucaEggCardV209(tribe, hatchTurn){
   const base = findCardByName(`${tribe}系のたまご`) || findCardByName('系統のたまご');
   const copy = JSON.parse(JSON.stringify(base || {
@@ -12297,6 +12310,7 @@ function createIlLucaEggCardV209(tribe, hatchTurn){
   copy.hp = 0;
   copy.text = `使用不可。${hatchTurn}ターン目以降の自分のターン開始時に${tribe}系のランダムなユニットカードに変身し+1/+1を得る。`;
   copy.searchText = `${copy.name} 使用不可 2ターン後 ${tribe}系 ランダム ユニット +1/+1`;
+  copy.localImage = copy.localImage || ilLucaEggImagePathV210(tribe);
   copy.flags ||= {};
   copy.flags.deckBuildable = false;
   copy.flags.generatedOrEvolved = true;
