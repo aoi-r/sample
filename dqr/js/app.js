@@ -62,8 +62,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v200_synchro_death_chain_fix';
-const BUILD_LABEL = 'v200 / buildable 1468 / total 1602';
+const DATA_VERSION = 'v202_fortune_targeting_safety_fix';
+const BUILD_LABEL = 'v202 / buildable 1468 / total 1602';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -3965,6 +3965,24 @@ function hasFortuneEffect(card){
   const text = getCardText(card);
   return /占い[:：]/.test(text) || text.includes('必中モード') || text.includes('超必中モード') || /占い効果/.test(text);
 }
+function isTwoChoiceFortuneCardV202(card){
+  if(!card) return false;
+  const text = getCardText(card);
+  if(!/占い[:：]/.test(text)) return false;
+  try{
+    return parseLevelledEffectSegments(text, '占い').length >= 2;
+  }catch(e){
+    return /[①②]/.test(text);
+  }
+}
+function countFortuneCardUseV202(source='占い'){
+  const game = state.battle.game;
+  if(!game?.player) return;
+  game.player.totalFortuneEffectsUsed = Number(game.player.totalFortuneEffectsUsed || 0) + 1;
+  game.player.fortuneUsedCount = game.player.totalFortuneEffectsUsed;
+  game.player.fortuneCardsUsedThisTurn = Number(game.player.fortuneCardsUsedThisTurn || 0) + 1;
+  battleLog(`${source}：占いカード使用回数 +1（合計${game.player.totalFortuneEffectsUsed}）。`);
+}
 
 // v117: precise renkei/double attack + Grandmaz cost-copy + hard solo turn button
 function hasInnateDoubleAttackV117(card){
@@ -6043,19 +6061,44 @@ function openChoiceModal(title, options, callback, meta={}){
   const dialog = $('choice-modal');
   dialog.classList.toggle('choice-modal--strategy3', meta.choiceLayout === 'strategy3');
   dialog.classList.toggle('choice-modal--shinryu4', meta.choiceLayout === 'shinryu4');
+  dialog.classList.toggle('choice-modal--fortune-random', !!meta.fortuneRandomReveal);
   $('choice-modal-title').textContent = title;
+  const closeBtn = $('choice-modal-close');
+  if(closeBtn){
+    closeBtn.disabled = !!meta.lockedChoices;
+    closeBtn.classList.toggle('hidden', !!meta.lockedChoices);
+  }
   const body = $('choice-modal-body');
   const normalized = (options || []).map(normalizeChoiceOptionV168);
   const hasCards = normalized.some(op => !!op.imagePath);
+  const selectedIndex = Number.isInteger(meta.selectedIndex) ? meta.selectedIndex : -1;
   body.classList.toggle('choice-modal-body--cards', hasCards);
   body.classList.toggle('choice-modal-body--all', !!meta.applyAllOnAny);
   body.classList.toggle('choice-modal-body--overlay-all', !!meta.allBannerOverlay);
   body.classList.toggle('choice-modal-body--strategy3', meta.choiceLayout === 'strategy3');
   body.classList.toggle('choice-modal-body--shinryu4', meta.choiceLayout === 'shinryu4');
+  body.classList.toggle('choice-modal-body--locked', !!meta.lockedChoices);
+  body.classList.toggle('choice-modal-body--fortune-random', !!meta.fortuneRandomReveal);
   const allBanner = meta.applyAllOnAny ? `<button class="choice-all-banner" type="button" data-all="1">${escapeHtml(meta.allChoiceLabel || 'すべての効果を得る')}</button>` : '';
+  const revealBanner = meta.fortuneRandomReveal
+    ? `<div class="fortune-random-banner" aria-live="polite">${escapeHtml(meta.revealLabel || 'ランダムで選ばれた占いを発動します')}</div>`
+    : '';
   const optionHtml = normalized.map((op,i)=>{
+    const selected = i === selectedIndex;
+    const locked = !!meta.lockedChoices;
+    const cls = [
+      'choice-option',
+      op.imagePath ? 'choice-option--card' : '',
+      selected ? 'choice-option--selected-random' : '',
+      locked && !selected ? 'choice-option--not-selected-random' : ''
+    ].filter(Boolean).join(' ');
+    const disabled = locked ? ' disabled aria-disabled="true"' : '';
+    const selectedBadge = selected && meta.fortuneRandomReveal
+      ? `<span class="fortune-selected-badge">${escapeHtml(meta.selectedBadge || 'ランダム決定')}</span>`
+      : '';
     if(op.imagePath){
-      return `<button class="choice-option choice-option--card" data-i="${i}">
+      return `<button class="${cls}" data-i="${i}"${disabled}>
+        ${selectedBadge}
         <span class="choice-option-card-wrap"><img class="choice-option-card-image" src="${escapeHtml(op.imagePath)}" alt="${escapeHtml(op.label)}"></span>
         <span class="choice-option-copy">
           <span class="choice-option-title">${escapeHtml(op.label)}</span>
@@ -6064,25 +6107,42 @@ function openChoiceModal(title, options, callback, meta={}){
         </span>
       </button>`;
     }
-    return `<button class="choice-option" data-i="${i}">${escapeHtml(op.label)}</button>`;
+    return `<button class="${cls}" data-i="${i}"${disabled}>${selectedBadge}${escapeHtml(op.label)}</button>`;
   }).join('');
-  body.innerHTML = (meta.allBannerBottom ? '' : allBanner) + optionHtml + (meta.allBannerBottom ? allBanner : '');
+  body.innerHTML = (meta.allBannerBottom ? '' : allBanner) + revealBanner + optionHtml + (meta.allBannerBottom ? allBanner : '');
   const finishAll = () => {
     const values = meta.allValues || normalized.map(x => x.value);
     $('choice-modal').close();
     emitChoiceSelected(meta.kind || 'choiceModalAll', title, values, -1, values, {...meta, all:true});
     callback(values, -1, {all:true, options:normalized});
   };
-  body.querySelector('.choice-all-banner')?.addEventListener('click', finishAll);
-  body.querySelectorAll('.choice-option').forEach(btn => btn.addEventListener('click', () => {
-    const i = Number(btn.dataset.i);
+  if(!meta.lockedChoices){
+    body.querySelector('.choice-all-banner')?.addEventListener('click', finishAll);
+    body.querySelectorAll('.choice-option').forEach(btn => btn.addEventListener('click', () => {
+      const i = Number(btn.dataset.i);
+      const picked = normalized[i];
+      if(meta.applyAllOnAny) return finishAll();
+      $('choice-modal').close();
+      emitChoiceSelected(meta.kind || 'choiceModal', title, normalized.map(x=>x.value), i, picked?.value, meta);
+      callback(picked?.value, i, picked);
+    }));
+  }
+  const runLockedSelection = () => {
+    const i = Math.max(0, Math.min(normalized.length - 1, selectedIndex));
     const picked = normalized[i];
-    if(meta.applyAllOnAny) return finishAll();
-    $('choice-modal').close();
-    emitChoiceSelected(meta.kind || 'choiceModal', title, normalized.map(x=>x.value), i, picked?.value, meta);
+    if(dialog.open) dialog.close();
+    if(closeBtn){
+      closeBtn.disabled = false;
+      closeBtn.classList.remove('hidden');
+    }
+    emitChoiceSelected(meta.kind || 'choiceModalLocked', title, normalized.map(x=>x.value), i, picked?.value, meta);
     callback(picked?.value, i, picked);
-  }));
+  };
   $('choice-modal').showModal();
+  if(meta.lockedChoices && selectedIndex >= 0){
+    const delay = Math.max(900, Number(meta.autoCloseMs || 2000));
+    setTimeout(runLockedSelection, delay);
+  }
 }
 
 
@@ -8430,6 +8490,7 @@ function dealRandomUnitDamageSplitAliveV191(total=1, source='効果', excludeUni
 }
 function resolveFortuneV187(source, optionLabels, applyOption, opts={}){
   const g = state.battle.game;
+  if(!opts.skipFortuneCount) countFortuneCardUseV202(source);
   const labels = optionLabels.map(String);
   const sourceCard = opts.card || findCardByName(source);
   const sourceImage = sourceCard ? getOfficialImage(sourceCard) : '';
@@ -8474,11 +8535,23 @@ function resolveFortuneV187(source, optionLabels, applyOption, opts={}){
     return true;
   }
   const i = randomIndex(labels.length, 'fortuneRandomV187', {source, labels});
-  applyOne(i);
-  finish();
+  openChoiceModal(`${source}：占い`, optionCards, (_picked, pickedIndex)=>{
+    applyOne(pickedIndex);
+    finish();
+  }, {
+    kind:'fortuneRandomRevealV201',
+    source,
+    labels,
+    selectedIndex:i,
+    lockedChoices:true,
+    fortuneRandomReveal:true,
+    revealLabel:'通常占い：ランダムで選ばれた効果を発動します',
+    selectedBadge:'ランダム決定',
+    autoCloseMs:2200
+  });
   return true;
 }
-function applyTabasaFortuneCardV187(card){
+function applyTabasaFortuneCardV187(card, opts={}){
   const g = state.battle.game;
   const name = card?.name || '';
   if(name === 'バルーンコール'){
@@ -8523,11 +8596,11 @@ function applyTabasaFortuneCardV187(card){
   }
   if(name === 'キースドラゴン'){
     return resolveFortuneV187(name, ['味方リーダーのHPを5回復','正面にいる全ての敵ユニットに2ダメージ'], (i)=>{
-      const self = (g.player.board || []).find(u => u?.name === 'キースドラゴン');
+      const self = opts.unit || null;
       const pos = self ? g.player.board.indexOf(self) : -1;
       if(i === 0) healLeader(5);
       else { for(const t of frontEnemyUnitsSameRowV166(pos >= 0 ? pos : 1)) dealDamageToUnit(t.unit, 2, name, 'enemy'); resolveDeaths(); }
-    });
+    }, {unit:opts.unit});
   }
   if(name === '審判のタロット'){
     return resolveFortuneV187(name, ['カードを1枚引く','味方リーダーのHPを2回復'], (i)=>{
@@ -8725,7 +8798,7 @@ function applySummonV166(unit, card){
     grantLeaderTempAttack(1, name); return true;
   }
   if(name === 'くらやみハーピー'){
-    g.pendingGenericEffect={kind:'setHpToAttack', source:name, target:'unitAny'};
+    beginPendingUnitTargetV202({kind:'setHpToAttack', source:name, target:'unitAny', forceChoiceModal:true});
     battleLog('くらやみハーピー：HPを攻撃力と同じにするユニットを選んでください。'); return true;
   }
   if(name === '怪獣プスゴン'){
@@ -8733,7 +8806,7 @@ function applySummonV166(unit, card){
     battleLog('怪獣プスゴン：イチゴ爆弾を出す敵の空きマスを選んでください。'); return true;
   }
   if(name === 'ハンフリー'){
-    g.pendingGenericEffect={kind:'hanfuri', source:name, target:'unitAny', sourceUnitId:unit.id};
+    beginPendingUnitTargetV202({kind:'hanfuri', source:name, target:'unitAny', sourceUnitId:unit.id, forceChoiceModal:true});
     battleLog('ハンフリー：攻撃力/HPを参照するユニットを選んでください。'); return true;
   }
   if(name === 'レッドプレデター'){
@@ -8752,7 +8825,7 @@ function applySummonV166(unit, card){
     return true;
   }
   if(name === 'キースドラゴン'){
-    applyTabasaFortuneCardV187(card);
+    applyTabasaFortuneCardV187(card, {unit});
     return true;
   }
   if(name === 'イブール'){
@@ -8867,8 +8940,8 @@ function applyCardUseV166(card, cost){
     battleLog(`魔導召喚：ヒーローLv.${lv}に応じてスノーホムンクルスを${lv}体出しました。`); return true;
   }
   if(name === '風の導き'){
-    g.pendingGenericEffect={kind:'damageThenTopDeckChoice', amount:3+getSpellDamageBonus(), source:name, target:'enemyUnit'};
-    battleLog('風の導き：3ダメージを与える敵ユニットを選んでください。'); return true;
+    g.pendingGenericEffect={kind:'damageThenTopDeckChoice', amount:3+getSpellDamageBonus(), source:name, target:'unitAny', canLeader:false};
+    battleLog('風の導き：3ダメージを与えるユニットを選んでください。'); return true;
   }
   if(name === '銀のタロット'){
     if(g.player.fortuneMode === 'hit' || g.player.fortuneMode === 'super') gainTension(2, name);
@@ -8883,9 +8956,9 @@ function applyCardUseV166(card, cost){
   }
   if(name === 'ゾディアックコード'){
     g.player.fortuneMode='super';
-    const ok=drawFromDeckByPredicateV166(c=>hasFortuneEffect(c), name, {costDelta:-3});
+    const ok=drawFromDeckByPredicateV166(c=>isTwoChoiceFortuneCardV202(c), name, {costDelta:-3});
     if(!ok) addCardToHandByName('審判のタロット');
-    battleLog(`ゾディアックコード：超必中モード。${ok?'占いカードを引きコスト-3。':'審判のタロットを手札へ。'}`); return true;
+    battleLog(`ゾディアックコード：超必中モード。${ok?'2択を持つ占いカードを引きコスト-3。':'審判のタロットを手札へ。'}`); return true;
   }
   if(name === '逆転への兆し'){
     return applyTabasaFortuneCardV187(card);
@@ -10182,6 +10255,50 @@ function applyDeathrattle(unit, side){
   }
   battleLog(`死亡時：${unit.name}の効果を処理しました。`);
 }
+function unitTargetRefsForEffectV202(eff={}){
+  const game = state.battle.game;
+  const sides = eff.target === 'enemyUnit' ? ['enemy'] : eff.target === 'friendlyUnit' ? ['player'] : ['player','enemy'];
+  const out = [];
+  for(const side of sides){
+    const board = side === 'enemy' ? game.enemy.board : game.player.board;
+    for(let pos=0; pos<board.length; pos++){
+      const unit = board[pos];
+      if(!unit || unit.isBuilding) continue;
+      if(!canEffectTargetUnitV167(unit, side, eff)) continue;
+      out.push({side, pos, unit});
+    }
+  }
+  return out;
+}
+function openUnitTargetChoiceModalV202(eff={}){
+  const refs = unitTargetRefsForEffectV202(eff);
+  if(!refs.length){
+    toast('選択できるユニットがいません。', false);
+    battleLog(`${eff.source || '効果'}：選択できるユニットがいません。`);
+    return false;
+  }
+  const options = refs.map(ref => {
+    const card = byId(ref.unit.cardId);
+    return {
+      label:`${ref.side === 'player' ? '味方' : '敵'}：${ref.unit.name}`,
+      description:`攻撃力${ref.unit.attack} / HP${ref.unit.hp}`,
+      sublabel:eff.source || '対象選択',
+      imagePath:getOfficialImage(card),
+      value:`${ref.side}:${ref.pos}`
+    };
+  });
+  openChoiceModal(`${eff.source || '効果'}：ユニットを選択`, options, (_picked, i)=>{
+    const ref = refs[i];
+    if(ref) applyPendingGenericEffectToUnit({side:ref.side, pos:ref.pos});
+  }, {kind:'unitTargetChoiceV202', source:eff.source, target:eff.target});
+  return true;
+}
+function beginPendingUnitTargetV202(eff){
+  const game = state.battle.game;
+  game.pendingGenericEffect = eff;
+  if(eff.forceChoiceModal) return openUnitTargetChoiceModalV202(eff);
+  return false;
+}
 function applyPendingGenericEffectToUnit(defenderRef){
   const game = state.battle.game;
   const eff = game.pendingGenericEffect;
@@ -10388,6 +10505,9 @@ function applyPendingGenericEffectToLeader(){
   if(!eff) return;
   if(eff.ignoreTargetsUntil && Date.now() < eff.ignoreTargetsUntil) return;
   if(eff.target === 'enemyUnit') return toast('敵ユニットを選んでください。', false);
+  if(eff.target === 'friendlyUnit') return toast('味方ユニットを選んでください。', false);
+  if(eff.target === 'unitAny') return toast('ユニットを選んでください。', false);
+  if(String(eff.target || '').includes('Unit') && !String(eff.target || '').includes('Leader')) return toast('ユニットを選んでください。', false);
   if(eff.canLeader === false) return toast('敵リーダーは対象にできません。', false);
   emitTargetSelected('genericEffectLeader', {side:'enemyLeader'}, {effect: makeEffectTargetPayload(eff, {side:'enemyLeader'})});
   if(eff.kind === 'damageBySourceAttack'){

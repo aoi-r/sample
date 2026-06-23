@@ -1,0 +1,18 @@
+{
+  "version": "v201_fortune_normal_reveal_modal",
+  "base": "v200_synchro_death_chain_fix",
+  "change": "通常状態の占いカード使用時にも、必中/超必中と同じカード画像モーダルを表示し、ランダム選択された方を非タップ式で強調表示してから効果を発動する。",
+  "details": [
+    "openChoiceModal に lockedChoices / selectedIndex / fortuneRandomReveal / autoCloseMs を追加。",
+    "通常占いでは randomIndex で選ばれた結果を selectedIndex に渡し、2.2秒表示後に自動で閉じて効果発動。",
+    "選択肢ボタンは disabled + pointer-events:none のためタップ不可。",
+    "選ばれた占いにはランダム決定バッジ、発光、拡大、リングアニメーションを表示。",
+    "必中・超必中の挙動は従来通り。"
+  ],
+  "ui": {
+    "displayMs": 2200,
+    "tapEnabled": false,
+    "selectedAnimation": "pulse + glow + ring",
+    "modalLayout": "2 card columns matching fortune hit/super card modal"
+  }
+}

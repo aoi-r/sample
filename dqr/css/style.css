@@ -7360,3 +7360,102 @@
     display:none !important;
   }
 }
+
+
+/* v201: normal fortune random reveal modal */
+.choice-modal--fortune-random{
+  width:min(820px, 96vw) !important;
+  max-height:92dvh !important;
+}
+.choice-modal--fortune-random .modal-head{
+  padding:10px 14px !important;
+}
+.choice-modal-body--fortune-random{
+  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+  gap:14px !important;
+  align-items:stretch !important;
+}
+.fortune-random-banner{
+  grid-column:1 / -1;
+  border:1px solid rgba(255,224,120,.85);
+  border-radius:999px;
+  padding:9px 14px;
+  background:linear-gradient(90deg, rgba(64,36,0,.94), rgba(243,199,82,.96), rgba(64,36,0,.94));
+  color:#201000;
+  font-weight:1000;
+  text-align:center;
+  letter-spacing:.04em;
+  box-shadow:0 0 0 2px rgba(255,230,150,.16), 0 8px 22px rgba(0,0,0,.34);
+}
+.choice-modal-body--locked .choice-option{
+  cursor:default !important;
+  pointer-events:none !important;
+}
+.choice-option--selected-random{
+  position:relative;
+  border-color:rgba(255,231,127,1) !important;
+  box-shadow:
+    0 0 0 3px rgba(255,230,120,.38),
+    0 0 28px rgba(255,210,70,.88),
+    0 12px 34px rgba(0,0,0,.48) !important;
+  transform:translateY(-4px) scale(1.035);
+  animation:fortune-random-selected-v201 1.05s ease-in-out infinite;
+  z-index:3;
+}
+.choice-option--not-selected-random{
+  opacity:.48;
+  filter:saturate(.65) brightness(.74);
+  transform:scale(.965);
+}
+.fortune-selected-badge{
+  position:absolute;
+  left:50%;
+  top:-12px;
+  transform:translateX(-50%) rotate(-2deg);
+  z-index:5;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:112px;
+  padding:5px 12px;
+  border-radius:999px;
+  background:linear-gradient(180deg,#fff3a5,#f3b92d);
+  color:#2b1400;
+  border:1px solid rgba(255,255,255,.7);
+  font-size:13px;
+  font-weight:1000;
+  letter-spacing:.06em;
+  text-shadow:0 1px 0 rgba(255,255,255,.42);
+  box-shadow:0 4px 12px rgba(0,0,0,.38);
+  pointer-events:none;
+}
+.choice-option--selected-random::after{
+  content:"";
+  position:absolute;
+  inset:-8px;
+  border-radius:18px;
+  border:2px solid rgba(255,230,110,.72);
+  animation:fortune-random-ring-v201 1.05s ease-out infinite;
+  pointer-events:none;
+}
+@keyframes fortune-random-selected-v201{
+  0%,100%{ transform:translateY(-4px) scale(1.035); }
+  50%{ transform:translateY(-7px) scale(1.06); }
+}
+@keyframes fortune-random-ring-v201{
+  0%{ opacity:.95; transform:scale(.98); }
+  100%{ opacity:0; transform:scale(1.09); }
+}
+@media(max-width:560px){
+  .choice-modal-body--fortune-random{
+    grid-template-columns:1fr !important;
+  }
+  .fortune-random-banner{
+    font-size:12px;
+    padding:7px 10px;
+  }
+  .fortune-selected-badge{
+    font-size:11px;
+    min-width:96px;
+  }
+}
