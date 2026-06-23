@@ -1,0 +1,26 @@
+{
+  "version": "v205_warrior_melvin_restore",
+  "base": "v204_iburu_book_image_replace",
+  "changes": [
+    "イレブンテリーのフェイスボールを2枚から1枚へ変更。",
+    "イレブンテリーにメルビンを1枚追加。",
+    "メルビンの画像をユーザー提供画像へ設定。"
+  ],
+  "deckChange": {
+    "deck": "イレブンテリー",
+    "removed": [
+      [
+        "フェイスボール",
+        1
+      ]
+    ],
+    "added": [
+      [
+        "メルビン",
+        1
+      ]
+    ],
+    "total": 30
+  },
+  "asset": "assets/official_cards/melvin.png"
+}

@@ -1,0 +1,14 @@
+{
+  "version": "v204_iburu_book_image_replace",
+  "base": "v203_fortune_modal_fit_permanent_super",
+  "changes": [
+    "ユーザー提供画像を assets/custom_cards/iburu_no_hon.png に差し替え。",
+    "イブールの本カードデータに localImage を設定。",
+    "イブールの本がカードデータに無い場合に備えて、生成カードとして追加。"
+  ],
+  "warriorDeckMemo": {
+    "currentDeckName": "イレブンテリー",
+    "melvinRemovedReplacementLikely": "フェイスボール",
+    "note": "現在の戦士デッキにメルビンは無く、メルビン枠の差し替えとして残っている候補はフェイスボール2枚と見られます。"
+  }
+}

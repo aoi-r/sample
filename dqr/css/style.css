@@ -7459,3 +7459,145 @@
     min-width:96px;
   }
 }
+
+
+/* v203: fit all fortune two-choice modals in viewport, like strategy modal */
+.choice-modal--fortune2{
+  width:min(760px, 94vw) !important;
+  max-height:94dvh !important;
+  overflow:hidden !important;
+}
+.choice-modal--fortune2 .modal-head{
+  padding:8px 12px !important;
+}
+.choice-modal--fortune2 .modal-head h3{
+  font-size:16px !important;
+  line-height:1.15 !important;
+}
+.choice-modal-body--fortune2{
+  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+  gap:8px !important;
+  max-height:none !important;
+  overflow:visible !important;
+  padding:10px !important;
+  align-items:stretch !important;
+}
+.choice-modal-body--fortune2 .choice-option--card{
+  padding:6px !important;
+  gap:4px !important;
+  border-radius:12px !important;
+}
+.choice-modal-body--fortune2 .choice-option-card-image{
+  width:auto !important;
+  max-width:100% !important;
+  height:min(42dvh, 230px) !important;
+  object-fit:contain !important;
+}
+.choice-modal-body--fortune2 .choice-option-title{
+  font-size:13px !important;
+}
+.choice-modal-body--fortune2 .choice-option-desc{
+  font-size:11px !important;
+  line-height:1.18 !important;
+  max-height:3.6em !important;
+  overflow:hidden !important;
+}
+.choice-modal-body--fortune2 .choice-option-sub{
+  font-size:9px !important;
+}
+.choice-modal-body--fortune2 .fortune-random-banner{
+  padding:7px 10px !important;
+  font-size:12px !important;
+}
+.choice-modal-body--fortune2 .choice-all-banner{
+  padding:8px 12px !important;
+  font-size:13px !important;
+}
+@media(max-width:700px){
+  .choice-modal--fortune2{
+    width:min(96vw, 640px) !important;
+  }
+  .choice-modal-body--fortune2 .choice-option-card-image{
+    height:min(34dvh, 160px) !important;
+  }
+  .choice-modal-body--fortune2 .choice-option-desc{
+    font-size:10px !important;
+    max-height:2.4em !important;
+  }
+}
+@media(max-width:560px){
+  .choice-modal-body--fortune2{
+    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+    gap:6px !important;
+    padding:8px !important;
+  }
+  .choice-modal-body--fortune2 .choice-option-card-image{
+    height:min(30dvh, 132px) !important;
+  }
+  .choice-modal-body--fortune2 .choice-option-title{
+    font-size:11px !important;
+  }
+  .choice-modal-body--fortune2 .choice-option-desc{
+    font-size:9px !important;
+    max-height:2.3em !important;
+  }
+  .choice-modal-body--fortune2 .fortune-selected-badge{
+    font-size:10px !important;
+    min-width:82px !important;
+    padding:4px 8px !important;
+  }
+}
+
+
+/* v208: unified target selection modal */
+.choice-modal--targetGrid{
+  width:min(900px, 96vw) !important;
+  max-height:94dvh !important;
+  overflow:hidden !important;
+}
+.choice-modal--targetGrid .modal-head{
+  padding:8px 12px !important;
+}
+.choice-modal--targetGrid .modal-head h3{
+  font-size:16px !important;
+  line-height:1.15 !important;
+}
+.choice-modal-body--targetGrid{
+  grid-template-columns:repeat(3, minmax(0, 1fr)) !important;
+  gap:8px !important;
+  padding:10px !important;
+  max-height:calc(94dvh - 54px) !important;
+  overflow:auto !important;
+  align-items:stretch !important;
+}
+.choice-modal-body--targetGrid .choice-option{
+  padding:7px !important;
+  gap:5px !important;
+  border-radius:12px !important;
+  min-height:0 !important;
+}
+.choice-modal-body--targetGrid .choice-option-card-image{
+  width:auto !important;
+  max-width:100% !important;
+  height:min(22dvh, 120px) !important;
+  object-fit:contain !important;
+}
+.choice-modal-body--targetGrid .choice-option-title{
+  font-size:12px !important;
+  line-height:1.15 !important;
+}
+.choice-modal-body--targetGrid .choice-option-desc{
+  font-size:10px !important;
+  line-height:1.15 !important;
+}
+.choice-modal-body--targetGrid .choice-option-sub{
+  font-size:9px !important;
+}
+@media(max-width:700px){
+  .choice-modal-body--targetGrid{
+    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+  }
+  .choice-modal-body--targetGrid .choice-option-card-image{
+    height:min(18dvh, 92px) !important;
+  }
+}

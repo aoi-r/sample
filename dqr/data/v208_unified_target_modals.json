@@ -1,0 +1,16 @@
+{
+  "version": "v208_unified_target_modals",
+  "base": "v207_last_hope_melvin_and_target_fix",
+  "changes": [
+    "pendingGenericEffect のユニット対象系を自動で対象選択モーダルへ統一。",
+    "召喚時ダメージ、ステータス変更、封印、消滅、毒、手札戻しなどの enemyUnit/unitAny/friendlyUnit 系をモーダル化。",
+    "enemyAny 系は敵ユニットに加えて敵リーダーも選択肢に出す。",
+    "ヒーロースキルの enemyAny/enemyUnit/unitAny/friendlyUnit/friendlyDungeon 系もモーダル化。",
+    "対象が1体だけでもモーダルを表示。",
+    "対象選択中に盤面外をタップしても選択解除しない方針を維持。"
+  ],
+  "notChanged": [
+    "空きマス選択系（ホットストーン、怪獣プスゴン等）は盤面位置の視認性優先で直接マス選択のまま。ただし無効タップではキャンセルされない。"
+  ],
+  "buildLabel": "v208 / buildable 1467 / total 1606"
+}

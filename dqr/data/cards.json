@@ -31892,7 +31892,7 @@
       "cost": 3,
       "attack": 3,
       "hp": 4,
-      "text": "貫通、死亡時：ホットストーンに封じられ自分のデッキの上から3番目に置かれる",
+      "text": "貫通、死亡時：ホットストーンに封じられ召喚者の山札の上から3番目にホットストーンが配置される",
       "rarity": "レジェンドレア",
       "cardType": "ユニット",
       "classes": [
@@ -31903,7 +31903,8 @@
       ],
       "tags": [
         "ユニット",
-        "冒険者系"
+        "冒険者系",
+        "冒険者"
       ],
       "sourceSheets": [
         "戦士",
@@ -31918,7 +31919,7 @@
       },
       "classKey": "戦士",
       "tribeKey": "冒険者",
-      "searchText": "メルビン 貫通、死亡時：ホットストーンに封じられ自分のデッキの上から3番目に置かれる レジェンドレア ユニット 戦士 死亡時 貫通 v80追記裁定: 貫通、死亡時：ホットストーンに封じられ自分のデッキの上から3番目に置かれる(ホットストーンのカードイラストは後で送付します。メモしておいてください。召喚した側の山札の上から3番目に置かれます。) 冒険者系",
+      "searchText": "メルビン 貫通 死亡時 ホットストーンに封じられ 召喚者の山札の上から3番目にホットストーンが配置される 戦士 冒険者 ユニット",
       "keywords": [
         "死亡時",
         "貫通"
@@ -31937,7 +31938,8 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "tribe": "冒険者"
+      "tribe": "冒険者",
+      "localImage": "./assets/official_cards/melvin.png"
     },
     {
       "id": "card_ae660737",
@@ -79829,6 +79831,86 @@
       "flags": {
         "deckBuildable": true
       }
+    },
+    {
+      "id": "virtual_iburu_no_hon_v204",
+      "name": "イブールの本",
+      "cost": 0,
+      "attack": 0,
+      "hp": 0,
+      "text": "味方リーダーに2ダメージ。敵リーダーのHPを2回復。カードを1枚引く。",
+      "rarity": "ノーマル",
+      "cardType": "特技",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [],
+      "tags": [
+        "生成カード",
+        "特技"
+      ],
+      "flags": {
+        "deckBuildable": false,
+        "generatedOrEvolved": true
+      },
+      "localImage": "./assets/custom_cards/iburu_no_hon.png",
+      "searchText": "イブールの本 味方リーダーに2ダメージ 敵リーダーのHPを2回復 カードを1枚引く 特技"
+    },
+    {
+      "id": "virtual_hot_stone_v206",
+      "name": "ホットストーン",
+      "cost": 2,
+      "attack": 0,
+      "hp": 0,
+      "text": "指定の味方マスに貫通・におうだち 3/4の最後の希望メルビンを1体出す。カードを1枚引く。",
+      "rarity": "ノーマル",
+      "cardType": "特技",
+      "classes": [
+        "共通"
+      ],
+      "tribes": [],
+      "tags": [
+        "生成カード",
+        "特技"
+      ],
+      "flags": {
+        "deckBuildable": false,
+        "generatedOrEvolved": true
+      },
+      "localImage": "./assets/custom_cards/hot_stone.png",
+      "searchText": "ホットストーン 指定の味方マス 貫通 におうだち 3/4 最後の希望メルビン 1体出す カードを1枚引く 特技"
+    },
+    {
+      "id": "virtual_last_hope_melvin_v206",
+      "name": "最後の希望メルビン",
+      "cost": 3,
+      "attack": 3,
+      "hp": 4,
+      "text": "貫通、におうだち",
+      "rarity": "レジェンドレア",
+      "cardType": "ユニット",
+      "classes": [
+        "戦士"
+      ],
+      "tribes": [
+        "冒険者"
+      ],
+      "tags": [
+        "生成カード",
+        "冒険者",
+        "におうだち",
+        "貫通"
+      ],
+      "flags": {
+        "deckBuildable": false,
+        "generatedOrEvolved": true
+      },
+      "localImage": "./assets/custom_cards/last_hope_melvin.png",
+      "searchText": "最後の希望メルビン 貫通 におうだち 3 4 戦士 冒険者 ユニット",
+      "keywords": [
+        "貫通",
+        "におうだち"
+      ]
     }
   ],
   "index": {

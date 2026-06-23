@@ -62,8 +62,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v202_fortune_targeting_safety_fix';
-const BUILD_LABEL = 'v202 / buildable 1468 / total 1602';
+const DATA_VERSION = 'v208_unified_target_modals';
+const BUILD_LABEL = 'v208 / buildable 1467 / total 1606';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -979,7 +979,7 @@ const SOLO_PRESET_DECK_DEFS = [
     sourceDeckNo:325,
     sourceTotal:30,
     cards:[
-      ['しっぷう突き',2],['とげぼうず',2],['勇者イレブン',1],['アルゴリザード',2],['トンネラー',2],['かくれんぼう',2],['ナイトキング',2],['わたぼう',1],['ブラッドレディ',2],['シーゴーレム',2],['ラプソーン',1],['最後の砦の英雄グレイグ',1],['コンガオンガ',1],['フェイスボール',2],['ギュメイ将軍',1],['シュプリンガー',1],['グレイトマムー',2],['いなずまのけん',2],['ウルノーガ&ウルナーガ',1]
+      ['しっぷう突き',2],['とげぼうず',2],['勇者イレブン',1],['アルゴリザード',2],['トンネラー',2],['かくれんぼう',2],['ナイトキング',2],['わたぼう',1],['ブラッドレディ',2],['シーゴーレム',2],['ラプソーン',1],['最後の砦の英雄グレイグ',1],['コンガオンガ',1],['フェイスボール',1],['メルビン',1],['ギュメイ将軍',1],['シュプリンガー',1],['グレイトマムー',2],['いなずまのけん',2],['ウルノーガ&ウルナーガ',1]
     ]
   },
   {
@@ -1918,7 +1918,7 @@ function applySpecialFortuneCardV132(card){
     openChoiceModal(card.name + '：必中', list.slice(0,2), (picked, i)=>{
       applySpecialFortuneOptionV132(card, picked, i);
       renderBattleArena(); syncMyBattleState();
-    }, {kind:'fortuneHitV132', card:{id:card.id, name:card.name}});
+    }, {kind:'fortuneHitV132', card:{id:card.id, name:card.name}, choiceLayout:'fortune2'});
     return true;
   }
   const i = Math.floor(Math.random() * Math.min(2, list.length));
@@ -3983,6 +3983,38 @@ function countFortuneCardUseV202(source='占い'){
   game.player.fortuneCardsUsedThisTurn = Number(game.player.fortuneCardsUsedThisTurn || 0) + 1;
   battleLog(`${source}：占いカード使用回数 +1（合計${game.player.totalFortuneEffectsUsed}）。`);
 }
+function setFortuneModeV203(mode, source='占い', opts={}){
+  const game = state.battle.game;
+  if(!game?.player) return;
+  if(mode === 'super'){
+    game.player.fortuneMode = 'super';
+    if(opts.permanent){
+      game.player.permanentSuperFortune = true;
+      game.player.fortuneModeUntil = '';
+      battleLog(`${source}：この対戦中、永続の超必中モードになりました。`);
+    }else if(!game.player.permanentSuperFortune){
+      game.player.fortuneModeUntil = opts.until || '';
+      battleLog(`${source}：超必中モードになりました。`);
+    }else{
+      game.player.fortuneModeUntil = '';
+    }
+    return;
+  }
+  if(mode === 'hit'){
+    if(game.player.permanentSuperFortune || game.player.fortuneMode === 'super'){
+      game.player.fortuneMode = 'super';
+      game.player.fortuneModeUntil = game.player.permanentSuperFortune ? '' : game.player.fortuneModeUntil;
+      battleLog(`${source}：既に超必中モードのため、必中には下がりません。`);
+      return;
+    }
+    game.player.fortuneMode = 'hit';
+    game.player.fortuneModeUntil = opts.until || '';
+    battleLog(`${source}：必中モードになりました。`);
+  }
+}
+function isSuperFortunePermanentV203(){
+  return !!state.battle.game?.player?.permanentSuperFortune;
+}
 
 // v117: precise renkei/double attack + Grandmaz cost-copy + hard solo turn button
 function hasInnateDoubleAttackV117(card){
@@ -5751,6 +5783,7 @@ function renderBattleArena(){
   installTargetSelectionCaptureV167();
   installSelectionRecoveryV128();
   renderSelectionClearButtonV128();
+  maybeOpenPendingTargetChoiceModalV208();
 }
 
 function renderBattleBoard(){
@@ -5894,7 +5927,7 @@ function handleEmptySlotClick(side, pos){
   // Empty slots are invalid targets for damage/attack/hero target selection, but this must run AFTER placement waits.
   if(game.pendingGenericEffect || game.pendingEnemySpellV118 || game.selectedAttacker || game.pendingHeroSkill){
     invalidTargetToastV128('空マスは対象にできません。');
-    clearBattleSelectionV128('空マスをタップ');
+    // v206: 対象選択中に無効な空マスを触っても、待機中の効果はキャンセルしない。
     return;
   }
 
@@ -6061,6 +6094,8 @@ function openChoiceModal(title, options, callback, meta={}){
   const dialog = $('choice-modal');
   dialog.classList.toggle('choice-modal--strategy3', meta.choiceLayout === 'strategy3');
   dialog.classList.toggle('choice-modal--shinryu4', meta.choiceLayout === 'shinryu4');
+  dialog.classList.toggle('choice-modal--targetGrid', meta.choiceLayout === 'targetGrid');
+  dialog.classList.toggle('choice-modal--fortune2', meta.choiceLayout === 'fortune2' || !!meta.fortuneRandomReveal);
   dialog.classList.toggle('choice-modal--fortune-random', !!meta.fortuneRandomReveal);
   $('choice-modal-title').textContent = title;
   const closeBtn = $('choice-modal-close');
@@ -6077,6 +6112,8 @@ function openChoiceModal(title, options, callback, meta={}){
   body.classList.toggle('choice-modal-body--overlay-all', !!meta.allBannerOverlay);
   body.classList.toggle('choice-modal-body--strategy3', meta.choiceLayout === 'strategy3');
   body.classList.toggle('choice-modal-body--shinryu4', meta.choiceLayout === 'shinryu4');
+  body.classList.toggle('choice-modal-body--targetGrid', meta.choiceLayout === 'targetGrid');
+  body.classList.toggle('choice-modal-body--fortune2', meta.choiceLayout === 'fortune2' || !!meta.fortuneRandomReveal);
   body.classList.toggle('choice-modal-body--locked', !!meta.lockedChoices);
   body.classList.toggle('choice-modal-body--fortune-random', !!meta.fortuneRandomReveal);
   const allBanner = meta.applyAllOnAny ? `<button class="choice-all-banner" type="button" data-all="1">${escapeHtml(meta.allChoiceLabel || 'すべての効果を得る')}</button>` : '';
@@ -8522,7 +8559,8 @@ function resolveFortuneV187(source, optionLabels, applyOption, opts={}){
       applyAllOnAny:true,
       allChoiceLabel:'両方発動',
       allBannerBottom:true,
-      allValues:labels
+      allValues:labels,
+      choiceLayout:'fortune2'
     });
     return true;
   }
@@ -8531,7 +8569,7 @@ function resolveFortuneV187(source, optionLabels, applyOption, opts={}){
     openChoiceModal(`${source}：必中`, optionCards, (_picked, i)=>{
       applyOne(i);
       finish();
-    }, {kind:'fortuneHitV188', source, labels});
+    }, {kind:'fortuneHitV188', source, labels, choiceLayout:'fortune2'});
     return true;
   }
   const i = randomIndex(labels.length, 'fortuneRandomV187', {source, labels});
@@ -8547,7 +8585,8 @@ function resolveFortuneV187(source, optionLabels, applyOption, opts={}){
     fortuneRandomReveal:true,
     revealLabel:'通常占い：ランダムで選ばれた効果を発動します',
     selectedBadge:'ランダム決定',
-    autoCloseMs:2200
+    autoCloseMs:2200,
+    choiceLayout:'fortune2'
   });
   return true;
 }
@@ -8862,6 +8901,11 @@ function applyCardUseV166(card, cost){
     ilLucaScheduleEggV192(tribe, name);
     return true;
   }
+  if(name === 'ホットストーン'){
+    g.pendingGenericEffect={kind:'hotStoneSummon', source:name, target:'friendlyEmptySlot'};
+    battleLog('ホットストーン：最後の希望メルビンを出す味方の空きマスを選んでください。');
+    return true;
+  }
   if(name === '氷竜への祈り'){
     openChoiceModal('氷竜への祈り：選択', ['せつげんりゅう1枚を手札に加える','全ての敵に1ダメージ'], (_p,i)=>{
       if(i === 0){
@@ -8895,23 +8939,23 @@ function applyCardUseV166(card, cost){
     return true;
   }
   if(name === '道具：弟切草' || name === '道具:弟切草' || name === '弟切草'){
-    g.pendingGenericEffect={kind:'merchantToolHeal', amount:3, source:name, target:'unitAny'};
+    beginPendingUnitTargetV202({kind:'merchantToolHeal', amount:3, source:name, target:'unitAny', forceChoiceModal:true});
     battleLog(`${name}：HPを3回復するユニットを選んでください。`); return true;
   }
   if(name === '道具：火炎草' || name === '道具:火炎草' || name === '火炎草'){
-    g.pendingGenericEffect={kind:'damage', amount:3, source:name, target:'unitAny'};
+    beginPendingUnitTargetV202({kind:'damage', amount:3, source:name, target:'unitAny', forceChoiceModal:true});
     battleLog(`${name}：3ダメージを与えるユニットを選んでください。`); return true;
   }
   if(name === '道具：ちからのたね' || name === '道具:ちからのたね'){
-    g.pendingGenericEffect={kind:'merchantToolSeed', attack:1, hp:0, source:name, target:'unitAny'};
+    beginPendingUnitTargetV202({kind:'merchantToolSeed', attack:1, hp:0, source:name, target:'unitAny', forceChoiceModal:true});
     battleLog(`${name}：攻撃力+1するユニットを選んでください。`); return true;
   }
   if(name === '道具：いのちのきのみ' || name === '道具:いのちのきのみ'){
-    g.pendingGenericEffect={kind:'merchantToolSeed', attack:0, hp:1, source:name, target:'unitAny'};
+    beginPendingUnitTargetV202({kind:'merchantToolSeed', attack:0, hp:1, source:name, target:'unitAny', forceChoiceModal:true});
     battleLog(`${name}：HP+1するユニットを選んでください。`); return true;
   }
   if(name === '道具：しあわせのたね' || name === '道具:しあわせのたね'){
-    g.pendingGenericEffect={kind:'merchantToolSeed', attack:1, hp:1, source:name, target:'unitAny'};
+    beginPendingUnitTargetV202({kind:'merchantToolSeed', attack:1, hp:1, source:name, target:'unitAny', forceChoiceModal:true});
     battleLog(`${name}：+1/+1するユニットを選んでください。`); return true;
   }
   if(name === '超ちからのたね' || name === '超ちからの種'){
@@ -8945,20 +8989,20 @@ function applyCardUseV166(card, cost){
   }
   if(name === '銀のタロット'){
     if(g.player.fortuneMode === 'hit' || g.player.fortuneMode === 'super') gainTension(2, name);
-    else { g.player.fortuneMode='hit'; battleLog('銀のタロット：必中モードになりました。'); }
+    else setFortuneModeV203('hit', name);
     addCardToHandByName('運命の輪'); return true;
   }
   if(name === 'クロウズ'){
-    g.player.fortuneMode='hit'; battleLog('クロウズ：必中モードになりました。'); return false;
+    setFortuneModeV203('hit', name); return false;
   }
   if(['バルーンコール','かみかぜ','太陽のタロット','死神のタロット','召竜の儀式','審判のタロット'].includes(name)){
     return applyTabasaFortuneCardV187(card);
   }
   if(name === 'ゾディアックコード'){
-    g.player.fortuneMode='super';
+    setFortuneModeV203('super', name, {permanent:true});
     const ok=drawFromDeckByPredicateV166(c=>isTwoChoiceFortuneCardV202(c), name, {costDelta:-3});
     if(!ok) addCardToHandByName('審判のタロット');
-    battleLog(`ゾディアックコード：超必中モード。${ok?'2択を持つ占いカードを引きコスト-3。':'審判のタロットを手札へ。'}`); return true;
+    battleLog(`ゾディアックコード：永続の超必中モード。${ok?'2択を持つ占いカードを引きコスト-3。':'審判のタロットを手札へ。'}`); return true;
   }
   if(name === '逆転への兆し'){
     return applyTabasaFortuneCardV187(card);
@@ -9272,8 +9316,7 @@ function applyGenericCardUseEffect(card, cost){
   }
   if(card.name === '運命の輪'){
     if(game.player.fortuneMode === 'super') gainTension(1, card.name);
-    game.player.fortuneMode = 'super';
-    game.player.fortuneModeUntil = 'turnEnd';
+    setFortuneModeV203('super', card.name, {until:'turnEnd'});
     return;
   }
   if(card.name === '闇に堕ちたチカラ'){
@@ -9611,7 +9654,9 @@ function installSelectionRecoveryV128(){
     }
     if(e.target.closest?.('.unit-slot,.board-slot,.unit-card,.battle-unit,.player-leader,.enemy-leader,.solo-debug-card,.solo-card-preview-backdrop,.choice-modal,.choice-backdrop,#end-turn-top,#solo-test-panel')) return;
     e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation?.();
-    clearBattleSelectionV128('無効な場所をタップ');
+    invalidTargetToastV128('対象選択中です。ユニットまたは有効なマスを選んでください。');
+    // v207: いのちのきのみ等の対象選択中に画面外を触っても、カード効果をキャンセルしない。
+    return;
   };
   document.addEventListener('pointerdown', handler, true);
   document.addEventListener('click', handler, true);
@@ -10218,10 +10263,11 @@ function applyDeathrattle(unit, side){
 
   if(unit.name === 'メルビン'){
     const hot = findCardByName('ホットストーン') || ensureVirtualCard('ホットストーン');
-    if(hot){
-      const idx = Math.min(2, game.player.deck.length);
-      game.player.deck.splice(idx, 0, hot.id);
-      battleLog('メルビン：ホットストーンをデッキの上から3番目に置きました。');
+    const owner = side === 'enemy' ? game.enemy : game.player;
+    if(hot && owner?.deck){
+      const idx = Math.min(2, owner.deck.length);
+      owner.deck.splice(idx, 0, hot.id);
+      battleLog(`メルビン：${side === 'enemy' ? '相手' : '自分'}の山札の上から3番目にホットストーンを置きました。`);
     }
   }
 
@@ -10255,6 +10301,146 @@ function applyDeathrattle(unit, side){
   }
   battleLog(`死亡時：${unit.name}の効果を処理しました。`);
 }
+
+function targetLabelForBoardPosV208(side, pos){
+  const col = ['左','中央','右'][pos % 3] || String(pos + 1);
+  const row = side === 'player'
+    ? (pos < 3 ? '前列' : '後列')
+    : (pos >= 3 ? '前列' : '後列');
+  return `${side === 'player' ? '味方' : '敵'} ${row}${col}`;
+}
+function effectTargetNeedsModalV208(eff){
+  if(!eff || eff._noAutoTargetModalV208) return false;
+  if(eff.kind === 'setEnemyBuildingDurability2') return false;
+  return ['unitAny','enemyUnit','friendlyUnit','friendlyDungeon','enemyAny','friendlyAny'].includes(eff.target);
+}
+function heroTargetNeedsModalV208(skill){
+  if(!skill || skill._noAutoTargetModalV208) return false;
+  return ['unitAny','enemyUnit','enemyAny','enemyAnyBlockedByUnits','friendlyUnit','friendlyDungeon'].includes(skill.target);
+}
+function unitTargetRefsForAnyTargetV208(target, effOrSkill={}){
+  const game = state.battle.game;
+  const refs = [];
+  const sides = target === 'enemyUnit' || target === 'enemyAny' || target === 'enemyAnyBlockedByUnits'
+    ? ['enemy']
+    : target === 'friendlyUnit' || target === 'friendlyDungeon'
+      ? ['player']
+      : ['player','enemy'];
+  for(const side of sides){
+    const board = side === 'enemy' ? game.enemy.board : game.player.board;
+    for(let pos=0; pos<board.length; pos++){
+      const unit = board[pos];
+      if(!unit) continue;
+      if(target === 'friendlyDungeon'){
+        if(side === 'player' && unit.isDungeon) refs.push({type:'unit', side, pos, unit});
+        continue;
+      }
+      if(unit.isBuilding) continue;
+      if(!canEffectTargetUnitV167(unit, side, effOrSkill)) continue;
+      refs.push({type:'unit', side, pos, unit});
+    }
+  }
+  return refs;
+}
+function leaderTargetRefsForAnyTargetV208(target, effOrSkill={}){
+  const refs = [];
+  if(target === 'enemyAny'){
+    if(effOrSkill.canLeader !== false) refs.push({type:'leader', side:'enemyLeader'});
+  }else if(target === 'enemyAnyBlockedByUnits'){
+    if(!hasEnemyTargetableUnit()) refs.push({type:'leader', side:'enemyLeader'});
+  }
+  return refs;
+}
+function optionForTargetRefV208(ref, source='対象選択'){
+  if(ref.type === 'leader'){
+    return {
+      label:'敵リーダー',
+      description:'リーダーを対象にする',
+      sublabel:source,
+      value:'enemyLeader'
+    };
+  }
+  const card = byId(ref.unit.cardId);
+  return {
+    label:`${targetLabelForBoardPosV208(ref.side, ref.pos)}：${ref.unit.name}`,
+    description:`攻撃力${ref.unit.attack} / HP${ref.unit.hp}`,
+    sublabel:source,
+    imagePath:getOfficialImage(card),
+    value:`${ref.side}:${ref.pos}`
+  };
+}
+function openEffectTargetChoiceModalV208(eff={}){
+  const refs = [
+    ...unitTargetRefsForAnyTargetV208(eff.target, eff),
+    ...leaderTargetRefsForAnyTargetV208(eff.target, eff)
+  ];
+  if(!refs.length){
+    toast('選択できる対象がいません。', false);
+    battleLog(`${eff.source || '効果'}：選択できる対象がいません。`);
+    return false;
+  }
+  eff._targetModalShownV208 = true;
+  const options = refs.map(ref => optionForTargetRefV208(ref, eff.source || '効果'));
+  openChoiceModal(`${eff.source || '効果'}：対象を選択`, options, (_picked, i)=>{
+    const ref = refs[i];
+    if(!ref) return;
+    if(ref.type === 'leader') applyPendingGenericEffectToLeader();
+    else applyPendingGenericEffectToUnit({side:ref.side, pos:ref.pos});
+  }, {kind:'effectTargetChoiceV208', source:eff.source, target:eff.target, choiceLayout:'targetGrid'});
+  return true;
+}
+function openHeroTargetChoiceModalV208(skill={}){
+  const refs = [
+    ...unitTargetRefsForAnyTargetV208(skill.target, skill),
+    ...leaderTargetRefsForAnyTargetV208(skill.target, skill)
+  ];
+  if(!refs.length){
+    toast('選択できる対象がいません。', false);
+    battleLog(`${skill.name || 'ヒーロースキル'}：選択できる対象がいません。`);
+    return false;
+  }
+  skill._targetModalShownV208 = true;
+  const options = refs.map(ref => optionForTargetRefV208(ref, skill.name || 'ヒーロースキル'));
+  openChoiceModal(`${skill.name || 'ヒーロースキル'}：対象を選択`, options, (_picked, i)=>{
+    const ref = refs[i];
+    if(!ref) return;
+    if(ref.type === 'leader') applyPendingHeroSkillToLeader();
+    else applyPendingHeroSkillToUnit(ref.side, ref.pos);
+  }, {kind:'heroTargetChoiceV208', source:skill.name, target:skill.target, choiceLayout:'targetGrid'});
+  return true;
+}
+function maybeOpenPendingTargetChoiceModalV208(){
+  const game = state.battle.game;
+  if(!game) return;
+  const dialog = $('choice-modal');
+  if(dialog?.open) return;
+  const eff = game.pendingGenericEffect;
+  if(effectTargetNeedsModalV208(eff) && !eff._targetModalShownV208){
+    if(eff.ignoreTargetsUntil && Date.now() < Number(eff.ignoreTargetsUntil)){
+      if(!eff._targetModalDelayV208){
+        eff._targetModalDelayV208 = true;
+        const wait = Math.max(30, Number(eff.ignoreTargetsUntil) - Date.now() + 40);
+        setTimeout(() => {
+          const g = state.battle.game;
+          if(g?.pendingGenericEffect === eff && !eff._targetModalShownV208) openEffectTargetChoiceModalV208(eff);
+        }, wait);
+      }
+      return;
+    }
+    setTimeout(() => {
+      const g = state.battle.game;
+      if(g?.pendingGenericEffect === eff && !eff._targetModalShownV208 && !$('choice-modal')?.open) openEffectTargetChoiceModalV208(eff);
+    }, 0);
+    return;
+  }
+  const skill = game.pendingHeroSkill;
+  if(heroTargetNeedsModalV208(skill) && !skill._targetModalShownV208){
+    setTimeout(() => {
+      const g = state.battle.game;
+      if(g?.pendingHeroSkill === skill && !skill._targetModalShownV208 && !$('choice-modal')?.open) openHeroTargetChoiceModalV208(skill);
+    }, 0);
+  }
+}
 function unitTargetRefsForEffectV202(eff={}){
   const game = state.battle.game;
   const sides = eff.target === 'enemyUnit' ? ['enemy'] : eff.target === 'friendlyUnit' ? ['player'] : ['player','enemy'];
@@ -10271,28 +10457,9 @@ function unitTargetRefsForEffectV202(eff={}){
   return out;
 }
 function openUnitTargetChoiceModalV202(eff={}){
-  const refs = unitTargetRefsForEffectV202(eff);
-  if(!refs.length){
-    toast('選択できるユニットがいません。', false);
-    battleLog(`${eff.source || '効果'}：選択できるユニットがいません。`);
-    return false;
-  }
-  const options = refs.map(ref => {
-    const card = byId(ref.unit.cardId);
-    return {
-      label:`${ref.side === 'player' ? '味方' : '敵'}：${ref.unit.name}`,
-      description:`攻撃力${ref.unit.attack} / HP${ref.unit.hp}`,
-      sublabel:eff.source || '対象選択',
-      imagePath:getOfficialImage(card),
-      value:`${ref.side}:${ref.pos}`
-    };
-  });
-  openChoiceModal(`${eff.source || '効果'}：ユニットを選択`, options, (_picked, i)=>{
-    const ref = refs[i];
-    if(ref) applyPendingGenericEffectToUnit({side:ref.side, pos:ref.pos});
-  }, {kind:'unitTargetChoiceV202', source:eff.source, target:eff.target});
-  return true;
+  return openEffectTargetChoiceModalV208(eff);
 }
+
 function beginPendingUnitTargetV202(eff){
   const game = state.battle.game;
   game.pendingGenericEffect = eff;
@@ -10539,6 +10706,10 @@ function applyPendingGenericEffectToEmptySlotV183(side='player', pos=0){
   emitEmptySlotSelected('genericEffectEmptySlot', side, pos, {effect: makeEffectTargetPayload(eff, {side:`${side}Empty`, pos})});
   if(eff.kind === 'summonStrawberryBomb'){
     summonStrawberryBombAtV183(side, pos, eff.source || '怪獣プスゴン');
+  }else if(eff.kind === 'hotStoneSummon'){
+    summonTokenAtPosition('最後の希望メルビン', pos, side, {attack:3, hp:4, keywords:{taunt:true, piercing:true}});
+    drawCard(1);
+    battleLog('ホットストーン：貫通・におうだち 3/4の最後の希望メルビンを出し、カードを1枚引きました。');
   }else if(eff.kind === 'summonSpecificToken'){
     summonTokenAtPosition(eff.tokenName, pos, side, {attack:eff.attack, hp:eff.hp});
   }else if(side === 'player'){
@@ -10557,6 +10728,10 @@ function applyPendingGenericEffectToEmptySlot(pos){
   emitEmptySlotSelected('genericEffectEmptySlot', 'player', pos, {effect: makeEffectTargetPayload(eff, {side:'playerEmpty', pos})});
   if(eff.kind === 'setTerrain'){
     setTerrain(pos, eff.terrainType, eff.source);
+  }else if(eff.kind === 'hotStoneSummon'){
+    summonTokenAtPosition('最後の希望メルビン', pos, 'player', {attack:3, hp:4, keywords:{taunt:true, piercing:true}});
+    drawCard(1);
+    battleLog('ホットストーン：貫通・におうだち 3/4の最後の希望メルビンを出し、カードを1枚引きました。');
   }else if(eff.kind === 'summonSpecificToken'){
     summonTokenAtPosition(eff.tokenName, pos, 'player', {attack:eff.attack, hp:eff.hp});
   }else if(eff.kind === 'summonTreasureMapDungeon'){
@@ -11649,7 +11824,7 @@ function endTurn(){
   game.player.healInvertsForEnemiesThisTurn = false;
   game.player.combatDamageMultiplier = 1;
   game.enemy.combatDamageMultiplier = 1;
-  if(game.player.fortuneModeUntil === 'turnEnd'){ game.player.fortuneMode = ''; game.player.fortuneModeUntil = ''; }
+  if(game.player.fortuneModeUntil === 'turnEnd' && !game.player.permanentSuperFortune){ game.player.fortuneMode = ''; game.player.fortuneModeUntil = ''; }
   game.player.nextCardDiscounts = [];
   game.player.unitDiedThisTurn = false;
   game.player.leaderAttack = 0;

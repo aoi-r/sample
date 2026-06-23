@@ -1,0 +1,12 @@
+{
+  "version": "v203_fortune_modal_fit_permanent_super",
+  "base": "v202_fortune_targeting_safety_fix",
+  "changes": [
+    "占い2択モーダルに fortune2 レイアウトを追加し、通常/必中/超必中すべてを画面内に収まるサイズへ調整。",
+    "カード画像の高さをdvh制限し、説明文も高さ制限して見切れにくくした。",
+    "ゾディアックコードの超必中を永続フラグ permanentSuperFortune として保持。",
+    "ターン終了時の fortuneModeUntil='turnEnd' 解除は、永続超必中中は実行しないよう修正。",
+    "一度永続超必中を得た後は、クロウズや銀のタロット等で必中へ下がらないよう setFortuneModeV203 を追加。",
+    "運命の輪は永続超必中未獲得時のみターン終了までの一時超必中として扱う。"
+  ]
+}
