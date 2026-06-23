@@ -62,8 +62,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v199_soroban_madesagora_fix';
-const BUILD_LABEL = 'v199 / buildable 1468 / total 1602';
+const DATA_VERSION = 'v200_synchro_death_chain_fix';
+const BUILD_LABEL = 'v200 / buildable 1468 / total 1602';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -3588,8 +3588,25 @@ function applySynchroEffectText(effectText, targetUnit=null, source='シンク�
 function parseLevelledEffectSegments(text, keyword){
   const raw = String(text || '');
   const part = (extractAfterKeyword(raw, keyword) || raw).trim();
-  const matches = [...part.matchAll(/[①②③１２３123][\.、:：]?\s*([^①②③１２３123。]+)/g)];
-  if(matches.length) return matches.map(m => m[1].trim().replace(/[、，]+$/,'')).filter(Boolean);
+  // v200: 「攻撃力+1」「HP+1」内の数字をLv番号と誤認しない。
+  // まず丸数字 ①②③ を優先して区切る。
+  const circled = [...part.matchAll(/[①②③]/g)];
+  if(circled.length){
+    return circled.map((m, idx) => {
+      const start = m.index + m[0].length;
+      const end = idx + 1 < circled.length ? circled[idx + 1].index : part.length;
+      return part.slice(start, end).trim().replace(/^[\.、:：\s]+/,'').replace(/[、，。\s]+$/,'');
+    }).filter(Boolean);
+  }
+  // 代替表記: 1:効果 / ２、効果 のように、数字の直後に区切り記号がある場合だけLv番号扱い。
+  const numbered = [...part.matchAll(/(?:^|[\s、。])([１２３123])[\.、:：]\s*/g)];
+  if(numbered.length){
+    return numbered.map((m, idx) => {
+      const start = m.index + m[0].length;
+      const end = idx + 1 < numbered.length ? numbered[idx + 1].index : part.length;
+      return part.slice(start, end).trim().replace(/[、，。\s]+$/,'');
+    }).filter(Boolean);
+  }
   return [part];
 }
 function applySynchroIfAny(card, targetUnit=null){
@@ -10021,30 +10038,44 @@ function attackLeader(targetSide){
 
 function resolveDeaths(){
   const game = state.battle.game;
-  for(const side of ['player','enemy']){
-    const player = side === 'player' ? game.player : game.enemy;
-    player.board.forEach((unit, i) => {
-      if(unit && unit.hp <= 0){
-        unit.lastBoardPos = i;
-        const snapshot = JSON.parse(JSON.stringify(unit));
-        emitBattleEvent('unitDeath', {unit, side, pos:i, vanished:!!unit.vanished});
-        if(!unit.vanished){
-          applyDeathrattle(unit, side);
-          if(side === 'player'){ game.player.deaths.push({cardId:unit.cardId, name:unit.name, attack:unit.attack, hp:unit.maxHp}); progressDungeonsByEvent('unitDeath'); }
-        }
-        battleLog(`${unit.name}は${unit.vanished ? '消滅' : '死亡'}しました。`);
-        player.board[i] = null;
-        if(!unit.vanished && unit.reviveOnDeath){
-          reviveUnitSameSlot(snapshot, side, i);
-        }else if(!unit.vanished && unit.returnSelfOnDeath && side === 'player'){
-          addCardToHandByName(unit.name);
+  let pass = 0;
+  let changed = true;
+  while(changed && pass < 20){
+    changed = false;
+    pass++;
+    for(const side of ['player','enemy']){
+      const player = side === 'player' ? game.player : game.enemy;
+      for(let i=0; i<player.board.length; i++){
+        const unit = player.board[i];
+        if(unit && Number(unit.hp || 0) <= 0){
+          changed = true;
+          unit.lastBoardPos = i;
+          const snapshot = JSON.parse(JSON.stringify(unit));
+          emitBattleEvent('unitDeath', {unit, side, pos:i, vanished:!!unit.vanished});
+          // v200: 先に盤面から外す。死亡時効果でさらにHP0以下になったユニットも次passで確実に掃除する。
+          player.board[i] = null;
+          if(!unit.vanished){
+            applyDeathrattle(unit, side);
+            if(side === 'player'){
+              game.player.deaths.push({cardId:unit.cardId, name:unit.name, attack:unit.attack, hp:unit.maxHp});
+              progressDungeonsByEvent('unitDeath');
+            }
+          }
+          battleLog(`${unit.name}は${unit.vanished ? '消滅' : '死亡'}しました。`);
+          if(!unit.vanished && unit.reviveOnDeath){
+            if(!player.board[i]) reviveUnitSameSlot(snapshot, side, i);
+          }else if(!unit.vanished && unit.returnSelfOnDeath && side === 'player'){
+            addCardToHandByName(unit.name);
+          }
         }
       }
-    });
+    }
   }
+  if(pass >= 20) battleLog('死亡処理：連鎖が長すぎるため安全停止しました。');
   refreshContinuousBoardEffectsV157('player');
   refreshContinuousBoardEffectsV157('enemy');
 }
+
 function applyDeathrattle(unit, side){
   if(!unit?.keywords?.deathrattle && !getCardText(byId(unit.cardId)).includes('死亡時')) return;
   const game = state.battle.game;
