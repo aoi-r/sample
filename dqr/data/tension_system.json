@@ -44,11 +44,13 @@
       "class": "魔法使い",
       "leader": "ゼシカ",
       "skillName": "紅蓮の火球",
-      "effectText": "敵1体に3ダメージを与える",
+      "effectText": "敵ユニットまたは敵リーダー1体に3ダメージを与える。におうだちの影響を受けない。ステルスは選択不可。",
       "effect": {
-        "type": "dealDamage",
-        "target": "enemyTarget",
-        "amount": 3
+        "type": "targetDamage",
+        "target": "enemyAny",
+        "amount": 3,
+        "ignoreTaunt": true,
+        "ignoreStealth": false
       }
     },
     {

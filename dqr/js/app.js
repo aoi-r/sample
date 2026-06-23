@@ -62,8 +62,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v208_unified_target_modals';
-const BUILD_LABEL = 'v208 / buildable 1467 / total 1606';
+const DATA_VERSION = 'v209_mage_deck_core_impl';
+const BUILD_LABEL = 'v209 / buildable 1467 / total 1606';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -8808,6 +8808,36 @@ function applySummonV166(unit, card){
     }
     return true;
   }
+  if(name === 'デンタザウルス'){
+    if(hasCost3PlusSpellInHandV209()){
+      unit.hp += 2;
+      unit.maxHp += 2;
+      battleLog('デンタザウルス：手札にコスト3以上の特技カードがあるためHP+2。');
+    }else{
+      battleLog('デンタザウルス：手札にコスト3以上の特技カードがありません。');
+    }
+    return true;
+  }
+  if(name === '竜将ドラゴンガイア'){
+    if(!hasCost3PlusSpellInHandV209()){
+      battleLog('竜将ドラゴンガイア：手札にコスト3以上の特技カードがありません。');
+      return true;
+    }
+    openChoiceModal('竜将ドラゴンガイア：敵の縦一列を選択', ['敵前列','敵後列'], (_picked, i)=>{
+      const column = i === 1 ? 'back' : 'front';
+      const targets = enemyColumnUnitsV209(column);
+      for(const t of targets){
+        dealDamageToUnit(t.unit, 2, name, 'enemy');
+        addStatus(t.unit, 'apathy', {until:'opponentTurnEnd'});
+        t.unit.canAttack = false;
+      }
+      battleLog(`竜将ドラゴンガイア：敵${i === 1 ? '後列' : '前列'}のユニット${targets.length}体に2ダメージと攻撃不能。`);
+      resolveDeaths();
+      renderBattleArena();
+      syncMyBattleState();
+    }, {kind:'dragonGaiaColumnV209'});
+    return true;
+  }
   if(name === 'ガメゴンロード'){
     unit.keywords ||= {};
     unit.keywords.taunt = true;
@@ -8897,13 +8927,21 @@ function applyCardUseV166(card, cost){
   const g=state.battle.game; if(!card) return false; const name=card.name;
   const eggMatchV192 = String(name || '').match(/^(.*)系のたまご$/);
   if(eggMatchV192 || name === '系統のたまご'){
-    const tribe = eggMatchV192?.[1] || ilLucaSelectedTribeV192() || 'スライム';
-    ilLucaScheduleEggV192(tribe, name);
+    battleLog(`${name}：たまごは使用できません。2ターン後に手札でユニットカードへ変身します。`);
     return true;
   }
   if(name === 'ホットストーン'){
     g.pendingGenericEffect={kind:'hotStoneSummon', source:name, target:'friendlyEmptySlot'};
     battleLog('ホットストーン：最後の希望メルビンを出す味方の空きマスを選んでください。');
+    return true;
+  }
+  if(name === '乙女の気まぐれ'){
+    openChoiceModal('乙女の気まぐれ：選択', ['ユニット1体に4ダメージ','ユニット1体に2ダメージ、カードを1枚引く'], (_p,i)=>{
+      if(i === 0) beginPendingUnitTargetV202({kind:'damage', amount:4+getSpellDamageBonus(), source:name, target:'unitAny', forceChoiceModal:true});
+      else beginPendingUnitTargetV202({kind:'damageThenDraw', amount:2+getSpellDamageBonus(), draw:1, source:name, target:'unitAny', forceChoiceModal:true});
+      renderBattleArena();
+      syncMyBattleState();
+    }, {kind:'otomeKimagureV209'});
     return true;
   }
   if(name === '氷竜への祈り'){
@@ -9545,6 +9583,11 @@ function applyGenericCardUseEffect(card, cost){
 
 function useNonUnitCard(index, card){
   const game = state.battle.game;
+  if(isIlLucaUnhatchedEggCardV209(card)){
+    toast('このたまごはまだ使用できません。2ターン後にユニットカードへ変身します。', false);
+    battleLog(`${card.name}：まだ孵化していないため使用できません。`);
+    return;
+  }
   if(card?.name === 'イブールの本') return resolveIburBookV121('player', index);
   if(card?.name === 'コイン') return useCoinFromHandV110(index);
   if(card?.name === 'スペシャルコイン'){
@@ -10041,6 +10084,9 @@ function attackUnit(attackerRef, defenderRef){
     ? game.enemy.board.map(u => (u && !u.isBuilding && Number(u.hp || 0) > 0) ? u.id : null)
     : null;
   if(!atk || !def || !atk.canAttack) return;
+  if(atk.name === 'アルゴングレート' && attackerRef.side !== 'playerLeader' && sameRowOpposingUnitsV209(attackerRef.side, attackerRef.pos).length){
+    return toast('アルゴングレート：正面に敵ユニットがいるため攻撃できません。', false);
+  }
   if(def.name === 'チャゴス王子'){
     if(defenderRef.side === 'player') addCardToHandByName(def.name);
     defBoard[defenderRef.pos] = null;
@@ -10336,6 +10382,11 @@ function unitTargetRefsForAnyTargetV208(target, effOrSkill={}){
         continue;
       }
       if(unit.isBuilding) continue;
+      if(effOrSkill?.effect?.kind === 'ilLucaEgg' && !ilLucaUnitSelectableTribeV192(unit)) continue;
+      if(effOrSkill?.effect?.kind === 'ilLucaMasterRoad'){
+        const tribe = ilLucaSelectedTribeV192();
+        if(!tribe || side !== 'player' || !isTribeCard(byId(unit.cardId), tribe)) continue;
+      }
       if(!canEffectTargetUnitV167(unit, side, effOrSkill)) continue;
       refs.push({type:'unit', side, pos, unit});
     }
@@ -10533,6 +10584,11 @@ function applyPendingGenericEffectToUnit(defenderRef){
   if(eff.kind === 'damageThenTopDeckChoice'){
     dealDamageToUnit(unit, eff.amount, eff.source || '風の導き', defenderRef.side);
     game.pendingGenericEffect = null; resolveDeaths(); topDeckLookAndBottomChoiceV166(eff.source || '風の導き'); renderBattleArena(); syncMyBattleState(); return;
+  }
+  if(eff.kind === 'damageThenDraw'){
+    dealDamageToUnit(unit, eff.amount, eff.source || '効果', defenderRef.side);
+    drawCard(Number(eff.draw || 1));
+    game.pendingGenericEffect = null; resolveDeaths(); renderBattleArena(); syncMyBattleState(); return;
   }
   if(eff.kind === 'setHpToAttack'){
     const v=Math.max(0, Number(unit.attack||0)); unit.maxHp=v; unit.hp=Math.min(v, Number(unit.hp||v));
@@ -10794,6 +10850,11 @@ function applyTensionSkill(skill){
     battleLog('勇者レック：熟練度+1。');
   }
   if(!effect){ if(isSoloTestMode()) soloWarriorTensionV106(skill); return; }
+  if(effect.type === 'targetDamage' || (effect.type === 'dealDamage' && (effect.target === 'enemyTarget' || effect.target === 'enemyAny'))){
+    game.pendingGenericEffect = {kind:'damage', amount:Number(effect.amount || 0), source:name, target:'enemyAny', ignoreTaunt:true, canLeader:true};
+    battleLog(`${name}：${effect.amount || 0}ダメージを与える敵ユニットまたは敵リーダーを選んでください。`);
+    return;
+  }
   if(effect.type === 'dealDamage'){
     game.enemy.hp = Math.max(0, game.enemy.hp - Number(effect.amount || 0));
     battleLog(`敵リーダーに${effect.amount}ダメージ。`);
@@ -11906,7 +11967,7 @@ function activateHeroCard(card){
   if(card.name === 'イル＆ルカ'){
     game.player.heroSkill.ilLucaSelectedTribe = '';
     game.player.heroSkill.ilLucaEggHatchedThisTurn = [];
-    game.player.ilLucaPendingEggs = [];
+    game.player.ilLucaPendingEggs = []; // legacy unused: v209 eggs hatch in hand
   }
   battleLog(`${card.name}のヒーロースキルが使えるようになりました。`);
 }
@@ -11941,6 +12002,16 @@ function canUseHeroSkill(skill){
   }
   if(game.player.heroSkill?.heroCardName === '勇者イレブン' && game.player.heroSkill?.level === 3 && skill.effect?.kind === 'elevenSeekPast' && game.player.heroSkill?.elevenLv3Used){
     return {ok:false, reason:'このヒーロースキルは対戦中に1回だけです'};
+  }
+  if(game.player.heroSkill?.heroCardName === 'イル＆ルカ' && skill.effect?.kind === 'ilLucaEgg'){
+    const hasTarget = (game.player.board || []).some(u => ilLucaUnitSelectableTribeV192(u));
+    if(!hasTarget) return {ok:false, reason:'系統を持つ味方ユニットが必要です'};
+  }
+  if(game.player.heroSkill?.heroCardName === 'イル＆ルカ' && skill.effect?.kind === 'ilLucaMasterRoad'){
+    const tribe = ilLucaSelectedTribeV192();
+    if(!tribe) return {ok:false, reason:'先に託されしたまごで系統を選んでください'};
+    const hasTarget = (game.player.board || []).some(u => u && !u.isBuilding && isTribeCard(byId(u.cardId), tribe));
+    if(!hasTarget) return {ok:false, reason:`${tribe}系の味方ユニットが必要です`};
   }
   return {ok:true, cost};
 }
@@ -12034,14 +12105,12 @@ function applyPendingHeroSkillToUnit(side, pos){
   if(skill.target === 'friendlyUnit' && side !== 'player') return toast('味方ユニットを選んでください。', false);
   if(skill.target === 'friendlyDungeon' && (side !== 'player' || !unit.isDungeon)) return toast('味方のダンジョンを選んでください。', false);
   if(skill.effect?.kind === 'ilLucaEgg' && !ilLucaUnitSelectableTribeV192(unit)){
-    return toast('冒険者以外の系統を1つだけ持つ味方ユニットを選んでください。', false);
+    return toast('系統を持つ味方ユニットを選んでください。', false);
   }
   if(skill.effect?.kind === 'ilLucaMasterRoad'){
     const tribe = ilLucaSelectedTribeV192();
     if(!tribe) return toast('先に託されしたまごで系統を選んでください。', false);
-    if(!isTribeCard(byId(unit.cardId), tribe)) return toast(`${tribe}系の味方ユニットを選んでください。`, false);
-    const hatched = state.battle.game.player.heroSkill?.ilLucaEggHatchedThisTurn || [];
-    if(!hatched.includes(unit.id)) return toast('このターン中にたまごから生まれた味方ユニットを選んでください。', false);
+    if(side !== 'player' || !isTribeCard(byId(unit.cardId), tribe)) return toast(`${tribe}系の味方ユニットを選んでください。`, false);
   }
   if(skill.target !== 'friendlyDungeon' && !canEffectTargetUnitV167(unit, side, skill)){
     if(side === 'enemy' && hasStealthKeywordV172(unit) && !effectBypassesTargetGuardsV170(skill)) return toast('ステルス中の敵ユニットは対象にできません。', false);
@@ -12178,83 +12247,177 @@ function triggerCardPlayedForHero(card){
   }
 }
 
+
+function normalizedUnitTribesForIlLucaV209(card){
+  return [...cardTribes(card)]
+    .map(t => String(t || '').replace(/系$/,'').trim())
+    .filter(t => t && !['なし','系統なし'].includes(t));
+}
+function hasCost3PlusSpellInHandV209(){
+  const game = state.battle.game;
+  return (game.player.hand || []).some(id => {
+    const c = byId(id);
+    return c && isSpell(c) && Number(c.cost || 0) >= 3;
+  });
+}
+function sameRowOpposingUnitsV209(side, pos){
+  const game = state.battle.game;
+  const c = posToCoord(side, Number(pos || 0));
+  const targetSide = side === 'enemy' ? 'player' : 'enemy';
+  const cols = targetSide === 'enemy' ? [2,3] : [1,0];
+  const board = targetSide === 'enemy' ? game.enemy.board : game.player.board;
+  return cols.map(col => coordToPos(targetSide, c.row, col))
+    .filter(p => p >= 0)
+    .map(pos => ({side:targetSide, pos, unit:board[pos]}))
+    .filter(x => x.unit && !x.unit.isBuilding && Number(x.unit.hp || 0) > 0);
+}
+function enemyColumnUnitsV209(column='front'){
+  const game = state.battle.game;
+  const positions = column === 'back' ? [3,4,5] : [0,1,2];
+  return positions.map(pos => ({pos, unit:game.enemy.board[pos]}))
+    .filter(x => x.unit && !x.unit.isBuilding && Number(x.unit.hp || 0) > 0);
+}
+function createIlLucaEggCardV209(tribe, hatchTurn){
+  const base = findCardByName(`${tribe}系のたまご`) || findCardByName('系統のたまご');
+  const copy = JSON.parse(JSON.stringify(base || {
+    id:`virtual_${tribe}_egg_base`,
+    name:`${tribe}系のたまご`,
+    cost:0,
+    cardType:'特技',
+    text:'',
+    classes:['共通'],
+    tribes:[],
+    flags:{deckBuildable:false, generatedOrEvolved:true}
+  }));
+  copy.id = `il_luca_egg_${tribe}_${Date.now()}_${safeRandomId('egg').slice(0,8)}`;
+  copy.name = `${tribe}系のたまご`;
+  copy.cost = 0;
+  copy.cardType = '特技';
+  copy.attack = 0;
+  copy.hp = 0;
+  copy.text = `使用不可。${hatchTurn}ターン目以降の自分のターン開始時に${tribe}系のランダムなユニットカードに変身し+1/+1を得る。`;
+  copy.searchText = `${copy.name} 使用不可 2ターン後 ${tribe}系 ランダム ユニット +1/+1`;
+  copy.flags ||= {};
+  copy.flags.deckBuildable = false;
+  copy.flags.generatedOrEvolved = true;
+  copy.flags.ilLucaEggUnhatched = true;
+  copy.ilLucaEgg = {tribe, hatchTurn};
+  state.allCards.push(copy);
+  state.cards.push(copy);
+  return copy;
+}
+function isIlLucaUnhatchedEggCardV209(card){
+  return !!(card?.flags?.ilLucaEggUnhatched || card?.ilLucaEgg);
+}
+function ilLucaRandomUnitCardByTribeV209(tribe){
+  const pool = state.allCards.filter(c =>
+    c && c.cardType === 'ユニット'
+    && isTribeCard(c, tribe)
+    && c.name !== '最後の希望メルビン'
+    && !c.flags?.generatedOrEvolved
+    && !c.flags?.obtainOnly
+  );
+  return pool.length ? chooseRandom(pool, 'ilLucaEggHandHatchV209', {tribe}) : null;
+}
+function ilLucaHatchHandEggsV209(){
+  const game = state.battle.game;
+  if(!game?.player?.hand?.length) return 0;
+  let hatched = 0;
+  for(let i=0; i<game.player.hand.length; i++){
+    const egg = byId(game.player.hand[i]);
+    if(!isIlLucaUnhatchedEggCardV209(egg)) continue;
+    const data = egg.ilLucaEgg || {};
+    if(Number(data.hatchTurn || 0) > Number(game.turn || 0)) continue;
+    const tribe = data.tribe || ilLucaSelectedTribeV192() || 'スライム';
+    const base = ilLucaRandomUnitCardByTribeV209(tribe);
+    if(!base){
+      battleLog(`${egg.name}：${tribe}系ユニット候補がないためまだ孵化できません。`);
+      continue;
+    }
+    const copy = JSON.parse(JSON.stringify(base));
+    copy.id = `il_luca_hatched_${base.id}_${Date.now()}_${safeRandomId('hatch').slice(0,8)}_${i}`;
+    copy.originalCardId = base.id;
+    copy.attack = Number(base.attack || 0) + 1;
+    copy.hp = Number(base.hp || 0) + 1;
+    copy.flags ||= {};
+    copy.flags.deckBuildable = false;
+    copy.flags.generatedOrEvolved = true;
+    copy.ilLucaHatched = true;
+    copy.searchText = `${copy.searchText || ''} たまご孵化 +1/+1`.trim();
+    state.allCards.push(copy);
+    state.cards.push(copy);
+    game.player.hand[i] = copy.id;
+    hatched++;
+    battleLog(`${egg.name}：${base.name}に孵化し、+1/+1を得ました。`);
+  }
+  return hatched;
+}
 function ilLucaUnitSelectableTribeV192(unit){
+  if(!unit || unit.isBuilding) return '';
   const card = byId(unit?.cardId);
-  const tribes = [...cardTribes(card)].filter(t => !['冒険者','英雄'].includes(t));
-  return tribes.length === 1 ? tribes[0] : '';
+  const tribes = normalizedUnitTribesForIlLucaV209(card);
+  return tribes.length ? tribes[0] : '';
 }
 function ilLucaSelectedTribeV192(){
   return state.battle.game?.player?.heroSkill?.ilLucaSelectedTribe || '';
 }
 function addIlLucaEggToHandV192(tribe){
-  const name = `${tribe}系のたまご`;
-  if(findCardByName(name)) return addCardToHandByName(name);
-  return addCardToHandByName('系統のたまご');
+  const game = state.battle.game;
+  const hatchTurn = Number(game.turn || 0) + 2;
+  const egg = createIlLucaEggCardV209(tribe, hatchTurn);
+  const ok = addCardIdToPlayerHandV110(egg.id, `${tribe}系のたまご`);
+  if(ok) battleLog(`${tribe}系のたまご：${hatchTurn}ターン目以降に孵化します。`);
+  return ok;
 }
 function ilLucaScheduleEggV192(tribe, source='たまご'){
-  const game = state.battle.game;
-  game.player.ilLucaPendingEggs ||= [];
-  game.player.ilLucaPendingEggs.push({tribe, hatchTurn:Number(game.turn || 0)+2, source});
-  battleLog(`${source}：${tribe}系のたまごを予約しました。2ターン後に生まれます。`);
+  // v209: たまごは場に直接出ず、手札で2ターン後にユニットカードへ変身する。
+  return addIlLucaEggToHandV192(tribe);
 }
 function ilLucaRandomUnitCardByTribeV192(tribe){
-  const pool = state.allCards.filter(c => c && c.cardType === 'ユニット' && isTribeCard(c, tribe));
-  return pool.length ? chooseRandom(pool, 'ilLucaEggHatchV192', {tribe}) : null;
+  return ilLucaRandomUnitCardByTribeV209(tribe);
 }
 function ilLucaHatchEggsV192(){
-  const game = state.battle.game;
-  const list = game.player.ilLucaPendingEggs || [];
-  if(!list.length) return;
-  const keep = [];
-  for(const egg of list){
-    if(Number(egg.hatchTurn || 0) > Number(game.turn || 0)){ keep.push(egg); continue; }
-    const empties = game.player.board.map((u,i)=>u?null:i).filter(i=>i!=null);
-    if(!empties.length){ battleLog(`${egg.source || 'たまご'}：場に空きがないため不発。`); continue; }
-    const card = ilLucaRandomUnitCardByTribeV192(egg.tribe);
-    if(!card){ battleLog(`${egg.source || 'たまご'}：${egg.tribe}系ユニット候補がありません。`); continue; }
-    const pos = chooseRandom(empties, 'ilLucaEggSlotV192', {tribe:egg.tribe});
-    putUnitIntoPlayFromCard(card, pos, 'player');
-    const u = game.player.board[pos];
-    if(u){ u.attack += 1; u.hp += 1; u.maxHp += 1; u.ilLucaEggHatched = true; }
-    game.player.heroSkill ||= {};
-    game.player.heroSkill.ilLucaEggHatchedThisTurn ||= [];
-    game.player.heroSkill.ilLucaEggHatchedThisTurn.push(u?.id);
-    battleLog(`${egg.source || 'たまご'}：${card.name}が+1/+1されて生まれました。`);
-  }
-  game.player.ilLucaPendingEggs = keep;
+  return ilLucaHatchHandEggsV209();
 }
 function ilLucaApplyBondChoiceV192(tribe){
   const game = state.battle.game;
   const options = [
-    `${tribe}系の味方ユニット全てを攻撃力+1`,
-    `${tribe}系の味方ユニット全てをHP+1`,
-    `手札のコスト5以上の${tribe}系カードのコスト-1`
+    `パワフルバッジ：${tribe}系ユニットの攻撃力+1`,
+    `パワフルバッジ：${tribe}系ユニットのHP+1`,
+    `手札の現在コスト5以上の${tribe}系ユニットカードのコスト-1`
   ];
   openChoiceModal('モンスターとの絆', options, (_picked, i)=>{
-    if(i === 0){
-      for(const u of game.player.board) if(u && !u.isBuilding && isTribeCard(byId(u.cardId), tribe)) u.attack += 1;
-      battleLog(`モンスターとの絆：${tribe}系の味方ユニット全てを攻撃力+1。`);
-    }else if(i === 1){
-      for(const u of game.player.board) if(u && !u.isBuilding && isTribeCard(byId(u.cardId), tribe)){ u.hp += 1; u.maxHp += 1; }
-      battleLog(`モンスターとの絆：${tribe}系の味方ユニット全てをHP+1。`);
+    if(i === 0 || i === 1){
+      const stat = i === 0 ? '攻撃力' : 'HP';
+      const badgeCard = {
+        id:`il_luca_badge_${tribe}_${stat}_${Date.now()}_${safeRandomId('badge').slice(0,6)}`,
+        name:`モンスターとの絆：${tribe}系${stat}+1`,
+        text:`パワフルバッジ：${tribe}系ユニットの${stat}+1`
+      };
+      registerPowerfulBadgeV157(badgeCard, null, 'player');
+      battleLog(`モンスターとの絆：${tribe}系ユニットの${stat}+1のパワフルバッジを得ました。`);
     }else{
+      let changed = 0;
       for(let h=0; h<game.player.hand.length; h++){
         const c = byId(game.player.hand[h]);
-        if(c && Number(c.cost || 0) >= 5 && isTribeCard(c, tribe)){
+        if(c && c.cardType === 'ユニット' && isTribeCard(c, tribe) && Number(getEffectiveCost(c) || 0) >= 5){
           const copy=JSON.parse(JSON.stringify(c));
+          const currentCost = Number(getEffectiveCost(c) || c.cost || 0);
           copy.id=`copy_${c.id}_${Date.now()}_${safeRandomId('illuca').slice(0,8)}_${h}`;
           copy.originalCardId=c.originalCardId || c.id;
-          copy.cost=Math.max(0, Number(c.cost||0)-1);
+          copy.cost=Math.max(0, currentCost-1);
           copy.flags ||= {}; copy.flags.deckBuildable=false; copy.flags.generatedOrEvolved=true;
           state.allCards.push(copy); state.cards.push(copy); game.player.hand[h]=copy.id;
+          changed++;
         }
       }
-      battleLog(`モンスターとの絆：手札のコスト5以上の${tribe}系カードのコスト-1。`);
+      battleLog(`モンスターとの絆：手札の現在コスト5以上の${tribe}系ユニットカード${changed}枚のコスト-1。`);
     }
     game.player.heroSkill.currentCardName = 'めぐりあう仲間たち';
     renderBattleArena(); syncMyBattleState();
-  }, {kind:'ilLucaBondV192'});
+  }, {kind:'ilLucaBondV209'});
 }
+
 function findAndDrawFromDeck(predicate, source='デッキ検索'){
   const game = state.battle.game;
   const candidates = (game.player.deck || [])
@@ -12333,7 +12496,7 @@ function applyHeroSkillEffect(skill, target){
     resolveDeaths();
   }else if(e.kind === 'ilLucaEgg'){
     const tribe = ilLucaUnitSelectableTribeV192(target.unit);
-    if(!tribe){ battleLog('託されしたまご：対象は冒険者以外の系統を1つだけ持つ味方ユニットである必要があります。'); return; }
+    if(!tribe){ battleLog('託されしたまご：対象は系統を持つ味方ユニットである必要があります。'); return; }
     game.player.heroSkill.ilLucaSelectedTribe = tribe;
     addIlLucaEggToHandV192(tribe);
     battleLog(`託されしたまご：${tribe}系を選び、${tribe}系のたまごを手札に加えました。`);
@@ -12349,7 +12512,7 @@ function applyHeroSkillEffect(skill, target){
   }else if(e.kind === 'ilLucaMeet'){
     const tribe = ilLucaSelectedTribeV192();
     if(!tribe){ battleLog('めぐりあう仲間たち：先に託されしたまごで系統を選んでください。'); return; }
-    const candidates = (game.player.deck || []).map((id,i)=>({id,i,c:byId(id)})).filter(x=>x.c && isTribeCard(x.c, tribe));
+    const candidates = (game.player.deck || []).map((id,i)=>({id,i,c:byId(id)})).filter(x=>x.c && x.c.cardType === 'ユニット' && isTribeCard(x.c, tribe));
     if(!candidates.length) battleLog(`めぐりあう仲間たち：山札に${tribe}系カードがありません。`);
     else{
       const pick = chooseRandom(candidates, 'ilLucaMeetV192', {tribe});
