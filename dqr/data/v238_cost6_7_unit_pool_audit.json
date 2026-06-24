@@ -1,0 +1,1171 @@
+{
+  "summary": {
+    "basic_keyword_or_no_text": 35,
+    "v237_pass1_implemented": 10,
+    "existing_name_seen_needs_runtime_check": 43,
+    "v238_pass2_implemented_or_hooked": 57
+  },
+  "remaining_needs_cost67_effect_pass": [],
+  "rows": [
+    {
+      "name": "キラーアーマー",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": ""
+    },
+    {
+      "name": "ブラッドハンド",
+      "cost": "6",
+      "tribe": "ゾンビ",
+      "triggers": "召喚時",
+      "status": "v237_pass1_implemented",
+      "text": "召喚時：このユニットの上下にブラッドハンドを出す"
+    },
+    {
+      "name": "テラノライナー",
+      "cost": "7",
+      "tribe": "ドラゴン",
+      "triggers": "速攻",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "速攻"
+    },
+    {
+      "name": "おにこんぼう",
+      "cost": "7",
+      "tribe": "ドラゴン",
+      "triggers": "",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "効果なし"
+    },
+    {
+      "name": "ガメゴン",
+      "cost": "6",
+      "tribe": "ドラゴン",
+      "triggers": "におうだち",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "におうだち"
+    },
+    {
+      "name": "ホロゴースト",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "ステルス",
+      "status": "basic_keyword_or_no_text",
+      "text": "ステルス"
+    },
+    {
+      "name": "ブラックルーン",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "特技ダメージ+2"
+    },
+    {
+      "name": "バロンナイト",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "同じ縦1列にいる他のユニットを+1/+1"
+    },
+    {
+      "name": "ブラックチャック",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "味方リーダーのテンション分必要なコストが下がる"
+    },
+    {
+      "name": "ヘルゴースト",
+      "cost": "6",
+      "tribe": "ゾンビ",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "後列から攻撃する場合敵ユニットから反撃を受けない"
+    },
+    {
+      "name": "エビルホーク",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時/ねらい撃ち",
+      "status": "v237_pass1_implemented",
+      "text": "ねらい撃ち、召喚時：カードを1枚引く"
+    },
+    {
+      "name": "バーサーカー",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "前列の中央にいる場合攻撃力+7"
+    },
+    {
+      "name": "ランプのまじん",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v237_pass1_implemented",
+      "text": "召喚時：全ての敵ユニットの位置を前後入れ替える"
+    },
+    {
+      "name": "じごくのつかい",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "自分のターン終了時ランダムな敵1体に3ダメージ"
+    },
+    {
+      "name": "アンクルホーン",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "テンションリンク",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "テンションリンク：攻撃力が2倍になる"
+    },
+    {
+      "name": "ドラゴンゾンビ",
+      "cost": "7",
+      "tribe": "ドラゴン",
+      "triggers": "死亡時",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "死亡時：正面にいる全ての敵ユニットに3ダメージ"
+    },
+    {
+      "name": "トロルキング",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "すべてのユニットは受けるダメージが2倍になる。"
+    },
+    {
+      "name": "ガボ",
+      "cost": "6",
+      "tribe": "冒険者",
+      "triggers": "召喚時/速攻",
+      "status": "v237_pass1_implemented",
+      "text": "召喚時：速攻3/1のオオカミを出す"
+    },
+    {
+      "name": "ドラゴンガイア",
+      "cost": "6",
+      "tribe": "ドラゴン",
+      "triggers": "召喚時",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "召喚時：次の相手のターン終了時まで全ての味方は相手の特技ダメージを受けない"
+    },
+    {
+      "name": "エスターク",
+      "cost": "6",
+      "tribe": "魔王",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "このユニットのHPが減っていない場合攻撃できない そのかわりに自分のターン終了時このユニットを除く全てのリーダーとユニットに1ダメージ"
+    },
+    {
+      "name": "やまたのおろち",
+      "cost": "6",
+      "tribe": "ドラゴン",
+      "triggers": "召喚時",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "召喚時：味方ユニット1体を死亡させる そのユニットのコスト分攻撃力とHPが上がる"
+    },
+    {
+      "name": "ハーゴン",
+      "cost": "6",
+      "tribe": "魔王",
+      "triggers": "召喚時",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "召喚時：冒険者ユニット1体を1/1の犬に変える"
+    },
+    {
+      "name": "マルティナ",
+      "cost": "6",
+      "tribe": "冒険者",
+      "triggers": "召喚時",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "召喚時：合計7ダメージを縦1列のランダムなマスに割り振る"
+    },
+    {
+      "name": "バルザック",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "貫通",
+      "status": "basic_keyword_or_no_text",
+      "text": "貫通：このユニットの攻撃で敵ユニットを倒す度+2/+2"
+    },
+    {
+      "name": "りゅうおう",
+      "cost": "7",
+      "tribe": "魔王",
+      "triggers": "死亡時",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "死亡時：正体をあらわす"
+    },
+    {
+      "name": "ゆうれいせんちょう",
+      "cost": "6",
+      "tribe": "ゾンビ",
+      "triggers": "死亡時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "死亡時：味方リーダーのテンションを全て消費する。 消費した数と同じだけ2/2のシードッグを出す。"
+    },
+    {
+      "name": "キングミミック",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "死亡時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "死亡時：相手はランダムなレジェンドレアカードを手札に1枚加える"
+    },
+    {
+      "name": "デンデン竜",
+      "cost": "6",
+      "tribe": "ドラゴン",
+      "triggers": "におうだち",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "におうだち、おうえん"
+    },
+    {
+      "name": "ジャミラス",
+      "cost": "7",
+      "tribe": "魔王",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時:指定のマスの地形をしあわせの国に変える。 この効果で地形の上書きはできない。"
+    },
+    {
+      "name": "まかいじゅ",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "自分のターン終了時このユニットのHPを2回復する。"
+    },
+    {
+      "name": "ダゴン",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "2回攻撃",
+      "status": "basic_keyword_or_no_text",
+      "text": "2回攻撃"
+    },
+    {
+      "name": "ファンキーバード",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "おうえん、味方リーダーのテンションカードはコストが0になる。"
+    },
+    {
+      "name": "やつざきアニマル",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "対戦中に自分に使った特技カードの枚数分コスト-1"
+    },
+    {
+      "name": "ブラックドラゴン",
+      "cost": "7",
+      "tribe": "ドラゴン",
+      "triggers": "召喚時",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "召喚時:ランダムな敵ユニット1体に1ダメージ。このカードを除く自分の場と手札にいるドラゴン系の数の3倍分与えるダメージが増える。"
+    },
+    {
+      "name": "マザーウッド",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "テンションリンク/速攻",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "テンションリンク：前後にいる味方ユニットに速攻を付与する。"
+    },
+    {
+      "name": "ジャックポッター",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "召喚時/スキルブースト",
+      "status": "v237_pass1_implemented",
+      "text": "召喚時：両プレイヤーはカードを1枚引く。スキルブースト：+1枚"
+    },
+    {
+      "name": "屍騎軍王ゾルデ",
+      "cost": "6",
+      "tribe": "ゾンビ",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "自分のターン終了時、このユニットの前後に2/2の屍騎_x0008_軍王ゾルデ・影を出す。"
+    },
+    {
+      "name": "ドラゴンロード",
+      "cost": "6",
+      "tribe": "ドラゴン",
+      "triggers": "",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "場に出ている間、このユニットを除くドラゴン系の味方ユニット全てを+1/+1。場に出ている間、自分の手札にあるドラゴン系ユニットカードの使用コスト-1。"
+    },
+    {
+      "name": "覇海軍王ジャコラ",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時/におうだち",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "におうだち、召喚時：このターン中すべてのユニットが受ける戦闘ダメージが2倍になる"
+    },
+    {
+      "name": "メガボーグ",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：全ての味方ユニットを行動済みにする。攻撃可能な味方ユニットの数分このユニットのコスト-1"
+    },
+    {
+      "name": "ファントムシャドウ",
+      "cost": "7",
+      "tribe": "ゾンビ",
+      "triggers": "死亡時/におうだち",
+      "status": "v237_pass1_implemented",
+      "text": "におうだち、死亡時：におうだち2/4スケアフレイルをこのマスに出す"
+    },
+    {
+      "name": "エメラルドーン",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "シンクロ/におうだち/ねらい撃ち",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "シンクロ：①ねらい撃ち、②におうだち、③+2/+2"
+    },
+    {
+      "name": "まおうのかげ",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "ステルス",
+      "status": "basic_keyword_or_no_text",
+      "text": "ステルス、絶好調、このユニットが絶好調状態なら攻撃力+3を得る"
+    },
+    {
+      "name": "邪神官ハーゴン",
+      "cost": "6",
+      "tribe": "魔王",
+      "triggers": "死亡時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "死亡時：自分の手札にある魔王系のユニットをランダムに1体このマスに出す"
+    },
+    {
+      "name": "悪の化身りゅうおう",
+      "cost": "6",
+      "tribe": "魔王",
+      "triggers": "召喚時/選択",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：次の相手のターン開始時世界の半分を得るかどうかの選択を相手に迫る"
+    },
+    {
+      "name": "全てを滅ぼす者ゾーマ",
+      "cost": "7",
+      "tribe": "魔王",
+      "triggers": "貫通",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "超貫通"
+    },
+    {
+      "name": "ソードイド",
+      "cost": "7",
+      "tribe": "ゾンビ",
+      "triggers": "召喚時/死亡時/におうだち",
+      "status": "v237_pass1_implemented",
+      "text": "におうだち、召喚時&死亡時：味方リーダーのHPを3回復"
+    },
+    {
+      "name": "れんごくちょう",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：自分の手札に魔王系カードがあるなら縦一列にいる全ての敵ユニットに4ダメージ"
+    },
+    {
+      "name": "ミリオンゼニー",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "死亡時/GET/BET",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "自分のターン終了時にGET(1)。この効果は毎ターン発動する。BET：死亡時にGET(2)をこのユニットに付与する。このBET効果は重複しない。"
+    },
+    {
+      "name": "サイクロプス",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時/GET/BET/におうだち",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：GET(1) BET：におうだちを持つランダムな敵ユニット1体に4ダメージ"
+    },
+    {
+      "name": "クレイジーボーナス",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時:自分の場の縦一列に同じ攻撃力のユニットが3体いるならランダムなレジェンドレアのユニットカード3枚を手札に加え そのコストを揃えた攻撃力と同じ数分減らす"
+    },
+    {
+      "name": "グレイトマムー",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "れんけい",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "れんけい：敵ユニット1体に5ダメージ"
+    },
+    {
+      "name": "ケトス",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "このユニットによる敵リーダーの攻撃で敵リーダーのHPが11になった場合この対戦に勝利する。"
+    },
+    {
+      "name": "ウルノーガ&ウルナーガ",
+      "cost": "7",
+      "tribe": "魔王",
+      "triggers": "れんけい",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "れんけい：前列に召喚した場合、正面にいるランダムな敵ユニット1体を消滅させる。後列に召喚した場合、攻撃力6以上の他ユニット全てを死亡させる。"
+    },
+    {
+      "name": "デスバキューム",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "お互いのリーダーのテンションの合計分手札にあるこのカードのコスト-1"
+    },
+    {
+      "name": "エルギオス",
+      "cost": "7",
+      "tribe": "魔王",
+      "triggers": "召喚時/ねらい撃ち",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "ねらい撃ち、召喚時：このユニットに4回さくせんを出す"
+    },
+    {
+      "name": "ヘルチェイサー",
+      "cost": "6",
+      "tribe": "ゾンビ",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：味方リーダーのテンションを全て消費する。他の全てのユニットに消費したテンションの数分のダメージ"
+    },
+    {
+      "name": "ヌーデビル",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "選択",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "選択：・攻撃力+4・正面にいる全ての敵ユニットに2ダメージ"
+    },
+    {
+      "name": "からくりしょうぐん",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：味方リーダーが装備中の武器を+1/+1"
+    },
+    {
+      "name": "アトラス",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "攻撃時",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "攻撃時：このターン中味方リーダーの攻撃力分攻撃力が上がる"
+    },
+    {
+      "name": "ダークランサー",
+      "cost": "6",
+      "tribe": "スライム",
+      "triggers": "スキルブースト/貫通",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "貫通を持つ他の全ての味方の攻撃力+1、スキルブースト:味方の攻撃力+1"
+    },
+    {
+      "name": "牙王ゴースネル",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：味方リーダーの攻撃力が4以上ある場合正面にいる全てのユニットに4ダメージ。"
+    },
+    {
+      "name": "大怨霊マアモン",
+      "cost": "7",
+      "tribe": "ゾンビ",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "対戦中に死亡したゾンビ系の味方ユニットの数だけコスト-1"
+    },
+    {
+      "name": "デビルアーマー",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：味方ヒーローがいる場合手札にあるランダムな武器を装備する"
+    },
+    {
+      "name": "ムドー",
+      "cost": "6",
+      "tribe": "魔王",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "敵ユニット1体を手札に戻し石化状態にする。そうしたと場合、相手のデッキの上から3番目に夢と現実の再会を置く"
+    },
+    {
+      "name": "まかいファイター",
+      "cost": "6",
+      "tribe": "ドラゴン",
+      "triggers": "召喚時/GET/BET",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "召喚時：GET(1)、BET：このターン中味方リーダーの攻撃力+1、このBETが4回発動する度まかいファイターを1体だす"
+    },
+    {
+      "name": "アイラ",
+      "cost": "6",
+      "tribe": "冒険者",
+      "triggers": "召喚時/GET/BET",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "召喚時：GET(2)。BET：ランダムな武器を味方リーダーに装備する。"
+    },
+    {
+      "name": "ムチおとこ",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "前列召喚時：自分の手札から武器カードを1枚選んで捨てる。そうした場合、カードを3枚引く。後列召喚時：自分のデッキからコスト3以下の武器カードを1枚引く"
+    },
+    {
+      "name": "悪霊の神々アトラス",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "死亡時/貫通",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "貫通、貫通を持つ味方ユニットが攻撃した後攻撃力+1、死亡時：このユニットの攻撃力と同じ攻撃力を持つこんぼうを味方リーダーに装備する。"
+    },
+    {
+      "name": "オリハルゴン",
+      "cost": "7",
+      "tribe": "ドラゴン",
+      "triggers": "",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "自分のターン中味方リーダーは攻撃力+3を得る。前列にいる場合味方リーダーが受けるダメージ-2"
+    },
+    {
+      "name": "ようじゅつし",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "自分が特技を使う度ランダムな敵1体に2ダメージ"
+    },
+    {
+      "name": "バズズ",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時/ねらい撃ち",
+      "status": "v237_pass1_implemented",
+      "text": "ねらい撃ち、召喚時：敵の場に氷塊があるなら全ての敵ユニットを次のターン攻撃不能にする"
+    },
+    {
+      "name": "ウインドマージ",
+      "cost": "6",
+      "tribe": "ゾンビ",
+      "triggers": "スキルブースト",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "自分が特技を使う度ランダムな敵1体に1ダメージ、スキルブースト:コスト-1"
+    },
+    {
+      "name": "バーバラ",
+      "cost": "6",
+      "tribe": "冒険者",
+      "triggers": "召喚時",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "召喚時:残りMPを全て消費する。 全ての敵に消費したMPの数分ダメージを与える。"
+    },
+    {
+      "name": "シャドーサタン",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "魔法陣にいる場合自分のターン終了時全ての敵ユニットに1ダメージ"
+    },
+    {
+      "name": "ダークキング",
+      "cost": "7",
+      "tribe": "スライム",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：このユニットを除くスライム系の味方ユニット全てを手札に戻す。 スライム系のユニットがいたマスに闇のクリスタルを出す。"
+    },
+    {
+      "name": "アークマージ",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "この対戦の間ヒーロースキルが発動した回数分攻撃力+1を得る。このユニットの攻撃力が5以上の場合さらに特技ダメージ+2を得る。"
+    },
+    {
+      "name": "エビルマージ",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時/スキルブースト",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：この対戦中味方リーダーの「紅蓮の火球」のダメージ+1、スキルブースト:攻撃力+1"
+    },
+    {
+      "name": "クラーゴン",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "BET",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "BET：このターン中に未発動の効果からランダムに1つ発動する。①全ての敵に1ダメージ ②ランダムな敵1体に2ダメージ ③敵リーダーに3ダメージ。全て発動済みなら何も起こらない。"
+    },
+    {
+      "name": "リーズレット",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：自分のデッキにメラ系の特技カードが無いなら敵ユニット1体を氷塊に変える"
+    },
+    {
+      "name": "悪霊の神々バズズ",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時/ねらい撃ち",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "ねらい撃ち、召喚時：指定の敵マスに0/1の氷塊を1つ出す。敵の氷塊が死亡する度自分のデッキからメラ系以外の特技カードを1枚引く"
+    },
+    {
+      "name": "ドルマドン",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "敵1体に10ダメージ"
+    },
+    {
+      "name": "竜将ドラゴンガイア",
+      "cost": "6",
+      "tribe": "ドラゴン",
+      "triggers": "召喚時",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "召喚時：手札にコスト3以上の特技カードがあるなら縦一列にいる全ての敵ユニットに2ダメージ、それらのユニットを次のターン終了時まで攻撃不能にする"
+    },
+    {
+      "name": "ダーティラビッツ",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "攻撃対象が敵リーダーの場合攻撃力が2倍になる。"
+    },
+    {
+      "name": "アークデーモン",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v237_pass1_implemented",
+      "text": "召喚時：前列にいる全ての敵ユニットに3ダメージ"
+    },
+    {
+      "name": "ハッサン",
+      "cost": "6",
+      "tribe": "冒険者",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：前列に召喚した場合1マス前にいる敵ユニットに5ダメージ"
+    },
+    {
+      "name": "モリー",
+      "cost": "6",
+      "tribe": "冒険者",
+      "triggers": "スキルブースト",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "自分が特技を使う度味方リーダーのテンション+1 スキルブースト:+2/+2"
+    },
+    {
+      "name": "ドンガラドン",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "パワフルバッジ",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "パワフルバッジ：スライム系のユニットカードを使う度味方リーダーのテンション+1"
+    },
+    {
+      "name": "キラーデーモン",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時/におうだち",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：味方ユニット1体を+1/+1した後におうだちを付与する"
+    },
+    {
+      "name": "ベリアル",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v237_pass1_implemented",
+      "text": "召喚時：すべての敵ユニットに2ダメージ、倒したユニット数の2倍分味方リーダーのHPを回復"
+    },
+    {
+      "name": "ほうおう",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "スキルブースト",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "他のすべての味方ユニットのHP+1、スキルブースト:味方ユニットのHP+1"
+    },
+    {
+      "name": "カロン",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "テンションリンク",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "テンションリンク：対戦中に死亡したランダムな味方ユニットを手札に1枚加える"
+    },
+    {
+      "name": "魔道士ウルノーガ",
+      "cost": "7",
+      "tribe": "魔王",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "すべての敵は回復の効果で代わりにダメージを受ける。 このユニットが前列にいる場合敵ユニットが死亡する度カードを1枚引く"
+    },
+    {
+      "name": "ドラゴンバゲージ",
+      "cost": "7",
+      "tribe": "ドラゴン",
+      "triggers": "におうだち",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "におうだち、自分のターン終了時味方リーダーのテンション+1"
+    },
+    {
+      "name": "グレイナル",
+      "cost": "7",
+      "tribe": "ドラゴン",
+      "triggers": "召喚時",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "召喚時：竜戦士の装具を手札に加える。ドラゴン系の味方ユニットが攻撃して敵ユニットを倒す度味方リーダーのテンション+1"
+    },
+    {
+      "name": "チャモロ",
+      "cost": "7",
+      "tribe": "冒険者",
+      "triggers": "召喚時/死亡時/スキルブースト",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：HPを3回復、死亡時：ゲントの杖を装備する、スキルブースト： コストー1"
+    },
+    {
+      "name": "ウドラー",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "死亡時/シンクロ/におうだち",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "シンクロ:①攻撃力+1、②におうだち、③死亡時：この対戦中に死亡したコスト2以下のユニットを2体復活させる"
+    },
+    {
+      "name": "マルチェロ",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "召喚時/におうだち",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "におうだち、召喚時：敵の後列中央を中心に十字型に4ダメージを与える"
+    },
+    {
+      "name": "アクバー",
+      "cost": "7",
+      "tribe": "魔王",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "他の味方ユニットが死亡する度そのユニットを復活させ「死亡する場合代わりに消滅する」を付与する"
+    },
+    {
+      "name": "悪霊の神々ベリアル",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：「次のターン終了時まで受けるダメージ-1」を得る。さらに全ての敵ユニットに2ダメージ。死亡したユニットの数分HP+1"
+    },
+    {
+      "name": "ガメゴンレジェンド",
+      "cost": "7",
+      "tribe": "ドラゴン",
+      "triggers": "召喚時/スキルブースト/におうだち",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "におうだち、召喚時：ランダムな敵1体に1ダメージ。これを3回繰り返す。スキルブースト：繰り返す回数+1"
+    },
+    {
+      "name": "タコメット",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "召喚時/貫通",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "貫通、召喚時：このカード以外の自分の手札が6枚以上ある場合タコメットを2体出す。"
+    },
+    {
+      "name": "バロンジャッカル",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "このカード以外の自分の手札が6枚以上ある場合コスト-2"
+    },
+    {
+      "name": "マッスルウータン",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "テンションリンク",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "テンションリンク:前後にいる味方ユニットの攻撃力+2"
+    },
+    {
+      "name": "かぶとこぞう",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時/におうだち",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時:地形マスに召喚された場合、におうだち2/2のはさみくわがたを2体出す"
+    },
+    {
+      "name": "ダイヤモンドスライム",
+      "cost": "7",
+      "tribe": "スライム",
+      "triggers": "召喚時/メタルボディ/ハードメタルボディ",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "ハードメタルボディ。召喚時：自分のデッキからメタルボディを持つユニットカードか武器カードを各コストから1枚ずつ手札に加える。"
+    },
+    {
+      "name": "てっきゅうまじん",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "自分の場と手札にいる冒険者の数だけコストが下がる"
+    },
+    {
+      "name": "レジェンドホーン",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "召喚時/シンクロ/におうだち",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "シンクロ：①召喚時：味方リーダーのHPを6回復、②このユニットの召喚コスト-2、③におうだち"
+    },
+    {
+      "name": "ジェリーマン",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：自分の手札にあるランダムなユニットカード1枚と同じユニットを2/2にして場に出す。それが冒険者カードなら代わりにコピーを場に出す。"
+    },
+    {
+      "name": "まだらイチョウ",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "BET",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "BET：1/2のブラックタヌーを1体場に出す。このBETが3回発動する度に、このユニットを除く全ての味方ユニットを+1/+1する。カウントはターンを跨いで継続する。"
+    },
+    {
+      "name": "プラチナキング",
+      "cost": "7",
+      "tribe": "スライム",
+      "triggers": "召喚時/メタルボディ/ハードメタルボディ",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "メタルボディ、召喚時:1/2のメタルスライムを2体出す。味方が持つメタルボディはハードメタルボディに強化される。"
+    },
+    {
+      "name": "スラリンガル",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "選択/速攻/貫通",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "貫通、選択:+1/+1と速攻とこのターン中「敵リーダーを攻撃できずダメージを受けない」を得る。・このターンの終了時攻撃力とHPが2倍になる"
+    },
+    {
+      "name": "ダイス・ド・デビル",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "占い：(1)1/1のスライムを出す、(2)4/4のホースデビルを出す"
+    },
+    {
+      "name": "デュラハーン",
+      "cost": "7",
+      "tribe": "ゾンビ",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：自分のデッキからコスト3のユニットを1体出す"
+    },
+    {
+      "name": "ジュリアンテ",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "占い：(1)他の全ての味方ユニット+2/+2、(2)ランダムな敵3体を次のターン攻撃不能にする"
+    },
+    {
+      "name": "わかめ王子",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：デッキの一番上のカードのコストが奇数なら対象に3ダメージ、偶数なら対象を+2/+2"
+    },
+    {
+      "name": "マーニャ",
+      "cost": "6",
+      "tribe": "冒険者",
+      "triggers": "召喚時",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "召喚時:デッキの1版上のカードのコストが4以上ならドラゴラムを使う。 4以下ならそのカードのコストを0にして手札に加える。"
+    },
+    {
+      "name": "ダークデーブル",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "におうだち",
+      "status": "basic_keyword_or_no_text",
+      "text": "におうだち、天啓の神域の効果によってデッキから手札にこのカードが加わった場合、4/4のヘルガーディアンを出す。"
+    },
+    {
+      "name": "ダースドラゴン",
+      "cost": "7",
+      "tribe": "ドラゴン",
+      "triggers": "",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "効果なし"
+    },
+    {
+      "name": "あくまのカガミ",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時/速攻",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "召喚時：自分のデッキにある5コスト以下の冒険者と同じユニット1体ヲバに出しこのターン中速攻と「ターン終了時にこのユニットを自分のデッキに混ぜる」を付与する"
+    },
+    {
+      "name": "にじくじゃく",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "自分が偶数のコストの手札を使う度ランダムな敵1体に2ダメージ"
+    },
+    {
+      "name": "キラーマシン2",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時/2回攻撃",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "2回攻撃、召喚時:このユニットにさくせんを出す。耐戦中に味方建物が3つ以上出ていたら、代わりに2回さくせんを出し、出たさくせんの効果全てを得る"
+    },
+    {
+      "name": "ヘラクライザー",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "におうだち",
+      "status": "basic_keyword_or_no_text",
+      "text": "におうだち、自分がデッキからカードを手札に加える度ランダムな敵1体に2ダメージ、占い：(1)カードを1枚引く、(2)味方リーダーのテンション+2"
+    },
+    {
+      "name": "サイコマスター",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "この対戦中に自分が使った占いカードの枚数分攻撃力+1、召喚時:このユニットの攻撃力が4以上あるなら敵1体に4ダメージ"
+    },
+    {
+      "name": "ライノスキング",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "におうだち",
+      "status": "basic_keyword_or_no_text",
+      "text": "におうだち"
+    },
+    {
+      "name": "タタリ御前",
+      "cost": "6",
+      "tribe": "ゾンビ",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：前の相手ターンに味方リーダーを攻撃した敵ユニットをランダムに1体死亡させる"
+    },
+    {
+      "name": "ドルマゲス",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：1/1の分身を2体出す 相手がドルマゲスか分身を攻撃や効果の対象にした場合その対象はランダムに選ばれる"
+    },
+    {
+      "name": "ドン・モグーラ",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "テンションリンク/スキルブースト/速攻",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "テンションリンク：速攻 1/1 ターン終了時に死亡するモグラの子分を出す スキルブースト:攻撃力+1をモグラの子分は持つ"
+    },
+    {
+      "name": "ホメロス",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "召喚時:HPが2以下の敵ユニット1体を味方にする"
+    },
+    {
+      "name": "デスストーカー",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "自分のターン中味方ユニットがダメージを受けた場合ランダムな敵1体に2ダメージ"
+    },
+    {
+      "name": "アスラ王",
+      "cost": "7",
+      "tribe": "ゾンビ",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：自分のデッキからコストが1番高いゾンビ系のユニットカードを手札に1枚加える。そのカードのコストを-5。"
+    },
+    {
+      "name": "暗黒皇帝ガナサダイ",
+      "cost": "7",
+      "tribe": "ゾンビ",
+      "triggers": "パワフルバッジ",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "パワフルバッジ：自分のターン終了時ゾンビ系の味方ユニットを+1/+1"
+    },
+    {
+      "name": "魔女グレイツェル",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時/スキルブースト",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "おうえん、召喚時:ランダムな3体を次のターン終了時まで攻撃不能にする。スキルブースト:+1体"
+    },
+    {
+      "name": "ヘルバオム",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：ランダムな敵ユニット1体を-2/-2する。これを2回繰り返す。"
+    },
+    {
+      "name": "魔界からの侵攻",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "ピサロナイトを6体出す"
+    },
+    {
+      "name": "帝王の一閃",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "",
+      "status": "basic_keyword_or_no_text",
+      "text": "全ての敵に4ダメージ"
+    },
+    {
+      "name": "魔勇者アンルシア",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時/GET/BET",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時:GET(1)、BET:正面にいるランダムな敵ユニット1体を-3/-3"
+    },
+    {
+      "name": "黄金兵長",
+      "cost": "7",
+      "tribe": "なし",
+      "triggers": "召喚時/攻撃時/GET/BET",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "召喚時：GET(1)。攻撃時：敵リーダーに味方の場のピサロナイトの数と同じダメージ。BET：ピサロナイトを1体場に出す。"
+    },
+    {
+      "name": "魔軍司令ホメロス",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "れんけい",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "れんけい:次のターン相手はユニットを前列に召喚できない。 自分のターン終了時後列にいる全ての敵ユニットと敵リーダーに3ダメージ"
+    },
+    {
+      "name": "なげきの妖剣士オーレン",
+      "cost": "7",
+      "tribe": "ゾンビ",
+      "triggers": "召喚時/速攻",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時:1/2のがいこつを0体出し速攻を付与する。対戦中に自分が使った本来のコストが3以上の特技カードの枚数分出す数+1"
+    },
+    {
+      "name": "ワイバーンドッグ",
+      "cost": "7",
+      "tribe": "ドラゴン",
+      "triggers": "召喚時/れんけい",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "召喚時：ダメージを受けている全ての敵ユニットに3ダメージ、れんけい：さらにダメージを受けていない全てのユニットに1ダメージ"
+    },
+    {
+      "name": "ヒドラ",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "速攻/貫通/2回攻撃",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "このユニットは子の耐戦中に自分の手札から捨てたカードの枚数により以下の効果を得る。2枚以上:貫通、4枚以上:速攻、6枚以上:2回攻撃"
+    },
+    {
+      "name": "アフロのドン・モグーラ",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時/速攻",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：カードを1枚引いた後、自分の手札から1枚選んで捨てる。自分の手札からカードを捨てる度ターン終了時に死亡する速攻3/1の子分を1体出す"
+    },
+    {
+      "name": "薔薇子ジャックポッター",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "v238_pass2_implemented_or_hooked",
+      "text": "召喚時：手札を2枚捨てる。そうした場合ランダムなレジェンドレアカード0〜4枚を以下の確率で手札に加える。0〜4枚 各20%"
+    },
+    {
+      "name": "ドラゴンブッシュ",
+      "cost": "6",
+      "tribe": "なし",
+      "triggers": "召喚時",
+      "status": "existing_name_seen_needs_runtime_check",
+      "text": "特技ダメージ+1。召喚時：自分の場か手札に攻撃力4以上の他のドラゴン系がいるなら特技ダメージ+1を得る。"
+    }
+  ]
+}

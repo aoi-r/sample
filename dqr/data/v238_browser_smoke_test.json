@@ -1,0 +1,92 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "ok": false,
+      "console": [],
+      "errors": [],
+      "target_url": "file:///mnt/data/v238_work/index.html",
+      "eval_raw": {
+        "result": {
+          "type": "object",
+          "value": {
+            "title": "file:///mnt/data/v238_work/index.html",
+            "ready": "complete",
+            "app": false,
+            "main": false,
+            "bodyText": "“file” links are blocked\n\nYour organization doesn’t allow you to view this site",
+            "scriptCount": 2
+          }
+        }
+      },
+      "eval": {
+        "title": "file:///mnt/data/v238_work/index.html",
+        "ready": "complete",
+        "app": false,
+        "main": false,
+        "bodyText": "“file” links are blocked\n\nYour organization doesn’t allow you to view this site",
+        "scriptCount": 2
+      },
+      "loaded": true
+    },
+    {
+      "attempt": 2,
+      "ok": false,
+      "console": [],
+      "errors": [],
+      "target_url": "file:///mnt/data/v238_work/index.html",
+      "eval_raw": {
+        "result": {
+          "type": "object",
+          "value": {
+            "title": "file:///mnt/data/v238_work/index.html",
+            "ready": "complete",
+            "app": false,
+            "main": false,
+            "bodyText": "“file” links are blocked\n\nYour organization doesn’t allow you to view this site",
+            "scriptCount": 2
+          }
+        }
+      },
+      "eval": {
+        "title": "file:///mnt/data/v238_work/index.html",
+        "ready": "complete",
+        "app": false,
+        "main": false,
+        "bodyText": "“file” links are blocked\n\nYour organization doesn’t allow you to view this site",
+        "scriptCount": 2
+      },
+      "loaded": true
+    },
+    {
+      "attempt": 3,
+      "ok": false,
+      "console": [],
+      "errors": [],
+      "target_url": "file:///mnt/data/v238_work/index.html",
+      "eval_raw": {
+        "result": {
+          "type": "object",
+          "value": {
+            "title": "file:///mnt/data/v238_work/index.html",
+            "ready": "complete",
+            "app": false,
+            "main": false,
+            "bodyText": "“file” links are blocked\n\nYour organization doesn’t allow you to view this site",
+            "scriptCount": 2
+          }
+        }
+      },
+      "eval": {
+        "title": "file:///mnt/data/v238_work/index.html",
+        "ready": "complete",
+        "app": false,
+        "main": false,
+        "bodyText": "“file” links are blocked\n\nYour organization doesn’t allow you to view this site",
+        "scriptCount": 2
+      },
+      "loaded": true
+    }
+  ],
+  "ok": false
+}

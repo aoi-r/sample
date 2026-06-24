@@ -1,5 +1,5 @@
 {
-  "version": "v215_dragon_tribe_excel_foundation",
+  "version": "v239_cost67_existing_runtime_checks",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -238,20 +238,11 @@
     "removal_behavior": "効果が消えた場合はステータス再計算・再描画により表示も消える。",
     "image_rewrite_policy": "元画像ファイルは変更せず、DOMオーバーレイで表示する。"
   },
-  "base": "v158_visible_stat_cost_modifiers",
+  "base": "v238_cost67_pass2_and_browser_retry_tests",
   "filenameSanitization": "custom_cards filenames normalized to short ASCII names to avoid File name too long on checkout/build",
   "data_version": "v165_default_decks_remove_demon_swordsman_and_effect_audit",
-  "label": "v215 / buildable 1467 / total 1607",
-  "notes": [
-    "v160: assets/custom_cards filenames romanized to readable ASCII and mojibake mapping data removed.",
-    "v161: ステータス補正/手札コストダウン表示が見えづらい問題を修正。盤面スロットのoverflowを可視化し、手札コスト差分をカード内上部へ移動。本来コストの読み込み時スナップショットも追加。",
-    "v162: 既定テストデッキを指定公式DBの5デッキへ置換。武闘家#413/僧侶#393は掲載リストが空のため未実装。",
-    "絶好調の初期キーワード判定と「このユニットが絶好調状態なら」の継続補正を分離。",
-    "とげぼうず等の自己攻撃力補正は召喚時に適用され、敵への攻撃後に絶好調喪失とともに解除される。",
-    "絶好調を敵ユニット攻撃・敵リーダー攻撃の双方で、ダメージ計算後に失うよう修正。",
-    "v165: 魔剣士 #298の既定テストデッキを完全に除外。ユーザー保存デッキとカードDBは保持。",
-    "v165: 残る4既定デッキだけを対象に、効果不足・不安定候補の静的コード監査を追加。"
-  ],
+  "label": "v227 / cost3 follow-up / event watchers",
+  "notes": "Cost6/7 existing-name runtime-check bucket collapsed; regular Martina summon and Hydra discard-count behavior hardened; browser retry variants recorded.",
   "defaultTestDecks": {
     "file": "data/default_test_decks_v165.json",
     "active": [
@@ -279,5 +270,124 @@
   "defaultTestDeckEffectAuditTextFile": "data/default_test_deck_effect_audit_v165.txt",
   "defaultDeckAudit": "魔剣士削除後の4既定デッキについて、ユーザー手動回答Excelの要件を取り込み。主要な対象選択/れんけい/BET/占い/武器/常在効果を補強。",
   "manualEffectRequirements": "manual_effect_requirements_v166.json",
-  "fix_v167": "Fix pending target clicks for enemy units/leader attacks, stealth highlight filtering, 正面全て row targeting, and sequential さくせん choices."
+  "fix_v167": "Fix pending target clicks for enemy units/leader attacks, stealth highlight filtering, 正面全て row targeting, and sequential さくせん choices.",
+  "v216": {
+    "redPredatorFix": "召喚時対象を enemyAny から enemyUnit + canLeader:false に修正。敵リーダーを対象外にした。",
+    "renkeiRuling": "れんけいはテンション3が発動条件。テンションは消費しない。既存実装は消費処理なしを確認。",
+    "fortuneCountFix": "占い使用回数を cardPlayed 側で加算しないよう修正。実際に占いが解決される applyFortuneEffect/resolveFortuneV187 側のみで加算し、専用占いカードの二重カウントを防止。",
+    "auditFiles": [
+      "data/trigger_audit_v216.json",
+      "data/trigger_audit_v216.csv",
+      "data/trigger_deep_audit_v216.md"
+    ],
+    "nodeCheck": "OK"
+  },
+  "v217Changes": [
+    "ラプソーン復活先を付与者側の空きマス優先順（前列上/中/下→後列上/中/下）に変更。",
+    "プスゴン、キースドラゴン/グレイグ系、ナイトキングれんけいのユーザー裁定を監査メモに反映。",
+    "ドラゴン系ランダム孵化プールに含まれる73枚のうち、召喚時/死亡時/攻撃時/ターン終了時/BET/パワフルバッジ周辺の主要処理を補強。",
+    "かみかぜ/逆転への兆し用に、コスト2/3ユニットの効果未実装疑い監査を追加。"
+  ],
+  "buildLabel": "v219 / dragon focus check + cost2 batch2",
+  "summary": "公式DB突合で読める範囲のランダムサーチ後特技使用効果を追加。どくばり/フローズンリンク/ヒップアタック/魔王の号令など暫定・未実装を修正。",
+  "nodeCheck": "OK",
+  "v219Changes": {
+    "dragonLord": "手札コスト-1は召喚者側の自分の手札限定として明記。盤面+1/+1は汎用常在オーラに一本化し、v218専用加算による二重バフを防止。",
+    "dragonFocus": [
+      "ドラゴンガイアの特技ダメージ無効をdamageUnit/damageLeaderで判定可能に補強",
+      "オリハルゴンの自分ターン中リーダー攻撃力+3/前列時被ダメージ-2を補強",
+      "ワイバーンドッグ召喚時/れんけいを補強",
+      "立ち塞がるドラゴン召喚時2ドロー2捨てを補強"
+    ],
+    "cost2Batch2": [
+      "あくまのす",
+      "うみうし",
+      "かれくさネズミ",
+      "くしざしツインズ",
+      "くものきょじん",
+      "しびれだんびら",
+      "しんぴのよろい",
+      "たんすミミック",
+      "だんごスライム",
+      "はねスライム",
+      "まじゅつし",
+      "まじょ",
+      "まものつかい",
+      "みみずん",
+      "ひとつめピエロ",
+      "サボテンボール",
+      "サンダーラット",
+      "スキッパー",
+      "ベビーサタン",
+      "スノーベビー",
+      "ズッキーニャ",
+      "ダックカイト",
+      "タイガーランス",
+      "ドラゴスライム",
+      "テンツク",
+      "ブチュチュンパ",
+      "ブライ",
+      "ヘルホーネット",
+      "ボーンバット"
+    ],
+    "nodeCheck": "OK"
+  },
+  "v220_update": {
+    "dragon_gaia": "敵からの特技ダメージのみを防ぐよう、特技ダメージ判定フラグ + 相手ターン判定を追加。味方自身の特技ダメージは防がない。",
+    "orihalgon": "常在再計算でleaderCanAttackを復活させないようleaderAttackedThisTurnを参照。",
+    "wyvern_dog": "れんけい対象をダメージを受けていない全ての敵ユニットに限定。",
+    "cost2_batch3": "コスト2ユニットの追加実装を継続。"
+  },
+  "v221": "オリハルゴン/リーダー攻撃1ターン1回原則確認、ホミロン軍曹を敵マスランダム割り振りに修正、ファーリス王子のブロック判定を検証、コスト2重点カードと追加batch4を実装。",
+  "v222": "ラーミア/オーブ勝利、ヒポせんし敵テンション監視、ルイーダ冒険者ランダム、ヒーロースキル2回上限、メドーサボール、キーファ、コスト2 batch5 を追加。",
+  "node_check": "OK",
+  "cost2Status": "v223までで静的監査上のコスト2候補212件は完了寄せ。",
+  "cost3TotalFromRandomAudit": 204,
+  "cost3Batch1ImplementedCount": 39,
+  "cost3RemainingForIndividualReview": 106,
+  "v224": "コスト3ユニットbatch1を実装/補強。召喚時・死亡時・ターン開始/終了・攻撃時の主要候補を追加し、残量監査を出力。",
+  "v225": "コスト3ユニットbatch2を実装/補強。場に出す≠召喚を維持し、トークン/復活/ランダム生成はputUnitIntoPlayFromCard経由に寄せた。",
+  "cost3Batch2ImplementedCount": 82,
+  "v225Files": [
+    "data/v225_cost3_batch2_report.md",
+    "data/v225_implemented_effects.csv",
+    "data/v225_implemented_effects.json"
+  ],
+  "updated": "2026-06-24",
+  "v227": {
+    "medaQueen": "双方の本来コスト0の特技カードを使用コスト+1。player側有効コスト計算に反映し、enemy側auraフラグも維持。",
+    "dogSniper": "戦闘以外のダメージで敵ユニットが死亡した時、自身の攻撃力+1。damageUnit/resolveDeathsフックで判定。",
+    "witchLady": "特技ダメージで敵ユニットが死亡した時、場にいる側のリーダーテンション+1。",
+    "brownie": "味方リーダーの攻撃で敵ユニットが死亡した時、攻撃力+2。",
+    "princess": "旅立ちの王女をムーンブルクの王女Lv3専用として、デッキ編成不可・ランダム生成対象外に修正。",
+    "jamiAndGonz": "選択2種を召喚時モーダルで実装。",
+    "row": "通常ロウのテンションリンクをテンション数1/2/3に応じた個別効果として実装。3は山札から3コストユニットを場に出す。召喚時は発動しない。",
+    "randomPoolGuard": "randomUnitCardByCost/randomCostUnitCardV166からヒーロー専用/生成除外カードを除外。"
+  },
+  "cost3Completion": "全職業対象のランダムコスト3ユニット候補を完了寄せ。通常ロウのテンション3を山札ではなく全カードコスト3ユニットから場に出す裁定へ変更。",
+  "summonVsPutIntoPlay": "場に出すと召喚は別物。ロウ/復活/生成系は場に出す扱いで召喚時を発動しない。",
+  "baseVersion": "v233_remaining25_official_pool_pass3",
+  "v229": "Official DB correction pass: Magical Hat conservative copy effects, Kaizoku Wooper summon/discard not death, discard triggers for Senchou/Zairu, and audit notes for deck/cost2/cost3/dragon scopes.",
+  "addedFiles": [
+    "data/v230_target_pool_coverage_audit.md",
+    "data/v230_target_pool_coverage_audit.csv",
+    "data/v230_target_pool_coverage_audit.json"
+  ],
+  "previousVersion": "v237_spell_behavior_tests_and_cost67_pass1",
+  "v232_summary": {
+    "priority_queue_rows": 178,
+    "patched_or_hardened": 49,
+    "existing_recheck_ok": 104,
+    "still_queue": 25,
+    "notes": "コスト2/3/ドラゴン系ランダムプールのA優先キューを中心に公式DB文面との静的照合とイベントフック補強を実施。"
+  },
+  "v234": "Existing-deck random full-pool search pass: パピラス/プチマージ/まじょ/ひぐらしそう/スノードラゴン/ルイーダ/フォステイル/コンガオンガ/ヤンガス/亡国ロウ/変身系のプール参照を公式DB文面に合わせて統一。",
+  "v234Files": [
+    "data/v234_random_full_pool_crosscheck_pass1.md",
+    "data/v234_random_full_pool_crosscheck_pass1.csv",
+    "data/v234_random_full_pool_crosscheck_pass1.json"
+  ],
+  "v235": "ランダムサーチで手札に加わる特技カードの使用効果を公式DB文面ベースで追加。魔法使い特技、コスト3特技、コスト4/5/6特技を中心に、使用時に発動できる効果を広範囲で実装。",
+  "updatedAt": "2026-06-24",
+  "v238": "6〜7コストユニット145件のうち、v237 pass1の残57件を公式DB同期テキストベースで実装/接続。Chromium CDPの起動検査は3回実施したが、実行環境のポリシーでlocalhost/fileがblockされたためUI到達は不可。Node構文/静的検査はOK。"
 }

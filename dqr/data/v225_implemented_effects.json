@@ -1,0 +1,488 @@
+[
+  {
+    "card": "なげきムーン",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "マドハンド",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "マポレーナ",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ミケまどう",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ガチャコッコ",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "スライムタワー",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ドラゴンキッズ",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "メタルハンター",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ジャガーメイジ",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ドラキーマ",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "サブナック",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ドロザラー",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "パペットマン",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "妖魔軍王ブギー",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "フォレストマスター",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "テールイーター",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ジゴック",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "パプリカン",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ナイトリッチ",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ファイアボール",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "いなずまビリー",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "フロストギズモ",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "スライムツリー",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ミニデーモン",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ビッグモアイ",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "アイスゴーレム",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "グリムン",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "神官クリフト",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ゴルゴンゾーラ",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "メタッツ",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ミステリピラー",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "グレンデル",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "スーパーテンツク",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "マッドオックス",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "パールスライム",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "クラウンヘッド",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "いどまじん",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "運命の天使ラヴィエル",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ザバン",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "マペットマン",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "インキュバス",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "シャイニング",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "セージももんじゃ",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "スピニー",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "フウラ",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "デザートデーモン",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "メイデンドール",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "忠義の騎士アドン",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "群れなすよるのていおう",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "かいぞくウーパー",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "強欲なミミック",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "スライムナイト",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ミミック",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "フェアリードラゴン",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ふくまねき",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ドラゴン",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "メガザルロック",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ぼうれい剣士",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ぶちスライム",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ベビーマジシャン",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "タップデビル",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "まおうのランプ",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "キッシム",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ツボック",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ナイトウォーカー",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "シーライオン",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "豊作のじんめんじゅ",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ヤンガス",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "フォズ大神官",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "青い闘魂スラぼう",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "闇のクリスタル",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ツンドラキー",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "じんめんガエル",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "アルゴングレート",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ましょうぐも",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "さまようたましい",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "アルケミストン",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "ゲルダ",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "韋駄天のドラまさ",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "女盗賊ゲルダ",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  },
+  {
+    "card": "グリゴンダンス",
+    "version": "v225",
+    "status": "implemented_or_reinforced",
+    "note": "コスト3ランダム候補 batch2。召喚/場に出すの区別を維持し、召喚時は召喚時のみ、トークン生成は場に出す扱い。"
+  }
+]

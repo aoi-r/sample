@@ -1,0 +1,9 @@
+card,area,status,note
+ラーミア,cost2,implemented,6オーブを山札混入し6オーブ地形で勝利
+ヒポせんし,cost2,implemented,敵テンション実増加量ぶん攻撃力増加
+ルイーダ,cost2,implemented,全冒険者ユニットからランダム手札追加
+ホワイトビート,cost2,implemented,ヒーロースキル2回上限
+白煙のホワイトビート,cost2,implemented,ステルス+ヒーロースキル2回上限
+ヘンリー,cost2,implemented,シンクロLv2コスト-1/Lv3二回上限
+メドーサボール,cost2,implemented,ヒーロースキル後シンクロカードドロー
+キーファ,cost2,implemented,対象特技履歴を死亡時に手札へ戻す

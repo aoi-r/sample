@@ -1,0 +1,50 @@
+[
+  {
+    "card": "ラーミア",
+    "area": "cost2",
+    "status": "implemented",
+    "note": "6オーブを山札混入し6オーブ地形で勝利"
+  },
+  {
+    "card": "ヒポせんし",
+    "area": "cost2",
+    "status": "implemented",
+    "note": "敵テンション実増加量ぶん攻撃力増加"
+  },
+  {
+    "card": "ルイーダ",
+    "area": "cost2",
+    "status": "implemented",
+    "note": "全冒険者ユニットからランダム手札追加"
+  },
+  {
+    "card": "ホワイトビート",
+    "area": "cost2",
+    "status": "implemented",
+    "note": "ヒーロースキル2回上限"
+  },
+  {
+    "card": "白煙のホワイトビート",
+    "area": "cost2",
+    "status": "implemented",
+    "note": "ステルス+ヒーロースキル2回上限"
+  },
+  {
+    "card": "ヘンリー",
+    "area": "cost2",
+    "status": "implemented",
+    "note": "シンクロLv2コスト-1/Lv3二回上限"
+  },
+  {
+    "card": "メドーサボール",
+    "area": "cost2",
+    "status": "implemented",
+    "note": "ヒーロースキル後シンクロカードドロー"
+  },
+  {
+    "card": "キーファ",
+    "area": "cost2",
+    "status": "implemented",
+    "note": "対象特技履歴を死亡時に手札へ戻す"
+  }
+]

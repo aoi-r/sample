@@ -1,0 +1,47 @@
+{
+  "passed": 8,
+  "failed": 0,
+  "failures": [],
+  "pass": [
+    {
+      "name": "v238ValidationMarker exists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "v238 pass2 summon switch includes 39 named entries",
+      "ok": true,
+      "detail": "found=44"
+    },
+    {
+      "name": "v238 death pass covers key deathrattles",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "v238 tension links cover アンクルホーン/マザーウッド/マッスルウータン/カロン/ドン・モグーラ",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "v238 spell watchers cover ウインドマージ/ようじゅつし/モリー",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "まもののツボ exists and text says 6〜7 cost units",
+      "ok": true,
+      "detail": "3種類のコスト6〜7のユニットの中から1枚を選び手札に加える。このターン中そのカードのコストを0にする"
+    },
+    {
+      "name": "cost6/7 unit pool exists",
+      "ok": true,
+      "detail": "count=145"
+    },
+    {
+      "name": "official-like text exists for key pass2 cards",
+      "ok": true,
+      "detail": "ムチおとこ:前列召喚時：自分の手札から武器カードを1枚選んで捨てる。そうした場合、カードを3枚引く。後列召喚時：自分のデッキからコスト3以下の武器カードを1枚引く | ダイヤモンドスライム:ハードメタルボディ。召喚時：自分のデッキからメタルボディを持つユニットカードか武器カードを各コストから1枚ずつ手札に加える。 | デュラハーン:召喚時：自分のデッキからコスト3のユニットを1体出す | 薔薇子ジャックポッター:召喚時：手札を2枚捨てる。そうした場合ランダムなレジェンドレアカード0〜4枚を以下の確率で手札に加える。0〜4枚 各20%"
+    }
+  ]
+}

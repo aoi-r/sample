@@ -1,0 +1,128 @@
+[
+  {
+    "category": "dragon",
+    "card": "竜戦士の装具",
+    "implemented_v218": "yes",
+    "notes": "HP8回復、テンションスキルを英雄竜の祝福へ変更"
+  },
+  {
+    "category": "dragon",
+    "card": "英雄竜の祝福",
+    "implemented_v218": "yes",
+    "notes": "味方全員HP3回復、死亡プールドラゴンを場に出す"
+  },
+  {
+    "category": "dragon",
+    "card": "竜の導き",
+    "implemented_v218": "yes",
+    "notes": "山札からランダムなドラゴン系ユニットカードを手札へ、コスト-1"
+  },
+  {
+    "category": "dragon",
+    "card": "スノードラゴン",
+    "implemented_v218": "yes",
+    "notes": "コスト4/5/6特技を各1枚ランダム提示"
+  },
+  {
+    "category": "dragon",
+    "card": "ドラゴンロード",
+    "implemented_v218": "yes",
+    "notes": "常在+1/+1、手札ドラゴン系コスト-1"
+  },
+  {
+    "category": "cost2",
+    "card": "あおだけ童子",
+    "implemented_v218": "yes",
+    "notes": "手札6枚以上で攻撃力+2"
+  },
+  {
+    "category": "cost2",
+    "card": "おばけパラソル",
+    "implemented_v218": "yes",
+    "notes": "れんけい敵1体2ダメージ"
+  },
+  {
+    "category": "cost2",
+    "card": "おむつっこり",
+    "implemented_v218": "yes",
+    "notes": "味方リーダーHP2回復"
+  },
+  {
+    "category": "cost2",
+    "card": "かまいたち",
+    "implemented_v218": "yes",
+    "notes": "前列他全体1ダメージ"
+  },
+  {
+    "category": "cost2",
+    "card": "しりょうのきし",
+    "implemented_v218": "yes",
+    "notes": "敵武器-1/-1"
+  },
+  {
+    "category": "cost2",
+    "card": "ももんじゃ",
+    "implemented_v218": "yes",
+    "notes": "敵ユニット数分HP+1"
+  },
+  {
+    "category": "cost2",
+    "card": "アロードッグ",
+    "implemented_v218": "yes",
+    "notes": "手札6枚以上で敵1体2ダメージ"
+  },
+  {
+    "category": "cost2",
+    "card": "イノブタマン",
+    "implemented_v218": "yes",
+    "notes": "味方1体このターン攻撃力+3・敵リーダー攻撃不可"
+  },
+  {
+    "category": "cost2",
+    "card": "ゴールドタヌ",
+    "implemented_v218": "yes",
+    "notes": "宝の地図を手札へ"
+  },
+  {
+    "category": "cost2",
+    "card": "ケンタラウス",
+    "implemented_v218": "yes",
+    "notes": "ヒーロー有りなら味方リーダー攻撃力+1"
+  },
+  {
+    "category": "cost2",
+    "card": "おばけキノコ",
+    "implemented_v218": "yes",
+    "notes": "死亡時ランダムな敵1体攻撃不能"
+  },
+  {
+    "category": "cost2",
+    "card": "どくイモムシ",
+    "implemented_v218": "yes",
+    "notes": "死亡時ランダム敵ユニット毒"
+  },
+  {
+    "category": "cost2",
+    "card": "じんめんじゅ",
+    "implemented_v218": "yes",
+    "notes": "自分ターン終了時自身HP1回復"
+  },
+  {
+    "category": "cost2",
+    "card": "どんぐりベビー",
+    "implemented_v218": "yes",
+    "notes": "味方リーダー回復時1ドロー"
+  },
+  {
+    "category": "cost2",
+    "card": "オベルジーヌ",
+    "implemented_v218": "yes",
+    "notes": "味方ユニット回復時自身+1/+1"
+  },
+  {
+    "category": "cost2",
+    "card": "シャール",
+    "implemented_v218": "yes",
+    "notes": "味方ユニット回復時他ランダム味方+1/+1"
+  }
+]

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "deckbuilder-card-json-v6-official-guarded",
   "source": "dqr_full_project_v154_ocr_tribe_all_remaining_closed + v155 notation colon unified",
-  "generatedFor": "DQR local remake project dqr_full_project_v157_tribe_effect_badge_foundation",
+  "generatedFor": "dqr_deckbuilder_v218",
   "columns": {
     "識別用": "id, name, sourceSheets, sheetRows, classes, cardType, tribes",
     "表示用": "name, cost, attack, hp, text, rarity",
@@ -14260,7 +14260,7 @@
       "cost": 6,
       "attack": 6,
       "hp": 6,
-      "text": "このユニットを除くドラゴン系の味方ユニット全てを+1/+1 自分の手札にあるドラゴン系のユニットカードのコスト-1",
+      "text": "場に出ている間、このユニットを除くドラゴン系の味方ユニット全てを+1/+1。場に出ている間、自分の手札にあるドラゴン系ユニットカードの使用コスト-1。",
       "rarity": "スーパーレア",
       "cardType": "ユニット",
       "classes": [
@@ -25288,11 +25288,14 @@
         "共通": 494
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": false,
+        "generatedBy": "ムーンブルクの王女Lv3",
+        "notRandomPool": true,
+        "excludeFromRandomGeneration": true
       },
       "classKey": "共通",
       "tribeKey": "",
-      "searchText": "旅立ちの王女 選択：・全てのユニットに1ダメージ・特技カードをランダムに1枚手札に加える。このターン中使った特技カードのコストの合計分コストが減る レジェンドレア ユニット 共通 選択 系統なし",
+      "searchText": "旅立ちの王女 選択：・全てのユニットに1ダメージ・特技カードをランダムに1枚手札に加える。このターン中使った特技カードのコストの合計分コストが減る レジェンドレア ユニット 共通 選択 系統なし 編成不可 ヒーローLv3専用 ランダム生成対象外",
       "keywords": [
         "選択"
       ],
@@ -25312,7 +25315,9 @@
         "verificationMethod": "xlsx-hyperlink-official-link-map-v15",
         "verificationNote": "アップロードされたExcelの左端カード名セルのハイパーリンクから公式DB詳細IDを抽出して付与。共通001〜163はOK済みベースラインとして保持。"
       },
-      "tribe": "なし"
+      "tribe": "なし",
+      "deckBuildable": false,
+      "note": "v227: ヒーローカード「ムーンブルクの王女」Lv3専用。デッキ編成不可・通常ランダム生成対象外。"
     },
     {
       "id": "card_bf5916e1",
@@ -39502,7 +39507,7 @@
       "cost": 5,
       "attack": 4,
       "hp": 3,
-      "text": "召喚時：コストが4、5、6の3種類の特技カードの中から1枚を選び手札に加える。自分のデッキのメラ系の特技カードが無いなら手札にあるこのカードのコスト-2",
+      "text": "召喚時：コスト4・5・6の特技カードをそれぞれランダムに1枚ずつ選出し、その中から1枚を選んで手札に加える。自分のデッキのメラ系の特技カードが無いなら手札にあるこのカードのコスト-2。",
       "rarity": "スーパーレア",
       "cardType": "ユニット",
       "classes": [
@@ -49491,7 +49496,7 @@
       "cost": 4,
       "attack": 0,
       "hp": 0,
-      "text": "味方リーダーのHPを8回復。味方リーダーのテンションスキルを英雄竜の祝福に変える",
+      "text": "味方リーダーのHPを8回復。味方リーダーのテンションスキルを英雄竜の祝福に変える。",
       "rarity": "スーパーレア",
       "cardType": "特技",
       "classes": [
@@ -49539,7 +49544,8 @@
           "answer": "「グレイナル」の召喚時に手札に加わるデッキ編成不可カード。特技カード扱いショウカンジテフダクワヘンセイフカトクギアツカ",
           "appliedAtVersion": "v156_manual_tribe_answers_applied"
         }
-      }
+      },
+      "localImage": "./assets/custom_cards/ryu_senshi_no_sougu.png"
     },
     {
       "id": "card_5095257f",
@@ -49547,9 +49553,9 @@
       "cost": 0,
       "attack": 0,
       "hp": 0,
-      "text": "味方全体のHPを3回復する。ランダムなドラゴン系の味方ユニット1体を復活させる",
+      "text": "味方全員（味方ユニット・味方リーダー）のHPを3回復する。自分の死亡プールからドラゴン系ユニットを1体ランダムに場に出す（召喚ではない）。",
       "rarity": "",
-      "cardType": "トークン",
+      "cardType": "テンションスキル",
       "classes": [
         "僧侶"
       ],
@@ -63930,7 +63936,7 @@
       "cost": 0,
       "attack": 0,
       "hp": 0,
-      "text": "自分のデッキからドラゴン系のユニットカードをランダムに1枚手札に加える。 そのカードのコストを−１。",
+      "text": "自分の山札からドラゴン系ユニットカードをランダムに1枚手札に加える。そのカードの使用コスト-1。",
       "rarity": "",
       "cardType": "トークン",
       "classes": [

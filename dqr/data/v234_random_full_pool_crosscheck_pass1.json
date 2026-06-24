@@ -1,0 +1,167 @@
+[
+  {
+    "effect_source": "パピラス",
+    "direct_or_recursive": "direct deck",
+    "effect": "れんけい: ランダムなコスト1〜3の自分の職業の特技カード",
+    "pool": "魔法使いデッキでは魔法使いコスト1〜3特技",
+    "pool_count": 32,
+    "sample": "イオ / メラミ / セクシービーム / 魔力かくせい / 魔力の息吹 / 早詠みの杖 / ヒャダルコ / どくばりの一撃 / やまびこのさとり / ぱふぱふ / 疾風迅雷 / まものの呼び笛 / らせん打ち / 投げキッス / 暴走魔法陣 / ヒップアタック / クロックチャージ / ルカナン / まほうの小ビン / スキルチャージ",
+    "status": "patched",
+    "v234_action": "職業不明時の全職業フォールバックを廃止し、自分の職業だけ参照",
+    "official_note": ""
+  },
+  {
+    "effect_source": "プチマージ",
+    "direct_or_recursive": "direct deck",
+    "effect": "死亡時: ランダムな魔法使いの特技カード",
+    "pool": "魔法使い特技全体",
+    "pool_count": 57,
+    "sample": "メラ / イオ / メラミ / セクシービーム / メラゾーマ / イオナズン / ヒャド / 凍てつく大地 / 魔力かくせい / 魔力の息吹 / 早詠みの杖 / ヒャダルコ / ピンクタイフーン / どくばりの一撃 / やまびこのさとり / ぱふぱふ / マダンテ / 疾風迅雷 / まものの呼び笛 / フローズンリンク",
+    "status": "patched shared helper",
+    "v234_action": "addRandomClassSpellToHandV166を公式DB文面どおりの職業特技プールに統一",
+    "official_note": ""
+  },
+  {
+    "effect_source": "コンガオンガ",
+    "direct_or_recursive": "direct deck",
+    "effect": "れんけい: 同じ使用コストのランダムなユニットカードを相手手札へ",
+    "pool": "消滅対象と同じコストの全ユニット",
+    "pool_count": 1031,
+    "sample": "メラゴースト / スライムつむり / ファーラット / いっかくうさぎ / シールドこぞう / リザードマン / くさった死体 / バードファイター / リビングスタチュー / りゅうき兵 / ストーンマン / バアルゼブブ / キラーアーマー / ブラッドハンド / テラノライナー / おにこんぼう / メタルスライム / わらいぶくろ / スライムナイト / なげきムーン",
+    "status": "patched shared helper",
+    "v234_action": "randomUnitCardByCost/addRandomUnitCardToEnemyHandByCostを共通除外込みに統一",
+    "official_note": ""
+  },
+  {
+    "effect_source": "かみかぜ",
+    "direct_or_recursive": "direct deck",
+    "effect": "占い: ランダムなコスト2のユニットを1体出す",
+    "pool": "全コスト2ユニット",
+    "pool_count": 215,
+    "sample": "いっかくうさぎ / シールドこぞう / リザードマン / メタルスライム / わらいぶくろ / シャドー / ホイミスライム / しにがみ / じんめんじゅ / サーベルきつね / オーク / おばけキノコ / フレイム / たけやりへい / プークプック / リップス / おおきづち / ドロヌーバ / おむつっこり / どくイモムシ",
+    "status": "already completed in v233",
+    "v234_action": "v233で公式DB突合・残り25件処理済み",
+    "official_note": ""
+  },
+  {
+    "effect_source": "逆転への兆し",
+    "direct_or_recursive": "direct deck",
+    "effect": "占い: ランダムなコスト3のユニットを2体出す",
+    "pool": "全コスト3ユニット",
+    "pool_count": 208,
+    "sample": "くさった死体 / バードファイター / スライムナイト / なげきムーン / ツンドラキー / マドハンド / さまようたましい / ミミック / ゴーレム / ダッシュラン / あやしいかげ / ホークマン / マポレーナ / ミケまどう / ボーンナイト / からくりだいみょう / フェアリードラゴン / ふくまねき / グリゴンダンス / トドマン",
+    "status": "already completed in v233",
+    "v234_action": "v233で公式DB突合・残り25件処理済み",
+    "official_note": ""
+  },
+  {
+    "effect_source": "イル＆ルカのたまご",
+    "direct_or_recursive": "direct deck",
+    "effect": "系統たまご/ドラゴン参照",
+    "pool": "ドラゴン系ユニット",
+    "pool_count": 77,
+    "sample": "リザードマン / りゅうき兵 / テラノライナー / おにこんぼう / アックスドラゴン / メラリザード / ダッシュラン / フェアリードラゴン / ガメゴン / ドラゴンキッズ / バトルレックス / ドラゴンゾンビ / グレイトドラゴン / キングリザード / ドラゴン / ドラゴンガイア / やまたのおろち / デンデン竜 / リザードフライ / ブラックドラゴン",
+    "status": "already completed in v233",
+    "v234_action": "ドラゴン系はv233で一巡済み",
+    "official_note": ""
+  },
+  {
+    "effect_source": "スノードラゴン",
+    "direct_or_recursive": "recursive from dragon pool",
+    "effect": "召喚時: コスト4/5/6の特技候補から選択",
+    "pool": "全コスト4/5/6特技",
+    "pool_count": 77,
+    "sample": "もろば斬り / ギガブレイク / ジゴスパーク / おしゃれなバンダナ / 稲妻雷光斬 / メラゾーマ / ピンクタイフーン / フローズンリンク / スライム呼び / ヒャドの極意 / 地這い大蛇 / 神速メラガイアー / 邪悪な祈り / モンスターコイン / マヒャド / まもののツボ / ゴールドフィンガー / 無念無想 / 必中拳 / はげしいおたけび",
+    "status": "patched",
+    "v234_action": "提示候補を共通の公式DB対象プールに統一",
+    "official_note": ""
+  },
+  {
+    "effect_source": "まじょ",
+    "direct_or_recursive": "recursive from cost2 pool",
+    "effect": "選択: 魔法使い特技ランダム",
+    "pool": "魔法使い特技全体",
+    "pool_count": 57,
+    "sample": "メラ / イオ / メラミ / セクシービーム / メラゾーマ / イオナズン / ヒャド / 凍てつく大地 / 魔力かくせい / 魔力の息吹 / 早詠みの杖 / ヒャダルコ / ピンクタイフーン / どくばりの一撃 / やまびこのさとり / ぱふぱふ / マダンテ / 疾風迅雷 / まものの呼び笛 / フローズンリンク",
+    "status": "patched shared helper",
+    "v234_action": "職業特技共有helperを使用",
+    "official_note": ""
+  },
+  {
+    "effect_source": "ルイーダ",
+    "direct_or_recursive": "recursive from cost2 pool",
+    "effect": "ターン終了時: ランダムな冒険者1枚",
+    "pool": "全冒険者ユニット",
+    "pool_count": 86,
+    "sample": "ヒューザ / カミュ / アンルシア / ラヴィエル / ガボ / マルティナ / フローラ / デボラ / ビアンカ / シルビア / サンディ / エステラ / ザンクローネ / サンチョ / イザヤール / アモス / パパス / グレイグ / ライアン / 少年テリー",
+    "status": "patched bugfix",
+    "v234_action": "既存の二重追加を修正し1ターン1枚だけに統一",
+    "official_note": ""
+  },
+  {
+    "effect_source": "変貌のくものきょじん",
+    "direct_or_recursive": "recursive from cost2 pool",
+    "effect": "召喚時: 味方をコスト+1ランダムユニットに変身",
+    "pool": "対象+1コストの全ユニット",
+    "pool_count": 1031,
+    "sample": "メラゴースト / スライムつむり / ファーラット / いっかくうさぎ / シールドこぞう / リザードマン / くさった死体 / バードファイター / リビングスタチュー / りゅうき兵 / ストーンマン / バアルゼブブ / キラーアーマー / ブラッドハンド / テラノライナー / おにこんぼう / メタルスライム / わらいぶくろ / スライムナイト / なげきムーン",
+    "status": "patched shared helper",
+    "v234_action": "変身先にも共通除外条件を適用。召喚時は発動しない",
+    "official_note": ""
+  },
+  {
+    "effect_source": "たんすミミック",
+    "direct_or_recursive": "recursive from cost2 pool",
+    "effect": "召喚時: 敵をコスト-1ランダムユニットに変身",
+    "pool": "対象-1コストの全ユニット",
+    "pool_count": 1031,
+    "sample": "メラゴースト / スライムつむり / ファーラット / いっかくうさぎ / シールドこぞう / リザードマン / くさった死体 / バードファイター / リビングスタチュー / りゅうき兵 / ストーンマン / バアルゼブブ / キラーアーマー / ブラッドハンド / テラノライナー / おにこんぼう / メタルスライム / わらいぶくろ / スライムナイト / なげきムーン",
+    "status": "patched shared helper",
+    "v234_action": "変身先にも共通除外条件を適用。召喚時は発動しない",
+    "official_note": ""
+  },
+  {
+    "effect_source": "ひぐらしそう",
+    "direct_or_recursive": "recursive from cost3 pool",
+    "effect": "選択: コスト1ユニット or コスト3特技",
+    "pool": "全コスト1ユニット / 全コスト3特技",
+    "pool_count": 155,
+    "sample": "メラゴースト / スライムつむり / ファーラット / ドラキー / バブルスライム / いたずらもぐら / ゴースト / おばけキャンドル / モーモン / おばけヒトデ / おおくちばし / ゆめにゅうどう / メラリザード / オニオーン / ホイップゴースト / ねこまどう / リリパット / プチアーノン / あばれこまいぬ / くみひもこぞう",
+    "status": "patched bugfix",
+    "v234_action": "山札優先ではなく公式DB文面どおり全体ランダムプール参照へ修正",
+    "official_note": ""
+  },
+  {
+    "effect_source": "ヤンガス",
+    "direct_or_recursive": "recursive from cost3 pool",
+    "effect": "ターン終了時: 残りMPと同じコストのランダムユニットを出す",
+    "pool": "全コストNユニット",
+    "pool_count": 1031,
+    "sample": "メラゴースト / スライムつむり / ファーラット / いっかくうさぎ / シールドこぞう / リザードマン / くさった死体 / バードファイター / リビングスタチュー / りゅうき兵 / ストーンマン / バアルゼブブ / キラーアーマー / ブラッドハンド / テラノライナー / おにこんぼう / メタルスライム / わらいぶくろ / スライムナイト / なげきムーン",
+    "status": "patched shared helper",
+    "v234_action": "cost3SummonRandomUnitByCostV225の参照先を共通プールに統一",
+    "official_note": ""
+  },
+  {
+    "effect_source": "亡国の先王ロウ",
+    "direct_or_recursive": "recursive from cost3 pool",
+    "effect": "れんけい: コスト1以上特技2枚 + 特技後同コストユニットを出す",
+    "pool": "全コスト1以上特技 / 全同コストユニット",
+    "pool_count": 1342,
+    "sample": "メラゴースト / スライムつむり / ファーラット / いっかくうさぎ / シールドこぞう / リザードマン / くさった死体 / バードファイター / リビングスタチュー / りゅうき兵 / ストーンマン / バアルゼブブ / キラーアーマー / ブラッドハンド / テラノライナー / おにこんぼう / メタルスライム / わらいぶくろ / スライムナイト / なげきムーン",
+    "status": "patched shared helper",
+    "v234_action": "特技・ユニット双方を共通プールへ統一",
+    "official_note": ""
+  },
+  {
+    "effect_source": "フォステイル",
+    "direct_or_recursive": "recursive from cost3 pool",
+    "effect": "ターン開始時: 占いを持つカード1枚をコスト-1で手札へ",
+    "pool": "全占いカード",
+    "pool_count": 57,
+    "sample": "みわくのランプ / デスファレーナ / 節制のタロット / ベルフェゴル / 太陽のタロット / 星のタロット / 塔のタロット / びっくりサタン / ケセランパセラン / 皇帝のタロット / パペットこぞう / エビルドライブ / おばけトマト / 隠者のタロット / ダイス・ド・デビル / 悪魔のタロット / ジュリアンテ / あばれうしどり / シャイニング / 愚者のタロット",
+    "status": "patched",
+    "v234_action": "生成/専用除外を含む全占いカードプールに統一",
+    "official_note": ""
+  }
+]

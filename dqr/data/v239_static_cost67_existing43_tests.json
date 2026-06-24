@@ -1,0 +1,52 @@
+{
+  "passed": 9,
+  "failed": 0,
+  "failures": [],
+  "pass": [
+    {
+      "name": "v239CompletionMarker exists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "existing runtime bucket is closed",
+      "ok": true,
+      "detail": "{\"total\":43,\"v239_hardened\":2,\"remaining_runtime_bucket\":0}"
+    },
+    {
+      "name": "all 43 names are represented in audit",
+      "ok": true,
+      "detail": "count=43"
+    },
+    {
+      "name": "regular マルティナ hardened",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "ヒドラ discard-count keywords hardened",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "basic keyword cards text remains correct",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dragon key existing hooks still present",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "battle-damage multiplier for ジャコラ exists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "discard hook wraps discardHandCardAtIndex after v239",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

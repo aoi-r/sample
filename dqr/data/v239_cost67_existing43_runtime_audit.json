@@ -1,0 +1,353 @@
+{
+  "summary": {
+    "total": 43,
+    "v239_hardened": 2,
+    "remaining_runtime_bucket": 0
+  },
+  "rows": [
+    {
+      "name": "テラノライナー",
+      "cost": 7,
+      "tribe": "ドラゴン",
+      "text": "速攻",
+      "status": "basic_keyword_or_no_effect_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "おにこんぼう",
+      "cost": 7,
+      "tribe": "ドラゴン",
+      "text": "効果なし",
+      "status": "basic_keyword_or_no_effect_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "ガメゴン",
+      "cost": 6,
+      "tribe": "ドラゴン",
+      "text": "におうだち",
+      "status": "basic_keyword_or_no_effect_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "ドラゴンゾンビ",
+      "cost": 7,
+      "tribe": "ドラゴン",
+      "text": "死亡時：正面にいる全ての敵ユニットに3ダメージ",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "ドラゴンガイア",
+      "cost": 6,
+      "tribe": "ドラゴン",
+      "text": "召喚時：次の相手のターン終了時まで全ての味方は相手の特技ダメージを受けない",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "やまたのおろち",
+      "cost": 6,
+      "tribe": "ドラゴン",
+      "text": "召喚時：味方ユニット1体を死亡させる そのユニットのコスト分攻撃力とHPが上がる",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "ハーゴン",
+      "cost": 6,
+      "tribe": "魔王",
+      "text": "召喚時：冒険者ユニット1体を1/1の犬に変える",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "マルティナ",
+      "cost": 6,
+      "tribe": "冒険者",
+      "text": "召喚時：合計7ダメージを縦1列のランダムなマスに割り振る",
+      "status": "v239_hardened",
+      "v239_fix": "召喚時の縦1列ランダムマス7点を明示処理に追加"
+    },
+    {
+      "name": "りゅうおう",
+      "cost": 7,
+      "tribe": "魔王",
+      "text": "死亡時：正体をあらわす",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "デンデン竜",
+      "cost": 6,
+      "tribe": "ドラゴン",
+      "text": "におうだち、おうえん",
+      "status": "basic_keyword_or_no_effect_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "ブラックドラゴン",
+      "cost": 7,
+      "tribe": "ドラゴン",
+      "text": "召喚時:ランダムな敵ユニット1体に1ダメージ。このカードを除く自分の場と手札にいるドラゴン系の数の3倍分与えるダメージが増える。",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "ドラゴンロード",
+      "cost": 6,
+      "tribe": "ドラゴン",
+      "text": "場に出ている間、このユニットを除くドラゴン系の味方ユニット全てを+1/+1。場に出ている間、自分の手札にあるドラゴン系ユニットカードの使用コスト-1。",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "覇海軍王ジャコラ",
+      "cost": 6,
+      "tribe": "なし",
+      "text": "におうだち、召喚時：このターン中すべてのユニットが受ける戦闘ダメージが2倍になる",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "全てを滅ぼす者ゾーマ",
+      "cost": 7,
+      "tribe": "魔王",
+      "text": "超貫通",
+      "status": "basic_keyword_or_no_effect_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "ミリオンゼニー",
+      "cost": 6,
+      "tribe": "なし",
+      "text": "自分のターン終了時にGET(1)。この効果は毎ターン発動する。BET：死亡時にGET(2)をこのユニットに付与する。このBET効果は重複しない。",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "グレイトマムー",
+      "cost": 6,
+      "tribe": "なし",
+      "text": "れんけい：敵ユニット1体に5ダメージ",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "ウルノーガ&ウルナーガ",
+      "cost": 7,
+      "tribe": "魔王",
+      "text": "れんけい：前列に召喚した場合、正面にいるランダムな敵ユニット1体を消滅させる。後列に召喚した場合、攻撃力6以上の他ユニット全てを死亡させる。",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "エルギオス",
+      "cost": 7,
+      "tribe": "魔王",
+      "text": "ねらい撃ち、召喚時：このユニットに4回さくせんを出す",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "アトラス",
+      "cost": 6,
+      "tribe": "なし",
+      "text": "攻撃時：このターン中味方リーダーの攻撃力分攻撃力が上がる",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "まかいファイター",
+      "cost": 6,
+      "tribe": "ドラゴン",
+      "text": "召喚時：GET(1)、BET：このターン中味方リーダーの攻撃力+1、このBETが4回発動する度まかいファイターを1体だす",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "アイラ",
+      "cost": 6,
+      "tribe": "冒険者",
+      "text": "召喚時：GET(2)。BET：ランダムな武器を味方リーダーに装備する。",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "オリハルゴン",
+      "cost": 7,
+      "tribe": "ドラゴン",
+      "text": "自分のターン中味方リーダーは攻撃力+3を得る。前列にいる場合味方リーダーが受けるダメージ-2",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "ようじゅつし",
+      "cost": 6,
+      "tribe": "なし",
+      "text": "自分が特技を使う度ランダムな敵1体に2ダメージ",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "バーバラ",
+      "cost": 6,
+      "tribe": "冒険者",
+      "text": "召喚時:残りMPを全て消費する。 全ての敵に消費したMPの数分ダメージを与える。",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "アークマージ",
+      "cost": 6,
+      "tribe": "なし",
+      "text": "この対戦の間ヒーロースキルが発動した回数分攻撃力+1を得る。このユニットの攻撃力が5以上の場合さらに特技ダメージ+2を得る。",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "クラーゴン",
+      "cost": 6,
+      "tribe": "なし",
+      "text": "BET：このターン中に未発動の効果からランダムに1つ発動する。①全ての敵に1ダメージ ②ランダムな敵1体に2ダメージ ③敵リーダーに3ダメージ。全て発動済みなら何も起こらない。",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "ドルマドン",
+      "cost": 7,
+      "tribe": "なし",
+      "text": "敵1体に10ダメージ",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "竜将ドラゴンガイア",
+      "cost": 6,
+      "tribe": "ドラゴン",
+      "text": "召喚時：手札にコスト3以上の特技カードがあるなら縦一列にいる全ての敵ユニットに2ダメージ、それらのユニットを次のターン終了時まで攻撃不能にする",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "ドラゴンバゲージ",
+      "cost": 7,
+      "tribe": "ドラゴン",
+      "text": "におうだち、自分のターン終了時味方リーダーのテンション+1",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "グレイナル",
+      "cost": 7,
+      "tribe": "ドラゴン",
+      "text": "召喚時：竜戦士の装具を手札に加える。ドラゴン系の味方ユニットが攻撃して敵ユニットを倒す度味方リーダーのテンション+1",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "ガメゴンレジェンド",
+      "cost": 7,
+      "tribe": "ドラゴン",
+      "text": "におうだち、召喚時：ランダムな敵1体に1ダメージ。これを3回繰り返す。スキルブースト：繰り返す回数+1",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "まだらイチョウ",
+      "cost": 6,
+      "tribe": "なし",
+      "text": "BET：1/2のブラックタヌーを1体場に出す。このBETが3回発動する度に、このユニットを除く全ての味方ユニットを+1/+1する。カウントはターンを跨いで継続する。",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "スラリンガル",
+      "cost": 7,
+      "tribe": "なし",
+      "text": "貫通、選択:+1/+1と速攻とこのターン中「敵リーダーを攻撃できずダメージを受けない」を得る。・このターンの終了時攻撃力とHPが2倍になる",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "ジュリアンテ",
+      "cost": 7,
+      "tribe": "なし",
+      "text": "占い：(1)他の全ての味方ユニット+2/+2、(2)ランダムな敵3体を次のターン攻撃不能にする",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "マーニャ",
+      "cost": 6,
+      "tribe": "冒険者",
+      "text": "召喚時:デッキの1版上のカードのコストが4以上ならドラゴラムを使う。 4以下ならそのカードのコストを0にして手札に加える。",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "ダースドラゴン",
+      "cost": 7,
+      "tribe": "ドラゴン",
+      "text": "効果なし",
+      "status": "basic_keyword_or_no_effect_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "あくまのカガミ",
+      "cost": 6,
+      "tribe": "なし",
+      "text": "召喚時：自分のデッキにある5コスト以下の冒険者と同じユニット1体ヲバに出しこのターン中速攻と「ターン終了時にこのユニットを自分のデッキに混ぜる」を付与する",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "キラーマシン2",
+      "cost": 6,
+      "tribe": "なし",
+      "text": "2回攻撃、召喚時:このユニットにさくせんを出す。耐戦中に味方建物が3つ以上出ていたら、代わりに2回さくせんを出し、出たさくせんの効果全てを得る",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "ホメロス",
+      "cost": 6,
+      "tribe": "なし",
+      "text": "召喚時:HPが2以下の敵ユニット1体を味方にする",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "黄金兵長",
+      "cost": 7,
+      "tribe": "なし",
+      "text": "召喚時：GET(1)。攻撃時：敵リーダーに味方の場のピサロナイトの数と同じダメージ。BET：ピサロナイトを1体場に出す。",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "ワイバーンドッグ",
+      "cost": 7,
+      "tribe": "ドラゴン",
+      "text": "召喚時：ダメージを受けている全ての敵ユニットに3ダメージ、れんけい：さらにダメージを受けていない全てのユニットに1ダメージ",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    },
+    {
+      "name": "ヒドラ",
+      "cost": 6,
+      "tribe": "なし",
+      "text": "このユニットは子の耐戦中に自分の手札から捨てたカードの枚数により以下の効果を得る。2枚以上:貫通、4枚以上:速攻、6枚以上:2回攻撃",
+      "status": "v239_hardened",
+      "v239_fix": "対戦中に手札から捨てた枚数で貫通/速攻/2回攻撃を再評価するフック追加"
+    },
+    {
+      "name": "ドラゴンブッシュ",
+      "cost": 6,
+      "tribe": null,
+      "text": "特技ダメージ+1。召喚時：自分の場か手札に攻撃力4以上の他のドラゴン系がいるなら特技ダメージ+1を得る。",
+      "status": "existing_code_path_confirmed",
+      "v239_fix": ""
+    }
+  ]
+}

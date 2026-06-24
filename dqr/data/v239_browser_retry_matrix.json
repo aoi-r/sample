@@ -1,0 +1,71 @@
+{
+  "attempts": [
+    {
+      "variant": "file",
+      "ok": false,
+      "environment_blocked": true,
+      "errors": [],
+      "console": [],
+      "target_url": "file:///mnt/data/v239_work/index.html",
+      "eval": {
+        "title": "file:///mnt/data/v239_work/index.html",
+        "ready": "complete",
+        "bodyText": "“file” links are blocked\n\nYour organization doesn’t allow you to view this site",
+        "hasApp": false,
+        "scripts": 2,
+        "url": "chrome-error://chromewebdata/"
+      }
+    },
+    {
+      "variant": "http://127.0.0.1",
+      "ok": false,
+      "environment_blocked": true,
+      "errors": [],
+      "console": [],
+      "target_url": "http://127.0.0.1:8912/index.html",
+      "eval": {
+        "title": "127.0.0.1",
+        "ready": "complete",
+        "bodyText": "127.0.0.1 is blocked\n\nYour organization doesn’t allow you to view this site",
+        "hasApp": false,
+        "scripts": 2,
+        "url": "chrome-error://chromewebdata/"
+      }
+    },
+    {
+      "variant": "http://localhost",
+      "ok": false,
+      "environment_blocked": true,
+      "errors": [],
+      "console": [],
+      "target_url": "http://localhost:8913/index.html",
+      "eval": {
+        "title": "localhost",
+        "ready": "complete",
+        "bodyText": "localhost is blocked\n\nYour organization doesn’t allow you to view this site",
+        "hasApp": false,
+        "scripts": 2,
+        "url": "chrome-error://chromewebdata/"
+      }
+    },
+    {
+      "variant": "data",
+      "ok": false,
+      "environment_blocked": true,
+      "errors": [],
+      "console": [],
+      "target_url": "data:text/html;charset=utf-8,<html><body><script>document.body.dataset.ok=\"dataurl\";</script>data-url smoke</body></html>",
+      "eval": {
+        "title": "data:text/html;charset=utf-8,<html><body><script>document.body.dataset.ok=\"dataurl\";</script>data-url smoke</body></html>",
+        "ready": "complete",
+        "bodyText": "“data” links are blocked\n\nYour organization doesn’t allow you to view this site",
+        "hasApp": false,
+        "scripts": 2,
+        "url": "chrome-error://chromewebdata/"
+      }
+    }
+  ],
+  "note": "Multiple browser launch/navigation variants. A failed page-load due to managed browser policy is recorded as environment-blocked, not app-js-failed.",
+  "ok": false,
+  "environment_blocked": true
+}

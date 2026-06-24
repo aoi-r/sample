@@ -1,0 +1,122 @@
+[
+  {
+    "card": "どくばりの一撃",
+    "status": "implemented",
+    "note": "20%即死/通常1ダメージ"
+  },
+  {
+    "card": "フローズンリンク",
+    "status": "implemented_with_note",
+    "note": "敵側氷塊隣接チェック"
+  },
+  {
+    "card": "ヒップアタック",
+    "status": "implemented",
+    "note": "マス地形破壊+ユニット3ダメージ"
+  },
+  {
+    "card": "魔王の号令",
+    "status": "implemented",
+    "note": "両手札ランダムユニットを場に出す"
+  },
+  {
+    "card": "ベホマラー",
+    "status": "implemented",
+    "note": "縦列回復+回復数ドロー"
+  },
+  {
+    "card": "魔力の息吹",
+    "status": "implemented",
+    "note": "2ドロー"
+  },
+  {
+    "card": "ベストスマイル",
+    "status": "implemented",
+    "note": "双方手札7までドロー"
+  },
+  {
+    "card": "天使の眼差し",
+    "status": "implemented",
+    "note": "山札最低コストユニット"
+  },
+  {
+    "card": "剣の錬成",
+    "status": "implemented_with_note",
+    "note": "壊れた武器プールから取得"
+  },
+  {
+    "card": "おまもりコイン",
+    "status": "implemented",
+    "note": "GET(1)+手札コイン数ぶん軽減"
+  },
+  {
+    "card": "メドローア",
+    "status": "implemented",
+    "note": "全敵3ダメージ/死亡は消滅"
+  },
+  {
+    "card": "双竜打ち",
+    "status": "implemented",
+    "note": "敵ユニット3+別敵1"
+  },
+  {
+    "card": "変化の巻物",
+    "status": "implemented",
+    "note": "横列コスト-1変身"
+  },
+  {
+    "card": "へんげのステッキ",
+    "status": "implemented",
+    "note": "敵ユニットをコスト-1/冒険者あり-3変身"
+  },
+  {
+    "card": "スピリットリンク",
+    "status": "implemented",
+    "note": "横列2マスを祝福の聖域"
+  },
+  {
+    "card": "幸運のおまもり",
+    "status": "implemented",
+    "note": "おうえん+絶好調低コスト出し+味方絶好調復帰"
+  },
+  {
+    "card": "掴み取る未来",
+    "status": "implemented",
+    "note": "3ドロー後手札1枚を山札上"
+  },
+  {
+    "card": "魔王への忠誠",
+    "status": "implemented_with_note",
+    "note": "選択2種"
+  },
+  {
+    "card": "裁きの炎",
+    "status": "implemented",
+    "note": "攻撃力4以下ユニット死亡"
+  },
+  {
+    "card": "稲妻雷光斬",
+    "status": "implemented",
+    "note": "横列4/他1"
+  },
+  {
+    "card": "スライム呼び",
+    "status": "implemented",
+    "note": "縦列空きマスにスライム"
+  },
+  {
+    "card": "まもののツボ",
+    "status": "implemented_with_note",
+    "note": "コスト6-7ユニット3候補から選択+コスト0"
+  },
+  {
+    "card": "覚醒の巻物",
+    "status": "implemented",
+    "note": "貫通/におうだち/+1/+1+SB"
+  },
+  {
+    "card": "大風の巻物",
+    "status": "implemented",
+    "note": "敵ユニット戻し+1ドロー"
+  }
+]

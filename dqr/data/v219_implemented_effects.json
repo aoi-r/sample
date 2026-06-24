@@ -1,0 +1,209 @@
+{
+  "version": "v219",
+  "rows": [
+    {
+      "name": "ドラゴンロード",
+      "category": "dragon",
+      "status": "修正",
+      "detail": "手札コスト-1を召喚者側の自分手札限定として明記。盤面+1/+1は汎用常在オーラへ一本化し二重バフ防止。"
+    },
+    {
+      "name": "ドラゴンガイア",
+      "category": "dragon",
+      "status": "補強",
+      "detail": "特技ダメージ無効ステータスを実ダメージ計算側でも判定。"
+    },
+    {
+      "name": "オリハルゴン",
+      "category": "dragon",
+      "status": "補強",
+      "detail": "自分ターン中リーダー攻撃力+3、前列時リーダー被ダメージ-2。"
+    },
+    {
+      "name": "ワイバーンドッグ",
+      "category": "dragon",
+      "status": "補強",
+      "detail": "召喚時:ダメージを受けている敵ユニット全てに3ダメージ。れんけい:ダメージを受けていない全ユニットに1ダメージ。"
+    },
+    {
+      "name": "立ち塞がるドラゴン",
+      "category": "dragon",
+      "status": "補強",
+      "detail": "召喚時2枚ドロー→手札2枚選択破棄。死亡時王女の愛は既存維持。"
+    },
+    {
+      "name": "あくまのす",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "うみうし",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "かれくさネズミ",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "くしざしツインズ",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "くものきょじん",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "しびれだんびら",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "しんぴのよろい",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "たんすミミック",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "だんごスライム",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "はねスライム",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "まじゅつし",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "まじょ",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "まものつかい",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "みみずん",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "ひとつめピエロ",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "サボテンボール",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "サンダーラット",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "スキッパー",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "ベビーサタン",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "スノーベビー",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "ズッキーニャ",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "ダックカイト",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "タイガーランス",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "ドラゴスライム",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "テンツク",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "ブチュチュンパ",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "ブライ",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "ヘルホーネット",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    },
+    {
+      "name": "ボーンバット",
+      "category": "cost2",
+      "status": "batch2追加/補強",
+      "detail": ""
+    }
+  ]
+}

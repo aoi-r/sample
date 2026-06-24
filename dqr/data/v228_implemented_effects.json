@@ -1,0 +1,152 @@
+[
+  {
+    "card": "ロウ",
+    "version": "v228",
+    "status": "ruling_updated",
+    "note": "テンション3：山札ではなく全カードのコスト3ユニットからランダムに1体を場に出す。召喚時は発動しない。"
+  },
+  {
+    "card": "バードファイター",
+    "version": "v228",
+    "status": "no_effect_confirmed",
+    "note": "カードテキスト空欄。追加処理なし。"
+  },
+  {
+    "card": "アビスソルジャー",
+    "version": "v228",
+    "status": "no_effect_confirmed",
+    "note": "カードテキスト空欄。追加処理なし。"
+  },
+  {
+    "card": "タップペンギー",
+    "version": "v228",
+    "status": "no_effect_confirmed",
+    "note": "カードテキスト空欄。追加処理なし。"
+  },
+  {
+    "card": "ミイラおとこ",
+    "version": "v228",
+    "status": "no_effect_confirmed",
+    "note": "カードテキスト空欄。追加処理なし。"
+  },
+  {
+    "card": "いばらドラゴン",
+    "version": "v228",
+    "status": "no_effect_confirmed",
+    "note": "効果なし。"
+  },
+  {
+    "card": "デザートランナー",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "地形マスに召喚された場合のみ速攻を得る。場に出すでは召喚時扱いにしない。"
+  },
+  {
+    "card": "テールイーター",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "召喚時：このユニットにさくせんを出す。"
+  },
+  {
+    "card": "ミニデーモン",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "味方ヒーローがいる場合、山札/カードプールからコスト2特技を手札へ。"
+  },
+  {
+    "card": "グリムン",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "このターン中、次に使う建物カードのコスト-2。"
+  },
+  {
+    "card": "ザバン",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "道具カードを1枚手札に加える。"
+  },
+  {
+    "card": "スーパーテンツク",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "味方ヒーローがいる場合、武器または必殺技カードを手札に加える。"
+  },
+  {
+    "card": "いどまじん",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "対戦中に味方建物が3つ以上出ていたら+2/+2。"
+  },
+  {
+    "card": "ベンガルクーン",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "宝箱マス召喚時、4/4ミミック処理を補強。"
+  },
+  {
+    "card": "ネネ",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "お宝発見の道具カード数+2のフラグを追加。"
+  },
+  {
+    "card": "群れなすよるのていおう",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "召喚時：群れなるよるのていおう系ユニットを1体場に出す。"
+  },
+  {
+    "card": "ドラムゴート",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "テンションカード2回使用オーラのフラグを維持。UI/使用回数側は既存制御に依存。"
+  },
+  {
+    "card": "トドマン",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "自分の特技をこのユニットに使った時、攻撃力+1。対象モーダル経由を拾う前提。"
+  },
+  {
+    "card": "シーメーダ",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "自分の特技をこのユニットに使った時、味方リーダーHP1回復。"
+  },
+  {
+    "card": "ポムポムボム",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "占いカード使用時、速攻1/1バブリンを場に出す。"
+  },
+  {
+    "card": "のろいのランプ",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "絶好調中に占い特技を使った後、同じカードを手札へ加え、絶好調解除。"
+  },
+  {
+    "card": "うずしおキング",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "れんけい：山札上4枚かられんけいカードを選んで手札へ。"
+  },
+  {
+    "card": "ブルホーク",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "占い：占いカードサーチ/テンション+2。"
+  },
+  {
+    "card": "メルビン",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "死亡時：ホットストーンを山札上から3番目へ。"
+  },
+  {
+    "card": "かいぞくウーパー",
+    "version": "v228",
+    "status": "implemented_or_reinforced",
+    "note": "死亡時/手札破棄時の1ドローのうち、死亡時側を補強。破棄時は既存の破棄イベント連携が必要。"
+  }
+]

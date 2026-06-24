@@ -1,0 +1,17 @@
+{
+  "version": "v217_dragon_pool_effects_and_ruling_sync",
+  "rulingsApplied": [
+    "rapthorne priority empty slot",
+    "pusgon same-row random enemy empty is correct",
+    "front/same row for kief dragon and greig is correct",
+    "cost2/3 random unit no class restriction",
+    "night king renkei heals owner leader 4"
+  ],
+  "filesAdded": [
+    "data/v217_dragon_pool_effects_report.md",
+    "data/v217_random_cost2_3_unit_effect_audit.csv",
+    "data/v217_random_cost2_3_unit_effect_audit.json",
+    "data/v217_random_cost2_3_unit_effect_audit.md"
+  ],
+  "nodeCheck": "OK"
+}
