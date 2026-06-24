@@ -1,0 +1,58 @@
+{
+  "passed": 13,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "v242 marker",
+      "ok": true
+    },
+    {
+      "name": "うごくせきぞう attack guard",
+      "ok": true
+    },
+    {
+      "name": "デボラ rarity upgrade",
+      "ok": true
+    },
+    {
+      "name": "トロデ positive spell copy",
+      "ok": true
+    },
+    {
+      "name": "four fortune units implemented",
+      "ok": true
+    },
+    {
+      "name": "セニカ renkei",
+      "ok": true
+    },
+    {
+      "name": "まおうのつかい damage watcher",
+      "ok": true
+    },
+    {
+      "name": "じごくのざりがに put/summon watcher",
+      "ok": true
+    },
+    {
+      "name": "地獄の帝王エスターク aura and splash",
+      "ok": true
+    },
+    {
+      "name": "エッグラ&チキーラ choice/effect",
+      "ok": true
+    },
+    {
+      "name": "マリンフェアリー/フォレスドン three-choice revive",
+      "ok": true
+    },
+    {
+      "name": "追撃のキラーマシン strategy ping",
+      "ok": true
+    },
+    {
+      "name": "draw wrappers for デザートゴースト and ゲマ",
+      "ok": true
+    }
+  ]
+}

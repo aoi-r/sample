@@ -1,0 +1,54 @@
+{
+  "passed": 12,
+  "failed": 0,
+  "details": [
+    {
+      "name": "contains function v240ApplyCost45Summon",
+      "ok": true
+    },
+    {
+      "name": "contains case 'エビルトレント'",
+      "ok": true
+    },
+    {
+      "name": "contains case 'バアルゼブブ'",
+      "ok": true
+    },
+    {
+      "name": "contains case 'サイレス'",
+      "ok": true
+    },
+    {
+      "name": "contains case 'メッサーラ'",
+      "ok": true
+    },
+    {
+      "name": "contains case 'ベロニカ'",
+      "ok": true
+    },
+    {
+      "name": "contains case 'セラフィ'",
+      "ok": true
+    },
+    {
+      "name": "contains v240RefreshAuras",
+      "ok": true
+    },
+    {
+      "name": "contains v240_cardType_corrected",
+      "ok": true
+    },
+    {
+      "name": "エビルトレント is corrected to unit",
+      "ok": true
+    },
+    {
+      "name": "audit has v240 additions",
+      "ok": true
+    },
+    {
+      "name": "spell pool still audited",
+      "ok": true
+    }
+  ]
+}

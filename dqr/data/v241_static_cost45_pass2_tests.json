@@ -1,0 +1,74 @@
+{
+  "passed": 17,
+  "failed": 0,
+  "results": [
+    {
+      "name": "v241 marker",
+      "ok": true
+    },
+    {
+      "name": "summon wrapper",
+      "ok": true
+    },
+    {
+      "name": "death wrapper",
+      "ok": true
+    },
+    {
+      "name": "annlucia target",
+      "ok": true
+    },
+    {
+      "name": "silvia tension both",
+      "ok": true
+    },
+    {
+      "name": "king slime tension",
+      "ok": true
+    },
+    {
+      "name": "hueza turn end",
+      "ok": true
+    },
+    {
+      "name": "maribel spell discount",
+      "ok": true
+    },
+    {
+      "name": "roxanne packs",
+      "ok": true
+    },
+    {
+      "name": "dragon heavy no move",
+      "ok": true
+    },
+    {
+      "name": "cost aura night fox",
+      "ok": true
+    },
+    {
+      "name": "damage cap greig",
+      "ok": true
+    },
+    {
+      "name": "meda road enemy spell heal",
+      "ok": true
+    },
+    {
+      "name": "slime borg discard hook",
+      "ok": true
+    },
+    {
+      "name": "queen momo leader aura",
+      "ok": true
+    },
+    {
+      "name": "v241b entry passives",
+      "ok": true
+    },
+    {
+      "name": "v241c skill link connected",
+      "ok": true
+    }
+  ]
+}

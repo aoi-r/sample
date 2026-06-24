@@ -1,5 +1,5 @@
 {
-  "version": "v239_cost67_existing_runtime_checks",
+  "version": "v243_eggchikira_remote_guess_modal",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -238,11 +238,11 @@
     "removal_behavior": "効果が消えた場合はステータス再計算・再描画により表示も消える。",
     "image_rewrite_policy": "元画像ファイルは変更せず、DOMオーバーレイで表示する。"
   },
-  "base": "v238_cost67_pass2_and_browser_retry_tests",
+  "base": "v242_cost45_closeout_pass3_and_runtime_hardening",
   "filenameSanitization": "custom_cards filenames normalized to short ASCII names to avoid File name too long on checkout/build",
   "data_version": "v165_default_decks_remove_demon_swordsman_and_effect_audit",
   "label": "v227 / cost3 follow-up / event watchers",
-  "notes": "Cost6/7 existing-name runtime-check bucket collapsed; regular Martina summon and Hydra discard-count behavior hardened; browser retry variants recorded.",
+  "notes": "Cost4/5 unit remaining-pass implementation and runtime guards for random-pool cards. Generated from v240.",
   "defaultTestDecks": {
     "file": "data/default_test_decks_v165.json",
     "active": [
@@ -289,7 +289,7 @@
     "かみかぜ/逆転への兆し用に、コスト2/3ユニットの効果未実装疑い監査を追加。"
   ],
   "buildLabel": "v219 / dragon focus check + cost2 batch2",
-  "summary": "公式DB突合で読める範囲のランダムサーチ後特技使用効果を追加。どくばり/フローズンリンク/ヒップアタック/魔王の号令など暫定・未実装を修正。",
+  "summary": "エッグラ&チキーラの相手ターン開始時予想モーダルをFirebase action同期対応で実装。召喚者側選択→相手側予想→召喚者側判定→結果同期。",
   "nodeCheck": "OK",
   "v219Changes": {
     "dragonLord": "手札コスト-1は召喚者側の自分の手札限定として明記。盤面+1/+1は汎用常在オーラに一本化し、v218専用加算による二重バフを防止。",
@@ -366,7 +366,7 @@
   },
   "cost3Completion": "全職業対象のランダムコスト3ユニット候補を完了寄せ。通常ロウのテンション3を山札ではなく全カードコスト3ユニットから場に出す裁定へ変更。",
   "summonVsPutIntoPlay": "場に出すと召喚は別物。ロウ/復活/生成系は場に出す扱いで召喚時を発動しない。",
-  "baseVersion": "v233_remaining25_official_pool_pass3",
+  "baseVersion": "v241_cost45_units_pass2_and_spell_runtime_guards",
   "v229": "Official DB correction pass: Magical Hat conservative copy effects, Kaizoku Wooper summon/discard not death, discard triggers for Senchou/Zairu, and audit notes for deck/cost2/cost3/dragon scopes.",
   "addedFiles": [
     "data/v230_target_pool_coverage_audit.md",
@@ -388,6 +388,44 @@
     "data/v234_random_full_pool_crosscheck_pass1.json"
   ],
   "v235": "ランダムサーチで手札に加わる特技カードの使用効果を公式DB文面ベースで追加。魔法使い特技、コスト3特技、コスト4/5/6特技を中心に、使用時に発動できる効果を広範囲で実装。",
-  "updatedAt": "2026-06-24",
-  "v238": "6〜7コストユニット145件のうち、v237 pass1の残57件を公式DB同期テキストベースで実装/接続。Chromium CDPの起動検査は3回実施したが、実行環境のポリシーでlocalhost/fileがblockされたためUI到達は不可。Node構文/静的検査はOK。"
+  "updatedAt": "2026-06-24T14:52:00Z",
+  "v238": "6〜7コストユニット145件のうち、v237 pass1の残57件を公式DB同期テキストベースで実装/接続。Chromium CDPの起動検査は3回実施したが、実行環境のポリシーでlocalhost/fileがblockされたためUI到達は不可。Node構文/静的検査はOK。",
+  "v240": "cost4/5ユニットとcost4/5/6特技を同時に公式DB由来cards.json効果文ベースで照合。コスト4/5ユニット121行を追加/補強、特技プールは既存使用処理を再照合し、エビルトレントのカード種別をユニットに補正。",
+  "v240AuditFiles": [
+    "data/v240_cost45_unit_and_spell_pass1_report.md",
+    "data/v240_cost45_unit_and_spell_pass1_audit.csv",
+    "data/v240_cost45_unit_and_spell_pass1_audit.json",
+    "data/v240_static_pool_tests.json"
+  ],
+  "history": [
+    {
+      "v241": "コスト4/5ユニットpass2。v240残り96件のうち公式DB由来cards.json効果文から読めるものを追加/補強。召喚/場に出すの区別を維持し、死亡時/テンションリンク/スキルリンク/常在/捨て時/移動時フックを追加。"
+    },
+    "v242: cost4/5 remaining and partial runtime hardening pass3."
+  ],
+  "v241AuditFiles": [
+    "data/v241_cost45_pass2_report.md",
+    "data/v241_cost45_unit_and_spell_pass2_audit.csv",
+    "data/v241_cost45_unit_and_spell_pass2_audit.json",
+    "data/v241_static_cost45_pass2_tests.json"
+  ],
+  "v242": {
+    "summary": "Closed out v241 remaining/partial cost4/5 unit cases where official DB text was readable; hardened runtime hooks for attack restrictions, fortune units, Trode/Debora, Eggra&Chikira, Geema draw tax, Desert Ghost draw buff, Estark splash, Maou-no-tsukai damage watcher, Jigoroku Zarigani Pisaroknight watcher, and strategy ping for Tsuigeki no Killer Machine.",
+    "implementedOrHardened": 17,
+    "remainingNeedingUserRuling": [
+      "エッグラ&チキーラ: opponent guessing is implemented as a local-test modal until multiplayer response UI is wired."
+    ],
+    "tests": [
+      "node --check js/app.js",
+      "tools/v237_static_emulator_tests.mjs",
+      "tools/v238_static_cost67_tests.mjs",
+      "tools/v239_static_cost67_existing43_tests.mjs",
+      "tools/v240_static_pool_tests.mjs",
+      "tools/v241_static_cost45_pass2_tests.mjs",
+      "tools/v242_static_cost45_closeout_tests.mjs"
+    ]
+  },
+  "static_tests": [
+    "tools/v243_static_eggchikira_tests.mjs"
+  ]
 }

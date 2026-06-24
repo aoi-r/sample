@@ -1,0 +1,87 @@
+[
+  {
+    "name": "うごくせきぞう",
+    "status": "implemented_v242",
+    "note": "正面敵ユニット不在時は攻撃不可"
+  },
+  {
+    "name": "デボラ",
+    "status": "implemented_v242",
+    "note": "スキルリンクで手札レアリティ上昇変換"
+  },
+  {
+    "name": "デザートゴースト",
+    "status": "implemented_v242",
+    "note": "前列時ドローで+1/+1"
+  },
+  {
+    "name": "トロデ",
+    "status": "implemented_v242_guarded",
+    "note": "プラス系単体特技/道具のみコピー"
+  },
+  {
+    "name": "エビルドライブ",
+    "status": "implemented_v242",
+    "note": "占い2択"
+  },
+  {
+    "name": "おばけトマト",
+    "status": "implemented_v242",
+    "note": "占い2択・対象モーダル"
+  },
+  {
+    "name": "メタルドラゴン",
+    "status": "implemented_v242",
+    "note": "絶好調と占い2択"
+  },
+  {
+    "name": "リゼロッタ&ルコリア",
+    "status": "implemented_v242",
+    "note": "占い2択・死亡プール/手札山札バフ"
+  },
+  {
+    "name": "セニカ",
+    "status": "implemented_v242",
+    "note": "れんけい"
+  },
+  {
+    "name": "まおうのつかい",
+    "status": "implemented_v242",
+    "note": "味方被ダメ時攻撃+2"
+  },
+  {
+    "name": "じごくのざりがに",
+    "status": "implemented_v242",
+    "note": "ピサロナイト場出し時回復"
+  },
+  {
+    "name": "地獄の帝王エスターク",
+    "status": "implemented_v242",
+    "note": "満タン時弱体・同時ダメージ"
+  },
+  {
+    "name": "エッグラ&チキーラ",
+    "status": "implemented_v242_local_guess",
+    "note": "相手予想はローカルテストモーダル"
+  },
+  {
+    "name": "マリンフェアリー",
+    "status": "hardened_v242",
+    "note": "復活候補3種選択化"
+  },
+  {
+    "name": "フォレスドン",
+    "status": "hardened_v242",
+    "note": "復活候補3種選択化"
+  },
+  {
+    "name": "ゲマ",
+    "status": "hardened_v242",
+    "note": "相手ドロー時コスト+1/2ダメージ"
+  },
+  {
+    "name": "追撃のキラーマシン",
+    "status": "hardened_v242",
+    "note": "さくせん後ランダム敵2ダメージ最大2回"
+  }
+]

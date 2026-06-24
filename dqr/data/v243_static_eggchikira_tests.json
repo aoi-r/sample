@@ -1,0 +1,38 @@
+{
+  "passed": 8,
+  "failed": 0,
+  "results": [
+    {
+      "name": "pending action exists",
+      "ok": true
+    },
+    {
+      "name": "guess action exists",
+      "ok": true
+    },
+    {
+      "name": "resolved action exists",
+      "ok": true
+    },
+    {
+      "name": "remote reducer hook exists",
+      "ok": true
+    },
+    {
+      "name": "own turn modal guard exists",
+      "ok": true
+    },
+    {
+      "name": "side aware effect exists",
+      "ok": true
+    },
+    {
+      "name": "summon override exists",
+      "ok": true
+    },
+    {
+      "name": "render hook exists",
+      "ok": true
+    }
+  ]
+}

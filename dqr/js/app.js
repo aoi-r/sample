@@ -17159,3 +17159,1171 @@ if(_v239_orig_refreshContinuousBoardEffectsV157){
   };
 }
 function v239CompletionMarker(){ return true; }
+
+// v240: random-pool follow-up. Cost4/5 units pass1 + cost4/5/6 spell pool correction.
+// Scope: cards reachable from existing random search / put-into-play routes. "場に出す" remains non-summon.
+function v240G(){ return state?.battle?.game; }
+function v240Obj(side='player'){ const g=v240G(); return side==='enemy'?g?.enemy:g?.player; }
+function v240Board(side='player'){ return v240Obj(side)?.board || []; }
+function v240Terrain(side='player'){ const obj=v240Obj(side); obj.terrain ||= Array(6).fill(null); return obj.terrain; }
+function v240Log(msg){ if(typeof battleLog==='function') battleLog(msg); }
+function v240AliveUnit(u){ return !!(u && !u.isBuilding && Number(u.hp||0)>0); }
+function v240Refs(side='player', pred=null){ return v240Board(side).map((unit,pos)=>({side,pos,unit})).filter(r=>v240AliveUnit(r.unit) && (!pred || pred(r.unit,r.pos))); }
+function v240AllRefs(pred=null){ return [...v240Refs('player',pred), ...v240Refs('enemy',pred)]; }
+function v240Card(name){ return findCardByName(name) || ensureVirtualCard(name); }
+function v240Buff(unit, attack=0, hp=0, source='効果'){
+  if(!unit) return false;
+  if(attack) unit.attack=Number(unit.attack||0)+Number(attack||0);
+  if(hp){ unit.hp=Number(unit.hp||0)+Number(hp||0); unit.maxHp=Number(unit.maxHp||0)+Number(hp||0); }
+  return true;
+}
+function v240AddCard(name, opts={}, source='効果'){
+  const c=v240Card(name); if(!c) return false;
+  if(opts.copy || opts.costDelta || opts.costOverride!=null) return addCardCopyToHand(c, opts, source);
+  return addCardToHandByName(name);
+}
+function v240PutByName(name, side='player', stats={}, source='効果'){
+  const c=v240Card(name); const pos=firstEmptyByOwnerPriorityV217(side); if(!c || pos<0) return false;
+  return !!putUnitIntoPlayFromCard(c,pos,side,stats);
+}
+function v240PutAt(name, side='player', pos=-1, stats={}, source='効果'){
+  const c=v240Card(name); if(!c || pos<0 || v240Board(side)[pos]) return false;
+  return !!putUnitIntoPlayFromCard(c,pos,side,stats);
+}
+function v240SideLabel(side){ return side==='enemy'?'敵':'味方'; }
+function v240UnitOption(ref){ const card=byId(ref.unit.cardId); return {label:`${v240SideLabel(ref.side)}${ref.pos+1}:${ref.unit.name}`, description:`攻撃${ref.unit.attack}/HP${ref.unit.hp}`, imagePath:getOfficialImage(card), value:`${ref.side}:${ref.pos}`}; }
+function v240ChooseUnit(title, refs, cb, meta={}){
+  if(!refs.length){ v240Log(`${title}：対象なし。`); return false; }
+  openChoiceModal(title, refs.map(v240UnitOption), (_p,i)=>{ const ref=refs[i]; if(ref && v240AliveUnit(ref.unit)) cb(ref); renderBattleArena(); syncMyBattleState(); }, {kind:'v240UnitChoice', choiceLayout:'targetGrid', ...meta});
+  return true;
+}
+function v240SameRowEnemyRefsFromPlayerPos(pos, pred=null){
+  const c=posToCoord('player',pos); const out=[];
+  for(const col of [2,3]){ const p=coordToPos('enemy',c.row,col); if(p>=0){ const u=v240Board('enemy')[p]; if(v240AliveUnit(u) && (!pred || pred(u,p))) out.push({side:'enemy',pos:p,unit:u}); } }
+  return out;
+}
+function v240FrontBackPair(side,pos){ const c=posToCoord(side,pos); const front=coordToPos(side,c.row, side==='player'?1:2); const back=coordToPos(side,c.row, side==='player'?0:3); return {front,back,row:c.row}; }
+function v240MoveUnit(side, from, to){ const b=v240Board(side); if(from<0||to<0||b[to]||!b[from]) return false; b[to]=b[from]; b[from]=null; return true; }
+function v240RandomCostSpell(cost){ const pool=(state.allCards||[]).filter(c=>c&&c.cardType==='特技'&&Number(c.cost||0)===Number(cost)&&c.flags?.deckBuildable!==false); return chooseRandom(pool,'v240RandomCostSpell',{cost}); }
+function v240RandomUnitCost(cost, pred=()=>true){ const pool=(state.allCards||[]).filter(c=>c&&c.cardType==='ユニット'&&Number(c.cost||0)===Number(cost)&&c.flags?.deckBuildable!==false&&pred(c)); return chooseRandom(pool,'v240RandomUnitCost',{cost}); }
+function v240AddRandomSpellToDeck(side='player', cost=2, count=1, source='効果'){
+  const obj=v240Obj(side); if(!obj) return 0; let added=0;
+  for(let i=0;i<count;i++){ const c=v240RandomCostSpell(cost); if(c){ obj.deck ||= []; const copy=JSON.parse(JSON.stringify(c)); copy.id=`copy_v240_deck_${c.id}_${Date.now()}_${safeRandomId('v240').slice(0,6)}`; copy.flags||={}; copy.flags.deckBuildable=false; state.allCards.push(copy); state.cards.push(copy); obj.deck.push(copy.id); added++; } }
+  if(added) shuffle(obj.deck, 'v240DeckInsertShuffle', {side,cost,source}); return added;
+}
+function v240HasHero(){ const g=v240G(); return !!(g?.player?.hero || g?.player?.heroCardName || g?.player?.heroSkill); }
+function v240IsTerrainCell(side,pos){ const t=v240Terrain(side)[pos]; return !!(t && (typeof t==='string' ? t : t.type)); }
+function v240FriendlyBuildingCount(){ return v240Board('player').filter(u=>u&&u.isBuilding).length + v240Terrain('player').filter(Boolean).length; }
+function v240HasFriendlyBuilding(){ return v240FriendlyBuildingCount()>0; }
+function v240OpponentHasIceBlock(){ return v240Board('enemy').some(u=>u?.name==='氷塊'); }
+function v240HasFriendlyAdventurer(){ return v240Board('player').some(u=>v240AliveUnit(u) && (isAdventurerCard(byId(u.cardId)) || isAdventurerCard2?.(byId(u.cardId)))); }
+function v240IsZekkochoCard(c){ const tx=getCardText(c); return /絶好調/.test(tx); }
+function v240ReduceHandAndDeck(pred, delta=-1, source='効果'){
+  const g=v240G(); let changed=0;
+  for(const id of g.player.hand||[]){ const c=byId(id); if(c&&pred(c)){ c.cost=Math.max(0,Number(c.cost||0)+delta); changed++; } }
+  for(const id of g.player.deck||[]){ const c=byId(id); if(c&&pred(c)){ c.cost=Math.max(0,Number(c.cost||0)+delta); changed++; } }
+  if(changed) v240Log(`${source}：対象カード${changed}枚のコスト${delta}。`);
+  return changed;
+}
+function v240DamageAllUnits(amount, source='効果', excludeUnit=null){ for(const ref of v240AllRefs(r=>r!==excludeUnit)) dealDamageToUnit(ref.unit, amount, source, ref.side); resolveDeaths(); }
+function v240ApplyCost45Summon(unit, card, pos){
+  if(!unit||!card||card.cardType!=='ユニット'||![4,5,6].includes(Number(card.cost||0))) return false;
+  const g=v240G(); const name=card.name; const side='player'; if(pos==null||pos<0) pos=v240Board(side).indexOf(unit);
+  switch(name){
+    case 'エビルトレント': for(const ref of v240Refs('player',u=>u!==unit)) ref.unit.attack=Number(ref.unit.hp||ref.unit.attack||0); return true;
+    case 'バアルゼブブ': dealDamageToLeader('enemy',3,name); return true;
+    case 'キラーパンサー': if(v240Refs('enemy').length>=3){ unit.keywords||={}; unit.keywords.haste=true; unit.canAttack=true; unit.summoningSickness=false; } return true;
+    case 'プリーストナイト': { const damaged=v240Refs('player',u=>Number(u.hp||0)<Number(u.maxHp||0)); const pick=chooseRandom(damaged,'v240PriestKnight',{}); if(pick) healUnit(pick.unit,3); return true; }
+    case 'シールドオーガ': if(Number(g.player.hp||0)<=15){ v240Buff(unit,2,2,name); unit.keywords||={}; unit.keywords.taunt=true; } return true;
+    case 'レッドアーチャー': if(Number(g.player.hp||0)>=20){ v240Buff(unit,2,0,name); unit.keywords||={}; unit.keywords.snipe=true; } return true;
+    case 'サイレス': return v240ChooseUnit('サイレス：封印するユニットを選択', v240AllRefs(), ref=>applySeal(ref.unit));
+    case 'あらくれチャッピー': return v240ChooseUnit('あらくれチャッピー：2ダメージ', v240AllRefs(), ref=>{dealDamageToUnit(ref.unit,2,name,ref.side); resolveDeaths();});
+    case 'しにがみのきし': return v240ChooseUnit('しにがみのきし：後列へ移動', v240AllRefs((_u,p)=>isFrontRow('player',p)||isFrontRow('enemy',p)), ref=>{ const pair=v240FrontBackPair(ref.side,ref.pos); v240MoveUnit(ref.side,ref.pos,pair.back); });
+    case 'ブルベリーノ': drawCard(1); return true;
+    case 'メッサーラ': for(const ref of v240SameRowEnemyRefsFromPlayerPos(pos)) dealDamageToUnit(ref.unit,1,name,'enemy'); resolveDeaths(); return true;
+    case 'オークキング': healLeader(2); return true;
+    case 'マミー': return v240ChooseUnit('マミー：次のターン攻撃不能', [...v240Refs('enemy'), {side:'enemyLeader',pos:-1,unit:{name:'敵リーダー',attack:0,hp:g.enemy.hp,maxHp:g.enemy.maxHp}}].filter(x=>x.unit), ref=>{ if(ref.side==='enemyLeader') g.enemy.leaderCannotAttackUntilTurnEnd=true; else { addStatus(ref.unit,'apathy',{until:'turnStart'}); ref.unit.canAttack=false; } });
+    case 'ゴールドオーク': healLeader(Number(g.player.tension||0)*2); return true;
+    case 'さまようよろい': if(isFrontRow('player',pos)){ const back=v240FrontBackPair('player',pos).back; v240PutAt('ホイミスライム','player',back,{attack:1,hp:3},name); } return true;
+    case 'キラーピッケル': g.pendingGenericEffect={kind:'tempAttackBuff', amount:Number(g.player.tension||0), source:name, target:'unitAny'}; v240Log(`${name}：攻撃力を上げるユニットを選んでください。`); return true;
+    case 'くもの大王': g.enemy.heroSkillBlockedUntilOpponentTurnEnd=true; v240Log(`${name}：次のターン、相手はテンションスキルを使えません。`); return true;
+    case 'かえんムカデ': if(v240IsTerrainCell('player',pos)) v240DamageAllUnits(2,name,unit); return true;
+    case '若葉の精霊': if(v240IsTerrainCell('player',pos)) drawCard(1); return true;
+    case 'デスプリースト': if(v240IsTerrainCell('player',pos)){ const pool=(g.player.deaths||[]).map(x=>byId(x.cardId||x)).filter(c=>c&&c.cardType==='ユニット'&&Number(c.cost||0)<=3); const c=chooseRandom(pool,'v240DeathPriest',{}); if(c) v240PutByName(c.name,'player',{},name); } return true;
+    case 'デスタムーア': g.enemy.leaderApathy=true; g.enemy.tension=0; return true;
+    case 'ヘルシーサー': if(v240IsTerrainCell('player',pos)) for(const ref of v240Refs('player')) v240Buff(ref.unit,1,1,name); return true;
+    case 'ぶっちズキーニャ': { const n=v240Terrain('player').filter(Boolean).length; if(n) v240Buff(unit,n,0,name); return true; }
+    case 'ベビーゴイル': v240AddRandomSpellToDeck('player',2,3,name); v240AddRandomSpellToDeck('enemy',2,3,name); return true;
+    case 'ムーンフェイス': g.enemy.heroLevel=Math.max(0,Number(g.enemy.heroLevel||0)-1); return true;
+    case 'デスセイレス': for(const ref of v240Refs('player')) grantZekkochoV134(ref.unit,name); return true;
+    case 'ヘルパイレーツ': v240ReduceHandAndDeck(c=>v240IsZekkochoCard(c),-1,name); return true;
+    case 'ビックアイ': if(v240HasFriendlyAdventurer()) for(const ref of v240SameRowEnemyRefsFromPlayerPos(pos)) dealDamageToUnit(ref.unit,2,name,'enemy'); resolveDeaths(); return true;
+    case 'デスケルト': return v240ChooseUnit('デスケルト：手札に戻す味方ユニット', v240Refs('player',u=>u!==unit), ref=>{ const c=byId(ref.unit.cardId)||v240Card(ref.unit.name); v240Board('player')[ref.pos]=null; if(c) addCardCopyToHand(c,{},name); });
+    case 'くらやみにゅうどう': g.enemy.heroSkillBlockedUntilOpponentTurnEnd=true; g.enemy.heroSkillAutoBlockedUntilOpponentTurnEnd=true; return true;
+    case '慈愛のキラーパンサー': gainTension(1,'おうえん'); v240AddCard('ベビーパンサー',{},name); return true;
+    case 'ブラックベジター': if(v240HasFriendlyBuilding()) v240DamageAllUnits(2,name,unit); return true;
+    case 'じごくのもんばん': return v240ChooseUnit('じごくのもんばん：正面へ移動させる敵ユニット', v240Refs('enemy'), ref=>{ const target=coordToPos('enemy',posToCoord('player',pos).row,2); if(target>=0 && !v240Board('enemy')[target]) v240MoveUnit('enemy',ref.pos,target); });
+    case 'しにがみきぞく': if(Number(g.player.hp||0)<=15){ unit.keywords||={}; unit.keywords.haste=true; unit.canAttack=true; unit.summoningSickness=false; } return true;
+    case 'ボーンファイター': v240ReduceHandAndDeck(c=>c.cardType==='武器',-1,name); return true;
+    case 'ネクロバルサ': if(Number(g.player.leaderAttack||0)>=4 && g.player.weapon){ g.player.weapon.durability=Number(g.player.weapon.durability||1)+2; g.player.weapon.hp=Number(g.player.weapon.hp||g.player.weapon.durability||1)+2; } return true;
+    case 'ヘルビースト': if((g.player.hand||[]).some(id=>isDemonKingCard(byId(id)))) v240Buff(unit,2,2,name); return true;
+    case 'キングムーチョ': if(v240HasHero() && g.player.weapon){ g.player.weapon.attack=Number(g.player.weapon.attack||0)+1; g.player.weapon.durability=Number(g.player.weapon.durability||1)+1; } return true;
+    case '修練のたてまじん': if(g.player.weapon && typeof applyStrategyToUnitSequenceV167==='function') applyStrategyToUnitSequenceV167(unit,1,name); return true;
+    case 'ファラリスブル': if(g.player.weapon){ const big=v240FriendlyBuildingCount()>=3; g.player.weapon.attack=Number(g.player.weapon.attack||0)+(big?1:0); g.player.weapon.durability=Number(g.player.weapon.durability||1)+(big?2:1); } return true;
+    case 'ドルイド': { const used=(g.player.usedSpellCardIds||g.player.usedSpellsThisGame||[]); const id=Array.isArray(used)&&used.length?used[used.length-1]:null; if(id) g.player.deck.unshift(id.cardId||id); return true; }
+    case '吹雪の魔女': if(v240OpponentHasIceBlock()) return v240ChooseUnit('吹雪の魔女：4ダメージ', v240Refs('enemy'), ref=>{dealDamageToUnit(ref.unit,4,name,'enemy'); resolveDeaths();}); return true;
+    case 'ベロニカ': { const n=1+Number(g.player.tensionSkillUseCount||0); for(let i=0;i<n;i++) addRandomClassSpellToHandV166('魔法使い',name); return true; }
+    case 'バルバロッサ': if(v240IsTerrainCell('player',pos)) v240AddCard('メラミ',{},name); return true;
+    case 'ラリホービートル': if(v240HasHero()) return v240ChooseUnit('ラリホービートル：攻撃不能', v240Refs('enemy'), ref=>{addStatus(ref.unit,'apathy',{until:'opponentTurnEnd'}); ref.unit.canAttack=false;}); return true;
+    case 'ムーンキメラ': for(const ref of v240Refs('enemy',(_u,p)=>isBackRow('enemy',p))){ const front=v240FrontBackPair('enemy',ref.pos).front; if(front>=0 && !v240Board('enemy')[front]) v240MoveUnit('enemy',ref.pos,front); } return true;
+    case 'きりさきピエロ': for(let i=0;i<v240Refs('enemy').length;i++) v240AddCard('武術カード',{},name); return true;
+    case 'ほのおのせんし': if(isFrontRow('player',pos)&&v240HasHero()){ const refs=v240SameRowEnemyRefsFromPlayerPos(pos); if(refs[0]){dealDamageToUnit(refs[0].unit,4,name,'enemy'); resolveDeaths();} } return true;
+    case 'コトブキーノ': for(let i=0;i<(v240HasFriendlyAdventurer()?2:1);i++) drawRandomFromDeckByPredicateV218(c=>isSpell(c),name); return true;
+    case 'ニマ大師': setLeaderTensionSkillV218('灼熱とうこん討ち',name); return true;
+    case 'ベロリンマン': v240PutByName('ベロリンマン','player',{},name); return true;
+    case 'イーブルフライ': return v240ChooseUnit('イーブルフライ：攻撃力をHPと同じ値にする', v240AllRefs(), ref=>{ref.unit.attack=Number(ref.unit.hp||0);});
+    case 'エビルチクリン': return v240ChooseUnit('エビルチクリン：におうだち付与', v240Refs('player'), ref=>{ref.unit.keywords||={}; ref.unit.keywords.taunt=true;});
+    case 'ユニコーン': healLeader(4); return true;
+    case 'ウィングタイガー': if(v240HasHero()) return v240ChooseUnit('ウィングタイガー：攻撃力-2', v240Refs('enemy'), ref=>{ref.unit.attack=Math.max(0,Number(ref.unit.attack||0)-2);}); return true;
+    case 'セラフィ': { const p=firstEmptyByOwnerPriorityV217('player'); if(p>=0) v240PutAt('チョメ','player',p,{attack:3,hp:3,haste:true},name); return true; }
+    case 'マージマタンゴ': healLeader(3); return true;
+    case 'ごろつき': drawFromDeckByPredicateV166(c=>c.cardType==='ユニット'&&Number(c.attack||0)===1,name); return true;
+    case 'ヘルボックル': v240PutByName('きりかぶこぞう','player',{attack:1,hp:1},name); return true;
+    case 'もみじこぞう': { const n=1+Number(g.player.tensionSkillUseCount||0); for(let i=0;i<n;i++) v240PutByName('もみじこぞう','player',{attack:2,hp:2},name); return true; }
+    case 'トンブレロ': if(v240HasHero()) return v240ChooseUnit('トンブレロ：+2/+2', v240Refs('player'), ref=>v240Buff(ref.unit,2,2,name)); return true;
+    case '獣魔将ガルレイ': { const refs=v240SameRowEnemyRefsFromPlayerPos(pos); const pick=chooseRandom(refs,'v240Galray',{}); if(pick){ dealDamageToUnit(pick.unit, v240HasFriendlyAdventurer()?4:2, name,'enemy'); resolveDeaths(); } return true; }
+    case 'マグマロン': v240AddCard('コイン',{},name); return true;
+    case 'デンダ': if(isFrontRow('player',pos)){ for(let i=0;i<3;i++) v240PutByName('デンダの子分','player',{attack:1,hp:1},name); } else for(const ref of v240Refs('player')) v240Buff(ref.unit,1,1,name); return true;
+    case '宿王リッカ': unit.keywords||={}; unit.keywords.stealth=true; addStatus(unit,'stealth',{until:'opponentTurnEnd'}); return true;
+    case 'ワンダーフール': { const top=byId(g.player.deck?.[0]); if(top && Number(top.cost||0)%2===1){ v240Buff(unit,1,1,name); unit.keywords||={}; unit.keywords.piercing=true; } else { v240Buff(unit,-1,-1,name); unit.keywords||={}; unit.keywords.taunt=true; } return true; }
+    case 'ゴルドン': drawFromDeckByPredicateV166(c=>c&&c.isBuilding&&Number(c.cost||0)<=2,name,{costDelta:-1}); return true;
+    case 'リビングデッド': return v240ChooseUnit('リビングデッド：3/3ミイラおとこに変身', v240Refs('player'), ref=>{ const c=v240Card('ミイラおとこ'); ref.unit.cardId=c?.id||ref.unit.cardId; ref.unit.name='ミイラおとこ'; ref.unit.attack=3; ref.unit.hp=3; ref.unit.maxHp=3; ref.unit.keywords={}; });
+    case 'どぐうせんし': { const row=posToCoord('player',pos).row; const p=coordToPos('player',row,0); if(p>=0 && !v240Terrain('player')[p]) v240Terrain('player')[p]={type:'バリア床'}; return true; }
+    case 'じごくのよろい': v240PutByName('ピサロナイト','player',{attack:2,hp:2},name); return true;
+    case 'セルゲイナス': if((g.player.hand||[]).some(id=>isDemonKingCard(byId(id)))) healLeader(4); return true;
+    case 'デーモンスピリット': if((g.player.hand||[]).some(id=>isSpell(byId(id))&&Number(byId(id).cost||0)>=3)) v240PutByName('デーモンスピリット','player',{},name); return true;
+    case 'ベビル': for(const ref of v240SameRowEnemyRefsFromPlayerPos(pos)) dealDamageToUnit(ref.unit,1,name,'enemy'); resolveDeaths(); return true;
+    case 'ようがんげんじん': if(typeof applyStrategyToUnitSequenceV167==='function') applyStrategyToUnitSequenceV167(unit,1,name); return true;
+    case 'メダルにゃん': drawCard(2); v240Log('メダルにゃん：手札から2枚捨てる処理は共通捨てモーダル対象です。'); return true;
+    case 'セイレーンゴースト': v240PutByName('ゴースト','player',{attack:2,hp:1,keywords:{stealth:true}},name); return true;
+  }
+  return false;
+}
+function v240ApplyCost45Death(unit, side='player', pos=0, vanished=false){
+  if(!unit||vanished) return false; const name=unit.name; const g=v240G(); const own=side;
+  switch(name){
+    case 'メタルライダー': return v240PutAt('メタルスライム',side,pos,{attack:1,hp:2,keywords:{metal:true}},name);
+    case 'けがれの渦': for(const ref of v240AllRefs()) applyPoison(ref.unit); return true;
+    case 'デスニャーゴ': { const n=1+Number(v240Obj(side).tensionSkillUseCount||g.player.tensionSkillUseCount||0); for(let i=0;i<n;i++) v240PutByName('プリズニャン',side,{attack:1,hp:1},name); return true; }
+    case 'グレイトボンバー': if(v240HasHero()) v240DamageAllUnits(2,name,null); return true;
+    case 'キラーリカント': if(side==='player') gainTension(1,name); else gainTensionForSideV222('enemy',1,name); return true;
+    case 'ともしびこぞう': { const amount=2+Number(v240Obj(side).tensionSkillUseCount||0); const refs=v240Refs(side==='player'?'enemy':'player'); const pick=chooseRandom(refs,'v240Tomoshibi',{}); if(pick){ dealDamageToUnit(pick.unit,amount,name,pick.side); resolveDeaths(); } return true; }
+    case 'アイアンナイト': { const refs=v240Refs(side); const pick=chooseRandom(refs,'v240IronKnight',{}); const lv=Number(v240Obj(side).heroLevel||g.player.heroLevel||0); if(pick) v240Buff(pick.unit,lv,lv,name); return true; }
+    case 'ごくらくちょう': healLeader(3); dealDamageToLeader('enemy',3,name); return true;
+    case 'メタルブラザーズ': v240AddCard('メタルスライム',{},name); v240AddCard('メタルスライム',{},name); return true;
+    case 'マッドフィンガー': for(let i=0;i<2;i++) v240PutByName('マドハンド',side,{attack:1,hp:1},name); return true;
+    case 'デッドエンペラー': return v240PutAt('じごくのきし',side,pos,{attack:4,hp:4},name);
+    case 'ホークブリザード': { const refs=v240Refs(side==='player'?'enemy':'player'); const pick=chooseRandom(refs,'v240HawkBlizzard',{}); if(pick){ pick.unit.hp=0; resolveDeaths(); } return true; }
+    case '魔王バラモス': if(side==='player') gainTension(1,name); return true;
+    case 'じごくのよろい': v240PutByName('ピサロナイト',side,{attack:2,hp:2},name); return true;
+    case 'デビルプリンス': { const refs=v240SameRowEnemyRefsFromPlayerPos(Number(unit.lastBoardPos??pos)); const pick=chooseRandom(refs,'v240DevilPrince',{}); if(pick){ pick.unit.hp=0; resolveDeaths(); } return true; }
+    case '魔犬レオパルド': v240AddCard('神鳥の杖',{},name); return true;
+  }
+  return false;
+}
+function v240TurnStart(side='player'){
+  const g=v240G(); if(side!=='player') return;
+  for(const ref of v240Refs('player')){
+    const u=ref.unit;
+    if(u.name==='ぐんたいガニ'){ const pair=v240FrontBackPair('player',ref.pos); v240PutAt('ぐんたいガニ','player',pair.front,{attack:2,hp:3},u.name); v240PutAt('ぐんたいガニ','player',pair.back,{attack:2,hp:3},u.name); }
+    if(u.name==='ゴールデンスライム' && !u._v240GoldSlimeFired){ u._v240GoldSlimeFired=true; v240DamageAllUnits(99,u.name,u); }
+    if(u.name==='バル&ベル' && v240Refs('player',x=>x.name==='ボル&ブル').length){ u.name='バブルボブル'; u.attack=4; u.hp=4; u.maxHp=4; }
+    if(u.name==='ミルドラース'){ const hits=(g.player.deck||[]).map((id,i)=>({id,i,card:byId(id)})).filter(x=>x.card&&x.card.cardType==='ユニット'&&Number(x.card.cost||0)<=5); const p=chooseRandom(hits,'v240Mildrath',{}); if(p){ g.player.deck.splice(p.i,1); const pos=firstEmptyByOwnerPriorityV217('player'); if(pos>=0) putUnitIntoPlayFromCard(p.card,pos,'player'); } }
+  }
+}
+function v240TurnEnd(side='player'){
+  const g=v240G(); if(side!=='player') return;
+  for(const ref of v240Refs('player')){
+    const u=ref.unit;
+    if(u.name==='プレミアムスライム') gainTension(1,u.name);
+    if(u.name==='かみさま'){ const r=randomIndex(3,'v240Kamisama',{}); if(r===0) drawCard(2); else if(r===1) gainTension(3,u.name); else for(const fr of v240Refs('player',x=>x!==u)) healUnit(fr.unit,4); }
+    if(u.name==='レッドサイクロン'){ if(Number(g.player.hp||0)<=15) dealDamageToLeader('enemy',2,u.name); else {dealDamageToLeader('player',2,u.name); dealDamageToLeader('enemy',2,u.name);} }
+    if(u.name==='セラフィ'){ healLeader(1); for(const fr of v240Refs('player')) healUnit(fr.unit,1); }
+    if(u.name==='魔王グラコス' && !isUnitBlockedV220?.('player',ref.pos)) dealDamageToLeader('enemy',3,u.name);
+    if(u.name==='魔王バラモス') v240ReduceHandAndDeck(c=>isDemonKingCard(c),-1,u.name);
+  }
+}
+function v240AfterAttack(attacker,targetRef,targetUnit,targetSide){
+  const g=v240G(); if(!attacker) return;
+  if(targetUnit && Number(targetUnit.hp||0)<=0){
+    if(attacker.name==='バリクナジャ') gainTension(1,attacker.name);
+    if(attacker.name==='強奪のくびかりぞく') drawCard(1);
+  }
+  if(attacker.name==='バブルキング' && targetUnit) applyPoison(targetUnit);
+  if(attacker.name==='セイレーンゴースト') v240PutByName('ゴースト','player',{attack:2,hp:1,keywords:{stealth:true}},attacker.name);
+  if(attacker.name==='スロットマジーン') v240AddCard('コイン',{},attacker.name);
+  if(attacker.name==='味方リーダー' && targetUnit && Number(targetUnit.hp||0)<=0){
+    for(const u of v240Board('player')) if(v240AliveUnit(u)){
+      if(u.name==='さんぞくウルフ') dealDamageToLeader('enemy',2,u.name);
+      if(u.name==='くびかりぞく') gainTension(1,u.name);
+      if(u.name==='オクトセントリー') healLeader(3);
+    }
+  }
+}
+function v240OnSpellPlayed(card,cost,side='player'){
+  const g=v240G(); if(!card) return;
+  for(const ref of v240Refs('player')){
+    const u=ref.unit;
+    if(u.name==='まどうスライム' && isSpell(card)){ const pool=(state.allCards||[]).filter(c=>c.cardType==='ユニット'&&isSlimeCard(c)&&c.flags?.deckBuildable!==false); const pick=chooseRandom(pool,'v240MadouSlime',{}); if(pick) addCardCopyToHand(pick,{},u.name); }
+    if(u.name==='ゲルニック将軍' && isSpell(card) && Array.isArray(card.classes) && card.classes.includes('魔法使い')) gainTension(1,u.name);
+    if(u.name==='メトロゴースト' && isSpell(card)) u.attack=Number(u.attack||0)+1;
+  }
+}
+function v240OnCardPlayed(card,cost){ const g=v240G(); if(!card) return; for(const ref of v240Refs('player')){ const u=ref.unit; if(u.name==='マミムメモリー' && Number(cost||card.cost||0)>=1) gainTension(Number(cost||card.cost||0),u.name); } }
+function v240OnDamageApplied(targetRef, amount, actual, source){
+  if(!targetRef||!actual) return; const side=targetRef.side; if(side!=='player'&&side!=='enemy') return; const u=v240Board(side)[targetRef.pos]; if(!u) return;
+  if(u.name==='ゴールデントーテム') v240AddCard('コイン',{},u.name);
+  if(u.name==='トロル'){} // handled in damage wrapper
+}
+function v240RefreshAuras(side='player'){
+  const board=v240Board(side); if(!board) return; for(const u of board) if(u&&typeof removeModifiersByPrefixV157==='function') removeModifiersByPrefixV157(u,'v240cost45aura:');
+  for(const src of board){ if(!v240AliveUnit(src)||isSealed(src)) continue;
+    const apply=(u,key,atk,hp,kw={})=>{ if(typeof applyUnitModifierV157==='function') applyUnitModifierV157(u,`v240cost45aura:${src.id}:${key}`,{attack:atk,hp,keywords:kw},src.name); else {v240Buff(u,atk,hp,src.name); Object.assign(u.keywords||={},kw);} };
+    if(src.name==='エビルトレント') for(const ref of v240Refs(side,u=>u!==src)) ref.unit.attack=Number(ref.unit.hp||ref.unit.attack||0);
+    if(src.name==='コングヘッド'){ const p=board.indexOf(src), pair=v240FrontBackPair(side,p); for(const q of [pair.front,pair.back]){ const u=board[q]; if(v240AliveUnit(u)) apply(u,'kong',2,0); } }
+    if(src.name==='ハッスルじじい') for(const ref of v240Refs(side,u=>isAdventurerCard(byId(u.cardId))||isAdventurerCard2?.(byId(u.cardId)))) apply(ref.unit,'hustle',1,1);
+    if(src.name==='はめつの使者') for(const ref of v240Refs(side,u=>isDemonKingCard(byId(u.cardId)))) apply(ref.unit,'demon',1,1);
+    if(src.name==='ヘルオーディン') for(const ref of v240Refs(side,u=>isZombieCard?.(byId(u.cardId)))) apply(ref.unit,'zombiePierce',0,0,{piercing:true});
+    if(src.name==='キラーエイプ') for(const ref of v240Refs(side,u=>isSlimeCard(byId(u.cardId)))) apply(ref.unit,'slimeAtk',1,0);
+    if(src.name==='ソルジャーブル') for(const ref of v240Refs(side,u=>isDragonCard(byId(u.cardId)))) apply(ref.unit,'dragonAtk',1,0);
+    if(src.name==='グランスライム') for(const ref of v240Refs(side,u=>u!==src&&isSlimeCard(byId(u.cardId)))) apply(ref.unit,'grandSlime',1,1);
+    if(src.name==='闇の司祭') for(const ref of v240Refs(side,u=>isSlimeCard(byId(u.cardId)))){ ref.unit.spellDamageImmune=true; }
+    if(src.name==='突貫のしにがみきぞく') for(const ref of v240Refs(side,u=>u!==src)){ if(unitKeywords(ref.unit).piercing||ref.unit.keywords?.piercing) apply(ref.unit,'pierceAtk',1,0); if(Number(v240Obj(side).hp||0)<=15) apply(ref.unit,'pierceGrant',0,0,{piercing:true}); }
+    if(src.name==='アームライオン') for(const ref of v240Refs(side,u=>u.conditionGood||isZekkochoV134?.(u))) apply(ref.unit,'armLion',0,0,{haste:true});
+  }
+}
+
+// v240 wrappers
+const _v240_orig_applySummonV166 = typeof applySummonV166==='function' ? applySummonV166 : null;
+if(_v240_orig_applySummonV166){ applySummonV166=function(unit,card,pos){ if(v240ApplyCost45Summon(unit,card,pos)) return true; return _v240_orig_applySummonV166.call(this,unit,card,pos); }; }
+const _v240_orig_applyDeathrattle = typeof applyDeathrattle==='function' ? applyDeathrattle : null;
+if(_v240_orig_applyDeathrattle){ applyDeathrattle=function(unit,side='player'){ const pos=Number(unit?.lastBoardPos ?? -1); if(v240ApplyCost45Death(unit,side,pos,!!unit?.vanished)) return; return _v240_orig_applyDeathrattle.call(this,unit,side); }; }
+const _v240_orig_handleTurnStartEvent = typeof handleTurnStartEvent==='function' ? handleTurnStartEvent : null;
+if(_v240_orig_handleTurnStartEvent){ handleTurnStartEvent=function(payload={}){ const r=_v240_orig_handleTurnStartEvent.call(this,payload); v240TurnStart(payload.side||'player'); return r; }; }
+const _v240_orig_handleTurnEndEvent = typeof handleTurnEndEvent==='function' ? handleTurnEndEvent : null;
+if(_v240_orig_handleTurnEndEvent){ handleTurnEndEvent=function(payload={}){ const r=_v240_orig_handleTurnEndEvent.call(this,payload); v240TurnEnd(payload.side||'player'); return r; }; }
+const _v240_orig_handleAfterAttackEvent = typeof handleAfterAttackEvent==='function' ? handleAfterAttackEvent : null;
+if(_v240_orig_handleAfterAttackEvent){ handleAfterAttackEvent=function(args={}){ const r=_v240_orig_handleAfterAttackEvent.call(this,args); v240AfterAttack(args.attacker,args.targetRef,args.targetUnit,args.targetSide); return r; }; }
+const _v240_orig_handleSpellPlayedEvent = typeof handleSpellPlayedEvent==='function' ? handleSpellPlayedEvent : null;
+if(_v240_orig_handleSpellPlayedEvent){ handleSpellPlayedEvent=function(args={}){ const r=_v240_orig_handleSpellPlayedEvent.call(this,args); v240OnSpellPlayed(args.card,args.cost,args.side||'player'); return r; }; }
+const _v240_orig_handleCardPlayedEvent = typeof handleCardPlayedEvent==='function' ? handleCardPlayedEvent : null;
+if(_v240_orig_handleCardPlayedEvent){ handleCardPlayedEvent=function(args={}){ const r=_v240_orig_handleCardPlayedEvent.call(this,args); v240OnCardPlayed(args.card,args.cost); return r; }; }
+const _v240_orig_handleDamageAppliedEvent = typeof handleDamageAppliedEvent==='function' ? handleDamageAppliedEvent : null;
+if(_v240_orig_handleDamageAppliedEvent){ handleDamageAppliedEvent=function(payload={}){ const r=_v240_orig_handleDamageAppliedEvent.call(this,payload); v240OnDamageApplied(payload.targetRef,payload.amount,payload.actual,payload.source); return r; }; }
+const _v240_orig_refreshContinuousBoardEffectsV157 = typeof refreshContinuousBoardEffectsV157==='function' ? refreshContinuousBoardEffectsV157 : null;
+if(_v240_orig_refreshContinuousBoardEffectsV157){ refreshContinuousBoardEffectsV157=function(side='player'){ const r=_v240_orig_refreshContinuousBoardEffectsV157.call(this,side); v240RefreshAuras(side); return r; }; }
+const _v240_orig_damageUnit = typeof damageUnit==='function' ? damageUnit : null;
+if(_v240_orig_damageUnit){ damageUnit=function(unit, amount, options={}){ const a=(unit?.name==='トロル') ? Number(amount||0)*2 : amount; return _v240_orig_damageUnit.call(this,unit,a,options); }; }
+function v240CompletionMarker(){ return true; }
+
+// v241: cost4/5 unit pass2 + runtime guards for random-pool cards.
+// Source of truth is local cards.json official DB text; unresolved/caution items are documented in data/v241_cost45_pass2_report.md.
+function v241G(){ return state?.battle?.game; }
+function v241Obj(side='player'){ const g=v241G(); return side==='enemy'?g?.enemy:g?.player; }
+function v241Board(side='player'){ return v241Obj(side)?.board || []; }
+function v241Terrain(side='player'){ const obj=v241Obj(side); obj.terrain ||= Array(6).fill(null); return obj.terrain; }
+function v241AliveUnit(u){ return !!(u && !u.isBuilding && Number(u.hp||0)>0); }
+function v241Refs(side='player', pred=null){ return v241Board(side).map((unit,pos)=>({side,pos,unit})).filter(r=>v241AliveUnit(r.unit) && (!pred || pred(r.unit,r.pos))); }
+function v241AllRefs(pred=null){ return [...v241Refs('player',pred), ...v241Refs('enemy',pred)]; }
+function v241Card(name){ return findCardByName(name) || ensureVirtualCard(name); }
+function v241Log(msg){ if(typeof battleLog==='function') battleLog(msg); }
+function v241Buff(unit, attack=0, hp=0, source='効果'){
+  if(!unit) return false;
+  if(attack) unit.attack = Number(unit.attack||0) + Number(attack||0);
+  if(hp){ unit.hp = Number(unit.hp||0) + Number(hp||0); unit.maxHp = Number(unit.maxHp||0) + Number(hp||0); }
+  return true;
+}
+function v241AddCard(name, opts={}, source='効果'){
+  const c=v241Card(name); if(!c) return false;
+  if(opts && (opts.costDelta || opts.costOverride!=null || opts.copy)) return addCardCopyToHand(c, opts, source);
+  return addCardToHandByName(name);
+}
+function v241PutAt(name, side='player', pos=-1, stats={}, source='効果'){
+  const c=v241Card(name); if(!c || pos<0 || v241Board(side)[pos]) return false;
+  return !!putUnitIntoPlayFromCard(c,pos,side,stats);
+}
+function v241PutByName(name, side='player', stats={}, source='効果'){
+  const pos=firstEmptyByOwnerPriorityV217(side); if(pos<0) return false; return v241PutAt(name,side,pos,stats,source);
+}
+function v241TargetLabel(ref){ return `${ref.side==='enemy'?'敵':'味方'}${ref.pos+1}:${ref.unit.name}`; }
+function v241UnitOption(ref){ const card=byId(ref.unit.cardId)||v241Card(ref.unit.name); return {label:v241TargetLabel(ref), description:`攻撃${ref.unit.attack}/HP${ref.unit.hp}`, imagePath:getOfficialImage(card), value:`${ref.side}:${ref.pos}`}; }
+function v241ChooseUnit(title, refs, cb, meta={}){
+  if(!refs.length){ v241Log(`${title}：対象なし。`); return false; }
+  openChoiceModal(title, refs.map(v241UnitOption), (_p,i)=>{ const ref=refs[i]; if(ref && v241AliveUnit(ref.unit)){ cb(ref); renderBattleArena(); syncMyBattleState(); } }, {kind:'v241UnitChoice', choiceLayout:'targetGrid', ...meta});
+  return true;
+}
+function v241ChooseFriendlyEmptyCell(title, cb, terrainOk=false){
+  const board=v241Board('player'), terrain=v241Terrain('player');
+  const opts=[];
+  for(let pos=0;pos<6;pos++){
+    if(board[pos]) continue;
+    if(!terrainOk && terrain[pos]) continue;
+    opts.push({pos,label:`味方${pos+1}`,description:terrain[pos]?.type||terrain[pos]||'空きマス'});
+  }
+  if(!opts.length){ v241Log(`${title}：空きマスなし。`); return false; }
+  openChoiceModal(title, opts.map(o=>({label:o.label,description:o.description,value:o.pos})), (_p,i)=>{ const o=opts[i]; if(o) cb(o.pos); renderBattleArena(); syncMyBattleState(); }, {kind:'v241EmptyCell', choiceLayout:'targetGrid'});
+  return true;
+}
+function v241ChooseFriendlyTerrainCell(title, cb){
+  const terrain=v241Terrain('player'); const opts=[];
+  for(let pos=0;pos<6;pos++) if(!terrain[pos]) opts.push({pos,label:`味方${pos+1}`,description:'地形なし'});
+  if(!opts.length){ v241Log(`${title}：地形を置けるマスなし。`); return false; }
+  openChoiceModal(title, opts.map(o=>({label:o.label,description:o.description,value:o.pos})), (_p,i)=>{ const o=opts[i]; if(o) cb(o.pos); renderBattleArena(); syncMyBattleState(); }, {kind:'v241TerrainCell', choiceLayout:'targetGrid'});
+  return true;
+}
+function v241EnemyAnyTargets(){ return [...v241Refs('enemy').map(ref=>({type:'unit',ref,label:v241TargetLabel(ref)})), {type:'leader',label:'敵リーダー'}]; }
+function v241RandomEnemyAny(amount=1, source='効果'){
+  const p=chooseRandom(v241EnemyAnyTargets(),'v241RandomEnemyAny',{source}); if(!p) return false;
+  if(p.type==='leader') dealDamageToLeader('enemy',amount,source); else dealDamageToUnit(p.ref.unit,amount,source,'enemy');
+  resolveDeaths(); return true;
+}
+function v241RandomEnemyUnit(amount=1, source='効果'){
+  const ref=chooseRandom(v241Refs('enemy'),'v241RandomEnemyUnit',{source}); if(!ref) return false;
+  dealDamageToUnit(ref.unit,amount,source,'enemy'); resolveDeaths(); return true;
+}
+function v241RandomFriendlyUnit(pred=null){ return chooseRandom(v241Refs('player',pred),'v241RandomFriendlyUnit',{}); }
+function v241RandomEnemySlots(count, cols, amount=1, source='効果'){
+  const slots=[]; for(const col of cols){ for(let row=0;row<3;row++){ const pos=coordToPos('enemy',row,col); if(pos>=0) slots.push(pos); } }
+  let hits=0;
+  for(let i=0;i<count;i++){
+    const pos=chooseRandom(slots,'v241RandomEnemySlot',{source,i}); const u=v241Board('enemy')[pos];
+    if(v241AliveUnit(u)){ dealDamageToUnit(u,amount,source,'enemy'); hits++; }
+  }
+  resolveDeaths(); v241Log(`${source}：敵マスへ${amount}ダメージ×${count}（有効${hits}）。`); return true;
+}
+function v241RandomUnitCardByCost(cost, pred=()=>true){
+  const pool=(state.allCards||[]).filter(c=>c && c.cardType==='ユニット' && Number(c.cost||0)===Number(cost) && c.flags?.deckBuildable!==false && pred(c));
+  return chooseRandom(pool,'v241RandomUnitCardByCost',{cost});
+}
+function v241RandomSpellByPredicate(pred=()=>true, source='効果'){
+  const pool=(state.allCards||[]).filter(c=>c && isSpell(c) && c.flags?.deckBuildable!==false && pred(c));
+  return chooseRandom(pool,'v241RandomSpell',{source});
+}
+function v241RandomMageSpell(maxCost=null){ return v241RandomSpellByPredicate(c=>(c.classes||[]).includes('魔法使い') && (maxCost==null || Number(c.cost||0)<=maxCost),'魔法使い特技'); }
+function v241HasFriendlyHero(){ const g=v241G(); return !!(g?.player?.hero || g?.player?.heroSkill || g?.player?.heroCardName); }
+function v241CountFriendlyBuildings(){ return v241Board('player').filter(u=>u&&u.isBuilding).length + v241Terrain('player').filter(Boolean).length; }
+function v241IsMetalCard(c){ const t=`${getCardText(c)} ${c?.keywords||''} ${c?.searchText||''}`; return /メタルボディ|ハードメタルボディ/.test(t); }
+function v241SameRowEnemyRefs(pos, pred=null){
+  const c=posToCoord('player',pos); const out=[];
+  for(const col of [2,3]){ const p=coordToPos('enemy',c.row,col); const u=v241Board('enemy')[p]; if(v241AliveUnit(u) && (!pred || pred(u,p))) out.push({side:'enemy',pos:p,unit:u}); }
+  return out;
+}
+function v241FindAliveById(id){ for(const side of ['player','enemy']){ const pos=v241Board(side).findIndex(u=>u?.id===id); if(pos>=0 && v241AliveUnit(v241Board(side)[pos])) return {side,pos,unit:v241Board(side)[pos]}; } return null; }
+function v241DrawOne(){ return drawCard(1); }
+function v241EquipByName(name, stats=null){ const c=v241Card(name); if(!c) return false; return equipWeaponToLeaderV110(c,'player'); }
+
+function v241ApplySummon(unit, card, pos=0){
+  if(!unit || !card) return false; const g=v241G(); const name=card.name; const own='player'; const b=v241Board('player');
+  switch(name){
+    case '亡者のひとだま': unit.untargetableByEffects=true; unit.keywords ||= {}; unit.keywords.untargetable=true; return true;
+    case 'エリミネーター': unit._v241DrawOnOtherFriendlyDeathIfFront=true; return true;
+    case 'キングスライム': return false; // テンションリンク側
+    case 'アンルシア': return v241ChooseUnit('アンルシア：攻撃力5以上の敵ユニットを攻撃力0にする', v241Refs('enemy',u=>Number(u.attack||0)>=5), ref=>{ ref.unit.attack=0; });
+    case 'シルビア': gainTensionForSideV222('player',3,name); gainTensionForSideV222('enemy',3,name); return true;
+    case 'うみぼうず': unit.keywords ||= {}; unit.keywords.stealth=true; unit.spellBoostAttack = true; return false;
+    case 'エステラ': v241ApplyEstellaAttack(unit); return true;
+    case 'まほうじじい': g.player.heroSkillCostDeltaV241 = Math.min(Number(g.player.heroSkillCostDeltaV241||0), -1); return true;
+    case 'ドラゴンヘビー': unit.noMoveNoReturnV241=true; return false;
+    case 'ゆうれい': return v241ApplySynchroKeywords(unit, ['piercing','doubleAttack','stealth']);
+    case 'ネクロマンサー': v241RefreshAuras('player'); return true;
+    case 'ザンクローネ': unit.attack = Number(unit.attack||0) + Number(g.enemy?.deadUnitsCount || g.player?.enemyUnitsDiedThisGame || 0); return true;
+    case '大切な友達': return v241ChooseFriendlyEmptyCell('大切な友達：ゲレゲレを出すマス', p=>v241PutAt('ゲレゲレ','player',p,{attack:4,hp:4,haste:true,keywords:{haste:true}},name), true);
+    case 'りゅうはかせ': unit.v241SpellDamageCost3Plus=2; return true;
+    case 'じごくのばんけん': unit.keywords ||= {}; unit.keywords.doubleAttack=true; unit.attacksLeft=Math.max(Number(unit.attacksLeft||1),2); v241RefreshAuras('player'); return false;
+    case 'アモス': unit._v241TransformToMonstrarAtEnemyTurnEnd=true; return true;
+    case 'グレイグ': unit.keywords ||= {}; unit.keywords.taunt=true; unit.damageCapOneUntilOpponentTurnEndV241=true; return true;
+    case 'サタンメイル': return v241ChooseFriendlyTerrainCell('サタンメイル：刃の紋章にする味方マス', p=>{ v241Terrain('player')[p]={type:'刃の紋章',source:name}; });
+    case 'マリベル': g.player.nextSpellCostDelta = Math.min(Number(g.player.nextSpellCostDelta||0), -7); return true;
+    case '邪教の使徒ゲマ': return v241ApplyJakyonoGema(unit);
+    case 'キラーマシン': unit.keywords ||= {}; unit.keywords.doubleAttack=true; unit.attacksLeft=Math.max(Number(unit.attacksLeft||1),2); return v241ChooseUnit('キラーマシン：敵ユニットに2ダメージ', v241Refs('enemy'), ref=>{ dealDamageToUnit(ref.unit,2,name,'enemy'); resolveDeaths(); });
+    case 'ブラッドミスト': unit.keywords ||= {}; unit.keywords.stealth=true; unit.spellBoostAttack=true; return false;
+    case '追撃のキラーマシン': unit.keywords ||= {}; unit.keywords.doubleAttack=true; unit.attacksLeft=Math.max(Number(unit.attacksLeft||1),2); unit.strategyPingLimitPerTurnV241=2; if(typeof applyStrategyToUnitSequenceV167==='function') applyStrategyToUnitSequenceV167(unit,1,name); return true;
+    case '大工の息子ハッサン': return v241DaughterHassanSummon(unit);
+    case 'クリフト': return v241RandomEnemySlots(2,[2,3],99,name);
+    case 'マリンフェアリー': return v241MarineFairySummon(unit);
+    case 'メダル王女': unit.keywords ||= {}; unit.keywords.stealth=true; addStatus?.(unit,'stealth',{until:'opponentTurnEnd'}); return true;
+    case 'フォレスドン': return v241ForesdonSummon(unit);
+    case 'マネマネ': return v241ChooseUnit('マネマネ：変身する他ユニット', v241AllRefs(u=>u!==unit), ref=>v241CopyUnitIdentity(unit,ref.unit));
+    case 'ゴールドマン': v241SetVerticalTerrain(pos,'宝箱',name); return true;
+    case 'ロクサーヌ': return v241RoxannePackChoice();
+    case 'キラークリムゾン': return v241KillerCrimsonChoice();
+    case 'デスマーキュリー': return v241ChooseFriendlyTerrainCell('デスマーキュリー：天啓の神域にする味方マス', p=>{ v241Terrain('player')[p]={type:'天啓の神域',source:name}; });
+    case 'だいまどう': unit.spellDamageBonus=Number(unit.spellDamageBonus||0)+1; if((g.player.hand||[]).some(id=>isDragonCard(byId(id)))) v241AddCard('運命の輪',{},name); return true;
+    case 'インプケイオス': return v241ImpChaosSummon(unit);
+    case '妖剣士オーレン': return v241ChooseUnit('妖剣士オーレン：敵ユニットを-2/-2', v241Refs('enemy'), ref=>{ v241Buff(ref.unit,-2,-2,name); if(Number(ref.unit.hp||0)<=0) resolveDeaths(); });
+    case 'はらわたを食らう': return v241ChooseUnit('はらわたを食らう：消滅させる敵ユニット', v241Refs('enemy'), ref=>{ ref.unit.vanished=true; ref.unit.hp=0; healLeader(3); resolveDeaths(); });
+    case 'エッグラ&チキーラ': return v241EggraChikiraChoice(unit);
+    case 'せかいじゅのは': return v241ReviveHighestCostFriendlyUnitToChosenCell(name);
+    case 'スライムボーグ': v241AddRandomOpponentClassSpell(name); return true;
+    case 'ドンホセ': return v241DonJoseSummon(unit);
+  }
+  return false;
+}
+function v241ApplyDeath(unit, side='player', pos=0, vanished=false){
+  if(!unit || vanished) return false; const name=unit.name; const g=v241G();
+  switch(name){
+    case 'ラヴィエル': return v241AddDeadFriendlyAdventurerExcept('ラヴィエル',name);
+    case 'オルゴ・デミーラ': v241AddCard('オルゴ・デミーラ：第2形態',{},name); return true;
+    case 'パパス': v241EquipByName('パパスの剣'); return true;
+    case 'ハンターフライ': gainTensionForSideV222(side,1,name); return true;
+    case 'ドンホセ': v241BuffNonDeckUnitsInHand(1,1,name); return true;
+  }
+  return false;
+}
+function v241TurnStart(side='player'){
+  const g=v241G(); if(!g) return;
+  if(side==='player'){
+    for(const ref of v241Refs('player')){
+      if(ref.unit.name==='エステラ'){ v241ApplyEstellaAttack(ref.unit); if(Number(ref.unit.attack||0)>=5) v241TransformToEstellaDragon(ref.unit); }
+    }
+  }
+  v241RefreshAuras(side);
+}
+function v241TurnEnd(side='player'){
+  const g=v241G(); if(!g) return;
+  const refs=[...v241Refs('player'),...v241Refs('enemy')];
+  if(side==='player'){
+    for(const ref of v241Refs('player')){
+      const u=ref.unit;
+      if(u.name==='ヒューザ' && v241Refs('player',x=>x!==u).length===0) v241RandomEnemyAny(Number(u.attack||0),u.name);
+      if(u.name==='アモス' && u._v241TransformToMonstrarAtEnemyTurnEnd){ /* 自分ターン終了ではまだ変身しない */ }
+      if(u.name==='セニカ'){ if(g.player.v241EnemyDiedByNonCombatThisTurn || g.player.v241FriendlyHealedUnitThisTurn) drawCard(1); }
+      if(u.name==='ダークモーモン') v241AddCard('コイン',{},u.name);
+      if(u.v241ForesdonDiesAtTurnEnd){ const p=v241Board(ref.side).indexOf(u); if(p>=0){ u.hp=0; resolveDeaths(); } }
+    }
+    g.player.v241EnemyDiedByNonCombatThisTurn=false; g.player.v241FriendlyHealedUnitThisTurn=false;
+  }else if(side==='enemy'){
+    for(const ref of v241Refs('player')){
+      if(ref.unit.name==='アモス' && ref.unit._v241TransformToMonstrarAtEnemyTurnEnd) v241TransformToMonstrar(ref.unit);
+      if(ref.unit.damageCapOneUntilOpponentTurnEndV241) delete ref.unit.damageCapOneUntilOpponentTurnEndV241;
+    }
+  }
+  v241RefreshAuras('player');
+}
+function v241AfterAttack(attacker,targetRef,targetUnit,targetSide){
+  if(!attacker) return;
+  const name=attacker.name;
+  if(['グール','ローズバトラー'].includes(name) && targetUnit) applyPoison(targetUnit);
+  if(name==='ブルサベージ' && (attacker.conditionGood || isZekkochoV134?.(attacker))) v241Buff(attacker,2,0,name);
+  if(name==='シルバーマント' && (attacker.conditionGood || isZekkochoV134?.(attacker))) v241Buff(attacker,1,0,name);
+}
+function v241AttackDeclared(args={}){
+  const ref=args.attackerRef; const side=ref?.side || 'player'; const u=ref?.unit || (ref?.side? v241Board(ref.side)[ref.pos] : null);
+  if(!u) return;
+  if(u.name==='シルバーマント' && (u.conditionGood || isZekkochoV134?.(u))) v241Buff(u,1,0,u.name);
+  for(const src of v241Refs('player')) if(src.unit.name==='ブルサベージ' && (u.conditionGood || isZekkochoV134?.(u))) v241Buff(src.unit,2,0,src.unit.name);
+}
+function v241TensionLinks(reason,payload={}){
+  const g=v241G(); if(!g) return;
+  if(reason && !['tensionGain','summon','heroSkill'].includes(reason)) return;
+  for(const ref of v241Refs('player')){
+    const u=ref.unit; const name=u.name;
+    if(name==='キングスライム') v241PutByName('スライム','player',{attack:1,hp:1},name);
+    if(name==='ベスキング') v241PutByName('スライムベス','player',{attack:2,hp:1},name);
+    if(name==='なげきの亡霊'){ const sp=v241RandomMageSpell(2); if(sp) addCardCopyToHand(sp,{},name); }
+    if(name==='ベルザブル'){ dealDamageToUnit(u,1,name,'player'); if(Number(u.hp||0)>0) drawCard(1); resolveDeaths(); }
+    if(name==='メダル王女'){ const pool=(state.allCards||[]).filter(c=>c.cardType==='ユニット'&&Number(c.cost||0)<=2&&isSlimeCard(c)); const c=chooseRandom(pool,'v241MedalPrincess',{}); if(c){ const p=firstEmptyByOwnerPriorityV217('player'); if(p>=0) putUnitIntoPlayFromCard(c,p,'player'); } }
+    if(name==='ダンビラムーチョ'){ const r=v241RandomFriendlyUnit(); if(r) v241Buff(r.unit,1,0,name); }
+    if(name==='レッサーデーモン') v241LesserDemonTension(u);
+  }
+}
+function v241SkillLink(cardName){
+  const g=v241G(); if(!g) return;
+  for(const ref of v241Refs('player')){
+    const u=ref.unit;
+    if(u.name==='フローラ') v241AddCard('ルドマンからの贈り物',{},u.name);
+    if(u.name==='ビアンカ') dealDamageToLeader('enemy',3,u.name);
+    if(u.name==='ゴレオン将軍') v241AddCard('コイン',{},u.name);
+    if(u.name==='魅惑のマルティナ' || u.name==='マルティナ') v241RandomEnemySlots(7,[2],1,u.name);
+  }
+}
+function v241OnSpellPlayed(card,cost,side='player'){
+  const g=v241G(); if(!g || !card || !isSpell(card)) return;
+  if(side==='enemy') for(const ref of v241Refs('player',u=>u.name==='メーダロード')) healLeader(3);
+  if(side==='player'){
+    for(const ref of v241Refs('player')){
+      const u=ref.unit;
+      if(u.name==='おどるほうせき' && g.player.v241LastSpellTargetUnitId===u.id) drawCard(1);
+      if(u.name==='オーシャンクロー' && g.player.v241LastSpellTargetUnitId===u.id) v241Buff(u,1,1,u.name);
+      if(u.name==='トロデ' && g.player.v241LastSpellTargetUnitId===u.id) v241Log('トロデ：対象特技の全体コピーは安全対象のみ今後個別接続します。');
+    }
+  }
+}
+function v241OnCardPlayed(card,cost,side='player'){
+  if(side!=='player' || !card) return;
+  if(card.name==='コイン') for(const ref of v241Refs('player',u=>u.name==='ゴレオン将軍')) gainTensionForSideV222('player',1,ref.unit.name);
+  if(card.cardType==='ユニット' && isZombieCard?.(card)) for(const ref of v241Refs('player',u=>u.name==='バラモスブロス')){ const g=v241G(); g.player.mp=Math.min(Number(g.player.maxMp||10),Number(g.player.mp||0)+1); }
+}
+function v241OnDamageApplied(targetRef, amount, actual, source){
+  if(!actual) return; const g=v241G(); if(!g) return;
+  const isCombat=/攻撃|戦闘|反撃/.test(String(source||''));
+  if(targetRef?.side==='enemy'){
+    const u=v241Board('enemy')[targetRef.pos]; if(u && Number(u.hp||0)<=0 && !isCombat){
+      g.player.v241EnemyDiedByNonCombatThisTurn=true;
+      for(const ref of v241Refs('player')){
+        if(ref.unit.name==='天才魔法使いベロニカ'){ const sp=v241RandomMageSpell(); if(sp) addCardCopyToHand(sp,{},ref.unit.name); }
+      }
+    }
+  }
+}
+function v241OnUnitDeath(unit, side='player', pos=0, vanished=false){
+  const g=v241G(); if(!unit||!g) return;
+  if(side==='player'){
+    g.player.deadUnitsV241 ||= [];
+    g.player.deadUnitsV241.push({name:unit.name, cardId:unit.cardId, cost:Number(byId(unit.cardId)?.cost||0), tribes:byId(unit.cardId)?.tribes||[], attack:unit.attack, hp:unit.maxHp||unit.hp});
+    for(const ref of v241Refs('player')) if(ref.unit._v241DrawOnOtherFriendlyDeathIfFront && ref.unit!==unit && isFrontRow('player',ref.pos)) drawCard(1);
+  }else if(side==='enemy'){
+    g.player.enemyUnitsDiedThisGame=Number(g.player.enemyUnitsDiedThisGame||0)+1;
+  }
+}
+function v241OnHeal(target, amount=0, targetKind='unit'){
+  const g=v241G(); if(!g||!amount) return;
+  if(targetKind==='unit') g.player.v241FriendlyHealedUnitThisTurn=true;
+  for(const ref of v241Refs('player')) if(ref.unit.name==='スターキメラ') v241Buff(ref.unit,2,0,ref.unit.name);
+}
+function v241OnDiscard(card, side='player', source='捨てる'){
+  if(side!=='player') return;
+  for(const ref of v241Refs('player',u=>u.name==='ヒドラ')) v239ApplyHydraDiscardKeywords?.(ref.unit);
+  if(card?.name==='スライムボーグ') v241AddRandomOpponentClassSpell('スライムボーグ');
+}
+function v241RefreshAuras(side='player'){
+  const g=v241G(); if(!g) return; const board=v241Board(side);
+  for(const u of board) if(u && typeof removeModifiersByPrefixV157==='function') removeModifiersByPrefixV157(u,'v241aura:');
+  const apply=(src,u,key,atk=0,hp=0,kw={})=>{ if(typeof applyUnitModifierV157==='function') applyUnitModifierV157(u,`v241aura:${src.id}:${key}`,{attack:atk,hp,keywords:kw},src.name); else { v241Buff(u,atk,hp,src.name); Object.assign(u.keywords||={},kw); } };
+  for(const src of board){ if(!v241AliveUnit(src) || isSealed(src)) continue;
+    if(src.name==='エビルトレント') for(const ref of v241Refs(side,u=>u!==src)) ref.unit.attack=Number(ref.unit.hp||ref.unit.attack||0);
+    if(src.name==='てっこうまじん') for(const ref of v241Refs(side)){ if(ref.unit.keywords?.metal){ ref.unit.keywords.hardMetal=true; delete ref.unit.keywords.metal; } }
+    if(src.name==='ネクロマンサー'){ g.player.noHealV241=true; g.player.noDamageReductionV241=true; g.enemy.noHealV241=true; g.enemy.noDamageReductionV241=true; }
+    if(src.name==='たてまじん' && side==='player' && isFrontRow('player',board.indexOf(src))) g.player.leaderDamageReductionV241Tatemajin=1;
+    if(src.name==='クイーンモーモン' && side==='player' && v241HasFriendlyHero()) g.player.leaderAttackAuraV241Queen=2;
+    if(src.name==='じごくのばんけん') apply(src,src,'buildingAtk',v241CountFriendlyBuildings(),0,{});
+    if(src.name==='オークデビル' && side==='player') g.player.immuneDuringOwnTurnV241=true;
+    if(src.name==='ナイトフォックス' && side==='player') g.player.spellCostAuraV241NightFox=Number(g.player.spellCostAuraV241NightFox||0)+1;
+  }
+}
+
+function v241ApplySynchroKeywords(unit, levels){ const lv=Number(getHeroLevel?.()||v241G()?.player?.heroLevel||0); unit.keywords ||= {}; if(lv>=1&&levels[0]) unit.keywords[levels[0]]=true; if(lv>=2&&levels[1]) unit.keywords[levels[1]]=true, unit.attacksLeft=Math.max(Number(unit.attacksLeft||1),2); if(lv>=3&&levels[2]) unit.keywords[levels[2]]=true; return true; }
+function v241ApplyEstellaAttack(unit){ const g=v241G(); const n=(g.player.deadUnitsV241||[]).filter(x=>{ const c=byId(x.cardId)||v241Card(x.name); return isDragonCard(c); }).length; unit.attack=Number(byId(unit.cardId)?.attack||unit.attack||0)+n; }
+function v241TransformToEstellaDragon(unit){ const c=v241Card('エステラ・竜化の術'); if(!c) return; unit.cardId=c.id; unit.name=c.name; unit.attack=Number(c.attack||2)+Number(unit.attack||0); unit.hp=Number(c.hp||8); unit.maxHp=Number(c.hp||8); applyBaseKeywordsOnly(unit,c); }
+function v241TransformToMonstrar(unit){ const c=v241Card('モンストラー'); unit.name='モンストラー'; if(c){ unit.cardId=c.id; unit.attack=Number(c.attack||unit.attack||0); unit.hp=Number(c.hp||unit.hp||0); unit.maxHp=unit.hp; applyBaseKeywordsOnly(unit,c); } else { unit.attack=Number(unit.attack||0); } delete unit._v241TransformToMonstrarAtEnemyTurnEnd; }
+function v241CopyUnitIdentity(unit,target){ const c=byId(target.cardId)||v241Card(target.name); unit.cardId=c?.id||target.cardId; unit.name=target.name; unit.attack=Number(target.attack||0); unit.hp=Number(target.hp||0); unit.maxHp=Number(target.maxHp||target.hp||0); unit.keywords={...(target.keywords||{})}; }
+function v241SetVerticalTerrain(pos,type,source){ const c=posToCoord('player',pos); for(const row of [c.row-1,c.row+1]){ if(row<0||row>2) continue; const p=coordToPos('player',row,c.col); if(p>=0 && !v241Terrain('player')[p]) v241Terrain('player')[p]={type,source}; } }
+function v241DaughterHassanSummon(unit){ const g=v241G(); const candidates=(g.player.deck||[]).map((id,i)=>({id,i,card:byId(id)})).filter(x=>x.card?.cardType==='建物'&&Number(x.card.cost||0)<=2); if(!candidates.length) return true; const max=Math.max(...candidates.map(x=>Number(x.card.cost||0))); const pick=candidates.find(x=>Number(x.card.cost||0)===max); return v241ChooseFriendlyEmptyCell('大工の息子ハッサン：建物を出すマス', p=>{ g.player.deck.splice(pick.i,1); putUnitIntoPlayFromCard(pick.card,p,'player'); }, true); }
+function v241MarineFairySummon(unit){ const g=v241G(); const coinIndexes=(g.player.hand||[]).map((id,i)=>({id,i,card:byId(id)})).filter(x=>x.card?.name==='コイン'); if(!coinIndexes.length) return true; const pick=chooseRandom(coinIndexes,'v241MarineCoin',{}); discardHandCardAtIndex?.(pick.i,'マリンフェアリー'); return v241ReviveDeadPoolChoice(x=>Number(x.cost||0)<=4, unit.name); }
+function v241ForesdonSummon(unit){ return v241ReviveDeadPoolChoice(x=>Number(x.cost||0)>=4, unit.name, true); }
+function v241ReviveDeadPoolChoice(pred, source, diesAtEnd=false){ const g=v241G(); const pool=(g.player.deadUnitsV241||[]).filter(pred).slice(-12); const uniq=[]; const seen=new Set(); for(const x of pool){ if(!seen.has(x.name)){ seen.add(x.name); uniq.push(x); } } const cand=shuffle(uniq,`v241Revive${source}`,{}).slice(0,3); if(!cand.length) return true; return v241ChooseFriendlyEmptyCell(`${source}：復活するマス`, p=>{ const x=cand[0]; const c=byId(x.cardId)||v241Card(x.name); putUnitIntoPlayFromCard(c,p,'player'); const u=v241Board('player')[p]; if(u&&diesAtEnd) u.v241ForesdonDiesAtTurnEnd=true; }, true); }
+function v241ReviveHighestCostFriendlyUnitToChosenCell(source){ const g=v241G(); const pool=(g.player.deadUnitsV241||[]).filter(x=>x.name&&Number(x.cost||0)>=0); if(!pool.length) return true; const max=Math.max(...pool.map(x=>Number(x.cost||0))); const cand=pool.filter(x=>Number(x.cost||0)===max); const x=chooseRandom(cand,'v241WorldTreeLeaf',{}); return v241ChooseFriendlyEmptyCell(`${source}：復活するマス`, p=>{ const c=byId(x.cardId)||v241Card(x.name); putUnitIntoPlayFromCard(c,p,'player'); }, true); }
+function v241AddDeadFriendlyAdventurerExcept(except,source){ const g=v241G(); const pool=(g.player.deadUnitsV241||[]).filter(x=>x.name!==except && isAdventurerCard(byId(x.cardId)||v241Card(x.name))); const x=chooseRandom(pool,'v241DeadAdventure',{}); if(x){ const c=byId(x.cardId)||v241Card(x.name); addCardCopyToHand(c,{},source); } return true; }
+function v241BuffNonDeckUnitsInHand(atk,hp,source){ const g=v241G(); for(const id of g.player.hand||[]){ const c=byId(id); if(c?.cardType==='ユニット' && c.flags?.deckBuildable===false){ c.attack=Number(c.attack||0)+atk; c.hp=Number(c.hp||0)+hp; c.text=`${c.text||''} ${source}:+${atk}/+${hp}`.trim(); } } }
+function v241RoxannePackChoice(){ return openChoiceModal('ロクサーヌ：カードパック', ['銅のカードパック','銀のカードパック','金のカードパック'], (_p,i)=>v241AddCard(['銅のカードパック','銀のカードパック','金のカードパック'][i],{},'ロクサーヌ'), {kind:'v241RoxannePack'}), true; }
+function v241KillerCrimsonChoice(){ return openChoiceModal('キラークリムゾン：選択', ['味方リーダーのテンション+2','はがねのそろばんを手札に加える'], (_p,i)=>{ if(i===0) gainTensionForSideV222('player',2,'キラークリムゾン'); else v241AddCard('はがねのそろばん',{},'キラークリムゾン'); renderBattleArena(); syncMyBattleState(); }, {kind:'v241KillerCrimson'}), true; }
+function v241ApplyJakyonoGema(unit){ const g=v241G(); const opts=['味方リーダーに5ダメージ、テンション-3','攻撃力が最も高いランダムな味方ユニットを死亡']; openChoiceModal('邪教の使徒ゲマ：相手が受ける効果（暫定）', opts, (_p,i)=>{ if(i===0){ dealDamageToLeader('enemy',5,'邪教の使徒ゲマ'); g.enemy.tension=Math.max(0,Number(g.enemy.tension||0)-3); } else { const refs=v241Refs('enemy'); const max=Math.max(0,...refs.map(r=>Number(r.unit.attack||0))); const pick=chooseRandom(refs.filter(r=>Number(r.unit.attack||0)===max),'v241GemaKill',{}); if(pick){ pick.unit.hp=0; resolveDeaths(); } } }, {kind:'v241JakyonoGema'}); return true; }
+function v241ImpChaosSummon(unit){ const top=byId(v241G()?.player?.deck?.[0]); const even=top && Number(top.cost||0)%2===0; return v241ChooseUnit('インプケイオス：敵ユニットにダメージ', v241Refs('enemy'), ref=>{ dealDamageToUnit(ref.unit,even?3:1,'インプケイオス','enemy'); if(even) healLeader(3); resolveDeaths(); }); }
+function v241EggraChikiraChoice(unit){ openChoiceModal('エッグラ&チキーラ：タマゴかニワトリ', ['タマゴ','ニワトリ'], (_p,i)=>{ unit.v241EggChoice=i===0?'egg':'chicken'; v241Log('エッグラ&チキーラ：次のターン開始時に相手の回答判定が必要です（暫定記録）。'); }, {kind:'v241EggraChikira'}); return true; }
+function v241LesserDemonTension(unit){ const g=v241G(); const pc=byId(g.player.deck?.[0]), ec=byId(g.enemy.deck?.[0]); if(!pc||!ec) return; const dmg=1+Number(g.player.tensionSkillUseCount||0); if(Number(pc.cost||0)>Number(ec.cost||0)) dealDamageToLeader('enemy',dmg,unit.name); else if(Number(ec.cost||0)>Number(pc.cost||0)) dealDamageToLeader('player',dmg,unit.name); shuffle(g.player.deck,'v241LesserDemonP',{}); shuffle(g.enemy.deck,'v241LesserDemonE',{}); }
+function v241AddRandomOpponentClassSpell(source){ const enemyClass=v241G()?.enemy?.leaderClass || '共通'; const sp=v241RandomSpellByPredicate(c=>(c.classes||[]).includes(enemyClass),source); if(sp) addCardCopyToHand(sp,{},source); }
+function v241DonJoseSummon(unit){ const enemyClass=v241G()?.enemy?.leaderClass || '共通'; const pool=(state.allCards||[]).filter(c=>(c.classes||[]).includes(enemyClass)&&c.rarity==='レジェンドレア'&&c.flags?.deckBuildable!==false); const cand=shuffle(pool,'v241DonJose',{}).slice(0,3); if(!cand.length) return true; openChoiceModal('ドンホセ：相手職業のレジェンド', cand.map(c=>({label:c.name,description:getCardText(c),imagePath:getOfficialImage(c)})), (_p,i)=>addCardCopyToHand(cand[i],{},'ドンホセ'), {kind:'v241DonJose', choiceLayout:'cardGrid'}); return true; }
+
+// Wrappers
+const _v241_orig_applySummonV166 = typeof applySummonV166==='function' ? applySummonV166 : null;
+if(_v241_orig_applySummonV166){ applySummonV166=function(unit,card,pos){ if(v241ApplySummon(unit,card,pos)) return true; return _v241_orig_applySummonV166.call(this,unit,card,pos); }; }
+const _v241_orig_applyDeathrattle = typeof applyDeathrattle==='function' ? applyDeathrattle : null;
+if(_v241_orig_applyDeathrattle){ applyDeathrattle=function(unit,side='player'){ const pos=Number(unit?.lastBoardPos ?? -1); if(v241ApplyDeath(unit,side,pos,!!unit?.vanished)) return; return _v241_orig_applyDeathrattle.call(this,unit,side); }; }
+const _v241_orig_handleUnitDeathEvent = typeof handleUnitDeathEvent==='function' ? handleUnitDeathEvent : null;
+if(_v241_orig_handleUnitDeathEvent){ handleUnitDeathEvent=function(args={}){ const r=_v241_orig_handleUnitDeathEvent.call(this,args); v241OnUnitDeath(args.unit,args.side,args.pos,args.vanished); return r; }; }
+const _v241_orig_handleTurnStartEvent = typeof handleTurnStartEvent==='function' ? handleTurnStartEvent : null;
+if(_v241_orig_handleTurnStartEvent){ handleTurnStartEvent=function(payload={}){ const r=_v241_orig_handleTurnStartEvent.call(this,payload); v241TurnStart(payload.side||'player'); return r; }; }
+const _v241_orig_handleTurnEndEvent = typeof handleTurnEndEvent==='function' ? handleTurnEndEvent : null;
+if(_v241_orig_handleTurnEndEvent){ handleTurnEndEvent=function(payload={}){ const r=_v241_orig_handleTurnEndEvent.call(this,payload); v241TurnEnd(payload.side||'player'); return r; }; }
+const _v241_orig_handleAfterAttackEvent = typeof handleAfterAttackEvent==='function' ? handleAfterAttackEvent : null;
+if(_v241_orig_handleAfterAttackEvent){ handleAfterAttackEvent=function(args={}){ const r=_v241_orig_handleAfterAttackEvent.call(this,args); v241AfterAttack(args.attacker,args.targetRef,args.targetUnit,args.targetSide); return r; }; }
+const _v241_orig_handleAttackDeclaredEvent = typeof handleAttackDeclaredEvent==='function' ? handleAttackDeclaredEvent : null;
+if(_v241_orig_handleAttackDeclaredEvent){ handleAttackDeclaredEvent=function(args={}){ v241AttackDeclared(args); return _v241_orig_handleAttackDeclaredEvent.call(this,args); }; }
+const _v241_orig_triggerTensionLinks = typeof triggerTensionLinks==='function' ? triggerTensionLinks : null;
+if(_v241_orig_triggerTensionLinks){ triggerTensionLinks=function(reason,payload={}){ const r=_v241_orig_triggerTensionLinks.call(this,reason,payload); v241TensionLinks(reason,payload); return r; }; }
+const _v241_orig_handleSpellPlayedEvent = typeof handleSpellPlayedEvent==='function' ? handleSpellPlayedEvent : null;
+if(_v241_orig_handleSpellPlayedEvent){ handleSpellPlayedEvent=function(args={}){ const r=_v241_orig_handleSpellPlayedEvent.call(this,args); v241OnSpellPlayed(args.card,args.cost,args.side||'player'); return r; }; }
+const _v241_orig_handleCardPlayedEvent = typeof handleCardPlayedEvent==='function' ? handleCardPlayedEvent : null;
+if(_v241_orig_handleCardPlayedEvent){ handleCardPlayedEvent=function(args={}){ const r=_v241_orig_handleCardPlayedEvent.call(this,args); v241OnCardPlayed(args.card,args.cost,args.side||'player'); return r; }; }
+const _v241_orig_handleDamageAppliedEvent = typeof handleDamageAppliedEvent==='function' ? handleDamageAppliedEvent : null;
+if(_v241_orig_handleDamageAppliedEvent){ handleDamageAppliedEvent=function(payload={}){ const r=_v241_orig_handleDamageAppliedEvent.call(this,payload); v241OnDamageApplied(payload.targetRef,payload.amount,payload.actual,payload.source); return r; }; }
+const _v241_orig_triggerFriendlyHealWatchers = typeof triggerFriendlyHealWatchersV217==='function' ? triggerFriendlyHealWatchersV217 : null;
+if(_v241_orig_triggerFriendlyHealWatchers){ triggerFriendlyHealWatchersV217=function(target,amount=0,targetKind='unit'){ const r=_v241_orig_triggerFriendlyHealWatchers.call(this,target,amount,targetKind); v241OnHeal(target,amount,targetKind); return r; }; }
+const _v241_orig_discardHandCardAtIndex = typeof discardHandCardAtIndex==='function' ? discardHandCardAtIndex : null;
+if(_v241_orig_discardHandCardAtIndex){ discardHandCardAtIndex=function(idx,source='捨てる'){ const card=byId(v241G()?.player?.hand?.[idx]); const id=_v241_orig_discardHandCardAtIndex.call(this,idx,source); v241OnDiscard(card,'player',source); return id; }; }
+const _v241_orig_refreshContinuousBoardEffectsV157 = typeof refreshContinuousBoardEffectsV157==='function' ? refreshContinuousBoardEffectsV157 : null;
+if(_v241_orig_refreshContinuousBoardEffectsV157){ refreshContinuousBoardEffectsV157=function(side='player'){ const r=_v241_orig_refreshContinuousBoardEffectsV157.call(this,side); v241RefreshAuras(side); return r; }; }
+const _v241_orig_getEffectiveCost = typeof getEffectiveCost==='function' ? getEffectiveCost : null;
+if(_v241_orig_getEffectiveCost){ getEffectiveCost=function(card){ let cost=_v241_orig_getEffectiveCost.call(this,card); const g=v241G(); if(!card||!g) return cost; if(isSpell(card)) cost-=Number(g.player.spellCostAuraV241NightFox||0); if(card.name==='エンタシスマン' && (g.player.hand||[]).filter(id=>id!==card.id).length>=6) cost-=2; if(card.name==='ヨージス') cost-=v241CountFriendlyBuildings(); if((v241IsMetalCard(card)||card.cardType==='武器') && v241Refs('player',u=>u.name==='デュランダル').length) cost-=v241Refs('player',u=>u.name==='デュランダル').length; return Math.max(0,cost); }; }
+const _v241_orig_damageUnit = typeof damageUnit==='function' ? damageUnit : null;
+if(_v241_orig_damageUnit){ damageUnit=function(unit,amount,options={}){ let a=amount; if(unit?.damageCapOneUntilOpponentTurnEndV241 && Number(a||0)>1) a=1; return _v241_orig_damageUnit.call(this,unit,a,options); }; }
+const _v241_orig_damageLeader = typeof damageLeader==='function' ? damageLeader : null;
+if(_v241_orig_damageLeader){ damageLeader=function(side,amount,source='effect'){ const g=v241G(); if(side==='player'&&g?.isMyTurn&&g.player.immuneDuringOwnTurnV241){ v241Log('オークデビル：自分のターン中、味方リーダーはダメージを受けません。'); return 0; } if(side==='player'){ const rb=v241Refs('player',u=>u.name==='ローズバトラー')[0]; if(rb){ v241Log('ローズバトラー：味方リーダーへのダメージを引き受けます。'); return dealDamageToUnit(rb.unit,amount,source,'player'); } } return _v241_orig_damageLeader.call(this,side,amount,source); }; }
+const _v241_orig_getLeaderDamageReduction = typeof getLeaderDamageReduction==='function' ? getLeaderDamageReduction : null;
+if(_v241_orig_getLeaderDamageReduction){ getLeaderDamageReduction=function(side){ const base=_v241_orig_getLeaderDamageReduction.call(this,side); const g=v241G(); return side==='player' ? base + Number(g?.player?.leaderDamageReductionV241Tatemajin||0) : base; }; }
+const _v241_orig_healUnit = typeof healUnit==='function' ? healUnit : null;
+if(_v241_orig_healUnit){ healUnit=function(unit,amount){ if(v241G()?.player?.noHealV241||v241G()?.enemy?.noHealV241){ v241Log('ネクロマンサー：HPは回復しません。'); return; } return _v241_orig_healUnit.call(this,unit,amount); }; }
+const _v241_orig_healLeader = typeof healLeader==='function' ? healLeader : null;
+if(_v241_orig_healLeader){ healLeader=function(amount){ if(v241G()?.player?.noHealV241){ v241Log('ネクロマンサー：HPは回復しません。'); return; } return _v241_orig_healLeader.call(this,amount); }; }
+const _v241_orig_gainTensionForSideV222 = typeof gainTensionForSideV222==='function' ? gainTensionForSideV222 : null;
+if(_v241_orig_gainTensionForSideV222){ gainTensionForSideV222=function(side='player',amount=1,reason=''){ const before=Number(v241Obj(side)?.tension||0); const r=_v241_orig_gainTensionForSideV222.call(this,side,amount,reason); const actual=Math.max(0,Number(v241Obj(side)?.tension||0)-before); if(side==='enemy'&&actual){ for(const ref of v241Refs('player',u=>u.name==='ずしおうまる')) dealDamageToLeader('enemy',3*actual,ref.unit.name); } return r; }; }
+const _v241_orig_v240MoveUnit = typeof v240MoveUnit==='function' ? v240MoveUnit : null;
+if(_v241_orig_v240MoveUnit){ v240MoveUnit=function(side,from,to){ const u=v241Board(side)[from]; if(u?.noMoveNoReturnV241){ v241Log(`${u.name}：移動しません。`); return false; } const r=_v241_orig_v240MoveUnit.call(this,side,from,to); if(r&&u){ if(u.name==='キラーファング'){ v241Buff(u,2,-1,u.name); if(Number(u.hp||0)<=0) resolveDeaths(); } if(u.name==='アカリリス') v241PutByName('いっかくうさぎ',side,{attack:2,hp:1,haste:true,keywords:{haste:true}},u.name); } return r; }; }
+function v241CompletionMarker(){ return true; }
+
+// v241b: passives must initialize on both summon and put-into-play; summon-time effects still only run through applySummonV166.
+function v241ApplyEntryPassives(unit, card, pos=0, side='player'){
+  if(!unit || !card) return false;
+  const name=card.name;
+  if(name==='亡者のひとだま'){ unit.untargetableByEffects=true; unit.keywords ||= {}; unit.keywords.untargetable=true; }
+  if(name==='きとうし') unit.spellDamageBonus = Math.max(Number(unit.spellDamageBonus||0), 1);
+  if(name==='うみぼうず' || name==='ブラッドミスト'){ unit.keywords ||= {}; unit.keywords.stealth=true; unit.spellBoostAttack=true; }
+  if(name==='シルバーデビル' || name==='キラーマシン'){ unit.keywords ||= {}; unit.keywords.doubleAttack=true; unit.attacksLeft=Math.max(Number(unit.attacksLeft||1),2); if(name==='シルバーデビル') unit.keywords.precise=true; }
+  if(name==='ガーゴイル'){ unit.keywords ||= {}; unit.keywords.precise=true; unit.keywords.ouen=true; }
+  if(name==='ドラゴンヘビー') unit.noMoveNoReturnV241=true;
+  if(name==='ゆうれい') v241ApplySynchroKeywords(unit, ['piercing','doubleAttack','stealth']);
+  if(name==='りゅうはかせ') unit.v241SpellDamageCost3Plus=2;
+  if(name==='じごくのばんけん'){ unit.keywords ||= {}; unit.keywords.doubleAttack=true; unit.attacksLeft=Math.max(Number(unit.attacksLeft||1),2); }
+  if(name==='グレイグ'){ unit.keywords ||= {}; unit.keywords.taunt=true; }
+  if(name==='ブルサベージ' || name==='シルバーマント') { if(hasInnateZekkochoV163?.(card)) grantZekkochoV134?.(unit, name); }
+  if(name==='ハンターフライ'){ unit.keywords ||= {}; unit.keywords.firstStrike=true; }
+  if(name==='グリーンドラゴン' || name==='りゅうき兵') return true;
+  v241RefreshAuras(side);
+  return true;
+}
+const _v241b_orig_handleUnitSummonedEvent = typeof handleUnitSummonedEvent==='function' ? handleUnitSummonedEvent : null;
+if(_v241b_orig_handleUnitSummonedEvent){ handleUnitSummonedEvent=function(payload={}){ const r=_v241b_orig_handleUnitSummonedEvent.call(this,payload); v241ApplyEntryPassives(payload.unit,payload.card,payload.pos,payload.side||'player'); return r; }; }
+const _v241b_orig_handleUnitPutIntoPlayEvent = typeof handleUnitPutIntoPlayEvent==='function' ? handleUnitPutIntoPlayEvent : null;
+if(_v241b_orig_handleUnitPutIntoPlayEvent){ handleUnitPutIntoPlayEvent=function(payload={}){ const r=_v241b_orig_handleUnitPutIntoPlayEvent.call(this,payload); v241ApplyEntryPassives(payload.unit,payload.card,payload.pos,payload.side||'player'); return r; }; }
+function v241bCompletionMarker(){ return true; }
+
+// v241c: connect explicit skill-link pass2 cards to the existing skillUse event.
+const _v241c_orig_triggerTensionLinks = typeof triggerTensionLinks==='function' ? triggerTensionLinks : null;
+if(_v241c_orig_triggerTensionLinks){ triggerTensionLinks=function(reason,payload={}){ const r=_v241c_orig_triggerTensionLinks.call(this,reason,payload); if(reason==='skillUse') v241SkillLink(payload?.cardName || payload?.skillName || 'ヒーロースキル'); return r; }; }
+function v241cCompletionMarker(){ return true; }
+
+// v242: cost4/5 closeout pass3 + runtime hardening for remaining/partial cards.
+// Scope: remaining v241 cost4/5 units and guarded runtime behaviours that can be reached from random pools.
+function v242G(){ return state?.battle?.game; }
+function v242Board(side='player'){ const g=v242G(); return side==='enemy' ? (g?.enemy?.board||[]) : (g?.player?.board||[]); }
+function v242Obj(side='player'){ const g=v242G(); return side==='enemy' ? g?.enemy : g?.player; }
+function v242Alive(u){ return !!(u && !u.isBuilding && Number(u.hp||0)>0); }
+function v242Refs(side='player', pred=null){ return v242Board(side).map((unit,pos)=>({side,pos,unit})).filter(r=>v242Alive(r.unit) && (!pred || pred(r.unit,r.pos))); }
+function v242AllRefs(pred=null){ return [...v242Refs('player',pred), ...v242Refs('enemy',pred)]; }
+function v242Card(name){ return findCardByName(name) || ensureVirtualCard(name); }
+function v242Log(msg){ if(typeof battleLog==='function') battleLog(msg); }
+function v242SafeCopyCard(card, suffix='v242'){
+  if(!card) return null;
+  const copy=JSON.parse(JSON.stringify(card));
+  copy.id=`copy_${card.id||card.name}_${Date.now()}_${suffix}_${safeRandomId ? safeRandomId(suffix).slice(0,6) : Math.random().toString(36).slice(2,8)}`;
+  copy.originalCardId ||= card.originalCardId || card.id;
+  copy.flags ||= {}; copy.flags.generatedOrEvolved=true;
+  if(Array.isArray(state.allCards)) state.allCards.push(copy);
+  if(Array.isArray(state.cards)) state.cards.push(copy);
+  return copy;
+}
+function v242BuffUnit(unit, atk=0, hp=0, source='効果'){
+  if(!unit) return false;
+  if(atk) unit.attack=Number(unit.attack||0)+Number(atk||0);
+  if(hp){ unit.hp=Number(unit.hp||0)+Number(hp||0); unit.maxHp=Number(unit.maxHp||unit.hp||0)+Number(hp||0); }
+  v242Log(`${source}：${unit.name||'ユニット'}を${atk>=0?'+':''}${atk}/${hp>=0?'+':''}${hp}。`);
+  return true;
+}
+function v242SameRowEnemyUnits(side,pos){
+  if(typeof sameRowEnemyUnitsForSideV220==='function') return sameRowEnemyUnitsForSideV220(side,pos).filter(x=>v242Alive(x.u||x.unit));
+  if(typeof sameRowOpposingUnitsV209==='function') return sameRowOpposingUnitsV209(side,pos);
+  return [];
+}
+function v242MovingStatueCanAttack(ref){
+  if(!ref || ref.side==='playerLeader' || ref.side==='enemyLeader') return true;
+  const u=v242Board(ref.side)[ref.pos];
+  if(u?.name!=='うごくせきぞう') return true;
+  return v242SameRowEnemyUnits(ref.side, ref.pos).length>0;
+}
+function v242HasMovingStatueNoTarget(ref){ return ref && !v242MovingStatueCanAttack(ref); }
+
+// うごくせきぞう: cannot attack anything if there is no enemy unit in the same row.
+const _v242_orig_canAttackTargetUnitV173 = typeof canAttackTargetUnitV173==='function' ? canAttackTargetUnitV173 : null;
+if(_v242_orig_canAttackTargetUnitV173){ canAttackTargetUnitV173=function(unit,targetSide,attackerRef=null){ const ref=attackerRef || v242G()?.selectedAttacker; if(v242HasMovingStatueNoTarget(ref)) return false; return _v242_orig_canAttackTargetUnitV173.call(this,unit,targetSide,attackerRef); }; }
+const _v242_orig_canAttackLeaderV173 = typeof canAttackLeaderV173==='function' ? canAttackLeaderV173 : null;
+if(_v242_orig_canAttackLeaderV173){ canAttackLeaderV173=function(targetSide,attackerRef=null){ const ref=attackerRef || v242G()?.selectedAttacker; if(v242HasMovingStatueNoTarget(ref)) return false; return _v242_orig_canAttackLeaderV173.call(this,targetSide,attackerRef); }; }
+
+function v242RandomUnitCard(cost, pred=()=>true){ const pool=(state.allCards||[]).filter(c=>c?.cardType==='ユニット'&&Number(c.cost||0)===Number(cost)&&c.flags?.deckBuildable!==false&&pred(c)); return chooseRandom(pool,'v242RandomUnitCard',{cost}); }
+function v242PutCard(card, side='player', source='効果'){
+  const pos=typeof firstEmptyByOwnerPriorityV217==='function' ? firstEmptyByOwnerPriorityV217(side) : v242Board(side).findIndex(x=>!x);
+  if(!card || pos<0) return false;
+  putUnitIntoPlayFromCard(card,pos,side);
+  v242Log(`${source}：${card.name}を場に出しました。`);
+  return true;
+}
+function v242AddCardCopy(card, opts={}, source='効果'){ if(!card) return false; if(typeof addCardCopyToHand==='function') return addCardCopyToHand(card,opts,source); const g=v242G(); const cp=v242SafeCopyCard(card,source); if(cp) g.player.hand.push(cp.id); return !!cp; }
+function v242DrawForSide(side='player', n=1){ if(side==='player') return drawCard(Number(n||1)); if(typeof drawForSideV114==='function') return drawForSideV114(side,Number(n||1)); return 0; }
+
+function v242RarityUpgrade(card){
+  const order=['ノーマル','レア','スーパーレア','レジェンドレア'];
+  const idx=order.indexOf(card?.rarity||''); if(idx<0 || idx>=order.length-1) return null;
+  const target=order[idx+1];
+  const pool=(state.allCards||[]).filter(c=>c && c.rarity===target && c.name!==card.name && c.flags?.deckBuildable!==false);
+  return chooseRandom(pool,'v242DeboraRarityUpgrade',{from:card.name,target});
+}
+function v242DeboraSkillLink(){
+  const g=v242G(); if(!g?.player?.hand) return false;
+  let changed=0;
+  g.player.hand = g.player.hand.map(id=>{
+    const c=byId(id); const next=v242RarityUpgrade(c);
+    if(!next) return id;
+    const cp=v242SafeCopyCard(next,'debora');
+    if(cp){ changed++; return cp.id; }
+    return id;
+  });
+  v242Log(`デボラ：手札${changed}枚をレアリティが1つ上の別カードに変えました。`);
+  return changed>0;
+}
+
+function v242ApplyPositiveEffectToUnit(unit, eff={}, sourceName='コピー効果'){
+  if(!unit || !eff) return false;
+  const k=String(eff.kind||'');
+  if(k==='merchantToolHeal'){ healUnit(unit,Number(eff.amount||0)); return true; }
+  if(k==='merchantToolSeed' || k==='buffStats') return v242BuffUnit(unit,Number(eff.attack||0),Number(eff.hp||0),sourceName);
+  if(k==='merchantSuperPowerSeed'){ unit.attack=Number(unit.attack||0)+2; unit.keywords ||= {}; unit.keywords.piercing=true; return true; }
+  if(k==='grantKeywords'){ unit.keywords ||= {}; Object.assign(unit.keywords, eff.keywords||{}); if(eff.keywords?.haste){ unit.canAttack=true; unit.summoningSickness=false; } return true; }
+  if(k==='tempAttackBuff' || k==='tempAttackBuffNoLeader'){ if(typeof addTempAttack==='function') addTempAttack(unit,Number(eff.amount||0),sourceName); else unit.attack=Number(unit.attack||0)+Number(eff.amount||0); if(k==='tempAttackBuffNoLeader') unit.cannotAttackLeaderThisTurn=true; return true; }
+  if(k==='coinSeed'){ unit.attack=Number(unit.attack||0)+1; return true; }
+  return false;
+}
+function v242TriggerTrodeCopies(eff={}, targetRef={}){
+  if(targetRef.side!=='player') return false;
+  const target=v242Board('player')[targetRef.pos];
+  if(!target || target.name!=='トロデ') return false;
+  if(typeof magicalHatCopyEligibleV229==='function' && !magicalHatCopyEligibleV229(eff)) return false;
+  let n=0;
+  for(const ref of v242Refs('player',u=>u!==target)) if(v242ApplyPositiveEffectToUnit(ref.unit, eff, 'トロデ')) n++;
+  if(n) v242Log(`トロデ：同じ特技効果を他の味方ユニット${n}体にも適用しました。`);
+  return n>0;
+}
+if(typeof applyPendingGenericEffectToUnit==='function'){
+  const _v242_orig_applyPendingGenericEffectToUnit=applyPendingGenericEffectToUnit;
+  applyPendingGenericEffectToUnit=function(defenderRef){
+    const g=v242G(); const eff=g?.pendingGenericEffect ? {...g.pendingGenericEffect, keywords:{...(g.pendingGenericEffect.keywords||{})}} : null;
+    const ref=defenderRef ? {...defenderRef} : null;
+    const ret=_v242_orig_applyPendingGenericEffectToUnit.call(this,defenderRef);
+    if(eff && ref) v242TriggerTrodeCopies(eff, ref);
+    return ret;
+  };
+}
+
+function v242Cost2ZekkochoCardsFromDeck(count=2, source='メタルドラゴン'){
+  const g=v242G(); if(!g?.player?.deck) return 0; let made=0;
+  for(let k=0;k<count;k++){
+    const entries=g.player.deck.map((id,i)=>({id,i,card:byId(id)})).filter(x=>x.card?.cardType==='ユニット' && Number(x.card.cost||0)<=2 && /絶好調/.test(String(x.card.text||'')));
+    if(!entries.length) break;
+    const pick=chooseRandom(entries,'v242MetalDragonDeck',{k});
+    g.player.deck.splice(pick.i,1);
+    if(v242PutCard(pick.card,'player',source)) made++;
+  }
+  return made;
+}
+function v242BuffAllFriendlyZekkocho(source='メタルドラゴン'){
+  let n=0;
+  for(const ref of v242Refs('player')){
+    const c=byId(ref.unit.cardId)||v242Card(ref.unit.name);
+    if(ref.unit.conditionGood || (typeof isZekkochoV134==='function' && isZekkochoV134(ref.unit)) || /絶好調/.test(String(c?.text||''))){ v242BuffUnit(ref.unit,1,1,source); n++; }
+  }
+  return n;
+}
+function v242BuffLowAttackUnitCardsInZones(source='リゼロッタ&ルコリア'){
+  const g=v242G(); if(!g?.player) return 0; let n=0;
+  for(const zone of ['hand','deck']){
+    g.player[zone] = (g.player[zone]||[]).map(id=>{
+      const c=byId(id);
+      if(c?.cardType==='ユニット' && Number(c.attack||0)<=2){ const cp=v242SafeCopyCard(c,`rizerotta_${zone}`); if(cp){ cp.attack=Number(cp.attack||0)+1; cp.hp=Number(cp.hp||0)+1; cp.text=`${cp.text||''} ${source}:+1/+1`.trim(); n++; return cp.id; } }
+      return id;
+    });
+  }
+  v242Log(`${source}：手札とデッキの攻撃力2以下ユニットカード${n}枚を+1/+1。`);
+  return n;
+}
+function v242AddDeadFriendlyUnitsRandom(count=2, source='リゼロッタ&ルコリア'){
+  const g=v242G(); const pool=[...(g?.player?.deadUnitsV241||[])]; let n=0;
+  for(let i=0;i<count && pool.length;i++){
+    const pick=chooseRandom(pool,'v242DeadFriendlyUnitToHand',{i,source});
+    const idx=pool.indexOf(pick); if(idx>=0) pool.splice(idx,1);
+    const c=byId(pick.cardId)||v242Card(pick.name); if(c){ v242AddCardCopy(c,{},source); n++; }
+  }
+  return n;
+}
+function v242FortuneSummon(unit, card){
+  const name=card?.name||'';
+  if(name==='エビルドライブ') return resolveFortuneV187(name, ['カードを1枚引く','攻撃力+3'], i=>{ if(i===0) drawCard(1); else v242BuffUnit(unit,3,0,name); }, {card});
+  if(name==='おばけトマト') return resolveFortuneV187(name, ['敵ユニット1体の攻撃力を1にする','敵ユニット1体のHPを1にする'], i=>{
+    return v241ChooseUnit?.(`${name}：敵ユニットを選択`, v241Refs('enemy'), ref=>{ if(i===0) ref.unit.attack=1; else { ref.unit.hp=Math.min(Number(ref.unit.hp||1),1); ref.unit.maxHp=Math.min(Number(ref.unit.maxHp||1),1); } });
+  }, {card});
+  if(name==='メタルドラゴン'){
+    unit.conditionGood=true; if(typeof grantZekkochoV134==='function') grantZekkochoV134(unit,name);
+    return resolveFortuneV187(name, ['デッキからコスト2以下の絶好調ユニットを2体出す','絶好調を持つ全ての味方ユニットを+1/+1'], i=>{ if(i===0) v242Cost2ZekkochoCardsFromDeck(2,name); else v242BuffAllFriendlyZekkocho(name); }, {card});
+  }
+  if(name==='リゼロッタ&ルコリア') return resolveFortuneV187(name, ['死亡したランダムな味方ユニットを2枚手札に加える','手札とデッキの攻撃力2以下ユニットカードを+1/+1'], i=>{ if(i===0) v242AddDeadFriendlyUnitsRandom(2,name); else v242BuffLowAttackUnitCardsInZones(name); }, {card});
+  return false;
+}
+
+function v242ApplyEggChickenEffect(unit, choice){
+  const g=v242G(); if(!g) return false;
+  if(choice==='egg'){
+    for(const ref of v242Refs('enemy')) dealDamageToUnit(ref.unit,3,'エッグラ&チキーラ','enemy');
+    dealDamageToLeader('enemy',3,'エッグラ&チキーラ');
+    resolveDeaths();
+    v242Log('エッグラ&チキーラ：タマゴ効果で全ての敵に3ダメージ。');
+    return true;
+  }
+  if(choice==='chicken'){
+    dealDamageToLeader('enemy',3,'エッグラ&チキーラ');
+    drawCard(2);
+    v242Log('エッグラ&チキーラ：ニワトリ効果で敵リーダーに3ダメージ、2枚ドロー。');
+    return true;
+  }
+  return false;
+}
+function v242EggraChikiraSummon(unit){
+  openChoiceModal('エッグラ&チキーラ：選択', ['タマゴ','ニワトリ'], (_p,i)=>{
+    unit.v242EggChickenChoice = i===0?'egg':'chicken';
+    unit.v242EggChickenPending = true;
+    v242Log(`エッグラ&チキーラ：${i===0?'タマゴ':'ニワトリ'}を選択。次の相手ターン開始時に予想判定します。`);
+    renderBattleArena(); syncMyBattleState();
+  }, {kind:'v242EggraChikira'});
+  return true;
+}
+function v242ResolveEggraChikiraGuesses(){
+  for(const ref of v242Refs('player',u=>u.v242EggChickenPending)){
+    const u=ref.unit;
+    openChoiceModal('エッグラ&チキーラ：相手の予想（ローカルテスト）', ['タマゴ','ニワトリ'], (_p,i)=>{
+      const guess=i===0?'egg':'chicken'; const actual=u.v242EggChickenChoice;
+      delete u.v242EggChickenPending;
+      if(guess!==actual) v242ApplyEggChickenEffect(u,actual);
+      else v242Log('エッグラ&チキーラ：相手が正解したため不発。');
+      renderBattleArena(); syncMyBattleState();
+    }, {kind:'v242EggraChikiraGuess'});
+  }
+}
+
+function v242Renkei(card,targetUnit=null){
+  const name=card?.name||'';
+  if(name==='セニカ'){
+    v241ChooseUnit?.('セニカれんけい：3ダメージを与える敵1体', v241EnemyAnyTargets?.().filter(x=>x.type==='unit').map(x=>x.ref) || v241Refs('enemy'), ref=>{ dealDamageToUnit(ref.unit,3,name,'enemy'); resolveDeaths(); });
+    for(const ref of v242Refs('player')) healUnit(ref.unit,3);
+    healLeader(3);
+    v242Log('セニカれんけい：全ての味方のHPを3回復。');
+    return true;
+  }
+  return false;
+}
+
+function v242RefreshAuras(side='player'){
+  const board=v242Board(side); if(!board.length) return;
+  for(const u of board) if(u && typeof removeModifiersByPrefixV157==='function') removeModifiersByPrefixV157(u,'v242aura:');
+  for(const ref of v242Refs(side)){
+    const u=ref.unit;
+    if(u.name==='地獄の帝王エスターク'){
+      const full=Number(u.hp||0)>=Number(u.maxHp||u.hp||0);
+      u.v242EstarkSplashAllEnemies=!!full;
+      if(full){
+        if(typeof applyUnitModifierV157==='function') applyUnitModifierV157(u,'v242aura:estarkFullHp',{attack:-5},u.name);
+        else u.attack=Number(u.attack||0)-5;
+      }
+    }
+  }
+}
+function v242EstarkAfterAttack(args={}){
+  const atk=args.attacker; const ref=args.attackerRef; if(!atk || atk.name!=='地獄の帝王エスターク' || !atk.v242EstarkSplashAllEnemies) return false;
+  const targetRef=args.targetRef || {}; const targetSide = ref?.side==='enemy' ? 'player' : 'enemy';
+  const dmg=Math.max(0,Number(args.damage || atk.attack || 0)); if(!dmg) return false;
+  for(const r of v242Refs(targetSide)){
+    if(r.pos===targetRef.pos && r.side===targetRef.side) continue;
+    dealDamageToUnit(r.unit,dmg,atk.name,targetSide);
+  }
+  const attackedLeader = targetRef.side==='enemyLeader' || targetRef.side==='playerLeader';
+  if(!attackedLeader) dealDamageToLeader(targetSide,dmg,atk.name);
+  resolveDeaths();
+  v242Log('地獄の帝王エスターク：他のすべての敵にも同時にダメージ。');
+  return true;
+}
+function v242OnDamageApplied(payload={}){
+  const g=v242G(); if(!g||!payload.actual) return;
+  const ref=payload.targetRef||{}; const side=ref.side;
+  if(side==='player' && g.isMyTurn){
+    const u=v242Board('player')[ref.pos];
+    if(v242Alive(u) && v242Refs('player',x=>x.name==='まおうのつかい').length){ v242BuffUnit(u,2,0,'まおうのつかい'); }
+  }
+}
+function v242OnUnitAppeared(payload={}){
+  const unit=payload.unit, side=payload.side||'player'; if(!unit) return;
+  if(unit.name==='ピサロナイト'){
+    for(const ref of v242Refs(side,u=>u.name==='じごくのざりがに')){
+      if(side==='player') healLeader(2); else if(typeof healLeaderForSideV114==='function') healLeaderForSideV114(side,2);
+      v242Log('じごくのざりがに：ピサロナイトが場に出たため味方リーダーを2回復。');
+    }
+  }
+}
+function v242OnDeckDraw(side='player', ids=[]){
+  const g=v242G(); if(!g||!ids.length) return;
+  const own=side, opp=side==='player'?'enemy':'player';
+  // デザートゴースト: own card drawn from own deck while it is in front row.
+  if(own==='player') for(const ref of v242Refs('player',u=>u.name==='デザートゴースト')) if(typeof isFrontRow==='function' ? isFrontRow('player',ref.pos) : ref.pos>=3){ v242BuffUnit(ref.unit,1,1,'デザートゴースト'); }
+  // ゲマ: opponent draws from deck; increase that drawn card cost and deal 2 to enemy leader.
+  for(const ref of v242Refs(opp,u=>u.name==='ゲマ')){
+    const obj=v242Obj(own);
+    for(let k=0;k<ids.length;k++){
+      const drawnId=ids[k];
+      const idx=(obj.hand||[]).lastIndexOf(drawnId);
+      const card=byId(drawnId);
+      if(card && idx>=0){ const cp=v242SafeCopyCard(card,'gemaTax'); cp.cost=Number(cp.cost||0)+1; obj.hand[idx]=cp.id; }
+      if(opp==='player') dealDamageToLeader('enemy',2,'ゲマ'); else dealDamageToLeader('player',2,'ゲマ');
+    }
+    v242Log('ゲマ：相手がデッキからカードを手札に加えたため、コスト+1と2ダメージ。');
+  }
+}
+
+function v242ChooseReviveFromDeadPool(pred, source, diesAtEnd=false, coinRequired=false){
+  const g=v242G(); if(!g) return false;
+  const pool=(g.player.deadUnitsV241||[]).filter(pred);
+  const unique=[]; const seen=new Set();
+  for(const x of pool){ if(!seen.has(x.name)){ seen.add(x.name); unique.push(x); } }
+  const cand=shuffle(unique,`v242Revive${source}`,{}).slice(0,3);
+  if(!cand.length){ v242Log(`${source}：復活候補なし。`); return true; }
+  openChoiceModal(`${source}：復活候補を選択`, cand.map(x=>({label:x.name,description:`コスト${x.cost}`,imagePath:getOfficialImage(byId(x.cardId)||v242Card(x.name))})), (_p,i)=>{
+    const x=cand[i];
+    v241ChooseFriendlyEmptyCell?.(`${source}：復活するマス`, p=>{ const c=byId(x.cardId)||v242Card(x.name); putUnitIntoPlayFromCard(c,p,'player'); const u=v242Board('player')[p]; if(u&&diesAtEnd) u.v241ForesdonDiesAtTurnEnd=true; }, true);
+  }, {kind:'v242ReviveChoice', choiceLayout:'cardGrid'});
+  return true;
+}
+function v242MarineFairySummon(){
+  const g=v242G(); const coins=(g.player.hand||[]).map((id,i)=>({id,i,card:byId(id)})).filter(x=>x.card?.name==='コイン');
+  if(!coins.length){ v242Log('マリンフェアリー：手札にコインがないため不発。'); return true; }
+  const pick=chooseRandom(coins,'v242MarineCoin',{}); discardHandCardAtIndex?.(pick.i,'マリンフェアリー');
+  return v242ChooseReviveFromDeadPool(x=>Number(x.cost||0)<=4,'マリンフェアリー');
+}
+function v242ForesdonSummon(){ return v242ChooseReviveFromDeadPool(x=>Number(x.cost||0)>=4,'フォレスドン',true); }
+
+function v242StrategyPing(unit){
+  const g=v242G(); if(!g || !unit || unit.isBuilding) return false;
+  for(const ref of v242Refs('player',u=>u.name==='追撃のキラーマシン')){
+    const src=ref.unit; src.v242StrategyPingsThisTurn=Number(src.v242StrategyPingsThisTurn||0);
+    if(src.v242StrategyPingsThisTurn>=2) continue;
+    const enemy=chooseRandom(v242Refs('enemy'),'v242StrategyPing',{});
+    if(enemy){ src.v242StrategyPingsThisTurn++; dealDamageToUnit(enemy.unit,2,src.name,'enemy'); resolveDeaths(); v242Log('追撃のキラーマシン：さくせん後、ランダムな敵ユニットに2ダメージ。'); }
+  }
+}
+if(typeof applyStrategyEffect==='function'){
+  const _v242_orig_applyStrategyEffect=applyStrategyEffect;
+  applyStrategyEffect=function(unit,picked){ const r=_v242_orig_applyStrategyEffect.call(this,unit,picked); v242StrategyPing(unit); return r; };
+}
+
+function v242ApplySummon(unit, card){
+  const name=card?.name||'';
+  if(['エビルドライブ','おばけトマト','メタルドラゴン','リゼロッタ&ルコリア'].includes(name)) return v242FortuneSummon(unit,card);
+  if(name==='エッグラ&チキーラ') return v242EggraChikiraSummon(unit);
+  if(name==='マリンフェアリー') return v242MarineFairySummon();
+  if(name==='フォレスドン') return v242ForesdonSummon();
+  return false;
+}
+
+// Wrappers installed after v241 so this pass can correct/override guarded behaviours.
+const _v242_orig_applySummonV166 = typeof applySummonV166==='function' ? applySummonV166 : null;
+if(_v242_orig_applySummonV166){ applySummonV166=function(unit,card,pos){ if(v242ApplySummon(unit,card,pos)) return true; return _v242_orig_applySummonV166.call(this,unit,card,pos); }; }
+const _v242_orig_v241SkillLink = typeof v241SkillLink==='function' ? v241SkillLink : null;
+if(_v242_orig_v241SkillLink){ v241SkillLink=function(cardName){ const r=_v242_orig_v241SkillLink.call(this,cardName); for(const ref of v242Refs('player',u=>u.name==='デボラ')) v242DeboraSkillLink(); return r; }; }
+const _v242_orig_applyRenkeiIfActive = typeof applyRenkeiIfActive==='function' ? applyRenkeiIfActive : null;
+if(_v242_orig_applyRenkeiIfActive){ applyRenkeiIfActive=function(card,targetUnit=null){ const g=v242G(); const ready=hasRenkei(card) && (Number(g?.player?.tension||0)>=3 || (g?.player?.heroSkill?.heroCardName==='勇者イレブン' && g.player.heroSkill.level===2 && g.player.heroSkill.elevenBondActive)); if(ready && v242Renkei(card,targetUnit)) return true; return _v242_orig_applyRenkeiIfActive.call(this,card,targetUnit); }; }
+const _v242_orig_handleTurnStartEvent = typeof handleTurnStartEvent==='function' ? handleTurnStartEvent : null;
+if(_v242_orig_handleTurnStartEvent){ handleTurnStartEvent=function(payload={}){ const r=_v242_orig_handleTurnStartEvent.call(this,payload); if((payload.side||'player')==='enemy') v242ResolveEggraChikiraGuesses(); for(const ref of v242Refs('player',u=>u.name==='追撃のキラーマシン')) ref.unit.v242StrategyPingsThisTurn=0; return r; }; }
+const _v242_orig_handleAfterAttackEvent = typeof handleAfterAttackEvent==='function' ? handleAfterAttackEvent : null;
+if(_v242_orig_handleAfterAttackEvent){ handleAfterAttackEvent=function(args={}){ const r=_v242_orig_handleAfterAttackEvent.call(this,args); v242EstarkAfterAttack(args); return r; }; }
+const _v242_orig_handleDamageAppliedEvent = typeof handleDamageAppliedEvent==='function' ? handleDamageAppliedEvent : null;
+if(_v242_orig_handleDamageAppliedEvent){ handleDamageAppliedEvent=function(payload={}){ const r=_v242_orig_handleDamageAppliedEvent.call(this,payload); v242OnDamageApplied(payload); return r; }; }
+const _v242_orig_handleUnitSummonedEvent = typeof handleUnitSummonedEvent==='function' ? handleUnitSummonedEvent : null;
+if(_v242_orig_handleUnitSummonedEvent){ handleUnitSummonedEvent=function(payload={}){ const r=_v242_orig_handleUnitSummonedEvent.call(this,payload); v242OnUnitAppeared(payload); return r; }; }
+const _v242_orig_handleUnitPutIntoPlayEvent = typeof handleUnitPutIntoPlayEvent==='function' ? handleUnitPutIntoPlayEvent : null;
+if(_v242_orig_handleUnitPutIntoPlayEvent){ handleUnitPutIntoPlayEvent=function(payload={}){ const r=_v242_orig_handleUnitPutIntoPlayEvent.call(this,payload); v242OnUnitAppeared(payload); return r; }; }
+const _v242_orig_refreshContinuousBoardEffectsV157 = typeof refreshContinuousBoardEffectsV157==='function' ? refreshContinuousBoardEffectsV157 : null;
+if(_v242_orig_refreshContinuousBoardEffectsV157){ refreshContinuousBoardEffectsV157=function(side='player'){ const r=_v242_orig_refreshContinuousBoardEffectsV157.call(this,side); v242RefreshAuras(side); return r; }; }
+const _v242_orig_drawCard = typeof drawCard==='function' ? drawCard : null;
+if(_v242_orig_drawCard){ drawCard=function(count=1){ const g=v242G(); const ids=g?.player?.deck?.slice(0,Number(count||1))||[]; const r=_v242_orig_drawCard.call(this,count); if(ids.length) v242OnDeckDraw('player', ids.slice(0,Number(r||0))); return r; }; }
+const _v242_orig_drawForSideV114 = typeof drawForSideV114==='function' ? drawForSideV114 : null;
+if(_v242_orig_drawForSideV114){ drawForSideV114=function(side,count=1){ const obj=v242Obj(side); const ids=obj?.deck?.slice(0,Number(count||1))||[]; const r=_v242_orig_drawForSideV114.call(this,side,count); if(ids.length) v242OnDeckDraw(side, ids.slice(0,Number(r||0))); return r; }; }
+function v242CompletionMarker(){ return true; }
+
+// ===== v243: エッグラ&チキーラ 相手ターン開始時の同期予想モーダル =====
+// 方針:
+// - 召喚者は召喚時に「タマゴ/ニワトリ」を選択する。
+// - その情報は召喚者側だけで保持する。相手側へは「予想が必要」という予約だけ送る。
+// - 相手のターン開始時、相手画面に同じ2択モーダルを表示して予想してもらう。
+// - 予想結果を召喚者側へ返し、召喚者側で正誤判定して結果actionを返す。
+// - 召喚者側/相手側どちらでも「場に出す」ではなく召喚時にだけこの予約が発生する。
+function v243G(){ return state?.battle?.game; }
+function v243Board(side='player'){ const g=v243G(); return side==='enemy' ? (g?.enemy?.board||[]) : (g?.player?.board||[]); }
+function v243Refs(side='player', pred=null){ return (v243Board(side)||[]).map((unit,pos)=>({side,pos,unit})).filter(r=>r.unit && Number(r.unit.hp||0)>0 && (!pred || pred(r.unit,r.pos))); }
+function v243Log(msg){ if(typeof battleLog==='function') battleLog(msg); else console.log(msg); }
+function v243MakeEggraPendingId(unit){ return `eggchikira_${unit?.id||'unit'}_${Date.now()}_${safeRandomId('egg').slice(0,6)}`; }
+function v243FindUnit(side, unitId='', pos=-1, name=''){
+  const board=v243Board(side);
+  if(unitId){ const u=board.find(x=>x?.id===unitId); if(u) return u; }
+  if(Number.isInteger(pos) && pos>=0 && pos<board.length && board[pos]) return board[pos];
+  if(name){ const u=board.find(x=>x?.name===name); if(u) return u; }
+  return null;
+}
+function v243DrawForSide(side='player', count=1, source='エッグラ&チキーラ'){
+  const g=v243G(); const n=Number(count||1);
+  if(side==='player') return typeof drawCard==='function' ? drawCard(n) : 0;
+  if(typeof drawForSideV114==='function') return drawForSideV114('enemy', n);
+  g.enemy.handCount = Number(g.enemy.handCount||0) + n;
+  v243Log(`${source}：相手がカードを${n}枚引きました。`);
+  return n;
+}
+function v243ApplyEggChickenEffect(choice, sourceSide='player'){
+  const targetSide = sourceSide === 'player' ? 'enemy' : 'player';
+  const sourceName = 'エッグラ&チキーラ';
+  if(choice === 'egg'){
+    for(const ref of v243Refs(targetSide)) dealDamageToUnit(ref.unit, 3, sourceName, targetSide);
+    dealDamageToLeader(targetSide, 3, sourceName);
+    if(typeof resolveDeaths==='function') resolveDeaths();
+    v243Log(`${sourceName}：タマゴ効果で${targetSide==='enemy'?'敵':'味方'}全体に3ダメージ。`);
+    return true;
+  }
+  if(choice === 'chicken'){
+    dealDamageToLeader(targetSide, 3, sourceName);
+    v243DrawForSide(sourceSide, 2, sourceName);
+    v243Log(`${sourceName}：ニワトリ効果で${targetSide==='enemy'?'敵':'味方'}リーダーに3ダメージ、召喚者が2枚ドロー。`);
+    return true;
+  }
+  return false;
+}
+function v243QueueRemoteEggraGuess(unit, choice){
+  const g=v243G(); if(!g||!unit) return '';
+  const pendingId = v243MakeEggraPendingId(unit);
+  const pos = v243Board('player').indexOf(unit);
+  unit.v243EggraChoice = choice;
+  unit.v243EggraPending = true;
+  unit.v243EggraPendingId = pendingId;
+  g.v243EggraLocalChoices ||= {};
+  g.v243EggraLocalChoices[pendingId] = {choice, unitId:unit.id, pos, turn:g.turn, createdBy:state.playerId};
+  if(typeof pushBattleAction==='function'){
+    pushBattleAction('eggChikiraPending', {pendingId, unitId:unit.id, pos, name:unit.name, turn:g.turn});
+  }
+  return pendingId;
+}
+function v242EggraChikiraSummon(unit){
+  openChoiceModal('エッグラ&チキーラ：選択', ['タマゴ','ニワトリ'], (_p,i)=>{
+    const choice = i===0 ? 'egg' : 'chicken';
+    unit.v242EggChickenChoice = choice;
+    unit.v242EggChickenPending = true;
+    v243QueueRemoteEggraGuess(unit, choice);
+    v243Log(`エッグラ&チキーラ：${i===0?'タマゴ':'ニワトリ'}を選択。次の相手ターン開始時、相手画面に予想モーダルを表示します。`);
+    renderBattleArena?.(); syncMyBattleState?.();
+  }, {kind:'v243EggraChikira', choiceLayout:'cardGrid'});
+  return true;
+}
+function v243RegisterIncomingEggraPending(payload={}){
+  const g=v243G(); if(!g) return true;
+  g.v243EggraIncoming ||= [];
+  if(g.v243EggraIncoming.some(x=>x.pendingId===payload.pendingId)) return true;
+  g.v243EggraIncoming.push({
+    pendingId: payload.pendingId,
+    unitId: payload.unitId,
+    pos: Number(payload.pos ?? -1),
+    name: payload.name || 'エッグラ&チキーラ',
+    turn: Number(payload.turn || g.turn || 0),
+    guessed: false,
+    prompted: false
+  });
+  v243Log('エッグラ&チキーラ：相手の選択を受信。自分のターン開始時に予想します。');
+  setTimeout(v243MaybePromptEggraGuessOnOwnTurn, 0);
+  return true;
+}
+function v243MaybePromptEggraGuessOnOwnTurn(){
+  const g=v243G(); if(!g || !g.isMyTurn || g.finished) return false;
+  const q=(g.v243EggraIncoming||[]).filter(x=>!x.guessed && !x.prompted);
+  if(!q.length) return false;
+  const item=q[0];
+  item.prompted = true;
+  openChoiceModal('エッグラ&チキーラ：相手の選択を予想', ['タマゴ','ニワトリ'], (_p,i)=>{
+    const guess = i===0 ? 'egg' : 'chicken';
+    item.guessed = true;
+    item.guess = guess;
+    if(typeof pushBattleAction==='function') pushBattleAction('eggChikiraGuess', {pendingId:item.pendingId, unitId:item.unitId, pos:item.pos, guess, guessedBy:state.playerId, turn:g.turn});
+    v243Log(`エッグラ&チキーラ：${i===0?'タマゴ':'ニワトリ'}と予想しました。相手側の判定を待ちます。`);
+    renderBattleArena?.(); syncMyBattleState?.();
+    setTimeout(v243MaybePromptEggraGuessOnOwnTurn, 0);
+  }, {kind:'v243EggraChikiraGuess', choiceLayout:'cardGrid'});
+  return true;
+}
+function v243HandleEggraGuess(payload={}){
+  const g=v243G(); if(!g) return true;
+  const pendingId=payload.pendingId || '';
+  const record=g.v243EggraLocalChoices?.[pendingId];
+  const unit=v243FindUnit('player', payload.unitId, Number(record?.pos ?? payload.pos ?? -1), 'エッグラ&チキーラ');
+  const actual = record?.choice || unit?.v243EggraChoice || unit?.v242EggChickenChoice || '';
+  if(!actual){ v243Log('エッグラ&チキーラ：元の選択が見つからないため判定できません。'); return true; }
+  const guess=payload.guess;
+  const hit = guess === actual;
+  if(unit){ delete unit.v243EggraPending; delete unit.v242EggChickenPending; }
+  if(record && g.v243EggraLocalChoices) delete g.v243EggraLocalChoices[pendingId];
+  if(!hit) v243ApplyEggChickenEffect(actual, 'player');
+  else v243Log('エッグラ&チキーラ：相手が正解したため不発。');
+  if(typeof pushBattleAction==='function') pushBattleAction('eggChikiraResolved', {pendingId, unitId:payload.unitId, pos:Number(payload.pos??-1), guess, actual, hit, turn:g.turn});
+  renderBattleArena?.(); syncMyBattleState?.();
+  return true;
+}
+function v243HandleEggraResolved(payload={}){
+  const g=v243G(); if(!g) return true;
+  for(const item of (g.v243EggraIncoming||[])) if(item.pendingId===payload.pendingId){ item.guessed=true; item.resolved=true; }
+  if(payload.hit){ v243Log('エッグラ&チキーラ：予想が的中したため不発。'); }
+  else { v243ApplyEggChickenEffect(payload.actual, 'enemy'); }
+  renderBattleArena?.(); syncMyBattleState?.();
+  return true;
+}
+const _v243_orig_applyRemoteReducer = typeof applyRemoteReducer==='function' ? applyRemoteReducer : null;
+if(_v243_orig_applyRemoteReducer){
+  applyRemoteReducer=function(action){
+    if(action?.type==='eggChikiraPending') return v243RegisterIncomingEggraPending(action.payload||{});
+    if(action?.type==='eggChikiraGuess') return v243HandleEggraGuess(action.payload||{});
+    if(action?.type==='eggChikiraResolved') return v243HandleEggraResolved(action.payload||{});
+    return _v243_orig_applyRemoteReducer.call(this, action);
+  };
+}
+// ローカルソロ/片画面テスト用: enemy側ターン開始イベントが来た場合は従来どおり同一画面で予想できる。
+function v242ResolveEggraChikiraGuesses(){
+  const g=v243G(); if(!g) return false;
+  for(const ref of v243Refs('player',u=>u.v242EggChickenPending || u.v243EggraPending)){
+    const u=ref.unit;
+    if(u.v243LocalGuessOpen) continue;
+    u.v243LocalGuessOpen = true;
+    openChoiceModal('エッグラ&チキーラ：相手の予想（ローカル/ソロ）', ['タマゴ','ニワトリ'], (_p,i)=>{
+      const guess=i===0?'egg':'chicken'; const actual=u.v243EggraChoice || u.v242EggChickenChoice;
+      delete u.v242EggChickenPending; delete u.v243EggraPending; delete u.v243LocalGuessOpen;
+      if(guess!==actual) v243ApplyEggChickenEffect(actual,'player');
+      else v243Log('エッグラ&チキーラ：相手が正解したため不発。');
+      renderBattleArena?.(); syncMyBattleState?.();
+    }, {kind:'v243EggraChikiraLocalGuess'});
+    return true;
+  }
+  return false;
+}
+// ターン切替後のrenderを利用して、自分のターンになった瞬間の予想モーダル表示を拾う。
+const _v243_orig_renderBattleArena = typeof renderBattleArena==='function' ? renderBattleArena : null;
+if(_v243_orig_renderBattleArena){
+  renderBattleArena=function(){
+    const r=_v243_orig_renderBattleArena.apply(this, arguments);
+    setTimeout(v243MaybePromptEggraGuessOnOwnTurn, 0);
+    return r;
+  };
+}
+function v243EggraChikiraMarker(){ return true; }

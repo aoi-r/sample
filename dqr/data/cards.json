@@ -47816,13 +47816,14 @@
       "hp": 6,
       "text": "このユニットを除く全ての味方ユニットの攻撃力をHPと同じ値にする",
       "rarity": "スーパーレア",
-      "cardType": "特技",
+      "cardType": "ユニット",
       "classes": [
         "僧侶"
       ],
       "tribes": [],
       "tags": [
-        "特技"
+        "特技",
+        "v240_cardType_corrected"
       ],
       "sourceSheets": [
         "僧侶",
@@ -47833,7 +47834,8 @@
         "特技一覧(職業全て)": 57
       },
       "flags": {
-        "deckBuildable": true
+        "deckBuildable": true,
+        "v240CorrectedCardType": "official-text-unit-effect"
       },
       "classKey": "僧侶",
       "tribeKey": "",

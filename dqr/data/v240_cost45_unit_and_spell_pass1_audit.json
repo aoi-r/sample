@@ -1,0 +1,3872 @@
+[
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "リビングスタチュー",
+    "status": "basic_keyword_or_no_text",
+    "risk": "simple",
+    "keywords": "",
+    "text": "におうだち",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/11"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "りゅうき兵",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "効果なし",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/12"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ストーンマン",
+    "status": "basic_keyword_or_no_text",
+    "risk": "simple",
+    "keywords": "",
+    "text": "におうだち",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/13"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "バアルゼブブ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|敵リーダー",
+    "text": "召喚時：敵リーダーに3ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/14"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ぐんたいガニ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "ターン開始|出す",
+    "text": "自分のターン開始時このユニットの前後にぐんたいガニを出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/24"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "バイキングソウル",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "正面にいるユニットと戦闘をする場合このターン中攻撃力+3",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/25"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "キラーパンサー",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：敵ユニットが3体以上いる場合速攻を得る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/26"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "プリーストナイト",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|ランダム",
+    "text": "召喚時：ダメージを受けているランダムな味方1体のHPを3回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/27"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "シールドオーガ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|味方リーダー",
+    "text": "召喚時：味方リーダーのHPが15以下の場合+2/+2とにおうだちを得る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/28"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "アックスドラゴン",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：ユニット1体に1ダメージを与えた後「受けるダメージ2倍」を付与する。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/29"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "レッドアーチャー",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|味方リーダー",
+    "text": "召喚時：味方リーダーのHPが20以上の場合このユニットは攻撃力+2とねらい撃ちを得る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/30"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "サイレス",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|封印",
+    "text": "召喚時：ユニット1体を封印する",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/77"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "グール",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "毒",
+    "text": "ダメージを与えたユニットを毒にする",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/78"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "きとうし",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "特技",
+    "text": "特技ダメージ+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/79"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "あらくれチャッピー",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：ユニット1体に2ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/80"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "亡者のひとだま",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "このユニットは効果の対象にならない",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/81"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ひくいどり",
+    "status": "basic_keyword_or_no_text",
+    "risk": "simple",
+    "keywords": "",
+    "text": "貫通",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/82"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "しにがみのきし",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|移動",
+    "text": "召喚時：前列にいるユニット1体を後列に移動させる",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/83"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "トロル",
+    "status": "v240_added_or_reinforced",
+    "risk": "simple",
+    "keywords": "",
+    "text": "受けるダメージ2倍",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/84"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "かげのきし",
+    "status": "basic_keyword_or_no_text",
+    "risk": "simple",
+    "keywords": "",
+    "text": "ステルス",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/85"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ブルベリーノ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：カードを1枚引く",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/113"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "メッサーラ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：縦1列にいる全ての敵ユニットに1ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/114"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "オークキング",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "貫通、召喚時：HPを2回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/115"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "シルバーデビル",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "ねらい撃ち、2回攻撃",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/116"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "メタルライダー",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "死亡時|出す",
+    "text": "死亡時：メタルボディ1/2メタルスライムをこのマスに出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/117"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "コングヘッド",
+    "status": "v240_added_or_reinforced",
+    "risk": "simple",
+    "keywords": "",
+    "text": "前後にいる味方ユニットの攻撃力+2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/118"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "バリクナジャ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "味方リーダー",
+    "text": "このユニットの攻撃で敵ユニットを倒す度味方リーダーのテンション+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/119"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "うごくせきぞう",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "正面に敵ユニットが1体もいない場合攻撃できない",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/120"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "エリミネーター",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "前列にいる場合他の味方ユニットが死亡する度カードを1枚引く。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/121"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "マミー",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：敵1体を次のターン攻撃不能にする",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/122"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ゴールドオーク",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|味方リーダー",
+    "text": "召喚時：味方リーダーのテンションの2倍分味方リーダーのHPを回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/123"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "バトルレックス",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "攻撃時|武器|味方リーダー",
+    "text": "攻撃時：このターン中味方リーダーの武器の攻撃力+2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/124"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "けがれの渦",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "死亡時|毒",
+    "text": "におうだち、死亡時：全てのユニットを毒にする",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/125"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "さまようよろい",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|出す",
+    "text": "召喚時：前列に召喚した場合ホイミスライムを後ろに出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/126"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ワイトキング",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "後列にいる場合前列にいるゾンビ系の味方ユニット全てを+1/+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/133"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "キングスライム",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "テンションリンク|出す",
+    "text": "テンションリンク：1/1のスライムを出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/134"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "メタルキング",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "テンションリンク|手札",
+    "text": "速攻、メタルボディ、テンションリンク：自分の手札に戻る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/135"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ギガンテス",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "攻撃時",
+    "text": "攻撃時：このターン中攻撃力+3",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/136"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ヒューザ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "ターン終了|ランダム",
+    "text": "自分のターン終了時他の味方ユニットが1体もいない場合ランダムな敵1体に自分の攻撃力と同じダメージを与える。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/147"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ゴールデンスライム",
+    "status": "v240_added_or_reinforced",
+    "risk": "simple",
+    "keywords": "",
+    "text": "メタルボディ、このターンの開始時このユニットを除く全てのユニットを死亡させる。 この効果は一度しか発動しない。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/148"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "カミュ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|手札|武器|敵リーダー",
+    "text": "召喚時：敵リーダーが装備中の武器を奪い自分の手札に加える。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/149"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "アンルシア",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：攻撃力5以上の敵ユニット1体を攻撃力0にする",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/150"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ラヴィエル",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "死亡時|手札",
+    "text": "死亡時：対戦中に死亡したラヴィエル以外の味方の冒険者を1枚手札に加える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/151"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "フローラ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "スキルリンク|手札",
+    "text": "スキルリンク：ロドマンからの贈り物を自分の手札に加える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/375"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "デボラ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "スキルリンク|手札",
+    "text": "スキルリンク：自分の手札は全てレアリティが１つ上の別のカードに変わる",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/376"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ビアンカ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "スキルリンク|敵リーダー",
+    "text": "スキルリンク：敵リーダーに3ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/377"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "キラーピッケル",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|味方リーダー",
+    "text": "召喚時：このターン中味方リーダーのテンションと同じだけユニット1体の攻撃力を上げる。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/381"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "バル&ベル",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "ターン開始",
+    "text": "自分のターン開始時ボル&ブルが自分の場にいる場合合体してバブルボブルになる。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/400"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "シルビア",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時:お互いのリーダーのテンション+3",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/413"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "メーダロード",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "特技|味方リーダー",
+    "text": "相手が特技を使う度その効果が発動する前に味方リーダーのHPを3回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/418"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "うみぼうず",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "ステルス、スキルブースト:攻撃力+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/423"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ガーゴイル",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "ねらい撃ち、おうえん",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/428"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "くもの大王",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：次のターン相手プレイヤーはテンションスキルを使用できない",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/453"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "アルミラージ",
+    "status": "basic_keyword_or_no_text",
+    "risk": "simple",
+    "keywords": "",
+    "text": "速攻",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/454"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "かえんムカデ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|地形",
+    "text": "召喚時:地形マスに召喚された場合他の全てのユニットに2ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/489"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "若葉の精霊",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|地形",
+    "text": "召喚時:地形マスに召喚された場合カードを1枚引く",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/490"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "デスマエストロ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時:このターン中攻撃力1以下の敵ユニット1体を味方にして速攻を付与する。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/512"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "デスプリースト",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|ランダム|コスト|地形|復活",
+    "text": "召喚時:地形マスに召喚された場合コスト3以下のランダムな味方ユニット1体を復活させる。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/513"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ずしおうまる",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "敵リーダー",
+    "text": "敵リーダーのテンションが上がる度敵リーダーに3ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/542"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "デスタムーア",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "敵リーダー",
+    "text": "敵リーダーを無気力状態にする",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/543"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ヘルシーサー",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|地形",
+    "text": "召喚時:地形マスにいる全ての味方ユニットを+1/+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/596"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ぶっちズキーニャ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|地形",
+    "text": "貫通、召喚時：自分の場にある地形の数分攻撃力+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/600"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "コドラ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|コスト",
+    "text": "召喚時：このターン中次に使うドラゴン系のユニットカードのコスト-2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/604"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "カーディナルナイト",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|パワフルバッジ|ランダム|敵リーダー",
+    "text": "召喚時：敵リーダーが持つパワフルバッジの効果をランダムで１つ消す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/605"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "オルゴ・デミーラ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "死亡時|手札|変身",
+    "text": "死亡時：オルゴ・デミーラは第2形態に変身して自分の手札に加わる",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/633"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ベビーゴイル",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|ランダム|コスト|特技",
+    "text": "召喚時：お互いのデッキにランダムな2コストの特技カードを3枚加える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/640"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "スライムダーク",
+    "status": "basic_keyword_or_no_text",
+    "risk": "none",
+    "keywords": "",
+    "text": "",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/641"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ハッスルじじい",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "パワフルバッジ",
+    "text": "パワフルバッジ：冒険者の味方ユニットを+1/+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/644"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "エステラ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "ターン開始",
+    "text": "対戦中に死亡したドラゴン系の味方ユニットの数だけ攻撃力が上がる。 自分のターン開始時攻撃力が5以上なら竜化の術を使用する。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/646"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ホーンビートル",
+    "status": "basic_keyword_or_no_text",
+    "risk": "simple",
+    "keywords": "",
+    "text": "ねらい撃ち",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/762"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "デザートゴースト",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "手札",
+    "text": "におうだち、前列にいる場合自分がデッキからカードを手札に加える度+1/+1を得る。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/790"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "まほうじじい",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "コスト",
+    "text": "味方ヒーローのヒーロースキルはコストが1下がる",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/791"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "デスターキー",
+    "status": "basic_keyword_or_no_text",
+    "risk": "none",
+    "keywords": "",
+    "text": "",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/792"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ミルドラース",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "ターン開始|ランダム|場に出す|出す|コスト",
+    "text": "自分のターン開始時自分のデッキからコスト5以下のランダムなユニット1体を場に出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/823"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "デスニャーゴ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "死亡時|出す",
+    "text": "死亡時:1/1のプリズニャンを1体出す。スキルブースト:+1体",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/824"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "あんこくまどう",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|パワフルバッジ|ランダム|敵リーダー",
+    "text": "におうだち、召喚時：敵リーダーが持つパワフルバッジの効果をランダムで２つ消す。その場合+1/+1を得る。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/837"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "プレミアムスライム",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "ターン終了|味方リーダー",
+    "text": "自分のターン終了時味方リーダーのテンション+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/859"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ムーンフェイス",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：敵ヒーローのレベルを1下げる",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/864"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ドラゴンヘビー",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "手札|移動",
+    "text": "におうだち、このユニットは移動せず手札に戻らない",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/893"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "デスセイレス",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：全ての味方ユニットを絶好調状態に戻す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/918"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ヘルパイレーツ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|手札|コスト",
+    "text": "召喚時：自分のデッキと手札にある絶好調を持つカードのコスト-1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/941"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ゆうれい",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "シンクロ:①貫通、②2回攻撃、③ステルス",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/943"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ネクロマンサー",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "全てのリーダーとユニットはHPを回復せずダメージを軽減しない",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/945"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "スカイドラゴン",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "味方リーダー",
+    "text": "絶好調、絶好調状態な味方ユニットが攻撃する度味方リーダーのテンション+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/946"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ザンクローネ",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "この対戦中に死亡した敵ユニットの数分攻撃力+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/947"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "あくまのきし",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|ターン終了|手札",
+    "text": "におうだち、召喚時：自分の手札に魔王系カードがあるなら敵1体を次のターン終了時まで行動不能にする",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1012"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ビックアイ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：自分の場に冒険者がいるなら横一列にいる全ての敵ユニットに2ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1029"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "グレイトボンバー",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "死亡時",
+    "text": "におうだち、死亡時：味方ヒーローがいるなら全てのユニットに2ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1073"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "はめつの使者",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "パワフルバッジ",
+    "text": "パワフルバッジ：魔王系の味方ユニットを+1/+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1075"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "大切な友達",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "出す",
+    "text": "指定の味方マスに速攻4/4のゲレゲレを1体出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1111"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ゲレゲレ",
+    "status": "basic_keyword_or_no_text",
+    "risk": "simple",
+    "keywords": "",
+    "text": "速攻",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1118"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ゴールデントーテム",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "GET",
+    "text": "メタルボディ、このユニットがダメージを受ける度GET(1)",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1175"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "デスケルト",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|手札",
+    "text": "召喚時：味方ユニット1体を手札に戻す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1215"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ジラフマスター",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "攻撃時|BET|GET|ランダム",
+    "text": "攻撃時:GET(1)、BET:以下の効果からランダムに1つ発動する (1)攻撃力+1 (2)HP+1 (3)このターン中2回攻撃を得る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1216"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "マデサゴーラ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ターン終了|BET|手札",
+    "text": "自分のターン終了時：スペシャルコイン1枚を手札に加える。BET:自分のデッキからBETを持つカードを1枚引く",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1217"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "スロットマジーン",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "攻撃時|BET|GET",
+    "text": "攻撃時:GET(1)、BET:両プレイヤーはカードを1枚引く",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1218"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "くらやみにゅうどう",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時:次の相手のターン中敵のヒーロースキルは使用できず発動もしない",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1219"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "かみさま",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "ターン終了|ランダム|味方リーダー",
+    "text": "自分のターン終了時以下の効果からランダムに1つ発動する(1)カードを2枚引く(2)味方リーダーのテンション+3(3)他のすべての味方のHPを4回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1220"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "コンガオンガ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "れんけい|ランダム|手札|コスト|消滅",
+    "text": "れんけい：攻撃力が6以上の敵ユニット1体を消滅させる。そのユニットと同じ使用コストのランダムなユニットカード1枚を相手の手札に加える。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1239"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "フェイスボール",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ターン終了|れんけい|味方リーダー",
+    "text": "ステルス、れんけい：次の相手のターン終了時まで味方リーダーが受けるダメージ-2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1240"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "慈愛のキラーパンサー",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|手札",
+    "text": "おうえん、召喚時：おうえん 2/2のベビーパンサー1枚を手札に加える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1241"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "みわくのランプ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "占い|ランダム|手札",
+    "text": "自分が占いカードを使う度ランダムな占い師のカード1枚を手札に加える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1296"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ブラックベジター",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|建物",
+    "text": "召喚時：味方建物があるなら他のすべてのユニットに2ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1336"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "シュプリンガー",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "れんけい|出す",
+    "text": "れんけい：このユニットに2回さくせんを出す。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1337"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "アデン",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|建物",
+    "text": "におうだち、召喚時：味方建物１つの耐久値+1、そうした場合攻撃力+2を得る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1338"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "りゅうはかせ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "コスト|特技",
+    "text": "自分が使用するコスト3以上の特技のダメージを+2する",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1463"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "じごくのばんけん",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "建物",
+    "text": "2回攻撃、隣接している味方建物の数分攻撃力+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1464"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "バブルキング",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|出す|毒",
+    "text": "召喚時：味方ユニット1体にさくせんを出す。このユニットが戦闘ダメージを与えたユニットを毒にする。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1465"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ヘルズクロウ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|コスト",
+    "text": "ねらい撃ち、召喚時：自分のデッキの上からカード4枚を見る。コスト1以下のカードを1枚選びそれを引く。残りをデッキの下に戻す。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1466"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "アモス",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "ターン終了|変身",
+    "text": "相手のターン終了時このユニットと同じHPを持つモンストラーに変身する",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1467"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "じごくのもんばん",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|移動",
+    "text": "召喚時：敵ユニット1体をこのユニットの正面に移動させる",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/177"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "さんぞくウルフ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "味方リーダー|敵リーダー",
+    "text": "味方リーダーの攻撃で敵ユニットを倒す度敵リーダーに2ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/178"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "たてまじん",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "味方リーダー",
+    "text": "前列にいる場合味方リーダーが受けるダメージ-1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/184"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "しにがみきぞく",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|味方リーダー",
+    "text": "貫通、召喚時：味方リーダーのHPが15以下の場合速攻を得る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/185"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ドラゴンソルジャー",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "味方リーダー",
+    "text": "対戦中に味方リーダーが攻撃した回数分攻撃力+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/187"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "パパス",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "死亡時",
+    "text": "死亡時：4/2のパパスの剣を装備する",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/192"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ボーンファイター",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|手札|コスト|武器",
+    "text": "召喚時：自分のデッキと手札にある武器カードのコスト-1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/396"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "くびかりぞく",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "味方リーダー",
+    "text": "味方リーダーの攻撃で敵ユニットを倒す度味方リーダーのテンション+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/427"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "オクトセントリー",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "味方リーダー",
+    "text": "貫通、味方リーダーの攻撃で敵ユニットを倒す度味方リーダーのHPを3回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/458"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "グレイグ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "におうだち、召喚時：次の相手のターン中このユニットが受けつダメージは1になる。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/475"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ネクロバルサ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|武器|味方リーダー",
+    "text": "召喚時:味方リーダーの攻撃力が4以上ある場合武器の耐久力を+2する。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/506"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "サタンメイル",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|地形",
+    "text": "召喚時:味方1マスの地形を刃の紋章に変える。 この効果で地形の上書きはできない。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/550"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ヘルオーディン",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "パワフルバッジ",
+    "text": "におうだち、パワフルバッジ：ゾンビ系の味方ユニットは貫通を得る。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/593"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ゾンビマスター",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|死亡時|手札",
+    "text": "召喚時：ゾンビ系の味方ユニット1体に死亡時：このカードを手札に加えるを付与する",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/609"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ブルサベージ",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "絶好調、絶好調状態のユニットが攻撃する度このユニットの攻撃力+2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/950"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ヘルビースト",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|手札",
+    "text": "におうだち、召喚時：自分の手札に魔王系のカードがあるなら+2/+2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1042"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ギュメイ将軍",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "貫通、このユニット以外の全ての敵味方は戦闘ダメージとデッキ切れによるダメージのみ受ける",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1065"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ローズバトラー",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "毒|味方リーダー",
+    "text": "味方リーダーへの敵の攻撃や効果の対象はこのユニットに変更される。ダメージを与えたユニットを毒にする",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1177"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "最後の砦の英雄グレイグ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "れんけい",
+    "text": "におうだち、れんけい：正面にいる全ての敵ユニットに2ダメージ。敵ユニットが死亡する度攻撃力+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1251"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "キングムーチョ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|武器|味方リーダー",
+    "text": "におうだち、召喚時：味方ヒーローがいる場合味方リーダーが装備中の武器を+1/+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1253"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "修練のたてまじん",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|出す|武器|味方リーダー",
+    "text": "におうだち、召喚時：味方リーダーが武器を装備している場合このユニットにさくせんを出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1345"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ファラリスブル",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|武器|建物|味方リーダー",
+    "text": "召喚時：味方リーダーが装備中の武器の耐久力+1、対戦中に味方建物が3つ以上出ていたら代わりに味方リーダーが装備中の武器を+1/+2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1346"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "レッドサイクロン",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "ターン終了|味方リーダー|敵リーダー",
+    "text": "自分のターン終了時にお互いのリーダーに2ダメージ。味方リーダーのHPが15以下の場合代わりに自分のターン終了時敵リーダーに2ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1347"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ドランゴ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ランダム|味方リーダー|敵リーダー",
+    "text": "味方リーダーが攻撃した後ランダムな横一列にいる全ての敵ユニットと敵リーダーに2ダメージ。このユニットは冒険者としても扱う",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1349"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "突貫のしにがみきぞく",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "味方リーダー",
+    "text": "貫通、貫通を持つ他の全ての味方の攻撃力+1、味方リーダーのHPが15以下の場合、他の全ての味方ユニットは貫通を得る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1446"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "りゅうせんし",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|味方リーダー|敵リーダー",
+    "text": "召喚時：速攻と「このターン中敵リーダーを攻撃できない」を得る。このユニットの攻撃は味方リーダーの攻撃としても扱う",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1486"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "流浪のヒューザ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|味方リーダー",
+    "text": "召喚時：敵ユニット1体に1ダメージ。対戦中に味方リーダーが攻撃した回数分+1ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1487"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ゴールデンドラゴン",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "味方リーダー",
+    "text": "この対戦中に味方リーダーが攻撃した回数分HP+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1488"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ローシュ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "れんけい|手札|山札|味方リーダー",
+    "text": "貫通。味方リーダーが直接攻撃した後、自分のデッキから冒険者カードを1枚引く。れんけい：自分の山札、手札、場の冒険者カードに+1/+1。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1562"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "メトロゴースト",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "特技",
+    "text": "対戦中に自分の使った特技カードの枚数分攻撃力+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/213"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ドルイド",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|特技",
+    "text": "召喚時：対戦中に使った特技カード1枚を自分のデッキの一番上に置く。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/214"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "アイスボンバー",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "ねらい撃ち。召喚時：相手の場に氷塊があるなら+2/+2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/215"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "吹雪の魔女",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：敵の場に氷塊があるなら敵ユニット1体に4ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/221"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "マリベル",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|コスト|特技",
+    "text": "召喚時：このターン中次に使う特技カードのコスト-7",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/223"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "なげきの亡霊",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "テンションリンク|ランダム|手札|コスト|特技",
+    "text": "テンションリンク：コスト2以下のランダムな魔法使いの特技カードを手札に1枚加える。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/391"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ベロニカ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|ランダム|手札|特技",
+    "text": "召喚時：ランダムな魔法使いの特技カードを手札に1枚加える。、スキルブースト：+1枚",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/402"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "樹氷の竜",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ターン終了|敵リーダー",
+    "text": "自分のターン終了時、敵の場に氷塊があるなら敵リーダーに3ダメージ。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/517"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "バルバロッサ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|手札",
+    "text": "召喚時:魔法陣に召喚された場合メラミを手札に加える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/554"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "まどうスライム",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "ランダム|手札|特技",
+    "text": "特技ダメージ+1。自分が特技を使う度ランダムなスライム系のユニットカードを手札に1枚加える。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/614"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "闇の司祭",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "パワフルバッジ|特技",
+    "text": "パワフルバッジ：スライム系の味方ユニットは特技ダメージを受けない",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/653"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "魔犬レオパルド",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "死亡時|手札",
+    "text": "死亡時：神鳥の杖を手札に加える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/782"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ラリホービートル",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|ターン終了",
+    "text": "召喚時：味方ヒーローがいる場合敵ユニット1体を次のターン終了時まで攻撃不能にする。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/797"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "スノーホムンクルス",
+    "status": "basic_keyword_or_no_text",
+    "risk": "none",
+    "keywords": "",
+    "text": "",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/870"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "メイジポンポコ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "死亡時|コスト|特技|味方リーダー",
+    "text": "シンクロ：①味方リーダーが使用する特技カードの攻撃力+1、②死亡時：自分のデッキからコスト5以上の特技カードを1枚引く、③+1/+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/952"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "キャプテン・クロウ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "特技",
+    "text": "おうえん、自分が特技を使う度カードを１枚引く",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1066"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "レモンキング",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "攻撃時|BET|GET|場に出す|出す",
+    "text": "攻撃時：GET(1)。BET：スライムを2体、味方の場に出す。レモンキング以外のスライム系の味方ユニットが死亡した時、相手リーダーへ1ダメージ。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1102"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "少女マリベル",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|BET|GET|コスト|特技",
+    "text": "召喚時：GET(2)。BET：このターン中、次に使う特技カードのコスト-2。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1147"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "天才魔法使いベロニカ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "れんけい|ランダム|手札|特技",
+    "text": "れんけい：敵1体に3ダメージ。戦闘以外のダメージで敵ユニットが死亡する度魔法使いの特技カードをランダムに1枚手札に加える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1260"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "飛翔のガーゴイル",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|手札|出す|特技",
+    "text": "おうえん、ねらい撃ち。召喚時：自分の手札に特技カードがあるならこのユニットにさくせんを出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1357"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ゲルニック将軍",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "特技|味方リーダー",
+    "text": "自分が魔法使いの特技を使う度または敵が特技を使う度味方リーダーのテンション+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1358"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ヘルジュラシック",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "手札|コスト",
+    "text": "敵ユニットが2体以上いるなら手札にあるこのカードのコスト-1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1497"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "スノードラゴン",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|ランダム|手札|コスト|特技",
+    "text": "召喚時：コスト4・5・6の特技カードをそれぞれランダムに1枚ずつ選出し、その中から1枚を選んで手札に加える。自分のデッキのメラ系の特技カードが無いなら手札にあるこのカードのコスト-2。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1498"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "邪教の使徒ゲマ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|ターン開始|ランダム|味方リーダー",
+    "text": "召喚時：次の相手のターン開始時相手は受ける効果を選ぶ・味方リーダーに5ダメージ、味方リーダーのテンション-3・攻撃力が最も高いランダムな味方ユニット1体を死亡させる",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1564"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ナイトフォックス",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "コスト|特技",
+    "text": "自分の特技カードのコスト-1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/232"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ムーンキメラ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|移動",
+    "text": "召喚時：後列にいる全ての敵ユニットを前列に移動させる。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/244"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "きりさきピエロ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|手札",
+    "text": "召喚時：敵ユニット1体につき武術カード1枚を手札に加える。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/249"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "キラーマシン",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "2回攻撃、召喚時：敵ユニット1体に2ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/250"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "デュラハンナイト",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|手札",
+    "text": "召喚時：このユニット以下の攻撃力を持つ敵ユニット1体を相手の手札に戻す、スキルブースト:攻撃力+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/410"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ベスキング",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "テンションリンク|出す",
+    "text": "テンションリンク：2/1のスライムベスを出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/435"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "キラーファング",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "移動",
+    "text": "このユニットが移動する度2/-1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/479"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "アカリリス",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "出す|移動",
+    "text": "このユニットが移動する度速攻2/1のいっかくうさぎを出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/558"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "キラーエイプ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "パワフルバッジ",
+    "text": "パワフルバッジ：スライム系の味方ユニットの攻撃力+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/584"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "グランスライム",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "手札|コスト",
+    "text": "このユニットを除くスライム系の味方ユニット全てを+1/+1。 自分の手札にあるスライム系のユニットカードのコスト-1。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/585"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "エンゼルスライム",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|手札|捨て",
+    "text": "召喚時：自分のデッキの上から3枚のカードを公開する。 その中にあるスライム系のユニットカードを全て手札に加え、残りのカードを捨てる。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/658"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "クイーンモーモン",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "味方リーダー",
+    "text": "味方ヒーローがいる場合自分のターン中味方リーダーの攻撃力+2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/748"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ほのおのせんし",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：前列に召喚した場合味方ヒーローがいるなら１マス前にいる敵ユニットに4ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/842"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "シルバーマント",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "絶好調、絶好調状態の味方ユニットが攻撃する度そのユニットは攻撃力+1を得る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/954"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "アームライオン",
+    "status": "v240_added_or_reinforced",
+    "risk": "simple",
+    "keywords": "",
+    "text": "絶好調、絶好調状態の味方ユニットは速攻を得る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/956"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "コトブキーノ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|ランダム|手札|特技",
+    "text": "召喚時：自分のデッキから特技カードをランダムに1枚手札に加える。自分の場に冒険者がいるなら代わりに2枚手札に加える。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1046"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "アサシンクロー",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|BET|GET|手札",
+    "text": "召喚時：GET(1)。BET：武術カードを1枚手札に加える。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1122"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ゴレオン将軍",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "BET|GET|スキルリンク|味方リーダー",
+    "text": "スキルリンク：GET(1)、BET:攻撃力+1、自分がコインを使う度味方リーダーのテンション+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1178"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "カンダタ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|攻撃時|手札",
+    "text": "召喚時&攻撃時:敵の手札コイン1枚を盗む。盗めなかった場合攻撃力+1、自分の手札のコインの数分このユニットの攻撃力+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1192"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ブラッドミスト",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "ステルス、スキルブースト:攻撃力+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1271"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ニマ大師",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|味方リーダー",
+    "text": "召喚時：味方リーダーのテンションスキルを灼熱とうこん討ちに変える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1272"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "キラーリカント",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "死亡時|味方リーダー",
+    "text": "おうえん、におうだち、死亡時：味方リーダーのテンション+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1364"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "マミムメモリー",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "スキルリンク|コスト|味方リーダー",
+    "text": "自分がコスト1以上のカードを使う度味方リーダーのテンションが、使用したカードのコストの数分上がる。スキルリンク:+1/+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1365"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "追撃のキラーマシン",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|ランダム|出す",
+    "text": "2回攻撃、召喚時:このユニットにさくせんを出す。自分がさくせんを出した後、1ターンに2回までランダムな敵ユニット1体に2ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1448"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "デビルロード",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "敵リーダー",
+    "text": "2回攻撃、ねらい撃ち、このユニットが敵リーダーを攻撃した後「このターン中敵リーダーを攻撃できない」を得る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1507"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "大工の息子ハッサン",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|出す|コスト|建物",
+    "text": "召喚時：自分のデッキからコスト2以下の建物カードの中でコストが最大のもの1枚を指定の味方マスに出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1508"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "イエローファット",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|出す|味方リーダー",
+    "text": "召喚時：味方リーダーのテンションを全て消費する。消費した数と同じだけ速攻1/1のファーラットを出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1509"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ハンターフライ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "死亡時|コスト|味方リーダー",
+    "text": "先制、死亡時：味方リーダーのテンション+1、スキルブースト:コスト-1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1565"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ベロリンマン",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|スキルリンク|出す",
+    "text": "おうえん、召喚時&スキルリンク:ベロリンマンを1体出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1566"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "スターキメラ",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "味方が回復する度攻撃力+2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/270"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "イーブルフライ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：ユニット1体の攻撃力をHPと同じ値にする",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/272"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "エビルチクリン",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "におうだち、召喚時：味方ユニット1体ににおうだちを付与する",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/273"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "リトルライバーン",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ランダム",
+    "text": "味方が回復する度ランダムな敵1体に2ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/274"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "クリフト",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|ランダム",
+    "text": "召喚時：ランダムな2マスにいる敵ユニットを死亡させる",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/283"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ともしびこぞう",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "死亡時|ランダム",
+    "text": "死亡時：ランダムな敵1体に2ダメージ、スキルブースト:+1ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/466"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ユニコーン",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時:HPを4回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/523"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "フォレストドラゴ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ターン終了|味方リーダー",
+    "text": "自分のターン終了時味方リーダーのHPを2回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/562"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "たつのこナイト",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "パワフルバッジ|手札|コスト",
+    "text": "パワフルバッジ：自分の手札にあるドラゴン系のユニットカードのコスト-1。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/630"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ウィングタイガー",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：味方ヒーローがいる場合敵ユニット1体の攻撃力を-2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/741"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "グリーンドラゴン",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "効果なし",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/770"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "アイアンナイト",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "死亡時|ランダム",
+    "text": "におうだち、死亡時：ランダムな味方ユニット1体を味方ヒーローのレベルの数分+1/+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/876"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ごくらくちょう",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "死亡時|味方リーダー|敵リーダー",
+    "text": "シンクロ:①HP+1、②ねらい撃ち、③死亡時:味方リーダーのHPを3回復、敵リーダーに3ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/958"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ベビーニュート",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ランダム",
+    "text": "味方ユニットのHPが回復する度ランダムな敵1体に1ダメージを与えた後カードを1枚引く",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/997"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ベビーサラマンダ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "攻撃時|BET|GET|変身",
+    "text": "攻撃時：GET(1)、BET:攻撃力+1、このBETが4回発動した後超貫通8/8のサラマンダーに変身する",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1138"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "チョメ",
+    "status": "basic_keyword_or_no_text",
+    "risk": "simple",
+    "keywords": "",
+    "text": "速攻",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1196"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "マリンフェアリー",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|ランダム|手札|コスト|復活|捨て",
+    "text": "召喚時:手札にあるコインをランダムに1枚捨てる。そうした場合この対戦中に死亡した4コスト以下の味方ユニット3種類の中から1体を選んで復活させる",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1197"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "セラフィ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|ターン終了|出す",
+    "text": "召喚時：指定の味方マスに速攻3/3のチョメを1体出す。自分のターン終了時全ての味方のHPを1回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1198"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ベルザブル",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "テンションリンク",
+    "text": "テンションリンク:このユニットは1ダメージを受ける。その後このユニットのHPが1以上あるならカードを1枚引く",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1274"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "決意の聖賢セーニャ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "れんけい|ランダム",
+    "text": "れんけい：全ての味方のHPを3回復する。味方ユニットのHPが回復する度、ランダムな敵1体に2ダメージ。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1275"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "マージマタンゴ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時:HPを3回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1374"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "強奪のくびかりぞく",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|出す|味方リーダー",
+    "text": "召喚時：味方リーダーのテンションが2以上あるならこのユニットにさくせんを出す。このユニットの攻撃で敵ユニットが死亡する度カードを1枚引く",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1375"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "メダル王女",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|ターン終了|テンションリンク|ランダム|出す|コスト",
+    "text": "召喚時：相手のターン終了時までステルスを得る、テンションリンク：ランダムなコスト2以下のスライム系のユニットを1体出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1514"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "フォレスドン",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|ターン終了|コスト|復活",
+    "text": "召喚時：対戦中に死亡したコスト4以上の味方ユニット3種類の中から1体を選んで復活させ「ターン終了時このユニットは死亡する」を付与する",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1567"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ダンビラムーチョ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "テンションリンク|ランダム",
+    "text": "テンションリンク：ランダムな味方ユニット1体の攻撃力+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/288"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "おどるほうせき",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "特技",
+    "text": "このユニットに自分が特技を使う度カードを1枚引く",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/292"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ごろつき",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：自分のデッキから攻撃力1のユニットを1枚引く",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/298"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ヘルボックル",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|出す",
+    "text": "召喚時:1/1のきりかぶこぞう1体を指定の味方マスに出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/299"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "オーシャンクロー",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "特技",
+    "text": "このユニットに自分が特技を使う度+1/+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/304"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "マネマネ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|変身",
+    "text": "召喚時：他のユニット1体に変身する",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/309"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "トロデ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "特技",
+    "text": "このユニットに自分が特技を使う度その特技と同じ効果が他の全ての味方ユニットに対しても発動する。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/407"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "もみじこぞう",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|出す",
+    "text": "召喚時：2/2のもみじこぞうを1体出す。スキルブースト:+1体",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/445"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ゴールドマン",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|地形",
+    "text": "召喚時:上下のマスの地形を宝箱に変える。 この効果で地形の上書きはできない。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/526"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "エンタシスマン",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "手札|コスト",
+    "text": "におうだち、このカード以外の自分の手札が6枚以上ある場合コスト-2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/566"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "メタルブラザーズ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "死亡時|手札",
+    "text": "メタルボディ、死亡時：メタルスライムを手札に2枚加える。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/621"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "てっこうまじん",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "味方が持つメタルボディはハードメタルボディに強化される",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/632"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "デュランダル",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "パワフルバッジ|手札|武器",
+    "text": "パワフルバッジ：自分の手札にあるメタルボディもしくはハードメタルボディを持つユニットカードと武器のカード残すと-1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/666"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "トンブレロ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：味方ヒーローがいる場合味方ユニット1体を+2/+2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/846"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ブラバニクイーン",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "シンクロ：①貫通、②速攻、③攻撃力+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/964"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "獣魔将ガルレイ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|ランダム",
+    "text": "召喚時：正面にいるランダムな敵ユニット1体に2ダメージ。自分の場に冒険者がいるなら代わりに4ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1000"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ロクサーヌ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|手札",
+    "text": "召喚時：好きなカードパックを選んで手札に加える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1054"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "マグマロン",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|ターン終了|BET|GET",
+    "text": "召喚時：GET(1)、BET:攻撃力+1と「次の相手のターン終了時まで効果の対象にならない」を得る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1127"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ベロベロ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|ターン終了|れんけい|出す|コピー",
+    "text": "れんけい：+1/+1。召喚時と自分のターン終了時に、このユニットの前後にコピーを出す。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1287"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "デンダ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|出す",
+    "text": "召喚時:前列に召喚した場合1/1のデンダの子分を3体出す。後列に召喚した場合全ての味方ユニットを+1/+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1288"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ハンフリー",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時:ユニット1体の攻撃力とHPを吸い取り自身の攻撃力とHPを同じ値にする。そのユニットを2/2にする",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1289"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ヨージス",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "手札|コスト|建物",
+    "text": "味方建物の数分手札にあるこのカードのコスト-1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1384"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "宿王リッカ",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|ターン終了",
+    "text": "召喚時：次の相手のターン終了時までステルスを得る。 味方ユニットが場に出た後そのユニットを+1/+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1385"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "キラークリムゾン",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "選択|手札|コスト|味方リーダー",
+    "text": "選択:・味方リーダーのテンション+2・コスト2のはがねのそろばん1枚を手札に加える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1527"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "高潔な王パパス",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|味方リーダー",
+    "text": "味方リーダーが敵ユニットを攻撃した後同じユニットに2ダメージ。味方リーダーのHPを2回復。召喚時:このターン中味方リーダーの攻撃力+2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1570"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ベルフェゴル",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "占い|手札",
+    "text": "自分が占いを持つ手札を使う度+1/+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/317"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "エビルドライブ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "占い",
+    "text": "占い：(1)カードを1枚引く、(2)攻撃力+3",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/333"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ワンダーフール",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|コスト",
+    "text": "召喚時：デッキの一番上のカードのコストが奇数なら+1/+1と貫通を得る。偶数なら-1/-1とにおうだちを得る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/334"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "おばけトマト",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "占い",
+    "text": "占い：(1)敵ユニット1体の攻撃力を1にする、(2)敵ユニット1体のHPを1にする",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/335"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ミレーユ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|攻撃時|手札",
+    "text": "召喚時&攻撃時:自分のデッキの上からカードを2枚見る。1枚を手札に加え残りをデッキの上に戻す。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/343"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "レッサーデーモン",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "テンションリンク|ランダム|コスト",
+    "text": "テンションリンク：お互いのデッキの一番上にあるカードを比べ、コストが高い方のリーダーに1ダメージ。 ランダムな位置にカードを戻す。 スキルブースト：+1ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/448"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "デスマーキュリー",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|地形",
+    "text": "召喚時:指定のマスの地形を天啓の神域に変える。 この効果で地形の上書きはできない。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/530"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ソルジャーブル",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "パワフルバッジ",
+    "text": "パワフルバッジ：ドラゴン系の味方ユニットの攻撃力+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/625"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "だいまどう",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|手札|特技",
+    "text": "特技ダメージ+1、召喚時：自分の手札にドラゴン系のユニットカードがある場合運命の輪を手札に1枚加える。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/626"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "キースドラゴン",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "占い|味方リーダー",
+    "text": "占い：①味方リーダーのHPを5回復、②正面にいる全ての敵ユニットに2ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/670"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "サイコロン",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|ランダム",
+    "text": "召喚時：味方ヒーローがいる場合合計5ダメージをこのユニット以外のランダムなユニットに割り振る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/848"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ホワイトパンサー",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "攻撃時",
+    "text": "絶好調、速攻、攻撃時：このユニットが絶好調状態ならこのターン中ダメージを受けない",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/884"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "メタルドラゴン",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "占い|出す|コスト",
+    "text": "絶好調、占い：①自分のデッキからコスト2以下の絶好調を持つユニットを2体出す、②絶好調を持つ全ての味方ユニットを+1/+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/933"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "リゼロッタ&ルコリア",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "占い|ランダム|手札",
+    "text": "占い：①この対戦中に死亡したランダムな味方ユニットを2枚手札に加える、②自分の手札とデッキの攻撃力2以下のユニットカードを+1/+1する",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/969"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "グランマーズ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|攻撃時|手札|コスト",
+    "text": "召喚時&攻撃時：自分のデッキの上からカード3枚を見る。1枚を手札に加えそのカードのコスト-2。残りをデッキの下に戻す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1021"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ルバンカ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|BET|GET|コスト",
+    "text": "におうだち。召喚時：デッキの一番上が偶数コストならGET(2)。BET：HP+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1164"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "インプケイオス",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|コスト|味方リーダー",
+    "text": "召喚時：敵ユニット1体に1ダメージ。自分のデッキの一番上のカードのコストが偶数なら代わりに3ダメージ与えた後味方リーダーのHPを3回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1203"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ヘルプラネット",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "れんけい|占い",
+    "text": "におうだち。れんけい：自分が次に使う占いカード1枚のみ効果が両方発動する。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1297"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "セレン",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "死亡時|れんけい|出す",
+    "text": "れんけい：他の全ての味方ユニットに死亡時2/2の魚を出すを付与する。攻撃力2以下の味方ユニットは速攻を得る。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1298"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ゴルドン",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|コスト|建物",
+    "text": "におうだち、召喚時：自分のデッキからコスト2以下の建物カードを1枚引く。そのカードのコストを-1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1391"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "イブール",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|攻撃時|手札|コスト|特技",
+    "text": "相手プレイヤーの手札の特技カードのコスト+1、召喚時&攻撃時:相手のデッキの一番上にイブールの本が一枚置かれる",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1392"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "魔王グラコス",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "ターン終了|れんけい|出す|敵リーダー",
+    "text": "れんけい：テンタコルスを2体出す。自分のターン終了時このユニットがブロックされていないなら敵リーダーに3ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1441"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ドラゴビショップ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|占い|手札|コスト",
+    "text": "召喚時:カードを2枚引く、このターン中に使った占いカードの枚数分デッキと手札にあるこのカードのコスト-1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1537"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "セニカ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "ターン終了|れんけい",
+    "text": "自分のターン終了時このターン戦闘以外のダメージで死亡した敵かHPを回復した味方ユニットがいるならカードを1枚引く。れんけい:敵1体に3ダメージ。全ての味方のHPを3回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1572"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ボーンプリズナー",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：このターン中敵ユニット1体の攻撃力-3",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/357"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "マッドフィンガー",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "死亡時|出す",
+    "text": "死亡時：1/1のマドハンドを2体出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/358"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "リビングデッド",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|変身",
+    "text": "召喚時：味方ユニット1体を3/3のミイラおとこに変身させる",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/362"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "妖剣士オーレン",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：敵ユニット1体を-2/-2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/367"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ジャミ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|ターン終了|手札",
+    "text": "召喚時：相手の手札が6枚以上ある場合、縦1列にいる全ての敵ユニットを次のターン終了時まで攻撃不能にする。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/438"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ゴンズ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|手札",
+    "text": "おうえん、におうだち。召喚時：相手の手札が6枚以上なら+2/+2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/439"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ゲマ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "手札|コスト|敵リーダー",
+    "text": "ステルス、相手がデッキからカードを手札に加える度そのカードのコストを+1、敵リーダーに2ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/446"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "まおうのつかい",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "自分のターン中味方ユニットがダメージを受けた場合その味方ユニットの攻撃力+2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/483"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "どぐうせんし",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|地形",
+    "text": "召喚時:このユニットがいる横1列の後列マスの地形を全てバリア床に変える。 この効果で地形の上書きはできない。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/484"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "バラモスブロス",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "パワフルバッジ|味方リーダー",
+    "text": "パワフルバッジ：ゾンビ系のユニットカードを使う度味方リーダーのMPが1回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/631"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "デッドエンペラー",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "死亡時|出す",
+    "text": "死亡時：4/4のじごくのきしをこのマスに出す スキルブースト：攻撃力+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/769"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "じごくのきし",
+    "status": "basic_keyword_or_no_text",
+    "risk": "none",
+    "keywords": "",
+    "text": "",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/773"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ホークブリザード",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "死亡時|ランダム|コスト",
+    "text": "死亡時：ランダムな敵ユニット1体を死亡させる。 スキルブースト：コスト-1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/812"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "フライングデス",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|出す|コスト",
+    "text": "召喚時：自分の場に空きマスがあるなら味方ユニットを1体死亡させた後自分のデッキからそのユニットと同じコストを持つユニットを1体出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/971"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "はらわたを食らう",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "消滅|味方リーダー",
+    "text": "敵ユニット1体を消滅させる。味方リーダーのHPを3回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1060"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "エッグラ&チキーラ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|ターン開始",
+    "text": "召喚時：タマゴかニワトリどちらが偉いと思うかを選ぶ。次のターン開始時相手にどちらを選んだか当てられなかった場合選んだ効果が発動する。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1067"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "マジックリップス",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|ターン終了",
+    "text": "召喚時：次に場に出る味方の魔王系ユニットに「次の相手のターン終了時までこのユニットは戦闘ダメージのみ受ける」を付与する",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1094"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ポイズンキッス",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|手札|毒",
+    "text": "におうだち、召喚時：自分の手札に魔王系カードがあるなら全ての敵ユニットを毒にする",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1098"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "じごくのざりがに",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "味方リーダー",
+    "text": "味方のピサロナイトが場に出る度味方リーダーのHPを2回復する",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1135"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "せかいじゅのは",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "ランダム|コスト|復活",
+    "text": "コストが最も高いランダムな味方ユニット1体を指定の味方マスに復活させる",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1167"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ダークモーモン",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "ターン終了|BET|GET",
+    "text": "自分のターン終了時GET(1)、BET:お互いのリーダーのテンション+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1169"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "魔王バラモス",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "死亡時|ターン終了|手札|コスト|特技|味方リーダー",
+    "text": "自分のターン終了時手札にある魔王系のユニットカードと特技カードのコスト-1。死亡時：味方リーダーのテンション+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1179"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ぬかどこスライム",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ターン終了|れんけい|毒",
+    "text": "れんけい：後列にいる全ての敵ユニットに毒と次のターン終了時まで攻撃不能を付与する。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1302"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "暗黒大樹の番人",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|出す",
+    "text": "におうだち、召喚時:このターン中ユニットが死亡しているなら暗黒大樹の番人を指定の味方マスに出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1303"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "じごくのよろい",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|死亡時|出す",
+    "text": "召喚時&死亡時:ピサロナイトを1体出す。スキルブースト:攻撃力+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1400"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "デスマシーン",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "死亡時|手札|コスト|敵リーダー",
+    "text": "におうだち、このターン中死亡したユニットの数分手札にあるこのカードのコスト-1、死亡時：敵リーダーに3ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1401"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "地獄の帝王エスターク",
+    "status": "remaining_for_next_pass",
+    "risk": "simple",
+    "keywords": "",
+    "text": "このユニットはＨＰが減っていない間攻撃力−5され「このユニットの攻撃は他のすべての敵にも同時にダメージを与える」を得る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1402"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "デビルプリンス",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "死亡時|ランダム",
+    "text": "死亡時:正面にいるランダムな敵ユニット1体を死亡させる",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1546"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "セルゲイナス",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|手札|味方リーダー",
+    "text": "ねらい撃ち、召喚時:自分の手札に魔王系カードがあるなら味方リーダーのHPを4回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1547"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "怪竜やまたのおろち",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|ランダム",
+    "text": "召喚時:残りMPを全て消費する。消費したMPの数分攻撃力+1、その後 このユニットの攻撃力と同じ数分のダメージをランダムな敵ユニットに割り振る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1548"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "デーモンスピリット",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|死亡時|手札|出す|コスト|特技",
+    "text": "召喚時：手札にコスト3以上の特技カードがあるならデーモンスピリットを1体出す。死亡時:コスト3以上の特技カード1枚を手札に加える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1573"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ベビル",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時",
+    "text": "召喚時：縦1列にいる全ての敵ユニットに1ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1319"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "笑顔の伝道師シルビア",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ターン終了|れんけい|ランダム|場に出す|出す|コスト|味方リーダー",
+    "text": "れんけい：コスト1のランダムなユニット2体を場に出す。自分のターン終了時に味方ユニットが3体以上なら味方リーダーのテンション+1。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1320"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "マヤ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "れんけい|ランダム|手札|敵リーダー",
+    "text": "速攻。れんけい：2回攻撃を得る。このユニットが敵リーダーを攻撃した後、相手の手札のカードと同じカードをランダムに1枚手札に加える。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1321"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "とうだいタイガー",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "れんけい|手札",
+    "text": "れんけい：攻撃力3以下の敵ユニット1体を相手の手札に戻す。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1323"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ようがんげんじん",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|出す",
+    "text": "ステルス、召喚時：このユニットにさくせんを出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1416"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "メダルにゃん",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|手札|捨て",
+    "text": "召喚時：カードを2枚引いた後自分の手札から2枚選んで捨てる",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1417"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "オークデビル",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "味方リーダー",
+    "text": "自分のターン中味方リーダーはダメージを受けない",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1432"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "立ち塞がるドラゴン",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|死亡時|手札|コスト|捨て",
+    "text": "におうだち、超貫通、召喚時：カードを2枚引いた後自分の手札から2枚選んで捨てる。死亡時：相手の手札にコスト2の王女の愛を1枚加える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1438"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "スラッピー",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|敵リーダー",
+    "text": "召喚時:ダメージを受けている敵ユニットがいるなら速攻と「このターン中敵リーダーを攻撃できない」を得る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1555"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "スライムボーグ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|ランダム|手札|特技|捨て",
+    "text": "召喚時&手札から捨てた時:相手の職業の特技カードをランダムに1枚手札に加える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1556"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "セイレーンゴースト",
+    "status": "v240_added_or_reinforced",
+    "risk": "complex",
+    "keywords": "召喚時|攻撃時|出す",
+    "text": "ステルス、召喚時&攻撃時:ステルス 2/1のゴーストを1体出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1557"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ドンホセ",
+    "status": "remaining_for_next_pass",
+    "risk": "complex",
+    "keywords": "召喚時|死亡時|ランダム|手札",
+    "text": "召喚時：相手の職業のランダムなレジェンドレアカード3枚から1枚選び手札に加える。死亡時:手札にある自分のデッキに入っていなかったユニットカードを+1/+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1576"
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 4,
+    "name": "ギガントドラゴン",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|手札",
+    "text": "召喚時：敵の前列か後列を選び、縦一列の全ての敵ユニットに1ダメージ。味方の場か手札に攻撃力4以上の自身を除いたドラゴン系ユニットがいるなら、代わりに2ダメージ。",
+    "officialUrl": ""
+  },
+  {
+    "pool": "cost4_5_unit",
+    "cost": 5,
+    "name": "ガメゴンロード",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "召喚時|手札|特技",
+    "text": "におうだち。召喚時：自分の場か手札に攻撃力4以上の他のドラゴン系がいるなら特技：メラミを1枚手札に加える。",
+    "officialUrl": ""
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "もろば斬り",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "味方リーダー",
+    "text": "ユニット1体に7ダメージ、味方リーダーに3ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/179"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "ギガブレイク",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "味方リーダー",
+    "text": "縦1列にいる全てのユニットに4ダメージを与える。味方リーダーのHPが15以下の場合代わりに6ダメージ。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/188"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "ジゴスパーク",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "味方リーダー",
+    "text": "必殺技、全ての敵ユニットに3ダメージ。対戦中に味方リーダーが攻撃した回数分ダメージ+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/190"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "おしゃれなバンダナ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "コスト|味方リーダー",
+    "text": "カードを2枚引く。 味方リーダーの攻撃力が4以上ある場合このカードのコスト-4",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/551"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "稲妻雷光斬",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "横1列にいる全ての敵ユニットに4ダメージ。他の全ての敵ユニットに1ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1252"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "メラゾーマ",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "敵1体に5ダメージを与える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/200"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "ピンクタイフーン",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "縦一列にいる全てのユニットに1ダメージ。 それらのユニットを次のターン攻撃不能にする。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/216"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "フローズンリンク",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "氷塊に隣接する敵ユニット1体を氷塊に変える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/450"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "スライム呼び",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "出す|コスト",
+    "text": "縦一列の空きマスに1/1のスライムを出す。 スキルブースト：コスト-1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/652"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "ヒャドの極意",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "手札",
+    "text": "ヒャド1枚を手札に加える。味方ヒーローがいる場合代わりに2枚加える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/820"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "地這い大蛇",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "出す|特技",
+    "text": "ユニット1体に4ダメージ。この特技で対象が死亡した場合におうだち3/3のゴーレムを出す。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/924"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "神速メラガイアー",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "手札|コスト",
+    "text": "ユニット1体に8ダメージ。自分の手札に魔王系カードがあるならコスト-2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1024"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "邪悪な祈り",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "手札|コスト",
+    "text": "おうえん、カードを2枚引く。自分の手札に魔王系カードがあるならコスト-3",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1082"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "モンスターコイン",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "GET|ランダム|手札|出す|コスト",
+    "text": "GET(2)、その後、自分の手札にあるコインの枚数と同じコストを持つランダムなユニット1体を出す。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1103"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "マヒャド",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "手札|コスト|特技",
+    "text": "縦1列にいる氷塊以外の全ての敵ユニットに4ダメージ。自分のデッキにメラ系の特技カードが無いなら手札にあるこのカードのコスト-2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1261"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "まもののツボ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "手札|コスト",
+    "text": "3種類のコスト6〜7のユニットの中から1枚を選び手札に加える。このターン中そのカードのコストを0にする",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1500"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "ゴールドフィンガー",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "封印",
+    "text": "ユニット1体を封印し6ダメージを与える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/246"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "無念無想",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "コスト|特技",
+    "text": "このターン中の自分の特技カードのコスト-1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/436"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "必中拳",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "コスト",
+    "text": "ユニット1体に4ダメージを与える。スライム系の味方ユニットの数分コスト-1。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/595"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "はげしいおたけび",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "手札",
+    "text": "前列にいる攻撃力が4以下の敵ユニット全てを手札に戻す。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/800"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "ばくれつけん",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ランダム",
+    "text": "おうえん、ランダムな敵ユニット1体に2ダメージ、これを4回繰り返す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1366"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "ザオラル",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ランダム|復活",
+    "text": "ランダムな味方ユニット1体を指定の味方マスに復活させる。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/260"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "ザキ",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "ユニット1体を死亡させる",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/262"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "ホーリーライト",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "味方リーダー",
+    "text": "ユニット1体に4ダメージ、味方リーダーのHPを2回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/275"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "ふしぎなタンバリン",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "おうえん、横一列にいる全ての味方ユニットに攻撃力+1と速攻を付与する。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/276"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "グランドクロス",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "必殺技、敵の後列中央を中心に十字架型に5ダメージを与える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/277"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "ベホマ",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "HPを7回復、カードを2枚引く",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/278"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "ニフラム",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "攻撃力2以下の敵ユニット全てを死亡させる。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/394"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "ザオリク",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ランダム|コスト|復活",
+    "text": "コストが最も高いランダムな味方ユニット1体を指定の味方マスに復活させる。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/409"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "精霊の矢",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "コスト|特技|味方リーダー",
+    "text": "ユニット1体に3ダメージを与える。 この特技で対象が死亡した場合、味方リーダーのMPがこのカードのコスト分回復する。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/586"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "冷たい笑み",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "お互いの全てのユニットの攻撃力をHPと同じ値にする",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/660"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "ニードルラッシュ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ランダム|コスト",
+    "text": "ランダムな敵ユニット1体を死亡させる。味方ヒーローのレベルの数分コスト-1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/928"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "いかずちの杖",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "横一列にいる全ての敵ユニットに4ダメージを与える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/303"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "魔法のツボ",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "カードを3枚引く",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/305"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "覚醒の果実",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "手札|コスト",
+    "text": "このユニット1体を+3/+3、このカード以外の自分の手札が6枚以上ある場合コスト-2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/310"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "あらくれ呼び",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "出す",
+    "text": "必殺技、速攻3/1のあらくれを3体出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/311"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "分裂の杖",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "場に出す|出す|コピー",
+    "text": "味方ユニット1体をコピーして場に出す。 攻撃力とHPPは4/4になる。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/527"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "覚醒の巻物",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "ユニット1体に貫通、におうだち、+1/+1を付与する。 スキルブースト:+1/+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/587"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "痛みわけの杖",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "お互いの全てのユニットに3ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/664"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "スペクタクルショー",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ランダム|変身",
+    "text": "縦1列にいる全てのユニットをメタルボディもしくはハードメタルボディを持つランダムなユニットに変身させる。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/665"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "大風の巻物",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "手札",
+    "text": "敵ユニット1体を相手の手札に戻る。カードを1枚引く。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/804"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "とうぞくのツボ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "コスト",
+    "text": "カードを2枚引く。自分の場に冒険者がいるならコスト-2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1089"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "ゴールドなげ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "手札|捨て",
+    "text": "すべての敵ユニットに1ダメージ。自分の手札にあるコインの枚数分+1ダメージ。その後コインを2枚捨てる。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1129"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "バイキルトのツボ",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "このターン中全ての味方の攻撃力+2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1528"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "太陽のタロット",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "占い|味方リーダー",
+    "text": "占い：(1)全ての敵ユニットに2ダメージ、(2)味方リーダーのHPを7回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/318"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "隠者のタロット",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "占い|手札|コピー",
+    "text": "占い:(1)ユニットのコピーを自分の手札に加える、(2)ユニット1体を1/1のスライムに返信",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/336"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "暴風雨",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ランダム",
+    "text": "合計5ダメージをランダムな敵に割り振る",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/337"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "アルカナバースト",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "コスト",
+    "text": "カードを1枚引く、ユニット1体に2ダメージ。引いたカードのコストが奇数なら代わりに6ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/338"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "愚者のタロット",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "占い",
+    "text": "占い:①全ての敵ユニットの攻撃力を1にする②全ての敵ユニットのHPを1にする",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/416"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "魔術師のタロット",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "占い|手札|コスト|コピー",
+    "text": "占い：①デッキの一番上のカードのコスト-3 ②デッキの一番上のカードを手札に加える。さらにそのコピー1枚を手札に加える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/455"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "定められし未来",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "敵ユニット1体を相手デッキの一番上に戻す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/570"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "信託の門",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "出す",
+    "text": "必殺技、2/4のコンジャラーを2体出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/808"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "恋人のタロット",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "占い",
+    "text": "占い：①全ての味方ユニットを+2/+2、②全ての味方ユニットを絶好調状態に戻して+1/+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/967"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "ゾディアックコード",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "占い|手札|コスト",
+    "text": "必殺技：この対戦中超必中モードになる。自分のデッキから占いカードを1枚手札に加えてコスト-3する。無いなら代わりに審判のタロットを手札に加える。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1002"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "死神のタロット",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "占い|出す",
+    "text": "占い：①全てのユニットに3ダメージ、②：2/2のナイトウィスプを3体出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1056"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "魂の復活",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ランダム|復活",
+    "text": "この対戦中に死亡した3種類のランダムな冒険者の中から1体を選んで復活させる。超必中モードなら代わりに全て復活させる。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1092"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "悪夢のルーレット",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "GET|ランダム",
+    "text": "GET(1)、その後コインの枚数と同じ数のランダムな敵ユニットのHPを1にする",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1133"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "逆転への兆し",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "占い|ランダム|出す|コスト",
+    "text": "占い：(1)全てのユニットを1/1にする(2)ランダムなコスト3のユニットを2体出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1299"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "タロットコンバート",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "特技|味方リーダー",
+    "text": "ユニット1体に4ダメージ。この特技で対象が死亡した場合味方リーダーのMPを2回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1536"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "テーブル・ターニング",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "占い|出す",
+    "text": "占い:(1)4/4のホースデビルを2体出す(2)2/2のモーモンを4体出す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1539"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "裁きの炎",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "攻撃力が4以下のユニット1体を死亡させる",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/359"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "地獄の業火",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "後列にいる全てのユニットに5ダメージ",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/360"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "暗黒の闘気",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "全ての味方ユニットを+1/+1",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/363"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "漆黒の世界",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "全てのユニットを-2/-2",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/365"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "地獄からの呼び声",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ランダム|手札",
+    "text": "対戦中に死亡した味方ユニットをランダムに3枚手札に加える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/368"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "魔王の号令",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "ランダム|手札|場に出す|出す",
+    "text": "両プレイヤーは手札からランダムなユニット1体を場に出す。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/437"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "魔力の泉",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "おうえん、両プレイヤーはお互いのリーダーのテンションの数と同じだけカードを引く",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/442"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "魔界の磁場",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "出す",
+    "text": "この対戦の間味方のピサロナイトは+1/+1を得る。 ピサロナイトを出す。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/533"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "死者の魂",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "出す",
+    "text": "最大MPが1増える。3/3のミイラおとこを出す。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/674"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 6,
+    "name": "暗黒の縛鎖",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "コスト",
+    "text": "ユニット1体を-6/-6。味方ヒーローのレベルの数分コスト-1。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/885"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "魔王の鼓舞",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "出す",
+    "text": "ピサロナイトを2体出す。全ての味方ユニットを絶好調状態に戻す",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/901"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "活性の秘奥",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "味方リーダー",
+    "text": "自分の最大MP+1、味方リーダーのHPを8回復",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1063"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 4,
+    "name": "タメトラ",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "味方リーダー|敵リーダー",
+    "text": "敵リーダーのテンションを0にする。消費したテンションを同じ数分味方リーダーのテンションを増やす。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1136"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "煉獄魔斬",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "前列にいる全ての敵ユニットに2ダメージ。後列にいる全ての敵ユニットに4ダメージ。",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1304"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "絶息の波動",
+    "status": "existing_trace",
+    "risk": "simple",
+    "keywords": "",
+    "text": "残りMPを全て消費する。全てのユニットを-1/-1、消費したMPの数分-1/-1が増える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1549"
+  },
+  {
+    "pool": "cost4_5_6_spell",
+    "cost": 5,
+    "name": "ヘッドハント",
+    "status": "existing_trace",
+    "risk": "complex",
+    "keywords": "手札|特技",
+    "text": "敵ユニット1体に5ダメージ。この特技で対象が死亡した場合そのユニットと同じカードを1枚手札に加える",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/1418"
+  },
+  {
+    "pool": "corrected_cost6_unit_from_spell_pool",
+    "cost": 6,
+    "name": "エビルトレント",
+    "status": "v240_cardType_corrected_and_unit_effect_added",
+    "risk": "complex",
+    "keywords": "official_cardType_correction",
+    "text": "このユニットを除く全ての味方ユニットの攻撃力をHPと同じ値にする",
+    "officialUrl": "https://gameconductor.com/dqrivals/c/d/280"
+  }
+]

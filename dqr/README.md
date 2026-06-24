@@ -1,8 +1,12 @@
-# DQR v239 cost6/7 existing runtime checks
+# DQR full project v242
 
-- v238で実動作確認待ちだった6〜7コスト43件を監査。
-- マルティナ召喚時とヒドラ捨て枚数条件を補強。
-- 既存43件のruntime-check bucketを0へ。
-- ブラウザ検査は4方式で再試行したが環境ポリシーによりブロック。
+Cost4/5 unit closeout pass3 and runtime hardening.
 
-DQR full project v233 official pool remaining 25 pass.
+## Highlights
+- Closed remaining/readable v241 cost4/5 unit cases.
+- Added fortune handling for エビルドライブ, おばけトマト, メタルドラゴン, リゼロッタ&ルコリア.
+- Hardened トロデ, デボラ, ゲマ, デザートゴースト, まおうのつかい, じごくのざりがに, 地獄の帝王エスターク.
+- Reworked マリンフェアリー and フォレスドン revive flow to choose candidate then cell.
+- Added local-test implementation for エッグラ&チキーラ guessing.
+
+See `data/v242_cost45_closeout_report.md`.
