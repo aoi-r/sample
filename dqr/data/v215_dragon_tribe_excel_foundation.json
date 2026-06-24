@@ -1,0 +1,31 @@
+{
+  "version": "v215_dragon_tribe_excel_foundation",
+  "base": "v214_deathrattle_choice_modal_guard",
+  "sourceExcel": "あ.xlsx / Sheet2 / column G ドラゴン系",
+  "dragonCountFromExcel": 73,
+  "missingInCardsJson": [],
+  "vanillaTextFilled": [
+    "リザードマン",
+    "りゅうき兵",
+    "おにこんぼう",
+    "レジェンドウルフ",
+    "グリーンドラゴン",
+    "ダースドラゴン",
+    "いばらドラゴン"
+  ],
+  "changes": [
+    "過去Excelのドラゴン系列から73枚を抽出。",
+    "73枚すべてがcards.jsonに存在することを確認。",
+    "空テキストだった通常ユニット7枚に『効果なし』を設定。",
+    "DRAGON_TRIBE_POOL_V215 を追加し、Excel由来のドラゴン系判定をコード側でも保持。",
+    "起動時にExcel由来ドラゴン系カードへドラゴン系タグを同期する処理を追加。",
+    "イル＆ルカのたまご孵化候補でドラゴン系判定漏れが起きにくい土台を追加。"
+  ],
+  "nextImplementationBatches": [
+    "A: 共通ドラゴンの召喚時/死亡時/攻撃時の専用処理確認",
+    "B: 職業別ドラゴンの常在・ターン終了・スキルリンク処理確認",
+    "C: BET/GET/変身/パワフルバッジ系ドラゴンの動作確認",
+    "D: たまご孵化ランダムプールの実戦テスト"
+  ],
+  "buildLabel": "v215 / buildable 1467 / total 1607"
+}

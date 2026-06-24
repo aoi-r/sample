@@ -25,6 +25,7 @@ function safeRandomId(prefix='id'){
   return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2)}`;
 }
 
+const DRAGON_TRIBE_POOL_V215 = new Set(["リザードマン", "りゅうき兵", "テラノライナー", "おにこんぼう", "アックスドラゴン", "メラリザード", "ダッシュラン", "フェアリードラゴン", "ガメゴン", "ドラゴンキッズ", "バトルレックス", "ドラゴンゾンビ", "グレイトドラゴン", "キングリザード", "ドラゴン", "ドラゴンガイア", "やまたのおろち", "ドラゴンソルジャー", "リトルライバーン", "デンデン竜", "樹氷の竜", "リザードフライ", "フォレストドラゴ", "ブラックドラゴン", "バルンバ", "しんりゅう", "コドラ", "ドラゴンバゲージ", "たつのこナイト", "グレイナル", "レジェンドウルフ", "いっかく竜", "キースドラゴン", "エステラ・竜化の術", "マーニャ：ドラゴラム", "竜王", "アンドレアル", "ドラゴンロード", "グリーンドラゴン", "ダースドラゴン", "いばらドラゴン", "はしりとかげ", "ドラゴンヘビー", "スカイドラゴン", "メイジバピラス", "ベビーニュート", "ギガデーモン", "ベビーサラマンダ", "サラマンダー", "まかいファイター", "アルゴリザード", "ワイバーンドッグ", "シュプリンガー", "ドランゴ", "怪獣プスゴン", "イブール", "フーセンドラゴン", "立ち塞がるドラゴン", "パピラス", "アルゴングレート", "りゅうはかせ", "テラノザース", "りゅうせんし", "ゴールデンドラゴン", "オリハルゴン", "デンタザウルス", "ヘルジュラシック", "スノードラゴン", "竜将ドラゴンガイア", "イエローファット", "ガメゴンレジェンド", "ドラゴビショップ", "怪竜やまたのおろち"]);
 const state = {
   cards: [], allCards: [], systems: {}, strategies: {}, choices: {}, coin: {}, dungeons: {}, fortune: {}, heroes: {}, exchanges: {}, generatedCards: {}, tensionSystem: {},
   classes: [], cardTypes: [], rarities: [], userDecks: {},
@@ -62,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v213_landscape_title_screen';
-const BUILD_LABEL = 'v213 / buildable 1467 / total 1607';
+const DATA_VERSION = 'v215_dragon_tribe_excel_foundation';
+const BUILD_LABEL = 'v215 / buildable 1467 / total 1607';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -301,6 +302,7 @@ async function init(){
   setupFirebase(); // non-blocking dynamic Firebase load
   bindEvents();
   fillControls();
+  syncDragonTribePoolFromExcelV215();
   loadLocalDecks();
   if(state.username) $('username-input').value = state.username;
   updateLoginStatus();
@@ -563,7 +565,14 @@ function bindEvents(){
     battleBackBtn.textContent = '退出';
   }
   const choiceClose = $('choice-modal-close');
-  if(choiceClose) choiceClose.addEventListener('click', () => $('choice-modal').close());
+  if(choiceClose) choiceClose.addEventListener('click', () => {
+    const dialog = $('choice-modal');
+    if(dialog?.dataset?.mustPickChoiceV214 === '1'){
+      toast('効果を選択してください。', false);
+      return;
+    }
+    dialog.close();
+  });
   const deckConfirmClose = $('deck-confirm-close');
   if(deckConfirmClose) deckConfirmClose.addEventListener('click', () => $('deck-confirm-modal').close());
   $('modal-close').addEventListener('click', () => $('card-modal').close());
@@ -2943,7 +2952,7 @@ function isTribeCard(card, tribe){
 }
 function isSlimeCard(card){ return isTribeCard(card, 'スライム'); }
 function isZombieCard(card){ return isTribeCard(card, 'ゾンビ'); }
-function isDragonCard(card){ return isTribeCard(card, 'ドラゴン'); }
+function isDragonCard(card){ return isTribeCard(card, 'ドラゴン') || DRAGON_TRIBE_POOL_V215.has(card?.name); }
 function isAdventurerCard2(card){ return isTribeCard(card, '冒険者'); }
 function isDemonKingCard(card){ return isTribeCard(card, '魔王'); }
 
@@ -6109,10 +6118,20 @@ function openChoiceModal(title, options, callback, meta={}){
   dialog.classList.toggle('choice-modal--fortune2', meta.choiceLayout === 'fortune2' || !!meta.fortuneRandomReveal);
   dialog.classList.toggle('choice-modal--fortune-random', !!meta.fortuneRandomReveal);
   $('choice-modal-title').textContent = title;
+  const mustPickChoiceV214 = !!meta.lockedChoices
+    || meta.mustPick === true
+    || (meta.allowCancel !== true && !!meta.kind && !!state.battle?.game && $('screen-battle')?.classList.contains('active'));
+  dialog.dataset.mustPickChoiceV214 = mustPickChoiceV214 ? '1' : '0';
+  dialog.oncancel = (e) => {
+    if(dialog.dataset.mustPickChoiceV214 === '1'){
+      e.preventDefault();
+      toast('効果を選択してください。', false);
+    }
+  };
   const closeBtn = $('choice-modal-close');
   if(closeBtn){
-    closeBtn.disabled = !!meta.lockedChoices;
-    closeBtn.classList.toggle('hidden', !!meta.lockedChoices);
+    closeBtn.disabled = mustPickChoiceV214;
+    closeBtn.classList.toggle('hidden', mustPickChoiceV214);
   }
   const body = $('choice-modal-body');
   const normalized = (options || []).map(normalizeChoiceOptionV168);
@@ -6160,6 +6179,7 @@ function openChoiceModal(title, options, callback, meta={}){
   body.innerHTML = (meta.allBannerBottom ? '' : allBanner) + revealBanner + optionHtml + (meta.allBannerBottom ? allBanner : '');
   const finishAll = () => {
     const values = meta.allValues || normalized.map(x => x.value);
+    dialog.dataset.mustPickChoiceV214 = '0';
     $('choice-modal').close();
     emitChoiceSelected(meta.kind || 'choiceModalAll', title, values, -1, values, {...meta, all:true});
     callback(values, -1, {all:true, options:normalized});
@@ -6170,6 +6190,7 @@ function openChoiceModal(title, options, callback, meta={}){
       const i = Number(btn.dataset.i);
       const picked = normalized[i];
       if(meta.applyAllOnAny) return finishAll();
+      dialog.dataset.mustPickChoiceV214 = '0';
       $('choice-modal').close();
       emitChoiceSelected(meta.kind || 'choiceModal', title, normalized.map(x=>x.value), i, picked?.value, meta);
       callback(picked?.value, i, picked);
@@ -6178,6 +6199,7 @@ function openChoiceModal(title, options, callback, meta={}){
   const runLockedSelection = () => {
     const i = Math.max(0, Math.min(normalized.length - 1, selectedIndex));
     const picked = normalized[i];
+    dialog.dataset.mustPickChoiceV214 = '0';
     if(dialog.open) dialog.close();
     if(closeBtn){
       closeBtn.disabled = false;
@@ -10307,10 +10329,16 @@ function resolveDeaths(){
 }
 
 function applyDeathrattle(unit, side){
-  if(!unit?.keywords?.deathrattle && !getCardText(byId(unit.cardId)).includes('死亡時')) return;
+  const rawText = getCardText(byId(unit.cardId));
+  const hasCardDeathText = rawText.includes('死亡時');
+  const extraDeathText = String(unit?.extraDeathText || '');
+  if(!unit?.keywords?.deathrattle && !hasCardDeathText && !extraDeathText) return;
   const game = state.battle.game;
-  const text = getCardText(byId(unit.cardId));
-  const deathText = [extractAfterKeyword(text, '死亡時') || text, unit.extraDeathText || ''].filter(Boolean).join('。');
+  const text = rawText;
+  // v214: さくせん等で後から死亡時を得たユニットに、元カード全文を死亡時効果として読ませない。
+  // 例: せつげんりゅうが「テンションためろ」等を得た時に、召喚時テキストまで死亡時に再処理される事故を防ぐ。
+  const cardDeathText = hasCardDeathText ? (extractAfterKeyword(text, '死亡時') || '') : '';
+  const deathText = [cardDeathText, extraDeathText].filter(Boolean).join('。');
   if(unit.name === 'プチマージ' && deathText.includes('魔法使い') && deathText.includes('特技')){ addRandomClassSpellToHandV166('魔法使い', unit.name); }
 
   if(unit.name === 'ドラゴン' || unit.name === '立ち塞がるドラゴン' || deathText.includes('相手の手札に王女の愛')){
@@ -10324,7 +10352,7 @@ function applyDeathrattle(unit, side){
     return;
   }
 
-  applyTextMiniEffect(deathText, unit.name);
+  if(deathText) applyTextMiniEffect(deathText, unit.name);
 
   if(unit.deathSummonFish){ summonTokenByName('魚', {attack:2, hp:2}, side); }
   if(unit.betDeathGet2){ addCardToHandByName('コイン'); addCardToHandByName('コイン'); }
@@ -10411,7 +10439,7 @@ function applyDeathrattle(unit, side){
       battleLog('イチゴ爆弾：隣接するユニットに2ダメージ。');
     }
   }
-  battleLog(`死亡時：${unit.name}の効果を処理しました。`);
+  if(deathText) battleLog(`死亡時：${unit.name}の効果を処理しました。`);
 }
 
 function targetLabelForBoardPosV208(side, pos){
@@ -12314,6 +12342,16 @@ function triggerCardPlayedForHero(card){
 }
 
 
+
+function syncDragonTribePoolFromExcelV215(){
+  if(!Array.isArray(state.allCards)) return;
+  for(const card of state.allCards){
+    if(!card || !DRAGON_TRIBE_POOL_V215.has(card.name)) continue;
+    card.tribes ||= [];
+    if(!card.tribes.includes('ドラゴン')) card.tribes.push('ドラゴン');
+    card.searchText = `${card.searchText || ''} ドラゴン系`.trim();
+  }
+}
 function normalizedUnitTribesForIlLucaV209(card){
   return [...cardTribes(card)]
     .map(t => String(t || '').replace(/系$/,'').trim())

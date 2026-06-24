@@ -7698,3 +7698,8 @@ html, body, #app{
 @media (orientation: landscape){
   .portrait-rotate-guide-v213{ display:none !important; }
 }
+
+/* v214: required choice modals cannot be closed before selecting */
+#choice-modal-close.hidden{
+  display:none !important;
+}
