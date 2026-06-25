@@ -1,0 +1,7 @@
+{
+  "version": "v262_long_pvp_kernel_verification",
+  "nodeCheck": "OK",
+  "duplicateFunctionDeclarations": {},
+  "duplicateFunctionDeclarationCount": 0,
+  "appJsSha256": "e44c6c342be804d1403ccee8236d3b0556986e9d804457ee02f91ece422f5638"
+}

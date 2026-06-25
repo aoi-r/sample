@@ -1,5 +1,5 @@
 {
-  "version": "v246_duplicate_trigger_guard_and_effect_fallthrough_fix",
+  "version": "v265_firebase_durability_public_state_guard",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -238,11 +238,11 @@
     "removal_behavior": "効果が消えた場合はステータス再計算・再描画により表示も消える。",
     "image_rewrite_policy": "元画像ファイルは変更せず、DOMオーバーレイで表示する。"
   },
-  "base": "v245_boot_module_duplicate_fix",
+  "base": "v247_emulator_duplicate_trigger_hardening",
   "filenameSanitization": "custom_cards filenames normalized to short ASCII names to avoid File name too long on checkout/build",
   "data_version": "v165_default_decks_remove_demon_swordsman_and_effect_audit",
   "label": "v246 / duplicate trigger guard + effect fallthrough fix",
-  "notes": "Fixed module boot blockers: duplicate Eggra/Chikira function declarations and stray standalone async token. Title tap can now proceed after app.js module loads.",
+  "notes": "カンダタこぶんBET修正、商人31件、魔剣士36件を実装/確認。ブオーン/ウルノーガ/転生/アクバーを対戦ブラウザ検査。",
   "defaultTestDecks": {
     "file": "data/default_test_decks_v165.json",
     "active": [
@@ -288,8 +288,8 @@
     "ドラゴン系ランダム孵化プールに含まれる73枚のうち、召喚時/死亡時/攻撃時/ターン終了時/BET/パワフルバッジ周辺の主要処理を補強。",
     "かみかぜ/逆転への兆し用に、コスト2/3ユニットの効果未実装疑い監査を追加。"
   ],
-  "buildLabel": "v219 / dragon focus check + cost2 batch2",
-  "summary": "エッグラ&チキーラの相手ターン開始時予想モーダルをFirebase action同期対応で実装。召喚者側選択→相手側予想→召喚者側判定→結果同期。",
+  "buildLabel": "v253 / shido + haja hero branch pass5",
+  "summary": "少年シドー/劇場のPvP action replay検査を追加し、優先キューpass6で44件を実装/確認。",
   "nodeCheck": "OK",
   "v219Changes": {
     "dragonLord": "手札コスト-1は召喚者側の自分の手札限定として明記。盤面+1/+1は汎用常在オーラに一本化し、v218専用加算による二重バフを防止。",
@@ -366,14 +366,14 @@
   },
   "cost3Completion": "全職業対象のランダムコスト3ユニット候補を完了寄せ。通常ロウのテンション3を山札ではなく全カードコスト3ユニットから場に出す裁定へ変更。",
   "summonVsPutIntoPlay": "場に出すと召喚は別物。ロウ/復活/生成系は場に出す扱いで召喚時を発動しない。",
-  "baseVersion": "v241_cost45_units_pass2_and_spell_runtime_guards",
+  "baseVersion": "v263_soak_pvp_summon_state_guard",
   "v229": "Official DB correction pass: Magical Hat conservative copy effects, Kaizoku Wooper summon/discard not death, discard triggers for Senchou/Zairu, and audit notes for deck/cost2/cost3/dragon scopes.",
   "addedFiles": [
     "data/v230_target_pool_coverage_audit.md",
     "data/v230_target_pool_coverage_audit.csv",
     "data/v230_target_pool_coverage_audit.json"
   ],
-  "previousVersion": "v237_spell_behavior_tests_and_cost67_pass1",
+  "previousVersion": "v264_duplicate_effect_soak_hand_guard",
   "v232_summary": {
     "priority_queue_rows": 178,
     "patched_or_hardened": 49,
@@ -388,7 +388,7 @@
     "data/v234_random_full_pool_crosscheck_pass1.json"
   ],
   "v235": "ランダムサーチで手札に加わる特技カードの使用効果を公式DB文面ベースで追加。魔法使い特技、コスト3特技、コスト4/5/6特技を中心に、使用時に発動できる効果を広範囲で実装。",
-  "updatedAt": "2026-06-24T14:52:00Z",
+  "updatedAt": "2026-06-25T16:25:00+09:00",
   "v238": "6〜7コストユニット145件のうち、v237 pass1の残57件を公式DB同期テキストベースで実装/接続。Chromium CDPの起動検査は3回実施したが、実行環境のポリシーでlocalhost/fileがblockされたためUI到達は不可。Node構文/静的検査はOK。",
   "v240": "cost4/5ユニットとcost4/5/6特技を同時に公式DB由来cards.json効果文ベースで照合。コスト4/5ユニット121行を追加/補強、特技プールは既存使用処理を再照合し、エビルトレントのカード種別をユニットに補正。",
   "v240AuditFiles": [
@@ -460,5 +460,201 @@
       "tools/v246_duplicate_trigger_audit_tests.mjs"
     ],
     "nodeCheck": "OK"
-  }
+  },
+  "v249": {
+    "base": "v248_chappy_pvp_emulator_check",
+    "note": "User clarified チャッピー is ChatGPT. Created all-card behavior audit pass1 across 1607 cards, risk queue for unimplemented/complex behavior, duplicate function check, and reran existing tests.",
+    "files": [
+      "data/v249_full_card_behavior_audit_report.md",
+      "data/v249_full_card_behavior_audit.csv",
+      "data/v249_full_card_behavior_audit.json",
+      "data/v249_full_card_behavior_priority_queue.csv",
+      "data/v249_duplicate_function_declarations.json",
+      "data/v249_many_app_occurrences.csv",
+      "tools/v249_full_card_behavior_audit.py"
+    ]
+  },
+  "v250Update": "v249優先キュー先頭の共通初期カードを中心に、召喚時/死亡時/テンションリンク/攻撃時/ターン終了/継続効果/コスト軽減を実装または既存汎用確認。",
+  "v250ImplementedCards": [
+    "メラゴースト",
+    "バブルスライム",
+    "おおくちばし",
+    "ゆめにゅうどう",
+    "あばれこまいぬ",
+    "ねこまどう",
+    "リリパット",
+    "プチアーノン",
+    "バロンナイト",
+    "ブラックチャック",
+    "ヘルゴースト",
+    "バーサーカー",
+    "じごくのつかい",
+    "バラモスゾンビ"
+  ],
+  "v250GenericConfirmedCards": [
+    "いたずらもぐら",
+    "おばけキャンドル",
+    "おばけヒトデ",
+    "オニオーン",
+    "ブラックルーン"
+  ],
+  "v250Checks": "data/v250_checks.json",
+  "officialDbBaseUrl": "https://gameconductor.com/dqrivals/card/",
+  "officialDbDetailUrlPattern": "https://gameconductor.com/dqrivals/c/d/{officialId}",
+  "v251Update": "公式DB URL付きの優先キューを基準に、残り先頭20件を実装/確認。公式DB本文を主、カード画像下部/OCRを補助として扱う方針を明文化。",
+  "v251ImplementedOrConfirmed": [
+    "トロルキング",
+    "シドー",
+    "くみひもこぞう",
+    "メガトンケイル",
+    "モコッキー",
+    "ニードルマン",
+    "ビーンファイター",
+    "おおさそり",
+    "アントベア",
+    "ヌボーン",
+    "まかいじゅ",
+    "ファンキーバード",
+    "やつざきアニマル",
+    "スライムファング",
+    "ミノーン",
+    "テンタコルス",
+    "屍騎軍王ゾルデ・影",
+    "ライノソルジャー",
+    "ワルぼう",
+    "ばくだんベビー"
+  ],
+  "priorityQueuePass4": "v252: official DB grounded pass4. High-priority pending cards implemented/confirmed: ダークドレアム, ベビーゴイル, 屍騎軍王ゾルデ, ダークスライム, ピッキー, 勇者エイト, 小さな相棒, 挑戦!バトルロード, 姫君との結婚, フラワーゾンビ, フォンデュ, 破壊神シドー, タホドラキー, キラースコップ, ジラフマスター, かわいいモーモン, 薄命のボーンバット, パラサキス, 劇場, マンドラ, ケトス, ニズゼルファ, デスバキューム",
+  "priorityQueuePass4NeedsReview": [
+    "勇者エイト: 公式DB本文にLv1/Lv2のレベルアップ回数が見当たらないため、v252では暫定2回扱い。過去ログ/カード画像で要確認。",
+    "ニズゼルファ: 邪神の子は公式DB考察の2/2表記に合わせて2/2実装。カード個別ページが見つかれば追加確認。",
+    "劇場: 必殺技カード使用時は実装。ヒーロースキル側の必殺技発動で引くかは追加確認対象。",
+    "破邪の秘技4種/少年シドー/いいえ: ヒーロー分岐として次バッチへ回す。"
+  ],
+  "v253": "少年シドー/破邪の秘技/いいえ系を実装。勇者エイトLv1/Lv2の進化回数をユーザー確認により2回で確定。劇場は少年シドーLv3必殺技ヒーロースキル経路と合わせて後続確認するメモを追加。",
+  "updatedAtLocal": "2026-06-25T02:45:00+09:00",
+  "priorityQueuePending": 196,
+  "priorityQueuePartial": 3,
+  "priorityQueueNewImplementedV254": 44,
+  "tests": {
+    "v237_static_emulator_tests": "11/11 passed",
+    "v240_static_pool_tests": "12/12 passed",
+    "v246_duplicate_trigger_audit_tests": "12/12 passed",
+    "v248_chappy_pvp_emulator_tests": "14/14 passed",
+    "v254_shido_pvp_emulator_tests": "6/6 passed"
+  },
+  "pendingBehaviorQueue": 162,
+  "v256Update": "マイユ用に自分が発動したユニット移動効果の対戦中永続カウントを追加。スライムフィーバーを「特技カード破棄→全スライム系ユニットからランダム入れ替え」に修正。無鉄砲な作戦を実装し、移動盤面を対戦action replay同期。",
+  "v256PendingAfter": 161,
+  "v256TestSummary": {
+    "v256_maiyu_slimefever_pvp_tests": "5 passed / 0 failed",
+    "v255_combat_dolmages_pvp_tests": "10 passed / 0 failed",
+    "v248_chappy_pvp_emulator_tests": "14 passed / 0 failed",
+    "v237_static": "OK",
+    "v240_static": "OK",
+    "v246_duplicate": "12 passed / 0 failed",
+    "node_check": "OK"
+  },
+  "v257": "武闘家残り・僧侶PENDING先頭39件を実装/確認。回復ダメージ化、復活、交換所、武器攻撃後、ブオーン範囲攻撃、将軍の秘技を追加。",
+  "latestPriorityStatus": "data/v257_full_card_behavior_priority_queue_status.csv",
+  "pendingPriorityCountV257": 122,
+  "pendingRemaining": 55,
+  "lastUpdate": "2026-06-25T13:30:00+09:00",
+  "v259Summary": {
+    "pendingAtStart": 55,
+    "doneV259": 52,
+    "reviewV259": 3,
+    "remainingPending": 0
+  },
+  "v259ReviewCards": [
+    "運命の分岐点",
+    "ブラッドナイフ",
+    "妖精サンディ"
+  ],
+  "v259TestSummary": {
+    "v259": {
+      "passed": 11,
+      "failed": 0,
+      "exceptions": 0
+    },
+    "v258": {
+      "passed": 10,
+      "failed": 0,
+      "exceptions": 0
+    },
+    "v256": {
+      "passed": 5,
+      "failed": 0,
+      "exceptions": 0
+    },
+    "v255": {
+      "passed": 10,
+      "failed": 0,
+      "exceptions": 0
+    },
+    "v248": {
+      "passed": 14,
+      "failed": 0,
+      "exceptions": 0
+    },
+    "v237": {
+      "passed": 11,
+      "failed": 0,
+      "exceptions": null
+    },
+    "v240": {
+      "passed": 12,
+      "failed": 0,
+      "exceptions": null
+    },
+    "v246": {
+      "passed": 12,
+      "failed": 0,
+      "exceptions": null
+    }
+  },
+  "v260ReviewCloseout": {
+    "closed": [
+      "トーマ王子",
+      "運命の分岐点",
+      "ブラッドナイフ",
+      "妖精サンディ"
+    ],
+    "pendingRemaining": 0,
+    "reviewRemaining": 0,
+    "pvpEmulatorPassed": 20,
+    "pvpEmulatorFailed": 0,
+    "summary": "v259のREVIEW対象を、マス選択モーダル・武器反撃/強化・サンディのダンジョン限定処理・トーマ王子4択同期まで含めてclose。"
+  },
+  "latestVerification": "v261",
+  "pendingReviewStatus": "0 unresolved in v261 status",
+  "testAggregate": {
+    "passed": 279,
+    "failed": 0
+  },
+  "longPvpVerification": "2 Chromium clients, 48 consecutive mirrored PvP kernel actions plus heavy-effect regression blocks. Fixed remote weaponAfterAttack durability sync and remote terrain-on-summon side effects.",
+  "v262Fixes": [
+    "Remote weaponAfterAttack now synchronizes post-attack weapon durability/attacksLeft as well as attack.",
+    "Remote unitSummoned action replay now mirrors terrain-on-summon side effects such as 天啓の神域 draw/tension/fatigue/tension-link and terrain stat bonuses."
+  ],
+  "v262Tests": {
+    "v262_long_pvp_kernel_tests": "7 passed / 0 failed, 48 consecutive cross-client steps",
+    "v248_chappy_pvp_emulator_tests": "14 passed / 0 failed",
+    "v255_combat_dolmages_pvp_tests": "10 passed / 0 failed",
+    "v256_maiyu_slimefever_pvp_tests": "5 passed / 0 failed",
+    "v258_counter_kandakobun_merchant_pvp_tests": "10 passed / 0 failed",
+    "v260_review_closeout_pvp_tests": "20 passed / 0 failed",
+    "v237_static_emulator_tests": "11 passed / 0 failed",
+    "v240_static_pool_tests": "12 passed / 0 failed",
+    "v246_duplicate_trigger_audit_tests": "12 passed / 0 failed",
+    "node --check js/app.js": "OK"
+  },
+  "v263Fix": "2台相当の対戦で、召喚action後に古いFirebase盤面snapshotが相手盤面を上書きしてユニットを消す問題を修正。召喚解決後のunitStatePatchV263と短時間のaction replay保護スロットを追加。",
+  "v263SeaGolem": "シーゴーレムの召喚時HP+2/におうだちを、相手側にも召喚後状態patchで同期。古い空盤面snapshot適用後とターン遷移後も残ることを検査済み。",
+  "v263Soak": "2 Chromium clients, 18 matches x 55 steps = 990 consecutive action replay steps; summon/attack/damage/death/turn events/discard/stale snapshot interleaving stayed mirrored.",
+  "v264Summary": "PvP/mobileでソロ用相手手札UIを強制非表示。remote action IDガードで同一Firebase actionの二重適用を防止。対象選択のダメージ/弱体/状態変化は解決後ユニット状態patchを送って相手画面にも同期。",
+  "v264DuplicateEffectGuard": "damageApplied / unitStatePatch / weapon/terrain/summon系actionの再配送は同一IDなら破棄。ゼルドラド系の同一eventId二重発火、ブラックマンティス系弱体二重適用、ブラックルーン+メラミの特技ダメージ+2が1回だけであることを検査。",
+  "v264MobileHandLeakFix": "非ソロPvPでは enemy-hand-visual / enemy-hand-list-pop / solo-debug-strip / solo-debug-hand / solo-debug-enemy-hand / solo-test-panel / solo-test-toggle を空化・hidden化。",
+  "v264SoakTest": "2台相当Chromium/CDPのスマホ横向きエミュレーションで12試合×80手=960ステップの長期対戦soakを実行し、召喚/弱体/特技ダメージ/攻撃/ターン終了/サンディ捨て/重複action注入後もミラー同期OK。",
+  "firebaseDurability": "PvP public states redact handIds, include stateSeq/clientUpdatedAt, reject stale Firebase snapshots, and attach clientActionSeq to actions."
 }

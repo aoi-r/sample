@@ -1,0 +1,182 @@
+{
+  "version": "v261_full_verification_gate_start",
+  "base": "v260_review_closeout_pvp_pass12",
+  "timestamp": "2026-06-25T06:25:00+09:00",
+  "nodeCheckAppJs": "OK",
+  "queueRows": 311,
+  "v261StatusCounts": {
+    "VERIFICATION_CARRIED_FORWARD_V261": 305,
+    "VERIFIED_V261": 6
+  },
+  "unresolvedStatuses": [],
+  "testSummary": [
+    {
+      "file": "v237_static_emulator_tests.json",
+      "mode": "",
+      "passed": 11,
+      "failed": 0
+    },
+    {
+      "file": "v238_static_cost67_tests.json",
+      "mode": "",
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "file": "v239_static_cost67_existing43_tests.json",
+      "mode": "",
+      "passed": 9,
+      "failed": 0
+    },
+    {
+      "file": "v240_static_pool_tests.json",
+      "mode": "",
+      "passed": 12,
+      "failed": 0
+    },
+    {
+      "file": "v241_static_cost45_pass2_tests.json",
+      "mode": "",
+      "passed": 17,
+      "failed": 0
+    },
+    {
+      "file": "v242_static_cost45_closeout_tests.json",
+      "mode": "",
+      "passed": 13,
+      "failed": 0
+    },
+    {
+      "file": "v243_static_eggchikira_tests.json",
+      "mode": "",
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "file": "v246_duplicate_trigger_audit_tests.json",
+      "mode": "",
+      "passed": 12,
+      "failed": 0
+    },
+    {
+      "file": "v247_inline_chromium_emulator_tests.json",
+      "mode": "inline Page.setDocumentContent",
+      "passed": 10,
+      "failed": 0
+    },
+    {
+      "file": "v248_chappy_pvp_emulator_tests.json",
+      "mode": "two isolated Chromium clients + action bridge",
+      "passed": 14,
+      "failed": 0
+    },
+    {
+      "file": "v254_shido_pvp_emulator_tests.json",
+      "mode": "v254 少年シドー two Chromium clients + action replay + public state mirror",
+      "passed": 6,
+      "failed": 0
+    },
+    {
+      "file": "v255_combat_dolmages_pvp_tests.json",
+      "mode": "v255 combat + Dolmages + Kabau PvP emulator",
+      "passed": 10,
+      "failed": 0
+    },
+    {
+      "file": "v256_maiyu_slimefever_pvp_tests.json",
+      "mode": "v256 Maiyu move counter + Slime Fever replacement + PvP movement sync",
+      "passed": 5,
+      "failed": 0
+    },
+    {
+      "file": "v258_counter_kandakobun_merchant_pvp_tests.json",
+      "mode": "v258 Kandakobun + prior 4 behavior + merchant PvP/browser tests",
+      "passed": 10,
+      "failed": 0
+    },
+    {
+      "file": "v259_remaining_priority_browser_tests.json",
+      "mode": "v259 remaining priority browser/emulator tests",
+      "passed": 11,
+      "failed": 0
+    },
+    {
+      "file": "v260_review_closeout_pvp_tests.json",
+      "mode": "v260 review closeout PvP/emulator tests",
+      "passed": 20,
+      "failed": 0
+    },
+    {
+      "file": "v237_static_emulator_tests.mjs",
+      "mode": "static",
+      "passed": 11,
+      "failed": 0
+    },
+    {
+      "file": "v238_static_cost67_tests.mjs",
+      "mode": "static",
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "file": "v239_static_cost67_existing43_tests.mjs",
+      "mode": "static",
+      "passed": 9,
+      "failed": 0
+    },
+    {
+      "file": "v240_static_pool_tests.mjs",
+      "mode": "static",
+      "passed": 12,
+      "failed": 0
+    },
+    {
+      "file": "v241_static_cost45_pass2_tests.mjs",
+      "mode": "static",
+      "passed": 17,
+      "failed": 0
+    },
+    {
+      "file": "v242_static_cost45_closeout_tests.mjs",
+      "mode": "static",
+      "passed": 13,
+      "failed": 0
+    },
+    {
+      "file": "v243_static_eggchikira_tests.mjs",
+      "mode": "static",
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "file": "v244_static_room_match_tests.mjs",
+      "mode": "static",
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "file": "v245_static_boot_module_tests.mjs",
+      "mode": "static",
+      "passed": 5,
+      "failed": 0
+    },
+    {
+      "file": "v246_duplicate_trigger_audit_tests.mjs",
+      "mode": "static",
+      "passed": 12,
+      "failed": 0
+    }
+  ],
+  "aggregate": {
+    "passed": 279,
+    "failed": 0
+  },
+  "officialDbSync": "SKIPPED_FAILED_IN_CONTAINER_DNS_EAI_AGAIN",
+  "notes": [
+    "v249_full_card_behavior_audit.pyは旧ルールの優先抽出で31件を再抽出するため、v250-v260のstatus CSVを正とした。",
+    "sync_official_gameconductor.mjsはこの実行環境でDNS EAI_AGAINのため未実行扱い。"
+  ],
+  "excludedObsoleteReports": [
+    "v247_chromium_emulator_tests.json は通常URL読み込みが chrome-error://chromewebdata/ に飛ばされた旧検査レポート。現行検証は v247_inline_chromium_emulator_tests.py を使用し 10/0。"
+  ]
+}

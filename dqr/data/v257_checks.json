@@ -1,0 +1,55 @@
+{
+  "version": "v257_priest_martial_priority_pass9",
+  "nodeCheck": "OK",
+  "functionDuplicateCount": 0,
+  "pendingBefore": 161,
+  "handledThisPass": 39,
+  "pendingAfter": 122,
+  "statusCounts": {
+    "IMPLEMENTED_V250": 14,
+    "EXISTING_GENERIC_OK_V250": 5,
+    "IMPLEMENTED_OR_CONFIRMED_V251": 20,
+    "IMPLEMENTED_OR_CONFIRMED_V252": 19,
+    "IMPLEMENTED_OR_CONFIRMED_V253": 3,
+    "IMPLEMENTED_V253": 5,
+    "IMPLEMENTED_WITH_REVIEW_V253": 1,
+    "DEFERRED_MEMO_V253": 1,
+    "IMPLEMENTED_OR_CONFIRMED_V254": 43,
+    "IMPLEMENTED_OR_CONFIRMED_V255": 36,
+    "IMPLEMENTED_V256": 3,
+    "IMPLEMENTED_OR_CONFIRMED_V257": 34,
+    "IMPLEMENTED_WITH_REVIEW_V257": 5,
+    "PENDING": 122
+  },
+  "v237": {
+    "passed": 11,
+    "failed": 0,
+    "mode": null
+  },
+  "v240": {
+    "passed": 12,
+    "failed": 0,
+    "mode": null
+  },
+  "v248": {
+    "passed": 14,
+    "failed": 0,
+    "mode": "two isolated Chromium clients + action bridge"
+  },
+  "v255": {
+    "passed": 10,
+    "failed": 0,
+    "mode": "v255 combat + Dolmages + Kabau PvP emulator"
+  },
+  "v256": {
+    "passed": 5,
+    "failed": 0,
+    "mode": "v256 Maiyu move counter + Slime Fever replacement + PvP movement sync"
+  },
+  "v257": {
+    "passed": 5,
+    "failed": 0,
+    "mode": "v257 priest/martial priority browser tests"
+  },
+  "v246": "12 passed / 0 failed"
+}

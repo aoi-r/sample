@@ -1,0 +1,623 @@
+{
+  "mode": "two isolated Chromium clients + action bridge",
+  "browsers": [
+    "Chrome/144.0.7559.96",
+    "Chrome/144.0.7559.96"
+  ],
+  "passed": 14,
+  "failed": 0,
+  "results": [
+    {
+      "name": "two clients booted with test hook",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "cardsA": 1607,
+        "cardsB": 1607
+      }
+    },
+    {
+      "name": "チャッピー: 非ターン側は召喚できない",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "snap": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "isMyTurn": false,
+          "lock": true,
+          "hand": [
+            "あらくれチャッピー"
+          ]
+        }
+      }
+    },
+    {
+      "name": "bridge summon_enemy_target_prechoice",
+      "ok": true,
+      "count": 4,
+      "types": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ]
+    },
+    {
+      "name": "チャッピー: 対象モーダルはユニットのみ/リーダーなし",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "labels": [
+          "味方2:あらくれチャッピー\n          攻撃3/HP2",
+          "敵1:シールドオーガ\n          攻撃4/HP4"
+        ]
+      }
+    },
+    {
+      "name": "bridge summon_enemy_target_afterchoice",
+      "ok": true,
+      "count": 2,
+      "types": [
+        "choiceSelected",
+        "damageApplied"
+      ]
+    },
+    {
+      "name": "チャッピー: 敵ユニットへ2ダメージが双方で1回だけ反映",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "A": {
+          "player": [
+            null,
+            {
+              "name": "あらくれチャッピー",
+              "hp": 2,
+              "attack": 3,
+              "id": "card_1e6a7f8a_1782374149513_159aabe0"
+            },
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シールドオーガ",
+              "hp": 2,
+              "attack": 4,
+              "id": "card_83cf917e_1782374149494_8235dee9"
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "isMyTurn": true,
+          "lock": false,
+          "hand": []
+        },
+        "B": {
+          "player": [
+            {
+              "name": "シールドオーガ",
+              "hp": 2,
+              "attack": 4,
+              "id": "card_83cf917e_1782374149500_d26b02ff"
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            {
+              "name": "あらくれチャッピー",
+              "hp": 2,
+              "attack": 3,
+              "id": "card_1e6a7f8a_1782374149513_159aabe0"
+            },
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "isMyTurn": false,
+          "lock": true,
+          "hand": []
+        },
+        "actions": [
+          {
+            "type": "targetSelected",
+            "actorId": "A",
+            "turn": 1,
+            "payload": {
+              "kind": "summonSlot",
+              "target": {
+                "type": "emptySlot",
+                "side": "player",
+                "pos": 1
+              },
+              "card": {
+                "id": "card_1e6a7f8a",
+                "name": "あらくれチャッピー"
+              }
+            },
+            "createdAt": 1782374149513,
+            "clientActionSeq": 1,
+            "clientCreatedAt": 1782374149513,
+            "v265ActionPayload": true
+          },
+          {
+            "type": "unitSummoned",
+            "actorId": "A",
+            "turn": 1,
+            "payload": {
+              "unit": {
+                "id": "card_1e6a7f8a_1782374149513_159aabe0",
+                "cardId": "card_1e6a7f8a",
+                "name": "あらくれチャッピー",
+                "attack": 3,
+                "hp": 2,
+                "maxHp": 2,
+                "statuses": [],
+                "keywords": {
+                  "taunt": false,
+                  "haste": false,
+                  "support": false,
+                  "snipe": false,
+                  "poison": false,
+                  "stealth": false,
+                  "seal": false,
+                  "darkRobe": false,
+                  "conditionGood": false,
+                  "synchro": false,
+                  "proficiency": false,
+                  "spellDamagePlus": false,
+                  "terrainSlip": false,
+                  "terrainTreasure": false,
+                  "terrainBarrier": false,
+                  "terrainBlade": false,
+                  "terrainMagic": false,
+                  "terrainBlessing": false,
+                  "terrainHappy": false,
+                  "terrainOracle": false,
+                  "apathy": false,
+                  "piercing": false,
+                  "superPiercing": false,
+                  "metal": false,
+                  "hardMetal": false,
+                  "doubleAttack": false,
+                  "firstStrike": false,
+                  "vanish": false,
+                  "tensionLink": false,
+                  "skillLink": false,
+                  "deathrattle": false,
+                  "summon": true,
+                  "powerBadge": false,
+                  "building": false,
+                  "costBoost": false,
+                  "move": false,
+                  "get": false,
+                  "bet": false,
+                  "dungeon": false,
+                  "choice": false,
+                  "fortune": false,
+                  "renkei": false,
+                  "skillBoost": false
+                }
+              },
+              "card": {
+                "id": "card_1e6a7f8a",
+                "name": "あらくれチャッピー",
+                "cardType": "ユニット",
+                "cost": 4,
+                "attack": 3,
+                "hp": 2
+              },
+              "pos": 1,
+              "side": "player",
+              "cost": 4
+            },
+            "createdAt": 1782374149513,
+            "clientActionSeq": 2,
+            "clientCreatedAt": 1782374149513,
+            "v265ActionPayload": true
+          },
+          {
+            "type": "unitStatePatchV263",
+            "actorId": "A",
+            "turn": 1,
+            "payload": {
+              "unit": {
+                "id": "card_1e6a7f8a_1782374149513_159aabe0",
+                "cardId": "card_1e6a7f8a",
+                "name": "あらくれチャッピー",
+                "attack": 3,
+                "hp": 2,
+                "maxHp": 2,
+                "statuses": [],
+                "keywords": {
+                  "taunt": false,
+                  "haste": false,
+                  "support": false,
+                  "snipe": false,
+                  "poison": false,
+                  "stealth": false,
+                  "seal": false,
+                  "darkRobe": false,
+                  "conditionGood": false,
+                  "synchro": false,
+                  "proficiency": false,
+                  "spellDamagePlus": false,
+                  "terrainSlip": false,
+                  "terrainTreasure": false,
+                  "terrainBarrier": false,
+                  "terrainBlade": false,
+                  "terrainMagic": false,
+                  "terrainBlessing": false,
+                  "terrainHappy": false,
+                  "terrainOracle": false,
+                  "apathy": false,
+                  "piercing": false,
+                  "superPiercing": false,
+                  "metal": false,
+                  "hardMetal": false,
+                  "doubleAttack": false,
+                  "firstStrike": false,
+                  "vanish": false,
+                  "tensionLink": false,
+                  "skillLink": false,
+                  "deathrattle": false,
+                  "summon": true,
+                  "powerBadge": false,
+                  "building": false,
+                  "costBoost": false,
+                  "move": false,
+                  "get": false,
+                  "bet": false,
+                  "dungeon": false,
+                  "choice": false,
+                  "fortune": false,
+                  "renkei": false,
+                  "skillBoost": false
+                }
+              },
+              "card": {
+                "id": "card_1e6a7f8a",
+                "name": "あらくれチャッピー"
+              },
+              "pos": 1,
+              "side": "player",
+              "source": "postSummonResolved"
+            },
+            "createdAt": 1782374149527,
+            "clientActionSeq": 3,
+            "clientCreatedAt": 1782374149527,
+            "v265ActionPayload": true
+          },
+          {
+            "type": "cardPlayed",
+            "actorId": "A",
+            "turn": 1,
+            "payload": {
+              "card": {
+                "id": "card_1e6a7f8a",
+                "name": "あらくれチャッピー",
+                "cardType": "ユニット",
+                "cost": 4,
+                "attack": 3,
+                "hp": 2
+              },
+              "cost": 4,
+              "source": "summon"
+            },
+            "createdAt": 1782374149527,
+            "clientActionSeq": 4,
+            "clientCreatedAt": 1782374149527,
+            "v265ActionPayload": true
+          },
+          {
+            "type": "choiceSelected",
+            "actorId": "A",
+            "turn": 1,
+            "payload": {
+              "kind": "v240UnitChoice",
+              "title": "あらくれチャッピー：2ダメージ",
+              "options": [
+                "player:1",
+                "enemy:0"
+              ],
+              "index": 1,
+              "value": "enemy:0",
+              "choiceLayout": "targetGrid"
+            },
+            "createdAt": 1782374149549,
+            "clientActionSeq": 5,
+            "clientCreatedAt": 1782374149549,
+            "v265ActionPayload": true
+          },
+          {
+            "type": "damageApplied",
+            "actorId": "A",
+            "turn": 1,
+            "payload": {
+              "targetRef": {
+                "side": "enemy",
+                "pos": 0
+              },
+              "amount": 2,
+              "actual": 2,
+              "source": "あらくれチャッピー"
+            },
+            "createdAt": 1782374149549,
+            "clientActionSeq": 6,
+            "clientCreatedAt": 1782374149549,
+            "v265ActionPayload": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "bridge summon_friendly_target_prechoice",
+      "ok": true,
+      "count": 4,
+      "types": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ]
+    },
+    {
+      "name": "チャッピー: 味方ユニットも対象にできる",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "labels": [
+          "味方1:シールドオーガ\n          攻撃4/HP4",
+          "味方2:あらくれチャッピー\n          攻撃3/HP2"
+        ]
+      }
+    },
+    {
+      "name": "bridge summon_friendly_target_afterchoice",
+      "ok": true,
+      "count": 2,
+      "types": [
+        "choiceSelected",
+        "damageApplied"
+      ]
+    },
+    {
+      "name": "チャッピー: 味方対象ダメージも相手画面へ正しくミラー",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "A": {
+          "player": [
+            {
+              "name": "シールドオーガ",
+              "hp": 2,
+              "attack": 4,
+              "id": "card_83cf917e_1782374149571_f7db75d2"
+            },
+            {
+              "name": "あらくれチャッピー",
+              "hp": 2,
+              "attack": 3,
+              "id": "card_1e6a7f8a_1782374149577_803d219a"
+            },
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "isMyTurn": true,
+          "lock": false,
+          "hand": []
+        },
+        "B": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シールドオーガ",
+              "hp": 2,
+              "attack": 4,
+              "id": "card_83cf917e_1782374149574_7d7ae5d3"
+            },
+            {
+              "name": "あらくれチャッピー",
+              "hp": 2,
+              "attack": 3,
+              "id": "card_1e6a7f8a_1782374149577_803d219a"
+            },
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "isMyTurn": false,
+          "lock": true,
+          "hand": []
+        }
+      }
+    },
+    {
+      "name": "bridge summon_enemy_death_prechoice",
+      "ok": true,
+      "count": 4,
+      "types": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ]
+    },
+    {
+      "name": "bridge summon_enemy_death_afterchoice",
+      "ok": true,
+      "count": 3,
+      "types": [
+        "choiceSelected",
+        "damageApplied",
+        "unitDeath"
+      ]
+    },
+    {
+      "name": "チャッピー: 対象死亡時も双方で盤面から消える",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "A": {
+          "player": [
+            null,
+            {
+              "name": "あらくれチャッピー",
+              "hp": 2,
+              "attack": 3,
+              "id": "card_1e6a7f8a_1782374149630_f422c0cb"
+            },
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "isMyTurn": true,
+          "lock": false,
+          "hand": []
+        },
+        "B": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            {
+              "name": "あらくれチャッピー",
+              "hp": 2,
+              "attack": 3,
+              "id": "card_1e6a7f8a_1782374149630_f422c0cb"
+            },
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "isMyTurn": false,
+          "lock": true,
+          "hand": []
+        }
+      }
+    },
+    {
+      "name": "チャッピー: 場に出すでは召喚時モーダル/ダメージは出ない",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "labels": [],
+        "actions": [
+          "unitPutIntoPlay"
+        ],
+        "snap": {
+          "player": [
+            null,
+            {
+              "name": "あらくれチャッピー",
+              "hp": 2,
+              "attack": 3,
+              "id": "card_1e6a7f8a_1782374149677_2688448b"
+            },
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782374149674_aee8d498"
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "isMyTurn": true,
+          "lock": false,
+          "hand": []
+        }
+      }
+    }
+  ],
+  "exceptions": [],
+  "chromeLogs": [
+    "/tmp/tmpk2dbxr96",
+    "/tmp/tmp3pagduwe"
+  ]
+}

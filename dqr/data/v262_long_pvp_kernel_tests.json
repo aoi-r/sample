@@ -1,0 +1,951 @@
+{
+  "mode": "v262 long two-client PvP kernel verification",
+  "browserVersions": [
+    "Chrome/144.0.7559.96",
+    "Chrome/144.0.7559.96"
+  ],
+  "passed": 7,
+  "failed": 0,
+  "results": [
+    {
+      "name": "boot: 2 Chromium clients + v260/v261 hooks",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "cards": 1607,
+        "pendingUnresolved": 0
+      }
+    },
+    {
+      "name": "initial mirror after pair setup",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "A": {
+          "playerHp": 25,
+          "enemyHp": 25,
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerWeapon": null,
+          "enemyWeapon": null,
+          "tension": 0,
+          "enemyTension": 0,
+          "terrainPlayer": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "terrainEnemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "hand": [],
+          "log": [
+            "バトル開始。ヒーローカードはサマルトリアの王子以外、開始時手札に入りました。"
+          ]
+        },
+        "B": {
+          "playerHp": 25,
+          "enemyHp": 25,
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerWeapon": null,
+          "enemyWeapon": null,
+          "tension": 0,
+          "enemyTension": 0,
+          "terrainPlayer": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "terrainEnemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "hand": [],
+          "log": [
+            "バトル開始。ヒーローカードはサマルトリアの王子以外、開始時手札に入りました。"
+          ]
+        }
+      }
+    },
+    {
+      "name": "long rolling PvP kernel: 48 consecutive cross-client actions stay mirrored",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "steps": 48,
+        "sample": [
+          {
+            "step": 0,
+            "actor": "A",
+            "op": "summon",
+            "actions": [
+              "targetSelected",
+              "unitSummoned",
+              "unitStatePatchV263",
+              "cardPlayed"
+            ],
+            "mirrorOk": true
+          },
+          {
+            "step": 1,
+            "actor": "B",
+            "op": "summon",
+            "actions": [
+              "targetSelected",
+              "unitSummoned",
+              "unitStatePatchV263",
+              "cardPlayed"
+            ],
+            "mirrorOk": true
+          },
+          {
+            "step": 2,
+            "actor": "A",
+            "op": "summon",
+            "actions": [
+              "targetSelected",
+              "unitSummoned",
+              "unitStatePatchV263",
+              "cardPlayed"
+            ],
+            "mirrorOk": true
+          },
+          {
+            "step": 3,
+            "actor": "B",
+            "op": "unitAttackLeader",
+            "actions": [
+              "targetSelected",
+              "attackDeclared",
+              "damageApplied",
+              "afterAttack",
+              "attackResolved"
+            ],
+            "mirrorOk": true
+          },
+          {
+            "step": 4,
+            "actor": "A",
+            "op": "bloodKnifeAttackUnit",
+            "actions": [
+              "targetSelected",
+              "attackDeclared",
+              "damageApplied",
+              "afterAttack",
+              "weaponUpdateV260",
+              "weaponAfterAttack",
+              "attackResolved",
+              "unitDeath"
+            ],
+            "mirrorOk": true
+          },
+          {
+            "step": 5,
+            "actor": "B",
+            "op": "terrainChoice",
+            "actions": [
+              "choiceSelected",
+              "terrainSetV260"
+            ],
+            "mirrorOk": true
+          },
+          {
+            "step": 6,
+            "actor": "A",
+            "op": "discardSandy",
+            "actions": [
+              "unitPutIntoPlay"
+            ],
+            "mirrorOk": true
+          },
+          {
+            "step": 7,
+            "actor": "B",
+            "op": "turnEndStartEvents",
+            "actions": [
+              "ownTurnEnd",
+              "ownTurnStart"
+            ],
+            "mirrorOk": true
+          }
+        ],
+        "last": [
+          {
+            "step": 43,
+            "actor": "B",
+            "op": "unitAttackLeader",
+            "actions": [
+              "targetSelected",
+              "attackDeclared",
+              "damageApplied",
+              "damageApplied",
+              "afterAttack",
+              "attackResolved",
+              "unitDeath"
+            ],
+            "mirrorOk": true
+          },
+          {
+            "step": 44,
+            "actor": "A",
+            "op": "bloodKnifeSkipNoTarget",
+            "actions": [],
+            "mirrorOk": true
+          },
+          {
+            "step": 45,
+            "actor": "B",
+            "op": "terrainChoice",
+            "actions": [
+              "choiceSelected",
+              "terrainSetV260"
+            ],
+            "mirrorOk": true
+          },
+          {
+            "step": 46,
+            "actor": "A",
+            "op": "discardSandy",
+            "actions": [],
+            "mirrorOk": true
+          },
+          {
+            "step": 47,
+            "actor": "B",
+            "op": "turnEndStartEvents",
+            "actions": [
+              "ownTurnEnd",
+              "ownTurnStart"
+            ],
+            "mirrorOk": true
+          }
+        ],
+        "failures": []
+      }
+    },
+    {
+      "name": "heavy core: ドルマゲス cost -5 is remote-applied and expires at affected player turn end",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "before": 2,
+        "after": 7,
+        "actions": [
+          "unitSummoned",
+          "unitStatePatchV263"
+        ]
+      }
+    },
+    {
+      "name": "heavy core: カンダタこぶん is next charge-cost zero and resets across turn",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "detail": {
+          "before": 10,
+          "after": 10,
+          "tension": 1,
+          "flag": false
+        }
+      }
+    },
+    {
+      "name": "heavy core: ブオーン attack/splash path survives PvP action replay",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "A": {
+          "playerHp": 25,
+          "enemyHp": 14,
+          "player": [
+            {
+              "name": "ブオーン",
+              "hp": 10,
+              "attack": 11
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerWeapon": null,
+          "enemyWeapon": null,
+          "tension": 0,
+          "enemyTension": 0,
+          "terrainPlayer": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "terrainEnemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "hand": [],
+          "log": [
+            "反撃：ブオーンが1ダメージ。",
+            "スライムは死亡しました。",
+            "ドラキーは死亡しました。",
+            "ブオーン：他の全ての敵にも同時にダメージ。",
+            "ブオーンがスライムを攻撃。"
+          ]
+        },
+        "B": {
+          "playerHp": 14,
+          "enemyHp": 25,
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "ブオーン",
+              "hp": 10,
+              "attack": 11
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerWeapon": null,
+          "enemyWeapon": null,
+          "tension": 0,
+          "enemyTension": 0,
+          "terrainPlayer": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "terrainEnemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "hand": [],
+          "log": [
+            "相手がブオーンを召喚しました。",
+            "相手のブオーンの召喚後状態を同期しました。",
+            "相手の対象選択を受信しました。",
+            "相手が攻撃しました。",
+            "相手の攻撃後処理を受信しました。"
+          ]
+        }
+      }
+    },
+    {
+      "name": "heavy core: 妖精サンディ death buff remains dungeon-only",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "detail": {
+          "d": 3,
+          "plain": 2,
+          "reward": true
+        },
+        "actions": [
+          "sandyDungeonBuffV260"
+        ]
+      }
+    }
+  ],
+  "longStepLog": [
+    {
+      "step": 0,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 1,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 2,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 3,
+      "actor": "B",
+      "op": "unitAttackLeader",
+      "actions": [
+        "targetSelected",
+        "attackDeclared",
+        "damageApplied",
+        "afterAttack",
+        "attackResolved"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 4,
+      "actor": "A",
+      "op": "bloodKnifeAttackUnit",
+      "actions": [
+        "targetSelected",
+        "attackDeclared",
+        "damageApplied",
+        "afterAttack",
+        "weaponUpdateV260",
+        "weaponAfterAttack",
+        "attackResolved",
+        "unitDeath"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 5,
+      "actor": "B",
+      "op": "terrainChoice",
+      "actions": [
+        "choiceSelected",
+        "terrainSetV260"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 6,
+      "actor": "A",
+      "op": "discardSandy",
+      "actions": [
+        "unitPutIntoPlay"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 7,
+      "actor": "B",
+      "op": "turnEndStartEvents",
+      "actions": [
+        "ownTurnEnd",
+        "ownTurnStart"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 8,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 9,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 10,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 11,
+      "actor": "B",
+      "op": "unitAttackLeader",
+      "actions": [
+        "targetSelected",
+        "attackDeclared",
+        "damageApplied",
+        "damageApplied",
+        "afterAttack",
+        "attackResolved",
+        "unitDeath"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 12,
+      "actor": "A",
+      "op": "bloodKnifeSkipNoTarget",
+      "actions": [],
+      "mirrorOk": true
+    },
+    {
+      "step": 13,
+      "actor": "B",
+      "op": "terrainChoice",
+      "actions": [
+        "choiceSelected",
+        "terrainSetV260"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 14,
+      "actor": "A",
+      "op": "discardSandy",
+      "actions": [
+        "unitPutIntoPlay"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 15,
+      "actor": "B",
+      "op": "turnEndStartEvents",
+      "actions": [
+        "ownTurnEnd",
+        "ownTurnStart"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 16,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 17,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 18,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 19,
+      "actor": "B",
+      "op": "unitAttackLeader",
+      "actions": [
+        "targetSelected",
+        "attackDeclared",
+        "damageApplied",
+        "damageApplied",
+        "afterAttack",
+        "attackResolved",
+        "unitDeath"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 20,
+      "actor": "A",
+      "op": "bloodKnifeSkipNoTarget",
+      "actions": [],
+      "mirrorOk": true
+    },
+    {
+      "step": 21,
+      "actor": "B",
+      "op": "terrainChoice",
+      "actions": [
+        "choiceSelected",
+        "terrainSetV260"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 22,
+      "actor": "A",
+      "op": "discardSandy",
+      "actions": [],
+      "mirrorOk": true
+    },
+    {
+      "step": 23,
+      "actor": "B",
+      "op": "turnEndStartEvents",
+      "actions": [
+        "ownTurnEnd",
+        "ownTurnStart"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 24,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 25,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 26,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 27,
+      "actor": "B",
+      "op": "unitAttackLeader",
+      "actions": [
+        "targetSelected",
+        "attackDeclared",
+        "damageApplied",
+        "damageApplied",
+        "afterAttack",
+        "attackResolved",
+        "unitDeath"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 28,
+      "actor": "A",
+      "op": "bloodKnifeSkipNoTarget",
+      "actions": [],
+      "mirrorOk": true
+    },
+    {
+      "step": 29,
+      "actor": "B",
+      "op": "terrainChoice",
+      "actions": [
+        "choiceSelected",
+        "terrainSetV260"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 30,
+      "actor": "A",
+      "op": "discardSandy",
+      "actions": [],
+      "mirrorOk": true
+    },
+    {
+      "step": 31,
+      "actor": "B",
+      "op": "turnEndStartEvents",
+      "actions": [
+        "ownTurnEnd",
+        "ownTurnStart"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 32,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 33,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 34,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 35,
+      "actor": "B",
+      "op": "unitAttackLeader",
+      "actions": [
+        "targetSelected",
+        "attackDeclared",
+        "damageApplied",
+        "damageApplied",
+        "afterAttack",
+        "attackResolved",
+        "unitDeath"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 36,
+      "actor": "A",
+      "op": "bloodKnifeSkipNoTarget",
+      "actions": [],
+      "mirrorOk": true
+    },
+    {
+      "step": 37,
+      "actor": "B",
+      "op": "terrainChoice",
+      "actions": [
+        "choiceSelected",
+        "terrainSetV260"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 38,
+      "actor": "A",
+      "op": "discardSandy",
+      "actions": [],
+      "mirrorOk": true
+    },
+    {
+      "step": 39,
+      "actor": "B",
+      "op": "turnEndStartEvents",
+      "actions": [
+        "ownTurnEnd",
+        "ownTurnStart"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 40,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 41,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 42,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 43,
+      "actor": "B",
+      "op": "unitAttackLeader",
+      "actions": [
+        "targetSelected",
+        "attackDeclared",
+        "damageApplied",
+        "damageApplied",
+        "afterAttack",
+        "attackResolved",
+        "unitDeath"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 44,
+      "actor": "A",
+      "op": "bloodKnifeSkipNoTarget",
+      "actions": [],
+      "mirrorOk": true
+    },
+    {
+      "step": 45,
+      "actor": "B",
+      "op": "terrainChoice",
+      "actions": [
+        "choiceSelected",
+        "terrainSetV260"
+      ],
+      "mirrorOk": true
+    },
+    {
+      "step": 46,
+      "actor": "A",
+      "op": "discardSandy",
+      "actions": [],
+      "mirrorOk": true
+    },
+    {
+      "step": 47,
+      "actor": "B",
+      "op": "turnEndStartEvents",
+      "actions": [
+        "ownTurnEnd",
+        "ownTurnStart"
+      ],
+      "mirrorOk": true
+    }
+  ],
+  "exceptions": [],
+  "chromeLogs": [
+    "/tmp/tmp4i62tbar",
+    "/tmp/tmpynot1_50"
+  ]
+}

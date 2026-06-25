@@ -1,0 +1,37 @@
+{
+  "version": "v251_official_db_priority_queue_pass3",
+  "base": "v250_priority_queue_pass2_common_basics",
+  "officialDbBaseUrl": "https://gameconductor.com/dqrivals/card/",
+  "officialDbDetailUrlPattern": "https://gameconductor.com/dqrivals/c/d/{officialId}",
+  "implementedOrConfirmedCount": 20,
+  "implementedOrConfirmed": [
+    "トロルキング",
+    "シドー",
+    "くみひもこぞう",
+    "メガトンケイル",
+    "モコッキー",
+    "ニードルマン",
+    "ビーンファイター",
+    "おおさそり",
+    "アントベア",
+    "ヌボーン",
+    "まかいじゅ",
+    "ファンキーバード",
+    "やつざきアニマル",
+    "スライムファング",
+    "ミノーン",
+    "テンタコルス",
+    "屍騎軍王ゾルデ・影",
+    "ライノソルジャー",
+    "ワルぼう",
+    "ばくだんベビー"
+  ],
+  "priorityQueueTotal": 311,
+  "priorityQueuePending": 272,
+  "nodeCheck": "OK",
+  "duplicateFunctionDeclarations": "0 checked separately",
+  "notes": [
+    "この実行環境のPython/containerから外部DNSへ出られないため、公式DBの新規スクレイピングはweb確認と既存officialUrl列を基準にした。",
+    "次はv251_full_card_behavior_priority_queue_status.csvのPENDING先頭から継続。"
+  ]
+}

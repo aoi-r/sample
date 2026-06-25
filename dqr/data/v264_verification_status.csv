@@ -1,0 +1,8 @@
+category,status,detail
+mobile_pvp_hand_leak,VERIFIED_V264,PvPでは相手手札/ソロ手札UIを空化・hidden化
+duplicate_remote_damage,VERIFIED_V264,同一action IDのdamageAppliedは1回だけ適用
+summon_wide_buff_debuff,VERIFIED_V264,ゼルドラド同一eventIdで二重発動なし
+targeted_debuff_patch,VERIFIED_V264,対象弱体は最終状態patch同期、再配送でも二重加算なし
+spell_damage_bonus,VERIFIED_V264,ブラックルーン+メラミは+2のみ
+long_pvp_soak,VERIFIED_V264,12 matches x 80 steps = 960 mirrored steps
+firebase_live_reconnect,NOT_RUN,本番RDB/実機再接続耐久は別ゲート

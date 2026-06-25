@@ -1,0 +1,32 @@
+id,name,cost,cardType,classes,tribes,deckBuildable,text,triggers,appNameOccurrences,genericCoverage,complexScore,risk,officialUrl
+card_c762fb53,いたずらもぐら,1,ユニット,共通,なし,True,テンションリンク： 攻撃力+1,テンションリンク,0,,1,HIGH_NO_NAME_NO_GENERIC,https://gameconductor.com/dqrivals/c/d/33
+card_1322ef2c,おばけキャンドル,1,ユニット,共通,なし,True,死亡時：ランダムな敵1体に1ダメージ,死亡時|ダメージ|ランダム,0,,2,HIGH_COMPLEX_NO_EXPLICIT_NAME,https://gameconductor.com/dqrivals/c/d/35
+card_dd2f4cdc,おばけヒトデ,1,ユニット,共通,なし,True,死亡時：ランダムな味方ユニット1体の攻撃力+2,死亡時|ランダム,0,,2,HIGH_COMPLEX_NO_EXPLICIT_NAME,https://gameconductor.com/dqrivals/c/d/37
+card_95f69f39,オニオーン,1,ユニット,共通,なし,True,テンションリンク：味方リーダーのHPを1回復,テンションリンク|回復,0,,1,HIGH_NO_NAME_NO_GENERIC,https://gameconductor.com/dqrivals/c/d/41
+card_8b06f040,メガトンケイル,12,ユニット,共通,なし,True,スキルブースト：コスト-2,コスト,0,,1,HIGH_NO_NAME_NO_GENERIC,https://gameconductor.com/dqrivals/c/d/403
+card_7008ea88,ベビーゴイル,4,ユニット,共通,なし,True,召喚時：お互いのデッキにランダムな2コストの特技カードを3枚加える,召喚時|コスト|ランダム,1,,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/640
+card_40d4b786,キラースコップ,1,ユニット,共通,なし,True,召喚時:お互いのデッキのランダムなユニットカード1枚を比べ 自分の方がコストが高いならGET(1)、BET:攻撃力+1,召喚時|BET|GET|コスト|ランダム,3,bet_engine+get_engine,6,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1171
+card_11641207,ジラフマスター,4,ユニット,共通,なし,True,攻撃時:GET(1)、BET:以下の効果からランダムに1つ発動する (1)攻撃力+1 (2)HP+1 (3)このターン中2回攻撃を得る,攻撃時|BET|GET|ランダム,4,bet_engine+get_engine,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1216
+card_cd3abc2a,パラサキス,1,ユニット,共通,ゾンビ,True,召喚時：このターン中「自分がコスト1以上の特技を使う度同じカード1枚を自分のデッキに混ぜる」を得る,召喚時|特技を使う|コスト,4,,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1224
+card_1b26c04f,旅立ちの王女,3,ユニット,共通,なし,False,選択：・全てのユニットに1ダメージ・特技カードをランダムに1枚手札に加える。このターン中使った特技カードのコストの合計分コストが減る,選択|手札に加える|ダメージ|コスト|ランダム,7,choice_engine,6,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1478
+card_6546b092,ミニデーモン,3,ユニット,魔法使い,なし,True,召喚時：味方ヒーローがいる場合自分のデッキからコスト2の特技カードをランダムに1枚引く,召喚時|コスト|ランダム,4,,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/871
+card_6429b153,少女マリベル,4,ユニット,魔法使い,冒険者,True,召喚時：GET(2)。BET：このターン中、次に使う特技カードのコスト-2。,召喚時|BET|GET|コスト,4,bet_engine+get_engine,6,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1147
+card_306ee133,スノードラゴン,5,ユニット,魔法使い,ドラゴン,True,召喚時：コスト4・5・6の特技カードをそれぞれランダムに1枚ずつ選出し、その中から1枚を選んで手札に加える。自分のデッキのメラ系の特技カードが無いなら手札にあるこのカードのコスト-2。,召喚時|手札に加える|コスト|ランダム,10,,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1498
+card_8ae971ee,カンダタこぶん,2,ユニット,武闘家,なし,True,召喚時：GET(1)。BET：このターン中、次に使用するテンションカードのコストが0になる。,召喚時|BET|GET|コスト,10,bet_engine+get_engine,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1149
+card_5ee583f1,マリンフェアリー,5,ユニット,僧侶,なし,True,召喚時:手札にあるコインをランダムに1枚捨てる。そうした場合この対戦中に死亡した4コスト以下の味方ユニット3種類の中から1体を選んで復活させる,召喚時|復活|コスト|ランダム,8,,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1197
+card_0a952d0b,ルドマン,3,ユニット,商人,冒険者,True,召喚時：GET(1)。BET：道具カードを1枚手札に加える。味方のBETが4回発動する度に、手札/山札からコスト3以下のユニット1体を場に出す。,召喚時|BET|GET|手札に加える|場に出す|コスト,13,bet_engine+get_engine,6,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1137
+card_5a752ec8,亡国の先王ロウ,3,ユニット,商人,冒険者,True,れんけい：使用コスト1以上の特技カード2枚を手札に加える。自分がコスト1以上の特技を使用した後、同じコストのランダムなユニットを1体場に出す。,れんけい|手札に加える|場に出す|コスト|ランダム,10,renkei_engine,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1285
+card_fe1e824d,戦車のタロット,2,特技,占い師,,True,占い:①全てのユニットに1ダメージ、②ランダムな敵1体に3ダメージ,占い|ダメージ|ランダム,0,fortune_engine,3,HIGH_COMPLEX_NO_EXPLICIT_NAME,https://gameconductor.com/dqrivals/c/d/568
+card_23d5d5f7,力のタロット,2,特技,占い師,,True,占い：①全ての味方ユニットの攻撃力+1、②ランダムな味方ユニット1体を+3/+2,占い|ランダム,0,fortune_engine,3,HIGH_COMPLEX_NO_EXPLICIT_NAME,https://gameconductor.com/dqrivals/c/d/668
+card_c0de3c42,インプ,2,ユニット,占い師,なし,True,召喚時：GET(1)。BET：デッキの一番上が偶数コストなら敵リーダーに2ダメージ。このユニットへのBETは1ターン1回,召喚時|BET|GET|ダメージ|コスト,14,bet_engine+get_engine,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1162
+card_ca4d3bc7,ルバンカ,4,ユニット,占い師,なし,True,におうだち。召喚時：デッキの一番上が偶数コストならGET(2)。BET：HP+1,召喚時|BET|GET|コスト,9,bet_engine+get_engine+keyword,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1164
+card_d8cdcd29,賢者ルシェンダ,8,ユニット,占い師,冒険者,True,召喚時：GET(1)。BET：自分の山札の1番上のカードが偶数コストのユニットなら場に出す。場が埋まっている場合は不発。それ以外なら手札に加える。,召喚時|BET|GET|手札に加える|場に出す|コスト,7,bet_engine+get_engine,6,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1205
+card_51d3e2e1,イブール,5,ユニット,占い師,ドラゴン,True,相手プレイヤーの手札の特技カードのコスト+1、召喚時&攻撃時:相手のデッキの一番上にイブールの本が一枚置かれる,召喚時|攻撃時|コスト,23,,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1392
+card_b1863a12,ドラゴビショップ,5,ユニット,占い師,ドラゴン,True,召喚時:カードを2枚引く、このターン中に使った占いカードの枚数分デッキと手札にあるこのカードのコスト-1,召喚時|占い|コスト,4,fortune_engine,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1537
+card_84e08b43,黄金兵長,7,ユニット,魔剣士,なし,True,召喚時：GET(1)。攻撃時：敵リーダーに味方の場のピサロナイトの数と同じダメージ。BET：ピサロナイトを1体場に出す。,召喚時|攻撃時|BET|GET|場に出す|ダメージ,8,bet_engine+get_engine,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1208
+custom_4a95b07c8d,スライム系のたまご,0,特技,共通,,False,使用不可。2ターン後、スライム系のランダムなユニットカードに変身し+1/+1を得る。,変身|ランダム,0,,2,HIGH_COMPLEX_NO_EXPLICIT_NAME,
+custom_8125acac2c,ゾンビ系のたまご,0,特技,共通,,False,使用不可。2ターン後、ゾンビ系のランダムなユニットカードに変身し+1/+1を得る。,変身|ランダム,0,,2,HIGH_COMPLEX_NO_EXPLICIT_NAME,
+custom_79eef9a433,ドラゴン系のたまご,0,特技,共通,,False,使用不可。2ターン後、ドラゴン系のランダムなユニットカードに変身し+1/+1を得る。,変身|ランダム,0,,2,HIGH_COMPLEX_NO_EXPLICIT_NAME,
+custom_474cae76de,魔王系のたまご,0,特技,共通,,False,使用不可。2ターン後、魔王系のランダムなユニットカードに変身し+1/+1を得る。,変身|ランダム,0,,2,HIGH_COMPLEX_NO_EXPLICIT_NAME,
+custom_8dfffcaa00,英雄系のたまご,0,特技,共通,,False,使用不可。2ターン後、英雄系のランダムなユニットカードに変身し+1/+1を得る。,変身|ランダム,0,,2,HIGH_COMPLEX_NO_EXPLICIT_NAME,
+virtual_il_luca_冒険者_egg_v210,冒険者系のたまご,0,特技,共通,,False,使用不可。2ターン後、冒険者系のランダムなユニットカードに変身し+1/+1を得る。,変身|ランダム,0,,2,HIGH_COMPLEX_NO_EXPLICIT_NAME,

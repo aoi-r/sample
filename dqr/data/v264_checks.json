@@ -1,0 +1,27 @@
+{
+  "version": "v264_duplicate_effect_soak_hand_guard",
+  "base": "v263_soak_pvp_summon_state_guard",
+  "nodeCheck": "OK",
+  "newTestFile": "tools/v264_duplicate_effect_soak_and_hand_leak_tests.py",
+  "newTestSummary": {
+    "passed": 7,
+    "failed": 0,
+    "soakSteps": 960,
+    "exceptions": 0
+  },
+  "regressions": {
+    "v237_static_emulator_tests": "11 passed / 0 failed",
+    "v240_static_pool_tests": "12 passed / 0 failed",
+    "v246_duplicate_trigger_audit_tests": "12 passed / 0 failed",
+    "v248_chappy_pvp_emulator_tests": "14 passed / 0 failed",
+    "v255_combat_dolmages_pvp_tests": "10 passed / 0 failed",
+    "v256_maiyu_slimefever_pvp_tests": "5 passed / 0 failed",
+    "v258_counter_kandakobun_merchant_pvp_tests": "10 passed / 0 failed",
+    "v260_review_closeout_pvp_tests": "20 passed / 0 failed",
+    "v264_duplicate_effect_soak_and_hand_leak_tests": "7 passed / 0 failed"
+  },
+  "notes": [
+    "v263旧soakはv264の新しい対象ユニット状態patch導入後、旧ハーネスの死亡/patch比較と衝突するため、v264の後継soakを正として採用。シーゴーレム単体再現はv263で通過済み。",
+    "今回はChromium/CDP 2クライアント+スマホ横向きエミュレーション。実機Safari/Firebase本番RDBの再接続耐久は別ゲート。"
+  ]
+}

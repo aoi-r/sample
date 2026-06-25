@@ -1,0 +1,16 @@
+{
+  "version": "v253_shido_haja_hero_branch_pass5",
+  "nodeCheck": "OK",
+  "duplicateFunctionDeclarations": 0,
+  "staticTests": [
+    "v237_static_emulator_tests OK",
+    "v240_static_pool_tests OK",
+    "v246_duplicate_trigger_audit_tests OK"
+  ],
+  "implementedOrConfirmedV253": 9,
+  "pendingCount": 243,
+  "knownReview": [
+    "少年シドーLv2のLv3移行タイミング",
+    "劇場×必殺技ヒーロースキルの1ドロー経路"
+  ]
+}

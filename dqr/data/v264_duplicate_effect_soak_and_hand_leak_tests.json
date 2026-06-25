@@ -1,0 +1,501 @@
+{
+  "mode": "v264 duplicate effect + hand leak + long PvP soak",
+  "browserVersions": [
+    "Chrome/144.0.7559.96",
+    "Chrome/144.0.7559.96"
+  ],
+  "passed": 7,
+  "failed": 0,
+  "results": [
+    {
+      "name": "boot: two mobile-sized Chromium clients with v264/v264b hooks",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "cards": 1607
+      }
+    },
+    {
+      "name": "mobile PvP: solo/opponent hand UI is forcibly hidden and emptied",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "ui": {
+          "enemy-hand-visual": {
+            "hidden": true,
+            "html": "",
+            "display": "block"
+          },
+          "enemy-hand-list-pop": {
+            "hidden": true,
+            "html": "",
+            "display": "block"
+          },
+          "solo-debug-strip": {
+            "hidden": true,
+            "html": "\n            <div class=\"solo-debug-row\">\n              <strong>自分手札</strong>\n              <div id=\"solo-debug-hand\" class=\"solo-debug-hand\"></div>\n            </div>\n            <div class=\"solo-debug-row\">\n              <strong>相手手札</strong>\n              <div id=\"solo-debug-enemy-hand\" class=\"solo-debug-hand enemy\"></div>\n            </div>\n          <button id=\"solo-clear-selection-v128\" class=\"solo-clear-selection-v128 hidden\" type=\"button\">選択解除</button>",
+            "display": "block"
+          },
+          "solo-debug-hand": {
+            "hidden": false,
+            "html": "",
+            "display": "block"
+          },
+          "solo-debug-enemy-hand": {
+            "hidden": false,
+            "html": "",
+            "display": "block"
+          },
+          "solo-test-panel": {
+            "hidden": true,
+            "html": "\n            <div class=\"solo-test-head\">\n              <strong>ソロ効果テスト</strong>\n              <button id=\"solo-test-close\" class=\"ghost\">×</button>\n            </div>\n            <div class=\"solo-test-grid solo-test-grid-compact\">\n              <button id=\"solo-hp-infinite\">相手HP∞</button>\n              <button id=\"solo-hp-reset\">相手HP25</button>\n              <button id=\"solo-mp-max\">MP10</button>\n              <button id=\"solo-tension-max\">テンションMAX</button>\n              <button id=\"solo-clear-log\">ログ消去</button>\n            </div>\n          ",
+            "display": "block"
+          },
+          "solo-test-toggle": {
+            "hidden": true,
+            "html": "効果テスト",
+            "display": "inline-block"
+          },
+          "battle-arena": {
+            "solo": false,
+            "soloActive": ""
+          }
+        }
+      }
+    },
+    {
+      "name": "PvP action replay: duplicated damage action id is not applied twice",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "hpAfterSameIdTwice": 7,
+        "hpAfterNewId": 4,
+        "guard": [
+          "dup_damage_same",
+          "dup_damage_new"
+        ]
+      }
+    },
+    {
+      "name": "local event guard: summon-wide buff/debuff does not fire twice for same event id",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "snapshot": {
+          "player": [
+            {
+              "name": "ゼルドラド",
+              "hp": 7,
+              "maxHp": 7,
+              "attack": 7,
+              "id": "card_911b72aa_1782371832397_60e53740",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            {
+              "name": "スライム",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 3,
+              "id": "token_slime_1_1_1782371832397_459325c6",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "スライム",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 0,
+              "id": "token_slime_1_1_1782371832399_b82b287d",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            {
+              "name": "ドラキー",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 0,
+              "id": "card_471ba4e7_1782371832400_557f3235",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerWeapon": null,
+          "enemyWeapon": null,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        }
+      }
+    },
+    {
+      "name": "targeted debuff: local double tap and duplicated remote patch do not stack twice",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "A": {
+          "attack": 4,
+          "outbox": [
+            {
+              "type": "targetSelected",
+              "payload": {
+                "kind": "genericEffectUnit",
+                "target": {
+                  "type": "unit",
+                  "side": "enemy",
+                  "pos": 0,
+                  "unitId": "card_83cf917e_1782371832438_ccd8473c",
+                  "cardId": "card_83cf917e",
+                  "name": "シールドオーガ"
+                },
+                "effect": {
+                  "effectKind": "debuffStats",
+                  "source": "ブラックマンティス",
+                  "target": {
+                    "type": "unit",
+                    "side": "enemy",
+                    "pos": 0,
+                    "unitId": "card_83cf917e_1782371832438_ccd8473c",
+                    "cardId": "card_83cf917e",
+                    "name": "シールドオーガ"
+                  }
+                }
+              }
+            },
+            {
+              "type": "targetSelected",
+              "payload": {
+                "kind": "genericEffectUnit",
+                "target": {
+                  "type": "unit",
+                  "side": "enemy",
+                  "pos": 0,
+                  "unitId": "card_83cf917e_1782371832438_ccd8473c",
+                  "cardId": "card_83cf917e",
+                  "name": "シールドオーガ"
+                },
+                "effect": {
+                  "effectKind": "debuffStats",
+                  "source": "ブラックマンティス",
+                  "target": {
+                    "type": "unit",
+                    "side": "enemy",
+                    "pos": 0,
+                    "unitId": "card_83cf917e_1782371832438_ccd8473c",
+                    "cardId": "card_83cf917e",
+                    "name": "シールドオーガ"
+                  }
+                }
+              }
+            },
+            {
+              "type": "unitStatePatchV264",
+              "payload": {
+                "side": "enemy",
+                "pos": 0,
+                "unit": {
+                  "id": "card_83cf917e_1782371832438_ccd8473c",
+                  "cardId": "card_83cf917e",
+                  "name": "シールドオーガ",
+                  "attack": 4,
+                  "hp": 8,
+                  "maxHp": 8,
+                  "statuses": [],
+                  "keywords": {
+                    "taunt": true,
+                    "haste": false,
+                    "support": false,
+                    "snipe": false,
+                    "poison": false,
+                    "stealth": false,
+                    "seal": false,
+                    "darkRobe": false,
+                    "conditionGood": false,
+                    "synchro": false,
+                    "proficiency": false,
+                    "spellDamagePlus": false,
+                    "terrainSlip": false,
+                    "terrainTreasure": false,
+                    "terrainBarrier": false,
+                    "terrainBlade": false,
+                    "terrainMagic": false,
+                    "terrainBlessing": false,
+                    "terrainHappy": false,
+                    "terrainOracle": false,
+                    "apathy": false,
+                    "piercing": false,
+                    "superPiercing": false,
+                    "metal": false,
+                    "hardMetal": false,
+                    "doubleAttack": false,
+                    "firstStrike": false,
+                    "vanish": false,
+                    "tensionLink": false,
+                    "skillLink": false,
+                    "deathrattle": false,
+                    "summon": true,
+                    "powerBadge": false,
+                    "building": false,
+                    "costBoost": false,
+                    "move": false,
+                    "get": false,
+                    "bet": false,
+                    "dungeon": false,
+                    "choice": false,
+                    "fortune": false,
+                    "renkei": false,
+                    "skillBoost": false
+                  }
+                },
+                "source": "pendingGenericEffect"
+              }
+            }
+          ]
+        },
+        "Battack": 4,
+        "Bguard": [
+          "debuff_patch_0",
+          "debuff_patch_1",
+          "debuff_patch_2"
+        ]
+      }
+    },
+    {
+      "name": "spell damage bonus: ブラックルーン + メラミ is +2 once, synced once in PvP",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "A": {
+          "bonusBefore": 2,
+          "pending": {
+            "kind": "damage",
+            "amount": 5,
+            "source": "メラミ",
+            "target": "enemyAny",
+            "canLeader": true
+          },
+          "hp": 5,
+          "outbox": [
+            {
+              "type": "targetSelected",
+              "payload": {
+                "kind": "genericEffectUnit",
+                "target": {
+                  "type": "unit",
+                  "side": "enemy",
+                  "pos": 0,
+                  "unitId": "card_83cf917e_1782371832480_7fbf804d",
+                  "cardId": "card_83cf917e",
+                  "name": "シールドオーガ"
+                },
+                "effect": {
+                  "effectKind": "damage",
+                  "source": "メラミ",
+                  "target": {
+                    "type": "unit",
+                    "side": "enemy",
+                    "pos": 0,
+                    "unitId": "card_83cf917e_1782371832480_7fbf804d",
+                    "cardId": "card_83cf917e",
+                    "name": "シールドオーガ"
+                  }
+                }
+              }
+            },
+            {
+              "type": "targetSelected",
+              "payload": {
+                "kind": "genericEffectUnit",
+                "target": {
+                  "type": "unit",
+                  "side": "enemy",
+                  "pos": 0,
+                  "unitId": "card_83cf917e_1782371832480_7fbf804d",
+                  "cardId": "card_83cf917e",
+                  "name": "シールドオーガ"
+                },
+                "effect": {
+                  "effectKind": "damage",
+                  "source": "メラミ",
+                  "target": {
+                    "type": "unit",
+                    "side": "enemy",
+                    "pos": 0,
+                    "unitId": "card_83cf917e_1782371832480_7fbf804d",
+                    "cardId": "card_83cf917e",
+                    "name": "シールドオーガ"
+                  }
+                }
+              }
+            },
+            {
+              "type": "damageApplied",
+              "payload": {
+                "targetRef": {
+                  "side": "enemy",
+                  "pos": 0
+                },
+                "amount": 5,
+                "actual": 5,
+                "source": "メラミ"
+              }
+            },
+            {
+              "type": "unitStatePatchV264",
+              "payload": {
+                "side": "enemy",
+                "pos": 0,
+                "unit": {
+                  "id": "card_83cf917e_1782371832480_7fbf804d",
+                  "cardId": "card_83cf917e",
+                  "name": "シールドオーガ",
+                  "attack": 4,
+                  "hp": 5,
+                  "maxHp": 10,
+                  "statuses": [],
+                  "keywords": {
+                    "taunt": true,
+                    "haste": false,
+                    "support": false,
+                    "snipe": false,
+                    "poison": false,
+                    "stealth": false,
+                    "seal": false,
+                    "darkRobe": false,
+                    "conditionGood": false,
+                    "synchro": false,
+                    "proficiency": false,
+                    "spellDamagePlus": false,
+                    "terrainSlip": false,
+                    "terrainTreasure": false,
+                    "terrainBarrier": false,
+                    "terrainBlade": false,
+                    "terrainMagic": false,
+                    "terrainBlessing": false,
+                    "terrainHappy": false,
+                    "terrainOracle": false,
+                    "apathy": false,
+                    "piercing": false,
+                    "superPiercing": false,
+                    "metal": false,
+                    "hardMetal": false,
+                    "doubleAttack": false,
+                    "firstStrike": false,
+                    "vanish": false,
+                    "tensionLink": false,
+                    "skillLink": false,
+                    "deathrattle": false,
+                    "summon": true,
+                    "powerBadge": false,
+                    "building": false,
+                    "costBoost": false,
+                    "move": false,
+                    "get": false,
+                    "bet": false,
+                    "dungeon": false,
+                    "choice": false,
+                    "fortune": false,
+                    "renkei": false,
+                    "skillBoost": false
+                  }
+                },
+                "source": "pendingGenericEffect"
+              }
+            }
+          ]
+        },
+        "Bhp": 5,
+        "BoutboxGuard": [
+          "spell_bonus_0",
+          "spell_bonus_1",
+          "spell_bonus_2",
+          "spell_bonus_3"
+        ]
+      }
+    },
+    {
+      "name": "long PvP soak with duplicate action injection: 12 matches x 80 steps stay mirrored",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "steps": 960,
+        "last": [
+          {
+            "match": 11,
+            "step": 75,
+            "actor": "B",
+            "op": "spellDamage",
+            "actions": [
+              "targetSelected",
+              "targetSelected",
+              "damageApplied",
+              "unitStatePatchV264"
+            ],
+            "mirrorOk": true
+          },
+          {
+            "match": 11,
+            "step": 76,
+            "actor": "A",
+            "op": "attackLeader",
+            "actions": [],
+            "mirrorOk": true
+          },
+          {
+            "match": 11,
+            "step": 77,
+            "actor": "B",
+            "op": "turn",
+            "actions": [
+              "ownTurnEnd",
+              "ownTurnStart"
+            ],
+            "mirrorOk": true
+          },
+          {
+            "match": 11,
+            "step": 78,
+            "actor": "A",
+            "op": "discardSandy",
+            "actions": [],
+            "mirrorOk": true
+          },
+          {
+            "match": 11,
+            "step": 79,
+            "actor": "B",
+            "op": "guardedTurnEnd",
+            "actions": [
+              "turnEnd"
+            ],
+            "mirrorOk": true
+          }
+        ],
+        "failures": []
+      }
+    }
+  ],
+  "soakSteps": 960,
+  "exceptions": [],
+  "chromeLogs": [
+    "/tmp/tmpw1us8dvv",
+    "/tmp/tmpdfan_aik"
+  ]
+}

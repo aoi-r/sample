@@ -1,0 +1,1813 @@
+{
+  "mode": "v263 two-client soak and summon-state verification",
+  "browserVersions": [
+    "Chrome/144.0.7559.96",
+    "Chrome/144.0.7559.96"
+  ],
+  "passed": 2,
+  "failed": 1,
+  "results": [
+    {
+      "name": "boot: two Chromium clients with v263 hooks",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "cards": 1607
+      }
+    },
+    {
+      "name": "repro fix: シーゴーレム keeps hero HP+2/taunt remotely and survives stale state + turn change",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "actions": [
+          "unitSummoned",
+          "unitStatePatchV263"
+        ],
+        "turnActions": [
+          "ownTurnEnd"
+        ],
+        "afterAction": {
+          "playerHp": 25,
+          "enemyHp": 25,
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シーゴーレム",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 2,
+              "id": "card_836a79fd_1782371760939_e32b2b46",
+              "taunt": true,
+              "building": false,
+              "durability": 0
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerWeapon": null,
+          "enemyWeapon": null,
+          "tension": 0,
+          "enemyTension": 0,
+          "protected": {
+            "0": {
+              "unitId": "card_836a79fd_1782371760939_e32b2b46",
+              "cardId": "card_836a79fd",
+              "name": "シーゴーレム",
+              "until": 1782371770972
+            }
+          },
+          "log": [
+            "バトル開始。ヒーローカードはサマルトリアの王子以外、開始時手札に入りました。",
+            "相手がシーゴーレムを召喚しました。",
+            "相手のシーゴーレムの召喚後状態を同期しました。"
+          ]
+        },
+        "afterStaleSnapshot": {
+          "playerHp": 25,
+          "enemyHp": 25,
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シーゴーレム",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 2,
+              "id": "card_836a79fd_1782371760939_e32b2b46",
+              "taunt": true,
+              "building": false,
+              "durability": 0
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerWeapon": null,
+          "enemyWeapon": null,
+          "tension": 0,
+          "enemyTension": 0,
+          "protected": {
+            "0": {
+              "unitId": "card_836a79fd_1782371760939_e32b2b46",
+              "cardId": "card_836a79fd",
+              "name": "シーゴーレム",
+              "until": 1782371770972
+            }
+          },
+          "log": [
+            "バトル開始。ヒーローカードはサマルトリアの王子以外、開始時手札に入りました。",
+            "相手がシーゴーレムを召喚しました。",
+            "相手のシーゴーレムの召喚後状態を同期しました。"
+          ]
+        },
+        "afterTurn": {
+          "playerHp": 25,
+          "enemyHp": 25,
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シーゴーレム",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 2,
+              "id": "card_836a79fd_1782371760939_e32b2b46",
+              "taunt": true,
+              "building": false,
+              "durability": 0
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerWeapon": null,
+          "enemyWeapon": null,
+          "tension": 0,
+          "enemyTension": 0,
+          "protected": {
+            "0": {
+              "unitId": "card_836a79fd_1782371760939_e32b2b46",
+              "cardId": "card_836a79fd",
+              "name": "シーゴーレム",
+              "until": 1782371770972
+            }
+          },
+          "log": [
+            "バトル開始。ヒーローカードはサマルトリアの王子以外、開始時手札に入りました。",
+            "相手がシーゴーレムを召喚しました。",
+            "相手のシーゴーレムの召喚後状態を同期しました。"
+          ]
+        }
+      }
+    },
+    {
+      "name": "soak: 18 matches x 55 steps with two-client action replay stay mirrored",
+      "ok": false,
+      "detail": {
+        "ok": false,
+        "steps": 71,
+        "sample": [
+          {
+            "match": 0,
+            "step": 0,
+            "actor": "A",
+            "op": "summon",
+            "actions": [
+              "unitSummoned",
+              "unitStatePatchV263"
+            ],
+            "ok": true
+          },
+          {
+            "match": 0,
+            "step": 1,
+            "actor": "B",
+            "op": "summon",
+            "actions": [
+              "unitSummoned",
+              "unitStatePatchV263"
+            ],
+            "ok": true
+          },
+          {
+            "match": 0,
+            "step": 2,
+            "actor": "A",
+            "op": "summon",
+            "actions": [
+              "unitSummoned",
+              "unitStatePatchV263"
+            ],
+            "ok": true
+          },
+          {
+            "match": 0,
+            "step": 3,
+            "actor": "B",
+            "op": "summon",
+            "actions": [
+              "unitSummoned",
+              "unitStatePatchV263"
+            ],
+            "ok": true
+          },
+          {
+            "match": 0,
+            "step": 4,
+            "actor": "A",
+            "op": "attackLeader",
+            "actions": [
+              "targetSelected",
+              "attackDeclared",
+              "damageApplied",
+              "afterAttack",
+              "attackResolved"
+            ],
+            "ok": true
+          },
+          {
+            "match": 0,
+            "step": 5,
+            "actor": "B",
+            "op": "unitAttackUnit",
+            "actions": [
+              "targetSelected",
+              "attackDeclared",
+              "damageApplied",
+              "damageApplied",
+              "afterAttack",
+              "attackResolved",
+              "unitDeath"
+            ],
+            "ok": true
+          },
+          {
+            "match": 0,
+            "step": 6,
+            "actor": "A",
+            "op": "turnEvents",
+            "actions": [
+              "ownTurnEnd",
+              "ownTurnStart"
+            ],
+            "ok": true
+          },
+          {
+            "match": 0,
+            "step": 7,
+            "actor": "B",
+            "op": "staleSnapshot",
+            "actions": [],
+            "ok": true
+          },
+          {
+            "match": 0,
+            "step": 8,
+            "actor": "A",
+            "op": "discardSandy",
+            "actions": [
+              "unitPutIntoPlay"
+            ],
+            "ok": true
+          },
+          {
+            "match": 0,
+            "step": 9,
+            "actor": "B",
+            "op": "selfDamage",
+            "actions": [],
+            "ok": true
+          }
+        ],
+        "last": [
+          {
+            "match": 1,
+            "step": 6,
+            "actor": "A",
+            "op": "turnEvents",
+            "actions": [
+              "ownTurnEnd",
+              "ownTurnStart"
+            ],
+            "ok": true
+          },
+          {
+            "match": 1,
+            "step": 7,
+            "actor": "B",
+            "op": "staleSnapshot",
+            "actions": [],
+            "ok": true
+          },
+          {
+            "match": 1,
+            "step": 8,
+            "actor": "A",
+            "op": "discardSandy",
+            "actions": [
+              "unitPutIntoPlay"
+            ],
+            "ok": true
+          },
+          {
+            "match": 1,
+            "step": 9,
+            "actor": "B",
+            "op": "selfDamage",
+            "actions": [
+              "damageApplied"
+            ],
+            "ok": true
+          },
+          {
+            "match": 1,
+            "step": 10,
+            "actor": "A",
+            "op": "summon",
+            "actions": [
+              "unitSummoned",
+              "unitStatePatchV263"
+            ],
+            "ok": true
+          },
+          {
+            "match": 1,
+            "step": 11,
+            "actor": "B",
+            "op": "summon",
+            "actions": [
+              "unitSummoned",
+              "unitStatePatchV263"
+            ],
+            "ok": true
+          },
+          {
+            "match": 1,
+            "step": 12,
+            "actor": "A",
+            "op": "summon",
+            "actions": [
+              "unitSummoned",
+              "unitStatePatchV263"
+            ],
+            "ok": true
+          },
+          {
+            "match": 1,
+            "step": 13,
+            "actor": "B",
+            "op": "summon",
+            "actions": [
+              "unitSummoned",
+              "unitStatePatchV263"
+            ],
+            "ok": true
+          },
+          {
+            "match": 1,
+            "step": 14,
+            "actor": "A",
+            "op": "attackLeader",
+            "actions": [],
+            "ok": true
+          },
+          {
+            "match": 1,
+            "step": 15,
+            "actor": "B",
+            "op": "unitAttackUnit",
+            "actions": [
+              "targetSelected",
+              "targetSelected",
+              "damageApplied",
+              "unitDeath",
+              "unitDeath",
+              "unitStatePatchV264"
+            ],
+            "ok": false,
+            "mirror": {
+              "ok": false,
+              "A": {
+                "playerHp": 25,
+                "enemyHp": 24,
+                "player": [
+                  {
+                    "name": "ユニット",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 0,
+                    "id": "41ed518c83a2f4b01b314991a3aacf4a",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "リリパット",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 1,
+                    "id": "card_bbedc445_1782371762067_e0430137",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "妖精サンディ",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 1,
+                    "id": "card_c8b09830_1782371762144_e71c6699",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "シールドオーガ",
+                    "hp": 4,
+                    "maxHp": 4,
+                    "attack": 4,
+                    "id": "card_83cf917e_1782371762171_b12d2dc6",
+                    "taunt": true,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "おおくちばし",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 2,
+                    "id": "card_4d7fa9dd_1782371762203_add0b740",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  null
+                ],
+                "enemy": [
+                  null,
+                  {
+                    "name": "ヘルゴースト",
+                    "hp": 4,
+                    "maxHp": 4,
+                    "attack": 6,
+                    "id": "card_071c8ce4_1782371762081_e5ad2955",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "メラゴースト",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 1,
+                    "id": "card_a7a6eabe_1782371762187_5b35fc2e",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "リリパット",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 1,
+                    "id": "card_bbedc445_1782371762221_d9739a31",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  null,
+                  null
+                ],
+                "playerWeapon": null,
+                "enemyWeapon": null,
+                "tension": 0,
+                "enemyTension": 0,
+                "protected": {
+                  "1": {
+                    "unitId": "card_071c8ce4_1782371762081_e5ad2955",
+                    "cardId": "card_071c8ce4",
+                    "name": "ヘルゴースト",
+                    "until": 1782371772086
+                  },
+                  "2": {
+                    "unitId": "card_a7a6eabe_1782371762187_5b35fc2e",
+                    "cardId": "card_a7a6eabe",
+                    "name": "メラゴースト",
+                    "until": 1782371772196
+                  },
+                  "3": {
+                    "unitId": "card_bbedc445_1782371762221_d9739a31",
+                    "cardId": "card_bbedc445",
+                    "name": "リリパット",
+                    "until": 1782371772232
+                  }
+                },
+                "log": [
+                  "相手のリリパットの召喚後状態を同期しました。",
+                  "相手の対象選択を受信しました。",
+                  "相手の対象選択を受信しました。",
+                  "相手の対象ユニット状態を同期しました：空マス"
+                ]
+              },
+              "B": {
+                "playerHp": 24,
+                "enemyHp": 25,
+                "player": [
+                  null,
+                  {
+                    "name": "ヘルゴースト",
+                    "hp": 4,
+                    "maxHp": 4,
+                    "attack": 6,
+                    "id": "card_071c8ce4_1782371762081_e5ad2955",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "メラゴースト",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 1,
+                    "id": "card_a7a6eabe_1782371762187_5b35fc2e",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "リリパット",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 1,
+                    "id": "card_bbedc445_1782371762221_d9739a31",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  null,
+                  null
+                ],
+                "enemy": [
+                  null,
+                  {
+                    "name": "リリパット",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 1,
+                    "id": "card_bbedc445_1782371762067_e0430137",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "妖精サンディ",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 1,
+                    "id": "card_c8b09830_1782371762144_e71c6699",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "シールドオーガ",
+                    "hp": 4,
+                    "maxHp": 4,
+                    "attack": 4,
+                    "id": "card_83cf917e_1782371762171_b12d2dc6",
+                    "taunt": true,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "おおくちばし",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 2,
+                    "id": "card_4d7fa9dd_1782371762203_add0b740",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  null
+                ],
+                "playerWeapon": null,
+                "enemyWeapon": null,
+                "tension": 0,
+                "enemyTension": 0,
+                "protected": {
+                  "0": {
+                    "unitId": "card_a7a6eabe_1782371762032_b82bd2a2",
+                    "cardId": "card_a7a6eabe",
+                    "name": "メラゴースト",
+                    "until": 1782371772037
+                  },
+                  "1": {
+                    "unitId": "card_bbedc445_1782371762067_e0430137",
+                    "cardId": "card_bbedc445",
+                    "name": "リリパット",
+                    "until": 1782371772072
+                  },
+                  "2": {
+                    "unitId": "card_c8b09830_1782371762144_e71c6699",
+                    "cardId": "card_c8b09830",
+                    "name": "妖精サンディ",
+                    "until": 1782371772151
+                  },
+                  "3": {
+                    "unitId": "card_83cf917e_1782371762171_b12d2dc6",
+                    "cardId": "card_83cf917e",
+                    "name": "シールドオーガ",
+                    "until": 1782371772180
+                  },
+                  "4": {
+                    "unitId": "card_4d7fa9dd_1782371762203_add0b740",
+                    "cardId": "card_4d7fa9dd",
+                    "name": "おおくちばし",
+                    "until": 1782371772213
+                  }
+                },
+                "log": [
+                  "相手のおおくちばしの召喚後状態を同期しました。",
+                  "メラゴースト：メラゴーストに1ダメージ。",
+                  "おおくちばしは死亡しました。",
+                  "メラゴーストは死亡しました。"
+                ]
+              }
+            }
+          }
+        ],
+        "failures": [
+          {
+            "match": 1,
+            "step": 15,
+            "actor": "B",
+            "op": "unitAttackUnit",
+            "actions": [
+              "targetSelected",
+              "targetSelected",
+              "damageApplied",
+              "unitDeath",
+              "unitDeath",
+              "unitStatePatchV264"
+            ],
+            "ok": false,
+            "mirror": {
+              "ok": false,
+              "A": {
+                "playerHp": 25,
+                "enemyHp": 24,
+                "player": [
+                  {
+                    "name": "ユニット",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 0,
+                    "id": "41ed518c83a2f4b01b314991a3aacf4a",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "リリパット",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 1,
+                    "id": "card_bbedc445_1782371762067_e0430137",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "妖精サンディ",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 1,
+                    "id": "card_c8b09830_1782371762144_e71c6699",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "シールドオーガ",
+                    "hp": 4,
+                    "maxHp": 4,
+                    "attack": 4,
+                    "id": "card_83cf917e_1782371762171_b12d2dc6",
+                    "taunt": true,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "おおくちばし",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 2,
+                    "id": "card_4d7fa9dd_1782371762203_add0b740",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  null
+                ],
+                "enemy": [
+                  null,
+                  {
+                    "name": "ヘルゴースト",
+                    "hp": 4,
+                    "maxHp": 4,
+                    "attack": 6,
+                    "id": "card_071c8ce4_1782371762081_e5ad2955",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "メラゴースト",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 1,
+                    "id": "card_a7a6eabe_1782371762187_5b35fc2e",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "リリパット",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 1,
+                    "id": "card_bbedc445_1782371762221_d9739a31",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  null,
+                  null
+                ],
+                "playerWeapon": null,
+                "enemyWeapon": null,
+                "tension": 0,
+                "enemyTension": 0,
+                "protected": {
+                  "1": {
+                    "unitId": "card_071c8ce4_1782371762081_e5ad2955",
+                    "cardId": "card_071c8ce4",
+                    "name": "ヘルゴースト",
+                    "until": 1782371772086
+                  },
+                  "2": {
+                    "unitId": "card_a7a6eabe_1782371762187_5b35fc2e",
+                    "cardId": "card_a7a6eabe",
+                    "name": "メラゴースト",
+                    "until": 1782371772196
+                  },
+                  "3": {
+                    "unitId": "card_bbedc445_1782371762221_d9739a31",
+                    "cardId": "card_bbedc445",
+                    "name": "リリパット",
+                    "until": 1782371772232
+                  }
+                },
+                "log": [
+                  "相手のリリパットの召喚後状態を同期しました。",
+                  "相手の対象選択を受信しました。",
+                  "相手の対象選択を受信しました。",
+                  "相手の対象ユニット状態を同期しました：空マス"
+                ]
+              },
+              "B": {
+                "playerHp": 24,
+                "enemyHp": 25,
+                "player": [
+                  null,
+                  {
+                    "name": "ヘルゴースト",
+                    "hp": 4,
+                    "maxHp": 4,
+                    "attack": 6,
+                    "id": "card_071c8ce4_1782371762081_e5ad2955",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "メラゴースト",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 1,
+                    "id": "card_a7a6eabe_1782371762187_5b35fc2e",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "リリパット",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 1,
+                    "id": "card_bbedc445_1782371762221_d9739a31",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  null,
+                  null
+                ],
+                "enemy": [
+                  null,
+                  {
+                    "name": "リリパット",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 1,
+                    "id": "card_bbedc445_1782371762067_e0430137",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "妖精サンディ",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 1,
+                    "id": "card_c8b09830_1782371762144_e71c6699",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "シールドオーガ",
+                    "hp": 4,
+                    "maxHp": 4,
+                    "attack": 4,
+                    "id": "card_83cf917e_1782371762171_b12d2dc6",
+                    "taunt": true,
+                    "building": false,
+                    "durability": 0
+                  },
+                  {
+                    "name": "おおくちばし",
+                    "hp": 1,
+                    "maxHp": 1,
+                    "attack": 2,
+                    "id": "card_4d7fa9dd_1782371762203_add0b740",
+                    "taunt": false,
+                    "building": false,
+                    "durability": 0
+                  },
+                  null
+                ],
+                "playerWeapon": null,
+                "enemyWeapon": null,
+                "tension": 0,
+                "enemyTension": 0,
+                "protected": {
+                  "0": {
+                    "unitId": "card_a7a6eabe_1782371762032_b82bd2a2",
+                    "cardId": "card_a7a6eabe",
+                    "name": "メラゴースト",
+                    "until": 1782371772037
+                  },
+                  "1": {
+                    "unitId": "card_bbedc445_1782371762067_e0430137",
+                    "cardId": "card_bbedc445",
+                    "name": "リリパット",
+                    "until": 1782371772072
+                  },
+                  "2": {
+                    "unitId": "card_c8b09830_1782371762144_e71c6699",
+                    "cardId": "card_c8b09830",
+                    "name": "妖精サンディ",
+                    "until": 1782371772151
+                  },
+                  "3": {
+                    "unitId": "card_83cf917e_1782371762171_b12d2dc6",
+                    "cardId": "card_83cf917e",
+                    "name": "シールドオーガ",
+                    "until": 1782371772180
+                  },
+                  "4": {
+                    "unitId": "card_4d7fa9dd_1782371762203_add0b740",
+                    "cardId": "card_4d7fa9dd",
+                    "name": "おおくちばし",
+                    "until": 1782371772213
+                  }
+                },
+                "log": [
+                  "相手のおおくちばしの召喚後状態を同期しました。",
+                  "メラゴースト：メラゴーストに1ダメージ。",
+                  "おおくちばしは死亡しました。",
+                  "メラゴーストは死亡しました。"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "soakLogSample": [
+    {
+      "match": 0,
+      "step": 0,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 1,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 2,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 3,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 4,
+      "actor": "A",
+      "op": "attackLeader",
+      "actions": [
+        "targetSelected",
+        "attackDeclared",
+        "damageApplied",
+        "afterAttack",
+        "attackResolved"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 5,
+      "actor": "B",
+      "op": "unitAttackUnit",
+      "actions": [
+        "targetSelected",
+        "attackDeclared",
+        "damageApplied",
+        "damageApplied",
+        "afterAttack",
+        "attackResolved",
+        "unitDeath"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 6,
+      "actor": "A",
+      "op": "turnEvents",
+      "actions": [
+        "ownTurnEnd",
+        "ownTurnStart"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 7,
+      "actor": "B",
+      "op": "staleSnapshot",
+      "actions": [],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 8,
+      "actor": "A",
+      "op": "discardSandy",
+      "actions": [
+        "unitPutIntoPlay"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 9,
+      "actor": "B",
+      "op": "selfDamage",
+      "actions": [],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 10,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 11,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 12,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 13,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 14,
+      "actor": "A",
+      "op": "attackLeader",
+      "actions": [],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 15,
+      "actor": "B",
+      "op": "unitAttackUnit",
+      "actions": [
+        "targetSelected",
+        "attackDeclared",
+        "damageApplied",
+        "damageApplied",
+        "afterAttack",
+        "attackResolved"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 16,
+      "actor": "A",
+      "op": "turnEvents",
+      "actions": [
+        "ownTurnEnd",
+        "ownTurnStart"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 17,
+      "actor": "B",
+      "op": "staleSnapshot",
+      "actions": [],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 18,
+      "actor": "A",
+      "op": "discardSandy",
+      "actions": [
+        "unitPutIntoPlay"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 19,
+      "actor": "B",
+      "op": "selfDamage",
+      "actions": [
+        "damageApplied"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 20,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 21,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 22,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 23,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 24,
+      "actor": "A",
+      "op": "attackLeader",
+      "actions": [],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 25,
+      "actor": "B",
+      "op": "unitAttackUnit",
+      "actions": [
+        "targetSelected",
+        "attackDeclared",
+        "damageApplied",
+        "damageApplied",
+        "afterAttack",
+        "attackResolved"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 26,
+      "actor": "A",
+      "op": "turnEvents",
+      "actions": [
+        "ownTurnEnd",
+        "ownTurnStart"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 27,
+      "actor": "B",
+      "op": "staleSnapshot",
+      "actions": [],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 28,
+      "actor": "A",
+      "op": "discardSandy",
+      "actions": [],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 29,
+      "actor": "B",
+      "op": "selfDamage",
+      "actions": [
+        "damageApplied"
+      ],
+      "ok": true
+    }
+  ],
+  "soakLogTail": [
+    {
+      "match": 0,
+      "step": 41,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 42,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 43,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 44,
+      "actor": "A",
+      "op": "attackLeader",
+      "actions": [
+        "targetSelected",
+        "damageApplied"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 45,
+      "actor": "B",
+      "op": "unitAttackUnit",
+      "actions": [
+        "targetSelected",
+        "targetSelected"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 46,
+      "actor": "A",
+      "op": "turnEvents",
+      "actions": [
+        "ownTurnEnd",
+        "ownTurnStart"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 47,
+      "actor": "B",
+      "op": "staleSnapshot",
+      "actions": [],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 48,
+      "actor": "A",
+      "op": "discardSandy",
+      "actions": [],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 49,
+      "actor": "B",
+      "op": "selfDamage",
+      "actions": [
+        "damageApplied"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 50,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 51,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 52,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 53,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 0,
+      "step": 54,
+      "actor": "A",
+      "op": "attackLeader",
+      "actions": [],
+      "ok": true
+    },
+    {
+      "match": 1,
+      "step": 0,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 1,
+      "step": 1,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 1,
+      "step": 2,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 1,
+      "step": 3,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 1,
+      "step": 4,
+      "actor": "A",
+      "op": "attackLeader",
+      "actions": [
+        "targetSelected",
+        "damageApplied"
+      ],
+      "ok": true
+    },
+    {
+      "match": 1,
+      "step": 5,
+      "actor": "B",
+      "op": "unitAttackUnit",
+      "actions": [
+        "targetSelected",
+        "targetSelected"
+      ],
+      "ok": true
+    },
+    {
+      "match": 1,
+      "step": 6,
+      "actor": "A",
+      "op": "turnEvents",
+      "actions": [
+        "ownTurnEnd",
+        "ownTurnStart"
+      ],
+      "ok": true
+    },
+    {
+      "match": 1,
+      "step": 7,
+      "actor": "B",
+      "op": "staleSnapshot",
+      "actions": [],
+      "ok": true
+    },
+    {
+      "match": 1,
+      "step": 8,
+      "actor": "A",
+      "op": "discardSandy",
+      "actions": [
+        "unitPutIntoPlay"
+      ],
+      "ok": true
+    },
+    {
+      "match": 1,
+      "step": 9,
+      "actor": "B",
+      "op": "selfDamage",
+      "actions": [
+        "damageApplied"
+      ],
+      "ok": true
+    },
+    {
+      "match": 1,
+      "step": 10,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 1,
+      "step": 11,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 1,
+      "step": 12,
+      "actor": "A",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 1,
+      "step": 13,
+      "actor": "B",
+      "op": "summon",
+      "actions": [
+        "unitSummoned",
+        "unitStatePatchV263"
+      ],
+      "ok": true
+    },
+    {
+      "match": 1,
+      "step": 14,
+      "actor": "A",
+      "op": "attackLeader",
+      "actions": [],
+      "ok": true
+    },
+    {
+      "match": 1,
+      "step": 15,
+      "actor": "B",
+      "op": "unitAttackUnit",
+      "actions": [
+        "targetSelected",
+        "targetSelected",
+        "damageApplied",
+        "unitDeath",
+        "unitDeath",
+        "unitStatePatchV264"
+      ],
+      "ok": false,
+      "mirror": {
+        "ok": false,
+        "A": {
+          "playerHp": 25,
+          "enemyHp": 24,
+          "player": [
+            {
+              "name": "ユニット",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 0,
+              "id": "41ed518c83a2f4b01b314991a3aacf4a",
+              "taunt": false,
+              "building": false,
+              "durability": 0
+            },
+            {
+              "name": "リリパット",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "card_bbedc445_1782371762067_e0430137",
+              "taunt": false,
+              "building": false,
+              "durability": 0
+            },
+            {
+              "name": "妖精サンディ",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "card_c8b09830_1782371762144_e71c6699",
+              "taunt": false,
+              "building": false,
+              "durability": 0
+            },
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371762171_b12d2dc6",
+              "taunt": true,
+              "building": false,
+              "durability": 0
+            },
+            {
+              "name": "おおくちばし",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 2,
+              "id": "card_4d7fa9dd_1782371762203_add0b740",
+              "taunt": false,
+              "building": false,
+              "durability": 0
+            },
+            null
+          ],
+          "enemy": [
+            null,
+            {
+              "name": "ヘルゴースト",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 6,
+              "id": "card_071c8ce4_1782371762081_e5ad2955",
+              "taunt": false,
+              "building": false,
+              "durability": 0
+            },
+            {
+              "name": "メラゴースト",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "card_a7a6eabe_1782371762187_5b35fc2e",
+              "taunt": false,
+              "building": false,
+              "durability": 0
+            },
+            {
+              "name": "リリパット",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "card_bbedc445_1782371762221_d9739a31",
+              "taunt": false,
+              "building": false,
+              "durability": 0
+            },
+            null,
+            null
+          ],
+          "playerWeapon": null,
+          "enemyWeapon": null,
+          "tension": 0,
+          "enemyTension": 0,
+          "protected": {
+            "1": {
+              "unitId": "card_071c8ce4_1782371762081_e5ad2955",
+              "cardId": "card_071c8ce4",
+              "name": "ヘルゴースト",
+              "until": 1782371772086
+            },
+            "2": {
+              "unitId": "card_a7a6eabe_1782371762187_5b35fc2e",
+              "cardId": "card_a7a6eabe",
+              "name": "メラゴースト",
+              "until": 1782371772196
+            },
+            "3": {
+              "unitId": "card_bbedc445_1782371762221_d9739a31",
+              "cardId": "card_bbedc445",
+              "name": "リリパット",
+              "until": 1782371772232
+            }
+          },
+          "log": [
+            "相手のリリパットの召喚後状態を同期しました。",
+            "相手の対象選択を受信しました。",
+            "相手の対象選択を受信しました。",
+            "相手の対象ユニット状態を同期しました：空マス"
+          ]
+        },
+        "B": {
+          "playerHp": 24,
+          "enemyHp": 25,
+          "player": [
+            null,
+            {
+              "name": "ヘルゴースト",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 6,
+              "id": "card_071c8ce4_1782371762081_e5ad2955",
+              "taunt": false,
+              "building": false,
+              "durability": 0
+            },
+            {
+              "name": "メラゴースト",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "card_a7a6eabe_1782371762187_5b35fc2e",
+              "taunt": false,
+              "building": false,
+              "durability": 0
+            },
+            {
+              "name": "リリパット",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "card_bbedc445_1782371762221_d9739a31",
+              "taunt": false,
+              "building": false,
+              "durability": 0
+            },
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            {
+              "name": "リリパット",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "card_bbedc445_1782371762067_e0430137",
+              "taunt": false,
+              "building": false,
+              "durability": 0
+            },
+            {
+              "name": "妖精サンディ",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "card_c8b09830_1782371762144_e71c6699",
+              "taunt": false,
+              "building": false,
+              "durability": 0
+            },
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371762171_b12d2dc6",
+              "taunt": true,
+              "building": false,
+              "durability": 0
+            },
+            {
+              "name": "おおくちばし",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 2,
+              "id": "card_4d7fa9dd_1782371762203_add0b740",
+              "taunt": false,
+              "building": false,
+              "durability": 0
+            },
+            null
+          ],
+          "playerWeapon": null,
+          "enemyWeapon": null,
+          "tension": 0,
+          "enemyTension": 0,
+          "protected": {
+            "0": {
+              "unitId": "card_a7a6eabe_1782371762032_b82bd2a2",
+              "cardId": "card_a7a6eabe",
+              "name": "メラゴースト",
+              "until": 1782371772037
+            },
+            "1": {
+              "unitId": "card_bbedc445_1782371762067_e0430137",
+              "cardId": "card_bbedc445",
+              "name": "リリパット",
+              "until": 1782371772072
+            },
+            "2": {
+              "unitId": "card_c8b09830_1782371762144_e71c6699",
+              "cardId": "card_c8b09830",
+              "name": "妖精サンディ",
+              "until": 1782371772151
+            },
+            "3": {
+              "unitId": "card_83cf917e_1782371762171_b12d2dc6",
+              "cardId": "card_83cf917e",
+              "name": "シールドオーガ",
+              "until": 1782371772180
+            },
+            "4": {
+              "unitId": "card_4d7fa9dd_1782371762203_add0b740",
+              "cardId": "card_4d7fa9dd",
+              "name": "おおくちばし",
+              "until": 1782371772213
+            }
+          },
+          "log": [
+            "相手のおおくちばしの召喚後状態を同期しました。",
+            "メラゴースト：メラゴーストに1ダメージ。",
+            "おおくちばしは死亡しました。",
+            "メラゴーストは死亡しました。"
+          ]
+        }
+      }
+    }
+  ],
+  "exceptions": [],
+  "chromeLogs": [
+    "/tmp/tmpeamee8va",
+    "/tmp/tmpz3q7p1qf"
+  ]
+}

@@ -1,0 +1,378 @@
+{
+  "mode": "v256 Maiyu move counter + Slime Fever replacement + PvP movement sync",
+  "browsers": [
+    "Chrome/144.0.7559.96",
+    "Chrome/144.0.7559.96"
+  ],
+  "passed": 5,
+  "failed": 0,
+  "results": [
+    {
+      "name": "boot: v256 hooks loaded",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "cards": 1607
+      }
+    },
+    {
+      "name": "マイユ移動カウント: 自分が発動した移動効果で移動回数が永続加算される",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "detail": {
+          "before": {
+            "player": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "enemy": [
+              null,
+              null,
+              null,
+              null,
+              {
+                "name": "ドラキー",
+                "hp": 1,
+                "maxHp": 1,
+                "attack": 2,
+                "id": "card_471ba4e7_1782371704422_68504f7c",
+                "isBuilding": false,
+                "canAttack": false
+              },
+              null
+            ],
+            "playerHp": 25,
+            "enemyHp": 25,
+            "playerLeaderAttack": 0,
+            "tension": 0,
+            "enemyTension": 0,
+            "hand": [],
+            "handCosts": [],
+            "flags": {
+              "discounts": []
+            },
+            "maiyuMoveCount": 0,
+            "maiyuMoveBonus": 0,
+            "slimeFever": false,
+            "slimePoolSize": 67
+          },
+          "after": {
+            "player": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "enemy": [
+              null,
+              {
+                "name": "ドラキー",
+                "hp": 1,
+                "maxHp": 1,
+                "attack": 2,
+                "id": "card_471ba4e7_1782371704422_68504f7c",
+                "isBuilding": false,
+                "canAttack": false
+              },
+              null,
+              null,
+              null,
+              null
+            ],
+            "playerHp": 25,
+            "enemyHp": 25,
+            "playerLeaderAttack": 0,
+            "tension": 0,
+            "enemyTension": 0,
+            "hand": [],
+            "handCosts": [],
+            "flags": {
+              "discounts": []
+            },
+            "maiyuMoveCount": 1,
+            "maiyuMoveBonus": 1,
+            "slimeFever": false,
+            "slimePoolSize": 67
+          },
+          "log": [
+            "バトル開始。ヒーローカードはサマルトリアの王子以外、開始時手札に入りました。",
+            "敵後列前進：ユニット移動回数+1（マイユ現在+1）。"
+          ]
+        }
+      }
+    },
+    {
+      "name": "マイユ召喚時: 移動カウント分だけランダム割り振りダメージが増える",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "detail": {
+          "bonus": 1,
+          "snap": {
+            "player": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "enemy": [
+              {
+                "name": "シールドオーガ",
+                "hp": 2,
+                "maxHp": 4,
+                "attack": 4,
+                "id": "card_83cf917e_1782371704449_87853683",
+                "isBuilding": false,
+                "canAttack": false
+              },
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "playerHp": 25,
+            "enemyHp": 23,
+            "playerLeaderAttack": 0,
+            "tension": 0,
+            "enemyTension": 0,
+            "hand": [],
+            "handCosts": [],
+            "flags": {
+              "discounts": []
+            },
+            "maiyuMoveCount": 1,
+            "maiyuMoveBonus": 1,
+            "slimeFever": false,
+            "slimePoolSize": 67
+          },
+          "log": [
+            "バトル開始。ヒーローカードはサマルトリアの王子以外、開始時手札に入りました。",
+            "敵後列前進：ユニット移動回数+1（マイユ現在+1）。",
+            "マイユ：この対戦中の自分の移動効果1回分を加え、合計4ダメージを割り振りました。"
+          ]
+        }
+      }
+    },
+    {
+      "name": "スライムフィーバー: 手札に入る特技を破棄し、全スライム系プールからランダムなユニットへ入れ替える",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "detail": {
+          "before": {
+            "player": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "enemy": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "playerHp": 25,
+            "enemyHp": 25,
+            "playerLeaderAttack": 0,
+            "tension": 0,
+            "enemyTension": 0,
+            "hand": [],
+            "handCosts": [],
+            "flags": {
+              "discounts": []
+            },
+            "maiyuMoveCount": 0,
+            "maiyuMoveBonus": 0,
+            "slimeFever": true,
+            "slimePoolSize": 67
+          },
+          "after": {
+            "player": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "enemy": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "playerHp": 25,
+            "enemyHp": 25,
+            "playerLeaderAttack": 0,
+            "tension": 0,
+            "enemyTension": 0,
+            "hand": [
+              "ドラゴスライム",
+              "スノーム",
+              "スライム"
+            ],
+            "handCosts": [
+              {
+                "name": "ドラゴスライム",
+                "cost": 2,
+                "base": 2
+              },
+              {
+                "name": "スノーム",
+                "cost": 2,
+                "base": 2
+              },
+              {
+                "name": "スライム",
+                "cost": 1,
+                "base": 1
+              }
+            ],
+            "flags": {
+              "discounts": []
+            },
+            "maiyuMoveCount": 0,
+            "maiyuMoveBonus": 0,
+            "slimeFever": true,
+            "slimePoolSize": 67
+          },
+          "hand": [
+            "ドラゴスライム",
+            "スノーム",
+            "スライム"
+          ],
+          "costs": [
+            {
+              "name": "ドラゴスライム",
+              "cost": 2,
+              "base": 2
+            },
+            {
+              "name": "スノーム",
+              "cost": 2,
+              "base": 2
+            },
+            {
+              "name": "スライム",
+              "cost": 1,
+              "base": 1
+            }
+          ],
+          "log": [
+            "バトル開始。ヒーローカードはサマルトリアの王子以外、開始時手札に入りました。",
+            "スライムフィーバー：以後、自分の手札になる特技カードを破棄し、全スライム系ユニットからランダムに入れ替えます。",
+            "スライムフィーバー：イオナズンを破棄し、ランダムなスライム系「ドラゴスライム」に入れ替えました。",
+            "テスト追加：ドラゴスライムを自分の手札に加えました。",
+            "スライムフィーバー：メラを破棄し、ランダムなスライム系「スノーム」に入れ替えました。"
+          ]
+        }
+      }
+    },
+    {
+      "name": "無鉄砲な作戦: 盤面移動がaction replayで相手クライアントにも同期される",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "actions": [
+          "randomResult",
+          "randomResult",
+          "randomResult",
+          "randomResult",
+          "randomResult",
+          "randomResult",
+          "randomResult",
+          "randomResult",
+          "randomResult",
+          "randomResult",
+          "unitMovedBoardV256"
+        ],
+        "remote": {
+          "player": [
+            null,
+            null,
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371704486_6fba93e4",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            {
+              "name": "メラゴースト",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "card_a7a6eabe_1782371704486_83ec7b38",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null
+          ],
+          "enemy": [
+            null,
+            {
+              "name": "スライム",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "token_slime_1_1_1782371704484_c9428e18",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            {
+              "name": "ドラキー",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 2,
+              "id": "card_471ba4e7_1782371704484_7251761e",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          },
+          "maiyuMoveCount": 0,
+          "maiyuMoveBonus": 0,
+          "slimeFever": false,
+          "slimePoolSize": 67
+        }
+      }
+    }
+  ],
+  "exceptions": [],
+  "chromeLogs": [
+    "/tmp/tmpp1o6ww7f",
+    "/tmp/tmpsvm23awk"
+  ]
+}

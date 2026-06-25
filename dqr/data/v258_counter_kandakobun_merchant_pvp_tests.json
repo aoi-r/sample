@@ -1,0 +1,610 @@
+{
+  "mode": "v258 Kandakobun + prior 4 behavior + merchant PvP/browser tests",
+  "browsers": [
+    "Chrome/144.0.7559.96",
+    "Chrome/144.0.7559.96"
+  ],
+  "passed": 10,
+  "failed": 0,
+  "results": [
+    {
+      "name": "boot: v258 hooks loaded",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "cards": 1607
+      }
+    },
+    {
+      "name": "カンダタこぶんBET: テンションをためる1コストだけ0になり、その場で消費される",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "before": {
+          "mp": 5,
+          "t": 0,
+          "flag": true
+        },
+        "after": {
+          "mp": 5,
+          "t": 1,
+          "flag": false,
+          "next": false
+        }
+      }
+    },
+    {
+      "name": "カンダタこぶんBET: 未使用ならターン終了で0コスト権が消える",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "mp": 4,
+        "tension": 1,
+        "flag": false
+      }
+    },
+    {
+      "name": "ブオーン: 攻撃後に攻撃対象以外の敵と敵リーダーへ同時ダメージ",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "before": {
+          "player": [
+            {
+              "name": "ブオーン",
+              "hp": 11,
+              "maxHp": 11,
+              "attack": 11,
+              "id": "card_5a0bddb6_1782371710671_86f3c2a4",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "スライム",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "token_slime_1_1_1782371710672_d40ba3a1",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            {
+              "name": "ドラキー",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 2,
+              "id": "card_471ba4e7_1782371710672_e35fff1b",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "after": {
+          "player": [
+            {
+              "name": "ブオーン",
+              "hp": 11,
+              "maxHp": 11,
+              "attack": 11,
+              "id": "card_5a0bddb6_1782371710671_86f3c2a4",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "スライム",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "token_slime_1_1_1782371710672_d40ba3a1",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 14,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        }
+      }
+    },
+    {
+      "name": "魔道士ウルノーガ: 前列にいる間、敵の回復がダメージ化する",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "before": 20,
+        "after": 18,
+        "snap": {
+          "player": [
+            {
+              "name": "魔道士ウルノーガ",
+              "hp": 7,
+              "maxHp": 7,
+              "attack": 5,
+              "id": "card_63714a60_1782371710700_1491eb1a",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 18,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        }
+      }
+    },
+    {
+      "name": "転生の祈り: 敵死亡プールからコイン枚数以下で最大コストのユニットを復活",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "snap": {
+          "player": [
+            {
+              "name": "スライム",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "token_slime_1_1_1782371710709_7bfde683",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [
+            "コイン"
+          ],
+          "handCosts": [
+            {
+              "name": "コイン",
+              "cost": 0,
+              "base": 0
+            }
+          ],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "hand": [
+          "コイン"
+        ]
+      }
+    },
+    {
+      "name": "アクバー: 他の味方死亡時に復活し、次の死亡は消滅フラグ付き",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "snap": {
+          "player": [
+            {
+              "name": "アクバー",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 6,
+              "id": "card_94068a9a_1782371710717_51f6a5b5",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            {
+              "name": "スライム",
+              "hp": 0,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "token_slime_1_1_1782371710717_5d0e827c",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            {
+              "name": "スライム",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "token_slime_1_1_1782371710718_94d93826",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "flags": [
+          null,
+          null,
+          true,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "name": "商人PENDING: しあわせの巻物は+1/+1後に道具を追加",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "before": {
+          "player": [
+            {
+              "name": "スライム",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "token_slime_1_1_1782371710721_5176389b",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "after": {
+          "player": [
+            {
+              "name": "スライム",
+              "hp": 2,
+              "maxHp": 2,
+              "attack": 2,
+              "id": "token_slime_1_1_1782371710721_5176389b",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [
+            "道具：ちからのたね"
+          ],
+          "handCosts": [
+            {
+              "name": "道具：ちからのたね",
+              "cost": 0,
+              "base": 0
+            }
+          ],
+          "flags": {
+            "discounts": []
+          }
+        }
+      }
+    },
+    {
+      "name": "商人PENDING: かなしばりの杖は敵縦一列を攻撃不能にする",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "snap": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "スライム",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "token_slime_1_1_1782371710728_e35470b6",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            {
+              "name": "ドラキー",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 2,
+              "id": "card_471ba4e7_1782371710728_53b4836b",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "unit": {
+          "id": "token_slime_1_1_1782371710728_e35470b6",
+          "cardId": "token_slime_1_1",
+          "name": "スライム",
+          "attack": 1,
+          "hp": 1,
+          "maxHp": 1,
+          "_baseAttack": 1,
+          "_baseHp": 1,
+          "statuses": [],
+          "canAttack": false,
+          "summoningSickness": true,
+          "keywords": {
+            "taunt": false,
+            "haste": false,
+            "support": false,
+            "snipe": false,
+            "poison": false,
+            "stealth": false,
+            "seal": false,
+            "darkRobe": false,
+            "conditionGood": false,
+            "synchro": false,
+            "proficiency": false,
+            "spellDamagePlus": false,
+            "terrainSlip": false,
+            "terrainTreasure": false,
+            "terrainBarrier": false,
+            "terrainBlade": false,
+            "terrainMagic": false,
+            "terrainBlessing": false,
+            "terrainHappy": false,
+            "terrainOracle": false,
+            "apathy": false,
+            "piercing": false,
+            "superPiercing": false,
+            "metal": false,
+            "hardMetal": false,
+            "doubleAttack": false,
+            "firstStrike": false,
+            "vanish": false,
+            "tensionLink": false,
+            "skillLink": false,
+            "deathrattle": false,
+            "summon": false,
+            "powerBadge": false,
+            "building": false,
+            "costBoost": false,
+            "move": false,
+            "get": false,
+            "bet": false,
+            "dungeon": false,
+            "choice": false,
+            "fortune": false,
+            "renkei": false,
+            "skillBoost": false
+          },
+          "_baseKeywords": {
+            "taunt": false,
+            "haste": false,
+            "support": false,
+            "snipe": false,
+            "poison": false,
+            "stealth": false,
+            "seal": false,
+            "darkRobe": false,
+            "conditionGood": false,
+            "synchro": false,
+            "proficiency": false,
+            "spellDamagePlus": false,
+            "terrainSlip": false,
+            "terrainTreasure": false,
+            "terrainBarrier": false,
+            "terrainBlade": false,
+            "terrainMagic": false,
+            "terrainBlessing": false,
+            "terrainHappy": false,
+            "terrainOracle": false,
+            "apathy": false,
+            "piercing": false,
+            "superPiercing": false,
+            "metal": false,
+            "hardMetal": false,
+            "doubleAttack": false,
+            "firstStrike": false,
+            "vanish": false,
+            "tensionLink": false,
+            "skillLink": false,
+            "deathrattle": false,
+            "summon": false,
+            "powerBadge": false,
+            "building": false,
+            "costBoost": false,
+            "move": false,
+            "get": false,
+            "bet": false,
+            "dungeon": false,
+            "choice": false,
+            "fortune": false,
+            "renkei": false,
+            "skillBoost": false
+          },
+          "cannotAttackUntilV258": "nextTurnEnd",
+          "attacksLeft": 0
+        }
+      }
+    },
+    {
+      "name": "対戦action replay: ブオーンを場に出すactionは相手クライアントへ反映される",
+      "ok": true,
+      "detail": {
+        "actions": [
+          "unitSummoned",
+          "unitStatePatchV263"
+        ],
+        "remote": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "ブオーン",
+              "hp": 11,
+              "maxHp": 11,
+              "attack": 11,
+              "id": "card_5a0bddb6_1782371710756_b5bc1708",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        }
+      }
+    }
+  ],
+  "exceptions": [],
+  "chromeLogs": [
+    "/tmp/tmpwjvgw_ij",
+    "/tmp/tmparsjfzs0"
+  ]
+}

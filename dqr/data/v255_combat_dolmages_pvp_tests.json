@@ -1,0 +1,357 @@
+{
+  "mode": "v255 combat + Dolmages + Kabau PvP emulator",
+  "browsers": [
+    "Chrome/144.0.7559.96",
+    "Chrome/144.0.7559.96"
+  ],
+  "passed": 10,
+  "failed": 0,
+  "results": [
+    {
+      "name": "boot: v255 hooks loaded",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "cards": 1607
+      }
+    },
+    {
+      "name": "リーダー反撃: 攻撃力を持つ敵リーダーを攻撃したユニットに反撃し、敵武器耐久は減らない",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "snap": {
+          "player": [
+            {
+              "name": "シールドオーガ",
+              "hp": 1,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371698903_6520f5c6",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 21,
+          "enemyWeapon": {
+            "name": "敵テスト武器",
+            "attack": 3,
+            "durability": 2,
+            "maxDurability": 2,
+            "attacksLeft": 1
+          },
+          "playerLeaderAttack": 0,
+          "enemyLeaderAttack": 3,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        }
+      }
+    },
+    {
+      "name": "リーダー反撃: リーダー同士でも反撃し、防御側武器耐久は減らない",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "snap": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 23,
+          "enemyHp": 22,
+          "playerWeapon": {
+            "name": "味方テスト武器",
+            "attack": 3,
+            "durability": 1,
+            "maxDurability": 2,
+            "attacksLeft": 0
+          },
+          "enemyWeapon": {
+            "name": "敵テスト武器",
+            "attack": 2,
+            "durability": 2,
+            "maxDurability": 2,
+            "attacksLeft": 1
+          },
+          "playerLeaderAttack": 3,
+          "enemyLeaderAttack": 2,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        }
+      }
+    },
+    {
+      "name": "かばう: 有効中はユニットを攻撃できず、リーダー攻撃だけ通る",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "snap": {
+          "player": [
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371698943_ab1bf951",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "スライム",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "token_slime_1_1_1782371698944_a5bdbc30",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 21,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "enemyKabau": true,
+            "discounts": []
+          }
+        }
+      }
+    },
+    {
+      "name": "かばうの心得: かばう中にリーダーが受けるダメージを1減らす",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "snap": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371698957_b2c29dc5",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 22,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "playerKabau": true,
+            "discounts": []
+          }
+        }
+      }
+    },
+    {
+      "name": "やいばのボディ: 味方リーダーが攻撃された時、攻撃側に1ダメージ反撃",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "snap": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シールドオーガ",
+              "hp": 3,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371698966_5692aff8",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 21,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "playerBlade": true,
+            "discounts": []
+          }
+        }
+      }
+    },
+    {
+      "name": "魔性の道化師ドルマゲス: 自分召喚時、特技コスト-5は相手ターン終了時に戻る",
+      "ok": true,
+      "detail": {
+        "before": 7,
+        "after": 2,
+        "cleared": 7
+      }
+    },
+    {
+      "name": "魔性の道化師ドルマゲス: action replayで相手側にも特技コスト-5が入り、自分ターン終了時に戻る",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "actions": [
+          "unitSummoned",
+          "unitStatePatchV263"
+        ],
+        "before": 2,
+        "after": 7
+      }
+    },
+    {
+      "name": "かばう: cardPlayed action replay後、相手クライアントでもユニット攻撃を止める",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "actions": [
+          "cardPlayed"
+        ],
+        "snap": {
+          "player": [
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371699033_c69804a7",
+              "isBuilding": false,
+              "canAttack": true
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371699034_5bd48ccb",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "enemyKabau": true,
+            "discounts": []
+          }
+        }
+      }
+    },
+    {
+      "name": "武闘家パス: タイガークロー/武術稽古/せいけん突きの基礎挙動",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "detail": {
+          "tiger": 1,
+          "hand": [
+            "武術：ストレートパンチ",
+            "武術：ストレートパンチ"
+          ],
+          "seiken": null
+        }
+      }
+    }
+  ],
+  "exceptions": [],
+  "chromeLogs": [
+    "/tmp/tmpzn368ngg",
+    "/tmp/tmpid98h250"
+  ]
+}

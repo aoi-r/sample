@@ -1,0 +1,61 @@
+{
+  "version": "v263_soak_pvp_summon_state_guard",
+  "base": "v262_long_pvp_kernel_verification",
+  "nodeCheck": "OK",
+  "functionDuplicateCount": 9,
+  "tests": {
+    "v263_soak_pvp_summon_state_tests": {
+      "passed": 3,
+      "failed": 0
+    },
+    "v262_long_pvp_kernel_tests": {
+      "passed": 7,
+      "failed": 0
+    },
+    "v260_review_closeout_pvp_tests": {
+      "passed": 20,
+      "failed": 0
+    },
+    "v258_counter_kandakobun_merchant_pvp_tests": {
+      "passed": 10,
+      "failed": 0
+    },
+    "v256_maiyu_slimefever_pvp_tests": {
+      "passed": 5,
+      "failed": 0
+    },
+    "v255_combat_dolmages_pvp_tests": {
+      "passed": 10,
+      "failed": 0
+    },
+    "v248_chappy_pvp_emulator_tests": {
+      "passed": 14,
+      "failed": 0
+    }
+  },
+  "fixedIssues": [
+    {
+      "card": "シーゴーレム",
+      "issue": "相手ターン遷移時に消える/相手側でHP+2が見えない",
+      "fix": "unitStatePatchV263 + stale snapshot protected slots"
+    },
+    {
+      "area": "PvP state merge",
+      "issue": "action replay直後に古いpublic stateがenemy.boardを丸ごと上書きする",
+      "fix": "mergeRemoteBoardで保護中スロットを保持"
+    }
+  ],
+  "soakSteps": 990,
+  "createdAt": "2026-06-25T06:55:36Z",
+  "functionDuplicatesSample": {
+    "isBuildingUnit": 2,
+    "addRandomCardByPredicate": 2,
+    "damageRandomEnemy": 2,
+    "g": 2,
+    "sideObj": 2,
+    "board": 3,
+    "terrain": 2,
+    "num": 2,
+    "drawSide": 2
+  }
+}

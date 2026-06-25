@@ -1,0 +1,52 @@
+{
+  "version": "v254_shido_pvp_verified_priority_queue_pass6",
+  "createdAt": "2026-06-25",
+  "nodeCheck": "OK",
+  "functionDuplicateCount": 0,
+  "staticTests": {
+    "v237_static_emulator_tests": "11/11 passed",
+    "v240_static_pool_tests": "12/12 passed",
+    "v246_duplicate_trigger_audit_tests": "12/12 passed",
+    "v248_chappy_pvp_emulator_tests": "14/14 passed",
+    "v254_shido_pvp_emulator_tests": "6/6 passed"
+  },
+  "priorityQueue": {
+    "total": 311,
+    "newImplementedOrConfirmedV254": 44,
+    "partialNeedsCombatEnforcementV254": 3,
+    "pendingAfterV254": 196,
+    "statusCounts": {
+      "IMPLEMENTED_V250": 14,
+      "EXISTING_GENERIC_OK_V250": 5,
+      "IMPLEMENTED_OR_CONFIRMED_V251": 20,
+      "IMPLEMENTED_OR_CONFIRMED_V252": 19,
+      "IMPLEMENTED_OR_CONFIRMED_V253": 3,
+      "IMPLEMENTED_V253": 5,
+      "IMPLEMENTED_WITH_REVIEW_V253": 1,
+      "DEFERRED_MEMO_V253": 1,
+      "IMPLEMENTED_OR_CONFIRMED_V254": 44,
+      "PARTIAL_V254_NEEDS_COMBAT_ENFORCEMENT": 3,
+      "PENDING": 196
+    }
+  },
+  "shidoPvp": {
+    "mode": "v254 少年シドー two Chromium clients + action replay + public state mirror",
+    "passed": 6,
+    "failed": 0,
+    "exceptions": 0
+  },
+  "reviewItems": [
+    {
+      "name": "はやぶさ斬り",
+      "note": "公式本文が「ダメージを2回」とだけ読めるため、v254では1ダメージ×2として暫定実装。数値確認が必要。"
+    },
+    {
+      "name": "かばう / やいばのボディ / かばうの心得",
+      "note": "効果フラグと一部処理は入れたが、戦闘ターゲット制御・被攻撃時反撃・ダメージ軽減経路は追加検査が必要。"
+    },
+    {
+      "name": "魔性の道化師ドルマゲス",
+      "note": "両手札特技コスト-5は、次の相手ターン終了時までの復元管理が必要なため未実装のまま保留。"
+    }
+  ]
+}

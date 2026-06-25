@@ -1,0 +1,37 @@
+{
+  "version": "v250_priority_queue_pass2_common_basics",
+  "base": "v249_full_card_behavior_audit_pass1",
+  "implemented_names": [
+    "メラゴースト",
+    "バブルスライム",
+    "おおくちばし",
+    "ゆめにゅうどう",
+    "あばれこまいぬ",
+    "ねこまどう",
+    "リリパット",
+    "プチアーノン",
+    "バロンナイト",
+    "ブラックチャック",
+    "ヘルゴースト",
+    "バーサーカー",
+    "じごくのつかい",
+    "バラモスゾンビ"
+  ],
+  "existing_generic_confirmed": [
+    "いたずらもぐら",
+    "おばけキャンドル",
+    "おばけヒトデ",
+    "オニオーン",
+    "ブラックルーン"
+  ],
+  "implemented_count": 14,
+  "existing_generic_confirmed_count": 5,
+  "priority_queue_remaining_estimate": 292,
+  "node_check": "OK",
+  "duplicate_function_declarations": 0,
+  "notes": [
+    "v249優先キュー先頭から、共通初期カード中心に19件を処理または既存汎用確認。",
+    "ブラックルーンは本文汎用で特技ダメージ+2を拾うため、個別のspellDamageBonus加算は追加していない（二重加算回避）。",
+    "メラゴーストの対象範囲は、現状は敵ユニット/敵リーダー対象として実装。必要なら味方も含む対象へ後で調整可能。"
+  ]
+}

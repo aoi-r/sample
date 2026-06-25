@@ -1,0 +1,683 @@
+{
+  "mode": "v259 remaining priority browser/emulator tests",
+  "browser": "Chrome/144.0.7559.96",
+  "passed": 11,
+  "failed": 0,
+  "results": [
+    {
+      "name": "boot: v259 hook loaded",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "cards": 1607
+      }
+    },
+    {
+      "name": "トーマ王子: 虚無の剣で正面敵を封印し2ダメージ",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "before": {
+          "player": [
+            {
+              "name": "トーマ王子",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 6,
+              "id": "card_8d8b59c8_1782368472189_d858a3ee",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "スライム",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "token_slime_1_1_1782368472190_852cab1f",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "after": {
+          "player": [
+            {
+              "name": "トーマ王子",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 6,
+              "id": "card_8d8b59c8_1782368472189_d858a3ee",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "スライム",
+              "hp": -1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "token_slime_1_1_1782368472190_852cab1f",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "raw": {
+          "id": "token_slime_1_1_1782368472190_852cab1f",
+          "cardId": "token_slime_1_1",
+          "name": "スライム",
+          "attack": 1,
+          "hp": -1,
+          "maxHp": 1,
+          "_baseAttack": 1,
+          "_baseHp": 1,
+          "statuses": [
+            {
+              "type": "sealed",
+              "source": "封印"
+            }
+          ],
+          "canAttack": false,
+          "summoningSickness": true,
+          "keywords": {
+            "taunt": false,
+            "haste": false,
+            "support": false,
+            "snipe": false,
+            "poison": false,
+            "stealth": false,
+            "seal": false,
+            "darkRobe": false,
+            "conditionGood": false,
+            "synchro": false,
+            "proficiency": false,
+            "spellDamagePlus": false,
+            "terrainSlip": false,
+            "terrainTreasure": false,
+            "terrainBarrier": false,
+            "terrainBlade": false,
+            "terrainMagic": false,
+            "terrainBlessing": false,
+            "terrainHappy": false,
+            "terrainOracle": false,
+            "apathy": false,
+            "piercing": false,
+            "superPiercing": false,
+            "metal": false,
+            "hardMetal": false,
+            "doubleAttack": false,
+            "firstStrike": false,
+            "vanish": false,
+            "tensionLink": false,
+            "skillLink": false,
+            "deathrattle": false,
+            "summon": false,
+            "powerBadge": false,
+            "building": false,
+            "costBoost": false,
+            "move": false,
+            "get": false,
+            "bet": false,
+            "dungeon": false,
+            "choice": false,
+            "fortune": false,
+            "renkei": false,
+            "skillBoost": false
+          },
+          "_baseKeywords": {
+            "taunt": false,
+            "haste": false,
+            "support": false,
+            "snipe": false,
+            "poison": false,
+            "stealth": false,
+            "seal": false,
+            "darkRobe": false,
+            "conditionGood": false,
+            "synchro": false,
+            "proficiency": false,
+            "spellDamagePlus": false,
+            "terrainSlip": false,
+            "terrainTreasure": false,
+            "terrainBarrier": false,
+            "terrainBlade": false,
+            "terrainMagic": false,
+            "terrainBlessing": false,
+            "terrainHappy": false,
+            "terrainOracle": false,
+            "apathy": false,
+            "piercing": false,
+            "superPiercing": false,
+            "metal": false,
+            "hardMetal": false,
+            "doubleAttack": false,
+            "firstStrike": false,
+            "vanish": false,
+            "tensionLink": false,
+            "skillLink": false,
+            "deathrattle": false,
+            "summon": false,
+            "powerBadge": false,
+            "building": false,
+            "costBoost": false,
+            "move": false,
+            "get": false,
+            "bet": false,
+            "dungeon": false,
+            "choice": false,
+            "fortune": false,
+            "renkei": false,
+            "skillBoost": false
+          },
+          "silenced": true,
+          "sealed": true,
+          "_v227LastDamageCombat": false,
+          "_v227LastDamageSpell": true,
+          "_v227LastDamageLeaderAttack": false,
+          "_v227LastDamageSource": "虚無の剣"
+        }
+      }
+    },
+    {
+      "name": "さんぞくのカシラ: 4種トークンを出す",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "names": [
+          "さんぞく",
+          "さんぞくマージ",
+          "さんぞく兵",
+          "エテポンゲ"
+        ]
+      }
+    },
+    {
+      "name": "不思議のダンジョン: 味方ユニットが出るたび耐久が進み、踏破でしあわせの箱を得る",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "hand": [
+          "しあわせの箱"
+        ],
+        "board": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "name": "しあわせの箱: 味方ユニットへ+1/+1オーラ",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "sl": {
+          "id": "token_slime_1_1_1782368472218_99846ff9",
+          "cardId": "token_slime_1_1",
+          "name": "スライム",
+          "attack": 2,
+          "hp": 2,
+          "maxHp": 2,
+          "_baseAttack": 1,
+          "_baseHp": 1,
+          "statuses": [],
+          "canAttack": false,
+          "summoningSickness": true,
+          "keywords": {
+            "taunt": false,
+            "haste": false,
+            "support": false,
+            "snipe": false,
+            "poison": false,
+            "stealth": false,
+            "seal": false,
+            "darkRobe": false,
+            "conditionGood": false,
+            "synchro": false,
+            "proficiency": false,
+            "spellDamagePlus": false,
+            "terrainSlip": false,
+            "terrainTreasure": false,
+            "terrainBarrier": false,
+            "terrainBlade": false,
+            "terrainMagic": false,
+            "terrainBlessing": false,
+            "terrainHappy": false,
+            "terrainOracle": false,
+            "apathy": false,
+            "piercing": false,
+            "superPiercing": false,
+            "metal": false,
+            "hardMetal": false,
+            "doubleAttack": false,
+            "firstStrike": false,
+            "vanish": false,
+            "tensionLink": false,
+            "skillLink": false,
+            "deathrattle": false,
+            "summon": false,
+            "powerBadge": false,
+            "building": false,
+            "costBoost": false,
+            "move": false,
+            "get": false,
+            "bet": false,
+            "dungeon": false,
+            "choice": false,
+            "fortune": false,
+            "renkei": false,
+            "skillBoost": false
+          },
+          "_baseKeywords": {
+            "taunt": false,
+            "haste": false,
+            "support": false,
+            "snipe": false,
+            "poison": false,
+            "stealth": false,
+            "seal": false,
+            "darkRobe": false,
+            "conditionGood": false,
+            "synchro": false,
+            "proficiency": false,
+            "spellDamagePlus": false,
+            "terrainSlip": false,
+            "terrainTreasure": false,
+            "terrainBarrier": false,
+            "terrainBlade": false,
+            "terrainMagic": false,
+            "terrainBlessing": false,
+            "terrainHappy": false,
+            "terrainOracle": false,
+            "apathy": false,
+            "piercing": false,
+            "superPiercing": false,
+            "metal": false,
+            "hardMetal": false,
+            "doubleAttack": false,
+            "firstStrike": false,
+            "vanish": false,
+            "tensionLink": false,
+            "skillLink": false,
+            "deathrattle": false,
+            "summon": false,
+            "powerBadge": false,
+            "building": false,
+            "costBoost": false,
+            "move": false,
+            "get": false,
+            "bet": false,
+            "dungeon": false,
+            "choice": false,
+            "fortune": false,
+            "renkei": false,
+            "skillBoost": false
+          },
+          "lastBoardSide": "player",
+          "lastBoardPos": 1,
+          "shiawaseBoxAuraV259": 1
+        },
+        "snap": {
+          "player": [
+            {
+              "name": "しあわせの箱",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 0,
+              "id": "virtual_しあわせの箱_1782368472218_89d41f8c",
+              "isBuilding": true,
+              "durability": 4,
+              "canAttack": false
+            },
+            {
+              "name": "スライム",
+              "hp": 2,
+              "maxHp": 2,
+              "attack": 2,
+              "id": "token_slime_1_1_1782368472218_99846ff9",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        }
+      }
+    },
+    {
+      "name": "二刀の心得・壱: 2ダメージ後、二刀の心得・弐を手札に加える",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "hand": [
+          "二刀の心得・弐"
+        ],
+        "enemy": {
+          "id": "token_slime_1_1_1782368472222_fdd86dec",
+          "cardId": "token_slime_1_1",
+          "name": "スライム",
+          "attack": 1,
+          "hp": -1,
+          "maxHp": 1,
+          "_baseAttack": 1,
+          "_baseHp": 1,
+          "statuses": [],
+          "canAttack": false,
+          "summoningSickness": true,
+          "keywords": {
+            "taunt": false,
+            "haste": false,
+            "support": false,
+            "snipe": false,
+            "poison": false,
+            "stealth": false,
+            "seal": false,
+            "darkRobe": false,
+            "conditionGood": false,
+            "synchro": false,
+            "proficiency": false,
+            "spellDamagePlus": false,
+            "terrainSlip": false,
+            "terrainTreasure": false,
+            "terrainBarrier": false,
+            "terrainBlade": false,
+            "terrainMagic": false,
+            "terrainBlessing": false,
+            "terrainHappy": false,
+            "terrainOracle": false,
+            "apathy": false,
+            "piercing": false,
+            "superPiercing": false,
+            "metal": false,
+            "hardMetal": false,
+            "doubleAttack": false,
+            "firstStrike": false,
+            "vanish": false,
+            "tensionLink": false,
+            "skillLink": false,
+            "deathrattle": false,
+            "summon": false,
+            "powerBadge": false,
+            "building": false,
+            "costBoost": false,
+            "move": false,
+            "get": false,
+            "bet": false,
+            "dungeon": false,
+            "choice": false,
+            "fortune": false,
+            "renkei": false,
+            "skillBoost": false
+          },
+          "_baseKeywords": {
+            "taunt": false,
+            "haste": false,
+            "support": false,
+            "snipe": false,
+            "poison": false,
+            "stealth": false,
+            "seal": false,
+            "darkRobe": false,
+            "conditionGood": false,
+            "synchro": false,
+            "proficiency": false,
+            "spellDamagePlus": false,
+            "terrainSlip": false,
+            "terrainTreasure": false,
+            "terrainBarrier": false,
+            "terrainBlade": false,
+            "terrainMagic": false,
+            "terrainBlessing": false,
+            "terrainHappy": false,
+            "terrainOracle": false,
+            "apathy": false,
+            "piercing": false,
+            "superPiercing": false,
+            "metal": false,
+            "hardMetal": false,
+            "doubleAttack": false,
+            "firstStrike": false,
+            "vanish": false,
+            "tensionLink": false,
+            "skillLink": false,
+            "deathrattle": false,
+            "summon": false,
+            "powerBadge": false,
+            "building": false,
+            "costBoost": false,
+            "move": false,
+            "get": false,
+            "bet": false,
+            "dungeon": false,
+            "choice": false,
+            "fortune": false,
+            "renkei": false,
+            "skillBoost": false
+          },
+          "_v227LastDamageCombat": false,
+          "_v227LastDamageSpell": true,
+          "_v227LastDamageLeaderAttack": false,
+          "_v227LastDamageSource": "二刀の心得・壱"
+        }
+      }
+    },
+    {
+      "name": "竜の胎動: ドラゴン系ユニット2枚を手札に加える",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "hand": [
+          "card_a9db5132",
+          "card_5b8941e3"
+        ]
+      }
+    },
+    {
+      "name": "メタルのそろばん: 自分ターン中3以下のリーダーダメージを1にする",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "before": 25,
+        "after": 24
+      }
+    },
+    {
+      "name": "心眼一閃/ヘルクラッシャー: デッキ外から手札追加した数だけコスト低下",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "base": 8,
+        "cost": 6,
+        "counter": 2
+      }
+    },
+    {
+      "name": "デスストーカー: 自ターン中の味方被ダメでランダム敵へ2ダメージ",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "before": {
+          "player": [
+            {
+              "name": "デスストーカー",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 4,
+              "id": "card_74f27ab5_1782368472240_3a4df991",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            {
+              "name": "スライム",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "token_slime_1_1_1782368472240_56b674a4",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "ドラキー",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 2,
+              "id": "card_471ba4e7_1782368472241_35455bf7",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "after": {
+          "player": [
+            {
+              "name": "デスストーカー",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 4,
+              "id": "card_74f27ab5_1782368472240_3a4df991",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            {
+              "name": "スライム",
+              "hp": 0,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "token_slime_1_1_1782368472240_56b674a4",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "ドラキー",
+              "hp": -1,
+              "maxHp": 1,
+              "attack": 2,
+              "id": "card_471ba4e7_1782368472241_35455bf7",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        }
+      }
+    },
+    {
+      "name": "メタルキングの剣: 自分ターン中5以下のリーダーダメージを1にする",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "before": 25,
+        "after": 24
+      }
+    }
+  ],
+  "exceptions": [],
+  "chromeLog": "/tmp/tmpkysupwho"
+}

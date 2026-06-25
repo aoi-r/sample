@@ -1,0 +1,99 @@
+id,name,cost,cardType,classes,tribes,deckBuildable,text,triggers,appNameOccurrences,genericCoverage,complexScore,risk,officialUrl
+card_471ba4e7,ドラキー,1,ユニット,共通,なし,True,ねらい撃ち,,21,basic_keyword_generic,0,LOW_NO_EFFECT_OR_BASIC,https://gameconductor.com/dqrivals/c/d/31
+card_f78f7523,ゴースト,1,ユニット,共通,ゾンビ,True,自身が攻撃するまで敵の攻撃や効果の対象にならない,,13,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/34
+card_833eefb3,メラリザード,1,ユニット,共通,ドラゴン,True,貫通,,14,basic_keyword_generic,0,LOW_NO_EFFECT_OR_BASIC,https://gameconductor.com/dqrivals/c/d/40
+card_bab58015,ホイミスライム,2,ユニット,共通,スライム,True,自分のターン終了時ダメージを受けている他の味方1体のHPを2回復,自分のターン終了時|ダメージ|回復,9,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/44
+card_768acf21,よるのていおう,2,ユニット,共通,なし,True,テンションリンク：後列にいるランダムな敵ユニット1体を前列のランダムな空きマスに移動させる,テンションリンク|ランダム,9,,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/62
+card_42d3e59b,ミミック,3,ユニット,共通,なし,True,死亡時：相手はカードを引く,死亡時|カードを引く,10,,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/65
+card_34442b7d,ガメゴン,6,ユニット,共通,ドラゴン,True,におうだち,,9,basic_keyword_generic,0,LOW_NO_EFFECT_OR_BASIC,https://gameconductor.com/dqrivals/c/d/86
+card_f9b880a8,キメラ,2,ユニット,共通,なし,True,召喚時：ユニット1体の位置を前後に入れ替える,召喚時,8,,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/93
+card_7be4965e,メタルキング,5,ユニット,共通,スライム,True,速攻、メタルボディ、テンションリンク：自分の手札に戻る,テンションリンク,10,keyword,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/135
+card_ba8c67df,ドラゴン,3,ユニット,共通,ドラゴン,True,死亡時：相手の手札に王女の愛を加える,死亡時,165,,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/146
+card_80caa95f,アンルシア,5,ユニット,共通,冒険者,True,召喚時：攻撃力5以上の敵ユニット1体を攻撃力0にする,召喚時,10,,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/150
+card_36833618,ドラゴンガイア,6,ユニット,共通,ドラゴン,True,召喚時：次の相手のターン終了時まで全ての味方は相手の特技ダメージを受けない,召喚時|相手のターン終了時|ダメージ,10,,4,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/153
+card_595112e0,マルティナ,6,ユニット,共通,冒険者,True,召喚時：合計7ダメージを縦1列のランダムなマスに割り振る,召喚時|ダメージ|ランダム,11,,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/157
+card_74b5ecf8,りゅうおう,7,ユニット,共通,魔王,True,死亡時：正体をあらわす,死亡時,8,,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/159
+card_494e86cf,バラモス,8,ユニット,共通,魔王,True,特技ダメージ+3、死亡時：次に召喚するユニットのコスト-4,死亡時|ダメージ|コスト,10,,3,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/160
+card_22190279,シドー,9,ユニット,共通,魔王,True,召喚時：このユニットを除く全てのユニットに4ダメージ,召喚時|ダメージ,24,,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/162
+card_c30bd47a,ゾーマ,9,ユニット,共通,魔王,True,召喚時：闇の衣を得る 相手デッキの一番上に光の玉が置かれる,召喚時,10,,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/163
+card_0ef7493c,デボラ,5,ユニット,共通,冒険者,True,スキルリンク：自分の手札は全てレアリティが１つ上の別のカードに変わる,スキルリンク,11,,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/376
+card_5e20f19b,サンディ,1,ユニット,共通,冒険者,True,ステルス、死亡時&手札から捨てた時に次の自分のターン開始時サンディが手札にない場合手札にサンディを加える。,死亡時|手札から捨てた時|自分のターン開始時,19,keyword,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/494
+card_90549185,ラーミア,2,ユニット,共通,なし,True,召喚時:6つのオーブをデッキに混ぜ復活の準備に入る。 自分の場にオーブが全て揃った時ラーミアは復活しこの対戦に勝利する。,召喚時|復活,9,,4,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/534
+card_9165abcd,オルゴ・デミーラ,4,ユニット,共通,魔王,True,死亡時：オルゴ・デミーラは第2形態に変身して自分の手札に加わる,死亡時|変身,10,,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/633
+card_1b19a9ac,妖魔軍王ブギー,3,ユニット,共通,なし,True,召喚時：敵の冒険者1体をこのユニットが場にいる間+2/+2して味方にする,召喚時|場にいる間|このユニットが,9,,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/645
+token_hyokai,氷塊,0,建物,共通,,False,氷塊,,36,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/676
+card_040cf04f,王女の愛,1,特技,共通,,False,味方リーダーのテンション+3,,14,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/721
+card_97cabf2e,リカント,1,ユニット,共通,なし,True,戦闘以外のダメージで敵ユニットが死亡する度攻撃力+1,ダメージ,9,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/745
+card_1158ea6f,ホワイトビート,2,ユニット,共通,なし,True,ヒーロースキルを1ターンに2回まで発動できるようになる,,12,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/834
+card_a6daa25f,ラプソーン,3,ユニット,共通,魔王,True,死亡時：ランダムな敵ユニット1体に「死亡時：相手の場にラプソーン1体を出す」を付与する,死亡時|ランダム,14,,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/937
+card_d4598f73,破邪の秘技・勇者の眼,1,トークン,共通,,False,自分のデッキの上からカードを3枚見る。1枚を手札に加え、残りをデッキの下に戻す。 ヒーロースキルがランダムな別の破邪の秘技になる。,ランダム,8,,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/981
+card_f9015853,いいえ,0,特技,共通,,False,ランダムな敵1体に4ダメージ、このユニットは「相手のターン開始時ランダムな敵1体に4ダメージ」を得る,相手のターン開始時|ダメージ|ランダム,8,,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1034
+card_19a6922d,コイン,0,ユニット,共通,なし,False,0コストカード。1度使用したら手札から消える。場の味方ユニットまたは装備武器のBETを1つ選んで発動する。,BET|コスト,143,bet_engine,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1105
+card_3b346d69,スペシャルコイン,0,特技,共通,なし,False,マデサゴーラの能力で、自分のターン終了時に手札に加わる特殊なコイン。場に出ている味方ユニット全てのBETを発動する。相手ユニットは対象外。,BET|自分のターン終了時,18,bet_engine,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1209
+card_20e15c48,マデサゴーラ,4,ユニット,共通,魔王,True,自分のターン終了時：スペシャルコイン1枚を手札に加える。BET:自分のデッキからBETを持つカードを1枚引く,BET|自分のターン終了時|カードを1枚引く|手札に加える,8,bet_engine,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1217
+card_90410d54,少年シドー,1,ヒーロー,共通,,True,少年シドーのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る,,8,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1226
+card_1d3ad0d4,勇者イレブン,1,ヒーロー,共通,,True,勇者イレブンのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る,,10,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1230
+card_9c45eab0,黄金兵,3,ユニット,共通,なし,True,におうだち、自分がコインを使う度このターン中手札にあるこのカードのコスト-2,コスト,13,keyword,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1236
+card_b9e60809,シュプリンガー,5,ユニット,共通,ドラゴン,True,れんけい：このユニットに2回さくせんを出す。,れんけい,10,renkei_engine,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1337
+card_5fe00f1a,ダークプラネット,2,ユニット,共通,なし,True,選択：・ダンジョンではない敵建物１つの耐久値を2にする。・ダンジョンではない敵建物1つの耐久値を-2,選択,8,choice_engine,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1460
+card_822981d8,サマルトリアの王子,1,ヒーロー,共通,,True,サマルトリアの王子のヒーロースキルが使えるようになる。このカードは最初の手札と初回のカードの入れ替えの時手札に来ない,,8,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1475
+custom_hero_reck,勇者レック,1,ヒーロー,共通,英雄,True,勇者レックのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る,,9,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,
+custom_hero_legendary_hero,伝説の勇者,2,ヒーロー,共通,英雄,True,伝説の勇者のヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る,,8,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,
+card_2404a9f4,モンスターマスター,0,トークン,戦士,,False,「青い闘魂スラぼう」「豪腕王アントン」「韋駄天のドラまさ」からランダムに1体出す,ランダム,8,,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/889
+card_0361945e,メルビン,3,ユニット,戦士,冒険者,True,貫通、死亡時：ホットストーンに封じられ召喚者の山札の上から3番目にホットストーンが配置される,死亡時,13,keyword,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1343
+card_423fbf01,メラ,0,特技,魔法使い,,True,敵1体に1ダメージを与える,ダメージ,53,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/194
+card_af48d070,イオ,2,特技,魔法使い,,True,全ての敵ユニットに1ダメージ,ダメージ,8,,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/196
+card_ce7b1ae3,メラミ,2,特技,魔法使い,,True,敵1体に3ダメージを与える,ダメージ,8,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/198
+card_6deb53fd,ヒャド,0,特技,魔法使い,,True,ユニット1体に1ダメージを与える 敵の場に氷塊があるなら代わりに3ダメージ,ダメージ,16,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/202
+card_6858cc11,ようじゅつし,6,ユニット,魔法使い,なし,True,自分が特技を使う度ランダムな敵1体に2ダメージ,特技を使う|ダメージ|ランダム,11,,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/220
+card_4437acfa,クラーゴン,6,ユニット,魔法使い,なし,True,BET：このターン中に未発動の効果からランダムに1つ発動する。①全ての敵に1ダメージ ②ランダムな敵1体に2ダメージ ③敵リーダーに3ダメージ。全て発動済みなら何も起こらない。,BET|ダメージ|ランダム,9,bet_engine,4,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1104
+card_9932fa8b,残響のようじゅつし,3,ユニット,魔法使い,なし,True,召喚時：耐戦中に自分が使った特技カード1枚を手札に加える。自分の手札にある対戦中に自分が使用した特技カードと同じカードのコスト-1,召喚時|手札に加える|コスト,10,,3,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1447
+card_306ee133,スノードラゴン,5,ユニット,魔法使い,ドラゴン,True,召喚時：コスト4・5・6の特技カードをそれぞれランダムに1枚ずつ選出し、その中から1枚を選んで手札に加える。自分のデッキのメラ系の特技カードが無いなら手札にあるこのカードのコスト-2。,召喚時|手札に加える|コスト|ランダム,10,,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1498
+card_77b1f2af,キラーマシン,5,ユニット,武闘家,なし,True,2回攻撃、召喚時：敵ユニット1体に2ダメージ,召喚時|ダメージ,18,,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/250
+card_ac3c90f7,リカントマムル,2,ユニット,武闘家,なし,True,召喚時&死亡時：武術カード1枚を手札に加える,召喚時|死亡時|手札に加える,8,,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1083
+card_8ae971ee,カンダタこぶん,2,ユニット,武闘家,なし,True,召喚時：GET(1)。BET：このターン中、次に使用するテンションカードのコストが0になる。,召喚時|BET|GET|コスト,10,bet_engine+get_engine,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1149
+card_f7af8484,ゴルゴンゾーラ,3,ユニット,武闘家,なし,True,召喚時：GET(1)。BET：このユニット自身のHPを3回復する。,召喚時|BET|GET|回復,9,bet_engine+get_engine,3,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1190
+card_d12a3c7c,カンダタ,4,ユニット,武闘家,なし,True,召喚時&攻撃時:敵の手札コイン1枚を盗む。盗めなかった場合攻撃力+1、自分の手札のコインの数分このユニットの攻撃力+1,召喚時|攻撃時,12,,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1192
+card_4431eb76,ホイミ,0,特技,僧侶,,True,HPを3回復,回復,13,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/255
+card_5095257f,英雄竜の祝福,0,テンションスキル,僧侶,,False,味方全員（味方ユニット・味方リーダー）のHPを3回復する。自分の死亡プールからドラゴン系ユニットを1体ランダムに場に出す（召喚ではない）。,場に出す|回復|ランダム,9,,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/687
+card_bf520fa8,フォズ大神官,3,ユニット,僧侶,冒険者,True,自分のターン終了時味方リーダーのテンションスキルを別の職業のものに変更しテンション+2,自分のターン終了時,8,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/878
+card_44e719fd,クラウンヘッド,3,ユニット,僧侶,なし,True,におうだち。召喚時：GET(1)。BET：HP+1、次の相手のターン終了時まで受けるダメージ-1。このユニットへのBETは1ターン1回,召喚時|BET|GET|相手のターン終了時|ダメージ,10,bet_engine+get_engine+keyword,4,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1126
+card_57348016,チャゴス王子,2,ユニット,僧侶,冒険者,True,召喚時：GET(1)。BET：速攻を得る。このユニットが攻撃対象として選択された時、手札に戻る,召喚時|BET|GET|選択|このユニットが,11,bet_engine+choice_engine+get_engine+keyword,4,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1182
+card_5ee583f1,マリンフェアリー,5,ユニット,僧侶,なし,True,召喚時:手札にあるコインをランダムに1枚捨てる。そうした場合この対戦中に死亡した4コスト以下の味方ユニット3種類の中から1体を選んで復活させる,召喚時|復活|コスト|ランダム,8,,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1197
+card_50e86ffa,マジカルハット,3,ユニット,商人,なし,True,他の味方ユニットに自分が特技を使う度その特技と同じ効果がこのユニットに対しても発動する。,特技を使う,12,,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/308
+card_6e62f271,キーファ,2,ユニット,商人,冒険者,True,死亡時:自分がこのユニットに使った特技カード全てを自分の手札に加える。,死亡時|手札に加える,11,,3,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/493
+card_6d7a2f86,ルイーダ,2,ユニット,商人,冒険者,True,自分のターン終了時ランダムな冒険者1枚を手札に加える,自分のターン終了時|手札に加える|ランダム,11,,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/822
+card_2cdcf87d,道具：大きなパン,0,特技,商人,,False,このターン中に「大きなパン」を使用していないならこのターン中MPが1増える,,12,,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/959
+card_0728d656,福招きのそろばん,4,武器,商人,,True,召喚時とこの武器が壊れた時にGET(1)。BET：耐久力-1してカードを1枚引く。,召喚時|BET|GET|カードを1枚引く,8,bet_engine+get_engine,3,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1128
+card_0a952d0b,ルドマン,3,ユニット,商人,冒険者,True,召喚時：GET(1)。BET：道具カードを1枚手札に加える。味方のBETが4回発動する度に、手札/山札からコスト3以下のユニット1体を場に出す。,召喚時|BET|GET|手札に加える|場に出す|コスト,13,bet_engine+get_engine,6,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1137
+card_ea5d50ab,ぷちメタル,2,ユニット,商人,スライム,True,メタルボディ、BET:1ターンに1回のみ攻撃力+1と速攻を得る、自分のターン終了時GET(1)、この効果は一度しか発動しない,BET|GET|自分のターン終了時,8,bet_engine+get_engine+keyword,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1200
+card_5a752ec8,亡国の先王ロウ,3,ユニット,商人,冒険者,True,れんけい：使用コスト1以上の特技カード2枚を手札に加える。自分がコスト1以上の特技を使用した後、同じコストのランダムなユニットを1体場に出す。,れんけい|手札に加える|場に出す|コスト|ランダム,10,renkei_engine,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1285
+card_219aca1f,怪獣プスゴン,3,ユニット,商人,ドラゴン,True,召喚時：指定の敵の空きマスにイチゴ爆弾を1つ出す。死亡時：正面のランダムな敵の空きマスにイチゴ爆弾を1つ出す,召喚時|死亡時|ランダム,12,,3,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1383
+card_96d212c9,スラリンガル,7,ユニット,商人,なし,True,貫通、選択:+1/+1と速攻とこのターン中「敵リーダーを攻撃できずダメージを受けない」を得る。・このターンの終了時攻撃力とHPが2倍になる,選択|ダメージ,16,choice_engine+keyword,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1529
+card_a280038d,ロウ,3,ユニット,占い師,冒険者,True,テンションリンク:味方リーダーのテンションの数と同じ効果が発動する。①カードを1枚引く②ランダムな敵1体に2ダメージ、3コストのユニット1体を出す,テンションリンク|カードを1枚引く|ダメージ|コスト|ランダム,38,,3,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/414
+card_33de804a,しんりゅう,8,ユニット,占い師,ドラゴン,True,召喚時:願い事を１つかなえてくれる。 味方リーダーが超必中モードの場合全ての願い事をかなえてくれる。,召喚時,13,,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/590
+card_de2ffa5f,竜の導き,0,トークン,占い師,,False,自分の山札からドラゴン系ユニットカードをランダムに1枚手札に加える。そのカードの使用コスト-1。,手札に加える|コスト|ランダム,11,,3,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/693
+card_6694ca3b,グランマーズ,5,ユニット,占い師,冒険者,True,召喚時&攻撃時：自分のデッキの上からカード3枚を見る。1枚を手札に加えそのカードのコスト-2。残りをデッキの下に戻す,召喚時|攻撃時|コスト,12,,4,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1021
+card_c0de3c42,インプ,2,ユニット,占い師,なし,True,召喚時：GET(1)。BET：デッキの一番上が偶数コストなら敵リーダーに2ダメージ。このユニットへのBETは1ターン1回,召喚時|BET|GET|ダメージ|コスト,14,bet_engine+get_engine,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1162
+card_ca4d3bc7,ルバンカ,4,ユニット,占い師,なし,True,におうだち。召喚時：デッキの一番上が偶数コストならGET(2)。BET：HP+1,召喚時|BET|GET|コスト,9,bet_engine+get_engine+keyword,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1164
+card_51d3e2e1,イブール,5,ユニット,占い師,ドラゴン,True,相手プレイヤーの手札の特技カードのコスト+1、召喚時&攻撃時:相手のデッキの一番上にイブールの本が一枚置かれる,召喚時|攻撃時|コスト,23,,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1392
+card_42052164,フォステイル,3,ユニット,占い師,冒険者,True,おうえん、自分のターン開始時ランダムな占いを持つカード1枚を手札に加える。そのカードのコスト-1。スキルリンク：1ターン先の未来へ旅立つ,スキルリンク|占い|自分のターン開始時|手札に加える|コスト|ランダム,14,fortune_engine,4,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1535
+card_f794442a,うずしおキング,3,ユニット,占い師,なし,True,におうだち。れんけい：自分の山札の上から4枚を見て、れんけいを持つカードを1枚選び引く。,れんけい,10,keyword+renkei_engine,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1571
+card_43d040dc,ジャミ,4,ユニット,魔剣士,なし,True,召喚時：相手の手札が6枚以上ある場合、縦1列にいる全ての敵ユニットを次のターン終了時まで攻撃不能にする。,召喚時,11,,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/438
+card_ac550afd,ゴンズ,4,ユニット,魔剣士,なし,True,おうえん、におうだち。召喚時：相手の手札が6枚以上なら+2/+2,召喚時,10,keyword,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/439
+card_3d44e776,ゲマ,5,ユニット,魔剣士,ゾンビ,True,ステルス、相手がデッキからカードを手札に加える度そのカードのコストを+1、敵リーダーに2ダメージ,手札に加える|ダメージ|コスト,8,keyword,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/446
+card_87807d75,エッグラ&チキーラ,4,ユニット,魔剣士,なし,True,召喚時：タマゴかニワトリどちらが偉いと思うかを選ぶ。次のターン開始時相手にどちらを選んだか当てられなかった場合選んだ効果が発動する。,召喚時,24,,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1067
+card_252601dd,タマゴ,0,特技,魔剣士,,False,全ての敵に３ダメージ。相手がタマゴを選んだ場合こうの効果は発動しない。,ダメージ,10,,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1068
+card_1c5c5c71,ニワトリ,0,特技,魔剣士,,False,敵リーダーに3ダメージ。カードを２枚引く。 相手がニワトリを選んだ場合この効果は発動しない。,ダメージ,10,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1069
+card_84e08b43,黄金兵長,7,ユニット,魔剣士,なし,True,召喚時：GET(1)。攻撃時：敵リーダーに味方の場のピサロナイトの数と同じダメージ。BET：ピサロナイトを1体場に出す。,召喚時|攻撃時|BET|GET|場に出す|ダメージ,8,bet_engine+get_engine,5,MEDIUM_COMPLEX_IMPLEMENTED_RECHECK,https://gameconductor.com/dqrivals/c/d/1208
+card_8d8b59c8,トーマ王子,8,ユニット,魔剣士,なし,True,召喚時:以下の4つから1つを選び発動する・虚無の剣・無我の心・鉄壁の盾・追憶の呪縛,召喚時,12,,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1550
+card_19337e0c,エマ,2,ユニット,盗賊,冒険者,True,召喚時:次の相手のターン終了時までステルスを得る。味方リーダーが攻撃した後やくそうを手札に加え味方リーダーのMPを1回復,召喚時|攻撃した後|相手のターン終了時|回復,11,keyword,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1311
+card_a9a6394f,怪盗ポイックリン,2,ユニット,盗賊,冒険者,True,ステルス、召喚時：相手の手札のカードと同じカードをランダムに1枚手札に加える。その後、自分の手札から1枚選んで捨てる。,召喚時|手札に加える|ランダム,9,keyword,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1409
+card_c8b09830,妖精サンディ,1,ユニット,盗賊,冒険者,True,ステルス、手札から捨てた時:妖精サンディを場に出す。死亡時：ランダムな味方のダンジョン１つを耐久値+1し「踏破時:妖精サンディ1枚を手札に加える」を付与する,死亡時|手札から捨てた時|手札に加える|場に出す|ランダム,12,keyword,4,MEDIUM_IMPLEMENTED_NAME_PRESENT,https://gameconductor.com/dqrivals/c/d/1575
+token_strawberry_bomb,イチゴ爆弾,1,ユニット,,なし,False,攻撃できない。 死亡時：隣接するユニットに2ダメージを与える。,死亡時|ダメージ,11,,1,MEDIUM_IMPLEMENTED_NAME_PRESENT,
+custom_5490b4c56b,イル＆ルカ,1,ヒーロー,共通,英雄,True,イル＆ルカのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る。,,8,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,
+custom_a5158f4bd7,託されしたまご,0,ヒーロースキル,共通,英雄,False,味方の場にいる系統を持つユニット1体を選ぶ。選んだ系統のたまご1枚を手札に加える。たまごは使用できず、2ターン後に同じ系統のランダムなユニットカードに変身し+1/+1を得る。,手札に加える|変身|ランダム,9,,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,
+custom_228db76c25,モンスターとの絆,2,ヒーロースキル,共通,英雄,False,選んだ系統について、攻撃力+1のパワフルバッジ、HP+1のパワフルバッジ、手札の現在コスト5以上の同系統ユニットカードのコスト-1から1つ選ぶ。ヒーロースキルが「めぐりあう仲間たち」になる。,パワフルバッジ|コスト,12,badge_engine,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,
+custom_c3c8d551ea,ドラゴンブッシュ,6,ユニット,共通,ドラゴン,True,特技ダメージ+1。召喚時：自分の場か手札に攻撃力4以上の他のドラゴン系がいるなら特技ダメージ+1を得る。,召喚時|ダメージ,10,,2,MEDIUM_IMPLEMENTED_NAME_PRESENT,
+virtual_iburu_no_hon_v204,イブールの本,0,特技,共通,,False,味方リーダーに2ダメージ。敵リーダーのHPを2回復。カードを1枚引く。,カードを1枚引く|ダメージ|回復,9,,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,
+virtual_hot_stone_v206,ホットストーン,2,特技,共通,,False,指定の味方マスに貫通・におうだち 3/4の最後の希望メルビンを1体出す。カードを1枚引く。,カードを1枚引く,12,keyword,0,MEDIUM_IMPLEMENTED_NAME_PRESENT,

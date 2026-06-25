@@ -1,0 +1,30 @@
+{
+  "version": "v265_firebase_durability_public_state_guard",
+  "base": "v264_duplicate_effect_soak_hand_guard",
+  "node_check_app_js": "OK",
+  "firebase_connectivity_probe": [
+    {
+      "url": "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js",
+      "ok": false,
+      "error": "URLError: <urlopen error [Errno -3] Temporary failure in name resolution>",
+      "seconds": 0.013
+    },
+    {
+      "url": "https://dqr-sample-default-rtdb.firebaseio.com/.json",
+      "ok": false,
+      "error": "URLError: <urlopen error [Errno -3] Temporary failure in name resolution>",
+      "seconds": 5.002
+    }
+  ],
+  "v265_firebase_durability_emulator": {
+    "passed": 6,
+    "failed": 0,
+    "soakSteps": 360
+  },
+  "v248_chappy_pvp_emulator": "14 passed / 0 failed",
+  "static_v237": "11 passed / 0 failed",
+  "static_v240": "12 passed / 0 failed",
+  "static_v246": "12 passed / 0 failed",
+  "function_duplicate_note": "node --check OK; legacy nested helper names may repeat but no syntax/runtime failure in executed gates.",
+  "createdAt": "2026-06-25T07:56:00+09:00"
+}

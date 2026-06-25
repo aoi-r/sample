@@ -1,0 +1,66 @@
+{
+  "version": "v260_review_closeout_pvp_pass12",
+  "baseVersion": "v259_remaining_priority_pass11",
+  "createdAt": "2026-06-25T05:45:00+09:00",
+  "nodeCheck": "OK",
+  "duplicateFunctionDeclarations": 0,
+  "reviewItemsClosed": [
+    "トーマ王子",
+    "運命の分岐点",
+    "ブラッドナイフ",
+    "妖精サンディ"
+  ],
+  "pendingRemaining": 0,
+  "reviewRemaining": 0,
+  "v260PvpEmulator": {
+    "passed": 20,
+    "failed": 0,
+    "exceptions": [],
+    "mode": "v260 review closeout PvP/emulator tests"
+  },
+  "regressionTests": {
+    "v259_remaining_priority_browser_tests": {
+      "passed": 11,
+      "failed": 0,
+      "exceptions": []
+    },
+    "v258_counter_kandakobun_merchant_pvp_tests": {
+      "passed": 10,
+      "failed": 0,
+      "exceptions": []
+    },
+    "v256_maiyu_slimefever_pvp_tests": {
+      "passed": 5,
+      "failed": 0,
+      "exceptions": []
+    },
+    "v255_combat_dolmages_pvp_tests": {
+      "passed": 10,
+      "failed": 0,
+      "exceptions": []
+    },
+    "v248_chappy_pvp_emulator_tests": {
+      "passed": 14,
+      "failed": 0,
+      "exceptions": []
+    },
+    "v246_duplicate_trigger_audit_tests": {
+      "passed": 12,
+      "failed": 0
+    },
+    "v237_static_emulator_tests": {
+      "passed": 11,
+      "failed": 0
+    },
+    "v240_static_pool_tests": {
+      "passed": 12,
+      "failed": 0
+    }
+  },
+  "notes": [
+    "トーマ王子の4択を対戦同期込みで検査。正面は同じ行の前列/後列を対象に統一。",
+    "運命の分岐点は味方空きマスをモーダル選択し、terrainSetV260 actionで相手側へ同期。",
+    "ブラッドナイフは反撃ダメージ-1、敵ユニット攻撃後の武器攻撃力+1、weaponUpdateV260同期を検査。",
+    "妖精サンディは死亡時にダンジョンのみ耐久+1。通常建物は増やさない。手札破棄時の場出しも同期検査。"
+  ]
+}

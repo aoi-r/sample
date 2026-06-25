@@ -1,0 +1,62 @@
+{
+  "version": "v259_remaining_priority_pass11",
+  "base": "v258_kandakobun_merchant_priority_pass10",
+  "pendingAtStart": 55,
+  "doneV259": 52,
+  "reviewV259": 3,
+  "remainingPending": 0,
+  "nodeCheck": "OK",
+  "functionDuplicateCheck": "OK",
+  "tests": {
+    "v259": {
+      "passed": 11,
+      "failed": 0,
+      "exceptions": 0
+    },
+    "v258": {
+      "passed": 10,
+      "failed": 0,
+      "exceptions": 0
+    },
+    "v256": {
+      "passed": 5,
+      "failed": 0,
+      "exceptions": 0
+    },
+    "v255": {
+      "passed": 10,
+      "failed": 0,
+      "exceptions": 0
+    },
+    "v248": {
+      "passed": 14,
+      "failed": 0,
+      "exceptions": 0
+    },
+    "v237": {
+      "passed": 11,
+      "failed": 0,
+      "exceptions": null
+    },
+    "v240": {
+      "passed": 12,
+      "failed": 0,
+      "exceptions": null
+    },
+    "v246": {
+      "passed": 12,
+      "failed": 0,
+      "exceptions": null
+    }
+  },
+  "reviewCards": [
+    "運命の分岐点",
+    "ブラッドナイフ",
+    "妖精サンディ"
+  ],
+  "notes": [
+    "運命の分岐点は天啓の神域の配置処理まで実装。任意マス選択UIは継続改善対象。",
+    "ブラッドナイフは敵ユニット攻撃後の武器攻撃力+1まで実装。反撃ダメージ-1は攻撃/反撃経路の追加検査対象。",
+    "妖精サンディはステルスと死亡時ダンジョン耐久+1/踏破報酬付与まで実装。手札破棄時に場へ出す経路は追加検査対象。"
+  ]
+}

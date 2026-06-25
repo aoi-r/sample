@@ -18,8 +18,33 @@
       "starterCardId": "card_82e59f32",
       "starterCardName": "勇者エイト",
       "skillKind": "ヒーロースキル",
-      "skills": [],
-      "needsSkillDataReview": true
+      "skills": [
+        {
+          "level": 1,
+          "name": "小さな相棒",
+          "cost": 0,
+          "type": "auto",
+          "trigger": "tensionSkillUsed",
+          "text": "味方リーダーがテンションスキルを使う度カードを1枚引く。2回発動でレベルアップ。"
+        },
+        {
+          "level": 2,
+          "name": "挑戦!バトルロード",
+          "cost": 0,
+          "type": "auto",
+          "trigger": "skillBoostCardPlayed",
+          "text": "スキルブーストを持つカードを使用した後テンション+1。2回発動でレベルアップ。"
+        },
+        {
+          "level": 3,
+          "name": "姫君との結婚",
+          "cost": 11,
+          "type": "manual",
+          "text": "次の自分のターン開始時からテンション+3、カードを1枚引く。スキルブーストでコスト低下。"
+        }
+      ],
+      "needsSkillDataReview": false,
+      "v253Note": "v253で実装済み。"
     },
     {
       "heroId": "hero_9c372a50",
@@ -54,8 +79,32 @@
       "starterCardId": "card_36b9696d",
       "starterCardName": "勇者姫アンルシア",
       "skillKind": "ヒーロースキル",
-      "skills": [],
-      "needsSkillDataReview": true
+      "skills": [
+        {
+          "level": 1,
+          "name": "眠れる勇者",
+          "cost": 0,
+          "type": "auto",
+          "trigger": "adventurerSummon",
+          "text": "冒険者召喚後1ドロー。"
+        },
+        {
+          "level": 2,
+          "name": "覚醒の光",
+          "cost": 2,
+          "type": "manual",
+          "text": "手札とデッキの冒険者を+1/+1。"
+        },
+        {
+          "level": 3,
+          "name": "破邪の秘技の会得",
+          "cost": 3,
+          "type": "manual",
+          "text": "ユニット1体に6ダメージ。使用後、ランダムな破邪の秘技になる。"
+        }
+      ],
+      "needsSkillDataReview": false,
+      "v253Note": "v253で実装済み。"
     },
     {
       "heroId": "hero_084aa20a",
@@ -108,8 +157,32 @@
       "starterCardId": "card_90410d54",
       "starterCardName": "少年シドー",
       "skillKind": "ヒーロースキル",
-      "skills": [],
-      "needsSkillDataReview": true
+      "skills": [
+        {
+          "level": 1,
+          "name": "壊すのは任せろ！",
+          "cost": 1,
+          "type": "manual",
+          "text": "敵1体に1ダメージ。味方建物があるなら代わりに敵1体に3ダメージを与え、ランダムな味方建物1つの耐久値-1。2回使用でレベルアップ。"
+        },
+        {
+          "level": 2,
+          "name": "破壊神の目覚め",
+          "cost": 6,
+          "type": "manual",
+          "text": "味方空きマスに暴走するシドーを1体出す。v253では使用後Lv3へ進行扱い。"
+        },
+        {
+          "level": 3,
+          "name": "オレたちなら必ず勝てる！",
+          "cost": 0,
+          "type": "manual",
+          "requiredTension": 3,
+          "text": "必殺技。1体を選ぶ。それが敵なら3ダメージ、それが味方ならHPを3回復する。この対戦中に自分がこのヒーロースキルを使用した数分ダメージと回復量+1。"
+        }
+      ],
+      "needsSkillDataReview": true,
+      "v253Note": "少年シドーLv2のLv3移行タイミングだけ暫定。上方修正後テキストでは旧条件が削除されているため、実機確認候補。"
     },
     {
       "heroId": "hero_5695fb21",

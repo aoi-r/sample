@@ -1,0 +1,44 @@
+{
+  "version": "v256_maiyu_move_counter_slimefever_pass8",
+  "nodeCheck": "OK",
+  "duplicateFunctionDeclarations": 0,
+  "emulator": {
+    "v256_maiyu_slimefever_pvp": {
+      "passed": 5,
+      "failed": 0,
+      "exceptions": 0
+    },
+    "v255_combat_dolmages_pvp": {
+      "passed": 10,
+      "failed": 0,
+      "exceptions": 0
+    },
+    "v248_chappy_pvp": {
+      "passed": 14,
+      "failed": 0,
+      "exceptions": 0
+    }
+  },
+  "pendingAfter": 161,
+  "notes": [],
+  "statusCounts": {
+    "IMPLEMENTED_V250": 14,
+    "EXISTING_GENERIC_OK_V250": 5,
+    "IMPLEMENTED_OR_CONFIRMED_V251": 20,
+    "IMPLEMENTED_OR_CONFIRMED_V252": 19,
+    "IMPLEMENTED_OR_CONFIRMED_V253": 3,
+    "IMPLEMENTED_V253": 5,
+    "IMPLEMENTED_WITH_REVIEW_V253": 1,
+    "DEFERRED_MEMO_V253": 1,
+    "IMPLEMENTED_OR_CONFIRMED_V254": 43,
+    "IMPLEMENTED_OR_CONFIRMED_V255": 36,
+    "IMPLEMENTED_V256": 3,
+    "PENDING": 161
+  },
+  "duplicateFunctionNames": [],
+  "staticTests": {
+    "v237_static_emulator_tests": "OK",
+    "v240_static_pool_tests": "OK",
+    "v246_duplicate_trigger_audit_tests": "12 passed / 0 failed"
+  }
+}

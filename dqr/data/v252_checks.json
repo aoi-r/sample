@@ -1,0 +1,21 @@
+{
+  "version": "v252_official_db_priority_queue_pass4",
+  "createdAt": "2026-06-25",
+  "implementedOrConfirmedV252Count": 23,
+  "deferredV252Count": 6,
+  "remainingPendingCount": 243,
+  "nodeCheck": "OK",
+  "duplicateFunctionDeclarations": {},
+  "duplicateFunctionDeclarationCount": 0,
+  "staticTests": [
+    "tools/v237_static_emulator_tests.mjs OK",
+    "tools/v240_static_pool_tests.mjs OK",
+    "tools/v246_duplicate_trigger_audit_tests.mjs OK"
+  ],
+  "needsUserOrOfficialConfirmation": [
+    "勇者エイト: 公式DB本文にLv1/Lv2のレベルアップ回数が見当たらないため、v252では暫定2回扱い。過去ログ/カード画像で要確認。",
+    "ニズゼルファ: 邪神の子は公式DB考察の2/2表記に合わせて2/2実装。カード個別ページが見つかれば追加確認。",
+    "劇場: 必殺技カード使用時は実装。ヒーロースキル側の必殺技発動で引くかは追加確認対象。",
+    "破邪の秘技4種/少年シドー/いいえ: ヒーロー分岐として次バッチへ回す。"
+  ]
+}

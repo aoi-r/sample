@@ -1,0 +1,30 @@
+[
+  {
+    "function": "addRandomCardByPredicate",
+    "count": 2
+  },
+  {
+    "function": "board",
+    "count": 2
+  },
+  {
+    "function": "damageRandomEnemy",
+    "count": 2
+  },
+  {
+    "function": "g",
+    "count": 2
+  },
+  {
+    "function": "isBuildingUnit",
+    "count": 2
+  },
+  {
+    "function": "num",
+    "count": 2
+  },
+  {
+    "function": "terrain",
+    "count": 2
+  }
+]

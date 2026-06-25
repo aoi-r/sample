@@ -1,0 +1,480 @@
+{
+  "mode": "v265 firebase durability emulator",
+  "connectivityProbe": [
+    {
+      "url": "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js",
+      "ok": false,
+      "error": "URLError: <urlopen error [Errno -3] Temporary failure in name resolution>",
+      "seconds": 0.013
+    },
+    {
+      "url": "https://dqr-sample-default-rtdb.firebaseio.com/.json",
+      "ok": false,
+      "error": "URLError: <urlopen error [Errno -3] Temporary failure in name resolution>",
+      "seconds": 5.002
+    }
+  ],
+  "browserVersions": [
+    "Chrome/144.0.7559.96",
+    "Chrome/144.0.7559.96"
+  ],
+  "passed": 6,
+  "failed": 0,
+  "results": [
+    {
+      "name": "boot: v265 hooks are present on two mobile Chromium clients",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "cards": 1607
+      }
+    },
+    {
+      "name": "public state privacy: PvP handIds are redacted while handCount can remain",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "hand": [
+          "メラ",
+          "シーゴーレム",
+          "妖精サンディ"
+        ],
+        "publicHandIds": [],
+        "seqBefore": 0,
+        "stateSeq": 1,
+        "seqAfter": 1
+      }
+    },
+    {
+      "name": "remote public state: old-client leaked handIds are ignored by v265 receiver",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "snap": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "スライム",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "token_slime_1_1_1782374125884_40c210d6",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 21,
+          "playerWeapon": null,
+          "enemyWeapon": null,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 2,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "hand": [],
+        "handCount": 2,
+        "wm": {
+          "B": {
+            "seq": 3,
+            "clientMs": 3000,
+            "acceptedAt": 1782374125885
+          }
+        }
+      }
+    },
+    {
+      "name": "Firebase snapshot ordering: stale lower stateSeq is rejected after reconnect/resubscribe",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "afterNew": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "スライム",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "token_slime_1_1_1782374125893_2d41536c",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 22,
+          "playerWeapon": null,
+          "enemyWeapon": null,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "afterOld": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "スライム",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "token_slime_1_1_1782374125893_2d41536c",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 22,
+          "playerWeapon": null,
+          "enemyWeapon": null,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "afterNewest": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シーゴーレム",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 2,
+              "id": "card_836a79fd_1782374125893_d645aa86",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 18,
+          "playerWeapon": null,
+          "enemyWeapon": null,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "wm": {
+          "B": {
+            "seq": 6,
+            "clientMs": 6000,
+            "acceptedAt": 1782374125895
+          }
+        },
+        "log": [
+          "バトル開始。ヒーローカードはサマルトリアの王子以外、開始時手札に入りました。",
+          "古いFirebase盤面snapshotを破棄しました。"
+        ]
+      }
+    },
+    {
+      "name": "Firebase mix: duplicated summon action + stale empty state does not delete シーゴーレム or lose HP+2/taunt",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "actions": [
+          "targetSelected",
+          "unitSummoned",
+          "unitStatePatchV263",
+          "cardPlayed"
+        ],
+        "staleSnap": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シーゴーレム",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 2,
+              "id": "card_836a79fd_1782374125907_be1fdad8",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerWeapon": null,
+          "enemyWeapon": null,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "B": {
+          "playerHp": 25,
+          "enemyHp": 25,
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シーゴーレム",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 2,
+              "keywords": {
+                "taunt": true,
+                "haste": false,
+                "support": false,
+                "snipe": false,
+                "poison": false,
+                "stealth": false,
+                "seal": false,
+                "darkRobe": false,
+                "conditionGood": false,
+                "synchro": false,
+                "proficiency": false,
+                "spellDamagePlus": false,
+                "terrainSlip": false,
+                "terrainTreasure": false,
+                "terrainBarrier": false,
+                "terrainBlade": false,
+                "terrainMagic": false,
+                "terrainBlessing": false,
+                "terrainHappy": false,
+                "terrainOracle": false,
+                "apathy": false,
+                "piercing": false,
+                "superPiercing": false,
+                "metal": false,
+                "hardMetal": false,
+                "doubleAttack": false,
+                "firstStrike": false,
+                "vanish": false,
+                "tensionLink": false,
+                "skillLink": false,
+                "deathrattle": false,
+                "summon": true,
+                "powerBadge": false,
+                "building": false,
+                "costBoost": false,
+                "move": false,
+                "get": false,
+                "bet": false,
+                "dungeon": false,
+                "choice": false,
+                "fortune": false,
+                "renkei": false,
+                "skillBoost": false
+              },
+              "statuses": [],
+              "isDungeon": false,
+              "building": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "hand": [],
+          "enemyHand": [],
+          "enemyHandCount": 0,
+          "seq": 0,
+          "watermarks": {
+            "A": {
+              "seq": 1,
+              "clientMs": 1000,
+              "acceptedAt": 1782374125969
+            }
+          },
+          "ui": {
+            "enemy-hand-visual": {
+              "hidden": true,
+              "html": "",
+              "display": "block"
+            },
+            "enemy-hand-list-pop": {
+              "hidden": true,
+              "html": "",
+              "display": "block"
+            },
+            "solo-debug-strip": {
+              "hidden": true,
+              "html": "\n            <div class=\"solo-debug-row\">\n              <strong>自分手札</strong>\n              <div id=\"solo-debug-hand\" class=\"solo-debug-hand\"></div>\n            </div>\n            <div class=\"solo-debug-row\">\n              <strong>相手手札</strong>\n              <div id=\"solo-debug-enemy-hand\" class=\"solo-debug-hand enemy\"></div>\n            </div>\n          <button id=\"solo-clear-selection-v128\" class=\"solo-clear-selection-v128 hidden\" type=\"button\">選択解除</button>",
+              "display": "block"
+            },
+            "solo-debug-hand": {
+              "hidden": false,
+              "html": "",
+              "display": "block"
+            },
+            "solo-debug-enemy-hand": {
+              "hidden": false,
+              "html": "",
+              "display": "block"
+            },
+            "solo-test-panel": {
+              "hidden": true,
+              "html": "\n            <div class=\"solo-test-head\">\n              <strong>ソロ効果テスト</strong>\n              <button id=\"solo-test-close\" class=\"ghost\">×</button>\n            </div>\n            <div class=\"solo-test-grid solo-test-grid-compact\">\n              <button id=\"solo-hp-infinite\">相手HP∞</button>\n              <button id=\"solo-hp-reset\">相手HP25</button>\n              <button id=\"solo-mp-max\">MP10</button>\n              <button id=\"solo-tension-max\">テンションMAX</button>\n              <button id=\"solo-clear-log\">ログ消去</button>\n            </div>\n          ",
+              "display": "block"
+            },
+            "solo-test-toggle": {
+              "hidden": true,
+              "html": "効果テスト",
+              "display": "inline-block"
+            },
+            "battle-arena": {
+              "solo": false,
+              "soloActive": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Firebase-like long durability: duplicate actions + stale snapshots + turn churn stay mirrored",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "steps": 360,
+        "last": [
+          {
+            "match": 7,
+            "step": 40,
+            "actor": "A",
+            "op": "turn",
+            "actions": [
+              "ownTurnEnd",
+              "ownTurnStart"
+            ],
+            "mirrorOk": true
+          },
+          {
+            "match": 7,
+            "step": 41,
+            "actor": "B",
+            "op": "staleNoop",
+            "actions": [],
+            "mirrorOk": true
+          },
+          {
+            "match": 7,
+            "step": 42,
+            "actor": "A",
+            "op": "summon",
+            "actions": [],
+            "mirrorOk": true
+          },
+          {
+            "match": 7,
+            "step": 43,
+            "actor": "B",
+            "op": "damage",
+            "actions": [
+              "targetSelected",
+              "targetSelected",
+              "damageApplied",
+              "unitStatePatchV264"
+            ],
+            "mirrorOk": true
+          },
+          {
+            "match": 7,
+            "step": 44,
+            "actor": "A",
+            "op": "debuff",
+            "actions": [
+              "targetSelected",
+              "targetSelected",
+              "unitStatePatchV264"
+            ],
+            "mirrorOk": true
+          }
+        ],
+        "failures": []
+      }
+    }
+  ],
+  "soakSteps": 360,
+  "exceptions": [],
+  "chromeLogs": [
+    "/tmp/tmpqc8m2wfw",
+    "/tmp/tmpwzybxm9g"
+  ]
+}

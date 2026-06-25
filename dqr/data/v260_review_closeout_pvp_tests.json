@@ -1,0 +1,974 @@
+{
+  "mode": "v260 review closeout PvP/emulator tests",
+  "browserVersions": [
+    "Chrome/144.0.7559.96",
+    "Chrome/144.0.7559.96"
+  ],
+  "passed": 20,
+  "failed": 0,
+  "results": [
+    {
+      "name": "boot: v260 hook loaded",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "cards": 1607
+      }
+    },
+    {
+      "name": "bridge tohma_0",
+      "ok": true,
+      "count": 3,
+      "types": [
+        "damageApplied",
+        "damageApplied",
+        "tohmaChoiceV260"
+      ]
+    },
+    {
+      "name": "トーマ王子: 虚無の剣 が対戦同期で崩れない",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "choice": "虚無の剣",
+        "A": {
+          "player": [
+            {
+              "name": "トーマ王子",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 6,
+              "id": "card_8d8b59c8_1782371716325_94ef3bb2",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シールドオーガ",
+              "hp": 2,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371716325_91d7feae",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            {
+              "name": "シールドオーガ",
+              "hp": 2,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371716325_f9dbb9ab",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "B": {
+          "player": [
+            {
+              "name": "シールドオーガ",
+              "hp": 2,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371716331_302f6c0d",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            {
+              "name": "シールドオーガ",
+              "hp": 2,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371716331_a87cb726",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "トーマ王子",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 6,
+              "id": "card_8d8b59c8_1782371716330_d947f484",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "actions": [
+          "damageApplied",
+          "damageApplied",
+          "tohmaChoiceV260"
+        ]
+      }
+    },
+    {
+      "name": "bridge tohma_1",
+      "ok": true,
+      "count": 1,
+      "types": [
+        "tohmaChoiceV260"
+      ]
+    },
+    {
+      "name": "トーマ王子: 無我の心 が対戦同期で崩れない",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "choice": "無我の心",
+        "A": {
+          "player": [
+            {
+              "name": "トーマ王子",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 6,
+              "id": "card_8d8b59c8_1782371716361_6391e5cd",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371716361_926f322a",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371716361_2c133bde",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 3,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "B": {
+          "player": [
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371716364_bfbe4ee1",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371716365_44bf90fb",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "トーマ王子",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 6,
+              "id": "card_8d8b59c8_1782371716364_18b0adb5",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 3,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "actions": [
+          "tohmaChoiceV260"
+        ]
+      }
+    },
+    {
+      "name": "bridge tohma_2",
+      "ok": true,
+      "count": 1,
+      "types": [
+        "tohmaChoiceV260"
+      ]
+    },
+    {
+      "name": "トーマ王子: 鉄壁の盾 が対戦同期で崩れない",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "choice": "鉄壁の盾",
+        "A": {
+          "player": [
+            {
+              "name": "トーマ王子",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 6,
+              "id": "card_8d8b59c8_1782371716380_f94b8195",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371716380_b5735d76",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371716380_cd001a6f",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "B": {
+          "player": [
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371716383_8ee96cef",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371716383_be791f2a",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "トーマ王子",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 6,
+              "id": "card_8d8b59c8_1782371716383_839bc186",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "actions": [
+          "tohmaChoiceV260"
+        ]
+      }
+    },
+    {
+      "name": "bridge tohma_3",
+      "ok": true,
+      "count": 1,
+      "types": [
+        "tohmaChoiceV260"
+      ]
+    },
+    {
+      "name": "トーマ王子: 追憶の呪縛 が対戦同期で崩れない",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "choice": "追憶の呪縛",
+        "A": {
+          "player": [
+            {
+              "name": "トーマ王子",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 6,
+              "id": "card_8d8b59c8_1782371716402_a7c24d2b",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371716402_b99fdb73",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371716402_a817ca37",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [
+            "スライム"
+          ],
+          "handCosts": [
+            {
+              "name": "スライム",
+              "cost": 1,
+              "base": 1
+            }
+          ],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "B": {
+          "player": [
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371716404_3fe7fdcc",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782371716404_63fc80db",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "トーマ王子",
+              "hp": 6,
+              "maxHp": 6,
+              "attack": 6,
+              "id": "card_8d8b59c8_1782371716404_42872f6a",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "actions": [
+          "tohmaChoiceV260"
+        ]
+      }
+    },
+    {
+      "name": "bridge tohma_shield_precise",
+      "ok": true,
+      "count": 1,
+      "types": [
+        "tohmaChoiceV260"
+      ]
+    },
+    {
+      "name": "トーマ王子: 鉄壁の盾はトーマ以外の味方だけ被ダメ-2",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "p": [
+          {
+            "name": "トーマ王子"
+          },
+          {
+            "name": "スライム",
+            "red": 2
+          },
+          null,
+          {
+            "name": "ドラキー",
+            "red": 2
+          },
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "name": "運命の分岐点: マス選択モーダルが出る",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "labels": [
+          "味方前列 上",
+          "味方前列 中",
+          "味方前列 下",
+          "味方後列 上",
+          "味方後列 中",
+          "味方後列 下"
+        ]
+      }
+    },
+    {
+      "name": "bridge terrain_choice",
+      "ok": true,
+      "count": 2,
+      "types": [
+        "choiceSelected",
+        "terrainSetV260"
+      ]
+    },
+    {
+      "name": "運命の分岐点: 選んだマスに天啓の神域を配置し相手側にも同期",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "A": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            {
+              "type": "天啓の神域",
+              "source": "運命の分岐点",
+              "owner": "player"
+            },
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        "B": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            {
+              "type": "天啓の神域",
+              "source": "運命の分岐点",
+              "owner": "enemy"
+            },
+            null
+          ]
+        },
+        "actions": [
+          "choiceSelected",
+          "terrainSetV260"
+        ]
+      }
+    },
+    {
+      "name": "bridge blood_knife",
+      "ok": true,
+      "count": 8,
+      "types": [
+        "targetSelected",
+        "attackDeclared",
+        "damageApplied",
+        "damageApplied",
+        "afterAttack",
+        "weaponUpdateV260",
+        "weaponAfterAttack",
+        "attackResolved"
+      ]
+    },
+    {
+      "name": "ブラッドナイフ: 反撃ダメージ-1、敵ユニット攻撃後に武器攻撃力+1、対戦同期",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "A": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 6,
+              "attack": 3,
+              "id": "card_83cf917e_1782371716469_36c2353b",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 23,
+          "enemyHp": 25,
+          "playerWeapon": {
+            "name": "ブラッドナイフ",
+            "attack": 3,
+            "durability": 1,
+            "maxDurability": 2,
+            "counterDamageReduction": 1,
+            "bloodKnifeV260": true,
+            "attacksLeft": 0
+          },
+          "playerLeaderAttack": 3,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "B": {
+          "player": [
+            {
+              "name": "シールドオーガ",
+              "hp": 4,
+              "maxHp": 6,
+              "attack": 3,
+              "id": "card_83cf917e_1782371716481_cadbe9f9",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 23,
+          "enemyWeapon": {
+            "name": "ブラッドナイフ",
+            "attack": 3,
+            "durability": 1,
+            "maxDurability": 2,
+            "counterDamageReduction": 1,
+            "attacksLeft": 0
+          },
+          "playerLeaderAttack": 0,
+          "enemyLeaderAttack": 3,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "actions": [
+          "targetSelected",
+          "attackDeclared",
+          "damageApplied",
+          "damageApplied",
+          "afterAttack",
+          "weaponUpdateV260",
+          "weaponAfterAttack",
+          "attackResolved"
+        ]
+      }
+    },
+    {
+      "name": "bridge sandy_discard",
+      "ok": true,
+      "count": 1,
+      "types": [
+        "unitPutIntoPlay"
+      ]
+    },
+    {
+      "name": "妖精サンディ: 手札から捨てた時に場に出て対戦同期",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "A": {
+          "player": [
+            {
+              "name": "妖精サンディ",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "card_c8b09830_1782371716519_aba3b161",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "B": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "妖精サンディ",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "card_c8b09830_1782371716519_aba3b161",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "actions": [
+          "unitPutIntoPlay"
+        ]
+      }
+    },
+    {
+      "name": "bridge sandy_death",
+      "ok": true,
+      "count": 1,
+      "types": [
+        "sandyDungeonBuffV260"
+      ]
+    },
+    {
+      "name": "妖精サンディ: 死亡時はダンジョンだけ耐久+1、通常建物は増えない、対戦同期",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "A": {
+          "player": [
+            {
+              "name": "不思議のダンジョン",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 0,
+              "id": "card_2f73a37d_1782371716541_1b2b15dc",
+              "isBuilding": true,
+              "durability": 3,
+              "canAttack": false
+            },
+            {
+              "name": "しあわせの箱",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 0,
+              "id": "box_0.6570410741662871",
+              "isBuilding": true,
+              "durability": 2
+            },
+            {
+              "name": "妖精サンディ",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "card_c8b09830_1782371716541_5d11165d",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "B": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "不思議のダンジョン",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 0,
+              "id": "card_2f73a37d_1782371716543_b8b5e43c",
+              "isBuilding": true,
+              "durability": 3,
+              "canAttack": false
+            },
+            {
+              "name": "しあわせの箱",
+              "hp": 4,
+              "maxHp": 4,
+              "attack": 0,
+              "id": "box_0.2246434328487601",
+              "isBuilding": true,
+              "durability": 2
+            },
+            {
+              "name": "妖精サンディ",
+              "hp": 1,
+              "maxHp": 1,
+              "attack": 1,
+              "id": "card_c8b09830_1782371716543_d0b88fcf",
+              "isBuilding": false,
+              "canAttack": false
+            },
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerLeaderAttack": 0,
+          "tension": 0,
+          "enemyTension": 0,
+          "hand": [],
+          "handCosts": [],
+          "flags": {
+            "discounts": []
+          }
+        },
+        "actions": [
+          "sandyDungeonBuffV260"
+        ]
+      }
+    }
+  ],
+  "exceptions": [],
+  "chromeLogs": [
+    "/tmp/tmpj6om4yqt",
+    "/tmp/tmpoikknzkv"
+  ]
+}

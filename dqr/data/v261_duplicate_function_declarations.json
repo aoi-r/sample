@@ -1,0 +1,12 @@
+{
+  "totalFunctionDeclarations": 1634,
+  "duplicateFunctionDeclarations": {
+    "addRandomCardByPredicate": 2,
+    "board": 2,
+    "damageRandomEnemy": 2,
+    "g": 2,
+    "isBuildingUnit": 2,
+    "num": 2,
+    "terrain": 2
+  }
+}

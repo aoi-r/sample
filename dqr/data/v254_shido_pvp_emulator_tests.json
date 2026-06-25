@@ -1,0 +1,465 @@
+{
+  "mode": "v254 少年シドー two Chromium clients + action replay + public state mirror",
+  "browsers": [
+    "Chrome/144.0.7559.96",
+    "Chrome/144.0.7559.96"
+  ],
+  "passed": 6,
+  "failed": 0,
+  "results": [
+    {
+      "name": "boot: v254 hook loaded in two clients",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "cardsA": 1607,
+        "cardsB": 1607
+      }
+    },
+    {
+      "name": "少年シドーLv1: 建物なしなら敵1体に1ダメージしてaction replayでも反映",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "actions": [
+          "targetSelected",
+          "damageApplied"
+        ],
+        "A": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シールドオーガ",
+              "hp": 3,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782368439326_4b778ac3",
+              "isBuilding": false,
+              "isDungeon": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerMp": 9,
+          "enemyMp": 10,
+          "tension": 0,
+          "hero": {
+            "heroCardName": "少年シドー",
+            "level": 1,
+            "progressCount": 1,
+            "lv2UseCount": 0,
+            "currentCardName": "壊すのは任せろ！"
+          },
+          "hand": [],
+          "enemyHand": [],
+          "lock": false,
+          "isMyTurn": true
+        },
+        "B": {
+          "player": [
+            {
+              "name": "シールドオーガ",
+              "hp": 3,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782368439330_343f4098",
+              "isBuilding": false,
+              "isDungeon": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerMp": 10,
+          "enemyMp": 10,
+          "tension": 0,
+          "hero": null,
+          "hand": [],
+          "enemyHand": [],
+          "lock": true,
+          "isMyTurn": false
+        }
+      }
+    },
+    {
+      "name": "少年シドーLv1: 味方建物ありなら3ダメージ+建物耐久-1",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "actions": [
+          "targetSelected",
+          "damageApplied",
+          "randomResult"
+        ],
+        "A": {
+          "player": [
+            {
+              "name": "劇場",
+              "hp": 3,
+              "maxHp": 3,
+              "attack": 0,
+              "id": "test_theater",
+              "isBuilding": true,
+              "isDungeon": false,
+              "durability": 2
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シールドオーガ",
+              "hp": 1,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782368439366_2f880a61",
+              "isBuilding": false,
+              "isDungeon": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerMp": 9,
+          "enemyMp": 10,
+          "tension": 0,
+          "hero": {
+            "heroCardName": "少年シドー",
+            "level": 1,
+            "progressCount": 1,
+            "lv2UseCount": 0,
+            "currentCardName": "壊すのは任せろ！"
+          },
+          "hand": [],
+          "enemyHand": [],
+          "lock": false,
+          "isMyTurn": true
+        },
+        "B": {
+          "player": [
+            {
+              "name": "シールドオーガ",
+              "hp": 1,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782368439368_a5e027d4",
+              "isBuilding": false,
+              "isDungeon": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerMp": 10,
+          "enemyMp": 10,
+          "tension": 0,
+          "hero": null,
+          "hand": [],
+          "enemyHand": [],
+          "lock": true,
+          "isMyTurn": false
+        }
+      }
+    },
+    {
+      "name": "少年シドーLv2: 暴走するシドーを空きマスに出しLv3へ進行/action replayで相手画面にも出る",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "actions": [
+          "targetSelected",
+          "unitPutIntoPlay"
+        ],
+        "A": {
+          "player": [
+            null,
+            null,
+            {
+              "name": "暴走するシドー",
+              "hp": 5,
+              "maxHp": 5,
+              "attack": 5,
+              "id": "virtual_暴走するシドー_1782368439391_63bec8ac",
+              "isBuilding": false,
+              "isDungeon": false
+            },
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerMp": 4,
+          "enemyMp": 10,
+          "tension": 0,
+          "hero": {
+            "heroCardName": "少年シドー",
+            "level": 3,
+            "progressCount": 0,
+            "lv2UseCount": 0,
+            "currentCardName": "オレたちなら必ず勝てる！",
+            "loreLv3Damage": 1
+          },
+          "hand": [],
+          "enemyHand": [],
+          "lock": false,
+          "isMyTurn": true
+        },
+        "B": {
+          "player": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            {
+              "name": "暴走するシドー",
+              "hp": 5,
+              "maxHp": 5,
+              "attack": 5,
+              "id": "virtual_暴走するシドー_1782368439391_63bec8ac",
+              "isBuilding": false,
+              "isDungeon": false
+            },
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerMp": 10,
+          "enemyMp": 10,
+          "tension": 0,
+          "hero": null,
+          "hand": [],
+          "enemyHand": [],
+          "lock": true,
+          "isMyTurn": false
+        }
+      }
+    },
+    {
+      "name": "暴走するシドー: 相手ターン開始時に自身以外の全ユニットへ2ダメージ",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "A": {
+          "player": [
+            {
+              "name": "暴走するシドー",
+              "hp": 5,
+              "maxHp": 5,
+              "attack": 5,
+              "id": "virtual_暴走するシドー_1782368439407_fbddf21b",
+              "isBuilding": false,
+              "isDungeon": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerMp": 4,
+          "enemyMp": 10,
+          "tension": 0,
+          "hero": {
+            "heroCardName": "少年シドー",
+            "level": 3,
+            "progressCount": 0,
+            "lv2UseCount": 0,
+            "currentCardName": "オレたちなら必ず勝てる！",
+            "loreLv3Damage": 1
+          },
+          "hand": [],
+          "enemyHand": [],
+          "lock": false,
+          "isMyTurn": true
+        }
+      }
+    },
+    {
+      "name": "少年シドーLv3: 必殺技3ダメージ/テンション消費/劇場1ドロー/action replayで相手ユニットも減る",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "actions": [
+          "targetSelected",
+          "damageApplied"
+        ],
+        "A": {
+          "player": [
+            {
+              "name": "劇場",
+              "hp": 3,
+              "maxHp": 3,
+              "attack": 0,
+              "id": "test_theater",
+              "isBuilding": true,
+              "isDungeon": false,
+              "durability": 3
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "シールドオーガ",
+              "hp": 1,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782368439423_8ee0a284",
+              "isBuilding": false,
+              "isDungeon": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerMp": 10,
+          "enemyMp": 10,
+          "tension": 0,
+          "hero": {
+            "heroCardName": "少年シドー",
+            "level": 3,
+            "progressCount": 0,
+            "lv2UseCount": 0,
+            "currentCardName": "オレたちなら必ず勝てる！",
+            "shidoLv3UsesV253": 1
+          },
+          "hand": [
+            "スライム"
+          ],
+          "enemyHand": [],
+          "lock": false,
+          "isMyTurn": true
+        },
+        "B": {
+          "player": [
+            {
+              "name": "シールドオーガ",
+              "hp": 1,
+              "maxHp": 4,
+              "attack": 4,
+              "id": "card_83cf917e_1782368439425_8134b517",
+              "isBuilding": false,
+              "isDungeon": false
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "enemy": [
+            {
+              "name": "劇場",
+              "hp": 3,
+              "maxHp": 3,
+              "attack": 0,
+              "id": "test_theater",
+              "isBuilding": true,
+              "isDungeon": false,
+              "durability": 3
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "playerHp": 25,
+          "enemyHp": 25,
+          "playerMp": 10,
+          "enemyMp": 10,
+          "tension": 0,
+          "hero": null,
+          "hand": [],
+          "enemyHand": [
+            "スライム"
+          ],
+          "lock": true,
+          "isMyTurn": false
+        }
+      }
+    }
+  ],
+  "exceptions": [],
+  "chromeLogs": [
+    "/tmp/tmp9su_l1ly",
+    "/tmp/tmp2q6pspc_"
+  ]
+}
