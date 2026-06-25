@@ -22710,3 +22710,267 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
     attackUnit.__v269MpGuard = true;
   }
 })();
+
+/* v270: authoritative board/state sync and deadlock guard.
+   The previous action replay is still used for animation/logs, but every outbound
+   action/state now also carries a full public board snapshot.  The receiver applies
+   that snapshot as authoritative, so summons, "put into play", buffs/debuffs,
+   terrain, weapon, HP/MP/tension no longer depend on a fragile per-card reducer.
+*/
+(function(){
+  const V270 = 'v270_authoritative_board_sync';
+  function g(){ return state?.battle?.game || null; }
+  function solo(){ try{ return typeof isSoloTestMode === 'function' && isSoloTestMode(); }catch(e){ return false; } }
+  function clone(obj){ try{ return cloneEventPayload(obj); }catch(e){ try{return JSON.parse(JSON.stringify(obj));}catch(_){return obj;} } }
+  function now(){ return Date.now ? Date.now() : Number(new Date()); }
+  function compactUnitV270(u){
+    if(!u) return null;
+    const c = byId(u.cardId) || findCardByName(u.name);
+    const out = clone(u) || {};
+    out.id = u.id || out.id || safeRandomId?.('u') || `u_${Math.random().toString(36).slice(2)}`;
+    out.cardId = u.cardId || c?.id || out.cardId || '';
+    out.name = u.name || c?.name || out.name || '';
+    out.attack = Number(u.attack ?? c?.attack ?? 0);
+    out.baseAttack = Number(u.baseAttack ?? c?.attack ?? out.attack ?? 0);
+    out.hp = Number(u.hp ?? c?.hp ?? 1);
+    out.maxHp = Number(u.maxHp ?? c?.hp ?? out.hp ?? 1);
+    out.cost = Number(u.cost ?? c?.cost ?? 0);
+    out.cardType = u.cardType || c?.cardType || 'ユニット';
+    out.tribe = u.tribe || c?.tribe || '';
+    out.text = out.text || getCardText(c) || getCardText(u) || '';
+    return out;
+  }
+  function compactBoardV270(board){
+    const arr = Array(6).fill(null);
+    if(Array.isArray(board)) for(let i=0;i<6;i++) arr[i] = compactUnitV270(board[i]);
+    return arr;
+  }
+  function compactWeaponV270(w){
+    if(!w) return null;
+    return {
+      name:w.name || '',
+      attack:Number(w.attack || 0),
+      durability:Number(w.durability ?? w.hp ?? 0),
+      maxDurability:Number(w.maxDurability ?? w.durability ?? w.hp ?? 0),
+      attacksLeft:Number(w.attacksLeft ?? 0),
+      cardId:w.cardId || '',
+      cardText:w.cardText || w.text || ''
+    };
+  }
+  function snapshotV270(){
+    const x = g(); if(!x) return null;
+    x._v270StateSeq = Number(x._v270StateSeq || 0) + 1;
+    return {
+      v270Snapshot:true,
+      stateSeq:Number(x._v270StateSeq || 0),
+      clientUpdatedAt:now(),
+      playerId:state.playerId,
+      sessionId:state.battle.sessionId || '',
+      hp:Number(x.player.hp ?? 0),
+      maxHp:Number(x.player.maxHp ?? 25),
+      mp:Number(x.player.mp ?? 0),
+      maxMp:Number(x.player.maxMp ?? 0),
+      tension:Number(x.player.tension ?? 0),
+      leaderAttack:Number(x.player.leaderAttack ?? 0),
+      leaderCanAttack:!!x.player.leaderCanAttack,
+      weapon:compactWeaponV270(x.player.weapon),
+      board:compactBoardV270(x.player.board),
+      terrain:clone(x.terrain || x.player.terrain || Array(6).fill(null)),
+      handCount:Number(x.player.hand?.length || 0),
+      deckCount:Number(x.player.deck?.length || 0),
+      pendingLocalSelection:hasAnyPendingSelectionV270()
+    };
+  }
+  function shouldAcceptSnapshotV270(snap){
+    const x=g(); if(!x || !snap) return false;
+    const pid = snap.playerId || 'remote';
+    x._v270RemoteSeq ||= Object.create(null);
+    const old = Number(x._v270RemoteSeq[pid] || 0);
+    const seq = Number(snap.stateSeq || 0);
+    // Accept seq-less snapshots for old clients, but never roll back a v270 seq.
+    if(seq && old && seq < old) return false;
+    if(seq) x._v270RemoteSeq[pid] = Math.max(old, seq);
+    return true;
+  }
+  function applySnapshotToEnemyV270(snap, source='snapshot'){
+    const x=g(); if(!x || !snap || snap.playerId === state.playerId) return false;
+    if(!shouldAcceptSnapshotV270(snap)) return false;
+    x.enemy.hp = Number(snap.hp ?? x.enemy.hp ?? 0);
+    x.enemy.maxHp = Number(snap.maxHp ?? x.enemy.maxHp ?? 25);
+    x.enemy.mp = Number(snap.mp ?? x.enemy.mp ?? 0);
+    x.enemy.maxMp = Number(snap.maxMp ?? x.enemy.maxMp ?? 0);
+    x.enemy.tension = Number(snap.tension ?? x.enemy.tension ?? 0);
+    x.enemy.leaderAttack = Number(snap.leaderAttack ?? x.enemy.leaderAttack ?? 0);
+    x.enemy.leaderCanAttack = !!snap.leaderCanAttack;
+    x.enemy.weapon = compactWeaponV270(snap.weapon);
+    x.enemy.board = compactBoardV270(snap.board);
+    x.enemy.terrain = clone(snap.terrain || Array(6).fill(null));
+    x.enemyTerrain = clone(snap.terrain || Array(6).fill(null));
+    x.enemy.handCount = Number(snap.handCount ?? x.enemy.handCount ?? 0);
+    x.enemy.deckCount = Number(snap.deckCount ?? x.enemy.deckCount ?? 0);
+    x.enemy.lastAuthoritativeSnapshotV270 = {source, at:now(), seq:Number(snap.stateSeq||0)};
+    if(x.enemy.hp <= 0 && typeof showBattleResult === 'function') showBattleResult('win');
+    return true;
+  }
+  function scheduleSyncV270(reason='update'){
+    const x=g();
+    if(!x || state?.battle?.processingRemoteAction) return;
+    if(!state?.battle?.roomId) return;
+    clearTimeout(x._v270SyncTimer);
+    x._v270SyncTimer = setTimeout(()=>{ try{ syncMyBattleState(); }catch(e){ console.warn('v270 sync failed', reason, e); } }, 80);
+  }
+  function hasAnyPendingSelectionV270(){
+    const x=g(); if(!x) return false;
+    return !!(
+      x.pendingGenericEffect ||
+      x.pendingPlacementCard ||
+      x.pendingHeroSkill ||
+      x.pendingEnemyHandPlacementV121 ||
+      x.pendingTerrainPlacement ||
+      x.pendingTarget ||
+      x.selectedAttacker ||
+      x.selectedHandIndex != null
+    );
+  }
+  function clearDeadSelectionV270(reason='選択状態を解除しました'){
+    const x=g(); if(!x) return false;
+    const had = hasAnyPendingSelectionV270();
+    x.pendingGenericEffect = null;
+    x.pendingPlacementCard = null;
+    x.pendingHeroSkill = null;
+    x.pendingEnemyHandPlacementV121 = null;
+    x.pendingTerrainPlacement = null;
+    x.pendingTarget = null;
+    x.selectedAttacker = null;
+    x.selectedHandIndex = null;
+    x.pendingChoice = null;
+    try{ document.querySelectorAll('.unit-slot.targetable,.leader.targetable,.hand-card.selected').forEach(el=>el.classList.remove('targetable','selected')); }catch(e){}
+    if(had){
+      try{ battleLog(reason); }catch(e){}
+      try{ renderBattleArena(); }catch(e){}
+    }
+    return had;
+  }
+
+  const oldMakeActionPayload = typeof makeActionPayload === 'function' ? makeActionPayload : null;
+  if(oldMakeActionPayload && !oldMakeActionPayload.__v270Snapshot){
+    makeActionPayload = function(type, payload={}){
+      const p = oldMakeActionPayload.call(this, type, payload);
+      const snap = snapshotV270();
+      if(snap){
+        p.stateSnapshotV270 = snap;
+        p.payload ||= {};
+        p.payload.stateSnapshotV270 = snap;
+      }
+      p.v270ActionPayload = true;
+      return p;
+    };
+    makeActionPayload.__v270Snapshot = true;
+  }
+
+  const oldPushBattleAction = typeof pushBattleAction === 'function' ? pushBattleAction : null;
+  if(oldPushBattleAction && !oldPushBattleAction.__v270PostSync){
+    pushBattleAction = async function(type, payload={}){
+      const r = await oldPushBattleAction.call(this, type, payload);
+      scheduleSyncV270(`action:${type}`);
+      return r;
+    };
+    pushBattleAction.__v270PostSync = true;
+  }
+
+  const oldSync = typeof syncMyBattleState === 'function' ? syncMyBattleState : null;
+  if(oldSync && !oldSync.__v270Authoritative){
+    syncMyBattleState = async function(){
+      const x=g();
+      if(!x || !state.firebase.enabled || !state.firebase.db || !state.battle.roomId) return oldSync.call(this);
+      const snap = snapshotV270();
+      const publicState = {
+        ...snap,
+        displayName:state.username,
+        actionReplayReady:true,
+        actionReducerReady:true,
+        remoteActionCount:Number(x.remoteActions?.length || 0),
+        handIds: solo() ? (x.player.hand || []).slice() : [],
+        handRedactedV270: !solo(),
+        updatedAt:(typeof serverTimestamp === 'function' ? serverTimestamp() : now())
+      };
+      try{ await set(ref(state.firebase.db, `rooms/${state.battle.roomId}/states/${state.playerId}`), publicState); }
+      catch(e){ console.warn('syncMyBattleState v270 failed; falling back', e); try{ await oldSync.call(this); }catch(_){} }
+    };
+    syncMyBattleState.__v270Authoritative = true;
+  }
+
+  const oldApplyState = typeof applyRemoteOpponentState === 'function' ? applyRemoteOpponentState : null;
+  if(oldApplyState && !oldApplyState.__v270Authoritative){
+    applyRemoteOpponentState = function(states){
+      const entries = Object.values(states || {}).filter(s => s && s.playerId !== state.playerId && (!state.battle.sessionId || !s.sessionId || s.sessionId === state.battle.sessionId));
+      if(!entries.length) return oldApplyState.call(this, states);
+      entries.sort((a,b)=>Number(b.stateSeq||0)-Number(a.stateSeq||0) || Number(b.clientUpdatedAt||0)-Number(a.clientUpdatedAt||0));
+      const entry = entries[0];
+      const applied = applySnapshotToEnemyV270(entry, 'firebase-state');
+      if(!applied) return oldApplyState.call(this, states);
+      renderBattleArena();
+      return true;
+    };
+    applyRemoteOpponentState.__v270Authoritative = true;
+  }
+
+  const oldApplyRemoteAction = typeof applyRemoteAction === 'function' ? applyRemoteAction : null;
+  if(oldApplyRemoteAction && !oldApplyRemoteAction.__v270Snapshot){
+    applyRemoteAction = function(action, id=''){
+      const r = oldApplyRemoteAction.call(this, action, id);
+      const snap = action?.stateSnapshotV270 || action?.payload?.stateSnapshotV270;
+      if(snap && applySnapshotToEnemyV270(snap, `action:${action.type}`)) renderBattleArena();
+      return r;
+    };
+    applyRemoteAction.__v270Snapshot = true;
+  }
+
+  const oldRender = typeof renderBattleArena === 'function' ? renderBattleArena : null;
+  if(oldRender && !oldRender.__v270Sync){
+    renderBattleArena = function(){
+      const r = oldRender.call(this);
+      scheduleSyncV270('render');
+      return r;
+    };
+    renderBattleArena.__v270Sync = true;
+  }
+
+  const oldEndTurn = typeof endTurn === 'function' ? endTurn : null;
+  if(oldEndTurn && !oldEndTurn.__v270ClearSelection){
+    endTurn = function(){
+      clearDeadSelectionV270('ターン終了：選択状態を解除しました。');
+      const r = oldEndTurn.call(this);
+      scheduleSyncV270('endTurn');
+      return r;
+    };
+    endTurn.__v270ClearSelection = true;
+  }
+
+  // If a modal/target selection gets stale on mobile, tap the battlefield background or wait 12s to recover.
+  document.addEventListener('pointerdown', (ev)=>{
+    const x=g(); if(!x || !hasAnyPendingSelectionV270()) return;
+    x._v270LastPointerAt = now();
+    const target = ev.target;
+    if(target?.closest?.('.unit-slot,.leader,.hand-card,.card-modal,.choice-modal,.modal,.battle-top-command,.player-hud,.enemy-hud')) return;
+    clearDeadSelectionV270('盤面外タップ：選択状態を解除しました。');
+  }, true);
+  setInterval(()=>{
+    const x=g(); if(!x || !hasAnyPendingSelectionV270()) return;
+    x._v270SelectionSince ||= now();
+    if(now() - Number(x._v270SelectionSince || 0) > 12000){
+      clearDeadSelectionV270('選択待ちが長すぎるため自動解除しました。');
+      x._v270SelectionSince = now();
+    }
+  }, 2000);
+
+  if(window.__DQR_TEST__){ Object.assign(window.__DQR_TEST__, {
+    v270:{
+      version:V270,
+      snapshot:snapshotV270,
+      applySnapshotToEnemy:applySnapshotToEnemyV270,
+      clearDeadSelection:clearDeadSelectionV270,
+      hasAnyPendingSelection:hasAnyPendingSelectionV270
+    }
+  }); }
+})();

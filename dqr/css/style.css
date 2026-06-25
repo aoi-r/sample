@@ -8637,3 +8637,31 @@ html, body, #app{
   }
   .battle-arena .player-hand{ bottom:2px !important; }
 }
+
+/* v270: portrait layout use vertical space more efficiently after sync-fix pass.
+   Pull own HUD upward and reduce the dead space between own field and own HP/MP region. */
+@media (orientation: portrait){
+  .battle-arena .arena-field{
+    bottom:118px !important;
+    grid-template-rows:64px 56px 56px 16px 56px 56px 62px !important;
+  }
+  .battle-arena .unit-zones.twelve-zones{
+    grid-template-rows:64px 56px 56px 16px 56px 56px 62px !important;
+  }
+  .battle-arena .player-hud{
+    bottom:66px !important;
+    left:8px !important;
+    right:88px !important;
+  }
+  .battle-arena .player-hand{
+    height:58px !important;
+  }
+  .battle-arena .hand-card{
+    flex-basis:36px !important;
+    width:36px !important;
+    height:52px !important;
+  }
+  .battle-arena .battle-log{
+    bottom:70px !important;
+  }
+}

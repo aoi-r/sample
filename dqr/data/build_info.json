@@ -1,5 +1,5 @@
 {
-  "version": "v269_portrait_solo_input_closeout",
+  "version": "v270_authoritative_board_sync",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -659,5 +659,7 @@
   "firebaseDurability": "PvP public states redact handIds, include stateSeq/clientUpdatedAt, reject stale Firebase snapshots, and attach clientActionSeq to actions.",
   "layoutUpdateV267": "Landscape: move player HP/MP/tension HUD lower to avoid overlapping own leader. Portrait: rebuild board to 7-row layout with enemy leader, enemy back/front, visible center gap, player front/back, player leader; reserve right rail for turn controls and top-right enemy HUD; hide solo debug hand strip on portrait mobile.",
   "layoutUpdateV268": "Portrait: force leaders back into CSS grid (override old absolute leader rules), shrink board/HUD/hand spacing, keep visible center gap. Input: hand tap opens use confirmation modal, and coin BET always opens target choice even with a single target.",
-  "layoutUpdateV269": "Portrait hard-fix: leaders are positioned absolutely outside the unit grid, enemy/player front rows have a clear center lane, hero-skill and choice modals fit portrait width. Landscape player HUD moved lower. Solo player hand strip taps now use the normal hand-use confirmation flow; coin BET always opens a target-choice modal. Added attack MP display guard."
+  "layoutUpdateV269": "Portrait hard-fix: leaders are positioned absolutely outside the unit grid, enemy/player front rows have a clear center lane, hero-skill and choice modals fit portrait width. Landscape player HUD moved lower. Solo player hand strip taps now use the normal hand-use confirmation flow; coin BET always opens a target-choice modal. Added attack MP display guard.",
+  "syncFixV270": "Every outbound action/public state now carries an authoritative public board snapshot. Receiver applies board/HP/MP/tension/weapon/terrain as the source of truth to fix missing summons, spell-created units, buffs/debuffs, and stale target-selection deadlocks.",
+  "layoutFixV270": "Portrait mobile layout pulls own HP/MP/tension region upward and reduces dead space between own summon slots and own HUD."
 }
