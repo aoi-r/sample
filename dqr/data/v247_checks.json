@@ -1,0 +1,13 @@
+{
+  "version": "v247_emulator_duplicate_trigger_hardening",
+  "chromium_passed": 10,
+  "chromium_failed": 0,
+  "node_check": "OK",
+  "previous_static_tests": "OK",
+  "main_fixes": [
+    "event guard key changed to eventId/object guard id",
+    "turn end dedupe uses side|turn",
+    "kaizoku wooper death draw removed",
+    "test hook added for CDP emulator"
+  ]
+}

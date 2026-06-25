@@ -1,0 +1,67 @@
+{
+  "passed": 12,
+  "failed": 0,
+  "failures": [],
+  "checks": [
+    {
+      "name": "v246EventGuard helper exists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "final duplicate guards installed after historical wrappers",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cardPlayed final handler guarded",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "spellPlayed final handler guarded",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "unitSummoned final handler guarded",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "unitDeath final handler guarded",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "damageApplied final handler guarded",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "turn-end core guarded",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "choice and fortune card use returns before generic parser",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "summon choice/fortune does not fall through into summon text parser",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "explicit summon handlers skip broad generic text parser",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "summon GET has per-unit duplicate guard",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

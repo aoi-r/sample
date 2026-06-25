@@ -1,0 +1,64 @@
+{
+  "browser": "Chrome/144.0.7559.96",
+  "url": "http://127.0.0.1:8133/index.html",
+  "ready": false,
+  "passed": 0,
+  "failed": 9,
+  "results": [
+    {
+      "name": "boot",
+      "ok": false,
+      "detail": {
+        "ok": false,
+        "href": "chrome-error://chromewebdata/",
+        "active": []
+      }
+    },
+    {
+      "name": "title tap",
+      "ok": false,
+      "detail": {
+        "ok": false,
+        "active": []
+      }
+    },
+    {
+      "name": "legit repeated same spell cardPlayed",
+      "ok": false,
+      "error": "{\"exceptionId\": 1, \"text\": \"Uncaught\", \"lineNumber\": 0, \"columnNumber\": 37, \"scriptId\": \"10\", \"stackTrace\": {\"callFrames\": [{\"functionName\": \"\", \"scriptId\": \"10\", \"url\": \"\", \"lineNumber\": 0, \"columnNumber\": 37}, {\"functionName\": \"\", \"scriptId\": \"10\", \"url\": \"\", \"lineNumber\": 0, \"columnNumber\": 337}]}, \"exception\": {\"type\": \"object\", \"subtype\": \"error\", \"className\": \"TypeError\", \"description\": \"TypeError: Cannot read properties of undefined (reading 'resetBattleForTest')\\n    at <anonymous>:1:38\\n    at <anonymous>:1:338\", \"objectId\": \"-8033653032013753880.2.2\"}}"
+    },
+    {
+      "name": "same event id swallowed once",
+      "ok": false,
+      "error": "{\"exceptionId\": 2, \"text\": \"Uncaught\", \"lineNumber\": 0, \"columnNumber\": 37, \"scriptId\": \"11\", \"stackTrace\": {\"callFrames\": [{\"functionName\": \"\", \"scriptId\": \"11\", \"url\": \"\", \"lineNumber\": 0, \"columnNumber\": 37}, {\"functionName\": \"\", \"scriptId\": \"11\", \"url\": \"\", \"lineNumber\": 0, \"columnNumber\": 328}]}, \"exception\": {\"type\": \"object\", \"subtype\": \"error\", \"className\": \"TypeError\", \"description\": \"TypeError: Cannot read properties of undefined (reading 'resetBattleForTest')\\n    at <anonymous>:1:38\\n    at <anonymous>:1:329\", \"objectId\": \"-8033653032013753880.2.4\"}}"
+    },
+    {
+      "name": "damage applies twice",
+      "ok": false,
+      "error": "{\"exceptionId\": 3, \"text\": \"Uncaught\", \"lineNumber\": 0, \"columnNumber\": 37, \"scriptId\": \"12\", \"stackTrace\": {\"callFrames\": [{\"functionName\": \"\", \"scriptId\": \"12\", \"url\": \"\", \"lineNumber\": 0, \"columnNumber\": 37}, {\"functionName\": \"\", \"scriptId\": \"12\", \"url\": \"\", \"lineNumber\": 0, \"columnNumber\": 219}]}, \"exception\": {\"type\": \"object\", \"subtype\": \"error\", \"className\": \"TypeError\", \"description\": \"TypeError: Cannot read properties of undefined (reading 'resetBattleForTest')\\n    at <anonymous>:1:38\\n    at <anonymous>:1:220\", \"objectId\": \"-8033653032013753880.2.6\"}}"
+    },
+    {
+      "name": "heal applies twice",
+      "ok": false,
+      "error": "{\"exceptionId\": 4, \"text\": \"Uncaught\", \"lineNumber\": 0, \"columnNumber\": 37, \"scriptId\": \"13\", \"stackTrace\": {\"callFrames\": [{\"functionName\": \"\", \"scriptId\": \"13\", \"url\": \"\", \"lineNumber\": 0, \"columnNumber\": 37}, {\"functionName\": \"\", \"scriptId\": \"13\", \"url\": \"\", \"lineNumber\": 0, \"columnNumber\": 209}]}, \"exception\": {\"type\": \"object\", \"subtype\": \"error\", \"className\": \"TypeError\", \"description\": \"TypeError: Cannot read properties of undefined (reading 'resetBattleForTest')\\n    at <anonymous>:1:38\\n    at <anonymous>:1:210\", \"objectId\": \"-8033653032013753880.2.8\"}}"
+    },
+    {
+      "name": "draw exact count",
+      "ok": false,
+      "error": "{\"exceptionId\": 5, \"text\": \"Uncaught\", \"lineNumber\": 0, \"columnNumber\": 37, \"scriptId\": \"14\", \"stackTrace\": {\"callFrames\": [{\"functionName\": \"\", \"scriptId\": \"14\", \"url\": \"\", \"lineNumber\": 0, \"columnNumber\": 37}, {\"functionName\": \"\", \"scriptId\": \"14\", \"url\": \"\", \"lineNumber\": 0, \"columnNumber\": 396}]}, \"exception\": {\"type\": \"object\", \"subtype\": \"error\", \"className\": \"TypeError\", \"description\": \"TypeError: Cannot read properties of undefined (reading 'resetBattleForTest')\\n    at <anonymous>:1:38\\n    at <anonymous>:1:397\", \"objectId\": \"-8033653032013753880.2.10\"}}"
+    },
+    {
+      "name": "turn end duplicate same id once",
+      "ok": false,
+      "error": "{\"exceptionId\": 6, \"text\": \"Uncaught\", \"lineNumber\": 0, \"columnNumber\": 37, \"scriptId\": \"15\", \"stackTrace\": {\"callFrames\": [{\"functionName\": \"\", \"scriptId\": \"15\", \"url\": \"\", \"lineNumber\": 0, \"columnNumber\": 37}, {\"functionName\": \"\", \"scriptId\": \"15\", \"url\": \"\", \"lineNumber\": 0, \"columnNumber\": 252}]}, \"exception\": {\"type\": \"object\", \"subtype\": \"error\", \"className\": \"TypeError\", \"description\": \"TypeError: Cannot read properties of undefined (reading 'resetBattleForTest')\\n    at <anonymous>:1:38\\n    at <anonymous>:1:253\", \"objectId\": \"-8033653032013753880.2.12\"}}"
+    },
+    {
+      "name": "kaizoku death no draw",
+      "ok": false,
+      "error": "{\"exceptionId\": 7, \"text\": \"Uncaught\", \"lineNumber\": 0, \"columnNumber\": 37, \"scriptId\": \"16\", \"stackTrace\": {\"callFrames\": [{\"functionName\": \"\", \"scriptId\": \"16\", \"url\": \"\", \"lineNumber\": 0, \"columnNumber\": 37}, {\"functionName\": \"\", \"scriptId\": \"16\", \"url\": \"\", \"lineNumber\": 0, \"columnNumber\": 375}]}, \"exception\": {\"type\": \"object\", \"subtype\": \"error\", \"className\": \"TypeError\", \"description\": \"TypeError: Cannot read properties of undefined (reading 'resetBattleForTest')\\n    at <anonymous>:1:38\\n    at <anonymous>:1:376\", \"objectId\": \"-8033653032013753880.2.14\"}}"
+    }
+  ],
+  "exceptions": [],
+  "consoleErrors": [],
+  "chromeLog": "/tmp/tmpomvttu6g"
+}

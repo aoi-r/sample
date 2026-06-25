@@ -1,5 +1,5 @@
 {
-  "version": "v245_boot_module_duplicate_fix",
+  "version": "v246_duplicate_trigger_guard_and_effect_fallthrough_fix",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -238,10 +238,10 @@
     "removal_behavior": "効果が消えた場合はステータス再計算・再描画により表示も消える。",
     "image_rewrite_policy": "元画像ファイルは変更せず、DOMオーバーレイで表示する。"
   },
-  "base": "v244_room_cleanup_and_match_start_fix",
+  "base": "v245_boot_module_duplicate_fix",
   "filenameSanitization": "custom_cards filenames normalized to short ASCII names to avoid File name too long on checkout/build",
   "data_version": "v165_default_decks_remove_demon_swordsman_and_effect_audit",
-  "label": "v245 / boot module duplicate fix",
+  "label": "v246 / duplicate trigger guard + effect fallthrough fix",
   "notes": "Fixed module boot blockers: duplicate Eggra/Chikira function declarations and stray standalone async token. Title tap can now proceed after app.js module loads.",
   "defaultTestDecks": {
     "file": "data/default_test_decks_v165.json",
@@ -435,5 +435,30 @@
     "startRace": "The late entrant no longer calls showWaitingForOpponent after the room is already playing.",
     "remoteBoard": "Remote board snapshots are authoritative, including empty slots, so old units do not remain."
   },
-  "date": "2026-06-24"
+  "date": "2026-06-24",
+  "v246": {
+    "summary": "全カード横断の二重発動対策。イベントハンドラ最終段ガード、カード使用時の占い/選択の汎用パーサー落ち防止、召喚時の占い/選択の召喚テキスト二重処理防止、個別召喚実装済みカードの広域テキストパーサー落ち防止、GET重複ガード、ターン終了主要フックガードを追加。",
+    "focus": [
+      "cardPlayed/spellPlayed/unitSummoned/unitDeath/damageApplied/afterAttack/turnStart/turnEndの重複呼び出し抑止",
+      "applyGenericCardUseEffectのfortune/choice後return",
+      "applySummonKeywordsのfortune/choiceとsummon textの重複防止",
+      "applySummonTextEffectのexplicit handler後generic mini parser停止",
+      "GET(1)等の召喚時コイン二重取得防止",
+      "v166ApplyEndTurn/powerfulBadgeTurnEnd/Madesagora special coinのターン終了二重発火防止"
+    ],
+    "tests": [
+      "node --check js/app.js",
+      "tools/v237_static_emulator_tests.mjs",
+      "tools/v238_static_cost67_tests.mjs",
+      "tools/v239_static_cost67_existing43_tests.mjs",
+      "tools/v240_static_pool_tests.mjs",
+      "tools/v241_static_cost45_pass2_tests.mjs",
+      "tools/v242_static_cost45_closeout_tests.mjs",
+      "tools/v243_static_eggchikira_tests.mjs",
+      "tools/v244_static_room_match_tests.mjs",
+      "tools/v245_static_boot_module_tests.mjs",
+      "tools/v246_duplicate_trigger_audit_tests.mjs"
+    ],
+    "nodeCheck": "OK"
+  }
 }

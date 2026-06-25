@@ -1,0 +1,104 @@
+{
+  "browser": "Chrome/144.0.7559.96",
+  "mode": "inline Page.setDocumentContent",
+  "ready": true,
+  "passed": 10,
+  "failed": 0,
+  "results": [
+    {
+      "name": "inline boot appReady",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "ready": true,
+        "cards": 1607,
+        "active": [
+          "screen-start"
+        ]
+      }
+    },
+    {
+      "name": "title tap advances",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "active": [
+          "screen-user"
+        ]
+      }
+    },
+    {
+      "name": "legit repeated same spell cardPlayed",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "spells": 2
+      }
+    },
+    {
+      "name": "same event id cardPlayed is swallowed once",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "spells": 1
+      }
+    },
+    {
+      "name": "direct damage applies twice",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "hp": 21
+      }
+    },
+    {
+      "name": "direct heal applies twice",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "hp": 18
+      }
+    },
+    {
+      "name": "direct draw exact count",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "hand": 4,
+        "deck": 1
+      }
+    },
+    {
+      "name": "turn end duplicate same id once",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "log1": 1,
+        "log2": 1
+      }
+    },
+    {
+      "name": "かいぞくウーパー death does not draw",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "before": 0,
+        "after": 0
+      }
+    },
+    {
+      "name": "unit put into play keeps keywords but no summon event",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "unit": "いっかくうさぎ",
+        "events": [
+          "unitPutIntoPlay"
+        ]
+      }
+    }
+  ],
+  "exceptions": [],
+  "consoleErrors": [],
+  "chromeLog": "/tmp/tmp55rk3m67"
+}

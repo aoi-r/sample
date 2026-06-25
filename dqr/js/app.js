@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v228_cost3_completion_and_row_all_pool';
-const BUILD_LABEL = 'v245 / room cleanup & match start fix';
+const DATA_VERSION = 'v247_emulator_duplicate_trigger_hardening';
+const BUILD_LABEL = 'v247 / emulator duplicate trigger hardening';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -4472,6 +4472,55 @@ function cloneEventPayload(payload={}){
   return out;
 }
 
+
+// v246: duplicate-trigger guard.
+// Several effects are now implemented in both older generic text parsers and newer official-DB handlers.
+// These helpers make event-level hooks idempotent and keep explicit official handlers from falling through
+// into broad text parsers that can double damage/draw/heal.
+function v246StableEffectKeyPart(value){
+  try{
+    if(value == null) return '';
+    if(typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') return String(value);
+    if(Array.isArray(value)) return value.map(v246StableEffectKeyPart).join(',');
+    if(typeof value === 'object'){
+      if(value.id || value.cardId || value.name || value.pos != null || value.side) return [value.id,value.cardId,value.name,value.side,value.pos].filter(x=>x!=null).join(':');
+      return Object.keys(value).sort().map(k=>`${k}:${v246StableEffectKeyPart(value[k])}`).join('|');
+    }
+    return String(value);
+  }catch(e){ return ''; }
+}
+function v246EventGuard(type, payload={}, scope='event'){
+  const game = state.battle?.game;
+  if(!game) return true;
+  game._v246EffectGuards ||= Object.create(null);
+  const p = payload || {};
+  // v247: 同じターンに同じカードを2回使う正規挙動を止めない。
+  // まず emitBattleEvent が付与する _eventId を最優先のキーにする。
+  // _eventId がない直呼びの場合は、payloadオブジェクト自体に短命IDを付与する。
+  // これにより「同じpayload/同じeventの二重呼び」だけを止め、
+  // 別アクションとしての同名カード2回目・同種ダメージ2回目は通す。
+  if(!p._eventId && !p._v247GuardId && !p._dedupeKey){
+    try{ Object.defineProperty(p, '_v247GuardId', { value:safeRandomId('guard'), enumerable:false, configurable:true }); }
+    catch(e){ p._v247GuardId = safeRandomId('guard'); }
+  }
+  // _dedupeKey is used only for effects that must be once per turn/timing,
+  // e.g. turn-end cores. It intentionally overrides unique event ids.
+  const idKey = p._dedupeKey || p._eventId || p._v247GuardId;
+  const key = [scope, type, idKey].filter(x=>x!=null).join('|');
+  if(game._v246EffectGuards[key]){
+    console.warn('v247 duplicate trigger skipped', key);
+    return false;
+  }
+  game._v246EffectGuards[key] = 1;
+  const keys = Object.keys(game._v246EffectGuards);
+  if(keys.length > 400) for(const k of keys.slice(0, keys.length - 260)) delete game._v246EffectGuards[k];
+  return true;
+}
+function v246CardNameSet(list){ return new Set(list); }
+const V246_EXPLICIT_SUMMON_TEXT_CARDS = v246CardNameSet(['Sキラーマシン','あくまのきし','あくまのめだま','あくまのカガミ','あんこくまどう','おおにわとり','おにびドングリ','きめんどうし','きりかぶおばけ','しんりゅう','とうろうへい','むつでエビ','やみのとうぞく','りゅうせんし','アイスコンドル','アイスゴーレム','アイスボンバー','アイラ','アサシンクロー','アデン','アークマージ','イブール','ウルベア魔人兵','ウルベア魔神兵','エビルポット','エンゼルスライム','オルゴ・デミーラ：第3形態','カミュ','カンタダこぶん','カンダタこぶん','カーディナルナイト','キラーマシン2','キラーマシン２','クイーンスライム','グランマーズ','グリズリー','ゴルゴンゾーラ','ゴンズ','ゴールデンドラゴン','サタンパピー','サンディ','シャイニング','シルバーベア','ジゴック','ジャミ','スピニー','スピンサタン','スラッピー','ゾンビマスター','ダークプラネット','ツンドラキー','デスフラッター','デスマエストロ','デスマシーン','デビルロード','デュラハンナイト','ドラゴビショップ','ドラゴンソルジャー','ニセたいこう','ヒドラ','ピサロのてさき','ファイアボール','フォレストマスター','フライングデス','ヘルズクロウ','ホメロス','ホワイトパンサー','ポイズンキッス','マジックリップス','マッドファルコン','ミレーユ','ライアン','ラグアス王子','ルドマン','ルバンカ','ロミア','ワイトキング','修道院','卑劣などくやずきん','占い小屋','塔','妖魔軍王ブギー','少女マリベル','怪獣プスゴン','怪盗ポイックリン','怪蟲アラグネ','暗黒大樹の番人','歌姫のマポレーナ','武器屋','残響のようじゅつし','牢屋','稽古相手','覇海軍王ジャコラ','賢者ルシェンダ','運命の天使ラヴィエル','飛翔のガーゴイル','高潔な王パパス','魔王の書','黄金兵長']);
+function v246ShouldSkipGenericSummonText(card){ return !!(card?.name && V246_EXPLICIT_SUMMON_TEXT_CARDS.has(card.name)); }
+function v246ChoiceOrFortuneHandled(card){ return !!(card && (hasFortuneEffect(card) || String(getCardText(card)).includes('選択'))); }
+
 function emitBattleEvent(type, payload={}){
   const game = state.battle.game;
   if(!game) return;
@@ -4485,33 +4534,34 @@ function emitBattleEvent(type, payload={}){
   };
   game.events.push(event);
   if(game.events.length > 80) game.events.splice(0, game.events.length - 80);
+  const handlerPayload = {...payload, _eventId:event.id};
   if(!state.battle.processingRemoteAction && ['choiceSelected','targetSelected','attackDeclared','damageApplied','counterDamage','attackResolved','cardPlayed','spellPlayed','unitSummoned','unitPutIntoPlay','afterAttack','unitDeath','betActivated','weaponEquipped','weaponAfterAttack','weaponBroken','turnStart','turnEnd','ownTurnStart','ownTurnEnd','opponentTurnStart','opponentTurnEnd'].includes(type)){
     pushBattleAction(type, event.payload);
   }
 
   switch(type){
-    case 'choiceSelected': return handleChoiceSelectedEvent(payload);
-    case 'targetSelected': return handleTargetSelectedEvent(payload);
-    case 'turnStart': return handleTurnStartEvent(payload);
-    case 'ownTurnStart': return handleOwnTurnStartEvent(payload);
-    case 'ownTurnEnd': return handleOwnTurnEndEvent(payload);
-    case 'opponentTurnStart': return handleOpponentTurnStartEvent(payload);
-    case 'opponentTurnEnd': return handleOpponentTurnEndEvent(payload);
-    case 'turnEnd': return handleTurnEndEvent(payload);
-    case 'cardPlayed': return handleCardPlayedEvent(payload);
-    case 'spellPlayed': return handleSpellPlayedEvent(payload);
-    case 'unitSummoned': return handleUnitSummonedEvent(payload);
-    case 'unitPutIntoPlay': return handleUnitPutIntoPlayEvent(payload);
-    case 'attackDeclared': return handleAttackDeclaredEvent(payload);
-    case 'damageApplied': return handleDamageAppliedEvent(payload);
-    case 'counterDamage': return handleCounterDamageEvent(payload);
-    case 'attackResolved': return handleAttackResolvedEvent(payload);
-    case 'afterAttack': return handleAfterAttackEvent(payload);
-    case 'unitDeath': return handleUnitDeathEvent(payload);
-    case 'betActivated': return handleBetActivatedEvent(payload);
-    case 'weaponEquipped': return handleWeaponEquippedEvent(payload);
-    case 'weaponAfterAttack': return handleWeaponAfterAttackEvent(payload);
-    case 'weaponBroken': return handleWeaponBrokenEvent(payload);
+    case 'choiceSelected': return handleChoiceSelectedEvent(handlerPayload);
+    case 'targetSelected': return handleTargetSelectedEvent(handlerPayload);
+    case 'turnStart': return handleTurnStartEvent(handlerPayload);
+    case 'ownTurnStart': return handleOwnTurnStartEvent(handlerPayload);
+    case 'ownTurnEnd': return handleOwnTurnEndEvent(handlerPayload);
+    case 'opponentTurnStart': return handleOpponentTurnStartEvent(handlerPayload);
+    case 'opponentTurnEnd': return handleOpponentTurnEndEvent(handlerPayload);
+    case 'turnEnd': return handleTurnEndEvent(handlerPayload);
+    case 'cardPlayed': return handleCardPlayedEvent(handlerPayload);
+    case 'spellPlayed': return handleSpellPlayedEvent(handlerPayload);
+    case 'unitSummoned': return handleUnitSummonedEvent(handlerPayload);
+    case 'unitPutIntoPlay': return handleUnitPutIntoPlayEvent(handlerPayload);
+    case 'attackDeclared': return handleAttackDeclaredEvent(handlerPayload);
+    case 'damageApplied': return handleDamageAppliedEvent(handlerPayload);
+    case 'counterDamage': return handleCounterDamageEvent(handlerPayload);
+    case 'attackResolved': return handleAttackResolvedEvent(handlerPayload);
+    case 'afterAttack': return handleAfterAttackEvent(handlerPayload);
+    case 'unitDeath': return handleUnitDeathEvent(handlerPayload);
+    case 'betActivated': return handleBetActivatedEvent(handlerPayload);
+    case 'weaponEquipped': return handleWeaponEquippedEvent(handlerPayload);
+    case 'weaponAfterAttack': return handleWeaponAfterAttackEvent(handlerPayload);
+    case 'weaponBroken': return handleWeaponBrokenEvent(handlerPayload);
   }
 }
 
@@ -4685,6 +4735,7 @@ function splitPotCopyThisTurnV124(){
 
 function handleCardPlayedEvent({card, cost, side='player'}={}){
   if(!card) return;
+  if(!v246EventGuard('cardPlayed', {card, cost, side}, 'handler')) return;
   const game = state.battle.game;
   const actor = side === 'enemy' ? game.enemy : game.player;
   const opponentLeaderSide = side === 'enemy' ? 'player' : 'enemy';
@@ -4721,6 +4772,7 @@ function handleCardPlayedEvent({card, cost, side='player'}={}){
   // v186: BETを持つカードを使っただけではデボラLv2は発動しない。実際のBET発動イベントだけを見る。
 }
 function handleSpellPlayedEvent({card, cost}={}){
+  if(!v246EventGuard('spellPlayed', {card, cost, side:'player'}, 'handler')) return;
   const game = state.battle.game;
   cost2AfterSpellPlayedV219(card);
   if(card && isSpell(card) && cost >= 1 && game.player.rowAfterSpellSummon && game.player.board.some(u => u?.name === '亡国の先王ロウ')){
@@ -4731,6 +4783,7 @@ function handleSpellPlayedEvent({card, cost}={}){
 }
 function handleUnitSummonedEvent({unit, card, pos, cost, side='player'}={}){
   if(!unit || !card) return;
+  if(!v246EventGuard('unitSummoned', {unit, card, pos, cost, side}, 'handler')) return;
   applySummonKeywords(unit, card, side);
   if(hasZekkochoTextV134(card)) grantZekkochoV134(unit, card.name);
   applyStoredAdventurerBuff(unit, card);
@@ -4793,12 +4846,14 @@ function handleAfterAttackEvent({attacker, targetRef, targetUnit, targetSide}={}
 }
 function handleUnitDeathEvent({unit, side, pos, vanished}={}){
   if(!unit) return;
+  if(!v246EventGuard('unitDeath', {unit, side, pos, vanished}, 'handler')) return;
   v166OnUnitDeath(unit, side, pos, vanished);
   if(vanished) return;
   if(side === 'player') triggerLemonKingSlimeDeath(unit);
   refreshDragonLordAuraV218();
 }
 function handleBetActivatedEvent({unit, weapon, source, count}={}){
+  if(!v246EventGuard('betActivated', {unit, weapon, source, count}, 'handler')) return;
   if(source === 'specialCoinSummary'){
     if(Number(count || 0) > 0) triggerHeroAuto('betActivated', {source:'specialCoin', count});
     return;
@@ -4906,10 +4961,11 @@ function applySummonKeywords(unit, card, side='player'){
     state.battle.game.player.buildingsPlayed = Number(state.battle.game.player.buildingsPlayed || 0) + 1;
     battleLog(`${card.name}を${unit.isDungeon ? 'ダンジョン' : '建物'}として設置しました。`);
   }
-  if(flags.choice) applyChoiceEffect(card);
-  if(flags.fortune) applyFortuneEffect(card);
+  let specialChoiceOrFortuneHandledV246 = false;
+  if(flags.choice){ applyChoiceEffect(card); specialChoiceOrFortuneHandledV246 = true; }
+  if(flags.fortune){ applyFortuneEffect(card); specialChoiceOrFortuneHandledV246 = true; }
   if((getCardText(card).includes('さくせん') || getCardText(card).includes('作戦')) && card.name !== 'キラーマシン2' && card.name !== 'キラーマシン２') applyStrategyToUnit(unit);
-  if(flags.summon){
+  if(flags.summon && !specialChoiceOrFortuneHandledV246){
     applySummonTextEffect(unit, card);
   }
   applyPowerfulBadges(side);
@@ -5111,7 +5167,8 @@ function applySummonTextEffect(unit, card){
 
 
   const mGet = text.match(/GET\((\d+)\)/i);
-  if(mGet){
+  if(mGet && !unit._v246SummonGetApplied){
+    unit._v246SummonGetApplied = true;
     for(let i=0;i<Number(mGet[1]);i++) addCardToHandByName('コイン');
     battleLog(`GET(${mGet[1]})：コインを手札に加えました。`);
   }
@@ -5583,6 +5640,10 @@ function applySummonTextEffect(unit, card){
     const n = game.enemy.board.filter(Boolean).length * Number(enemyCountHp[1]);
     unit.hp += n; unit.maxHp += n;
   }
+
+  // v246: 個別実装済みカードは、ここから先の広い汎用テキスト処理へ落とさない。
+  // これにより、個別処理で行ったドロー/回復/ダメージ/トークン生成が、効果文パーサーでもう一度走る事故を防ぐ。
+  if(v246ShouldSkipGenericSummonText(card)) return;
 
   // 汎用テキスト処理
   if(text.includes('召喚時')){
@@ -11520,8 +11581,8 @@ function applyGenericCardUseEffect(card, cost){
     return;
   }
   if(text.includes('交換する') && card.name.includes('交換所')){ useExchangeCard(card); return; }
-  if(hasFortuneEffect(card)){ applyFortuneEffect(card); }
-  if(text.includes('選択')){ applyChoiceEffect(card); }
+  if(hasFortuneEffect(card)){ applyFortuneEffect(card); return; }
+  if(text.includes('選択')){ applyChoiceEffect(card); return; }
   if(card.cardType === '武器'){
     game.player.leaderAttack = Number(card.attack || 0);
     game.player.leaderCanAttack = game.player.leaderAttack > 0;
@@ -15687,10 +15748,8 @@ function v228ApplyDeathEffects(unit, side='player', pos=0){
     if(c){ const deck=v228OwnerObj(side).deck||[]; deck.splice(Math.min(2,deck.length),0,c.id); battleLog('メルビン：ホットストーンを山札の上から3番目に置きました。'); }
     return true;
   }
-  if(unit.name==='かいぞくウーパー'){
-    if(side==='player') drawCard(1); else if(typeof drawForSideV114==='function') drawForSideV114(side,1);
-    battleLog('かいぞくウーパー：カードを1枚引きました。'); return true;
-  }
+  // v247: かいぞくウーパーは召喚時&手札から捨てた時。死亡時では発動しない。
+  if(unit.name==='かいぞくウーパー') return false;
   return false;
 }
 const _v228_orig_applyCost3UnitDeathEffectsV224 = typeof applyCost3UnitDeathEffectsV224==='function' ? applyCost3UnitDeathEffectsV224 : null;
@@ -18380,3 +18439,103 @@ if(_v243_orig_renderBattleArena){
   };
 }
 function v243EggraChikiraMarker(){ return true; }
+
+// v246 final duplicate-trigger closeout wrappers.
+// These run after all historical v22x-v24x monkey patches, so a repeated event cannot fall through
+// into newer watcher wrappers after an older base handler has already skipped it.
+(function installV246FinalDuplicateGuards(){
+  if(globalThis.__v246FinalDuplicateGuardsInstalled) return;
+  globalThis.__v246FinalDuplicateGuardsInstalled = true;
+  const wrap = (name, type, keyFn=null) => {
+    const fn = globalThis[name] || eval(`typeof ${name} !== 'undefined' ? ${name} : null`);
+    if(typeof fn !== 'function') return;
+    const wrapped = function(payload={}){
+      const p = payload || {};
+      const keyPayload = keyFn ? keyFn(p) : p;
+      if(!v246EventGuard(type, keyPayload, 'final')) return;
+      return fn.call(this, payload);
+    };
+    try{ eval(`${name} = wrapped;`); }catch(e){ globalThis[name] = wrapped; }
+  };
+  wrap('handleCardPlayedEvent', 'cardPlayed');
+  wrap('handleSpellPlayedEvent', 'spellPlayed');
+  wrap('handleUnitSummonedEvent', 'unitSummoned');
+  wrap('handleUnitPutIntoPlayEvent', 'unitPutIntoPlay');
+  wrap('handleUnitDeathEvent', 'unitDeath');
+  wrap('handleBetActivatedEvent', 'betActivated');
+  wrap('handleDamageAppliedEvent', 'damageApplied');
+  wrap('handleAfterAttackEvent', 'afterAttack');
+  wrap('handleTurnStartEvent', 'turnStart', p => ({...p, _dedupeKey:`${p?.side||'player'}|${state.battle?.game?.turn||0}`}));
+  wrap('handleTurnEndEvent', 'turnEnd', p => ({...p, _dedupeKey:`${p?.side||'player'}|${state.battle?.game?.turn||0}`}));
+  wrap('handleOwnTurnStartEvent', 'ownTurnStart', p => ({...p, _dedupeKey:`${p?.side||'player'}|${state.battle?.game?.turn||0}`}));
+  wrap('handleOwnTurnEndEvent', 'ownTurnEnd', p => ({...p, _dedupeKey:`${p?.side||'player'}|${state.battle?.game?.turn||0}`}));
+
+  if(typeof v166ApplyEndTurn === 'function'){
+    const _v246_orig_v166ApplyEndTurn = v166ApplyEndTurn;
+    v166ApplyEndTurn = function(side='player'){
+      if(!v246EventGuard('v166ApplyEndTurn', {side, _dedupeKey:`${side}|${state.battle?.game?.turn||0}`}, 'turn-end-core')) return false;
+      return _v246_orig_v166ApplyEndTurn.call(this, side);
+    };
+  }
+  if(typeof triggerPowerfulBadgeTurnEndV157 === 'function'){
+    const _v246_orig_triggerPowerfulBadgeTurnEndV157 = triggerPowerfulBadgeTurnEndV157;
+    triggerPowerfulBadgeTurnEndV157 = function(side='player'){
+      if(!v246EventGuard('powerfulBadgeTurnEnd', {side, _dedupeKey:`${side}|${state.battle?.game?.turn||0}`}, 'turn-end-core')) return false;
+      return _v246_orig_triggerPowerfulBadgeTurnEndV157.call(this, side);
+    };
+  }
+  if(typeof addSpecialCoinAtTurnEndIfMadesagora === 'function'){
+    const _v246_orig_addSpecialCoinAtTurnEndIfMadesagora = addSpecialCoinAtTurnEndIfMadesagora;
+    addSpecialCoinAtTurnEndIfMadesagora = function(side='player'){
+      if(!v246EventGuard('madesagoraSpecialCoinEnd', {side, _dedupeKey:`${side}|${state.battle?.game?.turn||0}`}, 'turn-end-core')) return false;
+      return _v246_orig_addSpecialCoinAtTurnEndIfMadesagora.call(this, side);
+    };
+  }
+})();
+
+
+// v247 emulator/dev-test hook. Harmless in normal play; used by headless Chromium/CDP tests.
+window.__DQR_TEST__ = {
+  state,
+  byId,
+  findCardByName,
+  initLocalBattleGame,
+  emitBattleEvent,
+  handleCardPlayedEvent,
+  handleSpellPlayedEvent,
+  handleUnitSummonedEvent,
+  handleTurnEndEvent,
+  dealDamageToLeader,
+  dealDamageToUnit,
+  healLeader,
+  drawCard,
+  drawForSideV114: (typeof drawForSideV114 === 'function' ? drawForSideV114 : null),
+  addCardToHandByName,
+  addCardIdToPlayerHandV110,
+  applyGenericCardUseEffect,
+  applyCardUseV166,
+  applyNonUnitEffect: (typeof useNonUnitCard === 'function' ? useNonUnitCard : null),
+  summonUnitFromHandToBoard,
+  putUnitIntoPlayFromCard,
+  summonCardAtPos,
+  makeUnitFromCard,
+  applySummonKeywords,
+  v246EventGuard,
+  resetBattleForTest(){
+    // Minimal deterministic deck for emulator tests. initLocalBattleGame expects a selected deck.
+    if(!state.battle.selectedDeck){
+      const slime = findCardByName('スライム') || state.allCards.find(c=>c?.cardType==='ユニット');
+      state.battle.selectedDeck = {deckName:'v247 test deck', className:'戦士', cards: Array.from({length:30}, () => ({cardId:slime?.id || '', count:1}))};
+    }
+    initLocalBattleGame();
+    const g=state.battle.game;
+    g.player.hand=[]; g.player.deck=[]; g.player.board=[null,null,null,null,null,null];
+    g.enemy.hand=[]; g.enemy.deck=[]; g.enemy.board=[null,null,null,null,null,null];
+    g.player.hp=25; g.enemy.hp=25; g.player.tension=0; g.enemy.tension=0; g.turn=1;
+    g._v246EffectGuards = Object.create(null);
+    return true;
+  },
+  addToHandByName(name){ const c=findCardByName(name); if(!c) return false; state.battle.game.player.hand.push(c.id); return true; },
+  getLog(){ return (state.battle.game?.log || []).slice(); },
+  getCounts(){ const g=state.battle.game; return {playerHp:g.player.hp, enemyHp:g.enemy.hp, hand:g.player.hand.length, enemyHand:g.enemy.hand.length, deck:g.player.deck.length, enemyDeck:g.enemy.deck.length, board:g.player.board.map(u=>u?.name||null), enemyBoard:g.enemy.board.map(u=>u?.name||null), tension:g.player.tension}; }
+};
