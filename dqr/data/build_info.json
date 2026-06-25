@@ -1,5 +1,5 @@
 {
-  "version": "v243_eggchikira_remote_guess_modal",
+  "version": "v245_boot_module_duplicate_fix",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -238,11 +238,11 @@
     "removal_behavior": "効果が消えた場合はステータス再計算・再描画により表示も消える。",
     "image_rewrite_policy": "元画像ファイルは変更せず、DOMオーバーレイで表示する。"
   },
-  "base": "v242_cost45_closeout_pass3_and_runtime_hardening",
+  "base": "v244_room_cleanup_and_match_start_fix",
   "filenameSanitization": "custom_cards filenames normalized to short ASCII names to avoid File name too long on checkout/build",
   "data_version": "v165_default_decks_remove_demon_swordsman_and_effect_audit",
-  "label": "v227 / cost3 follow-up / event watchers",
-  "notes": "Cost4/5 unit remaining-pass implementation and runtime guards for random-pool cards. Generated from v240.",
+  "label": "v245 / boot module duplicate fix",
+  "notes": "Fixed module boot blockers: duplicate Eggra/Chikira function declarations and stray standalone async token. Title tap can now proceed after app.js module loads.",
   "defaultTestDecks": {
     "file": "data/default_test_decks_v165.json",
     "active": [
@@ -427,5 +427,13 @@
   },
   "static_tests": [
     "tools/v243_static_eggchikira_tests.mjs"
-  ]
+  ],
+  "battleRoomFixV244": {
+    "summary": "Fix stale room state and late-join waiting lock in Firebase battle matching.",
+    "sessionId": "rooms/meta and players/states now carry sessionId; old states from previous matches are ignored.",
+    "staleCleanup": "Final or stale waiting/playing rooms with no fresh active players are removed before joining.",
+    "startRace": "The late entrant no longer calls showWaitingForOpponent after the room is already playing.",
+    "remoteBoard": "Remote board snapshots are authoritative, including empty slots, so old units do not remain."
+  },
+  "date": "2026-06-24"
 }

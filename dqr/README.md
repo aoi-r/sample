@@ -1,12 +1,17 @@
-# DQR full project v242
+# dqr_full_project_v245_boot_module_duplicate_fix
 
-Cost4/5 unit closeout pass3 and runtime hardening.
+v244の部屋掃除・マッチ開始修正をベースに、タイトル画面でタップしても進めない原因になっていた app.js の module 起動停止要因を修正した版です。
 
-## Highlights
-- Closed remaining/readable v241 cost4/5 unit cases.
-- Added fortune handling for エビルドライブ, おばけトマト, メタルドラゴン, リゼロッタ&ルコリア.
-- Hardened トロデ, デボラ, ゲマ, デザートゴースト, まおうのつかい, じごくのざりがに, 地獄の帝王エスターク.
-- Reworked マリンフェアリー and フォレスドン revive flow to choose candidate then cell.
-- Added local-test implementation for エッグラ&チキーラ guessing.
+## 修正
 
-See `data/v242_cost45_closeout_report.md`.
+- `v242EggraChikiraSummon` の重複宣言を解消
+- `v242ResolveEggraChikiraGuesses` の重複宣言を解消
+- top-level に残っていた単独 `async` トークンを削除
+- v243のエッグラ&チキーラ remote guess modal 実装を正規経路として維持
+
+## 確認
+
+- app.js を module として構文チェック
+- v237〜v244の既存静的テスト
+- v245 boot module test
+

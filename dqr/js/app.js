@@ -33,7 +33,7 @@ const state = {
   playerId: safeGetLocalStorage('dqr_player_id', ''),
   deviceId: safeGetLocalStorage('dqr_device_id', '') || safeRandomId('device'),
   selectedClass: '', selectedHeroId: '', deck: new Map(), editingDeckId: '',
-  battle: { selectedDeckId: '', selectedDeck: null, matchId: '', roomId: '', game: null, unsubs: [], resultTimer: null, resultShown: false, hasMatched: false, matchLocked: false, bannerTimer: null, presenceTimer: null, lastTurnPlayerId: '', startBannerShown: false, lastActionSeq: 0, processingRemoteAction: false },
+  battle: { selectedDeckId: '', selectedDeck: null, matchId: '', roomId: '', sessionId: '', game: null, unsubs: [], resultTimer: null, resultShown: false, hasMatched: false, matchLocked: false, bannerTimer: null, presenceTimer: null, lastTurnPlayerId: '', startBannerShown: false, lastActionSeq: 0, processingRemoteAction: false },
   firebase: { enabled: false, app: null, auth: null, db: null, uid: null },
   appReady: false,
   pendingEntry: false,
@@ -64,7 +64,7 @@ const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
 const DATA_VERSION = 'v228_cost3_completion_and_row_all_pool';
-const BUILD_LABEL = 'v233 / official pool remaining 25';
+const BUILD_LABEL = 'v245 / room cleanup & match start fix';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -1221,6 +1221,7 @@ function resetBattleLocalState(){
   state.battle.game = null;
   state.battle.matchId = '';
   state.battle.roomId = '';
+  state.battle.sessionId = '';
   state.battle.selectedDeckId = '';
   state.battle.selectedDeck = null;
   state.battle.remoteStates = {};
@@ -1325,7 +1326,7 @@ async function markMyPresence(roomId){
   if(!state.firebase.enabled || !state.firebase.db || !roomId || !state.playerId) return;
   const playerRef = ref(state.firebase.db, `rooms/${roomId}/players/${state.playerId}`);
   try{
-    await update(playerRef, {status:'active', lastSeenMs: Date.now(), updatedAt: serverTimestamp()});
+    await update(playerRef, {status:'active', sessionId: state.battle.sessionId || '', lastSeenMs: Date.now(), updatedAt: serverTimestamp()});
     try{
       await onDisconnect(playerRef).update({status:'left', disconnectedAt: serverTimestamp(), lastSeenMs: Date.now()});
     }catch(e){ console.warn('onDisconnect failed', e); }
@@ -1333,7 +1334,7 @@ async function markMyPresence(roomId){
   clearPresenceTimer();
   state.battle.presenceTimer = setInterval(async () => {
     if(!state.battle.roomId || state.battle.roomId !== roomId) return;
-    try{ await update(playerRef, {status:'active', lastSeenMs: Date.now(), updatedAt: serverTimestamp()}); }
+    try{ await update(playerRef, {status:'active', sessionId: state.battle.sessionId || '', lastSeenMs: Date.now(), updatedAt: serverTimestamp()}); }
     catch(e){ console.warn('presence heartbeat failed', e); }
   }, 5000);
 }
@@ -1659,6 +1660,26 @@ function shuffle(arr, kind='shuffle', context={}){
 }
 function makeRoomId(matchId){
   return normalizePlayerId(matchId).toLowerCase();
+}
+
+const ROOM_ACTIVE_STALE_MS_V244 = 45000;
+function makeBattleSessionIdV244(roomId){
+  return `${roomId}_${Date.now()}_${safeRandomId('sess').slice(0,8)}`;
+}
+function isFreshActivePlayerV244(p, now=Date.now()){
+  if(!p || !p.playerId || p.status !== 'active') return false;
+  const lastSeen = Number(p.lastSeenMs || 0);
+  if(!lastSeen) return true;
+  return (now - lastSeen) <= ROOM_ACTIVE_STALE_MS_V244;
+}
+function filterSessionStatesV244(states){
+  const sessionId = state.battle.sessionId || '';
+  if(!sessionId) return states || {};
+  const out = {};
+  for(const [k,v] of Object.entries(states || {})){
+    if(v && v.sessionId === sessionId) out[k] = v;
+  }
+  return out;
 }
 
 
@@ -2409,29 +2430,41 @@ async function startMatch(){
   cleanupBattleSubscriptions();
   state.battle.matchId = matchId;
   state.battle.roomId = roomId;
+  state.battle.sessionId = '';
   state.battle.resultShown = false;
   state.battle.hasMatched = false;
   state.battle.startBannerShown = false;
   state.battle.lastTurnPlayerId = '';
+  let localStartMeta = null;
 
   if(state.firebase.enabled && state.firebase.db){
     try{
       const roomRoot = ref(state.firebase.db, `rooms/${roomId}`);
       const metaRef = ref(state.firebase.db, `rooms/${roomId}/meta`);
-      const oldMeta = (await get(metaRef)).val();
-      if(isFinalRoomStatus(oldMeta?.status)){
+      const playersRef = ref(state.firebase.db, `rooms/${roomId}/players`);
+      let oldMeta = (await get(metaRef)).val();
+      let existingPlayers = (await get(playersRef)).val() || {};
+      let freshActive = Object.values(existingPlayers).filter(p => isFreshActivePlayerV244(p));
+
+      // v245: 終了済み/全員不在の古い部屋は、states/actionsごと消してから新規セッションにする。
+      // これで同じ合言葉を再利用した時に、前の部屋の盤面・手札が残らない。
+      if(isFinalRoomStatus(oldMeta?.status) || ((oldMeta?.status === 'waiting' || oldMeta?.status === 'playing') && freshActive.length === 0)){
         await remove(roomRoot);
+        oldMeta = null;
+        existingPlayers = {};
+        freshActive = [];
       }
 
-      const playersRef = ref(state.firebase.db, `rooms/${roomId}/players`);
-      const playersSnap = await get(playersRef);
-      const players = playersSnap.val() || {};
-      const activePlayers = Object.values(players).filter(p => p && p.playerId && p.status === 'active');
+      const sessionId = oldMeta?.sessionId || makeBattleSessionIdV244(roomId);
+      state.battle.sessionId = sessionId;
+
+      const activePlayers = freshActive;
       const alreadyIn = activePlayers.some(p => p.playerId === state.playerId);
       if(activePlayers.length >= 2 && !alreadyIn){
         toast('この合言葉の部屋は満員です。別のIDを使ってください。', false);
         state.battle.roomId = '';
         state.battle.matchId = '';
+        state.battle.sessionId = '';
         return;
       }
 
@@ -2442,6 +2475,7 @@ async function startMatch(){
 
       await set(ref(state.firebase.db, `rooms/${roomId}/players/${state.playerId}`), {
         playerId: state.playerId,
+        sessionId,
         displayName: state.username || state.playerId,
         deckName: state.battle.selectedDeck.deckName,
         className: state.battle.selectedDeck.className,
@@ -2454,27 +2488,44 @@ async function startMatch(){
       await markMyPresence(roomId);
 
       const joinedSnap = await get(playersRef);
-      const joinedPlayers = Object.values(joinedSnap.val() || {}).filter(p => p && p.playerId && p.status === 'active');
+      const joinedPlayersAll = joinedSnap.val() || {};
+      const joinedPlayers = Object.values(joinedPlayersAll).filter(p => isFreshActivePlayerV244(p) && (!p.sessionId || p.sessionId === sessionId));
       const ids = joinedPlayers.map(p => p.playerId).sort((a,b)=>a.localeCompare(b,'ja'));
       if(ids.length >= 2){
         const metaNow = (await get(metaRef)).val() || {};
         const firstPlayerId = metaNow.status === 'playing' && metaNow.firstPlayerId ? metaNow.firstPlayerId : chooseRandomFirstPlayerId(ids);
-        await update(metaRef, {
+        localStartMeta = {
           matchId,
+          sessionId,
           status:'playing',
           playerCount: ids.length,
           firstPlayerId,
-          currentTurnPlayerId: firstPlayerId,
+          currentTurnPlayerId: firstPlayerId
+        };
+        // v245: 新しい対戦開始時に古いactionsは残す意味がない。statesはsessionIdで分離しつつ、
+        // 明らかに別セッションのものは残っていても無視される。
+        if(metaNow.sessionId && metaNow.sessionId !== sessionId){
+          try{ await remove(ref(state.firebase.db, `rooms/${roomId}/actions`)); }catch(e){}
+        }
+        await update(metaRef, {
+          ...localStartMeta,
           startedAt: metaNow.startedAt || serverTimestamp(),
           updatedAt: serverTimestamp()
         });
       }else{
-        await update(metaRef, {
+        localStartMeta = {
           matchId,
+          sessionId,
           status:'waiting',
           playerCount: ids.length,
           firstPlayerId: '',
-          currentTurnPlayerId: '',
+          currentTurnPlayerId: ''
+        };
+        // v245: 待機開始時点では自分以外の古い状態を見ないよう、古いstates/actionsを削除。
+        try{ await remove(ref(state.firebase.db, `rooms/${roomId}/states`)); }catch(e){}
+        try{ await remove(ref(state.firebase.db, `rooms/${roomId}/actions`)); }catch(e){}
+        await update(metaRef, {
+          ...localStartMeta,
           updatedAt: serverTimestamp()
         });
       }
@@ -2492,7 +2543,24 @@ async function startMatch(){
 
   $('battle-setup').classList.add('hidden');
   $('battle-arena').classList.remove('hidden');
-  showWaitingForOpponent();
+
+  // v245: 後から入った側で、subscribeのplaying反映後にshowWaitingForOpponentが上書きして
+  // 永久待機になるレースを防ぐ。
+  if(localStartMeta?.status === 'playing'){
+    state.battle.hasMatched = true;
+    state.battle.game.currentTurnPlayerId = localStartMeta.currentTurnPlayerId || '';
+    state.battle.game.isMyTurn = localStartMeta.currentTurnPlayerId === state.playerId;
+    state.battle.lastTurnPlayerId = localStartMeta.currentTurnPlayerId || '';
+    state.battle.matchLocked = !state.battle.game.isMyTurn;
+    $('battle-status').textContent = state.battle.game.isMyTurn ? '自分のターン' : '相手のターン';
+    hideBattleBanner();
+    if(!state.battle.startBannerShown){
+      state.battle.startBannerShown = true;
+      showBattleBanner(state.battle.game.isMyTurn ? '先攻' : '後攻', {duration:2000, lock:true, unlockAfter:state.battle.game.isMyTurn});
+    }
+  }else{
+    showWaitingForOpponent();
+  }
   renderBattleArena();
 }
 
@@ -2508,7 +2576,7 @@ function subscribeRoomPlayers(){
   const unsubPlayers = onValue(playersRef, async snap => {
     const players = snap.val() || {};
     state.battle.roomPlayers = players;
-    const active = Object.values(players).filter(p => p && p.playerId && p.status === 'active');
+    const active = Object.values(players).filter(p => isFreshActivePlayerV244(p) && (!state.battle.sessionId || !p.sessionId || p.sessionId === state.battle.sessionId));
     const others = active.filter(p => p.playerId !== state.playerId);
     state.battle.opponentClassName = others[0]?.className || '';
     state.battle.opponentDeckMeta = others[0] ? { deckName: others[0].deckName || '', className: others[0].className || '', cards: [] } : null;
@@ -2555,6 +2623,7 @@ function subscribeRoomPlayers(){
       }
       return;
     }
+    if(meta.sessionId) state.battle.sessionId = meta.sessionId;
     if(!state.battle.game) return;
 
     if(isFinalRoomStatus(meta.status)){
@@ -2603,7 +2672,7 @@ function subscribeRoomPlayers(){
 
   const statesRef = ref(state.firebase.db, `rooms/${roomId}/states`);
   const unsubStates = onValue(statesRef, snap => {
-    const states = snap.val() || {};
+    const states = filterSessionStatesV244(snap.val() || {});
     state.battle.remoteStates = states;
     applyRemoteOpponentState(states);
   });
@@ -2616,6 +2685,7 @@ async function syncMyBattleState(){
   if(!game || !state.firebase.enabled || !state.firebase.db || !state.battle.roomId) return;
   const publicState = {
     playerId: state.playerId,
+    sessionId: state.battle.sessionId || '',
     displayName: state.username,
     hp: game.player.hp,
     maxMp: game.player.maxMp,
@@ -2642,7 +2712,7 @@ async function syncMyBattleState(){
 function applyRemoteOpponentState(states){
   const game = state.battle.game;
   if(!game) return;
-  const entry = Object.values(states || {}).find(s => s && s.playerId !== state.playerId);
+  const entry = Object.values(states || {}).find(s => s && s.playerId !== state.playerId && (!state.battle.sessionId || s.sessionId === state.battle.sessionId));
   if(!entry) return;
   game.enemy.hp = entry.hp ?? game.enemy.hp;
   game.enemy.maxMp = entry.maxMp ?? game.enemy.maxMp;
@@ -2673,8 +2743,10 @@ function normalizeRemoteBoard(board){
 }
 
 function mergeRemoteBoard(current, remote){
+  // v245: リモートstateは盤面全体を持つので、空マス(null)も正として受け取る。
+  // 旧実装は current を残していたため、前の部屋/前の盤面のユニットが消えずに残ることがあった。
   const out = Array(6).fill(null);
-  for(let i=0;i<6;i++) out[i] = remote?.[i] || current?.[i] || null;
+  for(let i=0;i<6;i++) out[i] = remote?.[i] || null;
   return out;
 }
 
@@ -2690,7 +2762,7 @@ async function advanceTurnToOpponent(){
   if(!state.firebase.enabled || !state.firebase.db || !state.battle.roomId) return;
   const playersSnap = await get(ref(state.firebase.db, `rooms/${state.battle.roomId}/players`));
   const players = playersSnap.val() || {};
-  const ids = Object.values(players).filter(p => p && p.playerId && p.status === 'active').map(p => p.playerId).sort((a,b)=>a.localeCompare(b,'ja'));
+  const ids = Object.values(players).filter(p => isFreshActivePlayerV244(p) && (!state.battle.sessionId || !p.sessionId || p.sessionId === state.battle.sessionId)).map(p => p.playerId).sort((a,b)=>a.localeCompare(b,'ja'));
   if(ids.length < 2) return;
   const next = ids.find(id => id !== state.playerId) || ids[0];
   state.battle.matchLocked = true;
@@ -13279,7 +13351,7 @@ function progressDungeonsByEvent(eventName, payload={}){
   }
 }
 
-async 
+// v245: removed stray standalone async token that stopped module execution.
 // v114: solo two-player turn controller
 function soloActiveSideV114(){
   const game = state.battle.game;
@@ -17993,27 +18065,8 @@ function v242ApplyEggChickenEffect(unit, choice){
   }
   return false;
 }
-function v242EggraChikiraSummon(unit){
-  openChoiceModal('エッグラ&チキーラ：選択', ['タマゴ','ニワトリ'], (_p,i)=>{
-    unit.v242EggChickenChoice = i===0?'egg':'chicken';
-    unit.v242EggChickenPending = true;
-    v242Log(`エッグラ&チキーラ：${i===0?'タマゴ':'ニワトリ'}を選択。次の相手ターン開始時に予想判定します。`);
-    renderBattleArena(); syncMyBattleState();
-  }, {kind:'v242EggraChikira'});
-  return true;
-}
-function v242ResolveEggraChikiraGuesses(){
-  for(const ref of v242Refs('player',u=>u.v242EggChickenPending)){
-    const u=ref.unit;
-    openChoiceModal('エッグラ&チキーラ：相手の予想（ローカルテスト）', ['タマゴ','ニワトリ'], (_p,i)=>{
-      const guess=i===0?'egg':'chicken'; const actual=u.v242EggChickenChoice;
-      delete u.v242EggChickenPending;
-      if(guess!==actual) v242ApplyEggChickenEffect(u,actual);
-      else v242Log('エッグラ&チキーラ：相手が正解したため不発。');
-      renderBattleArena(); syncMyBattleState();
-    }, {kind:'v242EggraChikiraGuess'});
-  }
-}
+
+// v245: removed old local-only duplicate Eggra/Chikira functions. Remote guess implementation below is the canonical path.
 
 function v242Renkei(card,targetUnit=null){
   const name=card?.name||'';
