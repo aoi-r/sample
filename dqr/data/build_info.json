@@ -1,5 +1,5 @@
 {
-  "version": "v265_firebase_durability_public_state_guard",
+  "version": "v267_layout_mobile_refine",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -656,5 +656,6 @@
   "v264DuplicateEffectGuard": "damageApplied / unitStatePatch / weapon/terrain/summon系actionの再配送は同一IDなら破棄。ゼルドラド系の同一eventId二重発火、ブラックマンティス系弱体二重適用、ブラックルーン+メラミの特技ダメージ+2が1回だけであることを検査。",
   "v264MobileHandLeakFix": "非ソロPvPでは enemy-hand-visual / enemy-hand-list-pop / solo-debug-strip / solo-debug-hand / solo-debug-enemy-hand / solo-test-panel / solo-test-toggle を空化・hidden化。",
   "v264SoakTest": "2台相当Chromium/CDPのスマホ横向きエミュレーションで12試合×80手=960ステップの長期対戦soakを実行し、召喚/弱体/特技ダメージ/攻撃/ターン終了/サンディ捨て/重複action注入後もミラー同期OK。",
-  "firebaseDurability": "PvP public states redact handIds, include stateSeq/clientUpdatedAt, reject stale Firebase snapshots, and attach clientActionSeq to actions."
+  "firebaseDurability": "PvP public states redact handIds, include stateSeq/clientUpdatedAt, reject stale Firebase snapshots, and attach clientActionSeq to actions.",
+  "layoutUpdateV267": "Landscape: move player HP/MP/tension HUD lower to avoid overlapping own leader. Portrait: rebuild board to 7-row layout with enemy leader, enemy back/front, visible center gap, player front/back, player leader; reserve right rail for turn controls and top-right enemy HUD; hide solo debug hand strip on portrait mobile."
 }
