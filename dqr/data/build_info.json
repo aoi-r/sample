@@ -1,5 +1,5 @@
 {
-  "version": "v267_layout_mobile_refine",
+  "version": "v269_portrait_solo_input_closeout",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -532,7 +532,7 @@
     "破邪の秘技4種/少年シドー/いいえ: ヒーロー分岐として次バッチへ回す。"
   ],
   "v253": "少年シドー/破邪の秘技/いいえ系を実装。勇者エイトLv1/Lv2の進化回数をユーザー確認により2回で確定。劇場は少年シドーLv3必殺技ヒーロースキル経路と合わせて後続確認するメモを追加。",
-  "updatedAtLocal": "2026-06-25T02:45:00+09:00",
+  "updatedAtLocal": "2026-06-25T23:10:00+09:00",
   "priorityQueuePending": 196,
   "priorityQueuePartial": 3,
   "priorityQueueNewImplementedV254": 44,
@@ -657,5 +657,7 @@
   "v264MobileHandLeakFix": "非ソロPvPでは enemy-hand-visual / enemy-hand-list-pop / solo-debug-strip / solo-debug-hand / solo-debug-enemy-hand / solo-test-panel / solo-test-toggle を空化・hidden化。",
   "v264SoakTest": "2台相当Chromium/CDPのスマホ横向きエミュレーションで12試合×80手=960ステップの長期対戦soakを実行し、召喚/弱体/特技ダメージ/攻撃/ターン終了/サンディ捨て/重複action注入後もミラー同期OK。",
   "firebaseDurability": "PvP public states redact handIds, include stateSeq/clientUpdatedAt, reject stale Firebase snapshots, and attach clientActionSeq to actions.",
-  "layoutUpdateV267": "Landscape: move player HP/MP/tension HUD lower to avoid overlapping own leader. Portrait: rebuild board to 7-row layout with enemy leader, enemy back/front, visible center gap, player front/back, player leader; reserve right rail for turn controls and top-right enemy HUD; hide solo debug hand strip on portrait mobile."
+  "layoutUpdateV267": "Landscape: move player HP/MP/tension HUD lower to avoid overlapping own leader. Portrait: rebuild board to 7-row layout with enemy leader, enemy back/front, visible center gap, player front/back, player leader; reserve right rail for turn controls and top-right enemy HUD; hide solo debug hand strip on portrait mobile.",
+  "layoutUpdateV268": "Portrait: force leaders back into CSS grid (override old absolute leader rules), shrink board/HUD/hand spacing, keep visible center gap. Input: hand tap opens use confirmation modal, and coin BET always opens target choice even with a single target.",
+  "layoutUpdateV269": "Portrait hard-fix: leaders are positioned absolutely outside the unit grid, enemy/player front rows have a clear center lane, hero-skill and choice modals fit portrait width. Landscape player HUD moved lower. Solo player hand strip taps now use the normal hand-use confirmation flow; coin BET always opens a target-choice modal. Added attack MP display guard."
 }

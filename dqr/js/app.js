@@ -1860,11 +1860,9 @@ function useCoinFromHandV111(index){
     renderBattleArena();
     syncMyBattleState();
   };
-  if(targets.length === 1){
-    consumeAndRun(targets[0]);
-    return true;
-  }
-  openChoiceModal('コイン：BET対象を選択', targets.map(t=>t.label), (picked,i)=>consumeAndRun(targets[i]), {kind:'coinBetTarget'});
+  // v268: Even when there is only one BET target, do not fire immediately.
+  // Mobile users expect hand coin tap -> confirm target; this also prevents accidental BET.
+  openChoiceModal('コイン：BET対象を選択', targets.map(t=>t.label), (picked,i)=>consumeAndRun(targets[i]), {kind:'coinBetTargetV268', allowCancel:true});
   battleLog('コイン：BET対象を選択してください。');
   return true;
 }
@@ -6117,8 +6115,8 @@ function renderBattleHand(){
     btn.classList.toggle('unplayable', !playable);
     btn.innerHTML = `${renderHandCostOverlayV158(card)}${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span>${escapeHtml(card.name)}</span>`;
     btn.draggable = true;
-    btn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); selectHandCard(index); });
-    btn.addEventListener('touchend', e => { e.preventDefault(); e.stopPropagation(); selectHandCard(index); });
+    btn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); confirmHandCardUseV268(index); });
+    btn.addEventListener('touchend', e => { e.preventDefault(); e.stopPropagation(); confirmHandCardUseV268(index); });
     btn.addEventListener('dragstart', e => {
       game.selectedHandIndex = index;
       e.dataTransfer.setData('text/plain', String(index));
@@ -6141,6 +6139,36 @@ function battleLog(text){
   const game = state.battle.game;
   if(!game) return;
   game.log.push(text);
+}
+
+
+// v268: Hand tap should open a use confirmation modal first.
+// This restores the safe mobile/solo flow: tap card -> confirm -> play/select target.
+// It also prevents BET coins from firing immediately when the hand is tapped.
+function confirmHandCardUseV268(index){
+  if(isBattleLocked()) return toast('まだ操作できません。', false);
+  const game = state.battle.game;
+  if(game?.finished) return;
+  if(!game?.isMyTurn) return toast('相手のターンです。', false);
+  const card = byId(game.player.hand[index]);
+  if(!card) return;
+  if(isSpecialMove(card) && game.player.tension < 3){
+    toast('必殺技はテンション最大時のみ使用できます。', false);
+    return;
+  }
+  if(getEffectiveCost(card) > game.player.mp){
+    toast('MPが足りません。', false);
+    return;
+  }
+  const img = getOfficialImage(card);
+  const desc = `${card.cardType || ''} / コスト ${getEffectiveCost(card)}${card.cardType === 'ユニット' ? ` / ${card.attack ?? '-'}-${card.hp ?? '-'}` : ''}`;
+  openChoiceModal(`${card.name}を使用しますか？`, [
+    {label:'使用する', value:'use', description:desc, imagePath:img || ''},
+    {label:'キャンセル', value:'cancel', description:'何もしません'}
+  ], (picked) => {
+    if(picked !== 'use') return;
+    selectHandCard(index);
+  }, {kind:'handUseConfirmV268', allowCancel:true, choiceLayout:'fortune2'});
 }
 
 function selectHandCard(index){
@@ -22566,4 +22594,119 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
       seq(){ return Number(game()?._v265PublicStateSeq || 0); }
     }
   }); }
+})();
+
+// v269: portrait/solo input closeout.
+// - Solo player hand strip now uses the same "use this card?" confirmation flow as normal hand cards.
+// - Coin BET always opens a target-choice modal, even if there is only one target.
+// - Guard against accidental double tap firing through old solo preview handlers.
+(function(){
+  const oldOpenSoloHandCardModalV269 = typeof openSoloHandCardModalV121 === 'function' ? openSoloHandCardModalV121 : null;
+  const oldOpenSoloTapSafeV269 = typeof openSoloHandCardModalTapSafeV131 === 'function' ? openSoloHandCardModalTapSafeV131 : null;
+  const oldUsePlayerHandFromModalV269 = typeof usePlayerHandFromModalV121 === 'function' ? usePlayerHandFromModalV121 : null;
+  const oldUseCoinFromHandV269 = typeof useCoinFromHandV111 === 'function' ? useCoinFromHandV111 : null;
+
+  function isPlayerSoloHandV269(side){
+    return side === 'player' && typeof isSoloTestMode === 'function' && isSoloTestMode();
+  }
+  function clearSoloPreviewIfAnyV269(){
+    try{ if(typeof clearSoloHandPreviewV121 === 'function') clearSoloHandPreviewV121(); }catch(e){}
+  }
+  function openPlayerHandConfirmV269(index, ev=null){
+    if(ev){ ev.preventDefault?.(); ev.stopPropagation?.(); ev.stopImmediatePropagation?.(); }
+    const g = state?.battle?.game;
+    if(!g?.player?.hand || !g.player.hand[index]) return false;
+    clearSoloPreviewIfAnyV269();
+    // Prevent old touchend/click pairs from opening and immediately firing twice.
+    const key = `${index}:${g.player.hand[index]}`;
+    const now = Date.now();
+    if(g._v269LastHandConfirmKey === key && now - Number(g._v269LastHandConfirmAt || 0) < 350) return false;
+    g._v269LastHandConfirmKey = key;
+    g._v269LastHandConfirmAt = now;
+    if(typeof confirmHandCardUseV268 === 'function') return confirmHandCardUseV268(index), false;
+    return oldOpenSoloHandCardModalV269 ? oldOpenSoloHandCardModalV269('player', index, ev) : false;
+  }
+
+  if(oldOpenSoloHandCardModalV269 && !oldOpenSoloHandCardModalV269.__v269PlayerConfirm){
+    openSoloHandCardModalV121 = function(side, index, ev=null){
+      if(isPlayerSoloHandV269(side)) return openPlayerHandConfirmV269(Number(index), ev);
+      return oldOpenSoloHandCardModalV269.call(this, side, index, ev);
+    };
+    openSoloHandCardModalV121.__v269PlayerConfirm = true;
+    window.openSoloHandCardModalV121 = openSoloHandCardModalV121;
+  }
+
+  if(oldOpenSoloTapSafeV269 && !oldOpenSoloTapSafeV269.__v269PlayerConfirm){
+    openSoloHandCardModalTapSafeV131 = function(side, index, ev=null){
+      if(isPlayerSoloHandV269(side)) return openPlayerHandConfirmV269(Number(index), ev);
+      return oldOpenSoloTapSafeV269.call(this, side, index, ev);
+    };
+    openSoloHandCardModalTapSafeV131.__v269PlayerConfirm = true;
+    window.openSoloHandCardModalTapSafeV131 = openSoloHandCardModalTapSafeV131;
+  }
+
+  if(oldUsePlayerHandFromModalV269 && !oldUsePlayerHandFromModalV269.__v269CoinTargetChoice){
+    usePlayerHandFromModalV121 = function(index){
+      const g = state?.battle?.game;
+      const card = byId(g?.player?.hand?.[index]);
+      clearSoloPreviewIfAnyV269();
+      if(!card) return false;
+      if(card.name === 'コイン' || isCoinResourceCard(card)) return useCoinFromHandV111(index);
+      return oldUsePlayerHandFromModalV269.call(this, index);
+    };
+    usePlayerHandFromModalV121.__v269CoinTargetChoice = true;
+    window.usePlayerHandFromModalV121 = usePlayerHandFromModalV121;
+  }
+
+  if(oldUseCoinFromHandV269 && !oldUseCoinFromHandV269.__v269AlwaysChoice){
+    useCoinFromHandV111 = function(index){
+      const g = state?.battle?.game;
+      const targets = typeof betTargetsV111 === 'function' ? betTargetsV111() : [];
+      if(!g || !targets.length){
+        toast('BETを持つ味方ユニット/武器がありません。', false);
+        battleLog('コイン：BET対象がありません。');
+        return false;
+      }
+      openChoiceModal('コイン：BET対象を選択', targets.map(t=>t.label), (_picked,i)=>{
+        const target = targets[i];
+        if(!target) return;
+        if(g.player.hand?.[index]) g.player.hand.splice(index, 1);
+        activateBetTargetV111(target);
+        g.selectedHandIndex = null;
+        g.pendingGenericEffect = null;
+        renderBattleArena();
+        syncMyBattleState();
+      }, {kind:'coinBetTargetV269', allowCancel:true, mustPick:false});
+      battleLog('コイン：BET対象を選択してください。');
+      return true;
+    };
+    useCoinFromHandV111.__v269AlwaysChoice = true;
+    window.useCoinFromHandV111 = useCoinFromHandV111;
+  }
+
+  // Safety: attack actions should not mutate the defender leader's MP by UI/sync side effect.
+  // Legitimate own-side MP changes from cards/weapons are preserved.
+  const oldAttackUnitV269 = typeof attackUnit === 'function' ? attackUnit : null;
+  if(oldAttackUnitV269 && !oldAttackUnitV269.__v269MpGuard){
+    attackUnit = function(attackerRef, defenderRef){
+      const g = state?.battle?.game;
+      const beforeEnemyMp = Number(g?.enemy?.mp ?? 0);
+      const beforeEnemyMaxMp = Number(g?.enemy?.maxMp ?? 0);
+      const beforePlayerMp = Number(g?.player?.mp ?? 0);
+      const beforePlayerMaxMp = Number(g?.player?.maxMp ?? 0);
+      const r = oldAttackUnitV269.call(this, attackerRef, defenderRef);
+      if(g && attackerRef?.side === 'player' && defenderRef?.side === 'enemy' && Number(g.enemy.mp ?? 0) < beforeEnemyMp && Number(g.enemy.maxMp ?? 0) === beforeEnemyMaxMp){
+        g.enemy.mp = beforeEnemyMp;
+        battleLog('表示補正：攻撃で相手MPが減らないよう補正しました。');
+        renderBattleArena();
+      }
+      if(g && attackerRef?.side === 'enemy' && defenderRef?.side === 'player' && Number(g.player.mp ?? 0) < beforePlayerMp && Number(g.player.maxMp ?? 0) === beforePlayerMaxMp){
+        g.player.mp = beforePlayerMp;
+        battleLog('表示補正：攻撃で自分MPが減らないよう補正しました。');
+        renderBattleArena();
+      }
+      return r;
+    };
+    attackUnit.__v269MpGuard = true;
+  }
 })();

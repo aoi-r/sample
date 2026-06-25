@@ -8258,3 +8258,382 @@ html, body, #app{
     font-size:7px !important;
   }
 }
+
+/* v268: portrait/solo mobile closeout.
+   - Override older absolute leader placement so leaders stay in the portrait grid.
+   - Make the portrait board smaller and keep a visible lane between enemy front and player front.
+   - Keep hand and HUD from covering each other.
+   - Fit hand-use/hero-skill choice modals on portrait screens. */
+@media (max-width: 960px) and (orientation: landscape){
+  .battle-arena .player-hud{
+    bottom:8px !important;
+    left:8px !important;
+    transform:scale(.86) !important;
+    transform-origin:left bottom !important;
+    z-index:14 !important;
+  }
+  .battle-arena .player-leader{
+    position:relative !important;
+    top:auto !important;
+    bottom:auto !important;
+    left:auto !important;
+    right:auto !important;
+    transform:translateX(-20px) !important;
+  }
+  .battle-arena .enemy-leader{
+    position:relative !important;
+    top:auto !important;
+    bottom:auto !important;
+    left:auto !important;
+    right:auto !important;
+    transform:translateX(16px) !important;
+  }
+}
+
+@media (orientation: portrait){
+  .battle-arena .arena-field{
+    left:8px !important;
+    right:92px !important;
+    top:92px !important;
+    bottom:170px !important;
+    grid-template-columns:repeat(3, minmax(46px, 1fr)) !important;
+    grid-template-rows:54px 50px 50px 24px 50px 50px 62px !important;
+    row-gap:6px !important;
+    column-gap:7px !important;
+  }
+  .battle-arena .unit-zones.twelve-zones{
+    grid-template-columns:repeat(3, minmax(46px, 1fr)) !important;
+    grid-template-rows:54px 50px 50px 24px 50px 50px 62px !important;
+    row-gap:6px !important;
+    column-gap:7px !important;
+  }
+  .battle-arena .unit-slot{
+    min-width:44px !important;
+    min-height:38px !important;
+    max-width:96px !important;
+    max-height:56px !important;
+    border-radius:8px !important;
+  }
+  .battle-arena .enemy-leader,
+  .battle-arena .player-leader{
+    position:relative !important;
+    top:auto !important;
+    bottom:auto !important;
+    left:auto !important;
+    right:auto !important;
+    margin:0 !important;
+  }
+  .battle-arena .enemy-leader{
+    grid-column:2 !important;
+    grid-row:1 !important;
+    transform:none !important;
+  }
+  .battle-arena .player-leader{
+    grid-column:2 !important;
+    grid-row:7 !important;
+    transform:none !important;
+  }
+  .battle-arena .enemy-board .unit-slot[data-pos="3"]{ grid-column:1 !important; grid-row:2 !important; }
+  .battle-arena .enemy-board .unit-slot[data-pos="4"]{ grid-column:2 !important; grid-row:2 !important; }
+  .battle-arena .enemy-board .unit-slot[data-pos="5"]{ grid-column:3 !important; grid-row:2 !important; }
+  .battle-arena .enemy-board .unit-slot[data-pos="0"]{ grid-column:1 !important; grid-row:3 !important; }
+  .battle-arena .enemy-board .unit-slot[data-pos="1"]{ grid-column:2 !important; grid-row:3 !important; }
+  .battle-arena .enemy-board .unit-slot[data-pos="2"]{ grid-column:3 !important; grid-row:3 !important; }
+  .battle-arena .player-board .unit-slot[data-pos="0"]{ grid-column:1 !important; grid-row:5 !important; }
+  .battle-arena .player-board .unit-slot[data-pos="1"]{ grid-column:2 !important; grid-row:5 !important; }
+  .battle-arena .player-board .unit-slot[data-pos="2"]{ grid-column:3 !important; grid-row:5 !important; }
+  .battle-arena .player-board .unit-slot[data-pos="3"]{ grid-column:1 !important; grid-row:6 !important; }
+  .battle-arena .player-board .unit-slot[data-pos="4"]{ grid-column:2 !important; grid-row:6 !important; }
+  .battle-arena .player-board .unit-slot[data-pos="5"]{ grid-column:3 !important; grid-row:6 !important; }
+  .battle-arena .player-leader .battle-side-identity,
+  .battle-arena .enemy-leader .battle-side-identity{
+    width:54px !important;
+    height:62px !important;
+  }
+  .battle-arena .player-leader .battle-side-class-icon,
+  .battle-arena .enemy-leader .battle-side-class-icon{
+    width:38px !important;
+    height:38px !important;
+  }
+  .battle-arena .player-leader .battle-side-hero-strip,
+  .battle-arena .enemy-leader .battle-side-hero-strip{
+    height:14px !important;
+    margin-top:0 !important;
+  }
+  .battle-arena .player-leader .battle-side-hero-card,
+  .battle-arena .enemy-leader .battle-side-hero-card{
+    width:11px !important;
+    height:15px !important;
+  }
+  .battle-arena .player-leader .battle-side-meta strong,
+  .battle-arena .enemy-leader .battle-side-meta strong{
+    font-size:8px !important;
+    max-width:56px !important;
+  }
+  .battle-arena .player-leader .battle-side-identity span,
+  .battle-arena .enemy-leader .battle-side-identity span,
+  .battle-arena .player-leader .battle-side-meta span,
+  .battle-arena .enemy-leader .battle-side-meta span{
+    font-size:6px !important;
+    max-width:56px !important;
+  }
+  .battle-arena .player-hud{
+    left:8px !important;
+    right:92px !important;
+    bottom:72px !important;
+    min-height:54px !important;
+    align-content:center !important;
+    z-index:13 !important;
+  }
+  .battle-arena .player-hand{
+    left:8px !important;
+    right:8px !important;
+    bottom:8px !important;
+    height:58px !important;
+    z-index:14 !important;
+  }
+  .battle-arena .hand-card{
+    flex-basis:36px !important;
+    width:36px !important;
+    height:52px !important;
+  }
+  .battle-arena .battle-log{
+    right:4px !important;
+    bottom:74px !important;
+    width:84px !important;
+    max-height:118px !important;
+  }
+  .battle-arena .enemy-hud{
+    top:10px !important;
+    right:8px !important;
+    max-width:130px !important;
+    z-index:14 !important;
+  }
+  .battle-arena .battle-top-command{
+    top:49% !important;
+    right:2px !important;
+    z-index:14 !important;
+  }
+
+  /* Choice/action modal portrait fit */
+  .choice-modal{
+    width:min(92vw, 360px) !important;
+    max-width:92vw !important;
+    max-height:82dvh !important;
+    padding:14px !important;
+    overflow:hidden !important;
+  }
+  .choice-modal .modal-head,
+  .choice-modal .choice-modal-head{
+    gap:8px !important;
+  }
+  .choice-modal h3,
+  #choice-modal-title{
+    font-size:18px !important;
+    line-height:1.2 !important;
+  }
+  .choice-modal-body,
+  #choice-modal-body{
+    max-height:64dvh !important;
+    overflow:auto !important;
+  }
+  .choice-modal-body--cards .choice-option{
+    grid-template-columns:96px 1fr !important;
+    min-height:126px !important;
+    padding:10px !important;
+  }
+  .choice-option-card-wrap{
+    width:96px !important;
+    min-width:96px !important;
+  }
+  .choice-option-card-image{
+    max-width:96px !important;
+    max-height:126px !important;
+  }
+  .choice-option-title{
+    font-size:16px !important;
+    line-height:1.25 !important;
+  }
+  .choice-option-desc,
+  .choice-option-sub{
+    font-size:12px !important;
+    line-height:1.35 !important;
+  }
+}
+
+/* v269: portrait hard-fix from device screenshots.
+   Put leaders outside the slot grid with absolute coordinates, reserve a clear middle lane,
+   and keep solo/player hand controls tappable. */
+@media (orientation: portrait){
+  .battle-arena{
+    position:relative !important;
+    overflow:hidden !important;
+  }
+  .battle-arena .arena-field{
+    position:absolute !important;
+    left:10px !important;
+    right:96px !important;
+    top:94px !important;
+    bottom:166px !important;
+    display:block !important;
+    padding:0 !important;
+    background:transparent !important;
+  }
+  .battle-arena .unit-zones.twelve-zones{
+    position:absolute !important;
+    inset:0 !important;
+    display:grid !important;
+    width:100% !important;
+    height:100% !important;
+    margin:0 !important;
+    grid-template-columns:repeat(3, minmax(42px, 1fr)) !important;
+    grid-template-rows:52px 52px 34px 52px 52px !important;
+    column-gap:7px !important;
+    row-gap:7px !important;
+    align-items:center !important;
+    justify-items:center !important;
+  }
+  .battle-arena .unit-slot{
+    width:100% !important;
+    height:100% !important;
+    min-width:42px !important;
+    min-height:36px !important;
+    max-width:96px !important;
+    max-height:54px !important;
+    border-radius:8px !important;
+  }
+  .battle-arena .enemy-leader,
+  .battle-arena .player-leader{
+    position:absolute !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    margin:0 !important;
+    z-index:9 !important;
+    grid-column:auto !important;
+    grid-row:auto !important;
+  }
+  .battle-arena .enemy-leader{
+    top:-78px !important;
+    left:50% !important;
+    right:auto !important;
+    bottom:auto !important;
+    transform:translateX(-50%) scale(.82) !important;
+  }
+  .battle-arena .player-leader{
+    bottom:-82px !important;
+    left:50% !important;
+    right:auto !important;
+    top:auto !important;
+    transform:translateX(-50%) scale(.82) !important;
+  }
+  .battle-arena .enemy-board .unit-slot[data-pos="3"]{ grid-column:1 !important; grid-row:1 !important; }
+  .battle-arena .enemy-board .unit-slot[data-pos="4"]{ grid-column:2 !important; grid-row:1 !important; }
+  .battle-arena .enemy-board .unit-slot[data-pos="5"]{ grid-column:3 !important; grid-row:1 !important; }
+  .battle-arena .enemy-board .unit-slot[data-pos="0"]{ grid-column:1 !important; grid-row:2 !important; }
+  .battle-arena .enemy-board .unit-slot[data-pos="1"]{ grid-column:2 !important; grid-row:2 !important; }
+  .battle-arena .enemy-board .unit-slot[data-pos="2"]{ grid-column:3 !important; grid-row:2 !important; }
+  .battle-arena .player-board .unit-slot[data-pos="0"]{ grid-column:1 !important; grid-row:4 !important; }
+  .battle-arena .player-board .unit-slot[data-pos="1"]{ grid-column:2 !important; grid-row:4 !important; }
+  .battle-arena .player-board .unit-slot[data-pos="2"]{ grid-column:3 !important; grid-row:4 !important; }
+  .battle-arena .player-board .unit-slot[data-pos="3"]{ grid-column:1 !important; grid-row:5 !important; }
+  .battle-arena .player-board .unit-slot[data-pos="4"]{ grid-column:2 !important; grid-row:5 !important; }
+  .battle-arena .player-board .unit-slot[data-pos="5"]{ grid-column:3 !important; grid-row:5 !important; }
+  .battle-arena .player-hud{
+    position:absolute !important;
+    left:8px !important;
+    right:96px !important;
+    bottom:74px !important;
+    min-height:50px !important;
+    z-index:16 !important;
+  }
+  .battle-arena .player-hand{
+    bottom:6px !important;
+    height:60px !important;
+    z-index:17 !important;
+  }
+  .battle-arena .solo-debug-strip{
+    left:8px !important;
+    right:8px !important;
+    bottom:6px !important;
+    height:64px !important;
+    max-height:64px !important;
+    z-index:18 !important;
+  }
+  .battle-arena .solo-debug-row{ min-height:28px !important; }
+  .battle-arena .solo-debug-card{
+    width:36px !important;
+    min-width:36px !important;
+    height:52px !important;
+  }
+  .battle-arena .enemy-hud{
+    top:10px !important;
+    right:8px !important;
+    max-width:132px !important;
+    z-index:19 !important;
+  }
+  .battle-arena .battle-top-command{
+    top:51% !important;
+    right:2px !important;
+    z-index:19 !important;
+  }
+  .battle-arena .battle-log{
+    right:4px !important;
+    bottom:82px !important;
+    width:86px !important;
+    max-height:112px !important;
+    z-index:15 !important;
+  }
+  .hero-skill-modal,
+  .choice-modal{
+    width:min(92vw, 360px) !important;
+    max-width:92vw !important;
+    max-height:84dvh !important;
+    overflow:hidden !important;
+    padding:14px !important;
+  }
+  .hero-skill-modal .modal-body,
+  .choice-modal .modal-body{
+    max-height:66dvh !important;
+    overflow:auto !important;
+  }
+  .hero-skill-confirm{
+    display:grid !important;
+    grid-template-columns:minmax(108px, 40%) minmax(0, 1fr) !important;
+    gap:12px !important;
+    align-items:start !important;
+  }
+  .hero-skill-confirm img{
+    width:100% !important;
+    max-width:132px !important;
+    height:auto !important;
+  }
+  .hero-skill-confirm h4{ font-size:16px !important; line-height:1.25 !important; margin:0 0 8px !important; }
+  .hero-skill-confirm p{ font-size:13px !important; line-height:1.45 !important; word-break:break-word !important; }
+  .hero-skill-modal .hero-skill-confirm .primary{
+    min-width:0 !important;
+    width:100% !important;
+    white-space:normal !important;
+    overflow-wrap:anywhere !important;
+    line-height:1.25 !important;
+    padding:10px 8px !important;
+  }
+  .choice-modal-body--cards .choice-option{
+    grid-template-columns:88px minmax(0,1fr) !important;
+    overflow:hidden !important;
+  }
+  .choice-option-card-wrap{ width:88px !important; min-width:88px !important; }
+  .choice-option-card-image{ max-width:88px !important; max-height:122px !important; }
+  .choice-option-copy{ min-width:0 !important; overflow:hidden !important; }
+}
+
+@media (max-width: 960px) and (orientation: landscape){
+  .battle-arena .player-hud{
+    bottom:4px !important;
+    left:8px !important;
+    z-index:18 !important;
+    transform:scale(.82) !important;
+    transform-origin:left bottom !important;
+  }
+  .battle-arena .player-hand{ bottom:2px !important; }
+}
