@@ -13351,12 +13351,25 @@ function drawCard(count=1){
 function renderTension(){
   const game = state.battle.game;
   if(!game) return;
-  const pips = [...$('tension-pips').querySelectorAll('i')];
-  pips.forEach((p, i) => p.classList.toggle('on', i < game.player.tension));
-  $('tension-button').dataset.tension = String(game.player.tension);
-  if($('tension-count-label')) $('tension-count-label').textContent = String(game.player.tension);
-  $('tension-button').classList.toggle('ready', game.player.tension >= 3);
-  $('tension-button').title = game.player.tension >= 3 ? `テンションスキル: ${game.player.leaderSkill?.skillName || ''}` : 'テンションをためる';
+  const pips = [...($('tension-pips')?.querySelectorAll('i') || [])];
+  pips.forEach((p, i) => p.classList.toggle('on', i < Number(game.player.tension || 0)));
+  if($('tension-button')){
+    $('tension-button').dataset.tension = String(Number(game.player.tension || 0));
+    $('tension-button').classList.toggle('ready', Number(game.player.tension || 0) >= 3);
+    $('tension-button').title = Number(game.player.tension || 0) >= 3 ? `テンションスキル: ${game.player.leaderSkill?.skillName || ''}` : 'テンションをためる';
+  }
+  if($('tension-count-label')) $('tension-count-label').textContent = String(Number(game.player.tension || 0));
+
+  const enemyTension = Number(game.enemy?.tension || 0);
+  const enemyPips = [...($('enemy-tension-pips')?.querySelectorAll('i') || [])];
+  enemyPips.forEach((p, i) => p.classList.toggle('on', i < enemyTension));
+  const enemyOrb = $('enemy-tension-display');
+  if(enemyOrb){
+    enemyOrb.dataset.tension = String(enemyTension);
+    enemyOrb.classList.toggle('ready', enemyTension >= 3);
+    enemyOrb.title = `相手テンション ${enemyTension}`;
+  }
+  if($('enemy-tension-count-label')) $('enemy-tension-count-label').textContent = String(enemyTension);
 }
 
 
