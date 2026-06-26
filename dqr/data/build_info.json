@@ -1,5 +1,5 @@
 {
-  "version": "v272",
+  "version": "v279_pvp_sync_loop_fix",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -238,11 +238,11 @@
     "removal_behavior": "効果が消えた場合はステータス再計算・再描画により表示も消える。",
     "image_rewrite_policy": "元画像ファイルは変更せず、DOMオーバーレイで表示する。"
   },
-  "base": "v247_emulator_duplicate_trigger_hardening",
+  "base": "RESTORED_TO_V273_before_layout_break",
   "filenameSanitization": "custom_cards filenames normalized to short ASCII names to avoid File name too long on checkout/build",
   "data_version": "v165_default_decks_remove_demon_swordsman_and_effect_audit",
-  "label": "portrait hero-on-use + hand-confirm + local backgrounds",
-  "notes": "カンダタこぶんBET修正、商人31件、魔剣士36件を実装/確認。ブオーン/ウルノーガ/転生/アクバーを対戦ブラウザ検査。",
+  "label": "v279 / PvP sync loop fix",
+  "notes": "Fix PvP hand flicker and dead controls by removing render->Firebase sync loop from v270 authoritative sync and ignoring duplicate remote state sequences.",
   "defaultTestDecks": {
     "file": "data/default_test_decks_v165.json",
     "active": [

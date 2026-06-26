@@ -1,0 +1,51 @@
+{
+  "version": "v279_pvp_sync_loop_fix",
+  "node_check": "OK",
+  "static_tests": {
+    "passed": 7,
+    "failed": 0,
+    "results": [
+      {
+        "name": "no executable render->sync wrapper",
+        "passed": true,
+        "detail": "renderBattleArena must not schedule Firebase sync just because UI rendered"
+      },
+      {
+        "name": "duplicate v270 seq is rejected",
+        "passed": true,
+        "detail": "same remote stateSeq must not trigger another render"
+      },
+      {
+        "name": "duplicate v270 does not fallback to old renderer",
+        "passed": true,
+        "detail": "duplicate v270 snapshots are ignored, not rendered by old fallback"
+      },
+      {
+        "name": "real actions still schedule sync",
+        "passed": true,
+        "detail": "pushBattleAction still syncs real game mutations"
+      },
+      {
+        "name": "end turn still schedules sync",
+        "passed": true,
+        "detail": "endTurn still syncs turn change"
+      },
+      {
+        "name": "cache buster app.js",
+        "passed": true,
+        "detail": "GitHub Pages/PWA should not keep stale app.js"
+      },
+      {
+        "name": "cache buster style.css",
+        "passed": true,
+        "detail": "GitHub Pages/PWA should not keep stale style.css"
+      }
+    ]
+  },
+  "fixed": [
+    "Removed renderBattleArena -> scheduleSyncV270(render) automatic sync loop",
+    "Ignored duplicate v270 Firebase stateSeq snapshots",
+    "Preserved sync after real actions and turn end",
+    "Added app.js/style.css cache busters"
+  ]
+}

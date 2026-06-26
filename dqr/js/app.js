@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v253_shido_haja_hero_branch_pass5';
-const BUILD_LABEL = 'v253 / shido + haja hero branch pass5';
+const DATA_VERSION = 'v279_pvp_sync_loop_fix';
+const BUILD_LABEL = 'v279 / PvP sync loop fix';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -22833,8 +22833,10 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
     x._v270RemoteSeq ||= Object.create(null);
     const old = Number(x._v270RemoteSeq[pid] || 0);
     const seq = Number(snap.stateSeq || 0);
-    // Accept seq-less snapshots for old clients, but never roll back a v270 seq.
-    if(seq && old && seq < old) return false;
+    // v279: accept each v270 state sequence only once.
+    // Equal-seq snapshots can arrive more than once from Firebase cache/listener churn;
+    // rendering them again was enough to keep the hand DOM rebuilding on PvP rooms.
+    if(seq && old && seq <= old) return false;
     if(seq) x._v270RemoteSeq[pid] = Math.max(old, seq);
     return true;
   }
@@ -22954,7 +22956,13 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
       entries.sort((a,b)=>Number(b.stateSeq||0)-Number(a.stateSeq||0) || Number(b.clientUpdatedAt||0)-Number(a.clientUpdatedAt||0));
       const entry = entries[0];
       const applied = applySnapshotToEnemyV270(entry, 'firebase-state');
-      if(!applied) return oldApplyState.call(this, states);
+      if(!applied){
+        // v279: a v270 snapshot with an already-applied stateSeq is not an old-client
+        // payload; falling back to the pre-v270 handler would still render and revive
+        // the PvP hand flicker.  Ignore duplicate v270 snapshots completely.
+        if(entry?.v270Snapshot || entry?.stateSeq) return false;
+        return oldApplyState.call(this, states);
+      }
       renderBattleArena();
       return true;
     };
@@ -22972,15 +22980,15 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
     applyRemoteAction.__v270Snapshot = true;
   }
 
-  const oldRender = typeof renderBattleArena === 'function' ? renderBattleArena : null;
-  if(oldRender && !oldRender.__v270Sync){
-    renderBattleArena = function(){
-      const r = oldRender.call(this);
-      scheduleSyncV270('render');
-      return r;
-    };
-    renderBattleArena.__v270Sync = true;
-  }
+  // v279: Do NOT sync merely because the arena was rendered.
+  // The old v270 wrapper did this:
+  //   renderBattleArena -> scheduleSyncV270('render') -> syncMyBattleState
+  // In PvP, receiving the opponent state calls renderBattleArena(), which then
+  // wrote our own state again.  Two clients therefore bounced state writes and
+  // renders endlessly, rebuilding #player-hand so quickly that clicks/taps,
+  // choice-modal buttons, turn end, and exit appeared dead.
+  // State is still synced from real mutations/actions through the existing
+  // explicit syncMyBattleState() calls, pushBattleAction(), and endTurn().
 
   const oldEndTurn = typeof endTurn === 'function' ? endTurn : null;
   if(oldEndTurn && !oldEndTurn.__v270ClearSelection){
