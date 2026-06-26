@@ -1,5 +1,5 @@
 {
-  "version": "v270_authoritative_board_sync",
+  "version": "v271_portrait_layout_hand_hero_refine",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -661,5 +661,6 @@
   "layoutUpdateV268": "Portrait: force leaders back into CSS grid (override old absolute leader rules), shrink board/HUD/hand spacing, keep visible center gap. Input: hand tap opens use confirmation modal, and coin BET always opens target choice even with a single target.",
   "layoutUpdateV269": "Portrait hard-fix: leaders are positioned absolutely outside the unit grid, enemy/player front rows have a clear center lane, hero-skill and choice modals fit portrait width. Landscape player HUD moved lower. Solo player hand strip taps now use the normal hand-use confirmation flow; coin BET always opens a target-choice modal. Added attack MP display guard.",
   "syncFixV270": "Every outbound action/public state now carries an authoritative public board snapshot. Receiver applies board/HP/MP/tension/weapon/terrain as the source of truth to fix missing summons, spell-created units, buffs/debuffs, and stale target-selection deadlocks.",
-  "layoutFixV270": "Portrait mobile layout pulls own HP/MP/tension region upward and reduces dead space between own summon slots and own HUD."
+  "layoutFixV270": "Portrait mobile layout pulls own HP/MP/tension region upward and reduces dead space between own summon slots and own HUD.",
+  "layoutUpdateV271": "Approved portrait mock incorporated: smaller hand row above bottom HUD, bottom player HUD pinned lower, mini hero card displayed between tension orb and HP, and player summon rows pulled upward to reduce wasted vertical space."
 }

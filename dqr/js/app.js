@@ -764,6 +764,29 @@ function renderBattleLeaderIdentitiesV175(){
 }
 
 
+/* v271: bottom player HUD mini hero-card display for portrait/mobile layout. */
+function renderPlayerHeroMiniDockV271(){
+  const dock = $('player-hero-mini-dock');
+  const game = state.battle.game;
+  if(!dock || !game){ return; }
+  const heroes = getBattleSideHeroCardsV175('player').slice(0, 1);
+  const card = heroes[0];
+  if(!card){
+    dock.classList.add('hidden');
+    dock.innerHTML = '';
+    return;
+  }
+  const img = getOfficialImage(card);
+  dock.classList.remove('hidden');
+  dock.title = card.name || 'ヒーローカード';
+  if(img){
+    dock.innerHTML = `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name || 'Hero')}" loading="lazy" referrerpolicy="no-referrer">`;
+  }else{
+    dock.innerHTML = `<span>${escapeHtml(String(card.name || 'Hero').slice(0,2))}</span>`;
+  }
+}
+
+
 function renderCards(){
   const grid = $('card-grid'); grid.innerHTML = '';
   if(!state.selectedClass){ $('card-count-label').textContent = 'まず職業を選択してください。'; return; }
@@ -5998,6 +6021,7 @@ function renderBattleArena(){
   $('enemy-mp').textContent = `${game.enemy.mp}/${game.enemy.maxMp}` + (isSoloTestMode() ? ` 手札${game.enemy.handCount || game.enemy.hand?.length || 0}` : '');
   if($('battle-turn-label')) $('battle-turn-label').textContent = isSoloTestMode() ? `TURN ${game.turn} ${soloSideNameV114(soloActiveSideV114())}` : `TURN ${game.turn}`;
   renderBattleLeaderIdentitiesV175();
+  renderPlayerHeroMiniDockV271();
   const endTop = $('end-turn-top');
   if(endTop){
     if(isSoloTestMode()){
