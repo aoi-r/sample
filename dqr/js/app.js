@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v280_puchi_metal_turnstart_remote_death_fix';
-const BUILD_LABEL = 'v280 / ぷちメタルGET・死亡同期修正';
+const DATA_VERSION = 'v281_pvp_authoritative_sync_hand_layout_fix';
+const BUILD_LABEL = 'v281 / PvP同期・手札漏れ・横画面被り修正';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -23079,5 +23079,144 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
     prepareOwnTurnStartV280,
     cleanupRemoteHpZeroUnitsV280,
     v280:{version:'v280_puchi_metal_turnstart_remote_death_fix'}
+  }); }
+})();
+
+
+// v281: PvP authoritative sync closeout.
+// - UnitDeath actions are emitted before the local board slot is nulled by resolveDeaths().
+//   v270 attached a snapshot to every action and applied that snapshot *after* the reducer,
+//   so a remote client could remove the dead unit and then immediately revive the stale HP0
+//   snapshot.  Strip stale snapshots from unitDeath and let the reducer/null board win.
+// - Do not ever import opponent real hand IDs into PvP public state.  Keep only handCount.
+// - Schedule a debounced authoritative state sync after real local board mutations/death cleanup.
+(function installV281PvpAuthoritativeSyncFix(){
+  if(globalThis.__v281PvpAuthoritativeSyncFixInstalled) return;
+  globalThis.__v281PvpAuthoritativeSyncFixInstalled = true;
+  const V281 = 'v281_pvp_authoritative_sync_hand_layout_fix';
+  const now = () => Date.now ? Date.now() : Number(new Date());
+  const game = () => state?.battle?.game || null;
+  const inPvp = () => !!(state?.battle?.roomId && state?.firebase?.enabled && state?.firebase?.db) && !(typeof isSoloTestMode === 'function' && isSoloTestMode());
+  function clone(obj){ try{ return cloneEventPayload(obj); }catch(e){ try{return JSON.parse(JSON.stringify(obj));}catch(_){return obj;} } }
+  function sanitizeActionSnapshotV281(action){
+    if(!action || action.type !== 'unitDeath') return action;
+    const a = {...action};
+    if(a.stateSnapshotV270) a.stateSnapshotV270 = null;
+    if(a.payload && typeof a.payload === 'object') a.payload = {...a.payload, stateSnapshotV270:null};
+    return a;
+  }
+  function cleanupBoardByRemoteDeathV281(payload={}){
+    const g = game(); if(!g) return false;
+    const side = payload.side === 'player' ? 'enemy' : payload.side === 'enemy' ? 'player' : null;
+    const pos = Number(payload.pos);
+    const board = side === 'player' ? g.player.board : side === 'enemy' ? g.enemy.board : null;
+    if(!board || !Number.isInteger(pos) || pos < 0 || pos >= board.length) return false;
+    const u = board[pos];
+    if(!u) return false;
+    const payloadUnit = payload.unit || {};
+    if(payloadUnit.id && u.id && payloadUnit.id !== u.id) return false;
+    if(payloadUnit.cardId && u.cardId && payloadUnit.cardId !== u.cardId) return false;
+    board[pos] = null;
+    return true;
+  }
+  function scheduleAuthoritativeSyncV281(reason='mutation'){
+    const g = game();
+    if(!g || !inPvp() || state?.battle?.processingRemoteAction) return;
+    clearTimeout(g._v281AuthoritativeSyncTimer);
+    g._v281AuthoritativeSyncTimer = setTimeout(()=>{
+      try{ syncMyBattleState(); }
+      catch(e){ console.warn('v281 authoritative sync failed', reason, e); }
+    }, 60);
+  }
+  function stripRemoteHandLeakV281(){
+    const g = game(); if(!g || !inPvp()) return;
+    // The opponent's exact hand should never be part of PvP local state/UI.  It caused old
+    // handIds snapshots to look like coins or generated cards appeared on the wrong client.
+    if(Array.isArray(g.enemy.hand) && g.enemy.hand.length){
+      g.enemy.hand = [];
+    }
+  }
+
+  const oldApplyRemoteActionV281 = typeof applyRemoteAction === 'function' ? applyRemoteAction : null;
+  if(oldApplyRemoteActionV281 && !oldApplyRemoteActionV281.__v281UnitDeathSnapshotGuard){
+    applyRemoteAction = function(action, id=''){
+      const cleanAction = sanitizeActionSnapshotV281(action);
+      const r = oldApplyRemoteActionV281.call(this, cleanAction, id);
+      if(action?.type === 'unitDeath'){
+        cleanupBoardByRemoteDeathV281(action.payload || {});
+        stripRemoteHandLeakV281();
+        try{ renderBattleArena(); }catch(e){}
+      }else if(['unitSummoned','unitPutIntoPlay','damageApplied','counterDamage','attackResolved','unitStatePatchV264','unitStatePatchV263','unitMovedBoardV256'].includes(String(action?.type || ''))){
+        stripRemoteHandLeakV281();
+      }
+      return r;
+    };
+    applyRemoteAction.__v281UnitDeathSnapshotGuard = true;
+  }
+
+  const oldApplyRemoteOpponentStateV281 = typeof applyRemoteOpponentState === 'function' ? applyRemoteOpponentState : null;
+  if(oldApplyRemoteOpponentStateV281 && !oldApplyRemoteOpponentStateV281.__v281NoRemoteHandIds){
+    applyRemoteOpponentState = function(states){
+      const clean = {};
+      for(const [k,v] of Object.entries(states || {})){
+        clean[k] = v && typeof v === 'object' ? {...v, handIds:[], handRedactedV281:true, handRedactedV270:true, handRedactedV265:true} : v;
+      }
+      const r = oldApplyRemoteOpponentStateV281.call(this, clean);
+      stripRemoteHandLeakV281();
+      return r;
+    };
+    applyRemoteOpponentState.__v281NoRemoteHandIds = true;
+  }
+
+  const oldSyncMyBattleStateV281 = typeof syncMyBattleState === 'function' ? syncMyBattleState : null;
+  if(oldSyncMyBattleStateV281 && !oldSyncMyBattleStateV281.__v281NoHandLeak){
+    syncMyBattleState = async function(){
+      const g = game();
+      if(g && inPvp()){
+        // Clear any old accidental public hand mirror before snapshot wrappers run.
+        g._v281LastSyncAt = now();
+      }
+      return oldSyncMyBattleStateV281.call(this);
+    };
+    syncMyBattleState.__v281NoHandLeak = true;
+  }
+
+  const oldResolveDeathsV281 = typeof resolveDeaths === 'function' ? resolveDeaths : null;
+  if(oldResolveDeathsV281 && !oldResolveDeathsV281.__v281PostDeathSync){
+    resolveDeaths = function(){
+      const r = oldResolveDeathsV281.call(this);
+      scheduleAuthoritativeSyncV281('resolveDeaths');
+      return r;
+    };
+    resolveDeaths.__v281PostDeathSync = true;
+  }
+
+  const oldSummonUnitFromHandToBoardV281 = typeof summonUnitFromHandToBoard === 'function' ? summonUnitFromHandToBoard : null;
+  if(oldSummonUnitFromHandToBoardV281 && !oldSummonUnitFromHandToBoardV281.__v281PostSummonSync){
+    summonUnitFromHandToBoard = function(card, pos, cost){
+      const r = oldSummonUnitFromHandToBoardV281.call(this, card, pos, cost);
+      scheduleAuthoritativeSyncV281('summonUnitFromHandToBoard');
+      return r;
+    };
+    summonUnitFromHandToBoard.__v281PostSummonSync = true;
+  }
+
+  const oldPutUnitIntoPlayFromCardV281 = typeof putUnitIntoPlayFromCard === 'function' ? putUnitIntoPlayFromCard : null;
+  if(oldPutUnitIntoPlayFromCardV281 && !oldPutUnitIntoPlayFromCardV281.__v281PostPutSync){
+    putUnitIntoPlayFromCard = function(card, pos, side='player', stats={}){
+      const r = oldPutUnitIntoPlayFromCardV281.call(this, card, pos, side, stats);
+      if(side === 'player') scheduleAuthoritativeSyncV281('putUnitIntoPlayFromCard');
+      return r;
+    };
+    putUnitIntoPlayFromCard.__v281PostPutSync = true;
+  }
+
+  if(window.__DQR_TEST__){ Object.assign(window.__DQR_TEST__, {
+    applyRemoteAction,
+    applyRemoteOpponentState,
+    resolveDeaths,
+    summonUnitFromHandToBoard,
+    putUnitIntoPlayFromCard,
+    v281:{version:V281, sanitizeActionSnapshot:sanitizeActionSnapshotV281, cleanupBoardByRemoteDeath:cleanupBoardByRemoteDeathV281, stripRemoteHandLeak:stripRemoteHandLeakV281}
   }); }
 })();

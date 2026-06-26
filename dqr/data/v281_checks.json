@@ -1,0 +1,37 @@
+{
+  "version": "v281_pvp_authoritative_sync_hand_layout_fix",
+  "passed": 6,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "node --check js/app.js",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "top-level function重複宣言: 0",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "v281 unitDeath stale snapshot guard installed",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "v281 remote handIds ignored",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "v281 post-death authoritative sync installed",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "v281 landscape no-overlap CSS installed",
+      "passed": true,
+      "detail": ""
+    }
+  ]
+}

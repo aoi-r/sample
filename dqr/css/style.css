@@ -9075,3 +9075,68 @@ html, body, #app, #screen-battle.active, #screen-battle.active .battle-screen{
     height:40px !important;
   }
 }
+
+
+/* v281: landscape hand/field separation.
+   Keep the player's hand strip below the battlefield so own lower row remains tappable. */
+@media (max-width: 960px) and (orientation: landscape){
+  #screen-battle.active .battle-arena .arena-field{
+    top:4px !important;
+    bottom:132px !important;
+    left:8px !important;
+    right:96px !important;
+    grid-template-rows:50px 44px 44px 12px 44px 44px 48px !important;
+  }
+  #screen-battle.active .battle-arena .unit-zones.twelve-zones{
+    grid-template-rows:50px 44px 44px 12px 44px 44px 48px !important;
+  }
+  #screen-battle.active .battle-arena .unit-slot{
+    min-height:34px !important;
+    max-height:48px !important;
+  }
+  #screen-battle.active .battle-arena .player-hud{
+    left:8px !important;
+    right:96px !important;
+    bottom:62px !important;
+    z-index:18 !important;
+    transform:scale(.86) !important;
+    transform-origin:left bottom !important;
+    pointer-events:auto !important;
+  }
+  #screen-battle.active .battle-arena .player-hand{
+    left:8px !important;
+    right:8px !important;
+    bottom:4px !important;
+    height:56px !important;
+    max-height:56px !important;
+    z-index:17 !important;
+    pointer-events:auto !important;
+  }
+  #screen-battle.active .battle-arena .hand-card{
+    flex-basis:36px !important;
+    width:36px !important;
+    height:52px !important;
+  }
+}
+@media (max-width: 760px) and (orientation: landscape){
+  #screen-battle.active .battle-arena .arena-field{
+    bottom:126px !important;
+    grid-template-rows:46px 40px 40px 10px 40px 40px 44px !important;
+  }
+  #screen-battle.active .battle-arena .unit-zones.twelve-zones{
+    grid-template-rows:46px 40px 40px 10px 40px 40px 44px !important;
+  }
+  #screen-battle.active .battle-arena .player-hud{
+    bottom:58px !important;
+    transform:scale(.82) !important;
+  }
+  #screen-battle.active .battle-arena .player-hand{
+    height:52px !important;
+    max-height:52px !important;
+  }
+  #screen-battle.active .battle-arena .hand-card{
+    flex-basis:34px !important;
+    width:34px !important;
+    height:49px !important;
+  }
+}

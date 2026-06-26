@@ -1,0 +1,102 @@
+{
+  "browser": "Chrome/144.0.7559.96",
+  "passed": 5,
+  "failed": 0,
+  "results": [
+    {
+      "name": "boot with v281 hook",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "unitDeath stale snapshot cannot revive HP0 unit",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "enemy": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "log": [
+          "バトル開始。ヒーローカードはサマルトリアの王子以外、開始時手札に入りました。"
+        ]
+      }
+    },
+    {
+      "name": "remote summon visible and exact opponent hand remains hidden",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "enemy": [
+          {
+            "name": "スライム",
+            "hp": 1,
+            "maxHp": 1,
+            "attack": 1,
+            "id": "token_slime_1_1_1782498196437_20c5adb6",
+            "isBuilding": false,
+            "canAttack": false
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "hand": [],
+        "handCount": 3
+      }
+    },
+    {
+      "name": "remote public handIds are ignored so coin cannot enter wrong hand",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "enemyHand": [],
+        "playerHand": [],
+        "enemyHandCount": 1
+      }
+    },
+    {
+      "name": "landscape own hand does not overlap lower player board row",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "handTop": 1336.3125,
+        "lowerBottom": 1210.3125,
+        "gap": 126,
+        "hand": {
+          "top": 1336.3125,
+          "bottom": 1361.3125,
+          "height": 25
+        },
+        "lower": [
+          {
+            "pos": "3",
+            "top": 1204.3125,
+            "bottom": 1210.3125,
+            "height": 6
+          },
+          {
+            "pos": "4",
+            "top": 1204.3125,
+            "bottom": 1210.3125,
+            "height": 6
+          },
+          {
+            "pos": "5",
+            "top": 1204.3125,
+            "bottom": 1210.3125,
+            "height": 6
+          }
+        ]
+      }
+    }
+  ],
+  "exceptions": [],
+  "chromeLog": "/tmp/tmp6si4uk57"
+}
