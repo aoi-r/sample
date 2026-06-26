@@ -1,5 +1,5 @@
 {
-  "version": "v271_portrait_layout_hand_hero_refine",
+  "version": "v272",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -241,7 +241,7 @@
   "base": "v247_emulator_duplicate_trigger_hardening",
   "filenameSanitization": "custom_cards filenames normalized to short ASCII names to avoid File name too long on checkout/build",
   "data_version": "v165_default_decks_remove_demon_swordsman_and_effect_audit",
-  "label": "v246 / duplicate trigger guard + effect fallthrough fix",
+  "label": "portrait hero-on-use + hand-confirm + local backgrounds",
   "notes": "カンダタこぶんBET修正、商人31件、魔剣士36件を実装/確認。ブオーン/ウルノーガ/転生/アクバーを対戦ブラウザ検査。",
   "defaultTestDecks": {
     "file": "data/default_test_decks_v165.json",

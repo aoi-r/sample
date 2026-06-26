@@ -764,25 +764,28 @@ function renderBattleLeaderIdentitiesV175(){
 }
 
 
-/* v271: bottom player HUD mini hero-card display for portrait/mobile layout. */
+/* v272: bottom player HUD mini hero-card display for portrait/mobile layout.
+   Show only after the hero card has actually been used. */
 function renderPlayerHeroMiniDockV271(){
   const dock = $('player-hero-mini-dock');
   const game = state.battle.game;
   if(!dock || !game){ return; }
-  const heroes = getBattleSideHeroCardsV175('player').slice(0, 1);
-  const card = heroes[0];
-  if(!card){
+  const heroName = game?.player?.heroSkill?.heroCardName || '';
+  if(!heroName){
     dock.classList.add('hidden');
     dock.innerHTML = '';
+    dock.removeAttribute('data-hero-name');
     return;
   }
+  const card = state.allCards.find(c => c && c.name === heroName) || {name:heroName};
   const img = getOfficialImage(card);
   dock.classList.remove('hidden');
-  dock.title = card.name || 'ヒーローカード';
+  dock.dataset.heroName = heroName;
+  dock.title = heroName || '使用中ヒーローカード';
   if(img){
-    dock.innerHTML = `<img src="${escapeHtml(img)}" alt="${escapeHtml(card.name || 'Hero')}" loading="lazy" referrerpolicy="no-referrer">`;
+    dock.innerHTML = `<img src="${escapeHtml(img)}" alt="${escapeHtml(heroName || 'Hero')}" loading="lazy" referrerpolicy="no-referrer">`;
   }else{
-    dock.innerHTML = `<span>${escapeHtml(String(card.name || 'Hero').slice(0,2))}</span>`;
+    dock.innerHTML = `<span>${escapeHtml(String(heroName || 'Hero').slice(0,2))}</span>`;
   }
 }
 
@@ -6187,12 +6190,20 @@ function confirmHandCardUseV268(index){
   const img = getOfficialImage(card);
   const desc = `${card.cardType || ''} / コスト ${getEffectiveCost(card)}${card.cardType === 'ユニット' ? ` / ${card.attack ?? '-'}-${card.hp ?? '-'}` : ''}`;
   openChoiceModal(`${card.name}を使用しますか？`, [
-    {label:'使用する', value:'use', description:desc, imagePath:img || ''},
+    {label:'使用する', value:'use', description:'このカードを使用します'},
     {label:'キャンセル', value:'cancel', description:'何もしません'}
   ], (picked) => {
     if(picked !== 'use') return;
     selectHandCard(index);
-  }, {kind:'handUseConfirmV268', allowCancel:true, choiceLayout:'fortune2'});
+  }, {
+    kind:'handUseConfirmV272',
+    allowCancel:true,
+    choiceLayout:'handUseConfirm',
+    previewImage: img || '',
+    previewTitle: card.name || '',
+    previewDescription: desc,
+    previewText: card.text || ''
+  });
 }
 
 function selectHandCard(index){
@@ -6421,6 +6432,7 @@ function openChoiceModal(title, options, callback, meta={}){
   dialog.classList.toggle('choice-modal--shinryu4', meta.choiceLayout === 'shinryu4');
   dialog.classList.toggle('choice-modal--targetGrid', meta.choiceLayout === 'targetGrid');
   dialog.classList.toggle('choice-modal--fortune2', meta.choiceLayout === 'fortune2' || !!meta.fortuneRandomReveal);
+  dialog.classList.toggle('choice-modal--handUseConfirm', meta.choiceLayout === 'handUseConfirm');
   dialog.classList.toggle('choice-modal--fortune-random', !!meta.fortuneRandomReveal);
   $('choice-modal-title').textContent = title;
   const mustPickChoiceV214 = !!meta.lockedChoices
@@ -6449,12 +6461,22 @@ function openChoiceModal(title, options, callback, meta={}){
   body.classList.toggle('choice-modal-body--shinryu4', meta.choiceLayout === 'shinryu4');
   body.classList.toggle('choice-modal-body--targetGrid', meta.choiceLayout === 'targetGrid');
   body.classList.toggle('choice-modal-body--fortune2', meta.choiceLayout === 'fortune2' || !!meta.fortuneRandomReveal);
+  body.classList.toggle('choice-modal-body--handUseConfirm', meta.choiceLayout === 'handUseConfirm');
   body.classList.toggle('choice-modal-body--locked', !!meta.lockedChoices);
   body.classList.toggle('choice-modal-body--fortune-random', !!meta.fortuneRandomReveal);
   const allBanner = meta.applyAllOnAny ? `<button class="choice-all-banner" type="button" data-all="1">${escapeHtml(meta.allChoiceLabel || 'すべての効果を得る')}</button>` : '';
   const revealBanner = meta.fortuneRandomReveal
     ? `<div class="fortune-random-banner" aria-live="polite">${escapeHtml(meta.revealLabel || 'ランダムで選ばれた占いを発動します')}</div>`
     : '';
+  const previewHtml = meta.choiceLayout === 'handUseConfirm' ? `
+    <div class="hand-use-preview">
+      ${meta.previewImage ? `<div class="hand-use-preview-image-wrap"><img class="hand-use-preview-image" src="${escapeHtml(meta.previewImage)}" alt="${escapeHtml(meta.previewTitle || title)}"></div>` : ''}
+      <div class="hand-use-preview-copy">
+        <div class="hand-use-preview-title">${escapeHtml(meta.previewTitle || title)}</div>
+        ${meta.previewDescription ? `<div class="hand-use-preview-desc">${escapeHtml(meta.previewDescription)}</div>` : ''}
+        ${meta.previewText ? `<div class="hand-use-preview-text">${escapeHtml(meta.previewText)}</div>` : ''}
+      </div>
+    </div>` : '';
   const optionHtml = normalized.map((op,i)=>{
     const selected = i === selectedIndex;
     const locked = !!meta.lockedChoices;
@@ -6481,7 +6503,7 @@ function openChoiceModal(title, options, callback, meta={}){
     }
     return `<button class="${cls}" data-i="${i}"${disabled}>${selectedBadge}${escapeHtml(op.label)}</button>`;
   }).join('');
-  body.innerHTML = (meta.allBannerBottom ? '' : allBanner) + revealBanner + optionHtml + (meta.allBannerBottom ? allBanner : '');
+  body.innerHTML = previewHtml + (meta.allBannerBottom ? '' : allBanner) + revealBanner + optionHtml + (meta.allBannerBottom ? allBanner : '');
   const finishAll = () => {
     const values = meta.allValues || normalized.map(x => x.value);
     dialog.dataset.mustPickChoiceV214 = '0';
