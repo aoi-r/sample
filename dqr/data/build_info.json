@@ -1,5 +1,5 @@
 {
-  "version": "v279_pvp_sync_loop_fix",
+  "version": "v280_puchi_metal_turnstart_remote_death_fix",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -388,7 +388,7 @@
     "data/v234_random_full_pool_crosscheck_pass1.json"
   ],
   "v235": "ランダムサーチで手札に加わる特技カードの使用効果を公式DB文面ベースで追加。魔法使い特技、コスト3特技、コスト4/5/6特技を中心に、使用時に発動できる効果を広範囲で実装。",
-  "updatedAt": "2026-06-25T16:25:00+09:00",
+  "updatedAt": "2026-06-27T00:00:00+09:00",
   "v238": "6〜7コストユニット145件のうち、v237 pass1の残57件を公式DB同期テキストベースで実装/接続。Chromium CDPの起動検査は3回実施したが、実行環境のポリシーでlocalhost/fileがblockされたためUI到達は不可。Node構文/静的検査はOK。",
   "v240": "cost4/5ユニットとcost4/5/6特技を同時に公式DB由来cards.json効果文ベースで照合。コスト4/5ユニット121行を追加/補強、特技プールは既存使用処理を再照合し、エビルトレントのカード種別をユニットに補正。",
   "v240AuditFiles": [
@@ -662,5 +662,6 @@
   "layoutUpdateV269": "Portrait hard-fix: leaders are positioned absolutely outside the unit grid, enemy/player front rows have a clear center lane, hero-skill and choice modals fit portrait width. Landscape player HUD moved lower. Solo player hand strip taps now use the normal hand-use confirmation flow; coin BET always opens a target-choice modal. Added attack MP display guard.",
   "syncFixV270": "Every outbound action/public state now carries an authoritative public board snapshot. Receiver applies board/HP/MP/tension/weapon/terrain as the source of truth to fix missing summons, spell-created units, buffs/debuffs, and stale target-selection deadlocks.",
   "layoutFixV270": "Portrait mobile layout pulls own HP/MP/tension region upward and reduces dead space between own summon slots and own HUD.",
-  "layoutUpdateV271": "Approved portrait mock incorporated: smaller hand row above bottom HUD, bottom player HUD pinned lower, mini hero card displayed between tension orb and HP, and player summon rows pulled upward to reduce wasted vertical space."
+  "layoutUpdateV271": "Approved portrait mock incorporated: smaller hand row above bottom HUD, bottom player HUD pinned lower, mini hero card displayed between tension orb and HP, and player summon rows pulled upward to reduce wasted vertical space.",
+  "v280": "ぷちメタルのターン終了時GETと通常ドローが同時に見える問題を修正。PvPではターン終了時に次ターンのドローを前倒しせず、Firebaseで自分のターンに戻った瞬間にMP更新/1ドローを行う。リモート側でHP0ユニットが残る場合に備え、damageApplied/counterDamage/attackResolved/unitDeath受信後にresolveDeathsで死亡掃除を行う。v270の12秒自動選択解除を無効化。"
 }

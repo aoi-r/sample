@@ -1,3 +1,10 @@
+# DQR v280 puchi metal / PvP death sync fix
+
+- ぷちメタルGETと通常ドローの同時発生に見える挙動を修正
+- 通常ドローは自分のターンが戻った時に実行
+- PvPリモート側のHP0ユニット残りを死亡処理で掃除
+- 選択待ち12秒自動解除を無効化
+
 # DQR Rebuild v279 PvP sync loop fix
 
 This package is based on the restored v273 project and fixes the PvP-only hand flicker/dead-control issue.

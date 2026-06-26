@@ -1,0 +1,20 @@
+{
+  "version": "v280_puchi_metal_turnstart_remote_death_fix",
+  "nodeCheck": "OK",
+  "functionDeclarationDuplicates": 0,
+  "browserTests": {
+    "passed": 5,
+    "failed": 0
+  },
+  "staticChecks": {
+    "passed": 10,
+    "failed": 0
+  },
+  "fixes": [
+    "ぷちメタルのターン終了時GETと通常1ドローが同時に見える問題を修正。通常ドローは自分のターンがFirebase上で戻った時に実行。",
+    "ぷちメタルのGETは同一ユニットにつき1回だけ。",
+    "対戦リモート側でdamageApplied/counterDamage/attackResolved/unitDeath受信後にHP0ユニットを死亡処理で掃除。プチファイターHP0残りを防止。",
+    "v270の12秒自動選択解除を無効化。長考しても選択待ちは維持。"
+  ],
+  "createdAt": "2026-06-27T00:00:00+09:00"
+}

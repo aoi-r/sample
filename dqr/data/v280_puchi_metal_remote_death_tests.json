@@ -1,0 +1,195 @@
+{
+  "browser": "Chrome/144.0.7559.96",
+  "passed": 5,
+  "failed": 0,
+  "results": [
+    {
+      "name": "boot with v280 test hook",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "ぷちメタル endTurn GET only / draw waits for own turn start",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "afterEnd": {
+          "hand": [
+            "コイン"
+          ],
+          "deck": [
+            "スライム"
+          ],
+          "turn": 1,
+          "mp": 10,
+          "isMyTurn": false
+        },
+        "afterStart": {
+          "hand": [
+            "コイン",
+            "スライム"
+          ],
+          "deck": [],
+          "turn": 2,
+          "mp": 10,
+          "prepared": true
+        },
+        "log": [
+          "バトル開始。ヒーローカードはサマルトリアの王子以外、開始時手札に入りました。",
+          "ぷちメタル：ターン終了時GET(1)。このぷちメタルでは以後発動しません。",
+          "ターン終了。相手のターンへ。",
+          "ターン2: MPが10になりました。カードを1枚引きました。"
+        ]
+      }
+    },
+    {
+      "name": "ぷちメタル GET once only across turns",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "h1": [
+          "コイン"
+        ],
+        "h2": [
+          "コイン"
+        ],
+        "unit": {
+          "id": "card_ea5d50ab_1782496569095_86ff7df6",
+          "cardId": "card_ea5d50ab",
+          "name": "ぷちメタル",
+          "attack": 1,
+          "hp": 2,
+          "maxHp": 2,
+          "_baseAttack": 1,
+          "_baseHp": 2,
+          "statuses": [],
+          "canAttack": false,
+          "summoningSickness": true,
+          "keywords": {
+            "taunt": false,
+            "haste": true,
+            "support": false,
+            "snipe": false,
+            "poison": false,
+            "stealth": false,
+            "seal": false,
+            "darkRobe": false,
+            "conditionGood": false,
+            "synchro": false,
+            "proficiency": false,
+            "spellDamagePlus": false,
+            "terrainSlip": false,
+            "terrainTreasure": false,
+            "terrainBarrier": false,
+            "terrainBlade": false,
+            "terrainMagic": false,
+            "terrainBlessing": false,
+            "terrainHappy": false,
+            "terrainOracle": false,
+            "apathy": false,
+            "piercing": false,
+            "superPiercing": false,
+            "metal": true,
+            "hardMetal": false,
+            "doubleAttack": false,
+            "firstStrike": false,
+            "vanish": false,
+            "tensionLink": false,
+            "skillLink": false,
+            "deathrattle": false,
+            "summon": false,
+            "powerBadge": false,
+            "building": false,
+            "costBoost": false,
+            "move": false,
+            "get": true,
+            "bet": true,
+            "dungeon": false,
+            "choice": false,
+            "fortune": false,
+            "renkei": false,
+            "skillBoost": false
+          },
+          "_baseKeywords": {
+            "taunt": false,
+            "haste": true,
+            "support": false,
+            "snipe": false,
+            "poison": false,
+            "stealth": false,
+            "seal": false,
+            "darkRobe": false,
+            "conditionGood": false,
+            "synchro": false,
+            "proficiency": false,
+            "spellDamagePlus": false,
+            "terrainSlip": false,
+            "terrainTreasure": false,
+            "terrainBarrier": false,
+            "terrainBlade": false,
+            "terrainMagic": false,
+            "terrainBlessing": false,
+            "terrainHappy": false,
+            "terrainOracle": false,
+            "apathy": false,
+            "piercing": false,
+            "superPiercing": false,
+            "metal": true,
+            "hardMetal": false,
+            "doubleAttack": false,
+            "firstStrike": false,
+            "vanish": false,
+            "tensionLink": false,
+            "skillLink": false,
+            "deathrattle": false,
+            "summon": false,
+            "powerBadge": false,
+            "building": false,
+            "costBoost": false,
+            "move": false,
+            "get": true,
+            "bet": true,
+            "dungeon": false,
+            "choice": false,
+            "fortune": false,
+            "renkei": false,
+            "skillBoost": false
+          },
+          "_puchiMetalEndGetDone": true,
+          "betUsedTurn": null,
+          "damageReduction": 0
+        }
+      }
+    },
+    {
+      "name": "remote damage cleanup removes HP0 プチファイター",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "board": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "log": [
+          "バトル開始。ヒーローカードはサマルトリアの王子以外、開始時手札に入りました。",
+          "プチファイターは死亡しました。",
+          "対戦同期：HP0ユニットを盤面から除去しました。"
+        ]
+      }
+    },
+    {
+      "name": "v270 12秒自動選択解除 is disabled",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "hasText": false
+      }
+    }
+  ],
+  "exceptions": [],
+  "chromeLog": "/tmp/tmptn2g6xxg"
+}

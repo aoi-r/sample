@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v279_pvp_sync_loop_fix';
-const BUILD_LABEL = 'v279 / PvP sync loop fix';
+const DATA_VERSION = 'v280_puchi_metal_turnstart_remote_death_fix';
+const BUILD_LABEL = 'v280 / ぷちメタルGET・死亡同期修正';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -2692,6 +2692,8 @@ function subscribeRoomPlayers(){
         const label = state.battle.game.isMyTurn ? '先攻' : '後攻';
         showBattleBanner(label, {duration:2000, lock:true, unlockAfter:state.battle.game.isMyTurn});
       }else if(previousTurn && previousTurn !== currentTurn && currentTurn === state.playerId){
+        // v280: 自分のターン開始処理はここで行う。ターン終了時にはドローしない。
+        prepareOwnTurnStartV280('firebaseTurn');
         showBattleBanner('あなたのターン', {duration:2000, lock:true, unlockAfter:true});
       }else{
         state.battle.matchLocked = !state.battle.game.isMyTurn;
@@ -14378,21 +14380,16 @@ function handleEnemyLeaderAttackV114(){
   return false;
 }
 
-function endTurn(){
-  if(isSoloTestMode()) return soloEndTurnV114();
-  if(isBattleLocked()) return toast('まだ操作できません。', false);
-
+function prepareOwnTurnStartV280(source='turnStart'){
   const game = state.battle.game;
-  if(game?.finished) return;
-  if(!game?.isMyTurn) return toast('相手のターンです。', false);
-  if(!game) return;
-  applyEndTurnEffectsForSideV121('player');
-
-  emitBattleEvent('ownTurnEnd', {side:'player'});
+  if(!game || game.finished) return false;
+  const key = `${source}|${state.battle.roomId || ''}|${game.currentTurnPlayerId || state.playerId}|${Number(game.turn || 0) + 1}`;
+  if(game._v280PreparedOwnTurnKey === key) return false;
+  game._v280PreparedOwnTurnKey = key;
 
   game.turn += 1;
   v166CleanupTurnStart();
-  game.player.maxMp = Math.min(10, game.player.maxMp + 1);
+  game.player.maxMp = Math.min(10, Number(game.player.maxMp || 0) + 1);
   game.player.mp = game.player.maxMp;
   game.player.tensionUsedThisTurn = false;
   game.player.heroSkillUsedThisTurn = false;
@@ -14419,6 +14416,27 @@ function endTurn(){
   if(game.player.leaderApathy) game.player.tension = 0;
   game.player.leaderAttackedThisTurn = false;
 
+  emitBattleEvent('ownTurnStart', {side:'player', source});
+  resolveDeaths();
+  const drawn = drawCard(1);
+  battleLog(`ターン${game.turn}: MPが${game.player.mp}になりました。${drawn ? 'カードを1枚引きました。' : ''}`);
+  renderBattleArena();
+  syncMyBattleState();
+  return true;
+}
+
+function endTurn(){
+  if(isSoloTestMode()) return soloEndTurnV114();
+  if(isBattleLocked()) return toast('まだ操作できません。', false);
+
+  const game = state.battle.game;
+  if(game?.finished) return;
+  if(!game?.isMyTurn) return toast('相手のターンです。', false);
+  if(!game) return;
+
+  applyEndTurnEffectsForSideV121('player');
+  emitBattleEvent('ownTurnEnd', {side:'player'});
+
   for(let i=0;i<game.player.board.length;i++){
     const unit = game.player.board[i];
     if(unit?.isBuilding){
@@ -14427,11 +14445,10 @@ function endTurn(){
     }
   }
 
-  emitBattleEvent('ownTurnStart', {side:'player'});
-
   resolveDeaths();
-  drawCard(1);
-  battleLog(`ターン${game.turn}: MPが${game.player.mp}になりました。`);
+  game.isMyTurn = false;
+  state.battle.matchLocked = true;
+  battleLog('ターン終了。相手のターンへ。');
   renderBattleArena();
   syncMyBattleState();
   advanceTurnToOpponent();
@@ -23009,14 +23026,8 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
     if(target?.closest?.('.unit-slot,.leader,.hand-card,.card-modal,.choice-modal,.modal,.battle-top-command,.player-hud,.enemy-hud')) return;
     clearDeadSelectionV270('盤面外タップ：選択状態を解除しました。');
   }, true);
-  setInterval(()=>{
-    const x=g(); if(!x || !hasAnyPendingSelectionV270()) return;
-    x._v270SelectionSince ||= now();
-    if(now() - Number(x._v270SelectionSince || 0) > 12000){
-      clearDeadSelectionV270('選択待ちが長すぎるため自動解除しました。');
-      x._v270SelectionSince = now();
-    }
-  }, 2000);
+  // v280: 対象選択・マス選択は長考しても自動キャンセルしない。
+  // 旧v270は12秒で選択状態を解除していたが、実戦中の確認時間として短すぎた。
 
   if(window.__DQR_TEST__){ Object.assign(window.__DQR_TEST__, {
     v270:{
@@ -23026,5 +23037,47 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
       clearDeadSelection:clearDeadSelectionV270,
       hasAnyPendingSelection:hasAnyPendingSelectionV270
     }
+  }); }
+})();
+
+
+// v280: PvP turn-start timing / remote death cleanup closeout.
+(function installV280PvpTurnAndDeathFix(){
+  if(globalThis.__v280PvpTurnAndDeathFixInstalled) return;
+  globalThis.__v280PvpTurnAndDeathFixInstalled = true;
+  function cleanupRemoteHpZeroUnitsV280(reason='remote'){
+    const g = state?.battle?.game;
+    if(!g) return false;
+    const before = JSON.stringify((g.player.board || []).map(u => u ? {id:u.id, hp:Number(u.hp||0), name:u.name} : null));
+    const prev = !!state.battle.processingRemoteAction;
+    state.battle.processingRemoteAction = true;
+    try{ if(typeof resolveDeaths === 'function') resolveDeaths(); }
+    catch(e){ console.warn('v280 remote death cleanup failed', reason, e); }
+    finally{ state.battle.processingRemoteAction = prev; }
+    const after = JSON.stringify((g.player.board || []).map(u => u ? {id:u.id, hp:Number(u.hp||0), name:u.name} : null));
+    if(before !== after){
+      try{ battleLog('対戦同期：HP0ユニットを盤面から除去しました。'); }catch(e){}
+      return true;
+    }
+    return false;
+  }
+  const oldApplyRemoteReducerV280 = typeof applyRemoteReducer === 'function' ? applyRemoteReducer : null;
+  if(oldApplyRemoteReducerV280 && !oldApplyRemoteReducerV280.__v280RemoteDeathCleanup){
+    applyRemoteReducer = function(action){
+      const r = oldApplyRemoteReducerV280.call(this, action);
+      if(['damageApplied','counterDamage','attackResolved','unitDeath'].includes(String(action?.type || ''))){
+        cleanupRemoteHpZeroUnitsV280(`action:${action.type}`);
+      }
+      return r;
+    };
+    applyRemoteReducer.__v280RemoteDeathCleanup = true;
+  }
+  if(window.__DQR_TEST__){ Object.assign(window.__DQR_TEST__, {
+    endTurn,
+    applyRemoteReducer,
+    applyRemoteAction,
+    prepareOwnTurnStartV280,
+    cleanupRemoteHpZeroUnitsV280,
+    v280:{version:'v280_puchi_metal_turnstart_remote_death_fix'}
   }); }
 })();

@@ -1,0 +1,56 @@
+{
+  "passed": 10,
+  "failed": 0,
+  "results": [
+    {
+      "name": "DATA_VERSION v280",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "cache buster app.js v280",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "cache buster style.css v280",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "endTurn no immediate draw before opponent turn",
+      "passed": true,
+      "detail": "endTurn must not draw while passing to opponent"
+    },
+    {
+      "name": "own turn start prepares draw",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "v270 auto selection timeout removed",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "remote death cleanup wrapper",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "no executable render->sync wrapper",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "prepareOwnTurnStartV280 appears once",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "installV280PvpTurnAndDeathFix appears once",
+      "passed": true,
+      "detail": ""
+    }
+  ]
+}
