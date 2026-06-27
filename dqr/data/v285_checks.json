@@ -1,0 +1,32 @@
+{
+  "version": "v285_pvp_board_mirror_slot_content_fix",
+  "checks": {
+    "node_check": true,
+    "data_version_v285": true,
+    "board_mirrors_path": true,
+    "subscribe_mirror_hook": true,
+    "summon_publish_mirror": true,
+    "sync_publish_mirror": true,
+    "slot_has_unit_fixed": true
+  },
+  "node_check_stderr": "",
+  "duplicate_top_level_functions": [
+    "addRandomCardByPredicate",
+    "board",
+    "clone",
+    "damageRandomEnemy",
+    "drawSide",
+    "g",
+    "game",
+    "isBuildingUnit",
+    "num",
+    "sideObj",
+    "soloOn",
+    "terrain"
+  ],
+  "notes": [
+    "PvP召喚同期をactions/states依存だけにせず rooms/{roomId}/boardMirrors/{playerId} の直接盤面ミラーで補強。",
+    "renderでは同期しない。syncMyBattleState/召喚/場出し/死亡処理など実状態変化時のみ送信。",
+    "横画面の配置済みユニットはマス枠内に収め、空マス/配置済みで外枠サイズが変わって見えないようCSSを追加。"
+  ]
+}

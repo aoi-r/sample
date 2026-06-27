@@ -9611,3 +9611,66 @@ html, body, #app, #screen-battle.active, #screen-battle.active .battle-screen{
     right:clamp(38px, 8vw, 64px) !important;
   }
 }
+
+
+/* v285: landscape placed-unit content must not visually resize the slot.
+   Keep the blank-slot frame dimensions from v284, but contain card art/stat badges inside it. */
+@media (max-width: 960px) and (orientation: landscape){
+  #screen-battle.active .battle-arena .unit-slot,
+  #screen-battle.active .battle-arena .unit-slot.has-unit{
+    width:100% !important;
+    height:100% !important;
+    box-sizing:border-box !important;
+  }
+  #screen-battle.active .battle-arena .unit-slot.has-unit{
+    overflow:hidden !important;
+    background:linear-gradient(180deg,#d5d1c2,#8e8a7b) !important;
+    border:2px solid rgba(255,255,255,.28) !important;
+    box-shadow:inset 0 4px 12px rgba(255,255,255,.28), inset 0 -7px 14px rgba(0,0,0,.28), 0 4px 9px rgba(0,0,0,.22) !important;
+  }
+  #screen-battle.active .battle-arena .unit-slot.has-unit img{
+    position:absolute !important;
+    left:50% !important;
+    top:50% !important;
+    width:min(46px, 46%) !important;
+    height:min(54px, 82%) !important;
+    max-width:46% !important;
+    max-height:82% !important;
+    transform:translate(-50%, -52%) !important;
+    object-fit:contain !important;
+    object-position:center center !important;
+    filter:drop-shadow(0 4px 4px rgba(0,0,0,.45)) !important;
+    pointer-events:none !important;
+  }
+  #screen-battle.active .battle-arena .unit-atk,
+  #screen-battle.active .battle-arena .unit-hp{
+    width:20px !important;
+    height:20px !important;
+    bottom:3px !important;
+    font-size:11px !important;
+    z-index:6 !important;
+  }
+  #screen-battle.active .battle-arena .unit-atk{ left:5px !important; }
+  #screen-battle.active .battle-arena .unit-hp{ right:5px !important; }
+  #screen-battle.active .battle-arena .unit-stat-mod{
+    bottom:2px !important;
+    min-width:18px !important;
+    height:13px !important;
+    padding:1px 3px !important;
+    font-size:8px !important;
+    z-index:7 !important;
+  }
+}
+@media (max-width: 760px) and (orientation: landscape){
+  #screen-battle.active .battle-arena .unit-slot.has-unit img{
+    width:min(40px, 46%) !important;
+    height:min(48px, 80%) !important;
+    max-height:80% !important;
+  }
+  #screen-battle.active .battle-arena .unit-atk,
+  #screen-battle.active .battle-arena .unit-hp{
+    width:18px !important;
+    height:18px !important;
+    font-size:10px !important;
+  }
+}

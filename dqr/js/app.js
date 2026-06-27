@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v284_landscape_wide_slots_pvp_board_patch';
-const BUILD_LABEL = 'v284 / 横画面マス拡大・召喚同期boardPatch補強';
+const DATA_VERSION = 'v285_pvp_board_mirror_slot_content_fix';
+const BUILD_LABEL = 'v285 / PvP盤面ミラー同期・配置済みマス固定';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -23466,6 +23466,240 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
       applyBoardPatch:applyBoardPatchV284,
       sendBoardPatch:sendBoardPatchV284,
       unitPatch:unitPatchV284
+    }
+  }); }
+})();
+
+
+// v285: direct PvP board mirror.
+// v284 boardPatch still depended on action subscriptions.  Real devices reported that neither
+// player's summons appeared on the other client, so this adds a separate lightweight board mirror
+// under rooms/{roomId}/boardMirrors/{playerId}.  It is written only after real local state changes
+// (not after render), and the receiver applies the opponent mirror directly to enemy.board.
+(function installV285DirectBoardMirror(){
+  if(globalThis.__v285DirectBoardMirrorInstalled) return;
+  globalThis.__v285DirectBoardMirrorInstalled = true;
+  const V285 = 'v285_direct_pvp_board_mirror';
+  const inPvp = () => !!(state?.battle?.roomId && state?.firebase?.enabled && state?.firebase?.db && state?.playerId) && !(typeof isSoloTestMode === 'function' && isSoloTestMode());
+  const game = () => state?.battle?.game || null;
+  const now = () => Date.now ? Date.now() : Number(new Date());
+  function cloneV285(obj){
+    try{ return cloneEventPayload(obj); }
+    catch(e){ try{return JSON.parse(JSON.stringify(obj));}catch(_){return obj;} }
+  }
+  function compactWeaponV285(w){
+    if(!w) return null;
+    return {
+      name:w.name || '',
+      attack:Number(w.attack || 0),
+      durability:Number(w.durability ?? w.hp ?? 0),
+      maxDurability:Number(w.maxDurability ?? w.durability ?? w.hp ?? 0),
+      attacksLeft:Number(w.attacksLeft ?? 0),
+      cardId:w.cardId || '',
+      cardText:w.cardText || w.text || ''
+    };
+  }
+  function compactUnitV285(u){
+    if(!u) return null;
+    const c = byId(u.cardId) || findCardByName(u.name);
+    return {
+      id:u.id || '',
+      cardId:u.cardId || c?.id || '',
+      name:u.name || c?.name || '',
+      attack:Number(u.attack ?? c?.attack ?? 0),
+      baseAttack:Number(u.baseAttack ?? c?.attack ?? u.attack ?? 0),
+      hp:Number(u.hp ?? c?.hp ?? 1),
+      maxHp:Number(u.maxHp ?? c?.hp ?? u.hp ?? 1),
+      cost:Number(u.cost ?? c?.cost ?? 0),
+      cardType:u.cardType || c?.cardType || 'ユニット',
+      tribe:u.tribe || c?.tribe || '',
+      text:u.text || getCardText(c) || '',
+      statuses:cloneV285(u.statuses || []),
+      keywords:cloneV285(u.keywords || {}),
+      canAttack:!!u.canAttack,
+      summoningSickness:!!u.summoningSickness,
+      attacksLeft:Number(u.attacksLeft ?? 0),
+      isBuilding:!!u.isBuilding,
+      isDungeon:!!u.isDungeon,
+      durability:u.durability != null ? Number(u.durability) : undefined,
+      maxDurability:u.maxDurability != null ? Number(u.maxDurability) : undefined
+    };
+  }
+  function boardV285(board){
+    return Array.from({length:6}, (_,i)=>compactUnitV285(board?.[i] || null));
+  }
+  function makeMirrorV285(reason='sync'){
+    const g = game(); if(!g) return null;
+    g._v285MirrorSeq = Number(g._v285MirrorSeq || 0) + 1;
+    return {
+      version:V285,
+      playerId:state.playerId,
+      sessionId:state.battle.sessionId || '',
+      reason,
+      seq:Number(g._v285MirrorSeq || 0),
+      sentAt:now(),
+      hp:Number(g.player.hp ?? 0),
+      maxHp:Number(g.player.maxHp ?? 25),
+      mp:Number(g.player.mp ?? 0),
+      maxMp:Number(g.player.maxMp ?? 0),
+      tension:Number(g.player.tension ?? 0),
+      leaderAttack:Number(g.player.leaderAttack ?? 0),
+      leaderCanAttack:!!g.player.leaderCanAttack,
+      weapon:compactWeaponV285(g.player.weapon),
+      board:boardV285(g.player.board),
+      terrain:cloneV285(g.terrain || g.player.terrain || Array(6).fill(null)),
+      handCount:Number(g.player.hand?.length || 0),
+      deckCount:Number(g.player.deck?.length || 0)
+    };
+  }
+  async function publishMirrorV285(reason='sync', delay=0){
+    const g = game();
+    if(!g || !inPvp() || state?.battle?.processingRemoteAction) return false;
+    clearTimeout(g._v285MirrorTimer);
+    g._v285MirrorTimer = setTimeout(async ()=>{
+      const payload = makeMirrorV285(reason);
+      if(!payload) return;
+      try{
+        await set(ref(state.firebase.db, `rooms/${state.battle.roomId}/boardMirrors/${state.playerId}`), payload);
+        g._v285LastMirrorSentAt = now();
+      }catch(e){ console.warn('v285 board mirror publish failed', reason, e); }
+    }, Number(delay || 0));
+    return true;
+  }
+  function inflateUnitV285(data){
+    if(!data) return null;
+    const c = byId(data.cardId) || findCardByName(data.name);
+    let u = c && typeof makeUnitFromCard === 'function' ? makeUnitFromCard(c) : {
+      id:data.id || `u_remote_${Math.random().toString(36).slice(2)}`,
+      cardId:data.cardId || c?.id || '',
+      name:data.name || c?.name || 'ユニット',
+      attack:0, hp:1, maxHp:1, keywords:{}
+    };
+    u.id = data.id || u.id;
+    u.cardId = data.cardId || u.cardId || c?.id || '';
+    u.name = data.name || u.name || c?.name || '';
+    u.attack = Number(data.attack ?? u.attack ?? c?.attack ?? 0);
+    u.baseAttack = Number(data.baseAttack ?? u.baseAttack ?? c?.attack ?? u.attack ?? 0);
+    u.hp = Number(data.hp ?? u.hp ?? c?.hp ?? 1);
+    u.maxHp = Number(data.maxHp ?? u.maxHp ?? c?.hp ?? u.hp ?? 1);
+    u.cost = Number(data.cost ?? u.cost ?? c?.cost ?? 0);
+    u.cardType = data.cardType || u.cardType || c?.cardType || 'ユニット';
+    u.tribe = data.tribe || u.tribe || c?.tribe || '';
+    u.text = data.text || u.text || getCardText(c) || '';
+    u.statuses = Array.isArray(data.statuses) ? cloneV285(data.statuses) : (u.statuses || []);
+    u.keywords = {...(u.keywords || {}), ...(data.keywords || {})};
+    u.canAttack = !!data.canAttack;
+    u.summoningSickness = !!data.summoningSickness;
+    u.attacksLeft = Number(data.attacksLeft ?? u.attacksLeft ?? 0);
+    if(data.isBuilding) u.isBuilding = true;
+    if(data.isDungeon) u.isDungeon = true;
+    if(data.durability != null) u.durability = Number(data.durability);
+    if(data.maxDurability != null) u.maxDurability = Number(data.maxDurability);
+    return u;
+  }
+  function applyMirrorV285(mirror){
+    const g = game();
+    if(!g || !mirror || mirror.playerId === state.playerId) return false;
+    if(state.battle.sessionId && mirror.sessionId && mirror.sessionId !== state.battle.sessionId) return false;
+    g._v285RemoteMirrorSeq ||= Object.create(null);
+    const key = mirror.playerId || 'remote';
+    const seq = Number(mirror.seq || 0);
+    const old = Number(g._v285RemoteMirrorSeq[key] || 0);
+    if(seq && old && seq <= old) return false;
+    if(seq) g._v285RemoteMirrorSeq[key] = seq;
+    g.enemy.board = Array.from({length:6}, (_,i)=>inflateUnitV285(mirror.board?.[i] || null));
+    g.enemy.hp = Number(mirror.hp ?? g.enemy.hp ?? 25);
+    g.enemy.maxHp = Number(mirror.maxHp ?? g.enemy.maxHp ?? 25);
+    g.enemy.mp = Number(mirror.mp ?? g.enemy.mp ?? 0);
+    g.enemy.maxMp = Number(mirror.maxMp ?? g.enemy.maxMp ?? 0);
+    g.enemy.tension = Number(mirror.tension ?? g.enemy.tension ?? 0);
+    g.enemy.leaderAttack = Number(mirror.leaderAttack ?? g.enemy.leaderAttack ?? 0);
+    g.enemy.leaderCanAttack = !!mirror.leaderCanAttack;
+    g.enemy.weapon = mirror.weapon ? compactWeaponV285(mirror.weapon) : null;
+    g.enemy.hand = [];
+    g.enemy.handCount = Number(mirror.handCount ?? g.enemy.handCount ?? 0);
+    g.enemy.deckCount = Number(mirror.deckCount ?? g.enemy.deckCount ?? 0);
+    g.enemyTerrain = cloneV285(mirror.terrain || Array(6).fill(null));
+    g.enemy.lastBoardMirrorV285 = {seq, reason:mirror.reason || '', at:now()};
+    try{ battleLog(`盤面ミラー同期：相手盤面を更新しました。${mirror.reason ? `(${mirror.reason})` : ''}`); }catch(e){}
+    try{ renderBattleArena(); }catch(e){}
+    return true;
+  }
+  function subscribeMirrorV285(roomId){
+    if(!state.firebase.enabled || !state.firebase.db || !roomId) return null;
+    const mirrorRef = ref(state.firebase.db, `rooms/${roomId}/boardMirrors`);
+    const unsub = onValue(mirrorRef, snap => {
+      const mirrors = snap.val() || {};
+      const entries = Object.values(mirrors).filter(m => m && m.playerId !== state.playerId && (!state.battle.sessionId || !m.sessionId || m.sessionId === state.battle.sessionId));
+      if(!entries.length) return;
+      entries.sort((a,b)=>Number(b.seq||0)-Number(a.seq||0) || Number(b.sentAt||0)-Number(a.sentAt||0));
+      applyMirrorV285(entries[0]);
+    });
+    state.battle.unsubs.push(unsub);
+    return unsub;
+  }
+
+  const oldSubscribeRoomPlayersV285 = typeof subscribeRoomPlayers === 'function' ? subscribeRoomPlayers : null;
+  if(oldSubscribeRoomPlayersV285 && !oldSubscribeRoomPlayersV285.__v285BoardMirror){
+    subscribeRoomPlayers = function(){
+      oldSubscribeRoomPlayersV285.call(this);
+      if(inPvp()) subscribeMirrorV285(state.battle.roomId);
+    };
+    subscribeRoomPlayers.__v285BoardMirror = true;
+  }
+
+  const oldSyncMyBattleStateV285 = typeof syncMyBattleState === 'function' ? syncMyBattleState : null;
+  if(oldSyncMyBattleStateV285 && !oldSyncMyBattleStateV285.__v285BoardMirror){
+    syncMyBattleState = async function(){
+      const r = await oldSyncMyBattleStateV285.call(this);
+      if(inPvp() && !state?.battle?.processingRemoteAction) publishMirrorV285('syncMyBattleState', 20);
+      return r;
+    };
+    syncMyBattleState.__v285BoardMirror = true;
+  }
+
+  const oldSummonV285 = typeof summonUnitFromHandToBoard === 'function' ? summonUnitFromHandToBoard : null;
+  if(oldSummonV285 && !oldSummonV285.__v285BoardMirror){
+    summonUnitFromHandToBoard = function(card, pos, cost){
+      const r = oldSummonV285.call(this, card, pos, cost);
+      publishMirrorV285('summon-immediate', 0);
+      setTimeout(()=>publishMirrorV285('summon-after-effects', 220), 220);
+      return r;
+    };
+    summonUnitFromHandToBoard.__v285BoardMirror = true;
+  }
+
+  const oldPutV285 = typeof putUnitIntoPlayFromCard === 'function' ? putUnitIntoPlayFromCard : null;
+  if(oldPutV285 && !oldPutV285.__v285BoardMirror){
+    putUnitIntoPlayFromCard = function(card, pos, side='player', stats={}){
+      const r = oldPutV285.call(this, card, pos, side, stats);
+      if(side === 'player'){
+        publishMirrorV285('put-into-play', 0);
+        setTimeout(()=>publishMirrorV285('put-into-play-after-effects', 220), 220);
+      }
+      return r;
+    };
+    putUnitIntoPlayFromCard.__v285BoardMirror = true;
+  }
+
+  const oldResolveDeathsV285 = typeof resolveDeaths === 'function' ? resolveDeaths : null;
+  if(oldResolveDeathsV285 && !oldResolveDeathsV285.__v285BoardMirror){
+    resolveDeaths = function(){
+      const r = oldResolveDeathsV285.call(this);
+      publishMirrorV285('resolveDeaths', 30);
+      return r;
+    };
+    resolveDeaths.__v285BoardMirror = true;
+  }
+
+  if(window.__DQR_TEST__){ Object.assign(window.__DQR_TEST__, {
+    v285:{
+      version:V285,
+      makeMirror:makeMirrorV285,
+      applyMirror:applyMirrorV285,
+      publishMirror:publishMirrorV285,
+      subscribeMirror:subscribeMirrorV285,
+      compactUnit:compactUnitV285
     }
   }); }
 })();
