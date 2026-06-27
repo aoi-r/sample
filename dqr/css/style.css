@@ -9674,3 +9674,31 @@ html, body, #app, #screen-battle.active, #screen-battle.active .battle-screen{
     font-size:10px !important;
   }
 }
+
+/* v287: smartphone landscape HP bar inside the unit slot.
+   v285 contained placed unit contents with overflow:hidden, so the older PC-like bar at bottom:-5px
+   could disappear on phones. Keep a small green bar visible inside each occupied slot. */
+@media (max-width: 960px) and (orientation: landscape){
+  #screen-battle.active .battle-arena .unit-slot.has-unit .unit-hpbar{
+    left:30% !important;
+    right:30% !important;
+    bottom:3px !important;
+    height:3px !important;
+    z-index:5 !important;
+    border-width:0 !important;
+    background:rgba(0,0,0,.48) !important;
+    box-shadow:0 1px 2px rgba(0,0,0,.35) !important;
+    pointer-events:none !important;
+  }
+  #screen-battle.active .battle-arena .unit-slot.has-unit .unit-hpbar i{
+    background:linear-gradient(90deg,#35d86f,#d4f06d) !important;
+  }
+}
+@media (max-width: 760px) and (orientation: landscape){
+  #screen-battle.active .battle-arena .unit-slot.has-unit .unit-hpbar{
+    left:32% !important;
+    right:32% !important;
+    height:2.5px !important;
+    bottom:3px !important;
+  }
+}

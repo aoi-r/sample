@@ -1,0 +1,10 @@
+{
+  "version":"v287_responsive_firebase_sync_mobile_hpbar",
+  "nodeCheck":"OK",
+  "notes":[
+    "syncV287 public state channel added",
+    "immediate plus retry burst publishing for summons, damage, death, turn changes",
+    "no render-triggered publishing",
+    "mobile landscape HP bars kept visible inside occupied unit slots"
+  ]
+}

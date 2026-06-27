@@ -63,7 +63,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v286_pvp_live_state_two_way_sync';
+const DATA_VERSION = 'v287_responsive_firebase_sync_mobile_hpbar';
 const BUILD_LABEL = 'v286 / PvPライブ状態双方向同期';
 
 // v107 compatibility shims for rolled-back bases
@@ -24049,4 +24049,284 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
       inflateUnit:inflateUnitV286
     }
   }); }
+})();
+
+// v287: responsive and robust Firebase public sync layer.
+// Goal: do not depend on a single debounced action/snapshot path. Each real state mutation
+// publishes a compact public state immediately and a few short retry echoes. Receivers apply
+// the opponent's self state as enemy board, and accept opponentView for our side only when the
+// opponent is the turn owner or the reason is combat/damage/death/turn related.
+(function(){
+  const V287 = 'v287_responsive_public_sync';
+  function g(){ return state?.battle?.game || null; }
+  function inPvp(){ return !!(g() && state?.firebase?.enabled && state?.firebase?.db && state?.battle?.roomId && !(typeof isSoloTestMode === 'function' && isSoloTestMode())); }
+  function now(){ return Date.now ? Date.now() : Number(new Date()); }
+  function clone(obj){ try{ return cloneEventPayload(obj); }catch(e){ try{return JSON.parse(JSON.stringify(obj));}catch(_){ return obj; } } }
+  function clientId(){
+    try{
+      let id = localStorage.getItem('dqrClientInstanceIdV287');
+      if(!id){ id = `${state.playerId || 'p'}_${now()}_${Math.random().toString(36).slice(2,10)}`; localStorage.setItem('dqrClientInstanceIdV287', id); }
+      return id;
+    }catch(e){ return `${state.playerId || 'p'}_${Math.random().toString(36).slice(2,10)}`; }
+  }
+  function unitPub(u){
+    if(!u) return null;
+    return {
+      id:u.id || '', cardId:u.cardId || '', name:u.name || '',
+      attack:Number(u.attack ?? 0), baseAttack:Number(u.baseAttack ?? u._baseAttack ?? u.attack ?? 0),
+      hp:Number(u.hp ?? 0), maxHp:Number(u.maxHp ?? u._baseHp ?? u.hp ?? 1),
+      cost:Number(u.cost ?? 0), cardType:u.cardType || 'ユニット', tribe:u.tribe || '', text:u.text || '',
+      keywords:clone(u.keywords || {}), statuses:clone(u.statuses || []),
+      canAttack:!!u.canAttack, summoningSickness:!!u.summoningSickness, attacksLeft:Number(u.attacksLeft ?? 0),
+      isBuilding:!!u.isBuilding, isDungeon:!!u.isDungeon,
+      durability:u.durability == null ? null : Number(u.durability),
+      maxDurability:u.maxDurability == null ? null : Number(u.maxDurability)
+    };
+  }
+  function boardPub(board){ return Array.from({length:6}, (_,i)=>unitPub(board?.[i] || null)); }
+  function weaponPub(w){
+    if(!w) return null;
+    return {
+      name:w.name || '', cardId:w.cardId || '', attack:Number(w.attack || 0),
+      durability:Number(w.durability ?? w.hp ?? 0), maxDurability:Number(w.maxDurability ?? w.durability ?? w.hp ?? 0),
+      attacksLeft:Number(w.attacksLeft ?? 0), cardText:w.cardText || w.text || '',
+      noCounter:!!w.noCounter, snipe:!!w.snipe, doubleAttack:!!w.doubleAttack
+    };
+  }
+  function sidePub(side){
+    return {
+      hp:Number(side?.hp ?? 0), maxHp:Number(side?.maxHp ?? 25),
+      mp:Number(side?.mp ?? 0), maxMp:Number(side?.maxMp ?? 0), tension:Number(side?.tension ?? 0),
+      leaderAttack:Number(side?.leaderAttack ?? 0), leaderCanAttack:!!side?.leaderCanAttack,
+      weapon:weaponPub(side?.weapon), board:boardPub(side?.board), terrain:clone(side?.terrain || Array(6).fill(null)),
+      handCount:Number(side?.hand?.length ?? side?.handCount ?? 0), deckCount:Number(side?.deck?.length ?? side?.deckCount ?? 0)
+    };
+  }
+  function inflateUnit(data){
+    if(!data) return null;
+    const c = byId(data.cardId) || findCardByName(data.name);
+    let u = c && typeof makeUnitFromCard === 'function' ? makeUnitFromCard(c) : {
+      id:data.id || `ru_${Math.random().toString(36).slice(2)}`,
+      cardId:data.cardId || c?.id || '', name:data.name || c?.name || 'ユニット',
+      attack:0, hp:1, maxHp:1, keywords:{}, statuses:[]
+    };
+    u.id = data.id || u.id;
+    u.cardId = data.cardId || u.cardId || c?.id || '';
+    u.name = data.name || u.name || c?.name || '';
+    u.attack = Number(data.attack ?? u.attack ?? c?.attack ?? 0);
+    u.baseAttack = Number(data.baseAttack ?? u.baseAttack ?? c?.attack ?? u.attack ?? 0);
+    u.hp = Number(data.hp ?? u.hp ?? c?.hp ?? 1);
+    u.maxHp = Number(data.maxHp ?? u.maxHp ?? c?.hp ?? u.hp ?? 1);
+    u.cost = Number(data.cost ?? u.cost ?? c?.cost ?? 0);
+    u.cardType = data.cardType || u.cardType || c?.cardType || 'ユニット';
+    u.tribe = data.tribe || u.tribe || c?.tribe || '';
+    u.text = data.text || u.text || getCardText(c) || '';
+    u.keywords = {...(u.keywords || {}), ...(data.keywords || {})};
+    u.statuses = Array.isArray(data.statuses) ? clone(data.statuses) : (u.statuses || []);
+    u.canAttack = !!data.canAttack;
+    u.summoningSickness = !!data.summoningSickness;
+    u.attacksLeft = Number(data.attacksLeft ?? u.attacksLeft ?? 0);
+    if(data.isBuilding) u.isBuilding = true;
+    if(data.isDungeon) u.isDungeon = true;
+    if(data.durability != null) u.durability = Number(data.durability);
+    if(data.maxDurability != null) u.maxDurability = Number(data.maxDurability);
+    return u;
+  }
+  function applySideToEnemy(side, reason=''){
+    const game = g(); if(!game || !side) return false;
+    game.enemy.board = Array.from({length:6}, (_,i)=>inflateUnit(side.board?.[i] || null));
+    game.enemy.hp = Number(side.hp ?? game.enemy.hp ?? 25);
+    game.enemy.maxHp = Number(side.maxHp ?? game.enemy.maxHp ?? 25);
+    game.enemy.mp = Number(side.mp ?? game.enemy.mp ?? 0);
+    game.enemy.maxMp = Number(side.maxMp ?? game.enemy.maxMp ?? 0);
+    game.enemy.tension = Number(side.tension ?? game.enemy.tension ?? 0);
+    game.enemy.leaderAttack = Number(side.leaderAttack ?? game.enemy.leaderAttack ?? 0);
+    game.enemy.leaderCanAttack = !!side.leaderCanAttack;
+    game.enemy.weapon = side.weapon ? clone(side.weapon) : null;
+    game.enemy.hand = [];
+    game.enemy.handCount = Number(side.handCount ?? game.enemy.handCount ?? 0);
+    game.enemy.deckCount = Number(side.deckCount ?? game.enemy.deckCount ?? 0);
+    game.enemy.terrain = clone(side.terrain || game.enemy.terrain || Array(6).fill(null));
+    game._v287LastEnemyApply = {reason, at:now()};
+    if(game.enemy.hp <= 0 && typeof showBattleResult === 'function') showBattleResult('win');
+    return true;
+  }
+  function canApplyOpponentView(entry){
+    const game = g(); if(!game || !entry) return false;
+    const reason = String(entry.reason || '');
+    if(/damage|attack|counter|death|unitDeath|resolveDeaths|turn|endTurn|combat/i.test(reason)) return true;
+    // During opponent's turn, the opponent is authoritative for effects they are resolving on our side.
+    if(entry.currentTurnPlayerId && entry.playerId && entry.currentTurnPlayerId === entry.playerId) return true;
+    return false;
+  }
+  function applyOpponentViewToPlayer(side, entry){
+    const game = g(); if(!game || !side || !canApplyOpponentView(entry)) return false;
+    game.player.board = Array.from({length:6}, (_,i)=>inflateUnit(side.board?.[i] || null));
+    game.player.hp = Number(side.hp ?? game.player.hp ?? 25);
+    game.player.maxHp = Number(side.maxHp ?? game.player.maxHp ?? 25);
+    game.player.leaderAttack = Number(side.leaderAttack ?? game.player.leaderAttack ?? 0);
+    game.player.leaderCanAttack = !!side.leaderCanAttack;
+    game.player.weapon = side.weapon ? clone(side.weapon) : game.player.weapon;
+    game.player.terrain = clone(side.terrain || game.player.terrain || Array(6).fill(null));
+    game._v287LastPlayerPatch = {reason:entry.reason || '', at:now()};
+    if(game.player.hp <= 0 && typeof showBattleResult === 'function') showBattleResult('lose');
+    return true;
+  }
+  function payload(reason='sync'){
+    const game = g(); if(!game) return null;
+    game._v287Seq = Number(game._v287Seq || 0) + 1;
+    return {
+      version:V287, clientId:clientId(), playerId:state.playerId, sessionId:state.battle.sessionId || '',
+      reason, seq:Number(game._v287Seq || 0), updatedAtMs:now(),
+      currentTurnPlayerId:state.battle.currentTurnPlayerId || game.currentTurnPlayerId || '',
+      gameTurn:Number(game.turn || 0), isMyTurn:!!game.isMyTurn,
+      self:sidePub(game.player), opponentView:sidePub(game.enemy)
+    };
+  }
+  async function publish(reason='sync'){
+    const game = g(); if(!game || !inPvp() || state?.battle?.processingRemoteAction) return false;
+    const p = payload(reason); if(!p) return false;
+    try{
+      await set(ref(state.firebase.db, `rooms/${state.battle.roomId}/syncV287/${p.clientId}`), p);
+      game._v287LastSent = {reason, seq:p.seq, at:now()};
+      return true;
+    }catch(e){ console.warn('v287 publish failed', reason, e); return false; }
+  }
+  function publishBurst(reason='sync'){
+    if(!inPvp()) return false;
+    publish(reason);
+    setTimeout(()=>publish(`${reason}:r1`), 120);
+    setTimeout(()=>publish(`${reason}:r2`), 360);
+    setTimeout(()=>publish(`${reason}:r3`), 900);
+    return true;
+  }
+  function applyEntry(entry){
+    const game = g(); if(!game || !entry || entry.clientId === clientId()) return false;
+    if(state.battle.sessionId && entry.sessionId && entry.sessionId !== state.battle.sessionId) return false;
+    game._v287Watermark ||= Object.create(null);
+    const key = entry.clientId || entry.playerId || 'remote';
+    const stamp = Number(entry.updatedAtMs || 0) || Number(entry.seq || 0);
+    if(stamp && game._v287Watermark[key] && stamp <= game._v287Watermark[key]) return false;
+    if(stamp) game._v287Watermark[key] = stamp;
+    const a = applySideToEnemy(entry.self, entry.reason || 'remote');
+    const b = applyOpponentViewToPlayer(entry.opponentView, entry);
+    if(entry.currentTurnPlayerId){
+      state.battle.currentTurnPlayerId = entry.currentTurnPlayerId;
+      game.currentTurnPlayerId = entry.currentTurnPlayerId;
+      const shouldBeMyTurn = entry.currentTurnPlayerId === state.playerId;
+      if(shouldBeMyTurn && !game.isMyTurn){
+        game.isMyTurn = true;
+        state.battle.matchLocked = false;
+        try{ if(typeof prepareOwnTurnStartV280 === 'function') prepareOwnTurnStartV280('v287RemoteTurn'); }catch(e){}
+      }else if(!shouldBeMyTurn){
+        game.isMyTurn = false;
+        state.battle.matchLocked = true;
+      }
+    }
+    if(a || b){ try{ renderBattleArena(); }catch(e){} return true; }
+    return false;
+  }
+  function subscribe(roomId){
+    if(!state.firebase.enabled || !state.firebase.db || !roomId) return null;
+    if(state.battle._v287SubscribedRoom === roomId) return null;
+    state.battle._v287SubscribedRoom = roomId;
+    const r = ref(state.firebase.db, `rooms/${roomId}/syncV287`);
+    const unsub = onValue(r, snap => {
+      const all = snap.val() || {};
+      const entries = Object.values(all).filter(e => e && e.clientId !== clientId() && (!state.battle.sessionId || !e.sessionId || e.sessionId === state.battle.sessionId));
+      if(!entries.length) return;
+      entries.sort((a,b)=>Number(b.updatedAtMs||0)-Number(a.updatedAtMs||0) || Number(b.seq||0)-Number(a.seq||0));
+      applyEntry(entries[0]);
+    });
+    state.battle.unsubs ||= [];
+    state.battle.unsubs.push(unsub);
+    publishBurst('subscribe');
+    return unsub;
+  }
+  function ensureSubscribed(){ if(inPvp()) subscribe(state.battle.roomId); }
+
+  const oldSubscribeRoomPlayers = typeof subscribeRoomPlayers === 'function' ? subscribeRoomPlayers : null;
+  if(oldSubscribeRoomPlayers && !oldSubscribeRoomPlayers.__v287ResponsiveSync){
+    subscribeRoomPlayers = function(){
+      const r = oldSubscribeRoomPlayers.call(this);
+      state.battle._v287SubscribedRoom = '';
+      setTimeout(ensureSubscribed, 0);
+      setTimeout(()=>publishBurst('roomPlayers'), 180);
+      return r;
+    };
+    subscribeRoomPlayers.__v287ResponsiveSync = true;
+  }
+
+  const oldSync = typeof syncMyBattleState === 'function' ? syncMyBattleState : null;
+  if(oldSync && !oldSync.__v287ResponsiveSync){
+    syncMyBattleState = async function(){
+      const r = await oldSync.call(this);
+      ensureSubscribed();
+      publishBurst('syncMyBattleState');
+      return r;
+    };
+    syncMyBattleState.__v287ResponsiveSync = true;
+  }
+
+  const oldPush = typeof pushBattleAction === 'function' ? pushBattleAction : null;
+  if(oldPush && !oldPush.__v287ResponsiveSync){
+    pushBattleAction = async function(type, data={}){
+      const r = await oldPush.call(this, type, data);
+      publishBurst(`action:${String(type || '')}`);
+      return r;
+    };
+    pushBattleAction.__v287ResponsiveSync = true;
+  }
+
+  const oldAdvance = typeof advanceTurnToOpponent === 'function' ? advanceTurnToOpponent : null;
+  if(oldAdvance && !oldAdvance.__v287ResponsiveSync){
+    advanceTurnToOpponent = async function(){
+      if(!inPvp()) return oldAdvance.call(this);
+      const game = g();
+      try{
+        publishBurst('turnEndBefore');
+        const playersSnap = await get(ref(state.firebase.db, `rooms/${state.battle.roomId}/players`));
+        const players = playersSnap.val() || {};
+        state.battle.roomPlayers = players;
+        let opp = Object.values(players).find(p => p && p.playerId && p.playerId !== state.playerId && p.status !== 'defeated');
+        if(!opp){
+          const syncSnap = await get(ref(state.firebase.db, `rooms/${state.battle.roomId}/syncV287`));
+          const entries = Object.values(syncSnap.val() || {}).filter(e => e && e.playerId && e.playerId !== state.playerId);
+          entries.sort((a,b)=>Number(b.updatedAtMs||0)-Number(a.updatedAtMs||0));
+          if(entries[0]) opp = {playerId:entries[0].playerId};
+        }
+        const next = opp?.playerId;
+        if(!next) return oldAdvance.call(this);
+        state.battle.matchLocked = true;
+        if(game){ game.isMyTurn = false; game.currentTurnPlayerId = next; game.turn = Number(game.turn || 1) + 1; }
+        try{ showBattleBanner('ターン終了', {duration:1200, lock:true, unlockAfter:false}); }catch(e){}
+        await update(ref(state.firebase.db, `rooms/${state.battle.roomId}/meta`), {
+          currentTurnPlayerId: next,
+          lastTurnEndedBy: state.playerId,
+          turnSeqV287: Number(game?._v287TurnSeq || 0) + 1,
+          updatedAtMsV287: now(),
+          updatedAt: serverTimestamp()
+        });
+        publishBurst('turnEndAfter');
+      }catch(e){ console.warn('v287 advanceTurn fallback', e); return oldAdvance.call(this); }
+    };
+    advanceTurnToOpponent.__v287ResponsiveSync = true;
+  }
+
+  // High-value local mutation hooks. They do not publish on render, only on real game mutations.
+  const hook = (name, reason, late=280) => {
+    const fn = globalThis[name] || eval(`typeof ${name} !== 'undefined' ? ${name} : null`);
+    if(typeof fn !== 'function' || fn.__v287ResponsiveSync) return;
+    const wrapped = function(...args){ const r = fn.apply(this, args); publishBurst(reason); if(late) setTimeout(()=>publishBurst(`${reason}:late`), late); return r; };
+    wrapped.__v287ResponsiveSync = true;
+    try{ eval(`${name} = wrapped`); }catch(e){}
+  };
+  hook('summonUnitFromHandToBoard', 'summon', 420);
+  hook('putUnitIntoPlayFromCard', 'putIntoPlay', 420);
+  hook('dealDamageToUnit', 'damageUnit', 320);
+  hook('dealDamageToLeader', 'damageLeader', 320);
+  hook('resolveDeaths', 'resolveDeaths', 360);
+  hook('endTurn', 'endTurn', 180);
+
+  if(window.__DQR_TEST__){ Object.assign(window.__DQR_TEST__, {v287:{version:V287, clientId, payload, publish, publishBurst, applyEntry, subscribe, canApplyOpponentView}}); }
 })();
