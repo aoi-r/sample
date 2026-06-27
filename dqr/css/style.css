@@ -9572,3 +9572,42 @@ html, body, #app, #screen-battle.active, #screen-battle.active .battle-screen{
     width:84px !important;
   }
 }
+
+
+/* v284: landscape summon slots wider + enemy leader mirrored further from camera island.
+   CSS-only layout pass; keep v283 compact choice modal. */
+@media (max-width: 960px) and (orientation: landscape){
+  #screen-battle.active .battle-arena .unit-zones.twelve-zones{
+    left:clamp(96px, 13vw, 138px) !important;
+    right:clamp(96px, 13vw, 138px) !important;
+    grid-template-columns:repeat(2, minmax(92px, 1fr)) minmax(20px, 34px) repeat(2, minmax(92px, 1fr)) !important;
+    column-gap:clamp(9px, 1.7vw, 18px) !important;
+  }
+  #screen-battle.active .battle-arena .unit-slot{
+    min-width:86px !important;
+    max-width:190px !important;
+    min-height:40px !important;
+    max-height:70px !important;
+  }
+  #screen-battle.active .battle-arena .enemy-leader{
+    right:clamp(58px, 11vw, 160px) !important;
+    left:auto !important;
+  }
+}
+@media (max-width: 760px) and (orientation: landscape){
+  #screen-battle.active .battle-arena .unit-zones.twelve-zones{
+    left:clamp(78px, 12vw, 112px) !important;
+    right:clamp(78px, 12vw, 112px) !important;
+    grid-template-columns:repeat(2, minmax(68px, 1fr)) minmax(14px, 24px) repeat(2, minmax(68px, 1fr)) !important;
+    column-gap:clamp(7px, 1.45vw, 13px) !important;
+  }
+  #screen-battle.active .battle-arena .unit-slot{
+    min-width:64px !important;
+    max-width:150px !important;
+    min-height:36px !important;
+    max-height:58px !important;
+  }
+  #screen-battle.active .battle-arena .enemy-leader{
+    right:clamp(38px, 8vw, 64px) !important;
+  }
+}

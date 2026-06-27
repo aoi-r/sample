@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v283_landscape_slot_width_modal_compact';
-const BUILD_LABEL = 'v283 / 横画面マス横幅・敵アイコン対称・選択モーダル圧縮';
+const DATA_VERSION = 'v284_landscape_wide_slots_pvp_board_patch';
+const BUILD_LABEL = 'v284 / 横画面マス拡大・召喚同期boardPatch補強';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -23218,5 +23218,254 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
     summonUnitFromHandToBoard,
     putUnitIntoPlayFromCard,
     v281:{version:V281, sanitizeActionSnapshot:sanitizeActionSnapshotV281, cleanupBoardByRemoteDeath:cleanupBoardByRemoteDeathV281, stripRemoteHandLeak:stripRemoteHandLeakV281}
+  }); }
+})();
+
+
+// v284: PvP board patch hardening for summons / field mutations.
+// Real-device reports still showed hand summons not appearing on the opponent client.
+// This patch does not re-enable render->sync loops.  Instead, after actual local board
+// mutations, it sends a small authoritative boardPatchV284 action.  The receiver applies
+// it directly to enemy.board, independent of possibly stale public-state snapshots.
+(function installV284PvpBoardPatchSync(){
+  if(globalThis.__v284PvpBoardPatchSyncInstalled) return;
+  globalThis.__v284PvpBoardPatchSyncInstalled = true;
+  const V284 = 'v284_pvp_board_patch_sync';
+  const inPvp = () => !!(state?.battle?.roomId && state?.firebase?.enabled && state?.firebase?.db) && !(typeof isSoloTestMode === 'function' && isSoloTestMode());
+  const game = () => state?.battle?.game || null;
+  function cloneSafeV284(obj){
+    try{ return cloneEventPayload(obj); }
+    catch(e){ try{ return JSON.parse(JSON.stringify(obj)); }catch(_){ return obj; } }
+  }
+  function unitPatchV284(u){
+    if(!u) return null;
+    const c = byId(u.cardId) || findCardByName(u.name);
+    return {
+      id:u.id || '',
+      cardId:u.cardId || c?.id || '',
+      name:u.name || c?.name || '',
+      attack:Number(u.attack ?? c?.attack ?? 0),
+      baseAttack:Number(u.baseAttack ?? c?.attack ?? u.attack ?? 0),
+      hp:Number(u.hp ?? c?.hp ?? 1),
+      maxHp:Number(u.maxHp ?? c?.hp ?? u.hp ?? 1),
+      cost:Number(u.cost ?? c?.cost ?? 0),
+      cardType:u.cardType || c?.cardType || 'ユニット',
+      tribe:u.tribe || c?.tribe || '',
+      statuses:cloneSafeV284(u.statuses || []),
+      keywords:cloneSafeV284(u.keywords || {}),
+      canAttack:!!u.canAttack,
+      summoningSickness:!!u.summoningSickness,
+      isBuilding:!!u.isBuilding,
+      isDungeon:!!u.isDungeon,
+      durability:u.durability != null ? Number(u.durability) : undefined,
+      maxDurability:u.maxDurability != null ? Number(u.maxDurability) : undefined,
+      _v284:true
+    };
+  }
+  function boardPatchV284(){
+    const g = game(); if(!g) return Array(6).fill(null);
+    return Array.from({length:6}, (_,i)=>unitPatchV284(g.player.board?.[i] || null));
+  }
+  function weaponPatchV284(w){
+    if(!w) return null;
+    return {
+      name:w.name || '',
+      attack:Number(w.attack || 0),
+      durability:Number(w.durability ?? w.hp ?? 0),
+      maxDurability:Number(w.maxDurability ?? w.durability ?? w.hp ?? 0),
+      attacksLeft:Number(w.attacksLeft ?? 0),
+      cardId:w.cardId || '',
+      cardText:w.cardText || w.text || ''
+    };
+  }
+  function makeBoardPatchPayloadV284(reason='boardMutation'){
+    const g = game(); if(!g) return null;
+    g._v284BoardPatchSeq = Number(g._v284BoardPatchSeq || 0) + 1;
+    return {
+      reason,
+      board:boardPatchV284(),
+      hp:Number(g.player.hp ?? 0),
+      maxHp:Number(g.player.maxHp ?? 25),
+      mp:Number(g.player.mp ?? 0),
+      maxMp:Number(g.player.maxMp ?? 0),
+      tension:Number(g.player.tension ?? 0),
+      weapon:weaponPatchV284(g.player.weapon),
+      handCount:Number(g.player.hand?.length || 0),
+      deckCount:Number(g.player.deck?.length || 0),
+      patchSeq:Number(g._v284BoardPatchSeq || 0),
+      actorSessionId:state?.battle?.sessionId || '',
+      sentAt:Date.now()
+    };
+  }
+  function applyUnitPatchV284(data){
+    if(!data) return null;
+    const c = byId(data.cardId) || findCardByName(data.name);
+    let u = c && typeof makeUnitFromCard === 'function' ? makeUnitFromCard(c) : {
+      id:data.id || safeRandomId?.('u') || `u_${Math.random().toString(36).slice(2)}`,
+      cardId:data.cardId || c?.id || '',
+      name:data.name || c?.name || 'ユニット',
+      attack:0, hp:1, maxHp:1, keywords:{}
+    };
+    Object.assign(u, data);
+    u.id = data.id || u.id;
+    u.cardId = data.cardId || u.cardId || c?.id || '';
+    u.name = data.name || u.name || c?.name || '';
+    u.attack = Number(data.attack ?? u.attack ?? c?.attack ?? 0);
+    u.baseAttack = Number(data.baseAttack ?? u.baseAttack ?? c?.attack ?? u.attack ?? 0);
+    u.hp = Number(data.hp ?? u.hp ?? c?.hp ?? 1);
+    u.maxHp = Number(data.maxHp ?? u.maxHp ?? c?.hp ?? u.hp ?? 1);
+    u.keywords = {...(u.keywords || {}), ...(data.keywords || {})};
+    u.statuses = Array.isArray(data.statuses) ? cloneSafeV284(data.statuses) : (u.statuses || []);
+    u.canAttack = !!data.canAttack;
+    u.summoningSickness = !!data.summoningSickness;
+    if(data.isBuilding) u.isBuilding = true;
+    if(data.isDungeon) u.isDungeon = true;
+    if(data.durability != null) u.durability = Number(data.durability);
+    if(data.maxDurability != null) u.maxDurability = Number(data.maxDurability);
+    return u;
+  }
+  function applyBoardPatchV284(payload={}){
+    const g = game(); if(!g || !payload || !Array.isArray(payload.board)) return false;
+    const remoteSession = payload.actorSessionId || '';
+    const actorId = payload.playerId || payload.actorId || '';
+    g._v284RemoteBoardPatchWatermark ||= Object.create(null);
+    const key = `${actorId || 'remote'}:${remoteSession || 'session'}`;
+    const seq = Number(payload.patchSeq || 0);
+    const old = Number(g._v284RemoteBoardPatchWatermark[key] || 0);
+    if(seq && old && seq <= old) return false;
+    if(seq) g._v284RemoteBoardPatchWatermark[key] = seq;
+    g.enemy.board = Array.from({length:6}, (_,i)=>applyUnitPatchV284(payload.board[i] || null));
+    g.enemy.hp = Number(payload.hp ?? g.enemy.hp ?? 25);
+    g.enemy.maxHp = Number(payload.maxHp ?? g.enemy.maxHp ?? 25);
+    g.enemy.mp = Number(payload.mp ?? g.enemy.mp ?? 0);
+    g.enemy.maxMp = Number(payload.maxMp ?? g.enemy.maxMp ?? 0);
+    g.enemy.tension = Number(payload.tension ?? g.enemy.tension ?? 0);
+    g.enemy.weapon = payload.weapon ? {
+      name:payload.weapon.name || '',
+      attack:Number(payload.weapon.attack || 0),
+      durability:Number(payload.weapon.durability || 0),
+      maxDurability:Number(payload.weapon.maxDurability ?? payload.weapon.durability ?? 0),
+      attacksLeft:Number(payload.weapon.attacksLeft ?? 0),
+      cardId:payload.weapon.cardId || '',
+      cardText:payload.weapon.cardText || ''
+    } : null;
+    g.enemy.hand = [];
+    g.enemy.handCount = Number(payload.handCount ?? g.enemy.handCount ?? 0);
+    g.enemy.deckCount = Number(payload.deckCount ?? g.enemy.deckCount ?? 0);
+    try{ battleLog(`対戦同期：相手盤面を更新しました。${payload.reason ? `(${payload.reason})` : ''}`); }catch(e){}
+    return true;
+  }
+  function sendBoardPatchV284(reason='boardMutation'){
+    const g = game();
+    if(!g || !inPvp() || state?.battle?.processingRemoteAction) return false;
+    clearTimeout(g._v284BoardPatchTimer);
+    g._v284BoardPatchTimer = setTimeout(()=>{
+      const payload = makeBoardPatchPayloadV284(reason);
+      if(!payload) return;
+      try{ pushBattleAction('boardPatchV284', payload); }
+      catch(e){ console.warn('v284 boardPatch push failed', reason, e); }
+      try{ syncMyBattleState(); }
+      catch(e){ console.warn('v284 post-patch state sync failed', reason, e); }
+    }, 40);
+    return true;
+  }
+
+  const oldMakeActionPayloadV284 = typeof makeActionPayload === 'function' ? makeActionPayload : null;
+  if(oldMakeActionPayloadV284 && !oldMakeActionPayloadV284.__v284ActorSession){
+    makeActionPayload = function(type, payload={}){
+      const p = oldMakeActionPayloadV284.call(this, type, payload);
+      p.actorSessionId = state?.battle?.sessionId || '';
+      p.v284ActionPayload = true;
+      return p;
+    };
+    makeActionPayload.__v284ActorSession = true;
+  }
+
+  const oldApplyRemoteReducerV284 = typeof applyRemoteReducer === 'function' ? applyRemoteReducer : null;
+  if(oldApplyRemoteReducerV284 && !oldApplyRemoteReducerV284.__v284BoardPatch){
+    applyRemoteReducer = function(action){
+      if(action?.type === 'boardPatchV284'){
+        const ok = applyBoardPatchV284(action.payload || {});
+        return ok;
+      }
+      return oldApplyRemoteReducerV284.call(this, action);
+    };
+    applyRemoteReducer.__v284BoardPatch = true;
+  }
+
+  // Future subscriptions: if two test clients accidentally share a playerId but have
+  // different browser sessions, do not discard the other's v284 actions.
+  const oldSubscribeBattleActionsV284 = typeof subscribeBattleActions === 'function' ? subscribeBattleActions : null;
+  if(oldSubscribeBattleActionsV284 && !oldSubscribeBattleActionsV284.__v284SessionAware){
+    subscribeBattleActions = function(roomId){
+      if(!state.firebase.enabled || !state.firebase.db || !roomId) return oldSubscribeBattleActionsV284.call(this, roomId);
+      const actionRef = ref(state.firebase.db, `rooms/${roomId}/actions`);
+      const unsub = onValue(actionRef, snap => {
+        const actions = snap.val() || {};
+        const entries = Object.entries(actions).sort((a,b)=>String(a[0]).localeCompare(String(b[0])));
+        state.battle.appliedActionIds ||= {};
+        for(let i=state.battle.lastActionSeq || 0; i<entries.length; i++){
+          const [id, action] = entries[i];
+          state.battle.lastActionSeq = i + 1;
+          if(!action || state.battle.appliedActionIds[id]) continue;
+          const samePlayer = action.actorId === state.playerId;
+          const sameSession = !action.actorSessionId || !state.battle.sessionId || action.actorSessionId === state.battle.sessionId;
+          if(samePlayer && sameSession) continue;
+          state.battle.appliedActionIds[id] = true;
+          applyRemoteAction(action, id);
+        }
+      });
+      state.battle.unsubs.push(unsub);
+    };
+    subscribeBattleActions.__v284SessionAware = true;
+  }
+
+  const oldSummonV284 = typeof summonUnitFromHandToBoard === 'function' ? summonUnitFromHandToBoard : null;
+  if(oldSummonV284 && !oldSummonV284.__v284BoardPatch){
+    summonUnitFromHandToBoard = function(card, pos, cost){
+      const r = oldSummonV284.call(this, card, pos, cost);
+      sendBoardPatchV284('summon');
+      setTimeout(()=>sendBoardPatchV284('summon-late'), 180);
+      return r;
+    };
+    summonUnitFromHandToBoard.__v284BoardPatch = true;
+  }
+
+  const oldPutV284 = typeof putUnitIntoPlayFromCard === 'function' ? putUnitIntoPlayFromCard : null;
+  if(oldPutV284 && !oldPutV284.__v284BoardPatch){
+    putUnitIntoPlayFromCard = function(card, pos, side='player', stats={}){
+      const r = oldPutV284.call(this, card, pos, side, stats);
+      if(side === 'player'){
+        sendBoardPatchV284('putIntoPlay');
+        setTimeout(()=>sendBoardPatchV284('putIntoPlay-late'), 180);
+      }
+      return r;
+    };
+    putUnitIntoPlayFromCard.__v284BoardPatch = true;
+  }
+
+  const oldResolveDeathsV284 = typeof resolveDeaths === 'function' ? resolveDeaths : null;
+  if(oldResolveDeathsV284 && !oldResolveDeathsV284.__v284BoardPatch){
+    resolveDeaths = function(){
+      const r = oldResolveDeathsV284.call(this);
+      sendBoardPatchV284('resolveDeaths');
+      return r;
+    };
+    resolveDeaths.__v284BoardPatch = true;
+  }
+
+  if(window.__DQR_TEST__){ Object.assign(window.__DQR_TEST__, {
+    applyRemoteReducer,
+    subscribeBattleActions,
+    summonUnitFromHandToBoard,
+    putUnitIntoPlayFromCard,
+    resolveDeaths,
+    v284:{
+      version:V284,
+      makeBoardPatchPayload:makeBoardPatchPayloadV284,
+      applyBoardPatch:applyBoardPatchV284,
+      sendBoardPatch:sendBoardPatchV284,
+      unitPatch:unitPatchV284
+    }
   }); }
 })();

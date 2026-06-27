@@ -1,0 +1,28 @@
+{
+  "version": "v284_landscape_wide_slots_pvp_board_patch",
+  "nodeCheck": "OK",
+  "functionDuplicateCheck": "not newly introduced; node syntax OK",
+  "changes": [
+    "Landscape summon slots widened from v283 by reducing side gutters and increasing min/max slot widths.",
+    "Enemy leader X coordinate kept mirrored inward from camera island.",
+    "Added boardPatchV284 PvP action after summon/putIntoPlay/resolveDeaths.",
+    "boardPatchV284 carries board/hp/mp/tension/weapon/handCount only, no handIds.",
+    "Remote receiver applies boardPatchV284 directly to enemy.board."
+  ],
+  "topLevelFunctionDeclarations": 1681,
+  "duplicateFunctionDeclarations": [
+    "addRandomCardByPredicate",
+    "board",
+    "clone",
+    "damageRandomEnemy",
+    "drawSide",
+    "g",
+    "game",
+    "isBuildingUnit",
+    "num",
+    "sideObj",
+    "soloOn",
+    "terrain"
+  ],
+  "staticChecks": "10 passed / 0 failed"
+}

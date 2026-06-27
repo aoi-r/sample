@@ -1,5 +1,5 @@
 {
-  "version": "v283_landscape_slot_width_modal_compact",
+  "version": "v284_landscape_wide_slots_pvp_board_patch",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -669,5 +669,6 @@
   "syncFixV270": "Every outbound action/public state now carries an authoritative public board snapshot. Receiver applies board/HP/MP/tension/weapon/terrain as the source of truth to fix missing summons, spell-created units, buffs/debuffs, and stale target-selection deadlocks.",
   "layoutFixV270": "Portrait mobile layout pulls own HP/MP/tension region upward and reduces dead space between own summon slots and own HUD.",
   "layoutUpdateV271": "Approved portrait mock incorporated: smaller hand row above bottom HUD, bottom player HUD pinned lower, mini hero card displayed between tension orb and HP, and player summon rows pulled upward to reduce wasted vertical space.",
-  "v280": "ぷちメタルのターン終了時GETと通常ドローが同時に見える問題を修正。PvPではターン終了時に次ターンのドローを前倒しせず、Firebaseで自分のターンに戻った瞬間にMP更新/1ドローを行う。リモート側でHP0ユニットが残る場合に備え、damageApplied/counterDamage/attackResolved/unitDeath受信後にresolveDeathsで死亡掃除を行う。v270の12秒自動選択解除を無効化。"
+  "v280": "ぷちメタルのターン終了時GETと通常ドローが同時に見える問題を修正。PvPではターン終了時に次ターンのドローを前倒しせず、Firebaseで自分のターンに戻った瞬間にMP更新/1ドローを行う。リモート側でHP0ユニットが残る場合に備え、damageApplied/counterDamage/attackResolved/unitDeath受信後にresolveDeathsで死亡掃除を行う。v270の12秒自動選択解除を無効化。",
+  "v284": "横画面配置マスを約1.5倍目標で拡大。PvP召喚/場出し/死亡後に boardPatchV284 action を送信し、相手側 enemy.board へ直接適用する同期補強を追加。"
 }

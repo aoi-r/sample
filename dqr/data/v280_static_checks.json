@@ -1,6 +1,6 @@
 {
-  "passed": 10,
-  "failed": 0,
+  "passed": 8,
+  "failed": 2,
   "results": [
     {
       "name": "DATA_VERSION v280",
@@ -9,12 +9,12 @@
     },
     {
       "name": "cache buster app.js v280",
-      "passed": true,
+      "passed": false,
       "detail": ""
     },
     {
       "name": "cache buster style.css v280",
-      "passed": true,
+      "passed": false,
       "detail": ""
     },
     {

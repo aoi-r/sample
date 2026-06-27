@@ -1,0 +1,46 @@
+{
+  "passed": 10,
+  "failed": 0,
+  "results": [
+    {
+      "name": "DATA_VERSION v284",
+      "passed": true
+    },
+    {
+      "name": "cache app v284",
+      "passed": true
+    },
+    {
+      "name": "cache css v284",
+      "passed": true
+    },
+    {
+      "name": "boardPatch action installed",
+      "passed": true
+    },
+    {
+      "name": "summon sends board patch",
+      "passed": true
+    },
+    {
+      "name": "put into play sends board patch",
+      "passed": true
+    },
+    {
+      "name": "death sends board patch",
+      "passed": true
+    },
+    {
+      "name": "hand IDs not sent in board patch",
+      "passed": true
+    },
+    {
+      "name": "wide slots css",
+      "passed": true
+    },
+    {
+      "name": "enemy leader mirrored css",
+      "passed": true
+    }
+  ]
+}
