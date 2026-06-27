@@ -1,5 +1,5 @@
 {
-  "version": "v281_pvp_authoritative_sync_hand_layout_fix",
+  "version": "v282_landscape_field_hud_align",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -238,15 +238,16 @@
     "removal_behavior": "効果が消えた場合はステータス再計算・再描画により表示も消える。",
     "image_rewrite_policy": "元画像ファイルは変更せず、DOMオーバーレイで表示する。"
   },
-  "base": "v280_puchi_metal_turnstart_remote_death_fix",
+  "base": "v281_pvp_authoritative_sync_hand_layout_fix",
   "filenameSanitization": "custom_cards filenames normalized to short ASCII names to avoid File name too long on checkout/build",
   "data_version": "v165_default_decks_remove_demon_swordsman_and_effect_audit",
-  "label": "v281 / PvP同期・手札漏れ・横画面被り修正",
+  "label": "v282 / 横画面HUD・手札中央・盤面縦位置調整",
   "notes": [
-    "PvP unitDeath stale v270 snapshot guard",
-    "PvP public hand IDs redacted/ignored",
-    "Debounced authoritative sync after local board death/summon mutations",
-    "Landscape hand/field separation CSS"
+    "スマホ横画面でプレイヤーHUD背景を内容幅に縮小",
+    "スマホ横画面で手札を中央下へ戻し、見切れを防止",
+    "敵/味方リーダーアイコンの縦座標を同一ラインに固定",
+    "召喚マスの中段をリーダーアイコンラインに寄せ、上下行がHUD/手札と被らないよう再配置",
+    "PvP同期処理・タップ処理には触れないCSS中心の修正"
   ],
   "defaultTestDecks": {
     "file": "data/default_test_decks_v165.json",

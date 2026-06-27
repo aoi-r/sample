@@ -1,0 +1,15 @@
+{
+  "version": "v282_landscape_field_hud_align",
+  "nodeCheck": "OK",
+  "topLevelFunctionDuplicateCount": 0,
+  "topLevelFunctionDuplicates": [],
+  "v281SyncRegression": "5 passed / 0 failed",
+  "v282LandscapeLayout": "14 passed / 0 failed",
+  "viewports": [
+    "844x390",
+    "667x375"
+  ],
+  "notes": [
+    "CSS-only landscape layout patch; PvP sync and tap handlers were not changed."
+  ]
+}

@@ -9140,3 +9140,284 @@ html, body, #app, #screen-battle.active, #screen-battle.active .battle-screen{
     height:49px !important;
   }
 }
+
+/* v282: smartphone landscape field/HUD alignment pass.
+   CSS-only: do not touch PvP sync or tap handlers.
+   Goals from device screenshot:
+   - shrink HP/MP/tension dark HUD background to content width
+   - center the player hand at the bottom, avoid clipping
+   - align enemy/player leader icon vertical position
+   - align 2nd summon row with leader icons and keep rows visible/clear
+*/
+@media (max-width: 960px) and (orientation: landscape){
+  #screen-battle.active .battle-arena{
+    position:relative !important;
+    overflow:hidden !important;
+  }
+
+  #screen-battle.active .battle-arena .arena-field{
+    position:absolute !important;
+    inset:0 !important;
+    display:block !important;
+    padding:0 !important;
+    background:transparent !important;
+  }
+
+  #screen-battle.active .battle-arena .unit-zones.twelve-zones{
+    position:absolute !important;
+    left:clamp(150px, 23vw, 330px) !important;
+    right:clamp(112px, 15vw, 220px) !important;
+    top:clamp(48px, 13dvh, 78px) !important;
+    bottom:auto !important;
+    width:auto !important;
+    height:clamp(166px, 43dvh, 252px) !important;
+    margin:0 !important;
+    display:grid !important;
+    grid-template-columns:repeat(2, minmax(58px, 1fr)) minmax(18px, 34px) repeat(2, minmax(58px, 1fr)) !important;
+    grid-template-rows:repeat(3, minmax(42px, 1fr)) !important;
+    column-gap:clamp(6px, 1.35vw, 18px) !important;
+    row-gap:clamp(8px, 2dvh, 18px) !important;
+    align-items:center !important;
+    justify-items:center !important;
+    overflow:visible !important;
+    transform:none !important;
+  }
+
+  #screen-battle.active .battle-arena .side-board,
+  #screen-battle.active .battle-arena .side-board .unit-row,
+  #screen-battle.active .battle-arena .board-gap{
+    display:contents !important;
+  }
+
+  /* 3 rows x 4 columns: 自後列 / 自前列 / gap / 敵前列 / 敵後列 */
+  #screen-battle.active .battle-arena .player-board .unit-slot[data-pos="3"]{ grid-column:1 !important; grid-row:1 !important; }
+  #screen-battle.active .battle-arena .player-board .unit-slot[data-pos="0"]{ grid-column:2 !important; grid-row:1 !important; }
+  #screen-battle.active .battle-arena .player-board .unit-slot[data-pos="4"]{ grid-column:1 !important; grid-row:2 !important; }
+  #screen-battle.active .battle-arena .player-board .unit-slot[data-pos="1"]{ grid-column:2 !important; grid-row:2 !important; }
+  #screen-battle.active .battle-arena .player-board .unit-slot[data-pos="5"]{ grid-column:1 !important; grid-row:3 !important; }
+  #screen-battle.active .battle-arena .player-board .unit-slot[data-pos="2"]{ grid-column:2 !important; grid-row:3 !important; }
+  #screen-battle.active .battle-arena .enemy-board .unit-slot[data-pos="0"]{ grid-column:4 !important; grid-row:1 !important; }
+  #screen-battle.active .battle-arena .enemy-board .unit-slot[data-pos="3"]{ grid-column:5 !important; grid-row:1 !important; }
+  #screen-battle.active .battle-arena .enemy-board .unit-slot[data-pos="1"]{ grid-column:4 !important; grid-row:2 !important; }
+  #screen-battle.active .battle-arena .enemy-board .unit-slot[data-pos="4"]{ grid-column:5 !important; grid-row:2 !important; }
+  #screen-battle.active .battle-arena .enemy-board .unit-slot[data-pos="2"]{ grid-column:4 !important; grid-row:3 !important; }
+  #screen-battle.active .battle-arena .enemy-board .unit-slot[data-pos="5"]{ grid-column:5 !important; grid-row:3 !important; }
+
+  #screen-battle.active .battle-arena .unit-slot{
+    width:100% !important;
+    height:100% !important;
+    min-width:56px !important;
+    min-height:38px !important;
+    max-width:132px !important;
+    max-height:64px !important;
+    aspect-ratio:auto !important;
+    justify-self:stretch !important;
+    align-self:stretch !important;
+    box-sizing:border-box !important;
+    border-radius:10px !important;
+  }
+
+  /* Leaders are no longer grid-aligned independently; both share the same Y line. */
+  #screen-battle.active .battle-arena .player-leader,
+  #screen-battle.active .battle-arena .enemy-leader{
+    position:absolute !important;
+    top:calc(clamp(48px, 13dvh, 78px) + (clamp(166px, 43dvh, 252px) / 2)) !important;
+    bottom:auto !important;
+    margin:0 !important;
+    z-index:9 !important;
+    transform:translateY(-50%) scale(.86) !important;
+    transform-origin:center center !important;
+    grid-column:auto !important;
+    grid-row:auto !important;
+    justify-self:auto !important;
+    align-self:auto !important;
+  }
+  #screen-battle.active .battle-arena .player-leader{
+    left:clamp(58px, 11vw, 160px) !important;
+    right:auto !important;
+  }
+  #screen-battle.active .battle-arena .enemy-leader{
+    right:clamp(18px, 3vw, 44px) !important;
+    left:auto !important;
+  }
+
+  /* Enemy status should wrap content only. */
+  #screen-battle.active .battle-arena .enemy-hud{
+    position:absolute !important;
+    top:10px !important;
+    right:10px !important;
+    left:auto !important;
+    width:max-content !important;
+    max-width:calc(100vw - 28px) !important;
+    z-index:20 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    gap:7px !important;
+    padding:5px 8px !important;
+    border-radius:999px !important;
+    background:rgba(0,0,0,.30) !important;
+    transform:none !important;
+  }
+
+  /* Player HUD: compact pill only around tension / hero skill / hero card / HP / MP. */
+  #screen-battle.active .battle-arena .player-hud{
+    position:absolute !important;
+    left:14px !important;
+    right:auto !important;
+    bottom:58px !important;
+    width:max-content !important;
+    max-width:calc(100vw - 230px) !important;
+    min-height:0 !important;
+    z-index:20 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    flex-wrap:nowrap !important;
+    gap:7px !important;
+    padding:5px 8px !important;
+    background:rgba(8,30,20,.50) !important;
+    border-radius:999px !important;
+    box-shadow:0 6px 14px rgba(0,0,0,.20) !important;
+    transform:none !important;
+    pointer-events:auto !important;
+  }
+  #screen-battle.active .battle-arena .player-hud #end-turn{
+    display:none !important;
+  }
+  #screen-battle.active .battle-arena .player-hud #tension-button{
+    width:52px !important;
+    min-width:52px !important;
+    height:52px !important;
+  }
+  #screen-battle.active .battle-arena .player-hud #hero-skill-button{
+    width:42px !important;
+    min-width:42px !important;
+    height:46px !important;
+    border-radius:10px !important;
+  }
+  #screen-battle.active .battle-arena .player-hud #player-hero-mini-dock{
+    width:28px !important;
+    min-width:28px !important;
+    height:40px !important;
+  }
+  #screen-battle.active .battle-arena .player-hud .hp-pill,
+  #screen-battle.active .battle-arena .player-hud .mp-pill{
+    padding:6px 9px !important;
+    font-size:13px !important;
+    line-height:1 !important;
+    white-space:nowrap !important;
+  }
+
+  /* Hand centered at the bottom; never inherit old left:8px + translate mix. */
+  #screen-battle.active .battle-arena .player-hand{
+    position:absolute !important;
+    left:50% !important;
+    right:auto !important;
+    bottom:4px !important;
+    transform:translateX(-50%) !important;
+    width:min(56vw, 560px) !important;
+    height:54px !important;
+    max-height:54px !important;
+    z-index:19 !important;
+    display:flex !important;
+    align-items:flex-start !important;
+    justify-content:center !important;
+    gap:5px !important;
+    padding:2px 6px !important;
+    box-sizing:border-box !important;
+    overflow-x:auto !important;
+    overflow-y:visible !important;
+    pointer-events:auto !important;
+  }
+  #screen-battle.active .battle-arena .hand-card{
+    flex:0 0 34px !important;
+    width:34px !important;
+    min-width:34px !important;
+    height:50px !important;
+    max-height:50px !important;
+  }
+  #screen-battle.active .battle-arena .hand-card img{
+    height:100% !important;
+    object-fit:cover !important;
+    object-position:top center !important;
+  }
+
+  #screen-battle.active .battle-arena .battle-log{
+    right:8px !important;
+    left:auto !important;
+    bottom:24px !important;
+    width:min(28vw, 330px) !important;
+    max-height:70px !important;
+    z-index:18 !important;
+  }
+}
+
+@media (max-width: 760px) and (orientation: landscape){
+  #screen-battle.active .battle-arena .unit-zones.twelve-zones{
+    left:clamp(118px, 21vw, 170px) !important;
+    right:clamp(92px, 13vw, 128px) !important;
+    top:clamp(42px, 12dvh, 56px) !important;
+    height:clamp(146px, 39dvh, 172px) !important;
+    grid-template-columns:repeat(2, minmax(48px, 1fr)) minmax(14px, 24px) repeat(2, minmax(48px, 1fr)) !important;
+    row-gap:7px !important;
+    column-gap:6px !important;
+  }
+  #screen-battle.active .battle-arena .player-leader,
+  #screen-battle.active .battle-arena .enemy-leader{
+    top:calc(clamp(42px, 12dvh, 56px) + (clamp(146px, 39dvh, 172px) / 2)) !important;
+    transform:translateY(-50%) scale(.78) !important;
+  }
+  #screen-battle.active .battle-arena .player-leader{ left:clamp(38px, 8vw, 64px) !important; }
+  #screen-battle.active .battle-arena .enemy-leader{ right:clamp(8px, 2vw, 16px) !important; }
+  #screen-battle.active .battle-arena .unit-slot{
+    min-width:42px !important;
+    min-height:32px !important;
+    max-height:50px !important;
+  }
+  #screen-battle.active .battle-arena .player-hud{
+    bottom:54px !important;
+    left:8px !important;
+    gap:5px !important;
+    padding:4px 6px !important;
+    max-width:calc(100vw - 190px) !important;
+  }
+  #screen-battle.active .battle-arena .player-hud #tension-button{
+    width:46px !important;
+    min-width:46px !important;
+    height:46px !important;
+  }
+  #screen-battle.active .battle-arena .player-hud #hero-skill-button{
+    width:36px !important;
+    min-width:36px !important;
+    height:42px !important;
+  }
+  #screen-battle.active .battle-arena .player-hud .hp-pill,
+  #screen-battle.active .battle-arena .player-hud .mp-pill{
+    padding:5px 7px !important;
+    font-size:12px !important;
+  }
+  #screen-battle.active .battle-arena .player-hand{
+    width:min(54vw, 420px) !important;
+    height:50px !important;
+    max-height:50px !important;
+  }
+  #screen-battle.active .battle-arena .hand-card{
+    flex-basis:32px !important;
+    width:32px !important;
+    min-width:32px !important;
+    height:46px !important;
+    max-height:46px !important;
+  }
+}
+
+/* v282 fine tune: keep 844px-class landscape bottom summon row clear of compact HUD. */
+@media (min-width: 761px) and (max-width: 960px) and (orientation: landscape){
+  #screen-battle.active .battle-arena .unit-zones.twelve-zones{
+    height:clamp(158px, 41dvh, 240px) !important;
+  }
+  #screen-battle.active .battle-arena .player-leader,
+  #screen-battle.active .battle-arena .enemy-leader{
+    top:calc(clamp(48px, 13dvh, 78px) + (clamp(158px, 41dvh, 240px) / 2)) !important;
+  }
+}

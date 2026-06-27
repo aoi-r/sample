@@ -1,0 +1,857 @@
+{
+  "version": "v282_landscape_field_hud_align",
+  "passed": 14,
+  "failed": 0,
+  "cases": [
+    {
+      "viewport": "844x390",
+      "geometry": {
+        "vw": 844,
+        "vh": 390,
+        "arena": {
+          "left": 0,
+          "top": 44,
+          "right": 844,
+          "bottom": 386,
+          "width": 844,
+          "height": 342,
+          "cx": 422,
+          "cy": 215
+        },
+        "hand": {
+          "left": 185.6875,
+          "top": 328,
+          "right": 658.3125,
+          "bottom": 382,
+          "width": 472.625,
+          "height": 54,
+          "cx": 422,
+          "cy": 355
+        },
+        "hud": {
+          "left": 14,
+          "top": 266,
+          "right": 233.203125,
+          "bottom": 328,
+          "width": 219.203125,
+          "height": 62,
+          "cx": 123.6015625,
+          "cy": 297
+        },
+        "enemyHud": {
+          "left": 624.1875,
+          "top": 54,
+          "right": 834,
+          "bottom": 116,
+          "width": 209.8125,
+          "height": 62,
+          "cx": 729.09375,
+          "cy": 85
+        },
+        "playerLeader": {
+          "left": 96.46812438964844,
+          "top": 144.54061889648438,
+          "right": 141.18812561035156,
+          "bottom": 204.74063110351562,
+          "width": 44.720001220703125,
+          "height": 60.20001220703125,
+          "cx": 118.828125,
+          "cy": 174.640625
+        },
+        "enemyLeader": {
+          "left": 770.3275146484375,
+          "top": 144.54061889648438,
+          "right": 815.0474853515625,
+          "bottom": 204.74063110351562,
+          "width": 44.719970703125,
+          "height": 60.20001220703125,
+          "cx": 792.6875,
+          "cy": 174.640625
+        },
+        "slots": [
+          {
+            "side": "enemy",
+            "pos": "0",
+            "left": 484.140625,
+            "top": 94.6875,
+            "right": 542.140625,
+            "bottom": 142.640625,
+            "width": 58,
+            "height": 47.953125,
+            "cx": 513.140625,
+            "cy": 118.6640625
+          },
+          {
+            "side": "enemy",
+            "pos": "1",
+            "left": 484.140625,
+            "top": 150.640625,
+            "right": 542.140625,
+            "bottom": 198.609375,
+            "width": 58,
+            "height": 47.96875,
+            "cx": 513.140625,
+            "cy": 174.625
+          },
+          {
+            "side": "enemy",
+            "pos": "2",
+            "left": 484.140625,
+            "top": 206.609375,
+            "right": 542.140625,
+            "bottom": 254.578125,
+            "width": 58,
+            "height": 47.96875,
+            "cx": 513.140625,
+            "cy": 230.59375
+          },
+          {
+            "side": "enemy",
+            "pos": "3",
+            "left": 553.53125,
+            "top": 94.6875,
+            "right": 611.53125,
+            "bottom": 142.640625,
+            "width": 58,
+            "height": 47.953125,
+            "cx": 582.53125,
+            "cy": 118.6640625
+          },
+          {
+            "side": "enemy",
+            "pos": "4",
+            "left": 553.53125,
+            "top": 150.640625,
+            "right": 611.53125,
+            "bottom": 198.609375,
+            "width": 58,
+            "height": 47.96875,
+            "cx": 582.53125,
+            "cy": 174.625
+          },
+          {
+            "side": "enemy",
+            "pos": "5",
+            "left": 553.53125,
+            "top": 206.609375,
+            "right": 611.53125,
+            "bottom": 254.578125,
+            "width": 58,
+            "height": 47.96875,
+            "cx": 582.53125,
+            "cy": 230.59375
+          },
+          {
+            "side": "player",
+            "pos": "0",
+            "left": 369.359375,
+            "top": 94.6875,
+            "right": 427.359375,
+            "bottom": 142.640625,
+            "width": 58,
+            "height": 47.953125,
+            "cx": 398.359375,
+            "cy": 118.6640625
+          },
+          {
+            "side": "player",
+            "pos": "1",
+            "left": 369.359375,
+            "top": 150.640625,
+            "right": 427.359375,
+            "bottom": 198.609375,
+            "width": 58,
+            "height": 47.96875,
+            "cx": 398.359375,
+            "cy": 174.625
+          },
+          {
+            "side": "player",
+            "pos": "2",
+            "left": 369.359375,
+            "top": 206.609375,
+            "right": 427.359375,
+            "bottom": 254.578125,
+            "width": 58,
+            "height": 47.96875,
+            "cx": 398.359375,
+            "cy": 230.59375
+          },
+          {
+            "side": "player",
+            "pos": "3",
+            "left": 299.96875,
+            "top": 94.6875,
+            "right": 357.96875,
+            "bottom": 142.640625,
+            "width": 58,
+            "height": 47.953125,
+            "cx": 328.96875,
+            "cy": 118.6640625
+          },
+          {
+            "side": "player",
+            "pos": "4",
+            "left": 299.96875,
+            "top": 150.640625,
+            "right": 357.96875,
+            "bottom": 198.609375,
+            "width": 58,
+            "height": 47.96875,
+            "cx": 328.96875,
+            "cy": 174.625
+          },
+          {
+            "side": "player",
+            "pos": "5",
+            "left": 299.96875,
+            "top": 206.609375,
+            "right": 357.96875,
+            "bottom": 254.578125,
+            "width": 58,
+            "height": 47.96875,
+            "cx": 328.96875,
+            "cy": 230.59375
+          }
+        ],
+        "row2": [
+          {
+            "side": "enemy",
+            "pos": "1",
+            "left": 484.140625,
+            "top": 150.640625,
+            "right": 542.140625,
+            "bottom": 198.609375,
+            "width": 58,
+            "height": 47.96875,
+            "cx": 513.140625,
+            "cy": 174.625
+          },
+          {
+            "side": "enemy",
+            "pos": "4",
+            "left": 553.53125,
+            "top": 150.640625,
+            "right": 611.53125,
+            "bottom": 198.609375,
+            "width": 58,
+            "height": 47.96875,
+            "cx": 582.53125,
+            "cy": 174.625
+          },
+          {
+            "side": "player",
+            "pos": "1",
+            "left": 369.359375,
+            "top": 150.640625,
+            "right": 427.359375,
+            "bottom": 198.609375,
+            "width": 58,
+            "height": 47.96875,
+            "cx": 398.359375,
+            "cy": 174.625
+          },
+          {
+            "side": "player",
+            "pos": "4",
+            "left": 299.96875,
+            "top": 150.640625,
+            "right": 357.96875,
+            "bottom": 198.609375,
+            "width": 58,
+            "height": 47.96875,
+            "cx": 328.96875,
+            "cy": 174.625
+          }
+        ],
+        "topbar": {
+          "left": 0,
+          "top": 0,
+          "right": 844,
+          "bottom": 44,
+          "width": 844,
+          "height": 44,
+          "cx": 422,
+          "cy": 22
+        },
+        "log": {
+          "left": 599.6875,
+          "top": 330,
+          "right": 836,
+          "bottom": 362,
+          "width": 236.3125,
+          "height": 32,
+          "cx": 717.84375,
+          "cy": 346
+        }
+      },
+      "results": [
+        {
+          "name": "hand is horizontally centered and inside viewport",
+          "passed": true,
+          "detail": {
+            "left": 185.6875,
+            "top": 328,
+            "right": 658.3125,
+            "bottom": 382,
+            "width": 472.625,
+            "height": 54,
+            "cx": 422,
+            "cy": 355
+          }
+        },
+        {
+          "name": "player HUD content pill is compact, not stretched across field",
+          "passed": true,
+          "detail": {
+            "left": 14,
+            "top": 266,
+            "right": 233.203125,
+            "bottom": 328,
+            "width": 219.203125,
+            "height": 62,
+            "cx": 123.6015625,
+            "cy": 297
+          }
+        },
+        {
+          "name": "leaders share nearly same vertical center",
+          "passed": true,
+          "detail": {
+            "player": {
+              "left": 96.46812438964844,
+              "top": 144.54061889648438,
+              "right": 141.18812561035156,
+              "bottom": 204.74063110351562,
+              "width": 44.720001220703125,
+              "height": 60.20001220703125,
+              "cx": 118.828125,
+              "cy": 174.640625
+            },
+            "enemy": {
+              "left": 770.3275146484375,
+              "top": 144.54061889648438,
+              "right": 815.0474853515625,
+              "bottom": 204.74063110351562,
+              "width": 44.719970703125,
+              "height": 60.20001220703125,
+              "cx": 792.6875,
+              "cy": 174.640625
+            },
+            "delta": 0.0
+          }
+        },
+        {
+          "name": "middle summon row aligns with leader icons",
+          "passed": true,
+          "detail": {
+            "middleY": 174.625,
+            "leaderY": 174.640625,
+            "delta": 0.015625,
+            "middle": [
+              {
+                "side": "enemy",
+                "pos": "1",
+                "left": 484.140625,
+                "top": 150.640625,
+                "right": 542.140625,
+                "bottom": 198.609375,
+                "width": 58,
+                "height": 47.96875,
+                "cx": 513.140625,
+                "cy": 174.625
+              },
+              {
+                "side": "enemy",
+                "pos": "4",
+                "left": 553.53125,
+                "top": 150.640625,
+                "right": 611.53125,
+                "bottom": 198.609375,
+                "width": 58,
+                "height": 47.96875,
+                "cx": 582.53125,
+                "cy": 174.625
+              },
+              {
+                "side": "player",
+                "pos": "1",
+                "left": 369.359375,
+                "top": 150.640625,
+                "right": 427.359375,
+                "bottom": 198.609375,
+                "width": 58,
+                "height": 47.96875,
+                "cx": 398.359375,
+                "cy": 174.625
+              },
+              {
+                "side": "player",
+                "pos": "4",
+                "left": 299.96875,
+                "top": 150.640625,
+                "right": 357.96875,
+                "bottom": 198.609375,
+                "width": 58,
+                "height": 47.96875,
+                "cx": 328.96875,
+                "cy": 174.625
+              }
+            ]
+          }
+        },
+        {
+          "name": "top row is visible below topbar/turn controls",
+          "passed": true,
+          "detail": {
+            "minTop": 94.6875,
+            "arenaTop": 44
+          }
+        },
+        {
+          "name": "bottom row stays above HUD and hand",
+          "passed": true,
+          "detail": {
+            "bottomRowBottom": 254.578125,
+            "hudTop": 266,
+            "handTop": 328
+          }
+        },
+        {
+          "name": "no slot overlaps hand",
+          "passed": true,
+          "detail": {
+            "slotBottom": 254.578125,
+            "handTop": 328
+          }
+        }
+      ],
+      "screenshot": "/mnt/data/dqr_v282/data/v282_layout_844x390.png"
+    },
+    {
+      "viewport": "667x375",
+      "geometry": {
+        "vw": 667,
+        "vh": 375,
+        "arena": {
+          "left": 0,
+          "top": 44,
+          "right": 667,
+          "bottom": 371,
+          "width": 667,
+          "height": 327,
+          "cx": 333.5,
+          "cy": 207.5
+        },
+        "hand": {
+          "left": 153.4140625,
+          "top": 317,
+          "right": 513.5859375,
+          "bottom": 367,
+          "width": 360.171875,
+          "height": 50,
+          "cx": 333.5,
+          "cy": 342
+        },
+        "hud": {
+          "left": 8,
+          "top": 263,
+          "right": 197.734375,
+          "bottom": 317,
+          "width": 189.734375,
+          "height": 54,
+          "cx": 102.8671875,
+          "cy": 290
+        },
+        "enemyHud": {
+          "left": 447.1875,
+          "top": 54,
+          "right": 657,
+          "bottom": 116,
+          "width": 209.8125,
+          "height": 62,
+          "cx": 552.09375,
+          "cy": 85
+        },
+        "playerLeader": {
+          "left": 59.079376220703125,
+          "top": 134.8249969482422,
+          "right": 99.63937377929688,
+          "bottom": 189.42498779296875,
+          "width": 40.55999755859375,
+          "height": 54.59999084472656,
+          "cx": 79.359375,
+          "cy": 162.12499237060547
+        },
+        "enemyLeader": {
+          "left": 607.391845703125,
+          "top": 134.8249969482422,
+          "right": 647.9518432617188,
+          "bottom": 189.42498779296875,
+          "width": 40.55999755859375,
+          "height": 54.59999084472656,
+          "cx": 627.6718444824219,
+          "cy": 162.12499237060547
+        },
+        "slots": [
+          {
+            "side": "enemy",
+            "pos": "0",
+            "left": 375.53125,
+            "top": 89,
+            "right": 423.53125,
+            "bottom": 133.078125,
+            "width": 48,
+            "height": 44.078125,
+            "cx": 399.53125,
+            "cy": 111.0390625
+          },
+          {
+            "side": "enemy",
+            "pos": "1",
+            "left": 375.53125,
+            "top": 140.078125,
+            "right": 423.53125,
+            "bottom": 184.15625,
+            "width": 48,
+            "height": 44.078125,
+            "cx": 399.53125,
+            "cy": 162.1171875
+          },
+          {
+            "side": "enemy",
+            "pos": "2",
+            "left": 375.53125,
+            "top": 191.15625,
+            "right": 423.53125,
+            "bottom": 235.234375,
+            "width": 48,
+            "height": 44.078125,
+            "cx": 399.53125,
+            "cy": 213.1953125
+          },
+          {
+            "side": "enemy",
+            "pos": "3",
+            "left": 429.53125,
+            "top": 89,
+            "right": 477.53125,
+            "bottom": 133.078125,
+            "width": 48,
+            "height": 44.078125,
+            "cx": 453.53125,
+            "cy": 111.0390625
+          },
+          {
+            "side": "enemy",
+            "pos": "4",
+            "left": 429.53125,
+            "top": 140.078125,
+            "right": 477.53125,
+            "bottom": 184.15625,
+            "width": 48,
+            "height": 44.078125,
+            "cx": 453.53125,
+            "cy": 162.1171875
+          },
+          {
+            "side": "enemy",
+            "pos": "5",
+            "left": 429.53125,
+            "top": 191.15625,
+            "right": 477.53125,
+            "bottom": 235.234375,
+            "width": 48,
+            "height": 44.078125,
+            "cx": 453.53125,
+            "cy": 213.1953125
+          },
+          {
+            "side": "player",
+            "pos": "0",
+            "left": 291.53125,
+            "top": 89,
+            "right": 339.53125,
+            "bottom": 133.078125,
+            "width": 48,
+            "height": 44.078125,
+            "cx": 315.53125,
+            "cy": 111.0390625
+          },
+          {
+            "side": "player",
+            "pos": "1",
+            "left": 291.53125,
+            "top": 140.078125,
+            "right": 339.53125,
+            "bottom": 184.15625,
+            "width": 48,
+            "height": 44.078125,
+            "cx": 315.53125,
+            "cy": 162.1171875
+          },
+          {
+            "side": "player",
+            "pos": "2",
+            "left": 291.53125,
+            "top": 191.15625,
+            "right": 339.53125,
+            "bottom": 235.234375,
+            "width": 48,
+            "height": 44.078125,
+            "cx": 315.53125,
+            "cy": 213.1953125
+          },
+          {
+            "side": "player",
+            "pos": "3",
+            "left": 237.53125,
+            "top": 89,
+            "right": 285.53125,
+            "bottom": 133.078125,
+            "width": 48,
+            "height": 44.078125,
+            "cx": 261.53125,
+            "cy": 111.0390625
+          },
+          {
+            "side": "player",
+            "pos": "4",
+            "left": 237.53125,
+            "top": 140.078125,
+            "right": 285.53125,
+            "bottom": 184.15625,
+            "width": 48,
+            "height": 44.078125,
+            "cx": 261.53125,
+            "cy": 162.1171875
+          },
+          {
+            "side": "player",
+            "pos": "5",
+            "left": 237.53125,
+            "top": 191.15625,
+            "right": 285.53125,
+            "bottom": 235.234375,
+            "width": 48,
+            "height": 44.078125,
+            "cx": 261.53125,
+            "cy": 213.1953125
+          }
+        ],
+        "row2": [
+          {
+            "side": "enemy",
+            "pos": "1",
+            "left": 375.53125,
+            "top": 140.078125,
+            "right": 423.53125,
+            "bottom": 184.15625,
+            "width": 48,
+            "height": 44.078125,
+            "cx": 399.53125,
+            "cy": 162.1171875
+          },
+          {
+            "side": "enemy",
+            "pos": "4",
+            "left": 429.53125,
+            "top": 140.078125,
+            "right": 477.53125,
+            "bottom": 184.15625,
+            "width": 48,
+            "height": 44.078125,
+            "cx": 453.53125,
+            "cy": 162.1171875
+          },
+          {
+            "side": "player",
+            "pos": "1",
+            "left": 291.53125,
+            "top": 140.078125,
+            "right": 339.53125,
+            "bottom": 184.15625,
+            "width": 48,
+            "height": 44.078125,
+            "cx": 315.53125,
+            "cy": 162.1171875
+          },
+          {
+            "side": "player",
+            "pos": "4",
+            "left": 237.53125,
+            "top": 140.078125,
+            "right": 285.53125,
+            "bottom": 184.15625,
+            "width": 48,
+            "height": 44.078125,
+            "cx": 261.53125,
+            "cy": 162.1171875
+          }
+        ],
+        "topbar": {
+          "left": 0,
+          "top": 0,
+          "right": 667,
+          "bottom": 44,
+          "width": 667,
+          "height": 44,
+          "cx": 333.5,
+          "cy": 22
+        },
+        "log": {
+          "left": 472.25,
+          "top": 315,
+          "right": 659,
+          "bottom": 347,
+          "width": 186.75,
+          "height": 32,
+          "cx": 565.625,
+          "cy": 331
+        }
+      },
+      "results": [
+        {
+          "name": "hand is horizontally centered and inside viewport",
+          "passed": true,
+          "detail": {
+            "left": 153.4140625,
+            "top": 317,
+            "right": 513.5859375,
+            "bottom": 367,
+            "width": 360.171875,
+            "height": 50,
+            "cx": 333.5,
+            "cy": 342
+          }
+        },
+        {
+          "name": "player HUD content pill is compact, not stretched across field",
+          "passed": true,
+          "detail": {
+            "left": 8,
+            "top": 263,
+            "right": 197.734375,
+            "bottom": 317,
+            "width": 189.734375,
+            "height": 54,
+            "cx": 102.8671875,
+            "cy": 290
+          }
+        },
+        {
+          "name": "leaders share nearly same vertical center",
+          "passed": true,
+          "detail": {
+            "player": {
+              "left": 59.079376220703125,
+              "top": 134.8249969482422,
+              "right": 99.63937377929688,
+              "bottom": 189.42498779296875,
+              "width": 40.55999755859375,
+              "height": 54.59999084472656,
+              "cx": 79.359375,
+              "cy": 162.12499237060547
+            },
+            "enemy": {
+              "left": 607.391845703125,
+              "top": 134.8249969482422,
+              "right": 647.9518432617188,
+              "bottom": 189.42498779296875,
+              "width": 40.55999755859375,
+              "height": 54.59999084472656,
+              "cx": 627.6718444824219,
+              "cy": 162.12499237060547
+            },
+            "delta": 0.0
+          }
+        },
+        {
+          "name": "middle summon row aligns with leader icons",
+          "passed": true,
+          "detail": {
+            "middleY": 162.1171875,
+            "leaderY": 162.12499237060547,
+            "delta": 0.00780487060546875,
+            "middle": [
+              {
+                "side": "enemy",
+                "pos": "1",
+                "left": 375.53125,
+                "top": 140.078125,
+                "right": 423.53125,
+                "bottom": 184.15625,
+                "width": 48,
+                "height": 44.078125,
+                "cx": 399.53125,
+                "cy": 162.1171875
+              },
+              {
+                "side": "enemy",
+                "pos": "4",
+                "left": 429.53125,
+                "top": 140.078125,
+                "right": 477.53125,
+                "bottom": 184.15625,
+                "width": 48,
+                "height": 44.078125,
+                "cx": 453.53125,
+                "cy": 162.1171875
+              },
+              {
+                "side": "player",
+                "pos": "1",
+                "left": 291.53125,
+                "top": 140.078125,
+                "right": 339.53125,
+                "bottom": 184.15625,
+                "width": 48,
+                "height": 44.078125,
+                "cx": 315.53125,
+                "cy": 162.1171875
+              },
+              {
+                "side": "player",
+                "pos": "4",
+                "left": 237.53125,
+                "top": 140.078125,
+                "right": 285.53125,
+                "bottom": 184.15625,
+                "width": 48,
+                "height": 44.078125,
+                "cx": 261.53125,
+                "cy": 162.1171875
+              }
+            ]
+          }
+        },
+        {
+          "name": "top row is visible below topbar/turn controls",
+          "passed": true,
+          "detail": {
+            "minTop": 89,
+            "arenaTop": 44
+          }
+        },
+        {
+          "name": "bottom row stays above HUD and hand",
+          "passed": true,
+          "detail": {
+            "bottomRowBottom": 235.234375,
+            "hudTop": 263,
+            "handTop": 317
+          }
+        },
+        {
+          "name": "no slot overlaps hand",
+          "passed": true,
+          "detail": {
+            "slotBottom": 235.234375,
+            "handTop": 317
+          }
+        }
+      ],
+      "screenshot": "/mnt/data/dqr_v282/data/v282_layout_667x375.png"
+    }
+  ]
+}
