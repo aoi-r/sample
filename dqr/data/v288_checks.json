@@ -1,0 +1,10 @@
+{
+  "version": "v288_meta_turn_authority_sync_guard",
+  "nodeCheck": "OK",
+  "changes": [
+    "syncV287 payload no longer carries currentTurnPlayerId",
+    "syncV287 applyEntry no longer changes isMyTurn/matchLocked",
+    "advanceTurnToOpponent delegates to stable original meta update",
+    "added v288 meta watchdog to re-apply currentTurnPlayerId from room meta"
+  ]
+}

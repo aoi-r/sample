@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v287_responsive_firebase_sync_mobile_hpbar';
-const BUILD_LABEL = 'v286 / PvPライブ状態双方向同期';
+const DATA_VERSION = 'v288_meta_turn_authority_sync_guard';
+const BUILD_LABEL = 'v288 / ターン譲渡はmeta権威・同期は盤面専用';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -24178,7 +24178,7 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
     return {
       version:V287, clientId:clientId(), playerId:state.playerId, sessionId:state.battle.sessionId || '',
       reason, seq:Number(game._v287Seq || 0), updatedAtMs:now(),
-      currentTurnPlayerId:state.battle.currentTurnPlayerId || game.currentTurnPlayerId || '',
+      currentTurnPlayerId:'',
       gameTurn:Number(game.turn || 0), isMyTurn:!!game.isMyTurn,
       self:sidePub(game.player), opponentView:sidePub(game.enemy)
     };
@@ -24210,19 +24210,7 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
     if(stamp) game._v287Watermark[key] = stamp;
     const a = applySideToEnemy(entry.self, entry.reason || 'remote');
     const b = applyOpponentViewToPlayer(entry.opponentView, entry);
-    if(entry.currentTurnPlayerId){
-      state.battle.currentTurnPlayerId = entry.currentTurnPlayerId;
-      game.currentTurnPlayerId = entry.currentTurnPlayerId;
-      const shouldBeMyTurn = entry.currentTurnPlayerId === state.playerId;
-      if(shouldBeMyTurn && !game.isMyTurn){
-        game.isMyTurn = true;
-        state.battle.matchLocked = false;
-        try{ if(typeof prepareOwnTurnStartV280 === 'function') prepareOwnTurnStartV280('v287RemoteTurn'); }catch(e){}
-      }else if(!shouldBeMyTurn){
-        game.isMyTurn = false;
-        state.battle.matchLocked = true;
-      }
-    }
+    // v288: live sync is board/status mirror only. Turn authority belongs to rooms/{roomId}/meta.
     if(a || b){ try{ renderBattleArena(); }catch(e){} return true; }
     return false;
   }
@@ -24281,34 +24269,14 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
   const oldAdvance = typeof advanceTurnToOpponent === 'function' ? advanceTurnToOpponent : null;
   if(oldAdvance && !oldAdvance.__v287ResponsiveSync){
     advanceTurnToOpponent = async function(){
-      if(!inPvp()) return oldAdvance.call(this);
-      const game = g();
-      try{
-        publishBurst('turnEndBefore');
-        const playersSnap = await get(ref(state.firebase.db, `rooms/${state.battle.roomId}/players`));
-        const players = playersSnap.val() || {};
-        state.battle.roomPlayers = players;
-        let opp = Object.values(players).find(p => p && p.playerId && p.playerId !== state.playerId && p.status !== 'defeated');
-        if(!opp){
-          const syncSnap = await get(ref(state.firebase.db, `rooms/${state.battle.roomId}/syncV287`));
-          const entries = Object.values(syncSnap.val() || {}).filter(e => e && e.playerId && e.playerId !== state.playerId);
-          entries.sort((a,b)=>Number(b.updatedAtMs||0)-Number(a.updatedAtMs||0));
-          if(entries[0]) opp = {playerId:entries[0].playerId};
-        }
-        const next = opp?.playerId;
-        if(!next) return oldAdvance.call(this);
-        state.battle.matchLocked = true;
-        if(game){ game.isMyTurn = false; game.currentTurnPlayerId = next; game.turn = Number(game.turn || 1) + 1; }
-        try{ showBattleBanner('ターン終了', {duration:1200, lock:true, unlockAfter:false}); }catch(e){}
-        await update(ref(state.firebase.db, `rooms/${state.battle.roomId}/meta`), {
-          currentTurnPlayerId: next,
-          lastTurnEndedBy: state.playerId,
-          turnSeqV287: Number(game?._v287TurnSeq || 0) + 1,
-          updatedAtMsV287: now(),
-          updatedAt: serverTimestamp()
-        });
-        publishBurst('turnEndAfter');
-      }catch(e){ console.warn('v287 advanceTurn fallback', e); return oldAdvance.call(this); }
+      // v288: do not replace the stable meta-based turn handoff.
+      // v287 tried to infer the opponent from live sync and made turn authority ambiguous.
+      // The original function updates rooms/{roomId}/meta.currentTurnPlayerId; meta listener starts the next turn.
+      publishBurst('turnEndBefore');
+      const r = await oldAdvance.call(this);
+      setTimeout(()=>publishBurst('turnEndAfter'), 80);
+      setTimeout(()=>publishBurst('turnEndAfter:late'), 420);
+      return r;
     };
     advanceTurnToOpponent.__v287ResponsiveSync = true;
   }
@@ -24329,4 +24297,66 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
   hook('endTurn', 'endTurn', 180);
 
   if(window.__DQR_TEST__){ Object.assign(window.__DQR_TEST__, {v287:{version:V287, clientId, payload, publish, publishBurst, applyEntry, subscribe, canApplyOpponentView}}); }
+})();
+
+
+/* v288: Meta is the only authority for turn ownership.
+   Live sync may mirror boards frequently, but it must never decide whose turn it is.
+   This watchdog re-applies rooms/{roomId}/meta.currentTurnPlayerId after sync renders. */
+(function installMetaTurnAuthorityV288(){
+  const V288='v288_meta_turn_authority_sync_guard';
+  function inPvp(){ return !!(state?.firebase?.enabled && state?.firebase?.db && state?.battle?.roomId && !state?.battle?.soloTestMode); }
+  function applyTurnFromMeta(meta, reason='metaV288'){
+    const game = state?.battle?.game;
+    if(!game || !meta || meta.status !== 'playing') return false;
+    const currentTurn = meta.currentTurnPlayerId || '';
+    if(!currentTurn) return false;
+    const wasMyTurn = !!game.isMyTurn;
+    const prev = game.currentTurnPlayerId || state.battle.currentTurnPlayerId || '';
+    state.battle.currentTurnPlayerId = currentTurn;
+    game.currentTurnPlayerId = currentTurn;
+    game.isMyTurn = currentTurn === state.playerId;
+    state.battle.lastTurnPlayerId = currentTurn;
+    state.battle.matchLocked = !game.isMyTurn;
+    const status = document.getElementById('battle-status');
+    if(status) status.textContent = game.isMyTurn ? '自分のターン' : '相手のターン';
+    if(currentTurn !== prev && game.isMyTurn && !wasMyTurn){
+      try{ if(typeof prepareOwnTurnStartV280 === 'function') prepareOwnTurnStartV280(reason); }catch(e){}
+      try{ showBattleBanner('あなたのターン', {duration:1600, lock:true, unlockAfter:true}); }catch(e){}
+    }
+    try{ renderBattleArena(); }catch(e){}
+    return true;
+  }
+  function subscribe(){
+    if(!inPvp()) return;
+    const roomId = state.battle.roomId;
+    if(state.battle._v288MetaTurnRoom === roomId) return;
+    state.battle._v288MetaTurnRoom = roomId;
+    const unsub = onValue(ref(state.firebase.db, `rooms/${roomId}/meta`), snap => {
+      const meta = snap.val() || {};
+      applyTurnFromMeta(meta, 'metaV288');
+    });
+    state.battle.unsubs ||= [];
+    state.battle.unsubs.push(unsub);
+  }
+  const oldSubscribeRoomPlayers = typeof subscribeRoomPlayers === 'function' ? subscribeRoomPlayers : null;
+  if(oldSubscribeRoomPlayers && !oldSubscribeRoomPlayers.__v288MetaTurnAuthority){
+    subscribeRoomPlayers = function(){
+      const r = oldSubscribeRoomPlayers.call(this);
+      state.battle._v288MetaTurnRoom = '';
+      setTimeout(subscribe, 0);
+      return r;
+    };
+    subscribeRoomPlayers.__v288MetaTurnAuthority = true;
+  }
+  const oldSync = typeof syncMyBattleState === 'function' ? syncMyBattleState : null;
+  if(oldSync && !oldSync.__v288MetaTurnAuthority){
+    syncMyBattleState = async function(){
+      const r = await oldSync.call(this);
+      setTimeout(subscribe, 0);
+      return r;
+    };
+    syncMyBattleState.__v288MetaTurnAuthority = true;
+  }
+  if(window.__DQR_TEST__){ window.__DQR_TEST__.v288 = {version:V288, applyTurnFromMeta}; }
 })();
