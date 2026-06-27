@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v282_landscape_field_hud_align';
-const BUILD_LABEL = 'v282 / 横画面HUD・手札中央・盤面縦位置調整';
+const DATA_VERSION = 'v283_landscape_slot_width_modal_compact';
+const BUILD_LABEL = 'v283 / 横画面マス横幅・敵アイコン対称・選択モーダル圧縮';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){

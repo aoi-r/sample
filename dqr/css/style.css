@@ -9421,3 +9421,154 @@ html, body, #app, #screen-battle.active, #screen-battle.active .battle-screen{
     top:calc(clamp(48px, 13dvh, 78px) + (clamp(158px, 41dvh, 240px) / 2)) !important;
   }
 }
+
+
+/* v283: landscape widen field slots, mirror enemy leader X position, and compact choice modals.
+   CSS only, based on user screenshot feedback for smartphone landscape. */
+@media (max-width: 960px) and (orientation: landscape){
+  /* Give the field a bit more horizontal breathing room and let slots feel wider again. */
+  #screen-battle.active .battle-arena .unit-zones.twelve-zones{
+    left:clamp(132px, 19vw, 250px) !important;
+    right:clamp(132px, 19vw, 250px) !important;
+    grid-template-columns:repeat(2, minmax(64px, 1fr)) minmax(18px, 32px) repeat(2, minmax(64px, 1fr)) !important;
+    column-gap:clamp(8px, 1.6vw, 16px) !important;
+  }
+  #screen-battle.active .battle-arena .unit-slot{
+    min-width:64px !important;
+    max-width:156px !important;
+    min-height:40px !important;
+    max-height:68px !important;
+    border-radius:12px !important;
+  }
+
+  /* Keep the enemy leader on the mirrored X coordinate instead of hugging the right camera area. */
+  #screen-battle.active .battle-arena .enemy-leader{
+    right:clamp(58px, 11vw, 160px) !important;
+    left:auto !important;
+  }
+
+  /* Compact common card-choice modals so buttons/choices fit without extra scroll. */
+  .choice-modal{
+    width:min(94vw, 680px) !important;
+    max-height:90dvh !important;
+  }
+  .choice-modal .modal-head{
+    padding:8px 12px !important;
+  }
+  .choice-modal .modal-head h3{
+    font-size:16px !important;
+    line-height:1.15 !important;
+  }
+  .choice-modal-body--cards{
+    gap:6px !important;
+    padding:8px !important;
+    grid-template-columns:repeat(auto-fit, minmax(104px, 1fr)) !important;
+  }
+  .choice-modal-body--cards .choice-option--card{
+    padding:6px !important;
+  }
+  .choice-modal-body--cards .choice-option-card-image{
+    width:96px !important;
+    max-width:100% !important;
+  }
+  .choice-modal-body--cards .choice-option-title{
+    font-size:12px !important;
+  }
+  .choice-modal-body--cards .choice-option-desc{
+    font-size:10px !important;
+    line-height:1.2 !important;
+    display:-webkit-box !important;
+    -webkit-box-orient:vertical !important;
+    -webkit-line-clamp:2 !important;
+    overflow:hidden !important;
+  }
+  .choice-modal-body--cards .choice-option-sub{
+    font-size:10px !important;
+  }
+
+  /* Hand-use confirm: shrink artwork and keep the action buttons visible without scrolling. */
+  .choice-modal--handUseConfirm{
+    width:min(94vw, 500px) !important;
+    max-height:90dvh !important;
+    overflow:hidden !important;
+  }
+  .choice-modal-body--handUseConfirm{
+    gap:8px !important;
+    padding-top:4px !important;
+  }
+  .hand-use-preview{
+    flex-direction:row !important;
+    align-items:flex-start !important;
+    text-align:left !important;
+    gap:10px !important;
+    padding:0 0 4px !important;
+  }
+  .hand-use-preview-image-wrap{
+    width:min(18vw, 102px) !important;
+    max-width:102px !important;
+    border-radius:12px !important;
+    box-shadow:0 6px 16px rgba(0,0,0,.24) !important;
+  }
+  .hand-use-preview-copy{
+    min-width:0 !important;
+    flex:1 1 auto !important;
+  }
+  .hand-use-preview-title{
+    font-size:1rem !important;
+    line-height:1.12 !important;
+  }
+  .hand-use-preview-desc{
+    font-size:.82rem !important;
+    line-height:1.2 !important;
+  }
+  .hand-use-preview-text{
+    font-size:.76rem !important;
+    line-height:1.32 !important;
+    max-height:4.1em !important;
+    overflow:hidden !important;
+  }
+  .choice-modal-body--handUseConfirm .choice-option{
+    padding:10px 12px !important;
+    border-radius:12px !important;
+    font-size:14px !important;
+  }
+  .choice-modal-body--handUseConfirm .choice-option + .choice-option{
+    margin-top:6px !important;
+  }
+}
+
+@media (max-width: 760px) and (orientation: landscape){
+  #screen-battle.active .battle-arena .unit-zones.twelve-zones{
+    left:clamp(116px, 18vw, 160px) !important;
+    right:clamp(116px, 18vw, 160px) !important;
+    grid-template-columns:repeat(2, minmax(56px, 1fr)) minmax(14px, 24px) repeat(2, minmax(56px, 1fr)) !important;
+  }
+  #screen-battle.active .battle-arena .enemy-leader{
+    right:clamp(38px, 8vw, 64px) !important;
+  }
+  #screen-battle.active .battle-arena .unit-slot{
+    min-width:52px !important;
+    max-width:132px !important;
+    min-height:36px !important;
+    max-height:56px !important;
+  }
+  .choice-modal--handUseConfirm{
+    width:min(96vw, 460px) !important;
+  }
+  .hand-use-preview-image-wrap{
+    width:min(20vw, 88px) !important;
+    max-width:88px !important;
+  }
+  .hand-use-preview-title{
+    font-size:.94rem !important;
+  }
+  .hand-use-preview-desc{
+    font-size:.78rem !important;
+  }
+  .hand-use-preview-text{
+    font-size:.72rem !important;
+  }
+  .choice-modal-body--cards .choice-option-card-image{
+    width:84px !important;
+  }
+}
