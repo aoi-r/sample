@@ -1,0 +1,15 @@
+{
+  "version": "v293_real_firebase_two_access_harness",
+  "mode": "real Firebase Realtime Database + two headless Chromium clients",
+  "startedAt": "2026-06-27T16:22:35+0000",
+  "connectivityProbe": {
+    "ok": false,
+    "tries": 4,
+    "error": "URLError: <urlopen error [Errno -3] Temporary failure in name resolution>"
+  },
+  "results": [],
+  "exceptions": [],
+  "notes": [
+    "Container could not resolve/connect to Firebase; browser test was not attempted here. Run this same script in a networked environment to execute the real Firebase tests."
+  ]
+}

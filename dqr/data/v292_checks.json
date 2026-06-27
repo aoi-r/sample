@@ -1,0 +1,26 @@
+{
+  "version": "v292_two_access_full_pattern_regression",
+  "nodeCheck": "OK",
+  "twoAccessTest": {
+    "mode": "v292 two Chromium access clients, action/live-state bridge, four deck pair matrix",
+    "browserVersions": [
+      "Chrome/144.0.7559.96",
+      "Chrome/144.0.7559.96"
+    ],
+    "passedResultGroups": 6,
+    "failedResultGroups": 0,
+    "meaningfulCaseCount": 70,
+    "runtimeExceptions": 0
+  },
+  "fixed": [
+    {
+      "card": "コンガオンガ",
+      "issue": "れんけい時に攻撃力6以上の敵ユニットがいない場合でも対象選択を開き、pending target/turn lockを残す可能性",
+      "fix": "対象候補が0なら対象選択を開かず、きれいに不発として処理"
+    }
+  ],
+  "limits": [
+    "実ブラウザ2アクセスでの検証だが、コンテナ内ではFirebase本番クラウドに接続せず、action/live-state bridgeで2クライアント間配信を再現",
+    "全手札順・全盤面・全乱数列の数学的完全総当たりではない"
+  ]
+}

@@ -1,0 +1,1611 @@
+{
+  "mode": "v292 two Chromium access clients, action/live-state bridge, four deck pair matrix",
+  "browserVersions": [
+    "Chrome/144.0.7559.96",
+    "Chrome/144.0.7559.96"
+  ],
+  "passed": 6,
+  "failed": 0,
+  "results": [
+    {
+      "name": "boot two Chromium access clients",
+      "ok": true,
+      "browsers": [
+        "Chrome/144.0.7559.96",
+        "Chrome/144.0.7559.96"
+      ],
+      "cardsA": 1607,
+      "cardsB": 1607
+    },
+    {
+      "name": "rotating defender: every listed card in two-client bridge",
+      "ok": true,
+      "totalCases": 0,
+      "failures": []
+    },
+    {
+      "name": "all 16 deck pairs with representative high-risk mechanics",
+      "ok": true,
+      "totalCases": 44,
+      "failures": []
+    },
+    {
+      "name": "random generation/selection stress in two-client bridge",
+      "ok": true,
+      "totalCases": 20,
+      "failures": []
+    },
+    {
+      "name": "explicit reported regressions in two-client bridge",
+      "ok": true,
+      "cases": [
+        {
+          "card": "死神のタロット",
+          "ok": true,
+          "localOk": true,
+          "mirrorOk": true,
+          "actions": [
+            "cardPlayed",
+            "spellPlayed",
+            "choiceSelected",
+            "damageApplied",
+            "damageApplied",
+            "damageApplied",
+            "damageApplied",
+            "damageApplied",
+            "damageApplied",
+            "unitDeath",
+            "unitDeath",
+            "unitDeath",
+            "unitDeath"
+          ],
+          "detail": {
+            "after": {
+              "player": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ],
+              "enemy": [
+                null,
+                null,
+                {
+                  "name": "シールドオーガ",
+                  "hp": 1,
+                  "maxHp": 4,
+                  "attack": 4,
+                  "id": "card_83cf917e_1782576597240_5d988c3c",
+                  "building": false,
+                  "durability": 0
+                },
+                null,
+                null,
+                {
+                  "name": "シールドオーガ",
+                  "hp": 1,
+                  "maxHp": 4,
+                  "attack": 4,
+                  "id": "card_83cf917e_1782576597240_330c169e",
+                  "building": false,
+                  "durability": 0
+                }
+              ],
+              "playerHp": 25,
+              "enemyHp": 25,
+              "mp": 94,
+              "tension": 3,
+              "hand": [
+                "スライム"
+              ],
+              "deck": 11,
+              "lock": false,
+              "isMyTurn": true,
+              "modal": false,
+              "log": [
+                "死神のタロットを使用しました。",
+                "魔力共鳴：元コスト5の特技に反応しました。",
+                "魔力共鳴が自動発動しました。",
+                "スライムは死亡しました。",
+                "ドラキーは死亡しました。",
+                "スライムは死亡しました。",
+                "ドラキーは死亡しました。",
+                "死神のタロット：全てのユニット6体に3ダメージ。"
+              ]
+            },
+            "resolves": [
+              {
+                "kind": "choice",
+                "text": "占い1\n          全てのユニットに3ダメージ"
+              }
+            ]
+          }
+        },
+        {
+          "card": "かくれんぼう",
+          "ok": true,
+          "localOk": true,
+          "mirrorOk": true,
+          "actions": [
+            "targetSelected",
+            "unitSummoned",
+            "unitStatePatchV263",
+            "cardPlayed"
+          ],
+          "detail": {
+            "after": {
+              "player": [
+                {
+                  "name": "かくれんぼう",
+                  "hp": 2,
+                  "maxHp": 2,
+                  "attack": 2,
+                  "id": "card_f8443689_1782576597528_f26c16b6",
+                  "building": false,
+                  "durability": 0
+                },
+                null,
+                null,
+                null,
+                null,
+                null
+              ],
+              "enemy": [
+                {
+                  "name": "スライム",
+                  "hp": 1,
+                  "maxHp": 1,
+                  "attack": 1,
+                  "id": "token_slime_1_1_1782576597512_5d5150e4",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "ドラキー",
+                  "hp": 1,
+                  "maxHp": 1,
+                  "attack": 2,
+                  "id": "card_471ba4e7_1782576597512_5119de80",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "シールドオーガ",
+                  "hp": 4,
+                  "maxHp": 4,
+                  "attack": 4,
+                  "id": "card_83cf917e_1782576597512_3b37cdef",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "スライム",
+                  "hp": 1,
+                  "maxHp": 1,
+                  "attack": 1,
+                  "id": "token_slime_1_1_1782576597512_e140e99a",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "ドラキー",
+                  "hp": 1,
+                  "maxHp": 1,
+                  "attack": 2,
+                  "id": "card_471ba4e7_1782576597512_6696b0e9",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "シールドオーガ",
+                  "hp": 4,
+                  "maxHp": 4,
+                  "attack": 4,
+                  "id": "card_83cf917e_1782576597512_56e2797d",
+                  "building": false,
+                  "durability": 0
+                }
+              ],
+              "playerHp": 25,
+              "enemyHp": 25,
+              "mp": 97,
+              "tension": 0,
+              "hand": [
+                "スライム"
+              ],
+              "deck": 11,
+              "lock": false,
+              "isMyTurn": true,
+              "modal": false,
+              "log": [
+                "バトル開始。ヒーローカードはサマルトリアの王子以外、開始時手札に入りました。",
+                "かくれんぼう：召喚先を選んでください。",
+                "一心同体：テンション3未満でもれんけいが発動。",
+                "れんけい：追加効果を発動。",
+                "かくれんぼう：れんけいでカードを1枚引きました（手札 0→1）。",
+                "一心同体：テンション3未満でもれんけいが発動可能。",
+                "かくれんぼうを召喚しました。"
+              ]
+            },
+            "resolves": []
+          }
+        },
+        {
+          "card": "風の導き",
+          "ok": true,
+          "localOk": true,
+          "mirrorOk": true,
+          "actions": [
+            "cardPlayed",
+            "spellPlayed",
+            "targetSelected",
+            "targetSelected",
+            "damageApplied",
+            "unitDeath",
+            "unitStatePatchV264",
+            "choiceSelected"
+          ],
+          "detail": {
+            "after": {
+              "player": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ],
+              "enemy": [
+                null,
+                {
+                  "name": "ドラキー",
+                  "hp": 1,
+                  "maxHp": 1,
+                  "attack": 2,
+                  "id": "card_471ba4e7_1782576597735_77665c13",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "シールドオーガ",
+                  "hp": 4,
+                  "maxHp": 4,
+                  "attack": 4,
+                  "id": "card_83cf917e_1782576597735_5bfeef6e",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "スライム",
+                  "hp": 1,
+                  "maxHp": 1,
+                  "attack": 1,
+                  "id": "token_slime_1_1_1782576597735_2328d7bf",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "ドラキー",
+                  "hp": 1,
+                  "maxHp": 1,
+                  "attack": 2,
+                  "id": "card_471ba4e7_1782576597735_dbcabfb3",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "シールドオーガ",
+                  "hp": 4,
+                  "maxHp": 4,
+                  "attack": 4,
+                  "id": "card_83cf917e_1782576597735_31de7d5c",
+                  "building": false,
+                  "durability": 0
+                }
+              ],
+              "playerHp": 25,
+              "enemyHp": 25,
+              "mp": 97,
+              "tension": 3,
+              "hand": [
+                "スライム"
+              ],
+              "deck": 11,
+              "lock": false,
+              "isMyTurn": true,
+              "modal": false,
+              "log": [
+                "バトル開始。ヒーローカードはサマルトリアの王子以外、開始時手札に入りました。",
+                "風の導き：3ダメージを与えるユニットを選んでください。",
+                "風の導きを使用しました。",
+                "魔力共鳴：元コスト2の特技に反応しました。",
+                "魔力共鳴が自動発動しました。",
+                "スライムは死亡しました。",
+                "風の導き：ドラキーを山札の上に戻しました。"
+              ]
+            },
+            "resolves": [
+              {
+                "kind": "pendingUnitEnemy",
+                "target": "unitAny"
+              },
+              {
+                "kind": "choice",
+                "text": "上に戻す"
+              }
+            ]
+          }
+        },
+        {
+          "card": "銀のタロット",
+          "ok": true,
+          "localOk": true,
+          "mirrorOk": true,
+          "actions": [
+            "cardPlayed",
+            "spellPlayed"
+          ],
+          "detail": {
+            "after": {
+              "player": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ],
+              "enemy": [
+                {
+                  "name": "スライム",
+                  "hp": 1,
+                  "maxHp": 1,
+                  "attack": 1,
+                  "id": "token_slime_1_1_1782576597994_9f8acd58",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "ドラキー",
+                  "hp": 1,
+                  "maxHp": 1,
+                  "attack": 2,
+                  "id": "card_471ba4e7_1782576597994_7b8fdcbc",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "シールドオーガ",
+                  "hp": 4,
+                  "maxHp": 4,
+                  "attack": 4,
+                  "id": "card_83cf917e_1782576597994_43025c05",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "スライム",
+                  "hp": 1,
+                  "maxHp": 1,
+                  "attack": 1,
+                  "id": "token_slime_1_1_1782576597994_bbc513b7",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "ドラキー",
+                  "hp": 1,
+                  "maxHp": 1,
+                  "attack": 2,
+                  "id": "card_471ba4e7_1782576597994_c6e0ea8c",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "シールドオーガ",
+                  "hp": 4,
+                  "maxHp": 4,
+                  "attack": 4,
+                  "id": "card_83cf917e_1782576597994_977edf30",
+                  "building": false,
+                  "durability": 0
+                }
+              ],
+              "playerHp": 25,
+              "enemyHp": 25,
+              "mp": 97,
+              "tension": 3,
+              "hand": [
+                "運命の輪",
+                "スライム"
+              ],
+              "deck": 11,
+              "lock": false,
+              "isMyTurn": true,
+              "modal": false,
+              "log": [
+                "バトル開始。ヒーローカードはサマルトリアの王子以外、開始時手札に入りました。",
+                "銀のタロット：必中モードになりました。",
+                "銀のタロットを使用しました。",
+                "魔力共鳴：元コスト2の特技に反応しました。",
+                "魔力共鳴が自動発動しました。"
+              ]
+            },
+            "resolves": []
+          }
+        },
+        {
+          "card": "バルーンコール",
+          "ok": true,
+          "localOk": true,
+          "mirrorOk": true,
+          "actions": [
+            "randomResult",
+            "cardPlayed",
+            "spellPlayed"
+          ],
+          "detail": {
+            "after": {
+              "player": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ],
+              "enemy": [
+                {
+                  "name": "スライム",
+                  "hp": 1,
+                  "maxHp": 1,
+                  "attack": 1,
+                  "id": "token_slime_1_1_1782576598195_a1369ac1",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "ドラキー",
+                  "hp": 1,
+                  "maxHp": 1,
+                  "attack": 2,
+                  "id": "card_471ba4e7_1782576598195_a3ccf920",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "シールドオーガ",
+                  "hp": 4,
+                  "maxHp": 4,
+                  "attack": 4,
+                  "id": "card_83cf917e_1782576598195_8afbbdf4",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "スライム",
+                  "hp": 1,
+                  "maxHp": 1,
+                  "attack": 1,
+                  "id": "token_slime_1_1_1782576598195_a3df0c7e",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "ドラキー",
+                  "hp": 1,
+                  "maxHp": 1,
+                  "attack": 2,
+                  "id": "card_471ba4e7_1782576598195_c3a82027",
+                  "building": false,
+                  "durability": 0
+                },
+                {
+                  "name": "シールドオーガ",
+                  "hp": 4,
+                  "maxHp": 4,
+                  "attack": 4,
+                  "id": "card_83cf917e_1782576598195_456a52fd",
+                  "building": false,
+                  "durability": 0
+                }
+              ],
+              "playerHp": 25,
+              "enemyHp": 25,
+              "mp": 97,
+              "tension": 3,
+              "hand": [
+                "スライム"
+              ],
+              "deck": 11,
+              "lock": false,
+              "isMyTurn": true,
+              "modal": false,
+              "log": [
+                "バトル開始。ヒーローカードはサマルトリアの王子以外、開始時手札に入りました。",
+                "バルーンコール：占いカード使用回数 +1（合計1）。",
+                "バルーンコールを使用しました。",
+                "魔力共鳴：元コスト2の特技に反応しました。",
+                "魔力共鳴が自動発動しました。"
+              ]
+            },
+            "resolves": [
+              {
+                "kind": "closed-empty"
+              }
+            ]
+          }
+        },
+        {
+          "card": "太陽のタロット",
+          "ok": true,
+          "localOk": true,
+          "mirrorOk": true,
+          "actions": [
+            "cardPlayed",
+            "spellPlayed",
+            "choiceSelected",
+            "damageApplied",
+            "damageApplied",
+            "damageApplied",
+            "damageApplied",
+            "damageApplied",
+            "damageApplied",
+            "unitDeath",
+            "unitDeath",
+            "unitDeath",
+            "unitDeath"
+          ],
+          "detail": {
+            "after": {
+              "player": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ],
+              "enemy": [
+                null,
+                null,
+                {
+                  "name": "シールドオーガ",
+                  "hp": 2,
+                  "maxHp": 4,
+                  "attack": 4,
+                  "id": "card_83cf917e_1782576598397_8a6018fb",
+                  "building": false,
+                  "durability": 0
+                },
+                null,
+                null,
+                {
+                  "name": "シールドオーガ",
+                  "hp": 2,
+                  "maxHp": 4,
+                  "attack": 4,
+                  "id": "card_83cf917e_1782576598397_b7288d59",
+                  "building": false,
+                  "durability": 0
+                }
+              ],
+              "playerHp": 25,
+              "enemyHp": 25,
+              "mp": 95,
+              "tension": 3,
+              "hand": [
+                "スライム"
+              ],
+              "deck": 11,
+              "lock": false,
+              "isMyTurn": true,
+              "modal": false,
+              "log": [
+                "太陽のタロットを使用しました。",
+                "魔力共鳴：元コスト4の特技に反応しました。",
+                "魔力共鳴が自動発動しました。",
+                "太陽のタロット：占い1「全ての敵ユニットに2ダメージ」を発動。",
+                "スライムは死亡しました。",
+                "ドラキーは死亡しました。",
+                "スライムは死亡しました。",
+                "ドラキーは死亡しました。"
+              ]
+            },
+            "resolves": [
+              {
+                "kind": "choice",
+                "text": "占い1\n          全ての敵ユニットに2ダメージ\n          太陽のタロット"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "meta turn handoff both directions for all deck pairs",
+      "ok": true,
+      "totalCases": 0,
+      "failures": []
+    }
+  ],
+  "scenarioCount": 64,
+  "scenarioSample": [
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "イレブンテリー",
+      "defenderDeck": "イレブンテリー",
+      "card": "かくれんぼう",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "イレブンテリー",
+      "defenderDeck": "イレブンテリー",
+      "card": "ラプソーン",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "イレブンテリー",
+      "defenderDeck": "イレブンテリー",
+      "card": "コンガオンガ",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "イレブンテリー",
+      "defenderDeck": "ドラゴンタバサミネア",
+      "card": "かくれんぼう",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "イレブンテリー",
+      "defenderDeck": "ドラゴンタバサミネア",
+      "card": "ラプソーン",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "イレブンテリー",
+      "defenderDeck": "ドラゴンタバサミネア",
+      "card": "コンガオンガ",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "イレブンテリー",
+      "defenderDeck": "イルルカドラゴンゼシカ",
+      "card": "かくれんぼう",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "イレブンテリー",
+      "defenderDeck": "イルルカドラゴンゼシカ",
+      "card": "ラプソーン",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "イレブンテリー",
+      "defenderDeck": "イルルカドラゴンゼシカ",
+      "card": "コンガオンガ",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "イレブンテリー",
+      "defenderDeck": "デボラトルネコ",
+      "card": "かくれんぼう",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "イレブンテリー",
+      "defenderDeck": "デボラトルネコ",
+      "card": "ラプソーン",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "イレブンテリー",
+      "defenderDeck": "デボラトルネコ",
+      "card": "コンガオンガ",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "ドラゴンタバサミネア",
+      "defenderDeck": "イレブンテリー",
+      "card": "死神のタロット",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "cardPlayed",
+        "spellPlayed",
+        "choiceSelected",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "unitDeath",
+        "unitDeath",
+        "unitDeath",
+        "unitDeath"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "ドラゴンタバサミネア",
+      "defenderDeck": "イレブンテリー",
+      "card": "バルーンコール",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "randomResult",
+        "cardPlayed",
+        "spellPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "ドラゴンタバサミネア",
+      "defenderDeck": "ドラゴンタバサミネア",
+      "card": "死神のタロット",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "cardPlayed",
+        "spellPlayed",
+        "choiceSelected",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "unitDeath",
+        "unitDeath",
+        "unitDeath",
+        "unitDeath"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "ドラゴンタバサミネア",
+      "defenderDeck": "ドラゴンタバサミネア",
+      "card": "バルーンコール",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "randomResult",
+        "cardPlayed",
+        "spellPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "ドラゴンタバサミネア",
+      "defenderDeck": "イルルカドラゴンゼシカ",
+      "card": "死神のタロット",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "cardPlayed",
+        "spellPlayed",
+        "choiceSelected",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "unitDeath",
+        "unitDeath",
+        "unitDeath",
+        "unitDeath"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "ドラゴンタバサミネア",
+      "defenderDeck": "イルルカドラゴンゼシカ",
+      "card": "バルーンコール",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "randomResult",
+        "cardPlayed",
+        "spellPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "ドラゴンタバサミネア",
+      "defenderDeck": "デボラトルネコ",
+      "card": "死神のタロット",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "cardPlayed",
+        "spellPlayed",
+        "choiceSelected",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "unitDeath",
+        "unitDeath",
+        "unitDeath",
+        "unitDeath"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "pairRepresentative",
+      "actorDeck": "ドラゴンタバサミネア",
+      "defenderDeck": "デボラトルネコ",
+      "card": "バルーンコール",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "randomResult",
+        "cardPlayed",
+        "spellPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "A": null,
+      "B": null
+    }
+  ],
+  "scenarioTail": [
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "かみかぜ",
+      "actorDeck": "ドラゴンタバサミネア",
+      "defenderDeck": "ドラゴンタバサミネア",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "randomResult",
+        "cardPlayed",
+        "spellPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [
+        {
+          "kind": "closed-empty"
+        }
+      ],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "サイコロン",
+      "actorDeck": "ドラゴンタバサミネア",
+      "defenderDeck": "イルルカドラゴンゼシカ",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "randomResult",
+        "damageApplied",
+        "randomResult",
+        "damageApplied",
+        "randomResult",
+        "damageApplied",
+        "randomResult",
+        "damageApplied",
+        "randomResult",
+        "damageApplied",
+        "unitDeath",
+        "unitDeath",
+        "unitDeath",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "死神のタロット",
+      "actorDeck": "ドラゴンタバサミネア",
+      "defenderDeck": "イレブンテリー",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "cardPlayed",
+        "spellPlayed",
+        "choiceSelected",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "unitDeath",
+        "unitDeath",
+        "unitDeath",
+        "unitDeath"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [
+        {
+          "kind": "choice",
+          "text": "占い1\n          全てのユニットに3ダメージ"
+        }
+      ],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "逆転への兆し",
+      "actorDeck": "ドラゴンタバサミネア",
+      "defenderDeck": "デボラトルネコ",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "randomResult",
+        "cardPlayed",
+        "spellPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [
+        {
+          "kind": "closed-empty"
+        }
+      ],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "召竜の儀式",
+      "actorDeck": "ドラゴンタバサミネア",
+      "defenderDeck": "イルルカドラゴンゼシカ",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "randomResult",
+        "cardPlayed",
+        "spellPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [
+        {
+          "kind": "closed-empty"
+        }
+      ],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "しんりゅう",
+      "actorDeck": "ドラゴンタバサミネア",
+      "defenderDeck": "イルルカドラゴンゼシカ",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "パピラス",
+      "actorDeck": "イルルカドラゴンゼシカ",
+      "defenderDeck": "ドラゴンタバサミネア",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "randomResult",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "ギガントドラゴン",
+      "actorDeck": "イルルカドラゴンゼシカ",
+      "defenderDeck": "ドラゴンタバサミネア",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed",
+        "choiceSelected",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "unitDeath",
+        "unitDeath"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [
+        {
+          "kind": "choice",
+          "text": "前列"
+        }
+      ],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "竜将ドラゴンガイア",
+      "actorDeck": "イルルカドラゴンゼシカ",
+      "defenderDeck": "イルルカドラゴンゼシカ",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed",
+        "choiceSelected",
+        "randomResult",
+        "randomResult",
+        "unitPutIntoPlay"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "コンガオンガ",
+      "actorDeck": "イレブンテリー",
+      "defenderDeck": "デボラトルネコ",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "シュプリンガー",
+      "actorDeck": "イレブンテリー",
+      "defenderDeck": "イレブンテリー",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "unitStatePatchV263",
+        "cardPlayed",
+        "choiceSelected",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "randomResult",
+        "choiceSelected"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [
+        {
+          "kind": "choice",
+          "text": "バッチリがんばれ\n          攻撃力+1 / HP+1"
+        },
+        {
+          "kind": "choice",
+          "text": "バッチリがんばれ\n          攻撃力+1 / HP+1"
+        }
+      ],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "怪獣プスゴン",
+      "actorDeck": "デボラトルネコ",
+      "defenderDeck": "デボラトルネコ",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed",
+        "targetSelected",
+        "targetSelected",
+        "choiceSelected",
+        "randomResult",
+        "randomResult",
+        "unitPutIntoPlay",
+        "randomResult",
+        "randomResult",
+        "unitPutIntoPlay",
+        "choiceSelected",
+        "randomResult",
+        "unitPutIntoPlay",
+        "randomResult",
+        "unitPutIntoPlay",
+        "randomResult",
+        "unitPutIntoPlay"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [
+        {
+          "kind": "pendingUnitEnemy",
+          "target": "enemyEmptySlot"
+        }
+      ],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "ルドマン",
+      "actorDeck": "デボラトルネコ",
+      "defenderDeck": "ドラゴンタバサミネア",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "福招きのそろばん",
+      "actorDeck": "デボラトルネコ",
+      "defenderDeck": "ドラゴンタバサミネア",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "weaponEquipped",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "マデサゴーラ",
+      "actorDeck": "デボラトルネコ",
+      "defenderDeck": "デボラトルネコ",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "商人の交換所",
+      "actorDeck": "デボラトルネコ",
+      "defenderDeck": "デボラトルネコ",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [],
+      "bad": [],
+      "error": "",
+      "resolves": [],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "氷竜への祈り",
+      "actorDeck": "イルルカドラゴンゼシカ",
+      "defenderDeck": "デボラトルネコ",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "cardPlayed",
+        "spellPlayed",
+        "choiceSelected"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [
+        {
+          "kind": "choice",
+          "text": "せつげんりゅう1枚を手札に加える"
+        }
+      ],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "バルーンコール",
+      "actorDeck": "ドラゴンタバサミネア",
+      "defenderDeck": "イレブンテリー",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "randomResult",
+        "cardPlayed",
+        "spellPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [
+        {
+          "kind": "closed-empty"
+        }
+      ],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "太陽のタロット",
+      "actorDeck": "ドラゴンタバサミネア",
+      "defenderDeck": "イレブンテリー",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "cardPlayed",
+        "spellPlayed",
+        "choiceSelected",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "unitDeath",
+        "unitDeath",
+        "unitDeath",
+        "unitDeath"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [
+        {
+          "kind": "choice",
+          "text": "占い1\n          全ての敵ユニットに2ダメージ\n          太陽のタロット"
+        }
+      ],
+      "A": null,
+      "B": null
+    },
+    {
+      "case": "random",
+      "seed": 1,
+      "card": "キースドラゴン",
+      "actorDeck": "ドラゴンタバサミネア",
+      "defenderDeck": "イレブンテリー",
+      "ok": true,
+      "localOk": true,
+      "mirrorOk": true,
+      "actions": [
+        "targetSelected",
+        "unitSummoned",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "damageApplied",
+        "unitDeath",
+        "unitDeath",
+        "unitDeath",
+        "unitDeath",
+        "unitStatePatchV263",
+        "cardPlayed"
+      ],
+      "bad": [],
+      "error": "",
+      "resolves": [],
+      "A": null,
+      "B": null
+    }
+  ],
+  "exceptions": [],
+  "chromeLogs": [
+    "/tmp/tmphrhwc214",
+    "/tmp/tmpdolz46kt"
+  ]
+}

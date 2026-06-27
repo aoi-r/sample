@@ -37,7 +37,7 @@
             "hp": 1,
             "maxHp": 1,
             "attack": 1,
-            "id": "token_slime_1_1_1782526432253_f099ea1b",
+            "id": "token_slime_1_1_1782570468354_430edd96",
             "isBuilding": false,
             "canAttack": false
           },
@@ -98,5 +98,5 @@
     }
   ],
   "exceptions": [],
-  "chromeLog": "/tmp/tmpgalxuop3"
+  "chromeLog": "/tmp/tmpnbr74u9q"
 }

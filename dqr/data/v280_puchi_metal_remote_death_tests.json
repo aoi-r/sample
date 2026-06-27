@@ -54,7 +54,7 @@
           "コイン"
         ],
         "unit": {
-          "id": "card_ea5d50ab_1782496569095_86ff7df6",
+          "id": "card_ea5d50ab_1782570465059_9c021e3c",
           "cardId": "card_ea5d50ab",
           "name": "ぷちメタル",
           "attack": 1,
@@ -191,5 +191,5 @@
     }
   ],
   "exceptions": [],
-  "chromeLog": "/tmp/tmptn2g6xxg"
+  "chromeLog": "/tmp/tmpz382wn3t"
 }

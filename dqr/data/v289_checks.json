@@ -1,0 +1,10 @@
+{
+  "version": "v289_fortune_hero_trigger_fix",
+  "nodeCheck": "OK",
+  "changes": [
+    "death tarot hit-mode guarded all-unit damage",
+    "Eleven Lv2 renkei name normalization/fallback for Kakurenbou",
+    "Tabasa Lv2 draw fallback for original-cost-2+ spells",
+    "choice callback guard unlocks own turn on exception"
+  ]
+}

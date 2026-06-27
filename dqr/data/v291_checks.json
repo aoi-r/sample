@@ -1,0 +1,44 @@
+{
+  "version": "v291_deep_four_deck_random_regression",
+  "nodeCheck": "OK",
+  "deepRegression": {
+    "total": 283,
+    "passed": 283,
+    "failed": 0
+  },
+  "runtimeExceptions": 0,
+  "targetDecks": [
+    "イレブンテリー",
+    "ドラゴンタバサミネア",
+    "イルルカドラゴンゼシカ",
+    "デボラトルネコ"
+  ],
+  "randomStressSeedsPerCard": 8,
+  "randomStressCards": [
+    "かみかぜ",
+    "サイコロン",
+    "死神のタロット",
+    "逆転への兆し",
+    "召竜の儀式",
+    "しんりゅう",
+    "パピラス",
+    "ギガントドラゴン",
+    "竜将ドラゴンガイア",
+    "コンガオンガ",
+    "シュプリンガー",
+    "ラプソーン",
+    "怪獣プスゴン",
+    "ルドマン",
+    "福招きのそろばん",
+    "マデサゴーラ",
+    "商人の交換所",
+    "氷竜への祈り",
+    "バルーンコール",
+    "太陽のタロット",
+    "キースドラゴン"
+  ],
+  "notes": [
+    "Production gameplay logic was not changed because the deep regression found 0 failures.",
+    "__DQR_TEST__ exports for pending generic target helpers were added to make automated target-resolution tests more precise."
+  ]
+}

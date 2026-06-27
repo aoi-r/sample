@@ -1,5 +1,5 @@
 {
-  "version": "v288_meta_turn_authority_sync_guard",
+  "version": "v293_real_firebase_two_access_harness",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -672,5 +672,48 @@
   "v280": "ぷちメタルのターン終了時GETと通常ドローが同時に見える問題を修正。PvPではターン終了時に次ターンのドローを前倒しせず、Firebaseで自分のターンに戻った瞬間にMP更新/1ドローを行う。リモート側でHP0ユニットが残る場合に備え、damageApplied/counterDamage/attackResolved/unitDeath受信後にresolveDeathsで死亡掃除を行う。v270の12秒自動選択解除を無効化。",
   "v284": "横画面配置マスを約1.5倍目標で拡大。PvP召喚/場出し/死亡後に boardPatchV284 action を送信し、相手側 enemy.board へ直接適用する同期補強を追加。",
   "v285": "PvP召喚同期をactions/statesとは別のboardMirrors直書きで補強。横画面で配置済みユニットの内容がマス外へはみ出して巨大化して見える問題をCSSで抑制。",
-  "v288": "ターン譲渡はrooms/{roomId}/meta.currentTurnPlayerIdだけを権威に戻した。v287のlive syncからturn authorityを除去し、advanceTurnToOpponentは旧来のmeta更新経路へ委譲。"
+  "v288": "ターン譲渡はrooms/{roomId}/meta.currentTurnPlayerIdだけを権威に戻した。v287のlive syncからturn authorityを除去し、advanceTurnToOpponentは旧来のmeta更新経路へ委譲。",
+  "v289": "死神のタロット必中の全ユニット3ダメージを専用ガード付き処理に変更。勇者イレブンLv2一心同体のれんけい補助を名前正規化つきで補強。タバサLv2魔力共鳴が元コスト2以上の特技で確実に1ドローするフォールバックを追加。選択モーダルcallback例外時の自ターンロック解除を追加。",
+  "v290Summary": "指定4デッキのカード使用/主要効果入口/既出不具合/同期・手札混同系をエミュレータで85ケース検査。terrainSnapshotの地形正規化を修正。",
+  "v290Tests": {
+    "version": "v290_four_deck_regression_closeout",
+    "nodeCheck": "OK",
+    "fourDeckRegression": {
+      "passed": 85,
+      "failed": 0,
+      "total": 85
+    },
+    "pvpRegressions": {
+      "v248": {
+        "passed": 14,
+        "failed": 0
+      },
+      "v260": {
+        "passed": 20,
+        "failed": 0
+      },
+      "v280": {
+        "passed": 5,
+        "failed": 0
+      },
+      "v281": {
+        "passed": 5,
+        "failed": 0
+      },
+      "v246": "12 passed / 0 failed",
+      "v237": "passed"
+    },
+    "fixes": [
+      "terrainSnapshot accepts object or array terrain storage"
+    ],
+    "files": [
+      "data/v290_four_deck_regression_tests.json",
+      "data/v290_four_deck_card_coverage.csv",
+      "data/v290_four_deck_regression_report.md",
+      "tools/v290_four_deck_regression_tests.py"
+    ]
+  },
+  "v291": "4デッキ深掘りランダム/選択/二重発火/手札混同/同期入口検証を追加。",
+  "v292": "2 Chromium clients with action/live-state bridge: four-deck pair matrix, random seeds, modal/lock/ID/mirror invariants. Fixed コンガオンガ no-target renkei modal lock.",
+  "v293": "実Firebase接続を使った2アクセス検証ハーネスを追加。通常プレイには影響しない __DQR_TEST__.v293Firebase と tools/v293_real_firebase_two_access_regression.py を追加。"
 }

@@ -1,0 +1,18 @@
+{
+  "version": "v293_real_firebase_two_access_harness",
+  "nodeCheck": "OK",
+  "pythonCompile": "OK",
+  "realFirebaseConnectivityFromThisContainer": {
+    "ok": false,
+    "tries": 4,
+    "error": "URLError: <urlopen error [Errno -3] Temporary failure in name resolution>"
+  },
+  "actualFirebaseTwoClientBrowserRun": "not attempted because DNS/connectivity to Firebase failed in this container",
+  "addedFiles": [
+    "tools/v293_real_firebase_two_access_regression.py",
+    "data/v293_real_firebase_two_access_regression_tests.json",
+    "data/v293_real_firebase_two_access_report.md",
+    "data/v293_checks.json"
+  ],
+  "note": "The included test script runs two headless Chromium clients against the actual Firebase SDK/database when network/DNS is available."
+}

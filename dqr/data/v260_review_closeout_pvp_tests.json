@@ -38,7 +38,7 @@
               "hp": 6,
               "maxHp": 6,
               "attack": 6,
-              "id": "card_8d8b59c8_1782371716325_94ef3bb2",
+              "id": "card_8d8b59c8_1782570440602_2174eda5",
               "isBuilding": false,
               "canAttack": false
             },
@@ -54,7 +54,7 @@
               "hp": 2,
               "maxHp": 4,
               "attack": 4,
-              "id": "card_83cf917e_1782371716325_91d7feae",
+              "id": "card_83cf917e_1782570440602_d58a44c6",
               "isBuilding": false,
               "canAttack": false
             },
@@ -65,7 +65,7 @@
               "hp": 2,
               "maxHp": 4,
               "attack": 4,
-              "id": "card_83cf917e_1782371716325_f9dbb9ab",
+              "id": "card_83cf917e_1782570440603_6280a1c7",
               "isBuilding": false,
               "canAttack": false
             },
@@ -90,7 +90,7 @@
               "hp": 2,
               "maxHp": 4,
               "attack": 4,
-              "id": "card_83cf917e_1782371716331_302f6c0d",
+              "id": "card_83cf917e_1782570440607_dc0c5cd8",
               "isBuilding": false,
               "canAttack": false
             },
@@ -101,7 +101,7 @@
               "hp": 2,
               "maxHp": 4,
               "attack": 4,
-              "id": "card_83cf917e_1782371716331_a87cb726",
+              "id": "card_83cf917e_1782570440607_83b29f4d",
               "isBuilding": false,
               "canAttack": false
             },
@@ -114,7 +114,7 @@
               "hp": 6,
               "maxHp": 6,
               "attack": 6,
-              "id": "card_8d8b59c8_1782371716330_d947f484",
+              "id": "card_8d8b59c8_1782570440602_2174eda5",
               "isBuilding": false,
               "canAttack": false
             },
@@ -126,7 +126,9 @@
           ],
           "playerHp": 25,
           "enemyHp": 25,
+          "enemyWeapon": null,
           "playerLeaderAttack": 0,
+          "enemyLeaderAttack": 0,
           "tension": 0,
           "enemyTension": 0,
           "hand": [],
@@ -163,7 +165,7 @@
               "hp": 6,
               "maxHp": 6,
               "attack": 6,
-              "id": "card_8d8b59c8_1782371716361_6391e5cd",
+              "id": "card_8d8b59c8_1782570440667_4e818ffd",
               "isBuilding": false,
               "canAttack": false
             },
@@ -179,7 +181,7 @@
               "hp": 4,
               "maxHp": 4,
               "attack": 4,
-              "id": "card_83cf917e_1782371716361_926f322a",
+              "id": "card_83cf917e_1782570440667_35f7b5a6",
               "isBuilding": false,
               "canAttack": false
             },
@@ -190,7 +192,7 @@
               "hp": 4,
               "maxHp": 4,
               "attack": 4,
-              "id": "card_83cf917e_1782371716361_2c133bde",
+              "id": "card_83cf917e_1782570440667_8172d400",
               "isBuilding": false,
               "canAttack": false
             },
@@ -215,7 +217,7 @@
               "hp": 4,
               "maxHp": 4,
               "attack": 4,
-              "id": "card_83cf917e_1782371716364_bfbe4ee1",
+              "id": "card_83cf917e_1782570440669_3b9346e6",
               "isBuilding": false,
               "canAttack": false
             },
@@ -226,7 +228,7 @@
               "hp": 4,
               "maxHp": 4,
               "attack": 4,
-              "id": "card_83cf917e_1782371716365_44bf90fb",
+              "id": "card_83cf917e_1782570440669_e482cbed",
               "isBuilding": false,
               "canAttack": false
             },
@@ -239,7 +241,7 @@
               "hp": 6,
               "maxHp": 6,
               "attack": 6,
-              "id": "card_8d8b59c8_1782371716364_18b0adb5",
+              "id": "card_8d8b59c8_1782570440667_4e818ffd",
               "isBuilding": false,
               "canAttack": false
             },
@@ -251,7 +253,9 @@
           ],
           "playerHp": 25,
           "enemyHp": 25,
+          "enemyWeapon": null,
           "playerLeaderAttack": 0,
+          "enemyLeaderAttack": 0,
           "tension": 0,
           "enemyTension": 3,
           "hand": [],
@@ -286,7 +290,7 @@
               "hp": 6,
               "maxHp": 6,
               "attack": 6,
-              "id": "card_8d8b59c8_1782371716380_f94b8195",
+              "id": "card_8d8b59c8_1782570440688_c2cb2304",
               "isBuilding": false,
               "canAttack": false
             },
@@ -302,7 +306,7 @@
               "hp": 4,
               "maxHp": 4,
               "attack": 4,
-              "id": "card_83cf917e_1782371716380_b5735d76",
+              "id": "card_83cf917e_1782570440688_97b25773",
               "isBuilding": false,
               "canAttack": false
             },
@@ -313,7 +317,7 @@
               "hp": 4,
               "maxHp": 4,
               "attack": 4,
-              "id": "card_83cf917e_1782371716380_cd001a6f",
+              "id": "card_83cf917e_1782570440688_172cd364",
               "isBuilding": false,
               "canAttack": false
             },
@@ -338,7 +342,7 @@
               "hp": 4,
               "maxHp": 4,
               "attack": 4,
-              "id": "card_83cf917e_1782371716383_8ee96cef",
+              "id": "card_83cf917e_1782570440690_cc00e437",
               "isBuilding": false,
               "canAttack": false
             },
@@ -349,7 +353,7 @@
               "hp": 4,
               "maxHp": 4,
               "attack": 4,
-              "id": "card_83cf917e_1782371716383_be791f2a",
+              "id": "card_83cf917e_1782570440691_60567016",
               "isBuilding": false,
               "canAttack": false
             },
@@ -362,7 +366,7 @@
               "hp": 6,
               "maxHp": 6,
               "attack": 6,
-              "id": "card_8d8b59c8_1782371716383_839bc186",
+              "id": "card_8d8b59c8_1782570440688_c2cb2304",
               "isBuilding": false,
               "canAttack": false
             },
@@ -374,7 +378,9 @@
           ],
           "playerHp": 25,
           "enemyHp": 25,
+          "enemyWeapon": null,
           "playerLeaderAttack": 0,
+          "enemyLeaderAttack": 0,
           "tension": 0,
           "enemyTension": 0,
           "hand": [],
@@ -409,7 +415,7 @@
               "hp": 6,
               "maxHp": 6,
               "attack": 6,
-              "id": "card_8d8b59c8_1782371716402_a7c24d2b",
+              "id": "card_8d8b59c8_1782570440711_be6c4c19",
               "isBuilding": false,
               "canAttack": false
             },
@@ -425,7 +431,7 @@
               "hp": 4,
               "maxHp": 4,
               "attack": 4,
-              "id": "card_83cf917e_1782371716402_b99fdb73",
+              "id": "card_83cf917e_1782570440711_b3b315e7",
               "isBuilding": false,
               "canAttack": false
             },
@@ -436,7 +442,7 @@
               "hp": 4,
               "maxHp": 4,
               "attack": 4,
-              "id": "card_83cf917e_1782371716402_a817ca37",
+              "id": "card_83cf917e_1782570440712_3243f6b2",
               "isBuilding": false,
               "canAttack": false
             },
@@ -469,7 +475,7 @@
               "hp": 4,
               "maxHp": 4,
               "attack": 4,
-              "id": "card_83cf917e_1782371716404_3fe7fdcc",
+              "id": "card_83cf917e_1782570440714_221d8a57",
               "isBuilding": false,
               "canAttack": false
             },
@@ -480,7 +486,7 @@
               "hp": 4,
               "maxHp": 4,
               "attack": 4,
-              "id": "card_83cf917e_1782371716404_63fc80db",
+              "id": "card_83cf917e_1782570440714_ce2c7a32",
               "isBuilding": false,
               "canAttack": false
             },
@@ -493,7 +499,7 @@
               "hp": 6,
               "maxHp": 6,
               "attack": 6,
-              "id": "card_8d8b59c8_1782371716404_42872f6a",
+              "id": "card_8d8b59c8_1782570440711_be6c4c19",
               "isBuilding": false,
               "canAttack": false
             },
@@ -505,7 +511,9 @@
           ],
           "playerHp": 25,
           "enemyHp": 25,
+          "enemyWeapon": null,
           "playerLeaderAttack": 0,
+          "enemyLeaderAttack": 0,
           "tension": 0,
           "enemyTension": 0,
           "hand": [],
@@ -618,7 +626,7 @@
             {
               "type": "天啓の神域",
               "source": "運命の分岐点",
-              "owner": "enemy"
+              "owner": "player"
             },
             null
           ]
@@ -664,7 +672,7 @@
               "hp": 4,
               "maxHp": 6,
               "attack": 3,
-              "id": "card_83cf917e_1782371716469_36c2353b",
+              "id": "card_83cf917e_1782570440771_7bedcb53",
               "isBuilding": false,
               "canAttack": false
             },
@@ -701,7 +709,7 @@
               "hp": 4,
               "maxHp": 6,
               "attack": 3,
-              "id": "card_83cf917e_1782371716481_cadbe9f9",
+              "id": "card_83cf917e_1782570440781_cc894967",
               "isBuilding": false,
               "canAttack": false
             },
@@ -726,8 +734,9 @@
             "attack": 3,
             "durability": 1,
             "maxDurability": 2,
-            "counterDamageReduction": 1,
-            "attacksLeft": 0
+            "attacksLeft": 0,
+            "cardId": "",
+            "cardText": ""
           },
           "playerLeaderAttack": 0,
           "enemyLeaderAttack": 3,
@@ -771,7 +780,7 @@
               "hp": 1,
               "maxHp": 1,
               "attack": 1,
-              "id": "card_c8b09830_1782371716519_aba3b161",
+              "id": "card_c8b09830_1782570440820_62a8aeaa",
               "isBuilding": false,
               "canAttack": false
             },
@@ -815,7 +824,7 @@
               "hp": 1,
               "maxHp": 1,
               "attack": 1,
-              "id": "card_c8b09830_1782371716519_aba3b161",
+              "id": "card_c8b09830_1782570440820_62a8aeaa",
               "isBuilding": false,
               "canAttack": false
             },
@@ -827,7 +836,9 @@
           ],
           "playerHp": 25,
           "enemyHp": 25,
+          "enemyWeapon": null,
           "playerLeaderAttack": 0,
+          "enemyLeaderAttack": 0,
           "tension": 0,
           "enemyTension": 0,
           "hand": [],
@@ -861,7 +872,7 @@
               "hp": 1,
               "maxHp": 1,
               "attack": 0,
-              "id": "card_2f73a37d_1782371716541_1b2b15dc",
+              "id": "card_2f73a37d_1782570440840_7b0c2f92",
               "isBuilding": true,
               "durability": 3,
               "canAttack": false
@@ -871,7 +882,7 @@
               "hp": 4,
               "maxHp": 4,
               "attack": 0,
-              "id": "box_0.6570410741662871",
+              "id": "box_0.9845157615107506",
               "isBuilding": true,
               "durability": 2
             },
@@ -880,7 +891,7 @@
               "hp": 1,
               "maxHp": 1,
               "attack": 1,
-              "id": "card_c8b09830_1782371716541_5d11165d",
+              "id": "card_c8b09830_1782570440840_109b454f",
               "isBuilding": false,
               "canAttack": false
             },
@@ -922,7 +933,7 @@
               "hp": 1,
               "maxHp": 1,
               "attack": 0,
-              "id": "card_2f73a37d_1782371716543_b8b5e43c",
+              "id": "card_2f73a37d_1782570440840_7b0c2f92",
               "isBuilding": true,
               "durability": 3,
               "canAttack": false
@@ -932,7 +943,7 @@
               "hp": 4,
               "maxHp": 4,
               "attack": 0,
-              "id": "box_0.2246434328487601",
+              "id": "box_0.9845157615107506",
               "isBuilding": true,
               "durability": 2
             },
@@ -941,7 +952,7 @@
               "hp": 1,
               "maxHp": 1,
               "attack": 1,
-              "id": "card_c8b09830_1782371716543_d0b88fcf",
+              "id": "card_c8b09830_1782570440840_109b454f",
               "isBuilding": false,
               "canAttack": false
             },
@@ -951,7 +962,9 @@
           ],
           "playerHp": 25,
           "enemyHp": 25,
+          "enemyWeapon": null,
           "playerLeaderAttack": 0,
+          "enemyLeaderAttack": 0,
           "tension": 0,
           "enemyTension": 0,
           "hand": [],
@@ -968,7 +981,7 @@
   ],
   "exceptions": [],
   "chromeLogs": [
-    "/tmp/tmpj6om4yqt",
-    "/tmp/tmpoikknzkv"
+    "/tmp/tmpgik_3su2",
+    "/tmp/tmp4aryhwgf"
   ]
 }

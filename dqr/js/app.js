@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v288_meta_turn_authority_sync_guard';
-const BUILD_LABEL = 'v288 / ターン譲渡はmeta権威・同期は盤面専用';
+const DATA_VERSION = 'v293_real_firebase_two_access_harness';
+const BUILD_LABEL = 'v293 / 実Firebase 2アクセス検証ハーネス';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -3825,6 +3825,12 @@ function applyRenkeiIfActive(card, targetUnit=null){
   if(applyRenkeiV166(card, targetUnit)) return true;
 
   if(name === 'コンガオンガ'){
+    const candidates = (game.enemy.board || []).filter(u => u && !u.isBuilding && Number(u.attack || 0) >= 6);
+    if(!candidates.length){
+      game.pendingGenericEffect = null;
+      battleLog('コンガオンガ：攻撃力6以上の敵ユニットがいないため、れんけい追加効果は不発。');
+      return true;
+    }
     game.pendingGenericEffect = {kind:'renkeiVanishAtk6GiveEnemy', source:name, target:'enemyUnit'};
     battleLog('コンガオンガ：攻撃力6以上の敵ユニットを選んでください。');
     return true;
@@ -18799,6 +18805,8 @@ window.__DQR_TEST__ = {
   addCardToHandByName,
   addCardIdToPlayerHandV110,
   applyGenericCardUseEffect,
+  applyPendingGenericEffectToUnit: (typeof applyPendingGenericEffectToUnit === 'function' ? applyPendingGenericEffectToUnit : null),
+  applyPendingGenericEffectToLeader: (typeof applyPendingGenericEffectToLeader === 'function' ? applyPendingGenericEffectToLeader : null),
   applyCardUseV166,
   applyNonUnitEffect: (typeof useNonUnitCard === 'function' ? useNonUnitCard : null),
   summonUnitFromHandToBoard,
@@ -22068,7 +22076,7 @@ if(window.__DQR_TEST__){ Object.assign(window.__DQR_TEST__, { handleAfterAttackE
     discardHandCardAtIndex,
     discardRandomOwnHandCardV250: (typeof discardRandomOwnHandCardV250==='function' ? discardRandomOwnHandCardV250 : null),
     v260:{version:V260_VERSION, chooseTerrain:v260ChooseFriendlyTerrain, setTerrainLocal, applyTohmaChoice:v260ApplyTohmaChoice, openTohmaChoice:v260OpenTohmaChoice, markBloodKnife, putDiscardedSandy, buffSandyDungeons, isDungeonUnit,
-      terrainSnapshot(){ const x=g(); return {player:(terrain('player')||[]).map(t=>t?{...t}:null), enemy:(terrain('enemy')||[]).map(t=>t?{...t}:null)}; },
+      terrainSnapshot(){ const norm=(v)=>{ const raw=v||[]; const arr=Array.isArray(raw) ? raw : Object.keys(raw).sort((a,b)=>Number(a)-Number(b)).map(k=>raw[k]); return Array.from({length:6},(_,i)=>arr[i]?{...arr[i]}:null); }; return {player:norm(terrain('player')), enemy:norm(terrain('enemy'))}; },
       handNames(side='player'){ return (obj(side)?.hand||[]).map(id=>byId(id)?.name||id); }
     }
   }); }
@@ -24359,4 +24367,386 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
     syncMyBattleState.__v288MetaTurnAuthority = true;
   }
   if(window.__DQR_TEST__){ window.__DQR_TEST__.v288 = {version:V288, applyTurnFromMeta}; }
+})();
+
+
+/* v289: closeout for three live-play bugs.
+   - 死神のタロット in 必中 mode: all-unit 3 damage must resolve and never leave input locked.
+   - 勇者イレブン Lv2 一心同体: renkei must work at tension 0/1/2, including かくれんぼう.
+   - タバサ Lv2 魔力共鳴: original-cost-2+ spell should draw once, even if an older auto-skill limit path skipped it.
+*/
+(function installFortuneHeroTriggerFixV289(){
+  const V289='v289_fortune_hero_trigger_fix';
+  function g(){ return state?.battle?.game || null; }
+  function log(msg){ try{ battleLog(msg); }catch(e){ console.log(msg); } }
+  function canonicalizeHeroNameV289(){
+    const game=g();
+    const hs=game?.player?.heroSkill;
+    if(!hs) return hs;
+    if(/イレブン/.test(String(hs.heroCardName || ''))) hs.heroCardName = '勇者イレブン';
+    if(/タバサ/.test(String(hs.heroCardName || ''))) hs.heroCardName = 'タバサ';
+    return hs;
+  }
+  function unlockOwnTurnV289(){
+    const game=g();
+    if(game && game.isMyTurn && !game.finished) state.battle.matchLocked = false;
+  }
+  function finishMutationV289(reason='v289'){
+    unlockOwnTurnV289();
+    try{ renderBattleArena(); }catch(e){}
+    try{ syncMyBattleState(); }catch(e){}
+    try{ window.__DQR_TEST__?.v287?.publishBurst?.(reason); }catch(e){}
+  }
+  function unitRefsBothAliveV289(){
+    const game=g(); if(!game) return [];
+    const refs=[];
+    for(const side of ['player','enemy']){
+      const board = side === 'player' ? game.player.board : game.enemy.board;
+      for(let pos=0; pos<6; pos++){
+        const unit = board?.[pos];
+        if(unit && !unit.isBuilding && Number(unit.hp || 0) > 0) refs.push({side,pos,unit});
+      }
+    }
+    return refs;
+  }
+  function deathTarotAllDamageV289(source='死神のタロット'){
+    const amount = 3 + (typeof getSpellDamageBonus === 'function' ? Number(getSpellDamageBonus() || 0) : 0);
+    const refs = unitRefsBothAliveV289();
+    let hit=0;
+    for(const ref of refs){
+      try{
+        dealDamageToUnit(ref.unit, amount, source, ref.side);
+        hit++;
+      }catch(e){ console.warn('v289 death tarot damage failed', ref, e); }
+    }
+    try{ resolveDeaths(); }catch(e){ console.warn('v289 death tarot resolve failed', e); }
+    log(`${source}：全てのユニット${hit}体に${amount}ダメージ。`);
+    finishMutationV289('deathTarotAllDamageV289');
+    return true;
+  }
+  function deathTarotWispsV289(source='死神のタロット'){
+    for(let k=0;k<3;k++){
+      try{ summonNamedUnitToFriendlyEmptyV187('ナイトウィスプ', {attack:2, hp:2}, source); }catch(e){ console.warn('v289 death tarot wisp failed', e); }
+    }
+    finishMutationV289('deathTarotWispsV289');
+    return true;
+  }
+  function openDeathTarotChoiceV289(card){
+    const source='死神のタロット';
+    const sourceImage = card ? getOfficialImage(card) : '';
+    const options = [
+      {label:'占い1', description:'全てのユニットに3ダメージ', imagePath:sourceImage, value:'allDamage'},
+      {label:'占い2', description:'2/2のナイトウィスプを3体出す', imagePath:sourceImage, value:'wisps'}
+    ];
+    const run = (i) => {
+      try{
+        if(Number(i) === 0) deathTarotAllDamageV289(source);
+        else deathTarotWispsV289(source);
+      }catch(e){
+        console.error('v289 death tarot choice failed', e);
+        log('死神のタロット：処理中にエラーが出たため操作ロックを解除しました。');
+        finishMutationV289('deathTarotErrorV289');
+      }
+    };
+    const game=g();
+    if(game?.player?.fortuneMode === 'super'){
+      openChoiceModal(`${source}：超必中`, options, () => {
+        deathTarotAllDamageV289(source);
+        deathTarotWispsV289(source);
+      }, {kind:'deathTarotSuperV289', applyAllOnAny:true, allChoiceLabel:'両方発動', allValues:['allDamage','wisps'], allBannerBottom:true, choiceLayout:'fortune2'});
+      return true;
+    }
+    if(game?.player?.fortuneMode === 'hit' || game?.player?.nextFortuneHitFromHut){
+      if(game.player.nextFortuneHitFromHut) game.player.nextFortuneHitFromHut = false;
+      openChoiceModal(`${source}：必中`, options, (_picked, i) => run(i), {kind:'deathTarotHitV289', choiceLayout:'fortune2'});
+      return true;
+    }
+    // Normal fortune: use the same random reveal UX, but the actual selected effect is applied by this guarded code.
+    const i = typeof randomIndex === 'function' ? randomIndex(2, 'deathTarotRandomV289', {source}) : Math.floor(Math.random()*2);
+    openChoiceModal(`${source}：占い`, options, () => run(i), {
+      kind:'deathTarotRandomV289', selectedIndex:i, lockedChoices:true,
+      fortuneRandomReveal:true, revealLabel:'通常占い：ランダムで選ばれた効果を発動します', selectedBadge:'ランダム決定', autoCloseMs:1800, choiceLayout:'fortune2'
+    });
+    return true;
+  }
+
+  const oldApplyTabasaFortune = typeof applyTabasaFortuneCardV187 === 'function' ? applyTabasaFortuneCardV187 : null;
+  if(oldApplyTabasaFortune && !oldApplyTabasaFortune.__v289FortuneHeroFix){
+    const wrapped = function(card, opts={}){
+      canonicalizeHeroNameV289();
+      if(card?.name === '死神のタロット') return openDeathTarotChoiceV289(card);
+      return oldApplyTabasaFortune.call(this, card, opts);
+    };
+    wrapped.__v289FortuneHeroFix = true;
+    applyTabasaFortuneCardV187 = wrapped;
+  }
+
+  const oldTriggerHero = typeof triggerCardPlayedForHero === 'function' ? triggerCardPlayedForHero : null;
+  if(oldTriggerHero && !oldTriggerHero.__v289FortuneHeroFix){
+    triggerCardPlayedForHero = function(card){
+      canonicalizeHeroNameV289();
+      return oldTriggerHero.call(this, card);
+    };
+    triggerCardPlayedForHero.__v289FortuneHeroFix = true;
+  }
+
+  function elevenBondActiveV289(){
+    const game=g(); const hs=canonicalizeHeroNameV289();
+    return !!(game && hs && hs.heroCardName === '勇者イレブン' && Number(hs.level || 0) === 2 && hs.elevenBondActive);
+  }
+  const oldApplyRenkei = typeof applyRenkeiIfActive === 'function' ? applyRenkeiIfActive : null;
+  if(oldApplyRenkei && !oldApplyRenkei.__v289FortuneHeroFix){
+    applyRenkeiIfActive = function(card, targetUnit=null){
+      canonicalizeHeroNameV289();
+      const game=g();
+      const beforeHand = Number(game?.player?.hand?.length || 0);
+      const r = oldApplyRenkei.call(this, card, targetUnit);
+      if(r) return r;
+      if(!game || !hasRenkei(card) || !elevenBondActiveV289() || Number(game.player.tension || 0) >= 3) return r;
+      // Fallback for cards whose later wrappers still checked the exact hero name/tension.
+      if(card?.name === 'かくれんぼう'){
+        drawCard(1);
+        const afterHand = Number(game.player.hand?.length || 0);
+        log(`一心同体：テンション3未満でも${card.name}のれんけいを発動。カードを1枚引きました（手札 ${beforeHand}→${afterHand}）。`);
+        finishMutationV289('elevenKakurenbouV289');
+        return true;
+      }
+      log('一心同体：テンション3未満でもれんけいを発動可能にしました。');
+      return true;
+    };
+    applyRenkeiIfActive.__v289FortuneHeroFix = true;
+  }
+
+  const oldTriggerAuto = typeof triggerHeroAuto === 'function' ? triggerHeroAuto : null;
+  if(oldTriggerAuto && !oldTriggerAuto.__v289FortuneHeroFix){
+    triggerHeroAuto = function(trigger, ctx={}){
+      canonicalizeHeroNameV289();
+      const game=g();
+      const hs = game?.player?.heroSkill;
+      const isTabasaLv2 = !!(game && hs?.heroCardName === 'タバサ' && Number(hs.level || 0) === 2 && trigger === 'spellCost2Plus' && Number(ctx?.originalCost ?? ctx?.cost ?? 0) >= 2);
+      const beforeHand = Number(game?.player?.hand?.length || 0);
+      const beforeDeck = Number(game?.player?.deck?.length || 0);
+      const r = oldTriggerAuto.call(this, trigger, ctx);
+      if(isTabasaLv2){
+        const afterHand = Number(game.player.hand?.length || 0);
+        const afterDeck = Number(game.player.deck?.length || 0);
+        const drew = afterHand > beforeHand || afterDeck < beforeDeck;
+        const turnKey = `${Number(game.turn || 0)}:${String(ctx?.card?.id || ctx?.card?.name || '')}`;
+        hs._tabasaLv2V289 ||= Object.create(null);
+        if(!drew && !hs._tabasaLv2V289[turnKey]){
+          hs._tabasaLv2V289[turnKey] = true;
+          drawCard(1);
+          log('魔力共鳴：元コスト2以上の特技に反応し、カードを1枚引きました。');
+          finishMutationV289('tabasaLv2DrawV289');
+        }
+      }
+      return r;
+    };
+    triggerHeroAuto.__v289FortuneHeroFix = true;
+  }
+
+  // If a bad modal/effect path left the own turn locked, make the turn-end button usable again after modal closes.
+  const oldOpenChoice = typeof openChoiceModal === 'function' ? openChoiceModal : null;
+  if(oldOpenChoice && !oldOpenChoice.__v289FortuneHeroFix){
+    openChoiceModal = function(title, options, callback, meta={}){
+      const guarded = function(...args){
+        try{ return callback?.(...args); }
+        catch(e){
+          console.error('v289 choice callback failed', title, e);
+          log(`${title}：選択処理でエラーが出たため操作ロックを解除しました。`);
+          finishMutationV289('choiceErrorV289');
+        }finally{
+          setTimeout(unlockOwnTurnV289, 0);
+        }
+      };
+      return oldOpenChoice.call(this, title, options, guarded, meta);
+    };
+    openChoiceModal.__v289FortuneHeroFix = true;
+  }
+
+  if(window.__DQR_TEST__){ window.__DQR_TEST__.v289 = {version:V289, deathTarotAllDamageV289, canonicalizeHeroNameV289, elevenBondActiveV289}; }
+})();
+
+
+/* v293: real Firebase two-access regression helpers.
+   These helpers are inert during normal play. They let headless Chromium tests use
+   the real Firebase SDK/database instead of the local bridge used in v292. */
+(function installRealFirebaseTwoAccessHarnessV293(){
+  const V293='v293_real_firebase_two_access_harness';
+  const sleep = ms => new Promise(r=>setTimeout(r, ms));
+  function game(){ return state?.battle?.game || null; }
+  function unitPub(u){ return u ? {name:u.name||'', hp:Number(u.hp||0), maxHp:Number(u.maxHp||0), attack:Number(u.attack||0), id:u.id||'', cardId:u.cardId||'', building:!!u.isBuilding, durability:Number(u.durability||0)} : null; }
+  function names(ids=[]){ return (ids||[]).map(id=>byId(id)?.name || id); }
+  function makeDeck(deckName, className, cardNames=[]){
+    const cards = (cardNames||[]).map(n=>findCardByName(n)).filter(Boolean);
+    const main = cards.length ? cards : [findCardByName('スライム')].filter(Boolean);
+    const expanded=[];
+    while(expanded.length < 30 && main.length) expanded.push(main[expanded.length % main.length]);
+    return {deckName, className, cards:expanded.slice(0,30).map(c=>({cardId:c.id, count:1}))};
+  }
+  function setIdentity(playerId, displayName){
+    setPlayerIdentity(String(playerId||''), String(displayName||playerId||''));
+    const inp=document.getElementById('username-input'); if(inp) inp.value=state.username;
+    return {playerId:state.playerId, username:state.username};
+  }
+  async function waitFirebaseReady(timeoutMs=120000){
+    const start=Date.now();
+    while(Date.now()-start < timeoutMs){
+      if(state.firebase?.enabled && state.firebase?.db && state.firebase?.uid && typeof ref === 'function'){
+        return {ok:true, uid:state.firebase.uid, enabled:true, elapsedMs:Date.now()-start};
+      }
+      await sleep(250);
+    }
+    return {
+      ok:false,
+      enabled:!!state.firebase?.enabled,
+      hasDb:!!state.firebase?.db,
+      uid:state.firebase?.uid || '',
+      loginStatus:document.getElementById('login-status')?.textContent || '',
+      elapsedMs:Date.now()-start
+    };
+  }
+  async function clearRoom(matchId){
+    const ready=await waitFirebaseReady(30000);
+    if(!ready.ok) return {ok:false, reason:'firebase-not-ready', ready};
+    const roomId = makeRoomId(matchId);
+    await remove(ref(state.firebase.db, `rooms/${roomId}`));
+    return {ok:true, roomId};
+  }
+  async function startMatchDirect(cfg={}){
+    const ready=await waitFirebaseReady(Number(cfg.firebaseTimeoutMs||120000));
+    if(!ready.ok) return {ok:false, stage:'firebase-ready', ready};
+    setIdentity(cfg.playerId || state.playerId || safeRandomId('P'), cfg.displayName || cfg.playerId || state.username || 'Player');
+    state.battle.selectedDeckId = cfg.deckName || 'v293';
+    state.battle.selectedDeck = makeDeck(cfg.deckName || 'v293 test deck', cfg.className || '戦士', cfg.cardNames || ['スライム']);
+    const inp=document.getElementById('match-id-input'); if(inp) inp.value = cfg.matchId || `v293_${Date.now()}`;
+    await startMatch();
+    const start=Date.now();
+    const waitMs=Number(cfg.matchTimeoutMs||120000);
+    while(Date.now()-start < waitMs){
+      if(state.battle?.game && state.battle.hasMatched && state.battle.sessionId){
+        return {ok:true, playerId:state.playerId, roomId:state.battle.roomId, sessionId:state.battle.sessionId, isMyTurn:!!state.battle.game.isMyTurn, currentTurnPlayerId:state.battle.game.currentTurnPlayerId || ''};
+      }
+      await sleep(250);
+    }
+    return {ok:false, stage:'match', playerId:state.playerId, roomId:state.battle.roomId, sessionId:state.battle.sessionId, hasMatched:!!state.battle.hasMatched, status:document.getElementById('battle-status')?.textContent || ''};
+  }
+  function setControlledState(cfg={}){
+    const g=game(); if(!g) return {ok:false, reason:'no-game'};
+    function setBoard(side, arr=[]){
+      const b=side==='enemy' ? g.enemy.board : g.player.board;
+      for(let i=0;i<6;i++) b[i]=null;
+      (arr||[]).forEach((name,i)=>{ if(i>=6 || !name) return; const c=findCardByName(name); if(c) b[i]=makeUnitFromCard(c); });
+    }
+    g.player.hp=Number(cfg.playerHp ?? 25); g.enemy.hp=Number(cfg.enemyHp ?? 25);
+    g.player.maxMp=Number(cfg.maxMp ?? 10); g.player.mp=Number(cfg.mp ?? 10);
+    g.enemy.maxMp=Number(cfg.enemyMaxMp ?? 10); g.enemy.mp=Number(cfg.enemyMp ?? 10);
+    g.player.tension=Number(cfg.tension ?? g.player.tension ?? 0); g.enemy.tension=Number(cfg.enemyTension ?? g.enemy.tension ?? 0);
+    g.player.hand=(cfg.handNames||[]).map(n=>findCardByName(n)?.id).filter(Boolean);
+    const pool=(cfg.deckNames||['スライム','ドラキー','メラ','メラミ','コイン','プチファイター','パピラス','キースドラゴン']).map(n=>findCardByName(n)?.id).filter(Boolean);
+    g.player.deck=pool.slice();
+    g.enemy.deck=pool.slice();
+    setBoard('player', cfg.playerBoard || [null,null,null,null,null,null]);
+    setBoard('enemy', cfg.enemyBoard || ['スライム','ドラキー','シールドオーガ','スライム','ドラキー','シールドオーガ']);
+    if(cfg.hero==='eleven') g.player.heroSkill={heroCardName:'勇者イレブン',level:2,elevenBondActive:true,usedThisTurn:false,usesThisTurn:0};
+    if(cfg.hero==='tabasa') g.player.heroSkill={heroCardName:'タバサ',level:2,usedThisTurn:false,usesThisTurn:0};
+    if(cfg.hero==='ilLuca') g.player.heroSkill={heroCardName:'イル＆ルカ',level:2,usedThisTurn:false,usesThisTurn:0};
+    if(cfg.hero==='deborah') g.player.heroSkill={heroCardName:'天空の花嫁デボラ',level:2,deborahBetTension:true,usedThisTurn:false,usesThisTurn:0};
+    if(cfg.fortune) g.player.fortuneMode=cfg.fortune;
+    g.pendingGenericEffect=null; g.pendingHeroSkill=null; g.selectedHandIndex=null; g.selectedCard=null; g.pendingTarget=null; g.selectedAttacker=null;
+    const d=document.getElementById('choice-modal'); if(d?.open){ try{ d.close(); }catch(e){} }
+    renderBattleArena();
+    syncMyBattleState();
+    try{ window.__DQR_TEST__?.v287?.publishBurst?.('v293ControlledState'); }catch(e){}
+    return snapshot();
+  }
+  function resolveChoice(prefer=''){
+    const d=document.getElementById('choice-modal');
+    if(!d?.open) return {ok:false, reason:'no-modal'};
+    const opts=[...document.querySelectorAll('#choice-modal-body .choice-option:not([disabled])')];
+    const all=document.querySelector('#choice-modal-body .choice-all-banner');
+    let btn = prefer ? opts.find(b=>String(b.textContent||'').includes(prefer)) : null;
+    btn = btn || all || opts[0];
+    if(!btn) return {ok:false, reason:'no-choice', choices:opts.map(b=>String(b.textContent||'').trim())};
+    btn.click();
+    return {ok:true, text:String(btn.textContent||'').trim().slice(0,120)};
+  }
+  async function resolveAllChoices(prefer=''){
+    const out=[];
+    for(let i=0;i<20;i++){
+      const r=resolveChoice(i===0 ? prefer : '');
+      if(!r.ok) break;
+      out.push(r);
+      await sleep(80);
+    }
+    return out;
+  }
+  async function useCardByName(name, opts={}){
+    const g=game(); if(!g) return {ok:false, reason:'no-game'};
+    const card=findCardByName(name); if(!card) return {ok:false, reason:'card-not-found', name};
+    if(!g.player.hand.includes(card.id)) g.player.hand.unshift(card.id);
+    let error='';
+    try{
+      if(card.cardType === 'ユニット'){
+        const idx=g.player.hand.indexOf(card.id);
+        selectHandCard(idx);
+        handleEmptySlotClick('player', Number(opts.pos || 0));
+      }else if(card.cardType === 'ヒーロー'){
+        selectHandCard(g.player.hand.indexOf(card.id));
+      }else{
+        useNonUnitCard(g.player.hand.indexOf(card.id), card);
+      }
+      await sleep(80);
+      await resolveAllChoices(opts.prefer || '');
+      if(g.pendingGenericEffect){
+        try{
+          const target=String(g.pendingGenericEffect.target||'');
+          if(target.includes('Leader') || target === 'enemyAny') applyPendingGenericEffectToLeader?.();
+          else applyPendingGenericEffectToUnit?.({side:target.includes('friendly')?'player':'enemy', pos:0});
+        }catch(e){ console.warn('v293 pending effect failed', e); }
+      }
+    }catch(e){ error=String(e?.stack||e); }
+    renderBattleArena();
+    syncMyBattleState();
+    try{ window.__DQR_TEST__?.v287?.publishBurst?.(`v293Use:${name}`); }catch(e){}
+    return {ok:!error, error, snapshot:snapshot()};
+  }
+  async function endTurnDirect(){
+    try{ await endTurn(); }catch(e){ return {ok:false, error:String(e?.stack||e), snapshot:snapshot()}; }
+    return {ok:true, snapshot:snapshot()};
+  }
+  function snapshot(){
+    const g=game(); if(!g) return {ok:false, reason:'no-game'};
+    return {
+      ok:true, playerId:state.playerId, roomId:state.battle.roomId, sessionId:state.battle.sessionId,
+      hasMatched:!!state.battle.hasMatched, isMyTurn:!!g.isMyTurn, lock:!!state.battle.matchLocked,
+      currentTurnPlayerId:g.currentTurnPlayerId || state.battle.currentTurnPlayerId || '',
+      player:g.player.board.map(unitPub), enemy:g.enemy.board.map(unitPub),
+      playerHp:g.player.hp, enemyHp:g.enemy.hp, tension:g.player.tension, enemyTension:g.enemy.tension,
+      hand:names(g.player.hand), enemyHand:names(g.enemy.hand), deck:g.player.deck?.length||0, enemyDeck:g.enemy.deck?.length||0,
+      modal:!!document.getElementById('choice-modal')?.open,
+      status:document.getElementById('battle-status')?.textContent || '',
+      log:(g.log||[]).slice(-12)
+    };
+  }
+  function invariants(){
+    const g=game(); const bad=[]; if(!g) return ['no-game'];
+    for(const sideName of ['player','enemy']){
+      const side=g[sideName];
+      if(!Array.isArray(side.board) || side.board.length !== 6) bad.push(`${sideName}.board length`);
+      (side.board||[]).forEach((u,i)=>{ if(!u) return; if(!u.name) bad.push(`${sideName}.${i} no name`); if(!u.isBuilding && Number(u.hp||0)<=0) bad.push(`${sideName}.${i} hp<=0 ${u.name}:${u.hp}`); });
+      for(const zone of ['hand','deck']) for(const id of side[zone]||[]) if(!byId(id)) bad.push(`${sideName}.${zone} invalid ${id}`);
+    }
+    if(g.isMyTurn && state.battle.matchLocked) bad.push('own turn locked');
+    if(document.getElementById('choice-modal')?.open) bad.push('modal left open');
+    return bad;
+  }
+  async function readRoom(matchId){
+    const ready=await waitFirebaseReady(30000); if(!ready.ok) return {ok:false, ready};
+    const roomId=makeRoomId(matchId);
+    const snap=await get(ref(state.firebase.db, `rooms/${roomId}`));
+    return {ok:true, roomId, value:snap.val()};
+  }
+  window.__DQR_TEST__ ||= {};
+  window.__DQR_TEST__.v293Firebase = {version:V293, waitFirebaseReady, clearRoom, startMatchDirect, setIdentity, makeDeck, setControlledState, useCardByName, endTurnDirect, snapshot, invariants, readRoom, resolveChoice, resolveAllChoices};
 })();

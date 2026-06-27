@@ -1,0 +1,38 @@
+{
+  "version": "v290_four_deck_regression_closeout",
+  "nodeCheck": "OK",
+  "fourDeckRegression": {
+    "passed": 85,
+    "failed": 0,
+    "total": 85
+  },
+  "pvpRegressions": {
+    "v248": {
+      "passed": 14,
+      "failed": 0
+    },
+    "v260": {
+      "passed": 20,
+      "failed": 0
+    },
+    "v280": {
+      "passed": 5,
+      "failed": 0
+    },
+    "v281": {
+      "passed": 5,
+      "failed": 0
+    },
+    "v246": "12 passed / 0 failed",
+    "v237": "passed"
+  },
+  "fixes": [
+    "terrainSnapshot accepts object or array terrain storage"
+  ],
+  "files": [
+    "data/v290_four_deck_regression_tests.json",
+    "data/v290_four_deck_card_coverage.csv",
+    "data/v290_four_deck_regression_report.md",
+    "tools/v290_four_deck_regression_tests.py"
+  ]
+}
