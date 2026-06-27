@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v285_pvp_board_mirror_slot_content_fix';
-const BUILD_LABEL = 'v285 / PvP盤面ミラー同期・配置済みマス固定';
+const DATA_VERSION = 'v286_pvp_live_state_two_way_sync';
+const BUILD_LABEL = 'v286 / PvPライブ状態双方向同期';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -23700,6 +23700,353 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
       publishMirror:publishMirrorV285,
       subscribeMirror:subscribeMirrorV285,
       compactUnit:compactUnitV285
+    }
+  }); }
+})();
+
+
+// v286: PvP live-state two-way synchronization fallback.
+// Real-device report after v285: summons still did not appear and damage did not apply.
+// Actions/boardPatch/boardMirror are kept, but this adds an independent live state channel:
+//   rooms/{roomId}/liveStatesV286/{clientInstanceId}
+// Sender publishes both:
+//   self:         my public player state (opponent renders this as enemy)
+//   opponentView: what my client currently sees for the opponent (receiver may apply this to its own player only for combat/damage reasons)
+// This covers the two missing cases separately:
+//   - my summons -> opponent enemy.board from self
+//   - my damage to opponent -> opponent player.board/player.hp from opponentView
+(function installV286PvpLiveStateSync(){
+  if(globalThis.__v286PvpLiveStateSyncInstalled) return;
+  globalThis.__v286PvpLiveStateSyncInstalled = true;
+  const V286 = 'v286_pvp_live_state_two_way_sync';
+  const now = () => Date.now ? Date.now() : Number(new Date());
+  const game = () => state?.battle?.game || null;
+  const inPvp = () => !!(state?.battle?.roomId && state?.firebase?.enabled && state?.firebase?.db && state?.playerId) && !(typeof isSoloTestMode === 'function' && isSoloTestMode());
+  function clientIdV286(){
+    try{
+      let id = localStorage.getItem('dqrClientInstanceIdV286');
+      if(!id){ id = `cli_${Date.now()}_${safeRandomId('v286').slice(0,10)}`; localStorage.setItem('dqrClientInstanceIdV286', id); }
+      return id;
+    }catch(e){
+      state.battle._v286ClientInstanceId ||= `cli_${Date.now()}_${safeRandomId('v286').slice(0,10)}`;
+      return state.battle._v286ClientInstanceId;
+    }
+  }
+  function cloneV286(v){
+    try{ return cloneEventPayload(v); }
+    catch(e){ try{return JSON.parse(JSON.stringify(v));}catch(_){return v;} }
+  }
+  function compactWeaponV286(w){
+    if(!w) return null;
+    return {
+      name:w.name || '',
+      cardId:w.cardId || '',
+      attack:Number(w.attack || 0),
+      durability:Number(w.durability ?? w.hp ?? 0),
+      maxDurability:Number(w.maxDurability ?? w.durability ?? w.hp ?? 0),
+      attacksLeft:Number(w.attacksLeft ?? 0),
+      cardText:w.cardText || w.text || '',
+      noCounter:!!w.noCounter,
+      snipe:!!w.snipe,
+      doubleAttack:!!w.doubleAttack
+    };
+  }
+  function compactUnitV286(u){
+    if(!u) return null;
+    const c = byId(u.cardId) || findCardByName(u.name);
+    return {
+      id:u.id || '',
+      cardId:u.cardId || c?.id || '',
+      name:u.name || c?.name || '',
+      attack:Number(u.attack ?? c?.attack ?? 0),
+      baseAttack:Number(u.baseAttack ?? u._baseAttack ?? c?.attack ?? u.attack ?? 0),
+      hp:Number(u.hp ?? c?.hp ?? 1),
+      maxHp:Number(u.maxHp ?? u._baseHp ?? c?.hp ?? u.hp ?? 1),
+      cost:Number(u.cost ?? c?.cost ?? 0),
+      cardType:u.cardType || c?.cardType || 'ユニット',
+      tribe:u.tribe || c?.tribe || '',
+      text:u.text || getCardText(c) || '',
+      statuses:cloneV286(u.statuses || []),
+      keywords:cloneV286(u.keywords || {}),
+      canAttack:!!u.canAttack,
+      summoningSickness:!!u.summoningSickness,
+      attacksLeft:Number(u.attacksLeft ?? 0),
+      isBuilding:!!u.isBuilding,
+      isDungeon:!!u.isDungeon,
+      durability:u.durability != null ? Number(u.durability) : undefined,
+      maxDurability:u.maxDurability != null ? Number(u.maxDurability) : undefined
+    };
+  }
+  function compactBoardV286(board){ return Array.from({length:6}, (_,i)=>compactUnitV286(board?.[i] || null)); }
+  function inflateUnitV286(data){
+    if(!data) return null;
+    const c = byId(data.cardId) || findCardByName(data.name);
+    let u = c && typeof makeUnitFromCard === 'function' ? makeUnitFromCard(c) : {
+      id:data.id || `u_remote_${safeRandomId('v286').slice(0,8)}`,
+      cardId:data.cardId || c?.id || '',
+      name:data.name || c?.name || 'ユニット',
+      attack:0, hp:1, maxHp:1, keywords:{}, statuses:[]
+    };
+    u.id = data.id || u.id;
+    u.cardId = data.cardId || u.cardId || c?.id || '';
+    u.name = data.name || u.name || c?.name || '';
+    u.attack = Number(data.attack ?? u.attack ?? c?.attack ?? 0);
+    u.baseAttack = Number(data.baseAttack ?? u.baseAttack ?? u._baseAttack ?? c?.attack ?? u.attack ?? 0);
+    u.hp = Number(data.hp ?? u.hp ?? c?.hp ?? 1);
+    u.maxHp = Number(data.maxHp ?? u.maxHp ?? u._baseHp ?? c?.hp ?? u.hp ?? 1);
+    u.cost = Number(data.cost ?? u.cost ?? c?.cost ?? 0);
+    u.cardType = data.cardType || u.cardType || c?.cardType || 'ユニット';
+    u.tribe = data.tribe || u.tribe || c?.tribe || '';
+    u.text = data.text || u.text || getCardText(c) || '';
+    u.statuses = Array.isArray(data.statuses) ? cloneV286(data.statuses) : (u.statuses || []);
+    u.keywords = {...(u.keywords || {}), ...(data.keywords || {})};
+    u.canAttack = !!data.canAttack;
+    u.summoningSickness = !!data.summoningSickness;
+    u.attacksLeft = Number(data.attacksLeft ?? u.attacksLeft ?? 0);
+    if(data.isBuilding) u.isBuilding = true;
+    if(data.isDungeon) u.isDungeon = true;
+    if(data.durability != null) u.durability = Number(data.durability);
+    if(data.maxDurability != null) u.maxDurability = Number(data.maxDurability);
+    return u;
+  }
+  function publicSideV286(sideObj){
+    return {
+      hp:Number(sideObj?.hp ?? 0),
+      maxHp:Number(sideObj?.maxHp ?? 25),
+      mp:Number(sideObj?.mp ?? 0),
+      maxMp:Number(sideObj?.maxMp ?? 0),
+      tension:Number(sideObj?.tension ?? 0),
+      leaderAttack:Number(sideObj?.leaderAttack ?? 0),
+      leaderCanAttack:!!sideObj?.leaderCanAttack,
+      weapon:compactWeaponV286(sideObj?.weapon),
+      board:compactBoardV286(sideObj?.board),
+      terrain:cloneV286(sideObj?.terrain || Array(6).fill(null)),
+      handCount:Number(sideObj?.hand?.length ?? sideObj?.handCount ?? 0),
+      deckCount:Number(sideObj?.deck?.length ?? sideObj?.deckCount ?? 0)
+    };
+  }
+  function snapshotV286(reason='sync'){
+    const g = game(); if(!g) return null;
+    g._v286LiveSeq = Number(g._v286LiveSeq || 0) + 1;
+    const payload = {
+      version:V286,
+      reason,
+      clientId:clientIdV286(),
+      playerId:state.playerId,
+      sessionId:state.battle.sessionId || '',
+      seq:Number(g._v286LiveSeq || 0),
+      updatedAtMs:now(),
+      self:publicSideV286(g.player),
+      opponentView:publicSideV286(g.enemy)
+    };
+    payload.hash = JSON.stringify({s:payload.self, o:payload.opponentView, r:reason}).slice(0, 24000);
+    return payload;
+  }
+  async function publishLiveV286(reason='sync', delay=0){
+    const g = game();
+    if(!g || !inPvp() || state?.battle?.processingRemoteAction) return false;
+    clearTimeout(g._v286LiveTimer);
+    g._v286LiveTimer = setTimeout(async ()=>{
+      const payload = snapshotV286(reason);
+      if(!payload) return;
+      try{
+        await set(ref(state.firebase.db, `rooms/${state.battle.roomId}/liveStatesV286/${payload.clientId}`), payload);
+        g._v286LastLiveSent = {reason, at:now(), seq:payload.seq};
+      }catch(e){ console.warn('v286 live state publish failed', reason, e); }
+    }, Number(delay || 0));
+    return true;
+  }
+  function applyPublicSideToEnemyV286(side, source='self'){
+    const g = game(); if(!g || !side) return false;
+    g.enemy.board = Array.from({length:6}, (_,i)=>inflateUnitV286(side.board?.[i] || null));
+    g.enemy.hp = Number(side.hp ?? g.enemy.hp ?? 25);
+    g.enemy.maxHp = Number(side.maxHp ?? g.enemy.maxHp ?? 25);
+    g.enemy.mp = Number(side.mp ?? g.enemy.mp ?? 0);
+    g.enemy.maxMp = Number(side.maxMp ?? g.enemy.maxMp ?? 0);
+    g.enemy.tension = Number(side.tension ?? g.enemy.tension ?? 0);
+    g.enemy.leaderAttack = Number(side.leaderAttack ?? g.enemy.leaderAttack ?? 0);
+    g.enemy.leaderCanAttack = !!side.leaderCanAttack;
+    g.enemy.weapon = side.weapon ? compactWeaponV286(side.weapon) : null;
+    g.enemy.hand = [];
+    g.enemy.handCount = Number(side.handCount ?? g.enemy.handCount ?? 0);
+    g.enemy.deckCount = Number(side.deckCount ?? g.enemy.deckCount ?? 0);
+    g.enemyTerrain = cloneV286(side.terrain || Array(6).fill(null));
+    g.enemy.lastLiveSyncV286 = {source, at:now()};
+    return true;
+  }
+  function applyPublicSideToPlayerFromOpponentViewV286(side, reason=''){
+    const g = game(); if(!g || !side) return false;
+    // Only apply the opponent's view of our side for combat/damage/death reasons.
+    // This prevents stale opponentView from deleting our own newly summoned units.
+    const r = String(reason || '');
+    const mayPatchOwn = /damage-(unit|leader)-enemy|counter.*enemy|attack.*enemy|unitDeath.*enemy|hp-enemy/i.test(r);
+    if(!mayPatchOwn) return false;
+    g.player.board = Array.from({length:6}, (_,i)=>inflateUnitV286(side.board?.[i] || null));
+    g.player.hp = Number(side.hp ?? g.player.hp ?? 25);
+    g.player.maxHp = Number(side.maxHp ?? g.player.maxHp ?? 25);
+    g.player.leaderAttack = Number(side.leaderAttack ?? g.player.leaderAttack ?? 0);
+    g.player.leaderCanAttack = !!side.leaderCanAttack;
+    g.player.weapon = side.weapon ? compactWeaponV286(side.weapon) : g.player.weapon;
+    g.player.terrain = cloneV286(side.terrain || g.player.terrain || Array(6).fill(null));
+    g.player.lastOpponentViewPatchV286 = {reason:r, at:now()};
+    if(g.player.hp <= 0 && typeof showBattleResult === 'function') showBattleResult('lose');
+    return true;
+  }
+  function applyLiveV286(entry){
+    const g = game();
+    if(!g || !entry || entry.clientId === clientIdV286()) return false;
+    if(state.battle.sessionId && entry.sessionId && entry.sessionId !== state.battle.sessionId) return false;
+    g._v286RemoteLiveWatermark ||= Object.create(null);
+    const key = entry.clientId || entry.playerId || 'remote';
+    const old = Number(g._v286RemoteLiveWatermark[key] || 0);
+    const stamp = Number(entry.updatedAtMs || entry.seq || 0);
+    if(stamp && old && stamp <= old) return false;
+    if(stamp) g._v286RemoteLiveWatermark[key] = stamp;
+    const a = applyPublicSideToEnemyV286(entry.self, `live:${entry.reason || ''}`);
+    const b = applyPublicSideToPlayerFromOpponentViewV286(entry.opponentView, entry.reason || '');
+    if(a || b){
+      try{ battleLog(`PvPライブ同期：${entry.reason || 'sync'} を反映しました。`); }catch(e){}
+      try{ renderBattleArena(); }catch(e){}
+      return true;
+    }
+    return false;
+  }
+  function subscribeLiveV286(roomId){
+    if(!state.firebase.enabled || !state.firebase.db || !roomId) return null;
+    if(state.battle._v286LiveSubscribedRoom === roomId) return null;
+    state.battle._v286LiveSubscribedRoom = roomId;
+    const liveRef = ref(state.firebase.db, `rooms/${roomId}/liveStatesV286`);
+    const unsub = onValue(liveRef, snap => {
+      const all = snap.val() || {};
+      const entries = Object.values(all).filter(e => e && e.clientId !== clientIdV286() && (!state.battle.sessionId || !e.sessionId || e.sessionId === state.battle.sessionId));
+      if(!entries.length) return;
+      entries.sort((a,b)=>Number(b.updatedAtMs||0)-Number(a.updatedAtMs||0) || Number(b.seq||0)-Number(a.seq||0));
+      applyLiveV286(entries[0]);
+    });
+    state.battle.unsubs.push(unsub);
+    publishLiveV286('subscribe', 80);
+    return unsub;
+  }
+
+  const oldSubscribeRoomPlayersV286 = typeof subscribeRoomPlayers === 'function' ? subscribeRoomPlayers : null;
+  if(oldSubscribeRoomPlayersV286 && !oldSubscribeRoomPlayersV286.__v286LiveState){
+    subscribeRoomPlayers = function(){
+      const r = oldSubscribeRoomPlayersV286.call(this);
+      state.battle._v286LiveSubscribedRoom = '';
+      if(inPvp()) subscribeLiveV286(state.battle.roomId);
+      return r;
+    };
+    subscribeRoomPlayers.__v286LiveState = true;
+  }
+
+  const oldSyncMyBattleStateV286 = typeof syncMyBattleState === 'function' ? syncMyBattleState : null;
+  if(oldSyncMyBattleStateV286 && !oldSyncMyBattleStateV286.__v286LiveState){
+    syncMyBattleState = async function(){
+      const r = await oldSyncMyBattleStateV286.call(this);
+      publishLiveV286('syncMyBattleState', 30);
+      return r;
+    };
+    syncMyBattleState.__v286LiveState = true;
+  }
+
+  const oldPushBattleActionV286 = typeof pushBattleAction === 'function' ? pushBattleAction : null;
+  if(oldPushBattleActionV286 && !oldPushBattleActionV286.__v286LiveState){
+    pushBattleAction = async function(type, payload={}){
+      const r = await oldPushBattleActionV286.call(this, type, payload);
+      const t = String(type || 'action');
+      if(/damage|attack|death|unitDeath|counter/i.test(t)){
+        publishLiveV286(`action-${t}-damage`, 30);
+        setTimeout(()=>publishLiveV286(`action-${t}-damage-late`, 220), 220);
+      }else if(/summon|putIntoPlay|unitSummoned|unitPutIntoPlay|boardPatch/i.test(t)){
+        publishLiveV286(`action-${t}-board`, 30);
+        setTimeout(()=>publishLiveV286(`action-${t}-board-late`, 220), 220);
+      }else{
+        publishLiveV286(`action-${t}`, 90);
+      }
+      return r;
+    };
+    pushBattleAction.__v286LiveState = true;
+  }
+
+  const oldSummonV286 = typeof summonUnitFromHandToBoard === 'function' ? summonUnitFromHandToBoard : null;
+  if(oldSummonV286 && !oldSummonV286.__v286LiveState){
+    summonUnitFromHandToBoard = function(card, pos, cost){
+      const r = oldSummonV286.call(this, card, pos, cost);
+      publishLiveV286('summon', 20);
+      setTimeout(()=>publishLiveV286('summon-late', 260), 260);
+      return r;
+    };
+    summonUnitFromHandToBoard.__v286LiveState = true;
+  }
+
+  const oldPutV286 = typeof putUnitIntoPlayFromCard === 'function' ? putUnitIntoPlayFromCard : null;
+  if(oldPutV286 && !oldPutV286.__v286LiveState){
+    putUnitIntoPlayFromCard = function(card, pos, side='player', stats={}){
+      const r = oldPutV286.call(this, card, pos, side, stats);
+      if(side === 'player'){
+        publishLiveV286('putIntoPlay', 20);
+        setTimeout(()=>publishLiveV286('putIntoPlay-late', 260), 260);
+      }else if(side === 'enemy'){
+        publishLiveV286('putIntoPlay-enemy-damage', 20);
+        setTimeout(()=>publishLiveV286('putIntoPlay-enemy-damage-late', 260), 260);
+      }
+      return r;
+    };
+    putUnitIntoPlayFromCard.__v286LiveState = true;
+  }
+
+  const oldDamageUnitV286 = typeof dealDamageToUnit === 'function' ? dealDamageToUnit : null;
+  if(oldDamageUnitV286 && !oldDamageUnitV286.__v286LiveState){
+    dealDamageToUnit = function(unit, amount, source='effect', sideHint='player'){
+      const r = oldDamageUnitV286.call(this, unit, amount, source, sideHint);
+      publishLiveV286(`damage-unit-${sideHint}`, 20);
+      setTimeout(()=>publishLiveV286(`damage-unit-${sideHint}-late`, 240), 240);
+      return r;
+    };
+    dealDamageToUnit.__v286LiveState = true;
+  }
+
+  const oldDamageLeaderV286 = typeof dealDamageToLeader === 'function' ? dealDamageToLeader : null;
+  if(oldDamageLeaderV286 && !oldDamageLeaderV286.__v286LiveState){
+    dealDamageToLeader = function(side, amount, source='effect'){
+      const r = oldDamageLeaderV286.call(this, side, amount, source);
+      publishLiveV286(`damage-leader-${side}`, 20);
+      setTimeout(()=>publishLiveV286(`damage-leader-${side}-late`, 240), 240);
+      return r;
+    };
+    dealDamageToLeader.__v286LiveState = true;
+  }
+
+  const oldResolveDeathsV286 = typeof resolveDeaths === 'function' ? resolveDeaths : null;
+  if(oldResolveDeathsV286 && !oldResolveDeathsV286.__v286LiveState){
+    resolveDeaths = function(){
+      const r = oldResolveDeathsV286.call(this);
+      publishLiveV286('resolveDeaths', 30);
+      setTimeout(()=>publishLiveV286('resolveDeaths-late', 260), 260);
+      return r;
+    };
+    resolveDeaths.__v286LiveState = true;
+  }
+
+  const oldEndTurnV286 = typeof endTurn === 'function' ? endTurn : null;
+  if(oldEndTurnV286 && !oldEndTurnV286.__v286LiveState){
+    endTurn = function(){
+      const r = oldEndTurnV286.call(this);
+      publishLiveV286('endTurn', 80);
+      return r;
+    };
+    endTurn.__v286LiveState = true;
+  }
+
+  if(window.__DQR_TEST__){ Object.assign(window.__DQR_TEST__, {
+    v286:{
+      version:V286,
+      clientId:clientIdV286,
+      snapshot:snapshotV286,
+      publish:publishLiveV286,
+      applyLive:applyLiveV286,
+      subscribe:subscribeLiveV286,
+      inflateUnit:inflateUnitV286
     }
   }); }
 })();

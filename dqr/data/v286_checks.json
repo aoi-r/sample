@@ -1,0 +1,8 @@
+{
+  "version": "v286_pvp_live_state_two_way_sync",
+  "node_check": "OK",
+  "contains_live_channel": true,
+  "contains_client_instance_id": true,
+  "contains_two_way_self_opponent_view": true,
+  "hand_ids_synchronized": false
+}

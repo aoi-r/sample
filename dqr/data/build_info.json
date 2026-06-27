@@ -1,5 +1,5 @@
 {
-  "version": "v285_pvp_board_mirror_slot_content_fix",
+  "version": "v286_pvp_live_state_two_way_sync",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
