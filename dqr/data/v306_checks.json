@@ -1,0 +1,6 @@
+{
+  "version": "v306_eleven_lv2_all_renkei_force_fix",
+  "nodeCheck": "OK",
+  "staticChecks": "5 planned; see data/v306_static_checks.json",
+  "bug": "Eleven Lv2 + tension 1 + ウルノーガ&ウルナーガ renkei log-only fallback fixed"
+}

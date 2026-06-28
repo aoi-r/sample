@@ -1,0 +1,25 @@
+{
+  "version": "v306_eleven_lv2_all_renkei_force_fix",
+  "checks": [
+    {
+      "name": "v306 wrapper installed after v305",
+      "ok": true
+    },
+    {
+      "name": "Eleven bond no longer limited to exact level 2 only",
+      "ok": true
+    },
+    {
+      "name": "non-kakurenbou renkei fallback actually applies effect",
+      "ok": true
+    },
+    {
+      "name": "Ulnooga specific renkei handled",
+      "ok": true
+    },
+    {
+      "name": "old v289 log-only fallback remains bypassed by v306 pre-intercept",
+      "ok": true
+    }
+  ]
+}

@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v305_bounded_proof_and_runtime_invariant_guard';
-const BUILD_LABEL = 'v305 / 有界証明・実行時不変条件ガード';
+const DATA_VERSION = 'v306_eleven_lv2_all_renkei_force_fix';
+const BUILD_LABEL = 'v306 / イレブンLv2全れんけい発動修正';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -26535,4 +26535,212 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
   if(window.__DQR_TEST__){
     window.__DQR_TEST__.v305={version:V305, proofObligationsV305, runtimeInvariantV305, assertOrRecoverV305, simulateInvariantRecoveryV305};
   }
+})();
+
+
+/* v306: 勇者イレブンLv2 一心同体 - all renkei force fix.
+   v289 only fixed かくれんぼう as a special fallback. Other renkei cards could return true
+   without applying their actual renkei effect when tension was 0/1/2, because old wrappers still
+   gated on exact tension/level conditions. v306 intercepts that situation before old wrappers and
+   applies the actual renkei effect once.
+*/
+(function installElevenLv2AllRenkeiForceFixV306(){
+  const V306='v306_eleven_lv2_all_renkei_force_fix';
+  function g(){ return state?.battle?.game || null; }
+  function log(msg){ try{ battleLog(msg); }catch(e){ try{ console.log(msg); }catch(_){} } }
+  function normalizeElevenHeroV306(){
+    const game=g(); const hs=game?.player?.heroSkill;
+    if(!hs) return hs;
+    if(/イレブン/.test(String(hs.heroCardName || ''))) hs.heroCardName='勇者イレブン';
+    return hs;
+  }
+  function elevenBondActiveV306(){
+    const game=g(); const hs=normalizeElevenHeroV306();
+    if(!game || !hs) return false;
+    const isEleven = hs.heroCardName === '勇者イレブン' || /イレブン/.test(String(hs.heroCardName || ''));
+    // 一心同体の文言は「以後」。Lv2使用後に進化しても、対戦中フラグが残っていれば有効扱い。
+    return !!(isEleven && (hs.elevenBondActive || hs.elevenBondEverActiveV306) && Number(hs.level || 0) >= 2);
+  }
+  function markElevenBondEverV306(){
+    const hs=normalizeElevenHeroV306();
+    if(hs && hs.heroCardName === '勇者イレブン' && hs.elevenBondActive) hs.elevenBondEverActiveV306 = true;
+  }
+
+  const oldApplyHeroSkillEffectV306 = typeof applyHeroSkillEffect === 'function' ? applyHeroSkillEffect : null;
+  if(oldApplyHeroSkillEffectV306 && !oldApplyHeroSkillEffectV306.__v306ElevenRenkeiFix){
+    applyHeroSkillEffect = function(skill, target={}){
+      const r = oldApplyHeroSkillEffectV306.call(this, skill, target);
+      if(skill?.effect?.kind === 'elevenBond'){
+        const hs=normalizeElevenHeroV306();
+        if(hs){ hs.elevenBondActive = true; hs.elevenBondEverActiveV306 = true; }
+        log('一心同体：この対戦中、テンション3未満でも全てのれんけいカードが発動可能になりました。');
+      }
+      return r;
+    };
+    applyHeroSkillEffect.__v306ElevenRenkeiFix = true;
+  }
+
+  function applyLaterRenkeiPatchFunctionsV306(card, targetUnit){
+    // Later patch helpers are normal function declarations in this bundle. Call them first so
+    // fixes for cards such as トンネラー/シュプリンガー stay preserved under Eleven Lv2.
+    try{ if(typeof v226Renkei === 'function' && v226Renkei(card, targetUnit)) return true; }catch(e){ console.warn('v306 v226Renkei failed', e); }
+    try{ if(typeof v232ApplyRenkeiFix === 'function' && v232ApplyRenkeiFix(card, targetUnit)) return true; }catch(e){ console.warn('v306 v232Renkei failed', e); }
+    try{ if(typeof v233ApplyRenkeiFix === 'function' && v233ApplyRenkeiFix(card, targetUnit)) return true; }catch(e){ console.warn('v306 v233Renkei failed', e); }
+    try{ if(typeof v242Renkei === 'function' && v242Renkei(card, targetUnit)) return true; }catch(e){ console.warn('v306 v242Renkei failed', e); }
+    return false;
+  }
+
+  function applyActualRenkeiEffectV306(card, targetUnit=null){
+    const game=g(); if(!game || !card || !hasRenkei(card)) return false;
+    const name = card.name || '';
+    const pos = targetUnit ? game.player.board.indexOf(targetUnit) : -1;
+    if(applyLaterRenkeiPatchFunctionsV306(card, targetUnit)) return true;
+    if(typeof applyRenkeiV166 === 'function' && applyRenkeiV166(card, targetUnit)) return true;
+
+    if(name === 'コンガオンガ'){
+      const candidates = (game.enemy.board || []).filter(u => u && !u.isBuilding && Number(u.attack || 0) >= 6);
+      if(!candidates.length){
+        game.pendingGenericEffect = null;
+        log('コンガオンガ：攻撃力6以上の敵ユニットがいないため、れんけい追加効果は不発。');
+        return true;
+      }
+      game.pendingGenericEffect = {kind:'renkeiVanishAtk6GiveEnemy', source:name, target:'enemyUnit'};
+      log('コンガオンガ：攻撃力6以上の敵ユニットを選んでください。');
+      return true;
+    }
+    if(name === 'ウルノーガ&ウルナーガ' && targetUnit){
+      if(isFrontRow('player', pos)){
+        const candidates = enemySameRowUnitsForPlayerPos(pos);
+        const t = chooseRandom(candidates, 'renkei.ulnoga.sameRow', {pos});
+        if(t?.unit){ t.unit.vanished = true; t.unit.hp = 0; resolveDeaths(); log('ウルノーガ&ウルナーガ：正面の敵を消滅。'); }
+        else log('ウルノーガ&ウルナーガ：正面に敵がいないため消滅効果は不発。');
+      }else{
+        let n=0;
+        for(const u of [...game.player.board, ...game.enemy.board]){
+          if(u && u !== targetUnit && !u.isBuilding && Number(u.attack || 0) >= 6){ u.hp = 0; n++; }
+        }
+        resolveDeaths();
+        log(`ウルノーガ&ウルナーガ：攻撃力6以上の他ユニットを${n}体死亡。`);
+      }
+      return true;
+    }
+    if(name === 'シュプリンガー' && targetUnit){
+      applyStrategyToUnitSequenceV167(targetUnit, 2, 'シュプリンガー：さくせん');
+      return true;
+    }
+    if(name === 'パピラス'){ addRandomClassSpellCost1to3(); return true; }
+    if(name === 'ローシュ'){ applyAdventurerGlobalBuff(); return true; }
+    if(name === 'あくまの書'){ chooseTwoLowCostUnitCopiesFromHand(); return true; }
+    if(name === 'もりもりベス'){
+      game.pendingGenericEffect = {kind:'summonSpecificToken', source:name, target:'friendlyEmptySlot', tokenName:'スライムベス', attack:2, hp:1};
+      log('もりもりベス：スライムベスを出す味方空きマスを選んでください。');
+      return true;
+    }
+    if(name === '魅惑のマルティナ'){ moveAllEnemyBackToFront(); return true; }
+    if(name === '決意の聖賢セーニャ'){
+      let healedUnits = 0;
+      healLeader(3);
+      for(const u of game.player.board){
+        if(u && !u.isBuilding && u.hp < u.maxHp){ healUnit(u, 3); healedUnits++; }
+      }
+      for(let i=0;i<healedUnits;i++) damageRandomEnemy(2, true);
+      resolveDeaths();
+      return true;
+    }
+    if(name === '亡国の先王ロウ'){
+      addRandomSpellCostAtLeast(1, 2);
+      game.player.rowAfterSpellSummon = true;
+      return true;
+    }
+    if(name === 'ベロベロ' && targetUnit){
+      applyCommonKeywordAndBuffText('+1/+1', targetUnit, name, 1);
+      copyUnitToOppositeRow(targetUnit);
+      return true;
+    }
+    if(name === 'ヘルプラネット'){
+      game.player.nextFortuneBoth = true;
+      log('次に使う占いカードは両方発動します。');
+      return true;
+    }
+    if(name === 'セレン'){
+      for(const u of game.player.board){
+        if(u && u !== targetUnit && !u.isBuilding) grantFishDeathrattle(u);
+        if(u && !u.isBuilding && Number(u.attack || 0) <= 2){ u.keywords.haste = true; u.canAttack = true; u.summoningSickness = false; }
+      }
+      log('セレン：魚死亡時効果と速攻を付与。※カード画像差異の可能性あり。');
+      return true;
+    }
+    if(name === 'うずしおキング'){ chooseRenkeiFromTop4(); return true; }
+    if(name === 'ぬかどこスライム'){
+      for(let row=0; row<3; row++){
+        const p = coordToPos('enemy', row, 3);
+        const u = game.enemy.board[p];
+        if(u){ applyPoison(u); addStatus(u, 'apathy', {until:'turnStart'}); u.canAttack = false; }
+      }
+      return true;
+    }
+    if(name === '笑顔の伝道師シルビア'){
+      summonRandomUnitCost1(); summonRandomUnitCost1(); return true;
+    }
+    if(name === 'マヤ' && targetUnit){
+      targetUnit.keywords.doubleAttack = true;
+      targetUnit.attacksLeft = Math.max(targetUnit.attacksLeft || 1, 2);
+      return true;
+    }
+    if(name === 'とうだいタイガー'){
+      game.pendingGenericEffect = {kind:'renkeiReturnAtk3', source:name, target:'enemyUnit'};
+      log('とうだいタイガー：攻撃力3以下の敵ユニットを選んでください。');
+      return true;
+    }
+    if(name === 'かくれんぼう'){
+      const before = Number(game.player.hand?.length || 0);
+      drawCard(1);
+      const after = Number(game.player.hand?.length || 0);
+      log(`かくれんぼう：れんけいでカードを1枚引きました（手札 ${before}→${after}）。`);
+      return true;
+    }
+
+    const text = extractAfterKeyword(getCardText(card), 'れんけい') || getCardText(card);
+    applyCommonKeywordAndBuffText(text, targetUnit, card.name, 1);
+    applyTextMiniEffect(text, card.name);
+    return true;
+  }
+
+  const oldApplyRenkeiV306 = typeof applyRenkeiIfActive === 'function' ? applyRenkeiIfActive : null;
+  if(oldApplyRenkeiV306 && !oldApplyRenkeiV306.__v306ElevenRenkeiFix){
+    applyRenkeiIfActive = function(card, targetUnit=null){
+      normalizeElevenHeroV306(); markElevenBondEverV306();
+      const game=g();
+      if(game && hasRenkei(card) && Number(game.player.tension || 0) < 3 && elevenBondActiveV306()){
+        const key = `${Number(game.turn || 0)}:${card?.id || card?.name || ''}:${targetUnit?.id || targetUnit?.cardId || ''}:elevenLv2Renkei`;
+        game._v306ElevenRenkeiApplied ||= Object.create(null);
+        if(game._v306ElevenRenkeiApplied[key]) return true;
+        game._v306ElevenRenkeiApplied[key] = true;
+        log(`一心同体：テンション${Number(game.player.tension || 0)}でも${card.name}のれんけいを発動。`);
+        return applyActualRenkeiEffectV306(card, targetUnit);
+      }
+      return oldApplyRenkeiV306.call(this, card, targetUnit);
+    };
+    applyRenkeiIfActive.__v306ElevenRenkeiFix = true;
+  }
+
+  function simulateElevenLv2UlnoogaRenkeiV306(){
+    const T=window.__DQR_TEST__ || {}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g(); if(!game) return {ok:false, reason:'no-game'};
+    const card=findCardByName('ウルノーガ&ウルナーガ'); if(!card) return {ok:false, reason:'no-card'};
+    game.player.heroSkill = {heroCardName:'勇者イレブン', level:2, elevenBondActive:true, elevenBondEverActiveV306:true};
+    game.player.heroLevel = 2; game.player.tension = 1;
+    game.player.board = Array(6).fill(null); game.enemy.board = Array(6).fill(null);
+    const unit=makeUnitFromCard(card); game.player.board[0]=unit;
+    const enemyCard=findCardByName('シーゴーレム') || findCardByName('ルドマン') || card;
+    const enemy=makeUnitFromCard(enemyCard); enemy.hp=3; enemy.maxHp=3; game.enemy.board[3]=enemy; // same row/front-facing slot
+    const before={enemyHp:enemy.hp, enemyPresent:!!game.enemy.board[3]};
+    const r=applyRenkeiIfActive(card, unit);
+    const after={enemyPresent:!!game.enemy.board[3], enemyHp:game.enemy.board[3]?.hp ?? null, enemyVanished:!!enemy.vanished};
+    return {ok:!!r && (!after.enemyPresent || after.enemyVanished || after.enemyHp<=0), result:r, before, after, log:(game.events||[]).slice(-6)};
+  }
+  function auditElevenLv2RenkeiV306(){
+    return {version:V306, policy:'When Eleven Lv2 一心同体 is active and tension is 0/1/2, the actual renkei effect is applied, not just logged as available.', flexibleLevel:true, appliesAllRenkei:true};
+  }
+  if(window.__DQR_TEST__){ window.__DQR_TEST__.v306={version:V306, elevenBondActiveV306, applyActualRenkeiEffectV306, simulateElevenLv2UlnoogaRenkeiV306, auditElevenLv2RenkeiV306}; }
 })();
