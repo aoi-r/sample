@@ -1,0 +1,5 @@
+{
+  "version": "v298_version_label_sync_fix",
+  "expectedBuildLabel": "v298 / v297攻撃可能化修正＋表示同期",
+  "keepsV297AttackReadyFix": true
+}

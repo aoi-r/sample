@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v297_pvp_turn_start_attack_ready_fix';
-const BUILD_LABEL = 'v294 / 死亡時GETの所有者・重複修正';
+const DATA_VERSION = 'v298_version_label_sync_fix';
+const BUILD_LABEL = 'v298 / v297攻撃可能化修正＋表示同期';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
