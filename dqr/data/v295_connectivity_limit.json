@@ -1,0 +1,12 @@
+{
+  "note": "This sandbox cannot reach external HTTPS by DNS or direct IP; real Firebase cloud test cannot be completed here.",
+  "dns": {
+    "google.com": "Temporary failure in name resolution",
+    "dqr-sample-default-rtdb.firebaseio.com": "Temporary failure in name resolution"
+  },
+  "directIp": {
+    "1.1.1.1:443": "Failed to connect",
+    "8.8.8.8:443": "Failed to connect"
+  },
+  "localRtdbStyleHarness": "tools/v295_owner_scope_local_tests.py uses two-path owner-scope simulation under Chromium; no cloud Firebase claim."
+}

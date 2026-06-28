@@ -1,5 +1,5 @@
 {
-  "version": "v294_death_get_owner_fix",
+  "version": "v296_pvp_scope_full_audit_guard",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -716,5 +716,7 @@
   "v291": "4デッキ深掘りランダム/選択/二重発火/手札混同/同期入口検証を追加。",
   "v292": "2 Chromium clients with action/live-state bridge: four-deck pair matrix, random seeds, modal/lock/ID/mirror invariants. Fixed コンガオンガ no-target renkei modal lock.",
   "v293": "実Firebase接続を使った2アクセス検証ハーネスを追加。通常プレイには影響しない __DQR_TEST__.v293Firebase と tools/v293_real_firebase_two_access_regression.py を追加。",
-  "v294": "ベホイミスライム/だいおうイカ/ミリオンゼニー付与の死亡時GETを所有者側だけに発動し、unitDeathEvent/applyDeathrattle/cost deathの重複付与を防止。"
+  "v294": "ベホイミスライム/だいおうイカ/ミリオンゼニー付与の死亡時GETを所有者側だけに発動し、unitDeathEvent/applyDeathrattle/cost deathの重複付与を防止。",
+  "v295": "死亡時GETの所有者スコープを汎用化。直接の死亡時GET(n)とBET付与死亡時GETを、死亡ユニット所有者だけへ一度だけ付与する監査/検証APIを追加。",
+  "v296": "対戦環境スコープ全体監査。public state/action payloadの手札ID秘匿、remote stateの手札ID破棄、GET/BET/召喚/死亡/ランダム/占い/ダメージ/回復/バフ/手札山札系カードの分類監査と不変条件検査APIを追加。"
 }

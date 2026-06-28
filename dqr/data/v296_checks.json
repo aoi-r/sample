@@ -1,0 +1,24 @@
+{
+  "version": "v296_pvp_scope_full_audit_guard",
+  "nodeCheck": "OK",
+  "staticPvpScopeChecks": "5 passed / 0 failed",
+  "cardScopeSummary": {
+    "GET": 51,
+    "BET": 48,
+    "RENKEI": 40,
+    "DEATH": 121,
+    "SUMMON": 467,
+    "DRAW": 6,
+    "GENERATE": 149,
+    "RANDOM": 217,
+    "FORTUNE": 66,
+    "DAMAGE": 372,
+    "HEAL": 104,
+    "BUFF_DEBUFF": 686,
+    "OPPONENT_HAND": 19,
+    "HAND_DECK": 347
+  },
+  "realFirebaseCloud": "not completed in this sandbox: external HTTPS egress blocked",
+  "dynamicChromium": "not completed in this sandbox: chromium crashpad/CDP failure",
+  "honesty": "v296 adds guards and audit/test APIs; it does not claim all real Firebase match patterns completed here."
+}

@@ -63,7 +63,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v294_death_get_owner_fix';
+const DATA_VERSION = 'v296_pvp_scope_full_audit_guard';
 const BUILD_LABEL = 'v294 / 死亡時GETの所有者・重複修正';
 
 // v107 compatibility shims for rolled-back bases
@@ -24865,4 +24865,347 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
     };
   }
   if(window.__DQR_TEST__){ window.__DQR_TEST__.v294={version:V294, deathGetCountV294, grantDeathGetToOwnerV294, simulateDeathGetV294}; }
+})();
+
+
+/* v295: owner-scope audit hardening.
+   Generalizes Deathrattle GET ownership so the same bug class is caught beyond Behoimi Slime.
+   Notes:
+   - Direct "死亡時:GET(n)" belongs only to the dead unit owner.
+   - "BET:死亡時にGET(n)" only applies when the unit has the runtime flag such as betDeathGet2.
+   - Remote/opponent exact hand IDs are never materialized locally.
+*/
+(function installOwnerScopeAuditV295(){
+  const V295='v295_owner_scope_local_rtdb_audit';
+  function g(){ return state?.battle?.game || null; }
+  function ownText(unit){
+    const card = byId(unit?.cardId) || findCardByName(unit?.name || '');
+    return String(card?.text || card?.effect || unit?.text || '');
+  }
+  function directDeathText(unit){
+    const raw = ownText(unit);
+    const beforeBet = raw.split(/BET|ＢＥＴ/)[0] || '';
+    const direct = beforeBet.includes('死亡時') ? (typeof extractAfterKeyword === 'function' ? (extractAfterKeyword(beforeBet, '死亡時') || beforeBet) : beforeBet) : '';
+    const extra = String(unit?.extraDeathText || '');
+    return [direct, extra].filter(Boolean).join('。');
+  }
+  function deathGetCountV295(unit){
+    if(!unit) return 0;
+    if(unit.betDeathGet2) return 2;
+    const text = directDeathText(unit);
+    const m = text.match(/GET\s*[（(]\s*(\d+)\s*[）)]/i);
+    if(m) return Math.max(0, Number(m[1] || 0));
+    return 0;
+  }
+  function deathOwnerKey(unit, side, source){
+    return `${side}:${unit?.id || unit?.cardId || unit?.name || 'unit'}:${unit?.lastBoardPos ?? ''}:${source || 'deathGet'}`;
+  }
+  function countCoins(ids){
+    return (ids || []).map(id => byId(id)).filter(c => c?.name === 'コイン').length;
+  }
+  function grantDeathGetToOwnerV295(unit, side='player', count=1, source='死亡時GET'){
+    const game = g();
+    const n = Math.max(0, Number(count || 0));
+    if(!game || !unit || n <= 0) return false;
+    game._v295DeathGetApplied ||= Object.create(null);
+    const key = deathOwnerKey(unit, side, source);
+    if(unit._v295DeathGetApplied || game._v295DeathGetApplied[key]) return true;
+    unit._v295DeathGetApplied = true;
+    unit._v294DeathGetApplied = true;
+    game._v295DeathGetApplied[key] = true;
+    game._v294DeathGetApplied ||= Object.create(null);
+    game._v294DeathGetApplied[key] = true;
+    if(side === 'player'){
+      const before = countCoins(game.player.hand);
+      for(let i=0;i<n;i++) addCardToHandByName('コイン');
+      const after = countCoins(game.player.hand);
+      battleLog(`${unit.name}：死亡時GET(${n})。所有者の手札にコイン${Math.max(0, after-before)}枚。`);
+    }else{
+      game.enemy.handCount = Number(game.enemy.handCount ?? (Array.isArray(game.enemy.hand) ? game.enemy.hand.length : 0) ?? 0) + n;
+      if(Array.isArray(game.enemy.hand)){
+        game.enemy.hand = game.enemy.hand.filter(id => {
+          const name = byId(id)?.name || '';
+          return name !== 'コイン' && name !== 'スペシャルコイン';
+        });
+      }
+      battleLog(`${unit.name}：死亡時GET(${n})。相手の手札枚数+${n}。`);
+    }
+    try{ syncMyBattleState?.(); }catch(e){}
+    return true;
+  }
+
+  const wrapDeath = (fnName, argReader) => {
+    let fn = null;
+    try{ fn = eval(`typeof ${fnName} !== 'undefined' ? ${fnName} : null`); }catch(e){}
+    if(typeof fn !== 'function' || fn.__v295OwnerScopeAudit) return;
+    const wrapped = function(...args){
+      const info = argReader(args) || {};
+      const unit = info.unit;
+      const side = info.side || 'player';
+      const vanished = !!info.vanished;
+      const pos = info.pos;
+      if(unit && Number.isInteger(pos)) unit.lastBoardPos ??= pos;
+      const count = !vanished ? deathGetCountV295(unit) : 0;
+      if(unit && count){
+        return grantDeathGetToOwnerV295(unit, side, count, fnName);
+      }
+      return fn.apply(this, args);
+    };
+    wrapped.__v295OwnerScopeAudit = true;
+    try{ eval(`${fnName} = wrapped`); }catch(e){}
+  };
+  wrapDeath('handleUnitDeathEvent', args => {
+    const a=args[0] || {};
+    return {unit:a.unit, side:a.side || 'player', pos:a.pos, vanished:!!a.vanished};
+  });
+  wrapDeath('applyDeathrattle', args => ({unit:args[0], side:args[1] || 'player', vanished:!!args[0]?.vanished}));
+  wrapDeath('applyCost2UnitDeathEffectsV218', args => ({unit:args[0], side:args[1] || 'player', pos:args[2], vanished:!!args[3]}));
+  wrapDeath('applyCost3UnitDeathEffectsV224', args => ({unit:args[0], side:args[1] || 'player', pos:args[2], vanished:!!args[3]}));
+
+  function simulateDeathGetV295(name='ベホイミスライム', side='player', options={}){
+    const T = window.__DQR_TEST__ || {};
+    if(T.setupPvpTest) T.setupPvpTest(options.playerId || 'P1', true);
+    const game = g();
+    if(!game) return {ok:false, reason:'no game'};
+    game.player.hand = [];
+    game.enemy.hand = [];
+    game.enemy.handCount = 0;
+    game._v295DeathGetApplied = Object.create(null);
+    game._v294DeathGetApplied = Object.create(null);
+    const card = findCardByName(name);
+    if(!card) return {ok:false, reason:'card not found', name};
+    const unit = makeUnitFromCard(card);
+    unit.hp = 0;
+    unit.lastBoardPos = 0;
+    if(options.betDeathGet2) unit.betDeathGet2 = true;
+    // Historical double/quad paths. Correct result must still be owner-only and once.
+    try{ if(typeof handleUnitDeathEvent === 'function') handleUnitDeathEvent({unit, side, pos:0, vanished:false}); }catch(e){ return {ok:false, error:String(e?.message||e), stage:'handleUnitDeathEvent'}; }
+    try{ if(typeof applyDeathrattle === 'function') applyDeathrattle(unit, side); }catch(e){ return {ok:false, error:String(e?.message||e), stage:'applyDeathrattle'}; }
+    try{ if(typeof applyCost2UnitDeathEffectsV218 === 'function') applyCost2UnitDeathEffectsV218(unit, side, 0, false); }catch(e){ return {ok:false, error:String(e?.message||e), stage:'cost2'}; }
+    try{ if(typeof applyCost3UnitDeathEffectsV224 === 'function') applyCost3UnitDeathEffectsV224(unit, side, 0, false); }catch(e){ return {ok:false, error:String(e?.message||e), stage:'cost3'}; }
+    return {
+      ok:true,
+      name, side,
+      count:deathGetCountV295(unit),
+      playerCoinCount:countCoins(game.player.hand),
+      playerHand:(game.player.hand || []).map(id => byId(id)?.name || id),
+      enemyHandCount:Number(game.enemy.handCount || 0),
+      enemyExactHand:(game.enemy.hand || []).map(id => byId(id)?.name || id),
+      matchLocked:!!state.battle.matchLocked
+    };
+  }
+  function auditDeathGetCardsV295(){
+    return (state.allCards || []).filter(c => String(c?.text || '').includes('死亡時') && String(c?.text || '').includes('GET'))
+      .map(c => ({name:c.name, cost:c.cost, text:c.text}));
+  }
+  if(window.__DQR_TEST__){
+    window.__DQR_TEST__.v295 = {version:V295, deathGetCountV295, directDeathText, grantDeathGetToOwnerV295, simulateDeathGetV295, auditDeathGetCardsV295};
+  }
+})();
+
+
+/* v296: PvP full scope guard.
+   This is not limited to deathrattle. It audits and hardens public/private state boundaries
+   for all effects in a match: GET/BET/draw/generate/damage/buff/debuff/turn sync.
+*/
+(function installPvpScopeFullAuditGuardV296(){
+  const V296='v296_pvp_scope_full_audit_guard';
+  function game(){ return state?.battle?.game || null; }
+  function inPvp(){
+    return !!(state?.battle?.game && !state?.battle?.soloTestMode && state?.firebase?.enabled && state?.battle?.roomId);
+  }
+  function publicBoard(side){
+    const board = (side?.board || []).slice(0,6);
+    return Array.from({length:6}, (_,i) => board[i] ? JSON.parse(JSON.stringify(board[i])) : null);
+  }
+  function safePublicStateV296(reason='sync'){
+    const g=game(); if(!g) return null;
+    return {
+      playerId:state.playerId,
+      sessionId:state.battle.sessionId || '',
+      displayName:state.username,
+      hp:g.player.hp,
+      maxMp:g.player.maxMp,
+      mp:g.player.mp,
+      tension:g.player.tension,
+      board:publicBoard(g.player),
+      handIds:[],
+      handRedactedV296:true,
+      handCount:(g.player.hand || []).length,
+      deckCount:(g.player.deck || []).length,
+      weapon:g.player.weapon ? JSON.parse(JSON.stringify(g.player.weapon)) : null,
+      reason,
+      v296PublicState:true,
+      stateSeq:Number(g._v296StateSeq = Number(g._v296StateSeq || 0) + 1),
+      clientUpdatedAt:Date.now(),
+      updatedAt:(typeof serverTimestamp === 'function' ? serverTimestamp() : Date.now())
+    };
+  }
+  function sanitizeRemotePublicStateV296(entry){
+    if(!entry) return entry;
+    return {
+      ...entry,
+      handIds:[],
+      handRedactedV296:true,
+      handCount:Number(entry.handCount ?? 0),
+      board:Array.from({length:6}, (_,i)=>entry.board?.[i] || null)
+    };
+  }
+  function countExactCards(side, name){
+    const g=game(); const p=side==='enemy'?g?.enemy:g?.player;
+    return (p?.hand || []).map(id=>byId(id)).filter(c=>c?.name===name).length;
+  }
+  function assertPvpScopeInvariantsV296(label='invariant'){
+    const g=game();
+    const problems=[];
+    if(!g) return {ok:false, label, problems:['no game']};
+    if(!Array.isArray(g.player.hand)) problems.push('player.hand is not array');
+    if(!Array.isArray(g.enemy.hand)) problems.push('enemy.hand is not array');
+    const enemyExact = (g.enemy.hand || []).map(id=>byId(id)?.name || id).filter(Boolean);
+    if(!state?.battle?.soloTestMode && enemyExact.length){
+      problems.push(`enemy exact hand leaked: ${enemyExact.join('/')}`);
+    }
+    for(const sideName of ['player','enemy']){
+      const p = g[sideName];
+      if(!p) continue;
+      if(!Array.isArray(p.board) || p.board.length !== 6) problems.push(`${sideName}.board length`);
+      for(let i=0;i<6;i++){
+        const u=p.board[i];
+        if(u && Number(u.hp || 0) <= 0) problems.push(`${sideName}.board[${i}] has HP<=0 ${u.name}`);
+      }
+      if(Number(p.hp || 0) < 0) problems.push(`${sideName}.hp negative`);
+      if(Number(p.mp || 0) < 0) problems.push(`${sideName}.mp negative`);
+      if(Number(p.tension || 0) < 0 || Number(p.tension || 0) > 3) problems.push(`${sideName}.tension out of range`);
+    }
+    if(state.battle.matchLocked && g.isMyTurn && !state.battle.pendingTarget && !state.battle.pendingChoice && !document.querySelector?.('dialog[open], .choice-modal[open]')){
+      problems.push('matchLocked remained during own turn without pending modal/target');
+    }
+    return {ok:problems.length===0, label, problems};
+  }
+
+  // Public state must never reveal exact hand IDs in PvP, regardless of effect category.
+  const oldSync = typeof syncMyBattleState === 'function' ? syncMyBattleState : null;
+  if(oldSync && !oldSync.__v296FullScopeGuard){
+    syncMyBattleState = async function(reason='sync'){
+      const g=game();
+      if(!g || !state?.firebase?.enabled || !state?.firebase?.db || !state?.battle?.roomId) return oldSync.call(this, reason);
+      const publicState = safePublicStateV296(String(reason || 'sync'));
+      try{
+        await set(ref(state.firebase.db, `rooms/${state.battle.roomId}/states/${state.playerId}`), publicState);
+      }catch(e){
+        console.warn('v296 public sync failed; falling back to previous sync', e);
+        return oldSync.call(this, reason);
+      }
+    };
+    syncMyBattleState.__v296FullScopeGuard = true;
+  }
+
+  const oldApplyRemote = typeof applyRemoteOpponentState === 'function' ? applyRemoteOpponentState : null;
+  if(oldApplyRemote && !oldApplyRemote.__v296FullScopeGuard){
+    applyRemoteOpponentState = function(states){
+      const sanitized={};
+      for(const [k,v] of Object.entries(states || {})){
+        sanitized[k]=sanitizeRemotePublicStateV296(v);
+      }
+      const r = oldApplyRemote.call(this, sanitized);
+      const g=game();
+      if(g && !state?.battle?.soloTestMode){
+        // Never keep exact remote hand IDs from old clients, action patches, or mirrors.
+        g.enemy.hand = [];
+        g.enemy.handCount = Number(g.enemy.handCount ?? 0);
+      }
+      return r;
+    };
+    applyRemoteOpponentState.__v296FullScopeGuard = true;
+  }
+
+  // Action payloads may include generated cards, selected random results, and snapshots.
+  // Sanitize full state snapshots so exact local hand IDs cannot be replayed on the opponent.
+  const oldPush = typeof pushBattleAction === 'function' ? pushBattleAction : null;
+  if(oldPush && !oldPush.__v296FullScopeGuard){
+    pushBattleAction = async function(type, payload={}){
+      const clean = JSON.parse(JSON.stringify(payload || {}));
+      const scrub = obj => {
+        if(!obj || typeof obj !== 'object') return;
+        if(Array.isArray(obj)){
+          for(const x of obj) scrub(x);
+          return;
+        }
+        if('handIds' in obj) obj.handIds = [];
+        if('hand' in obj && (obj.side === 'player' || obj.playerId === state.playerId || obj.handRedactedV296)) obj.hand = [];
+        if(obj.player && obj.player.hand) obj.player.hand = [];
+        if(obj.stateSnapshotV270?.player?.hand) obj.stateSnapshotV270.player.hand = [];
+        if(obj.stateSnapshotV270?.player) obj.stateSnapshotV270.player.handCount = (game()?.player?.hand || []).length;
+        for(const v of Object.values(obj)) scrub(v);
+      };
+      scrub(clean);
+      return oldPush.call(this, type, clean);
+    };
+    pushBattleAction.__v296FullScopeGuard = true;
+  }
+
+  // Utility for tests: apply a remote public state as if it arrived via RTDB.
+  function simulateRemotePublicStateV296(entry){
+    const g=game();
+    if(!g) return {ok:false, reason:'no game'};
+    applyRemoteOpponentState({REMOTE:entry});
+    return {
+      ok:true,
+      enemyHand:(g.enemy.hand || []).map(id=>byId(id)?.name || id),
+      enemyHandCount:g.enemy.handCount,
+      enemyBoard:(g.enemy.board || []).map(u=>u?.name || null),
+      invariants:assertPvpScopeInvariantsV296('simulateRemotePublicState')
+    };
+  }
+  function simulatePublicSyncPayloadV296(){
+    const p=safePublicStateV296('test');
+    return {
+      ok:!!p,
+      hasExactHandIds:!!(p?.handIds && p.handIds.length),
+      handCount:p?.handCount,
+      boardNames:(p?.board || []).map(u=>u?.name || null),
+      payload:p
+    };
+  }
+  function classifyCardsForPvpScopeV296(){
+    const cats={GET:[], BET:[], RENKEI:[], DEATH:[], SUMMON:[], DRAW:[], GENERATE:[], RANDOM:[], FORTUNE:[], DAMAGE:[], HEAL:[], BUFF_DEBUFF:[], OPPONENT_HAND:[], HAND_DECK:[]};
+    for(const c of state.allCards || []){
+      const t=String(c?.text || '');
+      const item={name:c.name, cost:c.cost, classes:c.classes, text:t};
+      if(t.includes('GET')) cats.GET.push(item);
+      if(t.includes('BET')) cats.BET.push(item);
+      if(t.includes('れんけい')) cats.RENKEI.push(item);
+      if(t.includes('死亡時')) cats.DEATH.push(item);
+      if(t.includes('召喚時')) cats.SUMMON.push(item);
+      if(t.includes('カードを引く') || t.includes('ドロー')) cats.DRAW.push(item);
+      if(t.includes('手札に加える') || t.includes('加える')) cats.GENERATE.push(item);
+      if(t.includes('ランダム')) cats.RANDOM.push(item);
+      if(t.includes('占い') || t.includes('必中') || t.includes('超必中')) cats.FORTUNE.push(item);
+      if(t.includes('ダメージ')) cats.DAMAGE.push(item);
+      if(t.includes('回復')) cats.HEAL.push(item);
+      if(t.includes('攻撃力') || t.includes('HP') || t.includes('コスト') || t.includes('ステルス') || t.includes('におうだち')) cats.BUFF_DEBUFF.push(item);
+      if(t.includes('相手の手札')) cats.OPPONENT_HAND.push(item);
+      if(t.includes('手札') || t.includes('山札')) cats.HAND_DECK.push(item);
+    }
+    return Object.fromEntries(Object.entries(cats).map(([k,v])=>[k,{count:v.length, examples:v.slice(0,20)}]));
+  }
+  function runPvpScopeSmokeV296(){
+    const T=window.__DQR_TEST__ || {};
+    if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const g=game();
+    if(!g) return {ok:false, reason:'no game'};
+    g.player.hand=[];
+    g.enemy.hand=[];
+    g.enemy.handCount=0;
+    const coin=findCardByName('コイン');
+    if(coin) g.player.hand.push(coin.id);
+    const payload=simulatePublicSyncPayloadV296();
+    const remote=simulateRemotePublicStateV296({...payload.payload, playerId:'P2', handIds:[coin?.id].filter(Boolean), handCount:4, board:Array(6).fill(null)});
+    const inv=assertPvpScopeInvariantsV296('smoke');
+    return {ok:payload.ok && !payload.hasExactHandIds && remote.ok && remote.enemyHand.length===0 && inv.ok, payload, remote, invariants:inv};
+  }
+
+  if(window.__DQR_TEST__){
+    window.__DQR_TEST__.v296={version:V296, safePublicStateV296, sanitizeRemotePublicStateV296, assertPvpScopeInvariantsV296, simulateRemotePublicStateV296, simulatePublicSyncPayloadV296, classifyCardsForPvpScopeV296, runPvpScopeSmokeV296, countExactCards};
+  }
 })();

@@ -1,0 +1,53 @@
+{
+  "passed": 5,
+  "failed": 0,
+  "deathGetCards": [
+    {
+      "name": "ベホイミスライム",
+      "cost": 2,
+      "text": "死亡時：GET(1)、BET：1ターンに1回のみ味方リーダーのHPを2回復"
+    },
+    {
+      "name": "ミリオンゼニー",
+      "cost": 6,
+      "text": "自分のターン終了時にGET(1)。この効果は毎ターン発動する。BET：死亡時にGET(2)をこのユニットに付与する。このBET効果は重複しない。"
+    },
+    {
+      "name": "だいおうイカ",
+      "cost": 3,
+      "text": "死亡時:GET(2)"
+    },
+    {
+      "name": "ぶちスライム",
+      "cost": 3,
+      "text": "召喚時：GET(1)。BET：攻撃力+1。死亡時：このユニットの攻撃力分、1/1のスライムを出す"
+    },
+    {
+      "name": "強欲なミミック",
+      "cost": 3,
+      "text": "召喚時：GET(1)、BET:攻撃力+1、死亡時:このユニットの攻撃力が4以上ならレジェンドレアカードを手札に1枚加える"
+    }
+  ],
+  "tests": [
+    {
+      "name": "death GET audit includes ベホイミスライム",
+      "ok": true
+    },
+    {
+      "name": "death GET audit includes だいおうイカ",
+      "ok": true
+    },
+    {
+      "name": "ミリオンゼニー has BET death GET text but should require runtime flag",
+      "ok": true
+    },
+    {
+      "name": "v295 app contains generic deathGetCountV295",
+      "ok": true
+    },
+    {
+      "name": "v295 app strips turn/hand exact reward from enemy side",
+      "ok": true
+    }
+  ]
+}

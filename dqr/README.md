@@ -17,3 +17,7 @@ See:
 - `data/v279_pvp_sync_loop_fix_report.md`
 - `data/v279_checks.json`
 - `tools/v279_pvp_sync_loop_static_tests.py`
+
+
+## v296
+対戦環境スコープ全体監査・公開状態ガードを追加。

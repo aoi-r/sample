@@ -1,0 +1,9 @@
+{
+  "version": "v295_owner_scope_local_rtdb_audit",
+  "nodeCheck": "OK",
+  "staticOwnerScopeAudit": "5 passed / 0 failed",
+  "externalFirebaseCloud": "not completed: sandbox has no external HTTPS egress; DNS and direct IP both fail",
+  "headlessChromiumInThisSandbox": "not completed: /usr/bin/chromium currently exits before CDP with crashpad handler error",
+  "includedHarness": "tools/v295_owner_scope_local_tests.py",
+  "importantHonesty": "Do not claim real Firebase cloud or Chromium test completed in this sandbox for v295."
+}

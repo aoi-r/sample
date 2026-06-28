@@ -1,0 +1,42 @@
+{
+  "passed": 5,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "v296 safePublicState redacts handIds",
+      "ok": true
+    },
+    {
+      "name": "v296 remote public state sanitizes handIds",
+      "ok": true
+    },
+    {
+      "name": "v296 action payload scrubber exists",
+      "ok": true
+    },
+    {
+      "name": "v296 invariant detects enemy exact hand leakage",
+      "ok": true
+    },
+    {
+      "name": "v295 owner death GET guard retained",
+      "ok": true
+    }
+  ],
+  "cardScopeSummary": {
+    "GET": 51,
+    "BET": 48,
+    "RENKEI": 40,
+    "DEATH": 121,
+    "SUMMON": 467,
+    "DRAW": 6,
+    "GENERATE": 149,
+    "RANDOM": 217,
+    "FORTUNE": 66,
+    "DAMAGE": 372,
+    "HEAL": 104,
+    "BUFF_DEBUFF": 686,
+    "OPPONENT_HAND": 19,
+    "HAND_DECK": 347
+  }
+}
