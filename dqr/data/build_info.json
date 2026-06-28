@@ -1,5 +1,5 @@
 {
-  "version": "v300_keydragon_no_double_generic_guard",
+  "version": "v302_effect_entry_dedupe_audit_guard",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -722,5 +722,7 @@
   "v297": "PvPのFirebase/metaターン開始経路で通常ユニットのsummoningSickness/canAttackを更新していなかった問題を修正。速攻以外のユニット（ルドマン、ブラッドレディ、ラプソーン、トンネラー、黄金兵など）が次の自分ターンに攻撃可能になる。",
   "v298": "v297のPvPターン開始時攻撃可能化修正は維持しつつ、起動画面/バッジに出るBUILD_LABELが古いv294表示のままだった漏れを修正。index.htmlの初期表示とapp.jsのBUILD_LABEL、CSS/JSキャッシュキーをv298へ同期。",
   "v299": "におうだちユニット等の通常ユニットがPvPの相手opponentView/同期snapshotでcanAttack=falseへ戻る問題を補正。召喚/場に出す同ターンのユニットは攻撃可能化しないようunit id別enteredTurnを保持。キースドラゴンの占いを専用の安全処理へ切替え、エラー時も操作ロック解除。",
-  "v300": "キースドラゴン専用処理が旧汎用占い applyTabasaFortuneCardV187 のキースドラゴン分岐と重複しないよう、実際の召喚経路を先に横取りして専用処理で return true するガードを追加。v299のシーゴーレム/におうだち攻撃復帰修正は維持。"
+  "v300": "キースドラゴン専用処理が旧汎用占い applyTabasaFortuneCardV187 のキースドラゴン分岐と重複しないよう、実際の召喚経路を先に横取りして専用処理で return true するガードを追加。v299のシーゴーレム/におうだち攻撃復帰修正は維持。",
+  "v301": "召喚処理が例外/補正で完了しなかった場合にMP・手札・盤面をロールバック。直接の召喚時GET(n)は同一召喚イベント内でn回までに制限し、ルドマン召喚時GET(1)の二重発火を抑止。",
+  "v302": "効果入口二重発火の統合ガード。イベントhandlerへ渡った _eventId が分割代入で失われ、v246ガードが効かない経路を、handler外側のv302 ledgerで補強。召喚時/死亡時/場に出す/カード使用/攻撃後/BET/ターン開始終了/武器装備/死亡時効果/召喚テキスト効果を監査し、同一イベント/同一ユニットの二重実行を抑止。"
 }

@@ -1,0 +1,49 @@
+{
+  "passed": 7,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "v302 wrapper installed for unit summoned",
+      "ok": true
+    },
+    {
+      "name": "v302 wrapper installed for summon text effect",
+      "ok": true
+    },
+    {
+      "name": "v302 wrapper installed for death and deathrattle",
+      "ok": true
+    },
+    {
+      "name": "v302 wrapper installed for card/bet/afterAttack",
+      "ok": true
+    },
+    {
+      "name": "v302 wrapper installed for turn start/end and weapon equipped",
+      "ok": true
+    },
+    {
+      "name": "v301 summon rollback retained",
+      "ok": true
+    },
+    {
+      "name": "v296 public hand guard retained",
+      "ok": true
+    }
+  ],
+  "scopeCounts": {
+    "summon_get": 29,
+    "death_get": 5,
+    "turn_end_get": 9,
+    "bet": 48,
+    "renkei": 40,
+    "death": 121,
+    "summon": 467,
+    "after_attack": 54,
+    "draw_or_add": 155,
+    "random": 217,
+    "fortune": 66,
+    "damage": 372,
+    "buff_debuff": 726
+  }
+}

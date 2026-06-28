@@ -1,0 +1,22 @@
+{
+  "version": "v302_effect_entry_dedupe_audit_guard",
+  "nodeCheck": "OK",
+  "staticDuplicateGuardChecks": "7 passed / 0 failed",
+  "scopeCounts": {
+    "summon_get": 29,
+    "death_get": 5,
+    "turn_end_get": 9,
+    "bet": 48,
+    "renkei": 40,
+    "death": 121,
+    "summon": 467,
+    "after_attack": 54,
+    "draw_or_add": 155,
+    "random": 217,
+    "fortune": 66,
+    "damage": 372,
+    "buff_debuff": 726
+  },
+  "realFirebaseCloud": "not completed in this sandbox: external HTTPS egress blocked",
+  "important": "v302 fixes a root duplicate-trigger guard failure; it does not claim mathematical exhaustive playtesting."
+}

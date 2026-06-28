@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v300_keydragon_no_double_generic_guard';
-const BUILD_LABEL = 'v300 / キースドラゴン汎用重複防止';
+const DATA_VERSION = 'v302_effect_entry_dedupe_audit_guard';
+const BUILD_LABEL = 'v302 / 効果入口二重発火監査・統合ガード';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -25639,4 +25639,343 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
     }
   }
   if(window.__DQR_TEST__){ window.__DQR_TEST__.v300={version:V300, simulateKeyDragonNoDoubleV300}; }
+})();
+
+
+/* v301: summon transaction rollback + direct summon GET once guard.
+   - If a summon handler throws before a unit is actually placed/resolved, restore MP/hand/board.
+   - Direct "召喚時:GET(n)" rewards must be granted at most once per summon event.
+   The Ludman report showed that saying "duplicate is fixed" was too broad; this guard is explicit. */
+(function installSummonTransactionAndGetGuardV301(){
+  const V301='v301_summon_transaction_ludman_get_guard';
+  function game(){ return state?.battle?.game || null; }
+  function clone(x){ try{ return JSON.parse(JSON.stringify(x)); }catch(e){ return x; } }
+  function directSummonGetCountV301(card){
+    const text=String(card?.text || card?.effectText || '');
+    if(!text.includes('召喚時') || !/GET\s*[（(]/i.test(text)) return 0;
+    const beforeBet=(text.split(/BET|ＢＥＴ/)[0] || text);
+    const summonPart=(typeof extractAfterKeyword==='function' ? (extractAfterKeyword(beforeBet,'召喚時') || beforeBet) : beforeBet);
+    const m=summonPart.match(/GET\s*[（(]\s*(\d+)\s*[）)]/i);
+    return m ? Math.max(0, Number(m[1] || 0)) : 0;
+  }
+  function snapshotSummonStateV301(pos){
+    const g=game(); if(!g) return null;
+    return {
+      pos:Number(pos),
+      mp:g.player.mp,
+      maxMp:g.player.maxMp,
+      nextUnitCostDelta:g.player.nextUnitCostDelta,
+      selectedHandIndex:g.selectedHandIndex,
+      hand:(g.player.hand || []).slice(),
+      board:(g.player.board || []).map(u=>u ? clone(u) : null),
+      events:(g.events || []).slice(),
+      pendingGenericEffect:clone(g.pendingGenericEffect || null),
+      pendingHeroSkill:clone(g.pendingHeroSkill || null),
+      pendingEnemySpellV118:clone(g.pendingEnemySpellV118 || null),
+      matchLocked:!!state.battle.matchLocked
+    };
+  }
+  function restoreSummonStateV301(snap){
+    const g=game(); if(!g || !snap) return false;
+    g.player.mp=snap.mp;
+    g.player.maxMp=snap.maxMp;
+    g.player.nextUnitCostDelta=snap.nextUnitCostDelta;
+    g.selectedHandIndex=snap.selectedHandIndex;
+    g.player.hand=(snap.hand || []).slice();
+    g.player.board=(snap.board || []).map(u=>u ? clone(u) : null);
+    g.events=(snap.events || []).slice();
+    g.pendingGenericEffect=clone(snap.pendingGenericEffect || null);
+    g.pendingHeroSkill=clone(snap.pendingHeroSkill || null);
+    g.pendingEnemySpellV118=clone(snap.pendingEnemySpellV118 || null);
+    if(g.isMyTurn) state.battle.matchLocked=false;
+    else state.battle.matchLocked=snap.matchLocked;
+    return true;
+  }
+  function summonActuallyPlacedV301(card, pos, snap){
+    const g=game(); if(!g || !card || !Number.isInteger(Number(pos))) return false;
+    const u=g.player.board?.[Number(pos)];
+    if(u && (u.cardId===card.id || u.name===card.name)) return true;
+    // Some effects may move the unit immediately. Accept if it exists anywhere on own board.
+    return (g.player.board || []).some(x=>x && (x.cardId===card.id || x.name===card.name) && !(snap?.board || []).some(old=>old?.id && old.id===x.id));
+  }
+
+  const oldAddCardToHandByNameV301 = typeof addCardToHandByName === 'function' ? addCardToHandByName : null;
+  if(oldAddCardToHandByNameV301 && !oldAddCardToHandByNameV301.__v301SummonGetGuard){
+    addCardToHandByName = function(name){
+      const g=game();
+      const ctx=g?._v301SummonGetContext;
+      if(ctx && (name === 'コイン' || name === 'スペシャルコイン')){
+        if(Number(ctx.granted || 0) >= Number(ctx.limit || 0)){
+          battleLog?.(`${ctx.cardName || '召喚時GET'}：召喚時GETの重複発火を抑止しました。`);
+          return false;
+        }
+        ctx.granted = Number(ctx.granted || 0) + 1;
+      }
+      return oldAddCardToHandByNameV301.call(this, name);
+    };
+    addCardToHandByName.__v301SummonGetGuard = true;
+  }
+
+  const oldHandleUnitSummonedEventV301 = typeof handleUnitSummonedEvent === 'function' ? handleUnitSummonedEvent : null;
+  if(oldHandleUnitSummonedEventV301 && !oldHandleUnitSummonedEventV301.__v301SummonGetGuard){
+    handleUnitSummonedEvent = function(payload={}){
+      const g=game();
+      const count=directSummonGetCountV301(payload.card);
+      const prev=g?._v301SummonGetContext;
+      if(g && payload?.side !== 'enemy' && count > 0){
+        const key=`${payload._eventId || payload.unit?.id || payload.card?.id || payload.card?.name}:summonGET`;
+        g._v301SummonGetContext={key, cardName:payload.card?.name || '', limit:count, granted:0};
+      }
+      try{
+        return oldHandleUnitSummonedEventV301.call(this,payload);
+      }finally{
+        if(g){
+          if(prev) g._v301SummonGetContext=prev;
+          else delete g._v301SummonGetContext;
+        }
+      }
+    };
+    handleUnitSummonedEvent.__v301SummonGetGuard = true;
+  }
+
+  const oldSummonSelectedCardV301 = typeof summonSelectedCard === 'function' ? summonSelectedCard : null;
+  if(oldSummonSelectedCardV301 && !oldSummonSelectedCardV301.__v301TransactionGuard){
+    summonSelectedCard = function(pos){
+      const g=game();
+      const handIndex=g?.selectedHandIndex;
+      const card=byId(g?.player?.hand?.[handIndex]);
+      const snap=snapshotSummonStateV301(pos);
+      try{
+        const ret=oldSummonSelectedCardV301.call(this,pos);
+        // If the old path consumed MP/hand but did not leave the selected unit on board, treat it as failed and roll back.
+        if(card?.cardType === 'ユニット' && snap && !summonActuallyPlacedV301(card, pos, snap)){
+          const mpChanged=Number(g?.player?.mp) !== Number(snap.mp);
+          const handChanged=JSON.stringify(g?.player?.hand || []) !== JSON.stringify(snap.hand || []);
+          if(mpChanged || handChanged){
+            restoreSummonStateV301(snap);
+            battleLog?.(`${card.name}：召喚が完了しなかったため、MPと手札を復元しました。`);
+            renderBattleArena?.();
+            syncMyBattleState?.('v301SummonRollback');
+            return false;
+          }
+        }
+        return ret;
+      }catch(e){
+        restoreSummonStateV301(snap);
+        console.error('v301 summon rollback', e);
+        battleLog?.(`${card?.name || 'カード'}：召喚処理でエラーが発生したため、MPと手札を復元しました。`);
+        renderBattleArena?.();
+        syncMyBattleState?.('v301SummonRollbackError');
+        return false;
+      }
+    };
+    summonSelectedCard.__v301TransactionGuard = true;
+  }
+
+  function simulateLudmanSummonGetGuardV301(){
+    const T=window.__DQR_TEST__ || {};
+    if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const g=game(); if(!g) return {ok:false, reason:'no game'};
+    const card=findCardByName('ルドマン'); if(!card) return {ok:false, reason:'no Ludman'};
+    g.player.hand=[]; g.player.board=Array(6).fill(null); g.player.mp=10; g.selectedHandIndex=0;
+    const unit=makeUnitFromCard(card); g.player.board[0]=unit;
+    const before=(g.player.hand||[]).length;
+    // Force duplicate historical paths for the same summon. The guard must allow exactly one coin.
+    handleUnitSummonedEvent({unit, card, pos:0, cost:3, side:'player', _eventId:'v301_ludman_test'});
+    handleUnitSummonedEvent({unit, card, pos:0, cost:3, side:'player', _eventId:'v301_ludman_test'});
+    const coins=(g.player.hand||[]).map(id=>byId(id)).filter(c=>c?.name==='コイン').length;
+    return {ok:coins===1, coins, hand:(g.player.hand||[]).map(id=>byId(id)?.name||id), before};
+  }
+  function simulateSummonRollbackV301(name='ブラッドレディ'){
+    const T=window.__DQR_TEST__ || {};
+    if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const g=game(); if(!g) return {ok:false, reason:'no game'};
+    const card=findCardByName(name); if(!card) return {ok:false, reason:'no card'};
+    g.player.board=Array(6).fill(null); g.player.hand=[card.id]; g.selectedHandIndex=0; g.player.mp=10; g.isMyTurn=true;
+    const old=summonUnitFromHandToBoard;
+    summonUnitFromHandToBoard=function(){ throw new Error('v301 simulated summon error'); };
+    try{ summonSelectedCard(0); }finally{ summonUnitFromHandToBoard=old; }
+    return {ok:g.player.mp===10 && g.player.hand[0]===card.id && !g.player.board[0] && state.battle.matchLocked===false, mp:g.player.mp, hand:(g.player.hand||[]).map(id=>byId(id)?.name||id), board0:g.player.board[0]?.name||null, locked:!!state.battle.matchLocked};
+  }
+  if(window.__DQR_TEST__){
+    window.__DQR_TEST__.v301={version:V301, directSummonGetCountV301, simulateLudmanSummonGetGuardV301, simulateSummonRollbackV301};
+  }
+})();
+
+
+/* v302: effect entry duplicate audit and unified guard.
+   Root cause found after the Ludman report:
+   emitBattleEvent correctly passes _eventId to handlers, but many handlers destructured their
+   argument and then called v246EventGuard with a NEW object, dropping _eventId. Therefore the
+   old guard could not reliably dedupe the same event. v302 wraps every high-risk effect entry
+   point outside the old handlers and keeps a semantic ledger.
+*/
+(function installEffectEntryDedupeAuditGuardV302(){
+  const V302='v302_effect_entry_dedupe_audit_guard';
+  function g(){ return state?.battle?.game || null; }
+  function idOfUnit(u){ return u?.id || u?.instanceId || `${u?.cardId || ''}:${u?.name || ''}`; }
+  function idOfCard(c){ return c?.id || c?.name || ''; }
+  function nowTurn(){ return Number(g()?.turn || 0); }
+  function ledger(){ const game=g(); if(!game) return null; game._v302EffectEntryLedger ||= Object.create(null); return game._v302EffectEntryLedger; }
+  function trimLedger(){ const l=ledger(); if(!l) return; const keys=Object.keys(l); if(keys.length>600) for(const k of keys.slice(0,keys.length-360)) delete l[k]; }
+  function once(key, label='effect'){
+    const l=ledger(); if(!l || !key) return true;
+    if(l[key]){ try{ console.warn('v302 duplicate effect skipped', label, key); }catch(e){} return false; }
+    l[key]=Date.now(); trimLedger(); return true;
+  }
+  function eventKey(type, payload={}, fallback=''){
+    if(payload?._eventId) return `evt|${type}|${payload._eventId}`;
+    if(payload?._dedupeKey) return `dedupe|${type}|${payload._dedupeKey}`;
+    return fallback ? `sem|${type}|${fallback}` : '';
+  }
+  function wrapFn(name, wrapper){
+    let old=null; try{ old=eval(`typeof ${name} !== 'undefined' ? ${name} : null`); }catch(e){}
+    if(typeof old !== 'function' || old.__v302EffectEntryGuard) return false;
+    const w=wrapper(old);
+    if(typeof w !== 'function') return false;
+    w.__v302EffectEntryGuard=true;
+    try{ eval(`${name}=w`); return true; }catch(e){ console.warn('v302 wrap failed', name, e); return false; }
+  }
+
+  const wrapped={};
+
+  wrapped.handleUnitSummonedEvent = wrapFn('handleUnitSummonedEvent', old => function(payload={}){
+    const fb=`${nowTurn()}|${payload?.side || 'player'}|${idOfUnit(payload?.unit)}|${idOfCard(payload?.card)}|${payload?.pos ?? ''}`;
+    if(!once(eventKey('unitSummoned', payload, fb), 'unitSummoned')) return false;
+    return old.call(this,payload);
+  });
+
+  wrapped.handleUnitPutIntoPlayEvent = wrapFn('handleUnitPutIntoPlayEvent', old => function(payload={}){
+    const fb=`${nowTurn()}|${payload?.side || 'player'}|${idOfUnit(payload?.unit)}|${idOfCard(payload?.card)}|${payload?.pos ?? ''}`;
+    if(!once(eventKey('unitPutIntoPlay', payload, fb), 'unitPutIntoPlay')) return false;
+    return old.call(this,payload);
+  });
+
+  wrapped.handleUnitDeathEvent = wrapFn('handleUnitDeathEvent', old => function(payload={}){
+    const fb=`${nowTurn()}|${payload?.side || 'player'}|${idOfUnit(payload?.unit)}|${payload?.unit?.cardId || ''}|${payload?.pos ?? payload?.unit?.lastBoardPos ?? ''}|${!!payload?.vanished}`;
+    if(!once(eventKey('unitDeath', payload, fb), 'unitDeath')) return false;
+    return old.call(this,payload);
+  });
+
+  wrapped.applyDeathrattle = wrapFn('applyDeathrattle', old => function(unit, side='player'){
+    // Deathrattle is once per dead unit. Legit repeated deaths create a new unit id.
+    const key=`sem|applyDeathrattle|${nowTurn()}|${side}|${idOfUnit(unit)}|${unit?.lastBoardPos ?? ''}|${!!unit?.vanished}`;
+    if(!once(key, 'applyDeathrattle')) return false;
+    return old.call(this,unit,side);
+  });
+
+  wrapped.applySummonTextEffect = wrapFn('applySummonTextEffect', old => function(unit, card){
+    const key=`sem|applySummonTextEffect|${nowTurn()}|${idOfUnit(unit)}|${idOfCard(card)}`;
+    if(!once(key, 'applySummonTextEffect')) return false;
+    return old.call(this,unit,card);
+  });
+
+  wrapped.handleCardPlayedEvent = wrapFn('handleCardPlayedEvent', old => function(payload={}){
+    // For cards, only _eventId/_dedupeKey is safe. Same card id can be legitimately played twice.
+    const key=eventKey('cardPlayed', payload, '');
+    if(key && !once(key, 'cardPlayed')) return false;
+    return old.call(this,payload);
+  });
+
+  wrapped.handleBetActivatedEvent = wrapFn('handleBetActivatedEvent', old => function(payload={}){
+    // Same unit may BET more than once through specific effects; only dedupe the same event id.
+    const key=eventKey('betActivated', payload, '');
+    if(key && !once(key, 'betActivated')) return false;
+    return old.call(this,payload);
+  });
+
+  wrapped.handleAfterAttackEvent = wrapFn('handleAfterAttackEvent', old => function(payload={}){
+    // Double-attack units need two separate attacks. Only dedupe exact same emitted event.
+    const key=eventKey('afterAttack', payload, '');
+    if(key && !once(key, 'afterAttack')) return false;
+    return old.call(this,payload);
+  });
+
+  wrapped.handleTurnStartEvent = wrapFn('handleTurnStartEvent', old => function(payload={}){
+    const side=payload?.side || 'player'; const timing=payload?.timing || payload?.type || 'turnStart';
+    const key=eventKey('turnStart', payload, `${nowTurn()}|${side}|${timing}`);
+    if(!once(key, 'turnStart')) return false;
+    return old.call(this,payload);
+  });
+
+  wrapped.handleTurnEndEvent = wrapFn('handleTurnEndEvent', old => function(payload={}){
+    const side=payload?.side || 'player'; const timing=payload?.timing || payload?.type || 'turnEnd';
+    const key=eventKey('turnEnd', payload, `${nowTurn()}|${side}|${timing}`);
+    if(!once(key, 'turnEnd')) return false;
+    return old.call(this,payload);
+  });
+
+  wrapped.handleWeaponEquippedEvent = wrapFn('handleWeaponEquippedEvent', old => function(payload={}){
+    // Prevent 福招きのそろばん equip GET from being doubled by duplicate equipment event.
+    const fb=`${nowTurn()}|${idOfCard(payload?.card)}|${payload?.side || 'player'}|${payload?.weapon?.cardId || ''}`;
+    if(!once(eventKey('weaponEquipped', payload, fb), 'weaponEquipped')) return false;
+    return old.call(this,payload);
+  });
+
+  // Very focused guard for direct add-card reward contexts. This does not block normal repeated card adds;
+  // it only cooperates with the current effect-context limit, or with explicit v302OnceAddContext.
+  const oldAdd = typeof addCardToHandByName === 'function' ? addCardToHandByName : null;
+  if(oldAdd && !oldAdd.__v302EffectEntryGuard){
+    addCardToHandByName = function(name){
+      const game=g(); const ctx=game?._v302OnceAddContext;
+      if(ctx && ctx.name === name){
+        const key=`onceAdd|${ctx.key}|${name}`;
+        if(!once(key, `addCardToHand:${name}`)) return false;
+      }
+      return oldAdd.call(this,name);
+    };
+    addCardToHandByName.__v302EffectEntryGuard=true;
+    wrapped.addCardToHandByName=true;
+  }
+
+  function auditEffectEntryGuardsV302(){
+    const source = (()=>{ try{return String(installEffectEntryDedupeAuditGuardV302);}catch(e){return '';} })();
+    return {
+      version:V302,
+      wrapped,
+      rootCause:'Many old handlers destructured payload and called v246EventGuard with a new object, losing _eventId.',
+      guardedEntries:[
+        'handleUnitSummonedEvent','applySummonTextEffect','handleUnitPutIntoPlayEvent','handleUnitDeathEvent','applyDeathrattle','handleCardPlayedEvent','handleBetActivatedEvent','handleAfterAttackEvent','handleTurnStartEvent','handleTurnEndEvent','handleWeaponEquippedEvent','addCardToHandByName(context-only)'
+      ]
+    };
+  }
+  function simulateDuplicateSummonHandlerV302(name='ルドマン'){
+    const T=window.__DQR_TEST__ || {}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g(); if(!game) return {ok:false, reason:'no-game'};
+    const card=findCardByName(name); if(!card) return {ok:false, reason:'no-card'};
+    game.player.hand=[]; game.player.board=Array(6).fill(null); game.player.mp=10; game.player.tension=3;
+    const unit=makeUnitFromCard(card); game.player.board[0]=unit;
+    const payload={unit, card, pos:0, cost:Number(card.cost||0), side:'player', _eventId:'v302_dup_summon'};
+    handleUnitSummonedEvent(payload);
+    handleUnitSummonedEvent(payload);
+    const handNames=(game.player.hand||[]).map(id=>byId(id)?.name || id);
+    return {ok:handNames.filter(x=>x==='コイン').length <= 1, handNames, board:game.player.board.map(u=>u?.name||null), ledger:Object.keys(game._v302EffectEntryLedger||{}).filter(k=>k.includes('unitSummoned')||k.includes('applySummonTextEffect'))};
+  }
+  function simulateDuplicateDeathHandlerV302(name='ベホイミスライム'){
+    const T=window.__DQR_TEST__ || {}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g(); if(!game) return {ok:false, reason:'no-game'};
+    const card=findCardByName(name); if(!card) return {ok:false, reason:'no-card'};
+    game.player.hand=[]; game.enemy.hand=[]; game.enemy.handCount=0; game.player.board=Array(6).fill(null);
+    const unit=makeUnitFromCard(card); unit.hp=0; unit.lastBoardPos=0;
+    const payload={unit, side:'player', pos:0, vanished:false, _eventId:'v302_dup_death'};
+    handleUnitDeathEvent(payload); handleUnitDeathEvent(payload);
+    try{ applyDeathrattle(unit,'player'); applyDeathrattle(unit,'player'); }catch(e){ return {ok:false,error:String(e?.message||e)}; }
+    const handNames=(game.player.hand||[]).map(id=>byId(id)?.name || id);
+    return {ok:handNames.filter(x=>x==='コイン').length <= 1, handNames, ledger:Object.keys(game._v302EffectEntryLedger||{}).filter(k=>k.includes('unitDeath')||k.includes('Deathrattle'))};
+  }
+  function simulateDuplicateTurnEndV302(){
+    const T=window.__DQR_TEST__ || {}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g(); if(!game) return {ok:false, reason:'no-game'};
+    const card=findCardByName('ミリオンゼニー') || findCardByName('ギガデーモン');
+    if(!card) return {ok:false, reason:'no-card'};
+    game.player.hand=[]; game.player.board=Array(6).fill(null); game.turn=7;
+    game.player.board[0]=makeUnitFromCard(card);
+    const payload={side:'player', timing:'ownTurnEnd', _eventId:'v302_dup_turn_end'};
+    handleTurnEndEvent(payload); handleTurnEndEvent(payload);
+    const handNames=(game.player.hand||[]).map(id=>byId(id)?.name || id);
+    return {ok:handNames.filter(x=>x==='コイン').length <= 1, card:card.name, handNames, ledger:Object.keys(game._v302EffectEntryLedger||{}).filter(k=>k.includes('turnEnd'))};
+  }
+  if(window.__DQR_TEST__){
+    window.__DQR_TEST__.v302={version:V302, once, eventKey, auditEffectEntryGuardsV302, simulateDuplicateSummonHandlerV302, simulateDuplicateDeathHandlerV302, simulateDuplicateTurnEndV302};
+  }
 })();

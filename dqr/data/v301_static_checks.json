@@ -1,0 +1,32 @@
+{
+  "version": "v301_summon_transaction_ludman_get_guard",
+  "passed": 6,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "DATA_VERSION updated",
+      "ok": true
+    },
+    {
+      "name": "summonSelectedCard transaction wrapper installed",
+      "ok": true
+    },
+    {
+      "name": "direct summon GET parser installed",
+      "ok": true
+    },
+    {
+      "name": "addCardToHandByName duplicate coin guard installed",
+      "ok": true
+    },
+    {
+      "name": "Ludman simulator included",
+      "ok": true
+    },
+    {
+      "name": "Ludman official text has direct summon GET(1)",
+      "ok": true
+    }
+  ],
+  "ludmanText": "召喚時：GET(1)。BET：道具カードを1枚手札に加える。味方のBETが4回発動する度に、手札/山札からコスト3以下のユニット1体を場に出す。"
+}

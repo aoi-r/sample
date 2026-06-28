@@ -1,0 +1,6 @@
+{
+  "version": "v301_summon_transaction_ludman_get_guard",
+  "nodeCheck": "OK",
+  "staticChecks": "6 passed / 0 failed",
+  "runtimeBrowser": "not run in this sandbox"
+}
