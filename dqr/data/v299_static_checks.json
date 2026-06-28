@@ -1,0 +1,26 @@
+{
+  "passed": 5,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "version label v299",
+      "ok": true
+    },
+    {
+      "name": "entered turn registry exists",
+      "ok": true
+    },
+    {
+      "name": "render restore guard exists",
+      "ok": true
+    },
+    {
+      "name": "Key Dragon guarded fortune exists",
+      "ok": true
+    },
+    {
+      "name": "same-turn summon attack guard exists",
+      "ok": true
+    }
+  ]
+}

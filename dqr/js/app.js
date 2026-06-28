@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v298_version_label_sync_fix';
-const BUILD_LABEL = 'v298 / v297攻撃可能化修正＋表示同期';
+const DATA_VERSION = 'v300_keydragon_no_double_generic_guard';
+const BUILD_LABEL = 'v300 / キースドラゴン汎用重複防止';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -25309,4 +25309,334 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
   if(window.__DQR_TEST__){
     window.__DQR_TEST__.v297={version:V297, readyOwnBoardForTurnStartV297, readyUnitForOwnTurnV297, blockedFromReadyV297, simulateTurnStartAttackReadyV297};
   }
+})();
+
+
+/* v299: taunt attack readiness + Key Dragon guarded fortune.
+   Two issues addressed:
+   1) PvP live sync can re-apply an opponentView snapshot after our turn starts. That snapshot may
+      contain our board as the opponent saw it before turn-start readiness, reverting normal units
+      (including taunt units such as シーゴーレム) to canAttack=false. We restore own-turn attack
+      readiness at render/sync boundaries, while preserving units that entered this same turn.
+   2) キースドラゴン is a fortune unit whose generic fortune parser/modal path can throw or leave
+      the turn locked on some real PvP paths. Handle it explicitly and defensively.
+*/
+(function installTauntAttackReadyKeyDragonGuardV299(){
+  const V299='v299_taunt_attack_ready_keydragon_guard';
+  function g(){ return state?.battle?.game || null; }
+  function log(msg){ try{ battleLog(msg); }catch(e){ console.log(msg); } }
+  function isOwnTurn(){ const game=g(); return !!(game && game.isMyTurn && !game.finished); }
+  function kw(unit){ try{ return typeof unitKeywords === 'function' ? unitKeywords(unit) : (unit?.keywords || {}); }catch(e){ return unit?.keywords || {}; } }
+  function statusType(s){ return typeof s === 'string' ? s : s?.type; }
+  function hasStatusType(unit, types){ const set=new Set(types||[]); return !!unit?.statuses?.some(s=>set.has(statusType(s))); }
+  function gameTurn(){ return Number(g()?.turn || 0); }
+  function enteredMap(){ const game=g(); if(!game) return null; game._v299EnteredTurnByUnitId ||= Object.create(null); return game._v299EnteredTurnByUnitId; }
+  function markUnitEnteredThisTurnV299(unit, source='enter'){
+    const game=g(); if(!game || !unit?.id) return unit;
+    unit._v299EnteredTurn = gameTurn();
+    unit._v299EnteredSource = source;
+    const m=enteredMap(); if(m) m[unit.id]=gameTurn();
+    return unit;
+  }
+  function unitEnteredThisTurnV299(unit){
+    const game=g(); if(!game || !unit) return false;
+    const turn=gameTurn();
+    const mapTurn = unit.id && game._v299EnteredTurnByUnitId ? Number(game._v299EnteredTurnByUnitId[unit.id] ?? -999) : -999;
+    const ownTurn = Number(unit._v299EnteredTurn ?? mapTurn ?? -999);
+    return ownTurn === turn;
+  }
+  function blockedFromReadyV299(unit){
+    if(!unit || unit.isBuilding) return true;
+    if(Number(unit.hp || 0) <= 0) return true;
+    if(Number(unit.attack || 0) <= 0) return true;
+    if(unitEnteredThisTurnV299(unit)) return true;
+    if(unit.cantAttackUntilNextTurn || unit.cannotAttackUntilNextTurn || unit.cannotAttackUntilNextTurnEndV259) return true;
+    if(unit.cannotAttackUntilTurnEndV259 || unit.cannotAttackUntilTurnEndV296) return true;
+    if(unit.cannotAttackUntilV258 && unit.cannotAttackUntilV258 !== 'expired') return true;
+    if(unit.cantAttackUntilNextTurnEnd || unit.leaderCannotAttackUntilNextTurnEndV253) return true;
+    if(hasStatusType(unit, ['cantAttack','attackLock'])) return true;
+    return false;
+  }
+  function readyUnitForOwnTurnV299(unit){
+    if(!unit || unit.isBuilding) return false;
+    const before = `${!!unit.canAttack}|${!!unit.summoningSickness}|${Number(unit.attacksLeft || 0)}`;
+    if(!blockedFromReadyV299(unit)){
+      unit.summoningSickness = false;
+      unit.attacked = false;
+      const double = !!(kw(unit).doubleAttack || unit.doubleAttack);
+      unit.attacksLeft = Math.max(Number(unit.attacksLeft || 0), double ? 2 : 1);
+      unit.canAttack = true;
+    }
+    return before !== `${!!unit.canAttack}|${!!unit.summoningSickness}|${Number(unit.attacksLeft || 0)}`;
+  }
+  function restoreOwnTurnAttackReadyV299(reason='restore'){
+    const game=g(); if(!isOwnTurn()) return {ok:false, reason:'not own turn'};
+    let changed=0, readied=0;
+    for(const unit of (game.player.board || [])){
+      if(!unit || unit.isBuilding) continue;
+      if(readyUnitForOwnTurnV299(unit)) changed++;
+      if(unit.canAttack) readied++;
+    }
+    if(changed){ try{ battleLog(`ターン開始補正：${reason} 後に味方ユニット${readied}体の攻撃可能状態を復元。`); }catch(e){} }
+    return {ok:true, changed, readied, reason};
+  }
+
+  const oldSummon = typeof summonUnitFromHandToBoard === 'function' ? summonUnitFromHandToBoard : null;
+  if(oldSummon && !oldSummon.__v299EnterTurnMark){
+    summonUnitFromHandToBoard = function(card, pos, cost){
+      const unit = oldSummon.call(this, card, pos, cost);
+      if(unit) markUnitEnteredThisTurnV299(unit, 'summon');
+      return unit;
+    };
+    summonUnitFromHandToBoard.__v299EnterTurnMark = true;
+  }
+  const oldPut = typeof putUnitIntoPlayFromCard === 'function' ? putUnitIntoPlayFromCard : null;
+  if(oldPut && !oldPut.__v299EnterTurnMark){
+    putUnitIntoPlayFromCard = function(card, pos, side='player', stats={}){
+      const unit = oldPut.call(this, card, pos, side, stats);
+      if(unit && side === 'player') markUnitEnteredThisTurnV299(unit, 'putIntoPlay');
+      return unit;
+    };
+    putUnitIntoPlayFromCard.__v299EnterTurnMark = true;
+  }
+
+  // Store the current summon unit while applySummonKeywords is running, so Key Dragon can resolve its row safely.
+  const oldApplySummonKeywords = typeof applySummonKeywords === 'function' ? applySummonKeywords : null;
+  if(oldApplySummonKeywords && !oldApplySummonKeywords.__v299CurrentSummon){
+    applySummonKeywords = function(unit, card, side='player'){
+      const game=g();
+      const prev = game?._v299CurrentSummonUnit;
+      if(game && side === 'player') game._v299CurrentSummonUnit = unit;
+      try{ return oldApplySummonKeywords.call(this, unit, card, side); }
+      finally{
+        if(game){
+          if(prev) game._v299CurrentSummonUnit = prev;
+          else delete game._v299CurrentSummonUnit;
+        }
+      }
+    };
+    applySummonKeywords.__v299CurrentSummon = true;
+  }
+
+  // Fix stale opponentView/render overwrite without letting newly summoned same-turn units attack.
+  const oldRender = typeof renderBattleArena === 'function' ? renderBattleArena : null;
+  if(oldRender && !oldRender.__v299AttackReadyRestore){
+    renderBattleArena = function(...args){
+      try{ restoreOwnTurnAttackReadyV299('render'); }catch(e){ console.warn('v299 restore before render failed', e); }
+      return oldRender.apply(this, args);
+    };
+    renderBattleArena.__v299AttackReadyRestore = true;
+  }
+  const oldApplyRemoteOpponentState = typeof applyRemoteOpponentState === 'function' ? applyRemoteOpponentState : null;
+  if(oldApplyRemoteOpponentState && !oldApplyRemoteOpponentState.__v299AttackReadyRestore){
+    applyRemoteOpponentState = function(...args){
+      const r = oldApplyRemoteOpponentState.apply(this, args);
+      try{ restoreOwnTurnAttackReadyV299('remoteState'); }catch(e){ console.warn('v299 restore after remote state failed', e); }
+      return r;
+    };
+    applyRemoteOpponentState.__v299AttackReadyRestore = true;
+  }
+  const oldSync = typeof syncMyBattleState === 'function' ? syncMyBattleState : null;
+  if(oldSync && !oldSync.__v299AttackReadyRestore){
+    syncMyBattleState = async function(...args){
+      try{ restoreOwnTurnAttackReadyV299('sync'); }catch(e){}
+      return oldSync.apply(this, args);
+    };
+    syncMyBattleState.__v299AttackReadyRestore = true;
+  }
+
+  function keyDragonSourceUnitV299(){
+    const game=g(); if(!game) return null;
+    if(game._v299CurrentSummonUnit?.name === 'キースドラゴン') return game._v299CurrentSummonUnit;
+    const board = game.player.board || [];
+    for(let i=board.length-1;i>=0;i--) if(board[i]?.name === 'キースドラゴン') return board[i];
+    return null;
+  }
+  function keyDragonApplyV299(card, index){
+    const game=g(); if(!game) return false;
+    const i = Number(index || 0);
+    const labels=['味方リーダーのHPを5回復','正面にいる全ての敵ユニットに2ダメージ'];
+    try{
+      if(i === 0){
+        healLeader(5);
+        log('キースドラゴン：味方リーダーのHPを5回復。');
+      }else{
+        const unit = keyDragonSourceUnitV299();
+        const pos = unit ? game.player.board.indexOf(unit) : -1;
+        const refs = (typeof frontEnemyUnitsSameRowV166 === 'function') ? frontEnemyUnitsSameRowV166(pos >= 0 ? pos : 1) : [];
+        let hit=0;
+        for(const t of refs){ if(t?.unit){ dealDamageToUnit(t.unit, 2, 'キースドラゴン', 'enemy'); hit++; } }
+        if(hit) resolveDeaths();
+        log(`キースドラゴン：正面の敵ユニット${hit}体に2ダメージ。`);
+      }
+      try{ if(typeof triggerFortuneResolvedV134 === 'function') triggerFortuneResolvedV134(card || findCardByName('キースドラゴン'), i, labels[i]); }catch(e){}
+      return true;
+    }catch(e){
+      console.error('v299 Key Dragon effect failed', e);
+      log('キースドラゴン：処理中にエラーが出たため操作ロックを解除しました。');
+      return false;
+    }finally{
+      if(game?.isMyTurn && !game.finished) state.battle.matchLocked = false;
+      try{ renderBattleArena?.(); }catch(e){}
+      try{ syncMyBattleState?.('keyDragonV299'); }catch(e){}
+      try{ window.__DQR_TEST__?.v287?.publishBurst?.('keyDragonV299'); }catch(e){}
+    }
+  }
+  function openKeyDragonFortuneV299(card){
+    const game=g(); if(!game) return false;
+    const labels=['味方リーダーのHPを5回復','正面にいる全ての敵ユニットに2ダメージ'];
+    try{ if(typeof countFortuneCardUseV202 === 'function') countFortuneCardUseV202('キースドラゴン'); }catch(e){}
+    const run = (idx) => keyDragonApplyV299(card, idx);
+    const finishBoth = () => { run(0); run(1); };
+    const image = card ? getOfficialImage(card) : '';
+    const options = labels.map((label,i)=>({label:`占い${i+1}`, description:label, sublabel:'キースドラゴン', imagePath:image, value:label}));
+    if(game.player.nextFortuneBoth || game.player.fortuneMode === 'super'){
+      game.player.nextFortuneBoth = false;
+      openChoiceModal('キースドラゴン：超必中', options, finishBoth, {kind:'keyDragonSuperV299', applyAllOnAny:true, allChoiceLabel:'両方発動', allValues:labels, allBannerBottom:true, choiceLayout:'fortune2'});
+      return true;
+    }
+    if(game.player.fortuneMode === 'hit' || game.player.nextFortuneHitFromHut){
+      game.player.nextFortuneHitFromHut = false;
+      openChoiceModal('キースドラゴン：必中', options, (_picked, idx)=>run(idx), {kind:'keyDragonHitV299', choiceLayout:'fortune2'});
+      return true;
+    }
+    const idx = typeof randomIndex === 'function' ? randomIndex(2, 'keyDragonRandomV299', {}) : Math.floor(Math.random()*2);
+    openChoiceModal('キースドラゴン：占い', options, ()=>run(idx), {kind:'keyDragonRandomV299', selectedIndex:idx, lockedChoices:true, fortuneRandomReveal:true, revealLabel:'通常占い：ランダムで選ばれた効果を発動します', selectedBadge:'ランダム決定', autoCloseMs:1500, choiceLayout:'fortune2'});
+    return true;
+  }
+  const oldApplyFortuneEffect = typeof applyFortuneEffect === 'function' ? applyFortuneEffect : null;
+  if(oldApplyFortuneEffect && !oldApplyFortuneEffect.__v299KeyDragonGuard){
+    applyFortuneEffect = function(card){
+      if(card?.name === 'キースドラゴン') return openKeyDragonFortuneV299(card);
+      return oldApplyFortuneEffect.call(this, card);
+    };
+    applyFortuneEffect.__v299KeyDragonGuard = true;
+  }
+
+  function simulateSeaGolemStaleOpponentViewV299(){
+    const T=window.__DQR_TEST__ || {};
+    if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g(); if(!game) return {ok:false, reason:'no game'};
+    game.isMyTurn = true; state.battle.matchLocked = false;
+    game.turn = 5; game.player.heroSkill={heroCardName:'勇者イレブン', level:1}; game.player.heroLevel=1;
+    const card=findCardByName('シーゴーレム');
+    const unit=makeUnitFromCard(card); game.player.board=Array(6).fill(null); game.player.board[0]=unit;
+    applySummonKeywords(unit, card, 'player');
+    // Pretend it was summoned on the previous turn, then ready it.
+    if(unit.id){ game._v299EnteredTurnByUnitId ||= Object.create(null); game._v299EnteredTurnByUnitId[unit.id]=4; }
+    unit._v299EnteredTurn=4; unit.canAttack=false; unit.summoningSickness=true;
+    restoreOwnTurnAttackReadyV299('testInitial');
+    const before={name:unit.name, canAttack:!!unit.canAttack, sickness:!!unit.summoningSickness, taunt:!!unit.keywords?.taunt};
+    // Simulate a stale opponentView patch reverting flags.
+    unit.canAttack=false; unit.summoningSickness=true; unit.attacksLeft=0;
+    renderBattleArena();
+    const after={name:unit.name, canAttack:!!unit.canAttack, sickness:!!unit.summoningSickness, attacksLeft:unit.attacksLeft, taunt:!!unit.keywords?.taunt};
+    return {ok:before.canAttack && after.canAttack && !after.sickness && after.taunt, before, after};
+  }
+  async function simulateKeyDragonChoiceV299(choice=1){
+    const T=window.__DQR_TEST__ || {};
+    if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g(); if(!game) return {ok:false, reason:'no game'};
+    game.isMyTurn=true; state.battle.matchLocked=false; game.player.fortuneMode='hit'; game.player.hp=20;
+    game.enemy.board=Array(6).fill(null);
+    const slime=makeUnitFromCard(findCardByName('スライム')); slime.hp=3; slime.maxHp=3; game.enemy.board[1]=slime;
+    const card=findCardByName('キースドラゴン'); const unit=makeUnitFromCard(card); game.player.board=Array(6).fill(null); game.player.board[1]=unit;
+    let err=''; try{ applySummonKeywords(unit, card, 'player'); }catch(e){ err=String(e?.stack||e); }
+    await new Promise(r=>setTimeout(r, 20));
+    const btn=[...document.querySelectorAll('.choice-option')].find(b=>String(b.dataset.i)===String(choice));
+    if(btn) btn.click();
+    await new Promise(r=>setTimeout(r, 80));
+    return {ok:!err && !state.battle.matchLocked, err, hp:game.player.hp, enemy:game.enemy.board.map(u=>u?{name:u.name,hp:u.hp}:null), locked:!!state.battle.matchLocked, modalOpen:!!document.getElementById('choice-modal')?.open};
+  }
+  if(window.__DQR_TEST__){ window.__DQR_TEST__.v299={version:V299, markUnitEnteredThisTurnV299, unitEnteredThisTurnV299, restoreOwnTurnAttackReadyV299, blockedFromReadyV299, keyDragonApplyV299, openKeyDragonFortuneV299, simulateSeaGolemStaleOpponentViewV299, simulateKeyDragonChoiceV299}; }
+})();
+
+
+/* v300: Key Dragon no-double generic guard.
+   v299 added the guarded Key Dragon resolver, but the actual summon path can still call
+   applyTabasaFortuneCardV187(card,{unit}) directly.  That function also has an older
+   Key Dragon branch, so the guarded resolver must intercept there first and return true.
+*/
+(function installKeyDragonNoDoubleGenericGuardV300(){
+  const V300='v300_keydragon_no_double_generic_guard';
+  function g(){ return state?.battle?.game || null; }
+  function log(msg){ try{ battleLog(msg); }catch(e){ console.log(msg); } }
+  function unitFromOpts(opts={}){
+    const game=g();
+    if(opts?.unit?.name === 'キースドラゴン') return opts.unit;
+    if(game?._v299CurrentSummonUnit?.name === 'キースドラゴン') return game._v299CurrentSummonUnit;
+    const board=game?.player?.board || [];
+    for(let i=board.length-1;i>=0;i--) if(board[i]?.name === 'キースドラゴン') return board[i];
+    return null;
+  }
+  function callGuarded(card, opts={}){
+    const game=g();
+    if(!game) return false;
+    if(game._v300KeyDragonResolving){
+      log('キースドラゴン：重複した占い処理を破棄しました。');
+      return true;
+    }
+    game._v300KeyDragonResolving = true;
+    try{
+      if(typeof openKeyDragonFortuneV299 === 'function'){
+        const prev=game._v299CurrentSummonUnit;
+        const unit=unitFromOpts(opts);
+        if(unit) game._v299CurrentSummonUnit = unit;
+        try{ return openKeyDragonFortuneV299(card || findCardByName('キースドラゴン')); }
+        finally{
+          if(prev) game._v299CurrentSummonUnit=prev;
+          else delete game._v299CurrentSummonUnit;
+        }
+      }
+      // Extremely defensive fallback.  If v299 is somehow missing, use the old path once.
+      return false;
+    }finally{
+      setTimeout(()=>{ try{ if(game) game._v300KeyDragonResolving=false; }catch(e){} }, 0);
+    }
+  }
+
+  const oldTabasaFortune = typeof applyTabasaFortuneCardV187 === 'function' ? applyTabasaFortuneCardV187 : null;
+  if(oldTabasaFortune && !oldTabasaFortune.__v300KeyDragonNoDouble){
+    applyTabasaFortuneCardV187 = function(card, opts={}){
+      if(card?.name === 'キースドラゴン') return callGuarded(card, opts);
+      return oldTabasaFortune.call(this, card, opts);
+    };
+    applyTabasaFortuneCardV187.__v300KeyDragonNoDouble = true;
+  }
+
+  // Also guard applyFortuneEffect in case a later route uses the generic fortune entry point.
+  const oldApplyFortune = typeof applyFortuneEffect === 'function' ? applyFortuneEffect : null;
+  if(oldApplyFortune && !oldApplyFortune.__v300KeyDragonNoDouble){
+    applyFortuneEffect = function(card, ...args){
+      if(card?.name === 'キースドラゴン') return callGuarded(card, {});
+      return oldApplyFortune.call(this, card, ...args);
+    };
+    applyFortuneEffect.__v300KeyDragonNoDouble = true;
+  }
+
+  function simulateKeyDragonNoDoubleV300(){
+    const T=window.__DQR_TEST__ || {};
+    if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g(); if(!game) return {ok:false, reason:'no game'};
+    const card=findCardByName('キースドラゴン');
+    const unit=makeUnitFromCard(card);
+    game.player.board=Array(6).fill(null);
+    game.player.board[1]=unit;
+    game._v299CurrentSummonUnit=unit;
+    let guardedCalls=0;
+    const oldOpen=typeof openKeyDragonFortuneV299 === 'function' ? openKeyDragonFortuneV299 : null;
+    if(oldOpen){
+      openKeyDragonFortuneV299=function(c){ guardedCalls++; return true; };
+    }
+    try{
+      const r1 = typeof applyTabasaFortuneCardV187 === 'function' ? applyTabasaFortuneCardV187(card,{unit}) : false;
+      const r2 = typeof applyFortuneEffect === 'function' ? applyFortuneEffect(card) : false;
+      return {ok:guardedCalls===2 && !!r1 && !!r2, guardedCalls, r1:!!r1, r2:!!r2, note:'Two separate explicit entries were invoked in this synthetic test; each is intercepted before older generic Key Dragon branch. A normal summon calls only applyTabasaFortuneCardV187 once.'};
+    }finally{
+      if(oldOpen) openKeyDragonFortuneV299=oldOpen;
+      delete game._v299CurrentSummonUnit;
+      game._v300KeyDragonResolving=false;
+    }
+  }
+  if(window.__DQR_TEST__){ window.__DQR_TEST__.v300={version:V300, simulateKeyDragonNoDoubleV300}; }
 })();

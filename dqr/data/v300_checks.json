@@ -1,0 +1,28 @@
+{
+  "version": "v300_keydragon_no_double_generic_guard",
+  "nodeCheck": "OK",
+  "staticChecks": "5 passed / 0 failed",
+  "tests": [
+    {
+      "name": "DATA_VERSION v300",
+      "ok": true
+    },
+    {
+      "name": "wraps actual summon fortune entry applyTabasaFortuneCardV187",
+      "ok": true
+    },
+    {
+      "name": "Key Dragon wrapper returns before old generic branch",
+      "ok": true
+    },
+    {
+      "name": "v299 guarded resolver retained",
+      "ok": true
+    },
+    {
+      "name": "Sea Golem attack ready v299 retained",
+      "ok": true
+    }
+  ],
+  "answer": "v299 had a remaining risk: actual summon route still called applyTabasaFortuneCardV187 directly. v300 intercepts that route first, so older generic Key Dragon branch is not reached."
+}

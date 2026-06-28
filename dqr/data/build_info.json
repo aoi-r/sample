@@ -1,5 +1,5 @@
 {
-  "version": "v298_version_label_sync_fix",
+  "version": "v300_keydragon_no_double_generic_guard",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -720,5 +720,7 @@
   "v295": "死亡時GETの所有者スコープを汎用化。直接の死亡時GET(n)とBET付与死亡時GETを、死亡ユニット所有者だけへ一度だけ付与する監査/検証APIを追加。",
   "v296": "対戦環境スコープ全体監査。public state/action payloadの手札ID秘匿、remote stateの手札ID破棄、GET/BET/召喚/死亡/ランダム/占い/ダメージ/回復/バフ/手札山札系カードの分類監査と不変条件検査APIを追加。",
   "v297": "PvPのFirebase/metaターン開始経路で通常ユニットのsummoningSickness/canAttackを更新していなかった問題を修正。速攻以外のユニット（ルドマン、ブラッドレディ、ラプソーン、トンネラー、黄金兵など）が次の自分ターンに攻撃可能になる。",
-  "v298": "v297のPvPターン開始時攻撃可能化修正は維持しつつ、起動画面/バッジに出るBUILD_LABELが古いv294表示のままだった漏れを修正。index.htmlの初期表示とapp.jsのBUILD_LABEL、CSS/JSキャッシュキーをv298へ同期。"
+  "v298": "v297のPvPターン開始時攻撃可能化修正は維持しつつ、起動画面/バッジに出るBUILD_LABELが古いv294表示のままだった漏れを修正。index.htmlの初期表示とapp.jsのBUILD_LABEL、CSS/JSキャッシュキーをv298へ同期。",
+  "v299": "におうだちユニット等の通常ユニットがPvPの相手opponentView/同期snapshotでcanAttack=falseへ戻る問題を補正。召喚/場に出す同ターンのユニットは攻撃可能化しないようunit id別enteredTurnを保持。キースドラゴンの占いを専用の安全処理へ切替え、エラー時も操作ロック解除。",
+  "v300": "キースドラゴン専用処理が旧汎用占い applyTabasaFortuneCardV187 のキースドラゴン分岐と重複しないよう、実際の召喚経路を先に横取りして専用処理で return true するガードを追加。v299のシーゴーレム/におうだち攻撃復帰修正は維持。"
 }

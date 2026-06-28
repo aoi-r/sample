@@ -1,0 +1,86 @@
+{
+  "passed": 4,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "Sea Golem stale opponentView restore",
+      "ok": true,
+      "value": {
+        "ok": true,
+        "before": {
+          "name": "シーゴーレム",
+          "canAttack": true,
+          "sickness": false,
+          "taunt": true
+        },
+        "after": {
+          "name": "シーゴーレム",
+          "canAttack": true,
+          "sickness": false,
+          "attacksLeft": 1,
+          "taunt": true
+        }
+      }
+    },
+    {
+      "name": "Key Dragon damage option no lock/error",
+      "ok": true,
+      "value": {
+        "ok": true,
+        "err": "",
+        "hp": 20,
+        "enemy": [
+          null,
+          {
+            "name": "スライム",
+            "hp": 1
+          },
+          null,
+          null,
+          null,
+          null
+        ],
+        "locked": false,
+        "modalOpen": false
+      }
+    },
+    {
+      "name": "Key Dragon heal option no lock/error",
+      "ok": true,
+      "value": {
+        "ok": true,
+        "err": "",
+        "hp": 25,
+        "enemy": [
+          null,
+          {
+            "name": "スライム",
+            "hp": 3
+          },
+          null,
+          null,
+          null,
+          null
+        ],
+        "locked": false,
+        "modalOpen": false
+      }
+    },
+    {
+      "name": "Same-turn entered unit not readied by restore",
+      "ok": true,
+      "value": {
+        "ok": true,
+        "canAttack": false,
+        "sickness": true,
+        "entered": true,
+        "restore": {
+          "ok": true,
+          "changed": 0,
+          "readied": 0,
+          "reason": "sameTurnTest"
+        }
+      }
+    }
+  ]
+}
