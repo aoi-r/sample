@@ -1,0 +1,19 @@
+{
+  "version": "v304_semantic_mutation_quota_guard",
+  "nodeCheck": "OK",
+  "staticSemanticGuardChecks": "7 passed / 0 failed",
+  "riskSummary": {
+    "get": 51,
+    "draw": 161,
+    "add": 147,
+    "damage": 372,
+    "heal": 104,
+    "tension": 119,
+    "summon": 467,
+    "death": 121,
+    "bet": 48,
+    "renkei": 40,
+    "fortune": 66
+  },
+  "claim": "Defensive semantic quota guard added; not a mathematical proof of every Firebase/random state."
+}

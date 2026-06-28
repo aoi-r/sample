@@ -1,0 +1,21 @@
+{
+  "version": "v303_effect_context_total_dedupe_guard",
+  "nodeCheck": "OK",
+  "staticDuplicateContextChecks": "6 passed / 0 failed",
+  "cardEffectScopeSummary": {
+    "summon": 467,
+    "death": 121,
+    "bet": 48,
+    "get": 51,
+    "renkei": 40,
+    "fortune": 66,
+    "turn": 128,
+    "attack": 33,
+    "draw_generate": 155,
+    "damage": 372,
+    "buff_debuff": 729,
+    "random": 217
+  },
+  "realFirebaseCloud": "not completed in this sandbox; external HTTPS egress unavailable",
+  "claim": "Broader guard added. Not claiming mathematical proof of every possible pattern."
+}

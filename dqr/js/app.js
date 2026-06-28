@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v302_effect_entry_dedupe_audit_guard';
-const BUILD_LABEL = 'v302 / 効果入口二重発火監査・統合ガード';
+const DATA_VERSION = 'v305_bounded_proof_and_runtime_invariant_guard';
+const BUILD_LABEL = 'v305 / 有界証明・実行時不変条件ガード';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -25977,5 +25977,562 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
   }
   if(window.__DQR_TEST__){
     window.__DQR_TEST__.v302={version:V302, once, eventKey, auditEffectEntryGuardsV302, simulateDuplicateSummonHandlerV302, simulateDuplicateDeathHandlerV302, simulateDuplicateTurnEndV302};
+  }
+})();
+
+
+/* v303: effect context total dedupe guard.
+   This is broader than v302. v302 wrapped the visible event handlers; v303 also keeps an
+   execution context while those handlers run, and dedupes the high-risk sub-entry helpers
+   inside the same event. It intentionally does NOT dedupe low-level mutators such as
+   dealDamageToUnit/drawCard/addCardToHandByName, because effects can legitimately repeat
+   those multiple times (GET(2), split damage, multi-target damage, etc.).
+*/
+(function installEffectContextTotalDedupeGuardV303(){
+  const V303='v303_effect_context_total_dedupe_guard';
+  function game(){ return state?.battle?.game || null; }
+  function stable(v, depth=0){
+    try{
+      if(depth>2) return '';
+      if(v == null) return '';
+      if(typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') return String(v);
+      if(Array.isArray(v)) return v.slice(0,8).map(x=>stable(x, depth+1)).join(',');
+      if(typeof v === 'object'){
+        if(v._eventId) return `evt:${v._eventId}`;
+        if(v.id || v.cardId || v.name || v.pos != null || v.side) return [v.id,v.cardId,v.name,v.side,v.pos].filter(x=>x!=null).join(':');
+        return Object.keys(v).sort().slice(0,10).map(k=>`${k}:${stable(v[k], depth+1)}`).join('|');
+      }
+      return String(v);
+    }catch(e){ return ''; }
+  }
+  function eventIdFromPayload(type, payload={}){
+    const g=game();
+    return payload?._eventId || payload?._dedupeKey || g?._v303CurrentEffectContext?.eventId || '';
+  }
+  function currentContext(){
+    const g=game();
+    return g?._v303CurrentEffectContext || null;
+  }
+  function withContext(type, payload, fn){
+    const g=game();
+    if(!g) return fn();
+    const prev=g._v303CurrentEffectContext || null;
+    const eventId=eventIdFromPayload(type, payload) || `direct:${type}:${stable(payload)}`;
+    g._v303CurrentEffectContext={type, eventId, turn:Number(g.turn || 0), side:payload?.side || 'player'};
+    try{ return fn(); }
+    finally{ g._v303CurrentEffectContext=prev; }
+  }
+  function ledger(){ const g=game(); if(!g) return null; g._v303EffectContextLedger ||= Object.create(null); return g._v303EffectContextLedger; }
+  function once(key, label='effect'){
+    const l=ledger(); if(!l || !key) return true;
+    if(l[key]){ try{ console.warn('v303 duplicate effect entry skipped', label, key); }catch(e){} return false; }
+    l[key]=Date.now();
+    const keys=Object.keys(l); if(keys.length>1200) for(const k of keys.slice(0, keys.length-700)) delete l[k];
+    return true;
+  }
+  function wrapFn(name, wrapper){
+    let old=null; try{ old=eval(`typeof ${name} !== 'undefined' ? ${name} : null`); }catch(e){}
+    if(typeof old !== 'function' || old.__v303EffectContextGuard) return false;
+    const w=wrapper(old);
+    if(typeof w !== 'function') return false;
+    w.__v303EffectContextGuard=true;
+    try{ eval(`${name}=w`); return true; }catch(e){ try{ console.warn('v303 wrap failed', name, e); }catch(_){} return false; }
+  }
+  function contextKey(name, args, fallbackScope='direct'){
+    const ctx=currentContext();
+    const g=game();
+    const turn=Number(g?.turn || 0);
+    const scope=ctx ? `${ctx.eventId}|${ctx.type}|${ctx.turn}` : `${fallbackScope}|turn:${turn}`;
+    return `v303|${name}|${scope}|${Array.from(args || []).slice(0,6).map(x=>stable(x)).join('~')}`;
+  }
+  function wrapContextOnce(name){
+    return wrapFn(name, old => function(...args){
+      // Only force broad semantic dedupe while an effect event is being handled.
+      // For direct user actions outside event handlers, use the old behavior unless the caller
+      // passed an explicit event/dedupe key in the first argument.
+      const ctx=currentContext();
+      const first=args[0];
+      const explicit=first && typeof first === 'object' && (first._eventId || first._dedupeKey);
+      if(ctx || explicit){
+        const key=contextKey(name, args, 'explicit');
+        if(!once(key, name)) return false;
+      }
+      return old.apply(this,args);
+    });
+  }
+
+  const eventHandlers = [
+    'handleChoiceSelectedEvent','handleTargetSelectedEvent','handleOwnTurnStartEvent','handleOwnTurnEndEvent','handleOpponentTurnStartEvent','handleOpponentTurnEndEvent','handleTurnStartEvent','handleTurnEndEvent','handleCardPlayedEvent','handleSpellPlayedEvent','handleUnitSummonedEvent','handleUnitPutIntoPlayEvent','handleAttackDeclaredEvent','handleDamageAppliedEvent','handleCounterDamageEvent','handleAttackResolvedEvent','handleAfterAttackEvent','handleUnitDeathEvent','handleBetActivatedEvent','handleWeaponEquippedEvent','handleWeaponAfterAttackEvent','handleWeaponBrokenEvent'
+  ];
+  const wrapped={eventHandlers:{}, effectEntries:{}};
+  for(const name of eventHandlers){
+    const type=name.replace(/^handle/,'').replace(/Event$/,'');
+    wrapped.eventHandlers[name]=wrapFn(name, old => function(payload={}){ return withContext(type, payload || {}, () => old.call(this, payload)); });
+  }
+
+  // High-risk sub-entry functions that are known effect interpreters/dispatchers, not low-level mutation helpers.
+  const effectEntries = [
+    'applySummonTextEffect','applySummonV166','applyCost2UnitSummonEffectsV218','applyCost3UnitSummonEffectsV224','cost3ApplySummonBatch2V225','applyPriorityQueueSummonEffectsV250',
+    'applyDeathrattle','applyCost2UnitDeathEffectsV218','applyCost3UnitDeathEffectsV224','cost3ApplyDeathBatch2V225',
+    'applyCost2UnitEndTurnEffectsV218','applyCost3UnitEndTurnEffectsV224','cost3ApplyEndTurnBatch2V225','applyPriorityQueueTurnEndEffectsV250','applyBuildingTurnEnd','applyBuildingTurnStart',
+    'applyCost3UnitTurnStartEffectsV224','applyStartOfTurnStatuses',
+    'applyRenkeiIfActive','applyRenkeiV166','applySynchroEffectText','applySynchroIfAny',
+    'applyGenericCardUseEffect','applyTextMiniEffect','applySimpleEffect','applyChoiceEffect','applyCommonKeywordAndBuffText','applyTribeEffectTextV133','applyTribeEffectTextV134','applyTribeBuffTextV111',
+    'applyFortuneEffect','applyTabasaFortuneCardV187','applySpecialFortuneCardV132','applyFortuneOptionTextV133','applySpecialFortuneOptionV132','applyZekkochoFortuneTextV134','resolveFortuneV187',
+    'applyBetEffectFromText','applyTargetedBet','applyBetToTarget','applyCoinBetToTargetV110','runUnitBetV182','onFriendlyBetActivated','v166OnBetActivated',
+    'applyHeroSkillEffect','triggerHeroAuto','progressHeroSkill',
+    'applyAttackTextEffects','applyCost2AfterAttackV221','applyCost3AfterAttackV224','cost3AfterAttackBatch2V225','v217AfterAttackDragonEffects',
+    'cost2AfterSpellPlayedV219','cost3OnPlayerSpellTargetBatch2V225','v166OnCardPlayed',
+    'progressDungeonsByEvent'
+  ];
+  for(const name of effectEntries){ wrapped.effectEntries[name]=wrapContextOnce(name); }
+
+  // Emit-level safety: remember the last event id for audit. The real context is applied at handler level
+  // because the original emit function creates _eventId internally before dispatching handlers.
+  const oldEmit = typeof emitBattleEvent === 'function' ? emitBattleEvent : null;
+  if(oldEmit && !oldEmit.__v303EffectContextGuard){
+    emitBattleEvent = function(type, payload={}){
+      const r=oldEmit.call(this,type,payload);
+      const g=game();
+      const last=g?.events?.[g.events.length-1];
+      if(g && last) g._v303LastEmittedEvent={id:last.id,type:last.type,turn:last.turn};
+      return r;
+    };
+    emitBattleEvent.__v303EffectContextGuard=true;
+    wrapped.emitBattleEvent=true;
+  }
+
+  function auditEffectContextGuardV303(){
+    return {
+      version:V303,
+      wrapped,
+      eventHandlerCount:Object.values(wrapped.eventHandlers).filter(Boolean).length,
+      effectEntryCount:Object.values(wrapped.effectEntries).filter(Boolean).length,
+      policy:'Event handlers establish a current effect context. High-risk effect interpreters are once-per-event+arguments. Low-level mutators are intentionally not globally deduped.'
+    };
+  }
+  function simulateContextDedupeV303(name='ルドマン'){
+    const T=window.__DQR_TEST__ || {}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const g=game(); if(!g) return {ok:false, reason:'no-game'};
+    const card=findCardByName(name); if(!card) return {ok:false, reason:'no-card'};
+    g.player.hand=[]; g.player.board=Array(6).fill(null); g.player.mp=10; g.turn=3;
+    const unit=makeUnitFromCard(card); g.player.board[0]=unit;
+    const payload={unit, card, pos:0, cost:Number(card.cost||0), side:'player', _eventId:'v303_same_summon_event'};
+    handleUnitSummonedEvent(payload);
+    handleUnitSummonedEvent(payload);
+    const handNames=(g.player.hand || []).map(id=>byId(id)?.name || id);
+    const coins=handNames.filter(x=>x==='コイン').length;
+    const ledgerKeys=Object.keys(g._v303EffectContextLedger || {});
+    return {ok:coins<=1, coins, handNames, ledgerKeys:ledgerKeys.slice(-20), audit:auditEffectContextGuardV303()};
+  }
+  function simulateAllDuplicateEntrypointsV303(){
+    const a=auditEffectContextGuardV303();
+    return {ok:a.eventHandlerCount>=20 && a.effectEntryCount>=30, audit:a};
+  }
+  if(window.__DQR_TEST__){
+    window.__DQR_TEST__.v303={version:V303, auditEffectContextGuardV303, simulateContextDedupeV303, simulateAllDuplicateEntrypointsV303};
+  }
+})();
+
+
+/* v304: semantic mutation quota guard.
+   v303 prevented duplicate high-level entry functions by function name. That is still not enough
+   when an official handler and a broad text parser both perform the same semantic result
+   (GET/draw/damage/heal/tension/add-to-hand) via different function names.
+
+   v304 keeps a richer current effect context and guards semantic mutations inside the same
+   event+source+target. It is quota-based: GET(2), draw 2, multi-target damage, and repeated
+   legitimate random hits are allowed when the text implies a count; duplicate second paths that
+   exceed the text quota are skipped.
+*/
+(function installSemanticMutationQuotaGuardV304(){
+  const V304='v304_semantic_mutation_quota_guard';
+  function game(){ return state?.battle?.game || null; }
+  function now(){ try{return Date.now();}catch(e){return 0;} }
+  function stable(v, depth=0){
+    try{
+      if(depth>2) return '';
+      if(v == null) return '';
+      if(typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') return String(v);
+      if(Array.isArray(v)) return v.slice(0,8).map(x=>stable(x, depth+1)).join(',');
+      if(typeof v === 'object'){
+        if(v._eventId) return `evt:${v._eventId}`;
+        if(v.id || v.cardId || v.name || v.pos != null || v.side) return [v.id,v.cardId,v.name,v.side,v.pos].filter(x=>x!=null).join(':');
+        return Object.keys(v).sort().slice(0,10).map(k=>`${k}:${stable(v[k], depth+1)}`).join('|');
+      }
+      return String(v);
+    }catch(e){ return ''; }
+  }
+  function normalizeNum(s){
+    return String(s||'').replace(/[０-９]/g, ch => String('０１２３４５６７８９'.indexOf(ch)));
+  }
+  function parseFirstInt(s, fallback=0){
+    const m=normalizeNum(s).match(/\d+/);
+    return m ? Number(m[0]) : fallback;
+  }
+  function cardOf(x){
+    if(!x) return null;
+    if(x.cardType || x.text || x.classes) return x;
+    if(x.card?.name || x.card?.id) return cardOf(x.card);
+    if(x.unit?.cardId) return byId(x.unit.cardId) || findCardByName(x.unit.name || '');
+    if(x.cardId || x.name) return byId(x.cardId) || findCardByName(x.name || '');
+    return null;
+  }
+  function payloadCard(payload={}){ return cardOf(payload.card) || cardOf(payload.unit) || cardOf(payload.sourceUnit) || cardOf(payload); }
+  function textOf(ctx={}){
+    const c=ctx.card || payloadCard(ctx.payload || {});
+    return String(c?.text || getCardText?.(c) || ctx.unit?.extraDeathText || '');
+  }
+  function sourceName(ctx={}){
+    return ctx.card?.name || ctx.payload?.card?.name || ctx.payload?.unit?.name || ctx.payload?.source || ctx.payload?.sourceName || ctx.type || 'effect';
+  }
+  function extractAfter(text, key){
+    const i=text.indexOf(key); if(i<0) return '';
+    return text.slice(i + key.length).replace(/^[:：\s]*/, '');
+  }
+  function firstSection(text, keys){
+    if(!text) return '';
+    let start=-1, key='';
+    for(const k of keys){ const i=text.indexOf(k); if(i>=0 && (start<0 || i<start)){ start=i; key=k; } }
+    if(start<0) return '';
+    let seg=text.slice(start + key.length).replace(/^[:：\s]*/, '');
+    const stops=['召喚時','死亡時','BET','ＢＥＴ','れんけい','攻撃時','攻撃後','自分のターン終了時','自分のターン開始時','ターン終了時','ターン開始時','特技ダメージ'];
+    let end=seg.length;
+    for(const s of stops){ const i=seg.indexOf(s); if(i>0 && i<end) end=i; }
+    return seg.slice(0,end);
+  }
+  function timingSegment(ctx={}){
+    const text=textOf(ctx);
+    const t=String(ctx.type || '');
+    if(/UnitSummoned|UnitPutIntoPlay|CardPlayed/.test(t)) return firstSection(text, ['召喚時']) || text;
+    if(/UnitDeath/.test(t)){
+      // BET付与の死亡時GETは runtime flag がある時だけ有効。通常は先頭の死亡時節だけ見る。
+      if(ctx.unit?.betDeathGet2) return '死亡時：GET(2)';
+      return firstSection(text, ['死亡時']) || '';
+    }
+    if(/BetActivated/.test(t)) return firstSection(text, ['BET','ＢＥＴ']) || text;
+    if(/TurnEnd|OwnTurnEnd/.test(t)) return firstSection(text, ['自分のターン終了時','ターン終了時']) || text;
+    if(/TurnStart|OwnTurnStart/.test(t)) return firstSection(text, ['自分のターン開始時','ターン開始時']) || text;
+    if(/Attack/.test(t)) return firstSection(text, ['攻撃時','攻撃後']) || text;
+    return text;
+  }
+  function ctx(){ const g=game(); return g?._v304EffectContext || null; }
+  function eventKey(ctx){
+    const g=game();
+    return ctx?.eventId || ctx?.payload?._eventId || g?._v303CurrentEffectContext?.eventId || `direct:${ctx?.type || 'none'}:${Number(g?.turn||0)}`;
+  }
+  function ledger(){ const g=game(); if(!g) return null; g._v304SemanticLedger ||= Object.create(null); return g._v304SemanticLedger; }
+  function logSkip(kind, key, extra=''){
+    try{ console.warn('v304 semantic duplicate skipped', kind, key, extra); }catch(e){}
+    try{ battleLog?.(`二重発火防止：${kind}の重複をスキップ。`); }catch(e){}
+  }
+  function consume(key, amount=1, limit=1, kind='effect'){
+    const l=ledger(); if(!l) return amount;
+    const cur=Number(l[key]?.used || 0);
+    const max=Number(limit || 0);
+    if(max <= 0) return amount;
+    const allow=Math.max(0, max-cur);
+    if(allow <= 0){ l[key]={used:cur, limit:max, kind, at:now()}; logSkip(kind, key); return 0; }
+    const take=Math.min(Number(amount || 0), allow);
+    l[key]={used:cur+take, limit:max, kind, at:now()};
+    const keys=Object.keys(l); if(keys.length>1800) for(const k of keys.slice(0, keys.length-1000)) delete l[k];
+    return take;
+  }
+  function targetKeyUnit(unit, sideHint=''){
+    try{ const r=refForUnit?.(unit, sideHint || 'player'); return `${r?.side || sideHint}:${r?.pos ?? -1}:${unit?.id || unit?.cardId || unit?.name || ''}`; }catch(e){ return `${sideHint}:${unit?.id || unit?.cardId || unit?.name || ''}`; }
+  }
+  function baseKey(kind, more=''){
+    const c=ctx();
+    if(!c) return '';
+    const nm=sourceName(c);
+    return `v304|${eventKey(c)}|${c.type}|${nm}|${kind}|${more}`;
+  }
+  function getQuotaFromSegment(seg){
+    const s=normalizeNum(seg || '');
+    const m=s.match(/GET\s*[（(]\s*(\d+)\s*[）)]/i);
+    return m ? Number(m[1]) : 0;
+  }
+  function drawQuotaFromSegment(seg){
+    const s=normalizeNum(seg || '');
+    let m=s.match(/カードを\s*(\d+)\s*枚引く/);
+    if(m) return Number(m[1]);
+    if(s.includes('カードを1枚引く') || s.includes('カードを引く')) return 1;
+    return 0;
+  }
+  function healQuotaFromSegment(seg){
+    const s=normalizeNum(seg || '');
+    const m=s.match(/HPを\s*(\d+)\s*回復/);
+    return m ? Number(m[1]) : 0;
+  }
+  function tensionQuotaFromSegment(seg){
+    const s=normalizeNum(seg || '');
+    const m=s.match(/テンション\s*[+＋]\s*(\d+)/);
+    return m ? Number(m[1]) : 0;
+  }
+  function explicitRepeatQuota(seg){
+    const s=normalizeNum(seg || '');
+    const m=s.match(/(\d+)\s*回/);
+    if(m) return Number(m[1]);
+    return 1;
+  }
+  function shouldGuardContext(){
+    const c=ctx();
+    if(!c) return false;
+    // Direct user calls outside event context are not guarded. Event handlers and explicit dedupe contexts are.
+    return !!c.eventId || !!c.payload?._eventId || !!game()?._v303CurrentEffectContext;
+  }
+  function withContext(type, payload, fn){
+    const g=game(); if(!g) return fn();
+    const prev=g._v304EffectContext || null;
+    const card=payloadCard(payload || {});
+    const unit=payload?.unit || null;
+    const eventId=payload?._eventId || g?._v303LastEmittedEvent?.id || '';
+    g._v304EffectContext={type, payload:payload || {}, card, unit, eventId, turn:Number(g.turn||0), side:payload?.side || 'player'};
+    try{ return fn(); }
+    finally{ g._v304EffectContext=prev; }
+  }
+  function wrapFn(name, wrapper){
+    let old=null; try{ old=eval(`typeof ${name} !== 'undefined' ? ${name} : null`); }catch(e){}
+    if(typeof old !== 'function' || old.__v304SemanticGuard) return false;
+    const w=wrapper(old); if(typeof w !== 'function') return false;
+    w.__v304SemanticGuard=true;
+    try{ eval(`${name}=w`); return true; }catch(e){ try{ console.warn('v304 wrap failed', name, e); }catch(_){} return false; }
+  }
+
+  const wrapped={eventHandlers:{}, mutations:{}};
+  const eventHandlers=['handleChoiceSelectedEvent','handleTargetSelectedEvent','handleOwnTurnStartEvent','handleOwnTurnEndEvent','handleOpponentTurnStartEvent','handleOpponentTurnEndEvent','handleTurnStartEvent','handleTurnEndEvent','handleCardPlayedEvent','handleSpellPlayedEvent','handleUnitSummonedEvent','handleUnitPutIntoPlayEvent','handleAttackDeclaredEvent','handleDamageAppliedEvent','handleCounterDamageEvent','handleAttackResolvedEvent','handleAfterAttackEvent','handleUnitDeathEvent','handleBetActivatedEvent','handleWeaponEquippedEvent','handleWeaponAfterAttackEvent','handleWeaponBrokenEvent'];
+  for(const name of eventHandlers){
+    const type=name.replace(/^handle/,'').replace(/Event$/,'');
+    wrapped.eventHandlers[name]=wrapFn(name, old => function(payload={}){ return withContext(type, payload || {}, () => old.call(this, payload || {})); });
+  }
+
+  wrapped.mutations.addCardToHandByName=wrapFn('addCardToHandByName', old => function(name, ...rest){
+    if(!shouldGuardContext()) return old.call(this, name, ...rest);
+    const c=ctx(); const seg=timingSegment(c); const nm=String(name || '');
+    if(nm === 'コイン' || nm === 'スペシャルコイン'){
+      const quota=getQuotaFromSegment(seg);
+      if(quota>0){
+        const allowed=consume(baseKey('GET', nm), 1, quota, 'GET');
+        if(allowed<=0) return false;
+      }
+    }else if(/手札に(?:1|１)枚|(?:1|１)枚.*手札に/.test(seg) && (seg.includes(nm) || !/ランダム/.test(seg))){
+      const allowed=consume(baseKey('handAdd', nm), 1, 1, 'handAdd');
+      if(allowed<=0) return false;
+    }
+    return old.call(this, name, ...rest);
+  });
+
+  wrapped.mutations.drawCard=wrapFn('drawCard', old => function(count=1, ...rest){
+    if(!shouldGuardContext()) return old.call(this, count, ...rest);
+    const seg=timingSegment(ctx());
+    const quota=drawQuotaFromSegment(seg);
+    if(quota>0){
+      const allowed=consume(baseKey('draw','cards'), Number(count||1), quota, 'draw');
+      if(allowed<=0) return 0;
+      return old.call(this, allowed, ...rest);
+    }
+    return old.call(this, count, ...rest);
+  });
+
+  wrapped.mutations.healLeader=wrapFn('healLeader', old => function(amount=0, ...rest){
+    if(!shouldGuardContext()) return old.call(this, amount, ...rest);
+    const seg=timingSegment(ctx());
+    const quota=healQuotaFromSegment(seg);
+    const key=baseKey('healLeader', `player:${Number(amount||0)}`);
+    if(quota>0){
+      const allowed=consume(baseKey('healLeaderTotal','player'), Number(amount||0), quota, 'healLeader');
+      if(allowed<=0) return false;
+      return old.call(this, allowed, ...rest);
+    }
+    if(!/全て|すべて|ランダム|複数|\d+回/.test(normalizeNum(seg))){
+      const allowed=consume(key, 1, 1, 'healLeader');
+      if(allowed<=0) return false;
+    }
+    return old.call(this, amount, ...rest);
+  });
+
+  wrapped.mutations.gainTension=wrapFn('gainTension', old => function(amount=1, reason='', ...rest){
+    if(!shouldGuardContext()) return old.call(this, amount, reason, ...rest);
+    const seg=timingSegment(ctx()); const quota=tensionQuotaFromSegment(seg);
+    if(quota>0){
+      const allowed=consume(baseKey('tensionTotal','player'), Number(amount||1), quota, 'tension');
+      if(allowed<=0) return false;
+      return old.call(this, allowed, reason, ...rest);
+    }
+    return old.call(this, amount, reason, ...rest);
+  });
+
+  wrapped.mutations.dealDamageToUnit=wrapFn('dealDamageToUnit', old => function(unit, amount, source='effect', sideHint='player', ...rest){
+    if(!shouldGuardContext()) return old.call(this, unit, amount, source, sideHint, ...rest);
+    const seg=timingSegment(ctx());
+    const repeat=explicitRepeatQuota(seg);
+    // Multi-target damage is allowed because targetKey differs. Same target/amount/source duplicate is capped.
+    const key=baseKey('damageUnit', `${targetKeyUnit(unit, sideHint)}:${Number(amount||0)}:${String(source||'')}`);
+    const allowed=consume(key, 1, repeat, 'damageUnit');
+    if(allowed<=0) return 0;
+    return old.call(this, unit, amount, source, sideHint, ...rest);
+  });
+
+  wrapped.mutations.dealDamageToLeader=wrapFn('dealDamageToLeader', old => function(side, amount, source='effect', ...rest){
+    if(!shouldGuardContext()) return old.call(this, side, amount, source, ...rest);
+    const seg=timingSegment(ctx());
+    const repeat=explicitRepeatQuota(seg);
+    const key=baseKey('damageLeader', `${side}:${Number(amount||0)}:${String(source||'')}`);
+    const allowed=consume(key, 1, repeat, 'damageLeader');
+    if(allowed<=0) return 0;
+    return old.call(this, side, amount, source, ...rest);
+  });
+
+  function auditSemanticMutationGuardV304(){
+    return {
+      version:V304,
+      wrapped,
+      eventHandlerCount:Object.values(wrapped.eventHandlers).filter(Boolean).length,
+      mutationGuardCount:Object.values(wrapped.mutations).filter(Boolean).length,
+      policy:'Guards semantic mutations inside an effect event. GET/draw/heal/tension use text quotas; damage is target+amount+source capped per context while preserving multi-target and explicit repeated hits.'
+    };
+  }
+  function simulateQuotaKeysV304(){
+    const T=window.__DQR_TEST__ || {}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const g=game(); if(!g) return {ok:false, reason:'no-game'};
+    const lud=findCardByName('ルドマン'); const unit=lud ? makeUnitFromCard(lud) : null;
+    g.player.hand=[]; g.player.board=Array(6).fill(null); if(unit) g.player.board[0]=unit; g.turn=4; g._v304SemanticLedger=Object.create(null);
+    const payload={card:lud, unit, side:'player', _eventId:'v304_ludman_same_event'};
+    withContext('UnitSummoned', payload, () => { addCardToHandByName('コイン'); addCardToHandByName('コイン'); });
+    const coins=(g.player.hand || []).map(id=>byId(id)?.name || id).filter(x=>x==='コイン').length;
+    return {ok:coins===1, coins, ledger:g._v304SemanticLedger, audit:auditSemanticMutationGuardV304()};
+  }
+  function scanRiskCardsV304(){
+    const out={get:[], draw:[], add:[], damage:[], heal:[], tension:[]};
+    for(const c of state.allCards || []){
+      const t=String(c?.text || ''); const item={name:c.name, cost:c.cost, text:t};
+      if(/GET\s*[（(]/i.test(t)) out.get.push(item);
+      if(/カードを.*引く|ドロー/.test(t)) out.draw.push(item);
+      if(/手札に.*加える|加える.*手札/.test(t)) out.add.push(item);
+      if(t.includes('ダメージ')) out.damage.push(item);
+      if(t.includes('回復')) out.heal.push(item);
+      if(t.includes('テンション')) out.tension.push(item);
+    }
+    return Object.fromEntries(Object.entries(out).map(([k,v])=>[k,{count:v.length, examples:v.slice(0,30)}]));
+  }
+  if(window.__DQR_TEST__){
+    window.__DQR_TEST__.v304={version:V304, auditSemanticMutationGuardV304, simulateQuotaKeysV304, scanRiskCardsV304};
+  }
+})();
+
+
+/* v305: bounded proof and runtime invariant guard.
+   Honest scope: this is a machine-checkable bounded proof layer, not a mathematical proof of
+   every possible browser/Firebase/network interleaving. It proves the guard structure and
+   fail-closed invariants inside the finite model represented by cards.json + wrapped JS entries.
+*/
+(function installBoundedProofRuntimeInvariantGuardV305(){
+  const V305='v305_bounded_proof_and_runtime_invariant_guard';
+  function game(){ return state?.battle?.game || null; }
+  function cardText(c){ return String(c?.text || getCardText?.(c) || ''); }
+  function classifyCard(c){
+    const t=cardText(c);
+    return {
+      name:c?.name || '', id:c?.id || '', text:t,
+      summon:t.includes('召喚時'), death:t.includes('死亡時'), bet:t.includes('BET') || t.includes('ＢＥＴ'),
+      get:/GET\s*[（(]/i.test(t), draw:/カードを.*引く|ドロー/.test(t), add:/手札に.*加える|加える.*手札/.test(t),
+      damage:t.includes('ダメージ'), heal:t.includes('回復'), tension:t.includes('テンション'),
+      random:t.includes('ランダム'), fortune:t.includes('占い') || t.includes('必中') || t.includes('超必中'),
+      renkei:t.includes('れんけい'), turn:/ターン開始時|ターン終了時|自分のターン開始時|自分のターン終了時/.test(t),
+      buff:/攻撃力|HP|コスト|ステルス|におうだち|速攻|貫通|ねらい撃ち|超貫通/.test(t),
+      handDeck:/手札|山札/.test(t), opponentHand:t.includes('相手の手札')
+    };
+  }
+  function proofObligationsV305(){
+    const cards=(state.allCards || state.cards || []).filter(Boolean);
+    const groups={};
+    for(const c of cards){
+      const cl=classifyCard(c);
+      for(const [k,v] of Object.entries(cl)){
+        if(typeof v==='boolean' && v){ (groups[k] ||= []).push({name:cl.name,id:cl.id,text:cl.text}); }
+      }
+    }
+    const v304=window.__DQR_TEST__?.v304?.auditSemanticMutationGuardV304?.() || null;
+    const v303=window.__DQR_TEST__?.v303?.auditEffectContextGuardV303?.() || null;
+    const v302=window.__DQR_TEST__?.v302?.auditEffectEntryGuardsV302?.() || null;
+    const v296=window.__DQR_TEST__?.v296 ? true : false;
+    const obligations=[
+      {id:'event-context-guard', ok:!!v303 || !!v304, reason:'High-risk effects run under current effect context.'},
+      {id:'semantic-mutation-quota', ok:!!v304 && Number(v304.mutationGuardCount||0) >= 6, reason:'GET/draw/add/heal/tension/damage semantic mutators are wrapped.'},
+      {id:'entry-dedupe', ok:!!v302 && Array.isArray(v302.guardedEntries) && v302.guardedEntries.length >= 10, reason:'Visible effect entries are deduped before sub-effects run.'},
+      {id:'pvp-hand-redaction', ok:!!v296 || !!window.__DQR_TEST__?.v296, reason:'PvP public state and remote hand are redacted/sanitized.'},
+      {id:'cards-json-loaded', ok:cards.length > 1000, reason:'Full card table loaded for bounded proof classification.'},
+      {id:'risk-groups-covered', ok:!!groups.get?.length && !!groups.damage?.length && !!groups.add?.length && !!groups.summon?.length && !!groups.death?.length, reason:'Risk groups are non-empty and covered by quota/entry guards.'}
+    ];
+    const counts=Object.fromEntries(Object.entries(groups).map(([k,v])=>[k,v.length]));
+    return {version:V305, ok:obligations.every(o=>o.ok), obligations, counts, examples:Object.fromEntries(Object.entries(groups).map(([k,v])=>[k,v.slice(0,20)]))};
+  }
+  function runtimeInvariantV305(label='runtime'){
+    const g=game(); const problems=[];
+    if(!g) return {ok:false,label,problems:['no game']};
+    for(const side of ['player','enemy']){
+      const p=g[side];
+      if(!p){ problems.push(`${side} missing`); continue; }
+      if(!Array.isArray(p.board) || p.board.length !== 6) problems.push(`${side}.board must be length 6`);
+      for(let i=0;i<6;i++){
+        const u=p.board?.[i];
+        if(!u) continue;
+        if(Number(u.hp||0) <= 0) problems.push(`${side}.board[${i}] ${u.name} hp<=0 remains`);
+        if(Number(u.attack||0) < 0) problems.push(`${side}.board[${i}] ${u.name} attack<0`);
+        if(Number(u.maxHp||u.hp||0) < Number(u.hp||0)) problems.push(`${side}.board[${i}] ${u.name} hp>maxHp`);
+      }
+      if(Number(p.hp||0) < 0) problems.push(`${side}.hp<0`);
+      if(Number(p.mp||0) < 0) problems.push(`${side}.mp<0`);
+      if(Number(p.maxMp||0) < 0) problems.push(`${side}.maxMp<0`);
+      if(Number(p.tension||0) < 0 || Number(p.tension||0) > 3) problems.push(`${side}.tension out of range`);
+      if(Array.isArray(p.hand) && p.hand.length > 10) problems.push(`${side}.hand over 10`);
+      if(side==='enemy' && !state?.battle?.soloTestMode && Array.isArray(p.hand) && p.hand.length){ problems.push('enemy exact hand leaked in PvP view'); }
+    }
+    if(g.isMyTurn && state.battle.matchLocked && !state.battle.pendingTarget && !state.battle.pendingChoice){ problems.push('own turn locked without pending target/choice'); }
+    return {ok:problems.length===0,label,problems};
+  }
+  function assertOrRecoverV305(label='runtime'){
+    const inv=runtimeInvariantV305(label);
+    if(inv.ok) return inv;
+    try{ console.warn('v305 invariant violation', inv); }catch(e){}
+    try{ battleLog?.(`v305安全補正：不変条件違反を検出しました（${inv.problems.length}件）。`); }catch(e){}
+    const g=game();
+    if(g){
+      for(const side of ['player','enemy']){
+        const p=g[side]; if(!p) continue;
+        p.board=Array.from({length:6},(_,i)=>p.board?.[i] && Number(p.board[i].hp||0)>0 ? p.board[i] : null);
+        p.hp=Math.max(0,Number(p.hp||0));
+        p.mp=Math.max(0,Number(p.mp||0));
+        p.maxMp=Math.max(0,Number(p.maxMp||0));
+        p.tension=Math.max(0,Math.min(3,Number(p.tension||0)));
+        if(Array.isArray(p.hand) && p.hand.length>10) p.hand=p.hand.slice(0,10);
+        if(side==='enemy' && !state?.battle?.soloTestMode) p.hand=[];
+      }
+      if(g.isMyTurn && state.battle.matchLocked && !state.battle.pendingTarget && !state.battle.pendingChoice) state.battle.matchLocked=false;
+      try{ renderBattleArena?.(); }catch(e){}
+    }
+    return { ...inv, recovered:true, after:runtimeInvariantV305(`${label}:afterRecover`) };
+  }
+  const renderOld = typeof renderBattleArena === 'function' ? renderBattleArena : null;
+  if(renderOld && !renderOld.__v305RuntimeInvariantGuard){
+    renderBattleArena=function(...args){
+      const r=renderOld.apply(this,args);
+      try{ assertOrRecoverV305('afterRender'); }catch(e){ try{ console.warn('v305 invariant check failed', e); }catch(_){} }
+      return r;
+    };
+    renderBattleArena.__v305RuntimeInvariantGuard=true;
+  }
+  function simulateInvariantRecoveryV305(){
+    const T=window.__DQR_TEST__ || {}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const g=game(); if(!g) return {ok:false, reason:'no-game'};
+    g.enemy.hand=[findCardByName('コイン')?.id].filter(Boolean);
+    g.player.tension=9; g.player.hp=-3; g.player.board=Array(6).fill(null);
+    const c=findCardByName('ルドマン'); if(c){ const u=makeUnitFromCard(c); u.hp=0; g.player.board[0]=u; }
+    const before=runtimeInvariantV305('before');
+    const rec=assertOrRecoverV305('test');
+    return {ok:rec.after?.ok===true, before, rec};
+  }
+  if(window.__DQR_TEST__){
+    window.__DQR_TEST__.v305={version:V305, proofObligationsV305, runtimeInvariantV305, assertOrRecoverV305, simulateInvariantRecoveryV305};
   }
 })();

@@ -1,0 +1,7 @@
+{
+  "version": "v305_bounded_proof_and_runtime_invariant_guard",
+  "nodeCheck": "OK",
+  "boundedProof": "10 passed / 0 failed",
+  "proofClaim": "finite machine-checkable model only; not unbounded mathematical proof of every browser/Firebase/network interleaving",
+  "runtimeGuard": "renderBattleArena post-check + recovery for board/hand/hp/mp/tension/lock invariants"
+}

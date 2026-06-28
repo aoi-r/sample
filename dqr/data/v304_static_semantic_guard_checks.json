@@ -1,0 +1,48 @@
+{
+  "version": "v304_semantic_mutation_quota_guard",
+  "passed": 7,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "v304 block exists",
+      "ok": true
+    },
+    {
+      "name": "GET quota guard wraps addCardToHandByName",
+      "ok": true
+    },
+    {
+      "name": "draw quota guard wraps drawCard",
+      "ok": true
+    },
+    {
+      "name": "damage duplicate guard wraps unit and leader damage",
+      "ok": true
+    },
+    {
+      "name": "heal and tension quota guards exist",
+      "ok": true
+    },
+    {
+      "name": "v303 context guard retained",
+      "ok": true
+    },
+    {
+      "name": "v301 transaction guard retained",
+      "ok": true
+    }
+  ],
+  "riskSummary": {
+    "get": 51,
+    "draw": 161,
+    "add": 147,
+    "damage": 372,
+    "heal": 104,
+    "tension": 119,
+    "summon": 467,
+    "death": 121,
+    "bet": 48,
+    "renkei": 40,
+    "fortune": 66
+  }
+}
