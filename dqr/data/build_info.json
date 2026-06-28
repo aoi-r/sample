@@ -1,5 +1,5 @@
 {
-  "version": "v296_pvp_scope_full_audit_guard",
+  "version": "v297_pvp_turn_start_attack_ready_fix",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -718,5 +718,6 @@
   "v293": "実Firebase接続を使った2アクセス検証ハーネスを追加。通常プレイには影響しない __DQR_TEST__.v293Firebase と tools/v293_real_firebase_two_access_regression.py を追加。",
   "v294": "ベホイミスライム/だいおうイカ/ミリオンゼニー付与の死亡時GETを所有者側だけに発動し、unitDeathEvent/applyDeathrattle/cost deathの重複付与を防止。",
   "v295": "死亡時GETの所有者スコープを汎用化。直接の死亡時GET(n)とBET付与死亡時GETを、死亡ユニット所有者だけへ一度だけ付与する監査/検証APIを追加。",
-  "v296": "対戦環境スコープ全体監査。public state/action payloadの手札ID秘匿、remote stateの手札ID破棄、GET/BET/召喚/死亡/ランダム/占い/ダメージ/回復/バフ/手札山札系カードの分類監査と不変条件検査APIを追加。"
+  "v296": "対戦環境スコープ全体監査。public state/action payloadの手札ID秘匿、remote stateの手札ID破棄、GET/BET/召喚/死亡/ランダム/占い/ダメージ/回復/バフ/手札山札系カードの分類監査と不変条件検査APIを追加。",
+  "v297": "PvPのFirebase/metaターン開始経路で通常ユニットのsummoningSickness/canAttackを更新していなかった問題を修正。速攻以外のユニット（ルドマン、ブラッドレディ、ラプソーン、トンネラー、黄金兵など）が次の自分ターンに攻撃可能になる。"
 }

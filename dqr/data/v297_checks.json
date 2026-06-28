@@ -1,0 +1,7 @@
+{
+  "version": "v297_pvp_turn_start_attack_ready_fix",
+  "nodeCheck": "OK",
+  "staticAttackReadyChecks": "5 passed / 0 failed",
+  "reason": "PvP prepareOwnTurnStartV280 did not refresh unit attack readiness; haste worked only because it sets canAttack on summon.",
+  "dynamicBrowser": "not completed in this sandbox; Chromium/CDP unavailable as previously noted"
+}

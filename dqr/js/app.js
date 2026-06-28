@@ -63,7 +63,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v296_pvp_scope_full_audit_guard';
+const DATA_VERSION = 'v297_pvp_turn_start_attack_ready_fix';
 const BUILD_LABEL = 'v294 / 死亡時GETの所有者・重複修正';
 
 // v107 compatibility shims for rolled-back bases
@@ -25207,5 +25207,106 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
 
   if(window.__DQR_TEST__){
     window.__DQR_TEST__.v296={version:V296, safePublicStateV296, sanitizeRemotePublicStateV296, assertPvpScopeInvariantsV296, simulateRemotePublicStateV296, simulatePublicSyncPayloadV296, classifyCardsForPvpScopeV296, runPvpScopeSmokeV296, countExactCards};
+  }
+})();
+
+
+/* v297: PvP own-turn start attack readiness fix.
+   Root cause: Firebase/meta turn start called prepareOwnTurnStartV280(), but that path did not refresh
+   normal units for the new turn. Solo mode already called refreshUnitsForSideTurnV114(), so haste units
+   looked fine while normal summoned units stayed canAttack=false forever in PvP.
+*/
+(function installPvpTurnStartAttackReadyFixV297(){
+  const V297='v297_pvp_turn_start_attack_ready_fix';
+  function g(){ return state?.battle?.game || null; }
+  function kw(unit){ try{ return typeof unitKeywords === 'function' ? unitKeywords(unit) : (unit?.keywords || {}); }catch(e){ return unit?.keywords || {}; } }
+  function hasStatusType(unit, types){
+    const set = new Set(types || []);
+    return !!unit?.statuses?.some(s => set.has(typeof s === 'string' ? s : s?.type));
+  }
+  function blockedFromReadyV297(unit){
+    if(!unit || unit.isBuilding) return true;
+    if(Number(unit.hp || 0) <= 0) return true;
+    if(Number(unit.attack || 0) <= 0) return true;
+    // Preserve explicit attack-lock effects. These are separate from normal summoning sickness.
+    if(unit.cantAttackUntilNextTurn || unit.cannotAttackUntilNextTurn || unit.cannotAttackUntilNextTurnEndV259) return true;
+    if(unit.cannotAttackUntilTurnEndV259 || unit.cannotAttackUntilTurnEndV296) return true;
+    if(unit.cannotAttackUntilV258 && unit.cannotAttackUntilV258 !== 'expired') return true;
+    if(unit.cantAttackUntilNextTurnEnd || unit.leaderCannotAttackUntilNextTurnEndV253) return true;
+    if(hasStatusType(unit, ['cantAttack','attackLock'])) return true;
+    return false;
+  }
+  function readyUnitForOwnTurnV297(unit){
+    if(!unit || unit.isBuilding) return false;
+    const before = {canAttack:!!unit.canAttack, sickness:!!unit.summoningSickness, attacksLeft:Number(unit.attacksLeft || 0)};
+    unit.summoningSickness = false;
+    const double = !!(kw(unit).doubleAttack || unit.doubleAttack);
+    unit.attacksLeft = double ? 2 : 1;
+    unit.attacked = false;
+    unit.canAttack = !blockedFromReadyV297(unit);
+    return before.canAttack !== !!unit.canAttack || before.sickness !== !!unit.summoningSickness || before.attacksLeft !== Number(unit.attacksLeft || 0);
+  }
+  function readyOwnBoardForTurnStartV297(source='turnStart'){
+    const game=g();
+    if(!game || game.finished || !game.isMyTurn) return {ok:false, reason:'not own turn'};
+    const key = `${state?.battle?.roomId || 'local'}|${state?.playerId || ''}|${Number(game.turn || 0)}`;
+    if(game._v297ReadiedOwnTurnKey === key) return {ok:true, already:true, changed:0, key};
+    game._v297ReadiedOwnTurnKey = key;
+    let changed=0, readied=0;
+    for(const unit of (game.player.board || [])){
+      if(!unit || unit.isBuilding) continue;
+      if(readyUnitForOwnTurnV297(unit)) changed++;
+      if(unit.canAttack) readied++;
+    }
+    if(changed){
+      try{ battleLog(`ターン開始：味方ユニット${readied}体が攻撃可能になりました。`); }catch(e){}
+    }
+    return {ok:true, already:false, changed, readied, key};
+  }
+
+  const oldPrepare = typeof prepareOwnTurnStartV280 === 'function' ? prepareOwnTurnStartV280 : null;
+  if(oldPrepare && !oldPrepare.__v297AttackReadyFix){
+    prepareOwnTurnStartV280 = function(source='turnStart'){
+      const result = oldPrepare.call(this, source);
+      const game=g();
+      // If oldPrepare actually advanced the turn, ready units immediately after draw/resources.
+      // If a duplicate meta event skipped oldPrepare but this turn was never readied, still fix once.
+      if(game?.isMyTurn && !game.finished){
+        const ready = readyOwnBoardForTurnStartV297(source);
+        if(ready.ok && !ready.already){
+          try{ renderBattleArena?.(); }catch(e){}
+          try{ syncMyBattleState?.('v297AttackReady'); }catch(e){}
+        }
+      }
+      return result;
+    };
+    prepareOwnTurnStartV280.__v297AttackReadyFix = true;
+  }
+
+  // Test helper: create representative normal units, simulate an own-turn start refresh, and report attack flags.
+  function simulateTurnStartAttackReadyV297(names=['ルドマン','ブラッドレディ','ラプソーン','トンネラー','黄金兵']){
+    const T=window.__DQR_TEST__ || {};
+    if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g();
+    if(!game) return {ok:false, reason:'no game'};
+    game.isMyTurn=true;
+    game.turn=Number(game.turn || 1) + 1;
+    game.player.board = Array(6).fill(null);
+    names.slice(0,6).forEach((name,i)=>{
+      const card=findCardByName(name);
+      if(card){
+        const unit=makeUnitFromCard(card);
+        unit.canAttack=false;
+        unit.summoningSickness=true;
+        game.player.board[i]=unit;
+      }
+    });
+    delete game._v297ReadiedOwnTurnKey;
+    const ready=readyOwnBoardForTurnStartV297('test');
+    const units=game.player.board.map(u=>u?{name:u.name, attack:u.attack, canAttack:!!u.canAttack, summoningSickness:!!u.summoningSickness, attacksLeft:u.attacksLeft}:null).filter(Boolean);
+    return {ok:units.every(u=>Number(u.attack)>0 ? u.canAttack && !u.summoningSickness : true), ready, units};
+  }
+  if(window.__DQR_TEST__){
+    window.__DQR_TEST__.v297={version:V297, readyOwnBoardForTurnStartV297, readyUnitForOwnTurnV297, blockedFromReadyV297, simulateTurnStartAttackReadyV297};
   }
 })();

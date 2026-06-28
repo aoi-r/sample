@@ -1,0 +1,26 @@
+{
+  "passed": 5,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "prepareOwnTurnStartV280 is wrapped by v297",
+      "ok": true
+    },
+    {
+      "name": "turn start readiness clears summoningSickness",
+      "ok": true
+    },
+    {
+      "name": "turn start readiness sets canAttack through blocked guard",
+      "ok": true
+    },
+    {
+      "name": "v297 test helper includes reported cards",
+      "ok": true
+    },
+    {
+      "name": "readiness is one-shot per turn",
+      "ok": true
+    }
+  ]
+}
