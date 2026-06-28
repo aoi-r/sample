@@ -1,0 +1,70 @@
+{
+  "version": "v294_death_get_owner_fix",
+  "checks": [
+    "node --check js/app.js",
+    "v294 browser test: player-side Behoimi grants exactly 1 coin",
+    "v294 browser test: enemy-side Behoimi does not add coin to local hand and only increments hidden enemy handCount",
+    "v294 browser test: Daiou Ika death GET(2) remains owner-only and not doubled"
+  ],
+  "officialRuling": "ベホイミスライムは死亡時GET(1)。GETは死亡したユニットの所有者だけが得る扱い。",
+  "nodeCheck": "OK",
+  "browserDeathGetTests": {
+    "passed": 4,
+    "failed": 0,
+    "tests": [
+      {
+        "name": "player side Behoimi grants exactly one coin to owner",
+        "ok": true,
+        "value": {
+          "ok": true,
+          "side": "player",
+          "playerCoinCount": 1,
+          "playerHand": [
+            "コイン"
+          ],
+          "enemyHandCount": 0,
+          "enemyExactHand": []
+        }
+      },
+      {
+        "name": "enemy side Behoimi does not add coin to local player and increments enemy handCount once",
+        "ok": true,
+        "value": {
+          "ok": true,
+          "side": "enemy",
+          "playerCoinCount": 0,
+          "playerHand": [],
+          "enemyHandCount": 1,
+          "enemyExactHand": []
+        }
+      },
+      {
+        "name": "player side Daiou Ika grants exactly two coins once despite double path",
+        "ok": true,
+        "value": {
+          "ok": true,
+          "side": "player",
+          "playerCoinCount": 2,
+          "playerHand": [
+            "コイン",
+            "コイン"
+          ],
+          "enemyHandCount": 0,
+          "enemyExactHand": []
+        }
+      },
+      {
+        "name": "enemy side Daiou Ika only increments enemy handCount by two",
+        "ok": true,
+        "value": {
+          "ok": true,
+          "side": "enemy",
+          "playerCoinCount": 0,
+          "playerHand": [],
+          "enemyHandCount": 2,
+          "enemyExactHand": []
+        }
+      }
+    ]
+  }
+}

@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v293_real_firebase_two_access_harness';
-const BUILD_LABEL = 'v293 / 実Firebase 2アクセス検証ハーネス';
+const DATA_VERSION = 'v294_death_get_owner_fix';
+const BUILD_LABEL = 'v294 / 死亡時GETの所有者・重複修正';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -24749,4 +24749,120 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
   }
   window.__DQR_TEST__ ||= {};
   window.__DQR_TEST__.v293Firebase = {version:V293, waitFirebaseReady, clearRoom, startMatchDirect, setIdentity, makeDeck, setControlledState, useCardByName, endTurnDirect, snapshot, invariants, readRoom, resolveChoice, resolveAllChoices};
+})();
+
+
+/* v294: Deathrattle GET ownership fix.
+   Official behavior for ベホイミスライム is 死亡時:GET(1).
+   GET belongs to the dead unit's owner only, and must not be granted to both clients.
+   Older generic death text + cost-specific handlers could both add coins to the local player.
+*/
+(function installDeathGetOwnerFixV294(){
+  const V294='v294_death_get_owner_fix';
+  function game(){ return state?.battle?.game || null; }
+  function deathGetCountV294(unit){
+    if(!unit) return 0;
+    if(unit.name === 'ベホイミスライム') return 1;
+    if(unit.name === 'だいおうイカ') return 2;
+    if(unit.betDeathGet2) return 2;
+    return 0;
+  }
+  function deathKey(unit, side, source=''){
+    if(!unit) return `${side}:none:${source}`;
+    return `${side}:${unit.id || unit.cardId || unit.name}:${unit.lastBoardPos ?? ''}:${source || unit.name}`;
+  }
+  function grantDeathGetToOwnerV294(unit, side='player', count=1, source='死亡時GET'){
+    const g=game(); if(!g || !unit || Number(count||0)<=0) return false;
+    g._v294DeathGetApplied ||= Object.create(null);
+    const key=deathKey(unit, side, source);
+    if(unit._v294DeathGetApplied || g._v294DeathGetApplied[key]) return true;
+    unit._v294DeathGetApplied = true;
+    g._v294DeathGetApplied[key] = true;
+    const n=Number(count||1);
+    if(side === 'player'){
+      for(let i=0;i<n;i++) addCardToHandByName('コイン');
+      battleLog(`${unit.name}：死亡時GET(${n})。所有者の手札にコイン${n}枚。`);
+    }else{
+      // In PvP the opponent's exact hand must stay hidden. Reflect only the public count.
+      g.enemy.handCount = Number(g.enemy.handCount ?? (Array.isArray(g.enemy.hand) ? g.enemy.hand.length : 0) ?? 0) + n;
+      if(Array.isArray(g.enemy.hand)){
+        // Prevent old public-state handIds/legacy reducers from leaking exact coin IDs on the local client.
+        g.enemy.hand = g.enemy.hand.filter(id => byId(id)?.name !== 'コイン' && byId(id)?.name !== 'スペシャルコイン');
+      }
+      battleLog(`${unit.name}：死亡時GET(${n})。相手の手札枚数+${n}。`);
+    }
+    try{ syncMyBattleState?.(); }catch(e){}
+    return true;
+  }
+
+  const oldHandleUnitDeathV294 = typeof handleUnitDeathEvent === 'function' ? handleUnitDeathEvent : null;
+  if(oldHandleUnitDeathV294 && !oldHandleUnitDeathV294.__v294DeathGetOwnerFix){
+    const wrapped = function(args={}){
+      const unit=args?.unit; const side=args?.side || 'player'; const count=deathGetCountV294(unit);
+      if(unit && !args?.vanished && count){
+        grantDeathGetToOwnerV294(unit, side, count, 'unitDeathEvent');
+        try{ refreshDragonLordAuraV218?.(); }catch(e){}
+        return true;
+      }
+      return oldHandleUnitDeathV294.call(this,args);
+    };
+    wrapped.__v294DeathGetOwnerFix = true;
+    handleUnitDeathEvent = wrapped;
+  }
+
+  const oldApplyDeathV294 = typeof applyDeathrattle === 'function' ? applyDeathrattle : null;
+  if(oldApplyDeathV294 && !oldApplyDeathV294.__v294DeathGetOwnerFix){
+    const wrapped = function(unit, side='player'){
+      const count=deathGetCountV294(unit);
+      if(unit && !unit.vanished && count){
+        grantDeathGetToOwnerV294(unit, side, count, 'applyDeathrattle');
+        return true;
+      }
+      return oldApplyDeathV294.call(this, unit, side);
+    };
+    wrapped.__v294DeathGetOwnerFix = true;
+    applyDeathrattle = wrapped;
+  }
+
+  const oldCost2DeathV294 = typeof applyCost2UnitDeathEffectsV218 === 'function' ? applyCost2UnitDeathEffectsV218 : null;
+  if(oldCost2DeathV294 && !oldCost2DeathV294.__v294DeathGetOwnerFix){
+    const wrapped = function(unit, side='player', pos=0, vanished=false){
+      const count=deathGetCountV294(unit);
+      if(unit && !vanished && count){ unit.lastBoardPos ??= pos; return grantDeathGetToOwnerV294(unit, side, count, 'cost2Death'); }
+      return oldCost2DeathV294.call(this, unit, side, pos, vanished);
+    };
+    wrapped.__v294DeathGetOwnerFix = true;
+    applyCost2UnitDeathEffectsV218 = wrapped;
+  }
+
+  const oldCost3DeathV294 = typeof applyCost3UnitDeathEffectsV224 === 'function' ? applyCost3UnitDeathEffectsV224 : null;
+  if(oldCost3DeathV294 && !oldCost3DeathV294.__v294DeathGetOwnerFix){
+    const wrapped = function(unit, side='player', pos=0, vanished=false){
+      const count=deathGetCountV294(unit);
+      if(unit && !vanished && count){ unit.lastBoardPos ??= pos; return grantDeathGetToOwnerV294(unit, side, count, 'cost3Death'); }
+      return oldCost3DeathV294.call(this, unit, side, pos, vanished);
+    };
+    wrapped.__v294DeathGetOwnerFix = true;
+    applyCost3UnitDeathEffectsV224 = wrapped;
+  }
+
+  function simulateDeathGetV294(name='ベホイミスライム', side='player'){
+    const T=window.__DQR_TEST__ || {};
+    if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const g=game(); if(!g) return {ok:false, reason:'no game'};
+    g.player.hand=[]; g.enemy.hand=[]; g.enemy.handCount=0; g._v294DeathGetApplied=Object.create(null);
+    const card=findCardByName(name); const unit=makeUnitFromCard(card); unit.hp=0; unit.lastBoardPos=0;
+    // Simulate the two historical paths firing for the same death. It should still grant once.
+    if(typeof handleUnitDeathEvent === 'function') handleUnitDeathEvent({unit, side, pos:0, vanished:false});
+    if(typeof applyDeathrattle === 'function') applyDeathrattle(unit, side);
+    return {
+      ok:true,
+      side,
+      playerCoinCount:(g.player.hand||[]).map(byId).filter(c=>c?.name==='コイン').length,
+      playerHand:(g.player.hand||[]).map(id=>byId(id)?.name || id),
+      enemyHandCount:g.enemy.handCount,
+      enemyExactHand:(g.enemy.hand||[]).map(id=>byId(id)?.name || id)
+    };
+  }
+  if(window.__DQR_TEST__){ window.__DQR_TEST__.v294={version:V294, deathGetCountV294, grantDeathGetToOwnerV294, simulateDeathGetV294}; }
 })();

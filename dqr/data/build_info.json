@@ -1,5 +1,5 @@
 {
-  "version": "v293_real_firebase_two_access_harness",
+  "version": "v294_death_get_owner_fix",
   "baselinePreserved": "common_001_163",
   "updatedCount": 1273,
   "missingCount": 2,
@@ -715,5 +715,6 @@
   },
   "v291": "4デッキ深掘りランダム/選択/二重発火/手札混同/同期入口検証を追加。",
   "v292": "2 Chromium clients with action/live-state bridge: four-deck pair matrix, random seeds, modal/lock/ID/mirror invariants. Fixed コンガオンガ no-target renkei modal lock.",
-  "v293": "実Firebase接続を使った2アクセス検証ハーネスを追加。通常プレイには影響しない __DQR_TEST__.v293Firebase と tools/v293_real_firebase_two_access_regression.py を追加。"
+  "v293": "実Firebase接続を使った2アクセス検証ハーネスを追加。通常プレイには影響しない __DQR_TEST__.v293Firebase と tools/v293_real_firebase_two_access_regression.py を追加。",
+  "v294": "ベホイミスライム/だいおうイカ/ミリオンゼニー付与の死亡時GETを所有者側だけに発動し、unitDeathEvent/applyDeathrattle/cost deathの重複付与を防止。"
 }
