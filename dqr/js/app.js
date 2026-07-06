@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v308_dedicated_first_effect_resolver_guard';
-const BUILD_LABEL = 'v306 / イレブンLv2全れんけい発動修正';
+const DATA_VERSION = 'v309_front_taunt_ibul_coin_spell_fix';
+const BUILD_LABEL = 'v309 / 前列におうだち・イブール特技コイン補正';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -27056,4 +27056,158 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
     return {ok:handled===true && after.hp===before.hp+2 && after.maxHp===before.maxHp+2 && after.taunt===true, before, after, handled};
   }
   if(window.__DQR_TEST__){ window.__DQR_TEST__.v308={version:V308, auditDedicatedFirstV308, simulateDedicatedMiniSkipV308, simulateSeaGolemExclusiveV308}; }
+})();
+
+
+/* v309: Front-row taunt and Ibur coin spell-cost fix.
+   - におうだち only restricts attack targets while the taunt unit is in the front row.
+   - コイン / スペシャルコイン are treated as 特技 for cost auras, including イブール.
+*/
+(function installFrontTauntAndIbulCoinSpellFixV309(){
+  const V309='v309_front_taunt_ibul_coin_spell_fix';
+  function g(){ return state?.battle?.game || null; }
+  function board(side){ const game=g(); return side === 'enemy' ? (game?.enemy?.board || []) : (game?.player?.board || []); }
+  function isCoinOrSpecialV309(card){ return !!card && (card.name === 'コイン' || card.name === 'スペシャルコイン'); }
+  const oldIsSpellV309 = typeof isSpell === 'function' ? isSpell : null;
+  if(oldIsSpellV309 && !oldIsSpellV309.__v309IbulCoinSpellFix){
+    const wrappedIsSpell = function(card){
+      if(isCoinOrSpecialV309(card)) return true;
+      return oldIsSpellV309.call(this, card);
+    };
+    wrappedIsSpell.__v309IbulCoinSpellFix = true;
+    isSpell = wrappedIsSpell;
+  }
+
+  function posOfUnitOnSideV309(unit, side){
+    const b=board(side);
+    if(!unit) return -1;
+    let i=b.indexOf(unit);
+    if(i>=0) return i;
+    if(unit.id) i=b.findIndex(u=>u?.id === unit.id);
+    if(i>=0) return i;
+    if(unit.cardId) i=b.findIndex(u=>u?.cardId === unit.cardId && u?.name === unit.name);
+    return i;
+  }
+  function isActiveFrontTauntV309(unit, side){
+    const pos=posOfUnitOnSideV309(unit, side);
+    return pos >= 0
+      && typeof isFrontRow === 'function'
+      && isFrontRow(side, pos)
+      && typeof isAttackableUnit === 'function'
+      && isAttackableUnit(unit)
+      && typeof hasTauntKeywordV172 === 'function'
+      && hasTauntKeywordV172(unit)
+      && !(typeof hasStealthKeywordV172 === 'function' && hasStealthKeywordV172(unit));
+  }
+  const oldHasTauntOnSideV309 = typeof hasTauntOnSideV173 === 'function' ? hasTauntOnSideV173 : null;
+  if(oldHasTauntOnSideV309 && !oldHasTauntOnSideV309.__v309FrontOnlyTaunt){
+    hasTauntOnSideV173 = function(side){
+      return (board(side) || []).some(u => isActiveFrontTauntV309(u, side));
+    };
+    hasTauntOnSideV173.__v309FrontOnlyTaunt = true;
+  }
+
+  function attackerBypassesV309(attackerRef){
+    const game=g();
+    const ref=attackerRef || game?.selectedAttacker;
+    if(!ref) return false;
+    const atk = ref.side === 'playerLeader' || ref.side === 'enemyLeader'
+      ? {keywords:{}}
+      : board(ref.side)?.[ref.pos];
+    const kw = typeof unitKeywords === 'function' ? unitKeywords(atk) : (atk?.keywords || {});
+    const text = typeof getCardText === 'function' ? getCardText(byId(atk?.cardId)) : '';
+    return !!(kw.snipe || kw.aim || text.includes('ねらい撃ち'));
+  }
+  const oldCanAttackTargetV309 = typeof canAttackTargetUnitV173 === 'function' ? canAttackTargetUnitV173 : null;
+  if(oldCanAttackTargetV309 && !oldCanAttackTargetV309.__v309FrontOnlyTaunt){
+    canAttackTargetUnitV173 = function(unit, targetSide, attackerRef=null){
+      const ref=attackerRef || g()?.selectedAttacker;
+      if(typeof v242HasMovingStatueNoTarget === 'function' && v242HasMovingStatueNoTarget(ref)) return false;
+      if(!isAttackableUnit(unit)) return false;
+      if(!ref) return true;
+      if(attackerBypassesV309(ref)) return true;
+      if(typeof hasStealthKeywordV172 === 'function' && hasStealthKeywordV172(unit)) return false;
+      const activeTauntExists = hasTauntOnSideV173(targetSide);
+      if(activeTauntExists) return isActiveFrontTauntV309(unit, targetSide);
+      return true;
+    };
+    canAttackTargetUnitV173.__v309FrontOnlyTaunt = true;
+  }
+  const oldCanAttackLeaderV309 = typeof canAttackLeaderV173 === 'function' ? canAttackLeaderV173 : null;
+  if(oldCanAttackLeaderV309 && !oldCanAttackLeaderV309.__v309FrontOnlyTaunt){
+    canAttackLeaderV173 = function(targetSide, attackerRef=null){
+      const ref=attackerRef || g()?.selectedAttacker;
+      if(typeof v242HasMovingStatueNoTarget === 'function' && v242HasMovingStatueNoTarget(ref)) return false;
+      if(!ref) return false;
+      if(attackerBypassesV309(ref)) return true;
+      return !hasTauntOnSideV173(targetSide);
+    };
+    canAttackLeaderV173.__v309FrontOnlyTaunt = true;
+  }
+  if(typeof canTargetEnemyUnit === 'function'){
+    canTargetEnemyUnit = function(unit){ return canAttackTargetUnitV173(unit, 'enemy', state.battle.game?.selectedAttacker); };
+  }
+
+  function setupV309(){
+    const T=window.__DQR_TEST__ || {};
+    if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g();
+    if(!game) return null;
+    game.player.hand=[]; game.enemy.hand=[]; game.player.board=Array(6).fill(null); game.enemy.board=Array(6).fill(null);
+    return game;
+  }
+  function makeUnitV309(name, overrides={}){
+    const card=typeof findCardByName === 'function' ? findCardByName(name) : null;
+    const unit=(card && typeof makeUnitFromCard === 'function') ? makeUnitFromCard(card) : {id:safeRandomId('u'), name, cardId:card?.id, attack:1, hp:3, maxHp:3, keywords:{}};
+    Object.assign(unit, overrides);
+    unit.keywords ||= {};
+    return unit;
+  }
+  function simulateTauntRowsV309(){
+    const game=setupV309(); if(!game) return {ok:false, reason:'no game'};
+    const back=makeUnitV309('シーゴーレム', {keywords:{taunt:true}});
+    const normal=makeUnitV309('スライム', {keywords:{}});
+    game.enemy.board[3]=back; // enemy back row
+    game.enemy.board[0]=normal; // enemy front row, not taunt
+    game.selectedAttacker={side:'player', pos:0};
+    const backOnly={
+      hasTaunt:hasTauntOnSideV173('enemy'),
+      canHitNormal:canAttackTargetUnitV173(normal,'enemy',game.selectedAttacker),
+      canHitLeader:canAttackLeaderV173('enemy',game.selectedAttacker)
+    };
+    game.enemy.board=Array(6).fill(null);
+    const front=makeUnitV309('シーゴーレム', {keywords:{taunt:true}});
+    const backNormal=makeUnitV309('スライム', {keywords:{}});
+    game.enemy.board[0]=front; // enemy front row taunt
+    game.enemy.board[3]=backNormal;
+    const frontTaunt={
+      hasTaunt:hasTauntOnSideV173('enemy'),
+      canHitFrontTaunt:canAttackTargetUnitV173(front,'enemy',game.selectedAttacker),
+      canHitBackNormal:canAttackTargetUnitV173(backNormal,'enemy',game.selectedAttacker),
+      canHitLeader:canAttackLeaderV173('enemy',game.selectedAttacker)
+    };
+    return {ok: backOnly.hasTaunt===false && backOnly.canHitNormal===true && backOnly.canHitLeader===true && frontTaunt.hasTaunt===true && frontTaunt.canHitFrontTaunt===true && frontTaunt.canHitBackNormal===false && frontTaunt.canHitLeader===false, backOnly, frontTaunt};
+  }
+  function simulateIbulCoinCostV309(){
+    const game=setupV309(); if(!game) return {ok:false, reason:'no game'};
+    const ib=findCardByName('イブール');
+    const ibUnit=ib && makeUnitFromCard(ib);
+    if(ibUnit) game.enemy.board[0]=ibUnit;
+    const coin=findCardByName('コイン') || state.allCards.find(c=>c?.name==='コイン');
+    const special=findCardByName('スペシャルコイン') || state.allCards.find(c=>c?.name==='スペシャルコイン');
+    const tool=findCardByName('道具カード') || state.allCards.find(c=>c?.name==='道具カード');
+    const values={
+      coinIsSpell:isSpell(coin),
+      specialIsSpell:isSpell(special),
+      toolIsSpell:isSpell(tool),
+      coinCost:getEffectiveCost(coin),
+      specialCost:getEffectiveCost(special),
+      toolCost:getEffectiveCost(tool),
+      aura:playerSpellCostAuraFromEnemyV189()
+    };
+    return {ok:values.coinIsSpell && values.specialIsSpell && values.coinCost>=1 && values.specialCost>=1 && values.toolCost>=1, values};
+  }
+  if(window.__DQR_TEST__){
+    window.__DQR_TEST__.v309={version:V309, isActiveFrontTauntV309, simulateTauntRowsV309, simulateIbulCoinCostV309};
+  }
 })();

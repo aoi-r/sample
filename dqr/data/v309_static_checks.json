@@ -1,0 +1,34 @@
+{
+  "passed": 7,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "DATA_VERSION v309",
+      "ok": true
+    },
+    {
+      "name": "BUILD_LABEL v309",
+      "ok": true
+    },
+    {
+      "name": "front-only taunt helper exists",
+      "ok": true
+    },
+    {
+      "name": "hasTauntOnSide uses active front taunt",
+      "ok": true
+    },
+    {
+      "name": "canAttackTarget requires active front taunt",
+      "ok": true
+    },
+    {
+      "name": "coin and special coin are spells",
+      "ok": true
+    },
+    {
+      "name": "v309 runtime tests exposed",
+      "ok": true
+    }
+  ]
+}

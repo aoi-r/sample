@@ -1,0 +1,9 @@
+{
+  "version": "v309_front_taunt_ibul_coin_spell_fix",
+  "nodeCheck": "OK",
+  "staticChecks": "7 passed / 0 failed",
+  "fixes": [
+    "におうだちは前列のみ攻撃対象制限",
+    "コイン/スペシャルコインを特技扱いにしてイブールのコスト+1対象に含める"
+  ]
+}
