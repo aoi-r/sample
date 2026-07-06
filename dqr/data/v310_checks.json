@@ -1,0 +1,31 @@
+{
+  "version": "v310_crows_putplay_synchro_fix",
+  "nodeCheck": "OK",
+  "staticChecks": "6 passed / 0 failed",
+  "tests": [
+    {
+      "name": "DATA_VERSION v310",
+      "ok": true
+    },
+    {
+      "name": "Crows hit mode wrapper exists",
+      "ok": true
+    },
+    {
+      "name": "put play front priority exists",
+      "ok": true
+    },
+    {
+      "name": "enemy front priority is 3,4,5",
+      "ok": true
+    },
+    {
+      "name": "dynamic synchro refresh exists",
+      "ok": true
+    },
+    {
+      "name": "test APIs exported",
+      "ok": true
+    }
+  ]
+}

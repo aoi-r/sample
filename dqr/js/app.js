@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v309_front_taunt_ibul_coin_spell_fix';
-const BUILD_LABEL = 'v309 / 前列におうだち・イブール特技コイン補正';
+const DATA_VERSION = 'v310_crows_putplay_synchro_fix';
+const BUILD_LABEL = 'v310 / クロウズ必中・場に出す位置・シンクロ追従修正';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -27210,4 +27210,201 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
   if(window.__DQR_TEST__){
     window.__DQR_TEST__.v309={version:V309, isActiveFrontTauntV309, simulateTauntRowsV309, simulateIbulCoinCostV309};
   }
+})();
+
+
+/* v310: Crows hit-mode, put-into-play priority, and dynamic synchro follow-up.
+   - クロウズ召喚時: 味方リーダーは必中モードになる。ユニット死亡/ターン跨ぎで消えない。
+   - 位置指定なしの「場に出す」は、所有者から見た前列上段(1行目)を最優先にする。
+   - シンクロは召喚後も味方ヒーローLvに連動し、Lv上昇時に未適用Lvだけ追加入力する。
+*/
+(function installCrowsPutPlaySynchroFixV310(){
+  const V310='v310_crows_putplay_synchro_fix';
+  function g(){ return state?.battle?.game || null; }
+  function sideBoard(side='player'){ const game=g(); return side === 'enemy' ? (game?.enemy?.board || []) : (game?.player?.board || []); }
+  function playerFrontFirstOrderV310(side='player'){
+    // Existing coordinate helpers label player 0-2 as front row and enemy 3-5 as front row.
+    return side === 'enemy' ? [3,4,5,0,1,2] : [0,1,2,3,4,5];
+  }
+  function firstEmptyFrontPriorityV310(side='player'){
+    const b=sideBoard(side);
+    for(const p of playerFrontFirstOrderV310(side)) if(!b[p]) return p;
+    return -1;
+  }
+  function setCrowsHitModeV310(source='クロウズ', side='player'){
+    const game=g(); if(!game) return false;
+    const p = side === 'enemy' ? game.enemy : game.player;
+    if(!p) return false;
+    // Friendly leader hit mode. Do not downgrade super-fortune.
+    if(side === 'player'){
+      if(typeof setFortuneModeV203 === 'function') setFortuneModeV203('hit', source, {permanent:true});
+      else { game.player.fortuneMode='hit'; game.player.fortuneModeUntil=''; }
+      game.player.permanentHitFortuneV310 = true;
+      game.player.crowsHitModeActiveV310 = true;
+      battleLog(`${source}：味方リーダーはこの対戦中、必中モードになりました。`);
+    }else{
+      // Local client must not decide opponent choices, but public state should know the opponent has hit mode.
+      p.fortuneMode = p.fortuneMode === 'super' ? 'super' : 'hit';
+      p.fortuneModeUntil = '';
+      p.permanentHitFortuneV310 = true;
+      p.crowsHitModeActiveV310 = true;
+      battleLog(`${source}：相手リーダーが必中モードになりました。`);
+    }
+    return true;
+  }
+
+  const oldHandleUnitSummonedEventV310 = typeof handleUnitSummonedEvent === 'function' ? handleUnitSummonedEvent : null;
+  if(oldHandleUnitSummonedEventV310 && !oldHandleUnitSummonedEventV310.__v310CrowsHitMode){
+    handleUnitSummonedEvent = function(payload={}){
+      const r = oldHandleUnitSummonedEventV310.call(this, payload);
+      if(payload?.card?.name === 'クロウズ' || payload?.unit?.name === 'クロウズ'){
+        setCrowsHitModeV310('クロウズ', payload.side || 'player');
+      }
+      return r;
+    };
+    handleUnitSummonedEvent.__v310CrowsHitMode = true;
+  }
+  const oldApplySummonV166V310 = typeof applySummonV166 === 'function' ? applySummonV166 : null;
+  if(oldApplySummonV166V310 && !oldApplySummonV166V310.__v310CrowsHitMode){
+    applySummonV166 = function(unit, card, ...rest){
+      if(card?.name === 'クロウズ'){
+        setCrowsHitModeV310('クロウズ', 'player');
+        // Exclusive: this is the printed summon effect. Do not fall through to generic parser.
+        return true;
+      }
+      return oldApplySummonV166V310.call(this, unit, card, ...rest);
+    };
+    applySummonV166.__v310CrowsHitMode = true;
+  }
+
+  // Front-row first priority for all position-unspecified put-into-play helpers.
+  const oldFirstEmptyByOwnerPriorityV217 = typeof firstEmptyByOwnerPriorityV217 === 'function' ? firstEmptyByOwnerPriorityV217 : null;
+  if(oldFirstEmptyByOwnerPriorityV217 && !oldFirstEmptyByOwnerPriorityV217.__v310FrontPriority){
+    firstEmptyByOwnerPriorityV217 = function(side='player'){
+      const p=firstEmptyFrontPriorityV310(side);
+      return p >= 0 ? p : oldFirstEmptyByOwnerPriorityV217.call(this, side);
+    };
+    firstEmptyByOwnerPriorityV217.__v310FrontPriority = true;
+  }
+  const oldFirstEmptySummonPosV134 = typeof firstEmptySummonPosV134 === 'function' ? firstEmptySummonPosV134 : null;
+  if(oldFirstEmptySummonPosV134 && !oldFirstEmptySummonPosV134.__v310FrontPriority){
+    firstEmptySummonPosV134 = function(side='player'){
+      const p=firstEmptyFrontPriorityV310(side);
+      return p >= 0 ? p : oldFirstEmptySummonPosV134.call(this, side);
+    };
+    firstEmptySummonPosV134.__v310FrontPriority = true;
+  }
+  const oldSummonNamedUnitToFriendlyEmptyV187 = typeof summonNamedUnitToFriendlyEmptyV187 === 'function' ? summonNamedUnitToFriendlyEmptyV187 : null;
+  if(oldSummonNamedUnitToFriendlyEmptyV187 && !oldSummonNamedUnitToFriendlyEmptyV187.__v310FrontPriority){
+    summonNamedUnitToFriendlyEmptyV187 = function(name, stats={}, source='出す'){
+      const game=g(); if(!game?.player?.board) return oldSummonNamedUnitToFriendlyEmptyV187.call(this, name, stats, source);
+      const pos=firstEmptyFrontPriorityV310('player');
+      if(pos < 0){ battleLog(`${source}：味方の場に空きがありません。`); return false; }
+      const ok = summonTokenAtPosition(name, pos, 'player', stats);
+      if(ok) battleLog(`${source}：${name}を前列優先マス${pos+1}に出しました。`);
+      return ok;
+    };
+    summonNamedUnitToFriendlyEmptyV187.__v310FrontPriority = true;
+  }
+
+  function synchroCardForUnitV310(unit){ return byId(unit?.cardId) || findCardByName(unit?.name || ''); }
+  function currentHeroLvV310(){ return Math.max(0, Number((typeof getHeroLevel === 'function' ? getHeroLevel() : 0) || g()?.player?.heroLevel || g()?.player?.heroSkill?.level || 0)); }
+  function markSynchroLevelV310(unit, lv){ if(unit) unit._v310SynchroAppliedLevel = Math.max(Number(unit._v310SynchroAppliedLevel || 0), Number(lv || 0)); }
+  function applyMissingSynchroV310(unit, reason='heroLvChange'){
+    const card=synchroCardForUnitV310(unit);
+    if(!unit || !card || !(typeof hasSynchro === 'function' ? hasSynchro(card) : String(card.text||'').includes('シンクロ'))) return false;
+    const lv=currentHeroLvV310();
+    if(lv <= 0) return false;
+    const applied=Math.max(0, Number(unit._v310SynchroAppliedLevel || 0));
+    if(lv <= applied) return false;
+    const segments = typeof parseLevelledEffectSegments === 'function' ? parseLevelledEffectSegments(getCardText(card), 'シンクロ') : [String(card.text||'')];
+    if(segments.length > 1){
+      for(let i=applied; i<Math.min(lv, segments.length); i++){
+        applySynchroEffectText(segments[i], unit, card.name, 1);
+      }
+      markSynchroLevelV310(unit, Math.min(lv, segments.length));
+    }else{
+      applySynchroEffectText(segments[0], unit, card.name, lv - applied);
+      markSynchroLevelV310(unit, lv);
+    }
+    battleLog(`${card.name}：シンクロがヒーローLv.${lv}へ追従しました。`);
+    return true;
+  }
+  function refreshSynchroBoardV310(reason='heroLvChange'){
+    const game=g(); if(!game?.player?.board) return 0;
+    let changed=0;
+    for(const u of game.player.board || []) if(u && !u.isBuilding && applyMissingSynchroV310(u, reason)) changed++;
+    if(changed){ try{ refreshContinuousBoardEffectsV157?.('player'); }catch(e){} try{ syncMyBattleState?.(); }catch(e){} }
+    return changed;
+  }
+
+  const oldApplySynchroIfAnyV310 = typeof applySynchroIfAny === 'function' ? applySynchroIfAny : null;
+  if(oldApplySynchroIfAnyV310 && !oldApplySynchroIfAnyV310.__v310DynamicSynchro){
+    applySynchroIfAny = function(card, targetUnit=null, ...rest){
+      const before=currentHeroLvV310();
+      const r=oldApplySynchroIfAnyV310.call(this, card, targetUnit, ...rest);
+      if(targetUnit && (typeof hasSynchro === 'function' ? hasSynchro(card) : String(card?.text||'').includes('シンクロ'))){
+        markSynchroLevelV310(targetUnit, before);
+      }
+      return r;
+    };
+    applySynchroIfAny.__v310DynamicSynchro = true;
+  }
+  const oldProgressHeroSkillV310 = typeof progressHeroSkill === 'function' ? progressHeroSkill : null;
+  if(oldProgressHeroSkillV310 && !oldProgressHeroSkillV310.__v310DynamicSynchro){
+    progressHeroSkill = function(skill, mode){
+      const before=currentHeroLvV310();
+      const r=oldProgressHeroSkillV310.call(this, skill, mode);
+      const after=currentHeroLvV310();
+      if(after > before) refreshSynchroBoardV310('heroLevelUp');
+      return r;
+    };
+    progressHeroSkill.__v310DynamicSynchro = true;
+  }
+  const oldActivateHeroCardV310 = typeof activateHeroCard === 'function' ? activateHeroCard : null;
+  if(oldActivateHeroCardV310 && !oldActivateHeroCardV310.__v310DynamicSynchro){
+    activateHeroCard = function(card){
+      const r=oldActivateHeroCardV310.call(this, card);
+      refreshSynchroBoardV310('heroActivated');
+      return r;
+    };
+    activateHeroCard.__v310DynamicSynchro = true;
+  }
+  const oldRenderBattleArenaV310 = typeof renderBattleArena === 'function' ? renderBattleArena : null;
+  if(oldRenderBattleArenaV310 && !oldRenderBattleArenaV310.__v310DynamicSynchro){
+    renderBattleArena = function(...args){
+      try{ refreshSynchroBoardV310('render'); }catch(e){}
+      return oldRenderBattleArenaV310.apply(this, args);
+    };
+    renderBattleArena.__v310DynamicSynchro = true;
+  }
+
+  function simulateCrowsHitModeV310(){
+    const T=window.__DQR_TEST__||{}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g(); if(!game) return {ok:false, reason:'no-game'};
+    game.player.fortuneMode=''; game.player.permanentSuperFortune=false;
+    const card=findCardByName('クロウズ'); const unit=card?makeUnitFromCard(card):null;
+    if(typeof handleUnitSummonedEvent === 'function') handleUnitSummonedEvent({unit, card, pos:0, side:'player', _eventId:'v310_crows'});
+    return {ok:game.player.fortuneMode==='hit', fortuneMode:game.player.fortuneMode, permanentHit:!!game.player.permanentHitFortuneV310};
+  }
+  function simulatePutPlayPriorityV310(){
+    const T=window.__DQR_TEST__||{}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g(); if(!game) return {ok:false, reason:'no-game'};
+    game.player.board=Array(6).fill(null); game.enemy.board=Array(6).fill(null);
+    const p1=firstEmptyFrontPriorityV310('player'); const e1=firstEmptyFrontPriorityV310('enemy');
+    summonNamedUnitToFriendlyEmptyV187('プヨンターゲット', {attack:2,hp:3,taunt:true}, 'v310');
+    return {ok:p1===0 && e1===3 && game.player.board[0]?.name==='プヨンターゲット', playerFirst:p1, enemyFirst:e1, playerBoard:game.player.board.map(u=>u?.name||null)};
+  }
+  function simulateSynchroFollowV310(){
+    const T=window.__DQR_TEST__||{}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g(); if(!game) return {ok:false, reason:'no-game'};
+    const card=findCardByName('プチファイター'); const unit=makeUnitFromCard(card);
+    game.player.heroSkill={heroCardName:'勇者イレブン', level:1}; game.player.heroLevel=1;
+    applySynchroIfAny(card, unit); const lv1={atk:unit.attack,hp:unit.hp,maxHp:unit.maxHp,haste:!!unit.keywords?.haste, applied:unit._v310SynchroAppliedLevel};
+    game.player.board=Array(6).fill(null); game.player.board[0]=unit;
+    game.player.heroSkill.level=2; game.player.heroLevel=2; refreshSynchroBoardV310('testLv2'); const lv2={atk:unit.attack,hp:unit.hp,maxHp:unit.maxHp,haste:!!unit.keywords?.haste, applied:unit._v310SynchroAppliedLevel};
+    game.player.heroSkill.level=3; game.player.heroLevel=3; refreshSynchroBoardV310('testLv3'); const lv3={atk:unit.attack,hp:unit.hp,maxHp:unit.maxHp,haste:!!unit.keywords?.haste, applied:unit._v310SynchroAppliedLevel};
+    return {ok:lv1.atk>=2 && lv2.maxHp>=2 && lv3.haste===true, lv1, lv2, lv3};
+  }
+  if(window.__DQR_TEST__) window.__DQR_TEST__.v310={version:V310, firstEmptyFrontPriorityV310, setCrowsHitModeV310, refreshSynchroBoardV310, simulateCrowsHitModeV310, simulatePutPlayPriorityV310, simulateSynchroFollowV310};
 })();
