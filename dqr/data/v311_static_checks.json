@@ -1,0 +1,26 @@
+{
+  "passed": 5,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "attackUnit marks exhausted turn before render",
+      "ok": true
+    },
+    {
+      "name": "v299 restore blocks exhausted same turn",
+      "ok": true
+    },
+    {
+      "name": "exchange draw only if coins == 3",
+      "ok": true
+    },
+    {
+      "name": "exchange no unconditional draw after reward",
+      "ok": true
+    },
+    {
+      "name": "v311 test API present",
+      "ok": true
+    }
+  ]
+}

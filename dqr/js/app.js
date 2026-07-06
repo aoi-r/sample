@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v310_crows_putplay_synchro_fix';
-const BUILD_LABEL = 'v310 / クロウズ必中・場に出す位置・シンクロ追従修正';
+const DATA_VERSION = 'v311_attack_exhaust_exchange_draw_fix';
+const BUILD_LABEL = 'v311 / 攻撃回数消費・交換所3枚ドロー修正';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -8799,8 +8799,9 @@ function useExchangeCard(card){
     const c = available[i];
     if(!consumeCoins(c.coins)) return;
     const ok = addExchangeRewardV179(c.reward, card.name);
-    drawCard(1);
-    battleLog(`${card.name}：コイン${c.coins}枚で${c.reward}と交換しました。${ok ? '' : '（景品追加失敗）'}`);
+    const shouldDrawV311 = Number(c.coins || 0) === 3;
+    if(shouldDrawV311) drawCard(1);
+    battleLog(`${card.name}：コイン${c.coins}枚で${c.reward}と交換しました。${shouldDrawV311 ? 'カードを1枚引きました。' : ''}${ok ? '' : '（景品追加失敗）'}`);
     renderBattleArena(); syncMyBattleState();
   }, {kind:'exchangeV179', coinCount:coins});
 }
@@ -12467,6 +12468,13 @@ function attackUnit(attackerRef, defenderRef){
   }else{
     atk.attacksLeft = Math.max(0, (atk.attacksLeft ?? 1) - 1);
     atk.canAttack = atk.attacksLeft > 0;
+    // v311: mark attack consumption before render/sync. v299's own-turn restore runs during render
+    // to repair stale Firebase opponentView snapshots, but it must not re-enable a unit that
+    // already spent its attack this turn.
+    atk.attacked = true;
+    atk._v311LastAttackTurn = Number(game.turn || 0);
+    if(!atk.canAttack) atk._v311AttackExhaustedTurn = Number(game.turn || 0);
+    else delete atk._v311AttackExhaustedTurn;
   }
   emitBattleEvent('attackResolved', {attackerRef, defenderRef, attacker:atk, defender:def});
   battleLog(`${atk.name}が${def.name}を攻撃。`);
@@ -25228,6 +25236,7 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
     if(!unit || unit.isBuilding) return true;
     if(Number(unit.hp || 0) <= 0) return true;
     if(Number(unit.attack || 0) <= 0) return true;
+    if(Number(unit._v311AttackExhaustedTurn ?? -999) === Number(g()?.turn || 0)) return true;
     // Preserve explicit attack-lock effects. These are separate from normal summoning sickness.
     if(unit.cantAttackUntilNextTurn || unit.cannotAttackUntilNextTurn || unit.cannotAttackUntilNextTurnEndV259) return true;
     if(unit.cannotAttackUntilTurnEndV259 || unit.cannotAttackUntilTurnEndV296) return true;
@@ -25349,6 +25358,9 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
     if(!unit || unit.isBuilding) return true;
     if(Number(unit.hp || 0) <= 0) return true;
     if(Number(unit.attack || 0) <= 0) return true;
+    // v311: render/sync attack-ready repair is only for stale snapshots. It must never
+    // undo a real attack consumed earlier in this same turn.
+    if(Number(unit._v311AttackExhaustedTurn ?? -999) === gameTurn()) return true;
     if(unitEnteredThisTurnV299(unit)) return true;
     if(unit.cantAttackUntilNextTurn || unit.cannotAttackUntilNextTurn || unit.cannotAttackUntilNextTurnEndV259) return true;
     if(unit.cannotAttackUntilTurnEndV259 || unit.cannotAttackUntilTurnEndV296) return true;
@@ -27219,7 +27231,7 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
    - シンクロは召喚後も味方ヒーローLvに連動し、Lv上昇時に未適用Lvだけ追加入力する。
 */
 (function installCrowsPutPlaySynchroFixV310(){
-  const V310='v310_crows_putplay_synchro_fix';
+  const V310='v311_attack_exhaust_exchange_draw_fix';
   function g(){ return state?.battle?.game || null; }
   function sideBoard(side='player'){ const game=g(); return side === 'enemy' ? (game?.enemy?.board || []) : (game?.player?.board || []); }
   function playerFrontFirstOrderV310(side='player'){
@@ -27407,4 +27419,56 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
     return {ok:lv1.atk>=2 && lv2.maxHp>=2 && lv3.haste===true, lv1, lv2, lv3};
   }
   if(window.__DQR_TEST__) window.__DQR_TEST__.v310={version:V310, firstEmptyFrontPriorityV310, setCrowsHitModeV310, refreshSynchroBoardV310, simulateCrowsHitModeV310, simulatePutPlayPriorityV310, simulateSynchroFollowV310};
+})();
+
+
+/* v311: attack consumption and exchange draw rule fix.
+   - v299's render/sync readiness repair must not re-enable units that already attacked this turn.
+   - Exchange cards draw only on the 3-coin option.
+*/
+(function installAttackExhaustAndExchangeDrawFixV311(){
+  const V311='v311_attack_exhaust_exchange_draw_fix';
+  function game(){ return state?.battle?.game || null; }
+  function markAttackExhaustedV311(unit){
+    const g=game(); if(!g || !unit) return false;
+    unit.attacked = true;
+    unit._v311LastAttackTurn = Number(g.turn || 0);
+    if(Number(unit.attacksLeft || 0) <= 0 || !unit.canAttack){
+      unit.attacksLeft = 0;
+      unit.canAttack = false;
+      unit._v311AttackExhaustedTurn = Number(g.turn || 0);
+    }
+    return true;
+  }
+  function isAttackExhaustedThisTurnV311(unit){
+    const g=game(); return !!(g && unit && Number(unit._v311AttackExhaustedTurn ?? -999) === Number(g.turn || 0));
+  }
+  function simulateAttackRestoreGuardV311(){
+    const T=window.__DQR_TEST__ || {};
+    if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const g=game(); if(!g) return {ok:false, reason:'no-game'};
+    g.isMyTurn=true; g.turn=7; g.player.board=Array(6).fill(null);
+    const c=findCardByName('シーゴーレム') || findCardByName('ルドマン');
+    const u=makeUnitFromCard(c); u.canAttack=true; u.attacksLeft=1; u.summoningSickness=false; g.player.board[0]=u;
+    // simulate a normal attack consumption before render/sync restore
+    u.attacksLeft=0; u.canAttack=false; markAttackExhaustedV311(u);
+    try{ if(window.__DQR_TEST__?.v299?.restoreOwnTurnAttackReadyV299) window.__DQR_TEST__.v299.restoreOwnTurnAttackReadyV299('v311-test'); }catch(e){}
+    try{ renderBattleArena?.(); }catch(e){}
+    return {ok:u.canAttack===false && Number(u.attacksLeft||0)===0, canAttack:u.canAttack, attacksLeft:u.attacksLeft, exhaustedTurn:u._v311AttackExhaustedTurn, turn:g.turn};
+  }
+  function simulateExchangeDrawRuleV311(coins=1){
+    const T=window.__DQR_TEST__ || {};
+    if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const g=game(); if(!g) return {ok:false, reason:'no-game'};
+    g.player.hand=[]; g.player.deck=[];
+    const dummy=findCardByName('スライム') || state.allCards.find(c=>c?.cardType==='ユニット');
+    for(let i=0;i<5;i++) if(dummy) g.player.deck.push(dummy.id);
+    const beforeDeck=g.player.deck.length, beforeHand=g.player.hand.length;
+    const shouldDraw=Number(coins||0)===3;
+    if(shouldDraw) drawCard(1);
+    return {ok:(g.player.deck.length===beforeDeck-(shouldDraw?1:0)) && (g.player.hand.length===beforeHand+(shouldDraw?1:0)), coins:Number(coins||0), shouldDraw, beforeDeck, afterDeck:g.player.deck.length, beforeHand, afterHand:g.player.hand.length};
+  }
+  if(window.__DQR_TEST__){
+    window.__DQR_TEST__.v311={version:V311, markAttackExhaustedV311, isAttackExhaustedThisTurnV311, simulateAttackRestoreGuardV311, simulateExchangeDrawRuleV311};
+  }
 })();
