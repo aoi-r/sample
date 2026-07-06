@@ -63,7 +63,7 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v306_eleven_lv2_all_renkei_force_fix';
+const DATA_VERSION = 'v308_dedicated_first_effect_resolver_guard';
 const BUILD_LABEL = 'v306 / イレブンLv2全れんけい発動修正';
 
 // v107 compatibility shims for rolled-back bases
@@ -26743,4 +26743,317 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
     return {version:V306, policy:'When Eleven Lv2 一心同体 is active and tension is 0/1/2, the actual renkei effect is applied, not just logged as available.', flexibleLevel:true, appliesAllRenkei:true};
   }
   if(window.__DQR_TEST__){ window.__DQR_TEST__.v306={version:V306, elevenBondActiveV306, applyActualRenkeiEffectV306, simulateElevenLv2UlnoogaRenkeiV306, auditElevenLv2RenkeiV306}; }
+})();
+
+
+/* v307: Key Dragon fortune resolver fix.
+   v299/v300 made Key Dragon defensive, but the modal/result path could still be swallowed by later
+   dedupe/transaction layers or by the async choice callback path.  This final resolver owns the
+   Key Dragon fortune from both actual entry points, opens exactly one modal per summon/use token,
+   and resolves the chosen effect exactly once.
+*/
+(function installKeyDragonFortuneResolverFixV307(){
+  const V307='v307_keydragon_fortune_resolver_fix';
+  function game(){ return state?.battle?.game || null; }
+  function log(msg){ try{ battleLog(msg); }catch(e){ try{ console.log(msg); }catch(_){} } }
+  function keyDragonCard(card){ return card?.name === 'キースドラゴン' ? card : findCardByName('キースドラゴン'); }
+  function sourceUnit(opts={}){
+    const g=game();
+    if(opts?.unit?.name === 'キースドラゴン') return opts.unit;
+    if(g?._v299CurrentSummonUnit?.name === 'キースドラゴン') return g._v299CurrentSummonUnit;
+    const board=g?.player?.board || [];
+    for(let i=board.length-1;i>=0;i--) if(board[i]?.name === 'キースドラゴン') return board[i];
+    return null;
+  }
+  function tokenFor(card, opts={}){
+    const g=game(); const unit=sourceUnit(opts);
+    const id=unit?.id || opts?.unit?.id || card?.id || 'keydragon';
+    // One opening per unit/turn/source.  Different Key Dragons have different unit IDs.
+    return `${Number(g?.turn || 0)}|${id}|${card?.id || card?.name || 'キースドラゴン'}`;
+  }
+  function unlockAndSync(reason='keyDragonV307'){
+    const g=game();
+    if(g?.isMyTurn && !g.finished) state.battle.matchLocked=false;
+    try{ renderBattleArena?.(); }catch(e){}
+    try{ syncMyBattleState?.(reason); }catch(e){}
+    try{ window.__DQR_TEST__?.v287?.publishBurst?.(reason); }catch(e){}
+  }
+  function sameRowTargets(unit){
+    const g=game(); if(!g) return [];
+    let pos=unit ? g.player.board.indexOf(unit) : -1;
+    if(pos < 0){
+      const board=g.player.board || [];
+      for(let i=0;i<board.length;i++) if(board[i]?.name === 'キースドラゴン'){ pos=i; break; }
+    }
+    try{ return typeof frontEnemyUnitsSameRowV166 === 'function' ? frontEnemyUnitsSameRowV166(pos >= 0 ? pos : 1) : []; }
+    catch(e){ console.warn('v307 keydragon target scan failed', e); return []; }
+  }
+  function applyChoice(card, opts, idx, reason='choice'){
+    const g=game(); if(!g) return false;
+    const c=keyDragonCard(card); const unit=sourceUnit(opts);
+    const token=tokenFor(c, opts);
+    g._v307KeyDragonResolved ||= Object.create(null);
+    if(g._v307KeyDragonResolved[token]) return true;
+    g._v307KeyDragonResolved[token]=true;
+    const i = Number(idx || 0) === 1 ? 1 : 0;
+    const labels=['味方リーダーのHPを5回復','正面にいる全ての敵ユニットに2ダメージ'];
+    try{
+      if(i === 0){
+        const before=Number(g.player.hp || 0);
+        healLeader(5);
+        const actual=Math.max(0, Number(g.player.hp || 0) - before);
+        log(`キースドラゴン：味方リーダーのHPを5回復${actual ? `（${actual}回復）` : '（HP上限）'}。`);
+      }else{
+        const targets=sameRowTargets(unit);
+        let hit=0;
+        for(const t of targets){
+          if(t?.unit && Number(t.unit.hp || 0) > 0){
+            dealDamageToUnit(t.unit, 2, 'キースドラゴン', 'enemy');
+            hit++;
+          }
+        }
+        if(hit) resolveDeaths();
+        log(`キースドラゴン：正面にいる敵ユニット${hit}体に2ダメージ。`);
+      }
+      try{ if(typeof triggerFortuneResolvedV134 === 'function') triggerFortuneResolvedV134(c, i, labels[i]); }catch(e){}
+      return true;
+    }catch(e){
+      console.error('v307 Key Dragon fortune failed', e);
+      log('キースドラゴン：占い処理中にエラーが出たため操作ロックを解除しました。');
+      return false;
+    }finally{
+      unlockAndSync(`keyDragonV307:${reason}`);
+      try{
+        const d=document.getElementById('choice-modal');
+        if(d?.open && /キースドラゴン/.test(String(document.getElementById('choice-modal-title')?.textContent || ''))) d.close();
+      }catch(e){}
+    }
+  }
+  function openKeyDragonFortuneV307(card, opts={}){
+    const g=game(); if(!g) return false;
+    const c=keyDragonCard(card); if(!c) return false;
+    const token=tokenFor(c, opts);
+    g._v307KeyDragonOpened ||= Object.create(null);
+    if(g._v307KeyDragonOpened[token]){
+      log('キースドラゴン：重複した占い開始を破棄しました。');
+      return true;
+    }
+    g._v307KeyDragonOpened[token]=true;
+    g._v307KeyDragonResolved ||= Object.create(null);
+    try{ if(typeof countFortuneCardUseV202 === 'function') countFortuneCardUseV202('キースドラゴン'); }catch(e){}
+    const labels=['味方リーダーのHPを5回復','正面にいる全ての敵ユニットに2ダメージ'];
+    const image = c ? getOfficialImage(c) : '';
+    const options = labels.map((label,i)=>({label:`占い${i+1}`, description:label, sublabel:'キースドラゴン', imagePath:image, value:label}));
+    const run=(idx, reason='choice')=>applyChoice(c, opts, idx, reason);
+    try{
+      if(g.player.nextFortuneBoth || g.player.fortuneMode === 'super'){
+        g.player.nextFortuneBoth=false;
+        openChoiceModal('キースドラゴン：超必中', options, ()=>{ run(0,'super'); run(1,'super'); }, {kind:'keyDragonSuperV307', applyAllOnAny:true, allChoiceLabel:'両方発動', allValues:labels, allBannerBottom:true, choiceLayout:'fortune2'});
+        return true;
+      }
+      if(g.player.fortuneMode === 'hit' || g.player.nextFortuneHitFromHut){
+        if(g.player.nextFortuneHitFromHut) g.player.nextFortuneHitFromHut=false;
+        openChoiceModal('キースドラゴン：必中', options, (_picked, idx)=>run(idx,'hit'), {kind:'keyDragonHitV307', choiceLayout:'fortune2'});
+        return true;
+      }
+      const idx = typeof randomIndex === 'function' ? randomIndex(2, 'keyDragonRandomV307', {token}) : Math.floor(Math.random()*2);
+      openChoiceModal('キースドラゴン：占い', options, ()=>run(idx,'random'), {kind:'keyDragonRandomV307', selectedIndex:idx, lockedChoices:true, fortuneRandomReveal:true, revealLabel:'通常占い：ランダムで選ばれた効果を発動します', selectedBadge:'ランダム決定', autoCloseMs:1200, choiceLayout:'fortune2'});
+      // Backup: if the locked-choice timer is swallowed by a modal/dedupe edge case, resolve once.
+      setTimeout(()=>{
+        try{ if(!g._v307KeyDragonResolved?.[token]) run(idx,'randomBackup'); }catch(e){ console.warn('v307 keydragon backup failed', e); }
+      }, 1800);
+      return true;
+    }catch(e){
+      console.error('v307 Key Dragon modal failed', e);
+      log('キースドラゴン：占い開始に失敗したため通常占いを直接解決します。');
+      const idx = Math.floor(Math.random()*2);
+      return run(idx,'fallback');
+    }
+  }
+
+  const oldTabasa = typeof applyTabasaFortuneCardV187 === 'function' ? applyTabasaFortuneCardV187 : null;
+  if(oldTabasa && !oldTabasa.__v307KeyDragonResolverFix){
+    applyTabasaFortuneCardV187 = function(card, opts={}){
+      if(card?.name === 'キースドラゴン') return openKeyDragonFortuneV307(card, opts);
+      return oldTabasa.call(this, card, opts);
+    };
+    applyTabasaFortuneCardV187.__v307KeyDragonResolverFix=true;
+  }
+  const oldFortune = typeof applyFortuneEffect === 'function' ? applyFortuneEffect : null;
+  if(oldFortune && !oldFortune.__v307KeyDragonResolverFix){
+    applyFortuneEffect = function(card, ...args){
+      if(card?.name === 'キースドラゴン') return openKeyDragonFortuneV307(card, {});
+      return oldFortune.call(this, card, ...args);
+    };
+    applyFortuneEffect.__v307KeyDragonResolverFix=true;
+  }
+
+  function simulateKeyDragonFortuneV307(mode='hit', choice=1){
+    const T=window.__DQR_TEST__ || {}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const g=game(); if(!g) return {ok:false, reason:'no-game'};
+    g.isMyTurn=true; state.battle.matchLocked=false; g.player.fortuneMode=mode==='normal' ? '' : mode; g.player.hp=20; g.player.maxHp=25; g.turn=7;
+    g._v307KeyDragonOpened=Object.create(null); g._v307KeyDragonResolved=Object.create(null);
+    g.player.board=Array(6).fill(null); g.enemy.board=Array(6).fill(null);
+    const card=findCardByName('キースドラゴン'); const unit=makeUnitFromCard(card); g.player.board[1]=unit;
+    const e=makeUnitFromCard(findCardByName('スライム')); e.hp=3; e.maxHp=3; g.enemy.board[1]=e;
+    if(mode==='direct') applyChoice(card,{unit},Number(choice||0),'testDirect');
+    else openKeyDragonFortuneV307(card,{unit});
+    return {ok:true, hp:g.player.hp, enemy:g.enemy.board.map(u=>u?{name:u.name,hp:u.hp}:null), opened:Object.keys(g._v307KeyDragonOpened||{}).length, resolved:Object.keys(g._v307KeyDragonResolved||{}).length, locked:!!state.battle.matchLocked};
+  }
+  if(window.__DQR_TEST__){ window.__DQR_TEST__.v307={version:V307, openKeyDragonFortuneV307, simulateKeyDragonFortuneV307}; }
+})();
+
+
+/* v308: dedicated-first effect resolver guard.
+   Purpose:
+   - Reduce the class of bugs where a card has both a dedicated resolver and a generic parser path.
+   - If a high-risk card is resolved by a dedicated resolver, later generic text fallback for the
+     same card/event is ignored.
+   - For known partial dedicated resolvers that applied an effect but returned false (e.g. Sea Golem),
+     return true so generic summon text cannot apply the same effect again or leave state ambiguous.
+   This is deliberately a routing layer, not a blind low-level mutator blocker. Legit GET(2), multi-draw,
+   and multi-target damage still pass through the existing v304 semantic quota guard.
+*/
+(function installDedicatedFirstEffectResolverGuardV308(){
+  const V308='v308_dedicated_first_effect_resolver_guard';
+  function game(){ return state?.battle?.game || null; }
+  function unitKey(u){ return u?.id || u?.instanceId || u?.cardId || u?.name || ''; }
+  function cardNameOf(cardOrName){ return typeof cardOrName === 'string' ? cardOrName : String(cardOrName?.name || ''); }
+  function norm(s){ return String(s || '').replace(/[\s　]/g,''); }
+  const FORTUNE_EXCLUSIVE = new Set(['バルーンコール','かみかぜ','太陽のタロット','死神のタロット','逆転への兆し','召竜の儀式','キースドラゴン','審判のタロット','暴将 黒竜丸','ジュリアンテ']);
+  const RENKEI_EXCLUSIVE = new Set(['アルゴリザード','最後の砦の英雄グレイグ','グレイトマムー','フェイスボール','ワイバーンドッグ','ベロニャーゴ','マクロベータ','コンガオンガ','ウルノーガ&ウルナーガ','シュプリンガー','パピラス','ローシュ','あくまの書','もりもりベス','魅惑のマルティナ','決意の聖賢セーニャ','亡国の先王ロウ','ベロベロ','ヘルプラネット','セレン','うずしおキング','ぬかどこスライム','笑顔の伝道師シルビア','マヤ','とうだいタイガー','かくれんぼう']);
+  const SUMMON_EXCLUSIVE = new Set(['とさかヘビ','せつげんりゅう','サウルスロード','ギガントドラゴン','ドラゴンブッシュ','デンタザウルス','竜将ドラゴンガイア','ガメゴンロード','ブラッドレディ','シーゴーレム','最後の砦の英雄グレイグ','ケダモン','くらやみハーピー','怪獣プスゴン','ハンフリー','レッドプレデター','エルギオス','サイコロン','キースドラゴン','イブール','ルドマン','ぷちメタル','黄金兵','マデサゴーラ']);
+  const SOURCE_EXCLUSIVE = new Set([...FORTUNE_EXCLUSIVE, ...RENKEI_EXCLUSIVE, ...SUMMON_EXCLUSIVE]);
+  function contextId(phase, name, unit=null){
+    const g=game(); const ctx=g?._v304EffectContext || g?._v303CurrentEffectContext || {};
+    return [phase, Number(g?.turn||0), ctx.eventId || ctx._eventId || '', name, unitKey(unit)].join('|');
+  }
+  function ledger(){ const g=game(); if(!g) return null; g._v308DedicatedLedger ||= Object.create(null); return g._v308DedicatedLedger; }
+  function mark(phase, name, unit=null, detail=''){
+    const l=ledger(); if(!l || !name) return;
+    const key=contextId(phase, name, unit);
+    l[key]={phase,name,unit:unitKey(unit),detail,at:Date.now()};
+    const keys=Object.keys(l); if(keys.length>1200) for(const k of keys.slice(0,keys.length-700)) delete l[k];
+  }
+  function markedAny(name){
+    const l=ledger(); if(!l || !name) return false;
+    const suffix=`|${name}|`;
+    return Object.keys(l).some(k => k.includes(suffix));
+  }
+  function markedPhase(phase, name, unit=null){ const l=ledger(); return !!(l && l[contextId(phase,name,unit)]); }
+  function wrapFn(name, wrapper){
+    let old=null; try{ old=eval(`typeof ${name} !== 'undefined' ? ${name} : null`); }catch(e){}
+    if(typeof old !== 'function' || old.__v308DedicatedFirstGuard) return false;
+    const w=wrapper(old); if(typeof w !== 'function') return false;
+    w.__v308DedicatedFirstGuard=true;
+    try{ eval(`${name}=w`); return true; }catch(e){ try{ console.warn('v308 wrap failed', name, e); }catch(_){} return false; }
+  }
+
+  const wrapped={};
+
+  // Fortune cards in this set are not allowed to fall back to the generic fortune/text parser after a dedicated resolver.
+  wrapped.applyFortuneEffect = wrapFn('applyFortuneEffect', old => function(card, ...rest){
+    const name=cardNameOf(card);
+    if(FORTUNE_EXCLUSIVE.has(name) && typeof applyTabasaFortuneCardV187 === 'function'){
+      try{
+        const handled = applyTabasaFortuneCardV187(card, rest?.[0] || {});
+        if(handled){ mark('fortune', name, rest?.[0]?.unit || null, 'dedicated applyTabasaFortuneCardV187'); return true; }
+      }catch(e){
+        try{ console.error('v308 dedicated fortune resolver failed', name, e); }catch(_){}
+        try{ state.battle.matchLocked=false; renderBattleArena?.(); syncMyBattleState?.(); }catch(_){}
+        return true;
+      }
+    }
+    const r=old.call(this, card, ...rest);
+    if(r && FORTUNE_EXCLUSIVE.has(name)) mark('fortune', name, rest?.[0]?.unit || null, 'old fortune resolver');
+    return r;
+  });
+
+  wrapped.applyTabasaFortuneCardV187 = wrapFn('applyTabasaFortuneCardV187', old => function(card, opts={}){
+    const name=cardNameOf(card);
+    const r=old.call(this, card, opts || {});
+    if(r && FORTUNE_EXCLUSIVE.has(name)) mark('fortune', name, opts?.unit || null, 'applyTabasaFortuneCardV187');
+    return r;
+  });
+
+  wrapped.applyRenkeiIfActive = wrapFn('applyRenkeiIfActive', old => function(card, targetUnit=null, ...rest){
+    const name=cardNameOf(card);
+    const r=old.call(this, card, targetUnit, ...rest);
+    if(r && RENKEI_EXCLUSIVE.has(name)) mark('renkei', name, targetUnit, 'dedicated renkei');
+    return r;
+  });
+
+  wrapped.applySummonV166 = wrapFn('applySummonV166', old => function(unit, card, ...rest){
+    const name=cardNameOf(card);
+    // Sea Golem was a known partial dedicated branch: it applied HP/taunt then returned false,
+    // allowing later generic summon text to continue. Make it an exclusive handled branch.
+    if(name === 'シーゴーレム'){
+      const g=game();
+      if(unit && g && (g.player.heroSkill || Number(g.player.heroLevel||0)>0)){
+        if(!unit._v308SeaGolemApplied){
+          unit.hp += 2; unit.maxHp += 2; unit.keywords ||= {}; unit.keywords.taunt = true; unit._v308SeaGolemApplied=true;
+          battleLog('シーゴーレム：味方ヒーローがいるためHP+2とにおうだち。');
+        }
+        mark('summon', name, unit, 'exclusive sea golem');
+        return true;
+      }
+      const r=old.call(this, unit, card, ...rest);
+      if(r) mark('summon', name, unit, 'old summon resolver');
+      return r;
+    }
+    const r=old.call(this, unit, card, ...rest);
+    if(r && SUMMON_EXCLUSIVE.has(name)) mark('summon', name, unit, 'applySummonV166');
+    return r;
+  });
+
+  wrapped.applySummonTextEffect = wrapFn('applySummonTextEffect', old => function(unit, card, ...rest){
+    const name=cardNameOf(card);
+    // If a preceding resolver in the same summon already handled this card, do not run text fallback.
+    if(SUMMON_EXCLUSIVE.has(name) && markedPhase('summon', name, unit)){
+      try{ console.warn('v308 skipped generic summon text after dedicated resolver', name); }catch(_){}
+      return true;
+    }
+    const r=old.call(this, unit, card, ...rest);
+    if(r && SUMMON_EXCLUSIVE.has(name)) mark('summonText', name, unit, 'applySummonTextEffect');
+    return r;
+  });
+
+  // Last safety net: once a dedicated resolver handled a high-risk card, generic mini-text cannot replay it.
+  wrapped.applyTextMiniEffect = wrapFn('applyTextMiniEffect', old => function(text, source='', ...rest){
+    const name=cardNameOf(source);
+    if(SOURCE_EXCLUSIVE.has(name) && markedAny(name)){
+      try{ console.warn('v308 skipped generic mini effect after dedicated resolver', name, String(text||'').slice(0,80)); }catch(_){}
+      return true;
+    }
+    return old.call(this, text, source, ...rest);
+  });
+
+  function auditDedicatedFirstV308(){
+    return {
+      version:V308,
+      wrapped,
+      counts:{fortune:FORTUNE_EXCLUSIVE.size, renkei:RENKEI_EXCLUSIVE.size, summon:SUMMON_EXCLUSIVE.size, source:SOURCE_EXCLUSIVE.size},
+      fortune:[...FORTUNE_EXCLUSIVE], renkei:[...RENKEI_EXCLUSIVE], summon:[...SUMMON_EXCLUSIVE]
+    };
+  }
+  function simulateDedicatedMiniSkipV308(){
+    const T=window.__DQR_TEST__ || {}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const g=game(); if(!g) return {ok:false, reason:'no-game'};
+    const c=findCardByName('キースドラゴン'); const u=c ? makeUnitFromCard(c) : null;
+    if(u){ g.player.board=Array(6).fill(null); g.player.board[0]=u; mark('fortune','キースドラゴン',u,'test'); }
+    const beforeHp=g.player.hp;
+    const r=applyTextMiniEffect('味方リーダーのHPを5回復','キースドラゴン');
+    return {ok:r===true && g.player.hp===beforeHp, beforeHp, afterHp:g.player.hp, ledger:Object.keys(g._v308DedicatedLedger||{})};
+  }
+  function simulateSeaGolemExclusiveV308(){
+    const T=window.__DQR_TEST__ || {}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const g=game(); if(!g) return {ok:false, reason:'no-game'};
+    const c=findCardByName('シーゴーレム'); const u=c ? makeUnitFromCard(c) : null; if(!c || !u) return {ok:false, reason:'no-card'};
+    g.player.heroLevel=1; g.player.heroSkill={heroCardName:'勇者イレブン', level:1};
+    const before={hp:u.hp,maxHp:u.maxHp,taunt:!!u.keywords?.taunt};
+    const handled=applySummonV166(u,c);
+    const after={hp:u.hp,maxHp:u.maxHp,taunt:!!u.keywords?.taunt};
+    return {ok:handled===true && after.hp===before.hp+2 && after.maxHp===before.maxHp+2 && after.taunt===true, before, after, handled};
+  }
+  if(window.__DQR_TEST__){ window.__DQR_TEST__.v308={version:V308, auditDedicatedFirstV308, simulateDedicatedMiniSkipV308, simulateSeaGolemExclusiveV308}; }
 })();

@@ -1,0 +1,31 @@
+{
+  "version": "v307_keydragon_fortune_resolver_fix",
+  "passed": 6,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "DATA_VERSION v307",
+      "ok": true
+    },
+    {
+      "name": "v307 resolver installed",
+      "ok": true
+    },
+    {
+      "name": "applyTabasaFortuneCardV187 intercepted",
+      "ok": true
+    },
+    {
+      "name": "applyFortuneEffect intercepted",
+      "ok": true
+    },
+    {
+      "name": "normal fortune backup exists",
+      "ok": true
+    },
+    {
+      "name": "single open/single resolve token exists",
+      "ok": true
+    }
+  ]
+}

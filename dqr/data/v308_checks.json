@@ -1,0 +1,443 @@
+{
+  "version": "v308_dedicated_first_effect_resolver_guard",
+  "nodeCheck": "OK",
+  "staticChecks": {
+    "passed": 8,
+    "failed": 0,
+    "tests": [
+      {
+        "name": "DATA_VERSION v308",
+        "ok": true
+      },
+      {
+        "name": "Fortune exclusive wrapper exists",
+        "ok": true
+      },
+      {
+        "name": "Renkei exclusive wrapper exists",
+        "ok": true
+      },
+      {
+        "name": "Summon exclusive wrapper exists",
+        "ok": true
+      },
+      {
+        "name": "Generic mini effect skip after dedicated resolver exists",
+        "ok": true
+      },
+      {
+        "name": "Sea Golem partial false path is fixed to exclusive true",
+        "ok": true
+      },
+      {
+        "name": "v304 semantic quota guard retained",
+        "ok": true
+      },
+      {
+        "name": "v305 runtime invariant guard retained",
+        "ok": true
+      }
+    ]
+  },
+  "exclusiveCounts": {
+    "fortune": 10,
+    "renkei": 26,
+    "summon": 24
+  },
+  "fourDeckRiskCards": 65,
+  "fourDeckCardsWithoutDedicatedExclusive": [
+    {
+      "deck": "イレブンテリー",
+      "name": "しっぷう突き",
+      "found": true,
+      "risk": [
+        "damage"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "ユニット1体に1ダメージ。 そのユニットが既にダメージを受けている場合代わりに3ダメージ"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "勇者イレブン",
+      "found": true,
+      "risk": [
+        "hand"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "勇者イレブンのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "トンネラー",
+      "found": true,
+      "risk": [
+        "renkei"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "におうだち、れんけい：+1/+1"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "ナイトキング",
+      "found": true,
+      "risk": [
+        "renkei",
+        "heal"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "におうだち、れんけい：味方リーダーのHPを4回復"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "ラプソーン",
+      "found": true,
+      "risk": [
+        "death",
+        "random"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "死亡時：ランダムな敵ユニット1体に「死亡時：相手の場にラプソーン1体を出す」を付与する"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "メルビン",
+      "found": true,
+      "risk": [
+        "death",
+        "deck"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "貫通、死亡時：ホットストーンに封じられ召喚者の山札の上から3番目にホットストーンが配置される"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "ギュメイ将軍",
+      "found": true,
+      "risk": [
+        "damage"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "貫通、このユニット以外の全ての敵味方は戦闘ダメージとデッキ切れによるダメージのみ受ける"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "いなずまのけん",
+      "found": true,
+      "risk": [
+        "summon",
+        "damage"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "召喚時&この武器が壊れた時：全ての敵ユニットに2ダメージ"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "タバサ",
+      "found": true,
+      "risk": [
+        "hand"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "タバサのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る。"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "風の導き",
+      "found": true,
+      "risk": [
+        "damage"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "ユニット1体に3ダメージ。デッキの一番上のカードを見てデッキの一番下に移動させることができる。"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "銀のタロット",
+      "found": true,
+      "risk": [
+        "fortune",
+        "hand"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "運命の輪を手札に加える。味方リーダーは必中モードになる。既に必中モードの場合テンション+2。"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "クロウズ",
+      "found": true,
+      "risk": [
+        "summon",
+        "fortune"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "召喚時:味方リーダーは必中モードになる。攻撃時:デッキの1番上のカードを見てデッキの一番下に移動させることができる。"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "ゾディアックコード",
+      "found": true,
+      "risk": [
+        "fortune",
+        "hand"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "必殺技：この対戦中超必中モードになる。自分のデッキから占いカードを1枚手札に加えてコスト-3する。無いなら代わりに審判のタロットを手札に加える。"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "しんりゅう",
+      "found": true,
+      "risk": [
+        "summon",
+        "fortune"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "召喚時:願い事を１つかなえてくれる。 味方リーダーが超必中モードの場合全ての願い事をかなえてくれる。"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "タロットフォーチュン",
+      "found": true,
+      "risk": [
+        "fortune",
+        "damage"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "敵ユニット1体に7ダメージ。7/7のダースドラゴンを出す。 対戦中に自分が使った占いカードの回数分コスト-1。"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "メラ",
+      "found": true,
+      "risk": [
+        "damage"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "敵1体に1ダメージを与える"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "イル＆ルカ",
+      "found": true,
+      "risk": [
+        "hand"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "イル＆ルカのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る。"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "メラミ",
+      "found": true,
+      "risk": [
+        "damage"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "敵1体に3ダメージを与える"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "乙女の気まぐれ",
+      "found": true,
+      "risk": [
+        "damage"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "選択：ユニット1体に4ダメージ、・ユニット1体に2ダメージ、カードを1枚引く"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "氷竜への祈り",
+      "found": true,
+      "risk": [
+        "damage",
+        "hand"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "選択：・せつげんりゅう1枚を手札に加える ・全ての敵に1ダメージ"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "メラゾーマ",
+      "found": true,
+      "risk": [
+        "damage"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "敵1体に5ダメージを与える"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "商人の交換所",
+      "found": true,
+      "risk": [
+        "hand"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "手札のコインを消費して以下の景品と交換する。1枚:超ちからのたね、2枚:コスト2のバシルーラの杖、3枚:ブレッドハンド その後カードを1枚引く"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "コインのたね",
+      "found": true,
+      "risk": [
+        "get"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "ユニット1体の攻撃力+1、その後GET(1)"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "ベホイミスライム",
+      "found": true,
+      "risk": [
+        "death",
+        "bet",
+        "get",
+        "heal"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "死亡時：GET(1)、BET：1ターンに1回のみ味方リーダーのHPを2回復"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "天空の花嫁デボラ",
+      "found": true,
+      "risk": [
+        "hand"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "天空の花嫁デボラのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "ラプソーン",
+      "found": true,
+      "risk": [
+        "death",
+        "random"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "死亡時：ランダムな敵ユニット1体に「死亡時：相手の場にラプソーン1体を出す」を付与する"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "痛みわけの杖",
+      "found": true,
+      "risk": [
+        "damage"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "お互いの全てのユニットに3ダメージ"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "福招きのそろばん",
+      "found": true,
+      "risk": [
+        "summon",
+        "bet",
+        "get"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "召喚時とこの武器が壊れた時にGET(1)。BET：耐久力-1してカードを1枚引く。"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "ゴールデンタイタス",
+      "found": true,
+      "risk": [
+        "hand"
+      ],
+      "route": [
+        "semantic-quota",
+        "runtime-invariant"
+      ],
+      "text": "8/8。この対戦中にコインを自分の手札に加えた枚数分手札にあるこのカードのコスト-1"
+    }
+  ]
+}

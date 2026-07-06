@@ -1,0 +1,6 @@
+{
+  "version": "v307_keydragon_fortune_resolver_fix",
+  "nodeCheck": "OK",
+  "staticChecks": "6 passed / 0 failed",
+  "note": "Headless/real Firebase dynamic test not completed in this sandbox; this is code-level resolver fix."
+}
