@@ -1,0 +1,8 @@
+{
+  "version": "v315_random_putplay_static_aura_manifest",
+  "nodeCheck": "OK",
+  "staticRandomPutplayChecks": "9 passed / 0 failed",
+  "putPlayOrStaticRows": 36,
+  "incompleteRows": [],
+  "note": "場に出す is explicitly not summon; static/continuous effects are applied/refreshed."
+}

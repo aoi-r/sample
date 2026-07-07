@@ -1,0 +1,526 @@
+{
+  "version": "v315_random_putplay_static_aura_manifest",
+  "totalFourDeckRows": 74,
+  "putPlayOrStaticRows": 36,
+  "incomplete": [],
+  "rows": [
+    {
+      "deck": "イレブンテリー",
+      "name": "アルゴリザード",
+      "type": "ユニット",
+      "text": "速攻、れんけい：敵ユニット1体に2ダメージ",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "トンネラー",
+      "type": "ユニット",
+      "text": "におうだち、れんけい：+1/+1",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "ナイトキング",
+      "type": "ユニット",
+      "text": "におうだち、れんけい：味方リーダーのHPを4回復",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "シーゴーレム",
+      "type": "ユニット",
+      "text": "召喚時：味方ヒーローがいる場合HP+2とにおうだちを得る",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "ラプソーン",
+      "type": "ユニット",
+      "text": "死亡時：ランダムな敵ユニット1体に「死亡時：相手の場にラプソーン1体を出す」を付与する",
+      "putPlayRisk": true,
+      "staticRisk": false,
+      "v315Routes": [
+        "put-into-play-not-summon",
+        "v315-random-putplay-eligible-pool",
+        "v315-continuous-refresh-after-putplay"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "最後の砦の英雄グレイグ",
+      "type": "ユニット",
+      "text": "におうだち、れんけい：正面にいる全ての敵ユニットに2ダメージ。敵ユニットが死亡する度攻撃力+1",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "コンガオンガ",
+      "type": "ユニット",
+      "text": "れんけい：攻撃力が6以上の敵ユニット1体を消滅させる。そのユニットと同じ使用コストのランダムなユニットカード1枚を相手の手札に加える。",
+      "putPlayRisk": true,
+      "staticRisk": false,
+      "v315Routes": [
+        "put-into-play-not-summon",
+        "v315-random-putplay-eligible-pool",
+        "v315-continuous-refresh-after-putplay"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "メルビン",
+      "type": "ユニット",
+      "text": "貫通、死亡時：ホットストーンに封じられ召喚者の山札の上から3番目にホットストーンが配置される",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "ギュメイ将軍",
+      "type": "ユニット",
+      "text": "貫通、このユニット以外の全ての敵味方は戦闘ダメージとデッキ切れによるダメージのみ受ける",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "シュプリンガー",
+      "type": "ユニット",
+      "text": "れんけい：このユニットに2回さくせんを出す。",
+      "putPlayRisk": true,
+      "staticRisk": false,
+      "v315Routes": [
+        "put-into-play-not-summon",
+        "v315-random-putplay-eligible-pool",
+        "v315-continuous-refresh-after-putplay"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "ウルノーガ&ウルナーガ",
+      "type": "ユニット",
+      "text": "れんけい：前列に召喚した場合、正面にいるランダムな敵ユニット1体を消滅させる。後列に召喚した場合、攻撃力6以上の他ユニット全てを死亡させる。",
+      "putPlayRisk": true,
+      "staticRisk": false,
+      "v315Routes": [
+        "put-into-play-not-summon",
+        "v315-random-putplay-eligible-pool",
+        "v315-continuous-refresh-after-putplay"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "バルーンコール",
+      "type": "特技",
+      "text": "占い：①におうだち、2/3のプヨンターゲットを出す。②速攻 1/1のバブリンを2体出す",
+      "putPlayRisk": true,
+      "staticRisk": true,
+      "v315Routes": [
+        "put-into-play-not-summon",
+        "v315-random-putplay-eligible-pool",
+        "v315-continuous-refresh-after-putplay",
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "かみかぜ",
+      "type": "特技",
+      "text": "おうえん、占い:(1)合計3ダメージをランダムな敵ユニットに割り振る(2)ランダムなコスト2のユニットを1体出す",
+      "putPlayRisk": true,
+      "staticRisk": false,
+      "v315Routes": [
+        "put-into-play-not-summon",
+        "v315-random-putplay-eligible-pool",
+        "v315-continuous-refresh-after-putplay"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "バルンバ",
+      "type": "ユニット",
+      "text": "パワフルバッジ：ドラゴン系の味方ユニットはにおうだちを得る",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "サイコロン",
+      "type": "ユニット",
+      "text": "召喚時：味方ヒーローがいる場合合計5ダメージをこのユニット以外のランダムなユニットに割り振る",
+      "putPlayRisk": true,
+      "staticRisk": false,
+      "v315Routes": [
+        "put-into-play-not-summon",
+        "v315-random-putplay-eligible-pool",
+        "v315-continuous-refresh-after-putplay",
+        "summon-effect-blocked-for-putplay"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "死神のタロット",
+      "type": "特技",
+      "text": "占い：①全てのユニットに3ダメージ、②：2/2のナイトウィスプを3体出す",
+      "putPlayRisk": true,
+      "staticRisk": false,
+      "v315Routes": [
+        "put-into-play-not-summon",
+        "v315-random-putplay-eligible-pool",
+        "v315-continuous-refresh-after-putplay"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "イブール",
+      "type": "ユニット",
+      "text": "相手プレイヤーの手札の特技カードのコスト+1、召喚時&攻撃時:相手のデッキの一番上にイブールの本が一枚置かれる",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board",
+        "explicit-static-aura/synchro-route"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "ゾディアックコード",
+      "type": "特技",
+      "text": "必殺技：この対戦中超必中モードになる。自分のデッキから占いカードを1枚手札に加えてコスト-3する。無いなら代わりに審判のタロットを手札に加える。",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "逆転への兆し",
+      "type": "特技",
+      "text": "占い：(1)全てのユニットを1/1にする(2)ランダムなコスト3のユニットを2体出す",
+      "putPlayRisk": true,
+      "staticRisk": false,
+      "v315Routes": [
+        "put-into-play-not-summon",
+        "v315-random-putplay-eligible-pool",
+        "v315-continuous-refresh-after-putplay"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "召竜の儀式",
+      "type": "特技",
+      "text": "占い:①7/7のダースドラゴンを出す ②3/3のいばらドラゴンを3体出す",
+      "putPlayRisk": true,
+      "staticRisk": false,
+      "v315Routes": [
+        "put-into-play-not-summon",
+        "v315-random-putplay-eligible-pool",
+        "v315-continuous-refresh-after-putplay"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "タロットフォーチュン",
+      "type": "特技",
+      "text": "敵ユニット1体に7ダメージ。7/7のダースドラゴンを出す。 対戦中に自分が使った占いカードの回数分コスト-1。",
+      "putPlayRisk": true,
+      "staticRisk": true,
+      "v315Routes": [
+        "put-into-play-not-summon",
+        "v315-random-putplay-eligible-pool",
+        "v315-continuous-refresh-after-putplay",
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "デンタザウルス",
+      "type": "ユニット",
+      "text": "におうだち、召喚時：手札にコスト3以上の特技カードがあるならHP+2",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "アルゴングレート",
+      "type": "ユニット",
+      "text": "正面に敵ユニットがいる場合攻撃できない",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "サウルスロード",
+      "type": "ユニット",
+      "text": "選択：・特技ダメージ+1を得る ・武器ダメージ+1を得る",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "ガメゴンロード",
+      "type": "ユニット",
+      "text": "におうだち。召喚時：自分の場か手札に攻撃力4以上の他のドラゴン系がいるなら特技：メラミを1枚手札に加える。",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "ドラゴンブッシュ",
+      "type": "ユニット",
+      "text": "特技ダメージ+1。召喚時：自分の場か手札に攻撃力4以上の他のドラゴン系がいるなら特技ダメージ+1を得る。",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board",
+        "explicit-static-aura/synchro-route"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "プチファイター",
+      "type": "ユニット",
+      "text": "シンクロ：①攻撃力+1、②HP+1、③速攻",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board",
+        "explicit-static-aura/synchro-route"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "ケダモン",
+      "type": "ユニット",
+      "text": "速攻、召喚時:このターン中味方リーダーが攻撃力+1を得る",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "ぷちメタル",
+      "type": "ユニット",
+      "text": "メタルボディ、BET:1ターンに1回のみ攻撃力+1と速攻を得る、自分のターン終了時GET(1)、この効果は一度しか発動しない",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "ルドマン",
+      "type": "ユニット",
+      "text": "召喚時：GET(1)。BET：道具カードを1枚手札に加える。味方のBETが4回発動する度に、手札/山札からコスト3以下のユニット1体を場に出す。",
+      "putPlayRisk": true,
+      "staticRisk": false,
+      "v315Routes": [
+        "put-into-play-not-summon",
+        "v315-random-putplay-eligible-pool",
+        "v315-continuous-refresh-after-putplay",
+        "summon-effect-blocked-for-putplay"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "怪獣プスゴン",
+      "type": "ユニット",
+      "text": "召喚時：指定の敵の空きマスにイチゴ爆弾を1つ出す。死亡時：正面のランダムな敵の空きマスにイチゴ爆弾を1つ出す",
+      "putPlayRisk": true,
+      "staticRisk": false,
+      "v315Routes": [
+        "put-into-play-not-summon",
+        "v315-random-putplay-eligible-pool",
+        "v315-continuous-refresh-after-putplay",
+        "summon-effect-blocked-for-putplay"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "ラプソーン",
+      "type": "ユニット",
+      "text": "死亡時：ランダムな敵ユニット1体に「死亡時：相手の場にラプソーン1体を出す」を付与する",
+      "putPlayRisk": true,
+      "staticRisk": false,
+      "v315Routes": [
+        "put-into-play-not-summon",
+        "v315-random-putplay-eligible-pool",
+        "v315-continuous-refresh-after-putplay"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "黄金兵",
+      "type": "ユニット",
+      "text": "におうだち、自分がコインを使う度このターン中手札にあるこのカードのコスト-2",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "ブラバニクイーン",
+      "type": "ユニット",
+      "text": "シンクロ：①貫通、②速攻、③攻撃力+1",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board",
+        "explicit-static-aura/synchro-route"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "レッドプレデター",
+      "type": "ユニット",
+      "text": "におうだち、この対戦中に自分が使った特技カードの枚数と同じだけ攻撃力を上げる。 召喚時：敵ユニット1体に自身の攻撃力と同じダメージを与える",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board",
+        "explicit-static-aura/synchro-route"
+      ],
+      "complete": true
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "ゴールデンタイタス",
+      "type": "ユニット",
+      "text": "8/8。この対戦中にコインを自分の手札に加えた枚数分手札にあるこのカードのコスト-1",
+      "putPlayRisk": false,
+      "staticRisk": true,
+      "v315Routes": [
+        "v315-field-static-effect-apply",
+        "base-keyword-active-on-putplay",
+        "continuous-aura-active-on-board"
+      ],
+      "complete": true
+    }
+  ]
+}

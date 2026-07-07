@@ -1,0 +1,91 @@
+{
+  "passed": 17,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "all four deck cards found",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "renkei high-risk four-deck cards have dedicated route",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "fortune high-risk four-deck cards have dedicated route",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "summon high-risk four-deck cards have dedicated route",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "v313 code contains dedicated recovery for トンネラー",
+      "ok": true,
+      "detail": "トンネラー"
+    },
+    {
+      "name": "v313 code contains dedicated recovery for ナイトキング",
+      "ok": true,
+      "detail": "ナイトキング"
+    },
+    {
+      "name": "v313 code contains dedicated recovery for 銀のタロット",
+      "ok": true,
+      "detail": "銀のタロット"
+    },
+    {
+      "name": "v313 code contains dedicated recovery for ゾディアックコード",
+      "ok": true,
+      "detail": "ゾディアックコード"
+    },
+    {
+      "name": "v313 code contains dedicated recovery for タロットフォーチュン",
+      "ok": true,
+      "detail": "タロットフォーチュン"
+    },
+    {
+      "name": "v313 code contains dedicated recovery for クロウズ",
+      "ok": true,
+      "detail": "クロウズ"
+    },
+    {
+      "name": "v313 code contains dedicated recovery for しんりゅう",
+      "ok": true,
+      "detail": "しんりゅう"
+    },
+    {
+      "name": "v313 renkei wrapper installed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "v313 card-use wrapper installed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "v313 summon wrapper installed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "v304 semantic quota retained",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "v305 runtime invariant retained",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "v312 lifetime once retained",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

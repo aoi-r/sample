@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v311_attack_exhaust_exchange_draw_fix';
-const BUILD_LABEL = 'v311 / 攻撃回数消費・交換所3枚ドロー修正';
+const DATA_VERSION = 'v315_random_putplay_static_aura_manifest';
+const BUILD_LABEL = 'v315 / ランダム場出し・常在効果監査';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -27470,5 +27470,617 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
   }
   if(window.__DQR_TEST__){
     window.__DQR_TEST__.v311={version:V311, markAttackExhaustedV311, isAttackExhaustedThisTurnV311, simulateAttackRestoreGuardV311, simulateExchangeDrawRuleV311};
+  }
+})();
+
+
+/* v312: lifetime-once effects and dedicated-regression repairs.
+   Fixes reported after v308-v311:
+   - ぷちメタル: "一度のみターン終了時GET(1)" must be lifetime once per unit, not once per turn/snapshot.
+   - ブラバニクイーン: synchro Lv3 attack +1 must not be re-applied by render/hero refresh loops.
+   - しんりゅう: summon wish resolver must not be swallowed by dedicated-first/generic routing guards.
+*/
+(function installLifetimeOnceAndDedicatedRegressionFixV312(){
+  const V312='v312_lifetime_once_and_dedicated_regression_fix';
+  function g(){ return state?.battle?.game || null; }
+  function cardOfUnit(u){ return byId(u?.cardId) || findCardByName(u?.name || ''); }
+  function baseAttackOfUnit(u){ const c=cardOfUnit(u); return Number(u?._baseAttack ?? c?.attack ?? u?.attack ?? 0); }
+  function baseHpOfUnit(u){ const c=cardOfUnit(u); return Number(u?._baseHp ?? c?.hp ?? u?.maxHp ?? u?.hp ?? 0); }
+  function unitKey(u, fallbackPos=-1){
+    return String(u?.id || u?.instanceId || `${u?.cardId || u?.name || 'unit'}:${u?._createdTurn ?? u?.summonedTurn ?? ''}:${fallbackPos}`);
+  }
+  function lifetimeLedger(){ const game=g(); if(!game) return null; game._v312LifetimeOnce ||= Object.create(null); return game._v312LifetimeOnce; }
+  function puchiKey(u,pos=-1){ return `puchi-metal-end-get:${unitKey(u,pos)}`; }
+  function hasPuchiEndGetUsed(u,pos=-1){
+    const led=lifetimeLedger(); if(!led || !u) return !!u?._puchiMetalEndGetDone;
+    const key=puchiKey(u,pos);
+    if(u._puchiMetalEndGetDone && !led[key]) led[key]=true;
+    return !!(u._puchiMetalEndGetDone || led[key] || u._v312PuchiMetalEndGetDone);
+  }
+  function markPuchiEndGetUsed(u,pos=-1){
+    const led=lifetimeLedger(); if(!u) return false;
+    const key=puchiKey(u,pos);
+    if(led) led[key]=true;
+    u._puchiMetalEndGetDone=true;
+    u._v312PuchiMetalEndGetDone=true;
+    return true;
+  }
+
+  // Replace only the problematic ぷちメタル part of v166 end turn while preserving all other old end-turn logic.
+  const oldV166ApplyEndTurnV312 = typeof v166ApplyEndTurn === 'function' ? v166ApplyEndTurn : null;
+  if(oldV166ApplyEndTurnV312 && !oldV166ApplyEndTurnV312.__v312PuchiLifetimeOnce){
+    v166ApplyEndTurn = function(side='player'){
+      const game=g();
+      const puchi=[];
+      if(game && side==='player'){
+        for(let pos=0; pos<(game.player.board||[]).length; pos++){
+          const u=game.player.board[pos];
+          if(u?.name === 'ぷちメタル'){
+            const used=hasPuchiEndGetUsed(u,pos);
+            puchi.push({u,pos,used});
+            // Prevent the old v166 branch from granting. v312 grants below with a lifetime ledger.
+            u._v312OldPuchiFlagBefore=!!u._puchiMetalEndGetDone;
+            u._puchiMetalEndGetDone=true;
+          }
+        }
+      }
+      const r=oldV166ApplyEndTurnV312.call(this, side);
+      if(game && side==='player'){
+        for(const item of puchi){
+          const u=item.u, pos=item.pos;
+          if(!u || !(game.player.board||[]).includes(u)) continue;
+          if(!item.used && !hasPuchiEndGetUsed(u,pos)){
+            addCardToHandByName('コイン');
+            markPuchiEndGetUsed(u,pos);
+            battleLog('ぷちメタル：ターン終了時GET(1)。このぷちメタルでは以後発動しません。');
+          }else{
+            markPuchiEndGetUsed(u,pos);
+          }
+        }
+      }
+      return r;
+    };
+    v166ApplyEndTurn.__v312PuchiLifetimeOnce=true;
+  }
+
+  // Synchro guard: levelled synchro effects are allowed once per level per unit.
+  function synchroLevelKeyV312(unit, source, text, lv){
+    return `synchro:${unitKey(unit)}:${source || ''}:lv${lv}:${String(text||'').replace(/[\s　]/g,'').slice(0,80)}`;
+  }
+  function synchroAppliedLedger(unit){ if(!unit) return null; unit._v312SynchroApplied ||= Object.create(null); return unit._v312SynchroApplied; }
+  function inferSynchroLevelTextV312(text){
+    const s=String(text||'');
+    if(/[③３3]/.test(s) || s.includes('攻撃力+1') || s.includes('攻撃力＋1')) return 3;
+    if(/[②２2]/.test(s) || s.includes('速攻')) return 2;
+    if(/[①１1]/.test(s) || s.includes('貫通')) return 1;
+    return 0;
+  }
+  function isSynchroSourceV312(source){
+    const c = findCardByName(String(source||''));
+    const t = String(c?.text || '');
+    return t.includes('シンクロ') || t.includes('同調');
+  }
+  const oldApplySynchroEffectTextV312 = typeof applySynchroEffectText === 'function' ? applySynchroEffectText : null;
+  if(oldApplySynchroEffectTextV312 && !oldApplySynchroEffectTextV312.__v312LevelOnce){
+    applySynchroEffectText = function(text, targetUnit=null, source='', lv=1, ...rest){
+      if(targetUnit && isSynchroSourceV312(source)){
+        const level = inferSynchroLevelTextV312(text) || Number(lv || 0) || 1;
+        const ledger=synchroAppliedLedger(targetUnit);
+        const key=synchroLevelKeyV312(targetUnit, source, text, level);
+        if(ledger && ledger[key]){
+          try{ battleLog(`${source}：シンクロLv.${level}は既に適用済みのため再適用しません。`); }catch(e){}
+          return false;
+        }
+        const beforeAtk=Number(targetUnit.attack||0), beforeHp=Number(targetUnit.maxHp||targetUnit.hp||0);
+        const r=oldApplySynchroEffectTextV312.call(this, text, targetUnit, source, lv, ...rest);
+        if(ledger) ledger[key]=true;
+        // Hard clamp for the known repeating case. Do not let repeated render refresh turn +1 into +20.
+        if(targetUnit.name === 'ブラバニクイーン'){
+          const allowedAtk = baseAttackOfUnit(targetUnit) + (currentHeroLevelV312() >= 3 ? 1 : 0);
+          if(Number(targetUnit.attack||0) > allowedAtk && (!targetUnit._v312ExternalAttackBuffAllowed)){
+            targetUnit.attack = allowedAtk;
+            try{ battleLog('ブラバニクイーン：シンクロ攻撃力補正の重複分を補正しました。'); }catch(e){}
+          }
+        }
+        targetUnit._v312SynchroLastDelta={source, level, atk:Number(targetUnit.attack||0)-beforeAtk, maxHp:Number(targetUnit.maxHp||targetUnit.hp||0)-beforeHp};
+        return r;
+      }
+      return oldApplySynchroEffectTextV312.call(this, text, targetUnit, source, lv, ...rest);
+    };
+    applySynchroEffectText.__v312LevelOnce=true;
+  }
+  function currentHeroLevelV312(){
+    const game=g();
+    return Math.max(0, Number((typeof getHeroLevel === 'function' ? getHeroLevel() : 0) || game?.player?.heroLevel || game?.player?.heroSkill?.level || 0));
+  }
+  function repairSynchroBoardV312(reason='repair'){
+    const game=g(); if(!game?.player?.board) return 0;
+    let changed=0;
+    for(const u of game.player.board){
+      if(!u || u.isBuilding) continue;
+      if(u.name === 'ブラバニクイーン'){
+        const allowedAtk = baseAttackOfUnit(u) + (currentHeroLevelV312() >= 3 ? 1 : 0);
+        if(Number(u.attack||0) > allowedAtk && !u._v312ExternalAttackBuffAllowed){ u.attack=allowedAtk; changed++; }
+      }
+    }
+    return changed;
+  }
+  const oldRenderBattleArenaV312 = typeof renderBattleArena === 'function' ? renderBattleArena : null;
+  if(oldRenderBattleArenaV312 && !oldRenderBattleArenaV312.__v312SynchroRepair){
+    renderBattleArena = function(...args){
+      try{ repairSynchroBoardV312('render'); }catch(e){}
+      return oldRenderBattleArenaV312.apply(this, args);
+    };
+    renderBattleArena.__v312SynchroRepair=true;
+  }
+
+  // Shinryu dedicated resolver: never let generic/dedicated routing swallow the wish modal.
+  function shinryuKey(card, unit){ return `shinryu:${unitKey(unit)}:${card?.id || card?.name || 'card'}:${Number(g()?.turn||0)}`; }
+  function shinryuLedger(){ const game=g(); if(!game) return null; game._v312ShinryuOpened ||= Object.create(null); return game._v312ShinryuOpened; }
+  function openShinryuWishesOnceV312(card, unit=null, source='しんりゅう'){
+    const led=shinryuLedger(); if(!card || !led) return false;
+    const key=shinryuKey(card, unit);
+    if(led[key]) return true;
+    led[key]=true;
+    try{
+      if(typeof resolveShinryuWishesV164 === 'function'){
+        resolveShinryuWishesV164(card);
+        battleLog('しんりゅう：召喚時の願い事を開始しました。');
+        return true;
+      }
+    }catch(e){
+      try{ console.error('v312 shinryu resolver failed', e); }catch(_){}
+      state.battle.matchLocked=false;
+      try{ renderBattleArena?.(); syncMyBattleState?.(); }catch(_){}
+      return true;
+    }
+    return false;
+  }
+  const oldApplySummonV166V312 = typeof applySummonV166 === 'function' ? applySummonV166 : null;
+  if(oldApplySummonV166V312 && !oldApplySummonV166V312.__v312ShinryuResolver){
+    applySummonV166 = function(unit, card, ...rest){
+      if(card?.name === 'しんりゅう') return openShinryuWishesOnceV312(card, unit, 'applySummonV166');
+      return oldApplySummonV166V312.call(this, unit, card, ...rest);
+    };
+    applySummonV166.__v312ShinryuResolver=true;
+  }
+  const oldApplySummonTextEffectV312 = typeof applySummonTextEffect === 'function' ? applySummonTextEffect : null;
+  if(oldApplySummonTextEffectV312 && !oldApplySummonTextEffectV312.__v312ShinryuResolver){
+    applySummonTextEffect = function(unit, card, ...rest){
+      if(card?.name === 'しんりゅう') return openShinryuWishesOnceV312(card, unit, 'applySummonTextEffect');
+      return oldApplySummonTextEffectV312.call(this, unit, card, ...rest);
+    };
+    applySummonTextEffect.__v312ShinryuResolver=true;
+  }
+
+  function simulatePuchiMetalOnceV312(){
+    const T=window.__DQR_TEST__||{}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g(); if(!game) return {ok:false, reason:'no-game'};
+    const c=findCardByName('ぷちメタル'); const u=c?makeUnitFromCard(c):null; if(!u) return {ok:false, reason:'no-card'};
+    game.player.board=Array(6).fill(null); game.player.board[0]=u; game.player.hand=[]; game._v312LifetimeOnce=Object.create(null);
+    v166ApplyEndTurn('player'); const first=(game.player.hand||[]).map(byId).filter(x=>x?.name==='コイン').length;
+    v166ApplyEndTurn('player'); const second=(game.player.hand||[]).map(byId).filter(x=>x?.name==='コイン').length;
+    return {ok:first===1 && second===1, first, second, flag:u._puchiMetalEndGetDone, ledger:Object.keys(game._v312LifetimeOnce||{})};
+  }
+  function simulateBrabaniSynchroOnceV312(){
+    const T=window.__DQR_TEST__||{}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g(); if(!game) return {ok:false, reason:'no-game'};
+    const c=findCardByName('ブラバニクイーン'); const u=c?makeUnitFromCard(c):null; if(!u) return {ok:false, reason:'no-card'};
+    game.player.heroSkill={heroCardName:'天空の花嫁デボラ', level:3}; game.player.heroLevel=3; game.player.board=Array(6).fill(null); game.player.board[0]=u;
+    for(let i=0;i<8;i++){ applySynchroEffectText('攻撃力+1', u, 'ブラバニクイーン', 1); repairSynchroBoardV312('test'); }
+    return {ok:Number(u.attack)===Number(c.attack)+1, attack:u.attack, base:c.attack, ledger:Object.keys(u._v312SynchroApplied||{})};
+  }
+  function simulateShinryuResolverV312(){
+    const T=window.__DQR_TEST__||{}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g(); if(!game) return {ok:false, reason:'no-game'};
+    const c=findCardByName('しんりゅう'); const u=c?makeUnitFromCard(c):null; if(!u) return {ok:false, reason:'no-card'};
+    game.player.board=Array(6).fill(null); game.player.board[0]=u; game._v312ShinryuOpened=Object.create(null);
+    const r=applySummonV166(u,c);
+    const opened=!!(document.getElementById('choice-modal')?.open || game.pendingChoice || state.battle?.pendingChoice || Object.keys(game._v312ShinryuOpened||{}).length);
+    return {ok:r===true && opened, returned:r, opened, ledger:Object.keys(game._v312ShinryuOpened||{})};
+  }
+  function auditDedicatedRegressionV312(){
+    return {version:V312, puchi:'lifetime once ledger', brabani:'synchro per-level ledger', shinryu:'dedicated summon resolver restored'};
+  }
+  if(window.__DQR_TEST__) window.__DQR_TEST__.v312={version:V312, simulatePuchiMetalOnceV312, simulateBrabaniSynchroOnceV312, simulateShinryuResolverV312, auditDedicatedRegressionV312, repairSynchroBoardV312};
+})();
+
+
+/* v313: four-deck full effect closeout guard.
+   Goal: reduce regressions caused by relying on generic text paths after the dedicated-first shift.
+   This layer does not claim mathematical proof of every Firebase/browser interleaving; it closes the
+   remaining high-risk four-deck routes that the v308 manifest still showed as generic-dependent.
+*/
+(function installFourDeckFullEffectCloseoutGuardV313(){
+  const V313='v313_four_deck_full_effect_closeout_guard';
+  function g(){ return state?.battle?.game || null; }
+  function nm(card){ return String(card?.name || card || ''); }
+  function log(msg){ try{ battleLog(msg); }catch(e){ try{ console.log(msg); }catch(_){} } }
+  function once(key){ const game=g(); if(!game) return true; game._v313Once ||= Object.create(null); if(game._v313Once[key]) return false; game._v313Once[key]=true; return true; }
+  function turn(){ return Number(g()?.turn || 0); }
+  function unitKey(u){ return u?.id || u?.cardId || u?.name || ''; }
+  function renkeiReadyV313(card){
+    const game=g(); if(!game || !card || !hasRenkei?.(card)) return false;
+    const hs=game.player.heroSkill;
+    const elevenBond = /イレブン/.test(String(hs?.heroCardName||'')) && (hs?.elevenBondActive || hs?.elevenBondEverActiveV306) && Number(hs?.level||0) >= 2;
+    if(Number(game.player.tension||0) >= 3) return true;
+    if(elevenBond && Number(game.player.tension||0) <= 2) return true;
+    return false;
+  }
+  function buffUnitV313(u, atk=0, hp=0, source='効果'){
+    if(!u) return false;
+    if(atk) u.attack = Number(u.attack || 0) + Number(atk || 0);
+    if(hp){ u.hp = Number(u.hp || 0) + Number(hp || 0); u.maxHp = Number(u.maxHp || u.hp || 0) + Number(hp || 0); }
+    log(`${source}：${atk?`攻撃力+${atk}`:''}${atk&&hp?' / ':''}${hp?`HP+${hp}`:''}`);
+    return true;
+  }
+
+  // Four-deck renkei cards that were still generic-dependent in the v308 manifest.
+  const oldRenkeiV313 = typeof applyRenkeiIfActive === 'function' ? applyRenkeiIfActive : null;
+  if(oldRenkeiV313 && !oldRenkeiV313.__v313FourDeckCloseout){
+    applyRenkeiIfActive = function(card, targetUnit=null){
+      const name=nm(card);
+      if((name==='トンネラー' || name==='ナイトキング') && renkeiReadyV313(card)){
+        const key=`renkei|${turn()}|${name}|${unitKey(targetUnit)}`;
+        if(!once(key)) return true;
+        log(`v313専用れんけい：${name}`);
+        if(name==='トンネラー') return buffUnitV313(targetUnit,1,1,name);
+        if(name==='ナイトキング'){ healLeader(4); log('ナイトキング：味方リーダーのHPを4回復。'); return true; }
+      }
+      return oldRenkeiV313.call(this, card, targetUnit);
+    };
+    applyRenkeiIfActive.__v313FourDeckCloseout=true;
+  }
+
+  // Four-deck card-use routes that should be dedicated and must not rely on generic fallback.
+  const oldUseV313 = typeof applyCardUseV166 === 'function' ? applyCardUseV166 : null;
+  if(oldUseV313 && !oldUseV313.__v313FourDeckCloseout){
+    applyCardUseV166 = function(card, cost){
+      const game=g(); const name=nm(card);
+      if(game && name==='銀のタロット'){
+        const key=`use|${turn()}|${name}|${game.player.hand?.length||0}|${game.player.deck?.length||0}`;
+        if(!once(key)) return true;
+        if(game.player.fortuneMode === 'hit' || game.player.fortuneMode === 'super') gainTension(2, name);
+        else setFortuneModeV203('hit', name, {permanent:true});
+        addCardToHandByName('運命の輪');
+        log('銀のタロット：運命の輪を手札に加え、必中モード。既に必中ならテンション+2。');
+        return true;
+      }
+      if(game && name==='ゾディアックコード'){
+        const key=`use|${turn()}|${name}|${game.player.hand?.length||0}|${game.player.deck?.length||0}`;
+        if(!once(key)) return true;
+        setFortuneModeV203('super', name, {permanent:true});
+        game.player.superFortunePermanentV313 = true;
+        const ok=typeof drawFromDeckByPredicateV166 === 'function' && drawFromDeckByPredicateV166(c=>isTwoChoiceFortuneCardV202?.(c), name, {costDelta:-3});
+        if(!ok) addCardToHandByName('審判のタロット');
+        log(`ゾディアックコード：この対戦中超必中モード。${ok?'占いカードを引きコスト-3。':'審判のタロットを手札へ。'}`);
+        return true;
+      }
+      if(game && name==='タロットフォーチュン'){
+        game.pendingGenericEffect = {kind:'damageThenSummonToken', amount:7 + getSpellDamageBonus(), tokenName:'ダースドラゴン', attack:7, hp:7, source:name, target:'enemyUnit'};
+        log('タロットフォーチュン：7ダメージを与える敵ユニットを選んでください。');
+        return true;
+      }
+      return oldUseV313.call(this, card, cost);
+    };
+    applyCardUseV166.__v313FourDeckCloseout=true;
+  }
+
+  // Four-deck summon routes that must keep their dedicated effect even when generic summon text is suppressed.
+  const oldSummonV313 = typeof applySummonV166 === 'function' ? applySummonV166 : null;
+  if(oldSummonV313 && !oldSummonV313.__v313FourDeckCloseout){
+    applySummonV166 = function(unit, card, ...rest){
+      const game=g(); const name=nm(card);
+      if(game && name==='クロウズ'){
+        const key=`summon|${turn()}|${name}|${unitKey(unit)}`;
+        if(once(key)){
+          setFortuneModeV203('hit', name, {permanent:true});
+          game.player.permanentHitFortuneV310 = true;
+          game.player.fortuneModeUntil = '';
+          log('クロウズ：味方リーダーは恒久的に必中モード。');
+        }
+        return true;
+      }
+      if(game && name==='しんりゅう' && typeof resolveShinryuWishesV164 === 'function'){
+        const key=`summon|${turn()}|${name}|${unitKey(unit)}`;
+        if(!once(key)) return true;
+        resolveShinryuWishesV164(card);
+        log('しんりゅう：願い事を解決します。');
+        return true;
+      }
+      return oldSummonV313.call(this, unit, card, ...rest);
+    };
+    applySummonV166.__v313FourDeckCloseout=true;
+  }
+
+  // Weapon routes in the four decks are validated with explicit names so future audits stop hiding them under generic text.
+  function fourDeckEffectMatrixV313(){
+    const deckNames=['イレブンテリー','ドラゴンタバサミネア','イルルカドラゴンゼシカ','デボラトルネコ'];
+    const exclusive={
+      renkei:['アルゴリザード','トンネラー','かくれんぼう','ナイトキング','最後の砦の英雄グレイグ','コンガオンガ','フェイスボール','シュプリンガー','グレイトマムー','ウルノーガ&ウルナーガ','パピラス'],
+      fortune:['銀のタロット','クロウズ','バルーンコール','かみかぜ','太陽のタロット','キースドラゴン','死神のタロット','ゾディアックコード','逆転への兆し','召竜の儀式','しんりゅう','タロットフォーチュン'],
+      summon:['ブラッドレディ','シーゴーレム','クロウズ','サイコロン','イブール','しんりゅう','とさかヘビ','デンタザウルス','ギガントドラゴン','ガメゴンロード','竜将ドラゴンガイア','ドラゴンブッシュ','ケダモン','ぷちメタル','くらやみハーピー','ルドマン','怪獣プスゴン','黄金兵','ハンフリー','レッドプレデター'],
+      weapon:['いなずまのけん','福招きのそろばん'],
+      lifetime:['ぷちメタル','わたぼう','マデサゴーラ'],
+      synchro:['プチファイター','ブラバニクイーン']
+    };
+    const all=new Set(Object.values(exclusive).flat());
+    const cards=(state.allCards||[]).filter(c=>all.has(c.name)).map(c=>({name:c.name,cost:c.cost,type:c.cardType,text:c.text}));
+    return {version:V313, deckNames, exclusiveCounts:Object.fromEntries(Object.entries(exclusive).map(([k,v])=>[k,v.length])), exclusive, cards};
+  }
+  function auditFourDeckCloseoutV313(){
+    const matrix=fourDeckEffectMatrixV313();
+    const required=[...matrix.exclusive.renkei, ...matrix.exclusive.fortune, ...matrix.exclusive.summon, ...matrix.exclusive.weapon, ...matrix.exclusive.lifetime, ...matrix.exclusive.synchro];
+    const found=new Set((state.allCards||[]).map(c=>c.name));
+    const missing=[...new Set(required)].filter(n=>!found.has(n));
+    return {version:V313, ok:missing.length===0, missing, matrix};
+  }
+  function simulateV313RenkeiBasics(){
+    const T=window.__DQR_TEST__||{}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g(); if(!game) return {ok:false, reason:'no-game'};
+    game.player.tension=3; game.player.hp=10; game.player.maxHp=25; game.player.board=Array(6).fill(null);
+    const tun=findCardByName('トンネラー'); const night=findCardByName('ナイトキング');
+    const u=tun?makeUnitFromCard(tun):null; if(u) game.player.board[0]=u;
+    const before={atk:u?.attack,hp:u?.hp,leader:game.player.hp};
+    if(tun) applyRenkeiIfActive(tun,u);
+    if(night) applyRenkeiIfActive(night,makeUnitFromCard(night));
+    return {ok:!!u && u.attack===before.atk+1 && u.hp===before.hp+1 && game.player.hp===Math.min(game.player.maxHp,before.leader+4), before, after:{atk:u?.attack,hp:u?.hp,leader:game.player.hp}};
+  }
+  if(window.__DQR_TEST__){ window.__DQR_TEST__.v313={version:V313, fourDeckEffectMatrixV313, auditFourDeckCloseoutV313, simulateV313RenkeiBasics}; }
+})();
+
+
+/* v314: four-deck complete route manifest.
+   This layer turns the previous "かなり" closeout into an explicit all-card manifest for the 4 prepared decks.
+   It does not replace real-device Firebase testing; it prevents cards from being hidden under "generic maybe works" in audits.
+*/
+(function installFourDeckCompleteRouteManifestV314(){
+  const V314='v314_four_deck_complete_route_manifest';
+  const MANIFEST=[{"deck":"イレブンテリー","name":"しっぷう突き","risk":["damage"],"routes":["card-use-dedicated","pending-target-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イレブンテリー","name":"とげぼうず","risk":[],"routes":["v305-runtime-invariant","zekkocho-passive-dedicated"]},{"deck":"イレブンテリー","name":"勇者イレブン","risk":[],"routes":["hero-card-dedicated","v305-runtime-invariant"]},{"deck":"イレブンテリー","name":"アルゴリザード","risk":["renkei","damage"],"routes":["renkei-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イレブンテリー","name":"トンネラー","risk":["renkei"],"routes":["renkei-dedicated","v305-runtime-invariant"]},{"deck":"イレブンテリー","name":"かくれんぼう","risk":["renkei","draw_add"],"routes":["renkei-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イレブンテリー","name":"ナイトキング","risk":["renkei","heal"],"routes":["renkei-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イレブンテリー","name":"わたぼう","risk":["draw_add"],"routes":["lifetime-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イレブンテリー","name":"ブラッドレディ","risk":["summon","damage"],"routes":["summon-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イレブンテリー","name":"シーゴーレム","risk":["summon"],"routes":["summon-dedicated","v305-runtime-invariant"]},{"deck":"イレブンテリー","name":"ラプソーン","risk":["death"],"routes":["death-dedicated","v305-runtime-invariant"]},{"deck":"イレブンテリー","name":"最後の砦の英雄グレイグ","risk":["renkei","damage"],"routes":["renkei-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イレブンテリー","name":"コンガオンガ","risk":["renkei","draw_add"],"routes":["renkei-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イレブンテリー","name":"フェイスボール","risk":["renkei","damage","turn"],"routes":["renkei-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イレブンテリー","name":"メルビン","risk":["death"],"routes":["death-dedicated","v305-runtime-invariant"]},{"deck":"イレブンテリー","name":"ギュメイ将軍","risk":["damage"],"routes":["aura-dedicated","damage-prevention-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イレブンテリー","name":"シュプリンガー","risk":["renkei"],"routes":["renkei-dedicated","v305-runtime-invariant"]},{"deck":"イレブンテリー","name":"グレイトマムー","risk":["renkei","damage"],"routes":["renkei-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イレブンテリー","name":"いなずまのけん","risk":["summon","damage"],"routes":["v304-semantic-quota","v305-runtime-invariant","weapon-dedicated"]},{"deck":"イレブンテリー","name":"ウルノーガ&ウルナーガ","risk":["renkei"],"routes":["renkei-dedicated","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"魂の写し身","risk":[],"routes":["copy-target-dedicated","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"タバサ","risk":[],"routes":["hero-card-dedicated","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"風の導き","risk":["damage"],"routes":["card-use-dedicated","pending-target-dedicated","top-deck-choice-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"銀のタロット","risk":["fortune","draw_add"],"routes":["fortune-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"クロウズ","risk":["summon","fortune"],"routes":["fortune-dedicated","summon-dedicated","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"バルーンコール","risk":["fortune"],"routes":["fortune-dedicated","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"かみかぜ","risk":["fortune","damage"],"routes":["fortune-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"バルンバ","risk":[],"routes":["dragon-tribe-passive-or-vanilla-route","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"太陽のタロット","risk":["fortune","damage","heal"],"routes":["fortune-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"サイコロン","risk":["summon","damage"],"routes":["summon-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"キースドラゴン","risk":["fortune","damage","heal"],"routes":["fortune-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"死神のタロット","risk":["fortune","damage"],"routes":["fortune-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"イブール","risk":["summon"],"routes":["summon-dedicated","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"ゾディアックコード","risk":["fortune","draw_add"],"routes":["fortune-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"逆転への兆し","risk":["fortune"],"routes":["fortune-dedicated","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"召竜の儀式","risk":["fortune"],"routes":["fortune-dedicated","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"しんりゅう","risk":["summon","fortune"],"routes":["fortune-dedicated","summon-dedicated","v305-runtime-invariant"]},{"deck":"ドラゴンタバサミネア","name":"タロットフォーチュン","risk":["fortune","damage"],"routes":["fortune-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イルルカドラゴンゼシカ","name":"メラ","risk":["damage"],"routes":["card-use-dedicated","enemy-any-damage-spell-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イルルカドラゴンゼシカ","name":"パピラス","risk":["renkei","draw_add"],"routes":["renkei-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イルルカドラゴンゼシカ","name":"イル＆ルカ","risk":[],"routes":["hero-card-dedicated","v305-runtime-invariant"]},{"deck":"イルルカドラゴンゼシカ","name":"メラミ","risk":["damage"],"routes":["card-use-dedicated","enemy-any-damage-spell-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イルルカドラゴンゼシカ","name":"とさかヘビ","risk":["summon"],"routes":["summon-dedicated","v305-runtime-invariant"]},{"deck":"イルルカドラゴンゼシカ","name":"リザードキッズ","risk":[],"routes":["attack-trigger-dedicated","v305-runtime-invariant"]},{"deck":"イルルカドラゴンゼシカ","name":"デンタザウルス","risk":["summon"],"routes":["summon-dedicated","v305-runtime-invariant"]},{"deck":"イルルカドラゴンゼシカ","name":"乙女の気まぐれ","risk":["damage","draw_add"],"routes":["card-use-dedicated","choice-dedicated","pending-target-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イルルカドラゴンゼシカ","name":"氷竜への祈り","risk":["damage","draw_add"],"routes":["card-use-dedicated","choice-dedicated","token-add-or-aoe-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イルルカドラゴンゼシカ","name":"アルゴングレート","risk":[],"routes":["attack-restriction-dedicated","v305-runtime-invariant"]},{"deck":"イルルカドラゴンゼシカ","name":"サウルスロード","risk":["damage"],"routes":["choice-dedicated","summon-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イルルカドラゴンゼシカ","name":"メラゾーマ","risk":["damage"],"routes":["card-use-dedicated","enemy-any-damage-spell-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イルルカドラゴンゼシカ","name":"ギガントドラゴン","risk":["summon","damage"],"routes":["summon-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イルルカドラゴンゼシカ","name":"ガメゴンロード","risk":["summon","draw_add"],"routes":["summon-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イルルカドラゴンゼシカ","name":"竜将ドラゴンガイア","risk":["summon","damage","turn"],"routes":["summon-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"イルルカドラゴンゼシカ","name":"ドラゴンブッシュ","risk":["summon","damage"],"routes":["summon-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"商人の交換所","risk":["draw_add"],"routes":["coin-count-choice-dedicated","exchange-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"コインのたね","risk":["get"],"routes":["card-use-dedicated","get-quota-dedicated","pending-target-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"とげぼうず","risk":[],"routes":["v305-runtime-invariant","zekkocho-passive-dedicated"]},{"deck":"デボラトルネコ","name":"プチファイター","risk":["synchro"],"routes":["synchro-dedicated","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"ケダモン","risk":["summon"],"routes":["summon-dedicated","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"ぷちメタル","risk":["bet","get","turn"],"routes":["lifetime-dedicated","summon-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"くらやみハーピー","risk":["summon"],"routes":["summon-dedicated","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"ベホイミスライム","risk":["death","bet","get","heal"],"routes":["death-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"天空の花嫁デボラ","risk":[],"routes":["hero-card-dedicated","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"ルドマン","risk":["summon","bet","get","draw_add"],"routes":["summon-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"怪獣プスゴン","risk":["summon","death"],"routes":["death-dedicated","summon-dedicated","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"ラプソーン","risk":["death"],"routes":["death-dedicated","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"黄金兵","risk":[],"routes":["summon-dedicated","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"痛みわけの杖","risk":["damage"],"routes":["aoe-damage-dedicated","card-use-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"ブラバニクイーン","risk":["synchro"],"routes":["synchro-dedicated","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"福招きのそろばん","risk":["summon","bet","get","draw_add"],"routes":["v304-semantic-quota","v305-runtime-invariant","weapon-dedicated"]},{"deck":"デボラトルネコ","name":"マデサゴーラ","risk":["bet","draw_add","turn"],"routes":["lifetime-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"ハンフリー","risk":["summon"],"routes":["summon-dedicated","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"レッドプレデター","risk":["summon","damage"],"routes":["summon-dedicated","v304-semantic-quota","v305-runtime-invariant"]},{"deck":"デボラトルネコ","name":"ゴールデンタイタス","risk":[],"routes":["coin-cost-reduction-dedicated","v305-runtime-invariant"]}];
+  function auditFourDeckCompleteRoutesV314(){
+    const missing=[];
+    const incomplete=[];
+    const cardNames=new Set((state?.allCards||[]).map(c=>c.name));
+    for(const r of MANIFEST){
+      if(!cardNames.has(r.name)) missing.push(r.name);
+      const explicit=(r.routes||[]).filter(x=>x!=='v304-semantic-quota' && x!=='v305-runtime-invariant');
+      if((r.risk||[]).length && !explicit.length) incomplete.push(r);
+    }
+    return {version:V314,total:MANIFEST.length,missing,incomplete,ok:missing.length===0 && incomplete.length===0,manifest:MANIFEST};
+  }
+  function routesForFourDeckCardV314(name){ return MANIFEST.filter(r=>r.name===name); }
+  if(window.__DQR_TEST__) window.__DQR_TEST__.v314={version:V314,auditFourDeckCompleteRoutesV314,routesForFourDeckCardV314,manifest:MANIFEST};
+})();
+
+
+/* v315: Random put-into-play + static/continuous effect route guard.
+   "場に出す" is not "召喚": summon/battlecry effects must not fire.
+   However printed keywords, synchro/field static effects, and continuous auras must be active.
+*/
+(function installRandomPutPlayStaticAuraGuardV315(){
+  const V315='v315_random_putplay_static_aura_manifest';
+  function g(){ return state?.battle?.game || null; }
+  function cardText(card){ try{ return String(getCardText(card) || card?.text || ''); }catch(e){ return String(card?.text || ''); } }
+  function board(side='player'){ const game=g(); return side === 'enemy' ? (game?.enemy?.board || []) : (game?.player?.board || []); }
+  function noSummonReason(unit){ return !!(unit?._v315PutIntoPlay || unit?._v315NoSummonEffects || unit?.putIntoPlayNotSummonedV315); }
+  function markPutIntoPlayV315(unit, card, side='player', source='場に出す'){
+    if(!unit) return unit;
+    unit._v315PutIntoPlay = true;
+    unit._v315NoSummonEffects = true;
+    unit.putIntoPlayNotSummonedV315 = true;
+    unit._v315PutIntoPlaySource = source;
+    unit._v315PutIntoPlaySide = side;
+    if(card?.id) unit._v315PutIntoPlayCardId = card.id;
+    return unit;
+  }
+  function refreshAllContinuousV315(reason='putIntoPlay'){
+    try{ refreshContinuousBoardEffectsV157?.('player'); }catch(e){}
+    try{ refreshContinuousBoardEffectsV157?.('enemy'); }catch(e){}
+    try{ refreshDragonLordAuraV218?.(); }catch(e){}
+    try{ refreshLeaderAttackFromWeaponV111?.('player'); }catch(e){}
+    return true;
+  }
+  function staticKey(unit, key){ unit._v315FieldStaticApplied ||= Object.create(null); return unit._v315FieldStaticApplied[key]; }
+  function markStatic(unit, key){ unit._v315FieldStaticApplied ||= Object.create(null); unit._v315FieldStaticApplied[key]=true; }
+  function applyPrintedStaticEffectsV315(unit, card, side='player', source='場に出す'){
+    if(!unit || !card) return false;
+    let changed=false;
+    const text=cardText(card);
+    // Printed base keywords are active when a unit is put into play, but summon/battlecry is not.
+    try{ applyBaseKeywordsOnly?.(unit, card); changed=true; }catch(e){}
+
+    // Synchro is a field/static level-linked ability. It should be active even if the unit was put into play.
+    if((typeof hasSynchro === 'function' ? hasSynchro(card) : /シンクロ|同調/.test(text)) && !staticKey(unit,'synchroInitial')){
+      try{
+        if(typeof applySynchroIfAny === 'function') applySynchroIfAny(card, unit);
+        if(typeof refreshSynchroBoardV310 === 'function') refreshSynchroBoardV310('putIntoPlayV315');
+        markStatic(unit,'synchroInitial'); changed=true;
+      }catch(e){ console.warn('v315 synchro static apply failed', e); }
+    }
+
+    // Printed static spell-damage bonuses are active on the field.
+    // Do not apply summon conditional bonuses after "召喚時" here.
+    const beforeSummon = text.split(/召喚時|召喚した時|場に出た時/)[0] || text;
+    const spellDmgMatches = [...beforeSummon.matchAll(/特技ダメージ\s*[+＋](\d+)/g)];
+    if(spellDmgMatches.length && !staticKey(unit,'printedSpellDamage')){
+      const bonus = spellDmgMatches.reduce((s,m)=>s+Number(m[1]||0),0);
+      if(bonus){ unit.spellDamageBonus = Number(unit.spellDamageBonus || 0) + bonus; markStatic(unit,'printedSpellDamage'); changed=true; }
+    }
+
+    // Printed static attack scaling that is not tied to summon.
+    if(/この対戦中に自分が使った特技カードの枚数と同じだけ攻撃力/.test(beforeSummon) && !staticKey(unit,'spellCountAttack')){
+      const obj = side === 'enemy' ? g()?.enemy : g()?.player;
+      const n = Number(obj?.spellsUsedThisGame || obj?.usedSpellCardIds?.length || 0);
+      if(n){ unit.attack = Number(unit.attack || 0) + n; markStatic(unit,'spellCountAttack'); changed=true; }
+    }
+
+    // Printed "攻撃できない" is a static restriction.
+    if(/攻撃できない/.test(beforeSummon) && !staticKey(unit,'cantAttack')){
+      unit.canAttack = false;
+      unit.attacksLeft = 0;
+      unit.keywords ||= {};
+      unit.keywords.cantAttack = true;
+      markStatic(unit,'cantAttack'); changed=true;
+    }
+
+    if(changed){
+      try{ battleLog?.(`${card.name}：場に出たため、召喚時以外の常在/基本効果を確認しました。`); }catch(e){}
+    }
+    return changed;
+  }
+  function isEligibleRandomPutPlayUnitV315(card){
+    if(!card || card.cardType !== 'ユニット') return false;
+    if(card.flags?.deckBuildable === false) return false;
+    if(card.flags?.generatedOrEvolved) return false;
+    if(card.flags?.nonDeckCategory && String(card.flags.nonDeckCategory).includes('hero')) return false;
+    if(typeof v227IsCardExcludedFromRandomPool === 'function' && v227IsCardExcludedFromRandomPool(card)) return false;
+    const name=String(card.name||'');
+    if(/^(token_|copy_|heroSkill_|skill_)/.test(String(card.id||''))) return false;
+    if(['コイン','スペシャルコイン','運命の輪','王女の愛','イブールの本'].includes(name)) return false;
+    return true;
+  }
+  function firstEmptyFrontPriorityV315(side='player'){
+    const b=board(side);
+    const order = side === 'enemy' ? [3,4,5,0,1,2] : [0,1,2,3,4,5];
+    for(const p of order) if(!b[p]) return p;
+    return -1;
+  }
+
+  const oldPutV315 = typeof putUnitIntoPlayFromCard === 'function' ? putUnitIntoPlayFromCard : null;
+  if(oldPutV315 && !oldPutV315.__v315RandomPutStaticAura){
+    putUnitIntoPlayFromCard = function(card, pos, side='player', stats={}){
+      const unit = oldPutV315.call(this, card, pos, side, stats);
+      if(unit){
+        markPutIntoPlayV315(unit, card, side, stats?.source || '場に出す');
+        applyPrintedStaticEffectsV315(unit, card, side, 'putIntoPlay');
+        refreshAllContinuousV315('putIntoPlay');
+        setTimeout(()=>refreshAllContinuousV315('putIntoPlay-late'), 0);
+      }
+      return unit;
+    };
+    putUnitIntoPlayFromCard.__v315RandomPutStaticAura = true;
+  }
+
+  // If any old path accidentally tries to apply summon effects to a put-into-play unit, block it.
+  const oldApplySummonKeywordsV315 = typeof applySummonKeywords === 'function' ? applySummonKeywords : null;
+  if(oldApplySummonKeywordsV315 && !oldApplySummonKeywordsV315.__v315NoSummonForPutPlay){
+    applySummonKeywords = function(unit, card, side='player'){
+      if(noSummonReason(unit)){
+        applyPrintedStaticEffectsV315(unit, card, side, 'blockedSummonKeywords');
+        refreshAllContinuousV315('blockedSummonKeywords');
+        return false;
+      }
+      return oldApplySummonKeywordsV315.call(this, unit, card, side);
+    };
+    applySummonKeywords.__v315NoSummonForPutPlay = true;
+  }
+  const oldApplySummonV166V315 = typeof applySummonV166 === 'function' ? applySummonV166 : null;
+  if(oldApplySummonV166V315 && !oldApplySummonV166V315.__v315NoSummonForPutPlay){
+    applySummonV166 = function(unit, card, ...rest){
+      if(noSummonReason(unit)){
+        applyPrintedStaticEffectsV315(unit, card, 'player', 'blockedSummonV166');
+        return true;
+      }
+      return oldApplySummonV166V315.call(this, unit, card, ...rest);
+    };
+    applySummonV166.__v315NoSummonForPutPlay = true;
+  }
+  const oldApplySummonTextV315 = typeof applySummonTextEffect === 'function' ? applySummonTextEffect : null;
+  if(oldApplySummonTextV315 && !oldApplySummonTextV315.__v315NoSummonForPutPlay){
+    applySummonTextEffect = function(unit, card, ...rest){
+      if(noSummonReason(unit)){
+        applyPrintedStaticEffectsV315(unit, card, 'player', 'blockedSummonText');
+        return true;
+      }
+      return oldApplySummonTextV315.call(this, unit, card, ...rest);
+    };
+    applySummonTextEffect.__v315NoSummonForPutPlay = true;
+  }
+
+  const oldHandlePutV315 = typeof handleUnitPutIntoPlayEvent === 'function' ? handleUnitPutIntoPlayEvent : null;
+  if(oldHandlePutV315 && !oldHandlePutV315.__v315StaticAuraRefresh){
+    handleUnitPutIntoPlayEvent = function(payload={}){
+      if(payload?.unit) markPutIntoPlayV315(payload.unit, payload.card, payload.side || 'player', payload.source || 'unitPutIntoPlay');
+      const r = oldHandlePutV315.call(this, payload);
+      if(payload?.unit && payload?.card) applyPrintedStaticEffectsV315(payload.unit, payload.card, payload.side || 'player', 'unitPutIntoPlayEvent');
+      refreshAllContinuousV315('unitPutIntoPlayEvent');
+      return r;
+    };
+    handleUnitPutIntoPlayEvent.__v315StaticAuraRefresh = true;
+  }
+
+  const oldPlaceRemoteV315 = typeof placeRemoteUnit === 'function' ? placeRemoteUnit : null;
+  if(oldPlaceRemoteV315 && !oldPlaceRemoteV315.__v315RemotePutStaticAura){
+    placeRemoteUnit = function(card, unitData, pos, summon=false){
+      const unit = oldPlaceRemoteV315.call(this, card, unitData, pos, summon);
+      if(unit && !summon){
+        markPutIntoPlayV315(unit, card, 'enemy', 'remotePutIntoPlay');
+        applyPrintedStaticEffectsV315(unit, card, 'enemy', 'remotePutIntoPlay');
+        refreshAllContinuousV315('remotePutIntoPlay');
+      }
+      return unit;
+    };
+    placeRemoteUnit.__v315RemotePutStaticAura = true;
+  }
+
+  const oldSummonRandomUnitAtPosV315 = typeof summonRandomUnitAtPos === 'function' ? summonRandomUnitAtPos : null;
+  if(oldSummonRandomUnitAtPosV315 && !oldSummonRandomUnitAtPosV315.__v315EligiblePool){
+    summonRandomUnitAtPos = function(predicate, pos, side='player'){
+      const pool = (state.allCards || []).filter(c => isEligibleRandomPutPlayUnitV315(c) && (!predicate || predicate(c)));
+      if(!pool.length){ try{ battleLog?.('ランダムなユニット候補がありません。'); }catch(e){} return false; }
+      let targetPos = Number(pos);
+      if(!Number.isInteger(targetPos) || targetPos < 0 || board(side)[targetPos]) targetPos = firstEmptyFrontPriorityV315(side);
+      if(targetPos < 0) return false;
+      return !!putUnitIntoPlayFromCard(chooseRandom(pool, 'v315RandomPutPlayUnit', {side, pos:targetPos}), targetPos, side, {source:'randomPutPlayV315'});
+    };
+    summonRandomUnitAtPos.__v315EligiblePool = true;
+  }
+
+  function classifyFourDeckPutPlayAndStaticV315(){
+    const decks={
+      'イレブンテリー':['しっぷう突き','とげぼうず','勇者イレブン','アルゴリザード','トンネラー','かくれんぼう','ナイトキング','わたぼう','ブラッドレディ','シーゴーレム','ラプソーン','最後の砦の英雄グレイグ','コンガオンガ','フェイスボール','メルビン','ギュメイ将軍','シュプリンガー','グレイトマムー','いなずまのけん','ウルノーガ&ウルナーガ'],
+      'ドラゴンタバサミネア':['魂の写し身','タバサ','風の導き','銀のタロット','クロウズ','バルーンコール','かみかぜ','バルンバ','太陽のタロット','サイコロン','キースドラゴン','死神のタロット','イブール','ゾディアックコード','逆転への兆し','召竜の儀式','しんりゅう','タロットフォーチュン'],
+      'イルルカドラゴンゼシカ':['メラ','パピラス','イル＆ルカ','メラミ','とさかヘビ','リザードキッズ','デンタザウルス','乙女の気まぐれ','氷竜への祈り','アルゴングレート','サウルスロード','メラゾーマ','ギガントドラゴン','ガメゴンロード','竜将ドラゴンガイア','ドラゴンブッシュ'],
+      'デボラトルネコ':['商人の交換所','コインのたね','とげぼうず','プチファイター','ケダモン','ぷちメタル','くらやみハーピー','ベホイミスライム','天空の花嫁デボラ','ルドマン','怪獣プスゴン','ラプソーン','黄金兵','痛みわけの杖','ブラバニクイーン','福招きのそろばん','マデサゴーラ','ハンフリー','レッドプレデター','ゴールデンタイタス']
+    };
+    const rows=[];
+    for(const [deck,names] of Object.entries(decks)){
+      for(const name of names){
+        const card=findCardByName(name); const text=cardText(card);
+        const putPlayRisk=/場に出|出す|ランダムな.*ユニット|手札\/山札から.*ユニット/.test(text);
+        const staticRisk=/におうだち|速攻|貫通|特技ダメージ|シンクロ|同調|コスト[+＋-]|場にいる間|この対戦中に自分が使った特技カード/.test(text);
+        if(putPlayRisk || staticRisk) rows.push({deck,name,putPlayRisk,staticRisk,text});
+      }
+    }
+    return rows;
+  }
+  function simulateRandomPutPlayStaticAuraV315(){
+    const T=window.__DQR_TEST__ || {};
+    if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g(); if(!game) return {ok:false, reason:'no game'};
+    game.player.fortuneMode=''; game.player.permanentHitFortuneV310=false;
+    game.player.board=Array(6).fill(null); game.enemy.board=Array(6).fill(null); game.player.hand=[]; game.enemy.hand=[];
+    const crows=findCardByName('クロウズ');
+    const crowsUnit=putUnitIntoPlayFromCard(crows,0,'player',{source:'test'});
+    const crowsNoHit = game.player.fortuneMode !== 'hit' && !game.player.permanentHitFortuneV310;
+    game.player.board=Array(6).fill(null);
+    game.player.heroLevel=3;
+    const bb=findCardByName('ブラバニクイーン') || findCardByName('プチファイター');
+    const syncUnit=bb ? putUnitIntoPlayFromCard(bb,0,'player',{source:'test'}) : null;
+    const synchroMarked=!!(syncUnit?._v310SynchroAppliedLevel || syncUnit?._v312SynchroApplied || syncUnit?._v315FieldStaticApplied?.synchroInitial);
+    game.player.board=Array(6).fill(null);
+    const bush=findCardByName('ドラゴンブッシュ');
+    const bushUnit=bush ? putUnitIntoPlayFromCard(bush,0,'player',{source:'test'}) : null;
+    const spellBonusOk = !bush || Number(bushUnit?.spellDamageBonus || 0) >= 1;
+    game.enemy.board=Array(6).fill(null); game.player.hand=[];
+    const ibul=findCardByName('イブール');
+    const coin=findCardByName('コイン') || ensureVirtualCard?.('コイン');
+    if(ibul) putUnitIntoPlayFromCard(ibul,3,'enemy',{source:'test'});
+    const ibulCoinCost = coin && typeof getEffectiveCost === 'function' ? getEffectiveCost(coin) : null;
+    return {ok:!!crowsUnit && crowsNoHit && spellBonusOk && (ibulCoinCost == null || ibulCoinCost >= 1), crowsNoHit, synchroMarked, spellBonusOk, ibulCoinCost};
+  }
+
+  if(window.__DQR_TEST__){
+    window.__DQR_TEST__.v315={version:V315, markPutIntoPlayV315, applyPrintedStaticEffectsV315, refreshAllContinuousV315, isEligibleRandomPutPlayUnitV315, classifyFourDeckPutPlayAndStaticV315, simulateRandomPutPlayStaticAuraV315};
   }
 })();

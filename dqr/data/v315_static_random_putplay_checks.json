@@ -1,0 +1,51 @@
+{
+  "passed": 9,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "v315 install block exists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "put into play is marked not summoned",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "summon handlers are blocked for put-play units",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "field statics are applied",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "continuous refresh runs after put-play",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "random unit pool has eligibility filter",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "remote put-play static route exists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "four deck manifest has no incomplete rows",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "node --check js/app.js",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "version": "v312_lifetime_once_and_dedicated_regression_fix",
+  "nodeCheck": "OK",
+  "staticChecks": "7 passed / 0 failed",
+  "targets": [
+    "ぷちメタル",
+    "ブラバニクイーン",
+    "しんりゅう"
+  ],
+  "dynamicFirebase": "not completed in sandbox"
+}

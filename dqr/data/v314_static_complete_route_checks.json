@@ -1,0 +1,106 @@
+{
+  "passed": 20,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "all four-deck rows exist",
+      "ok": true,
+      "detail": 74
+    },
+    {
+      "name": "all four-deck cards found",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "all risk rows have explicit non-generic route",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "v314 app block installed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "v313 closeout retained",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "v312 lifetime/synchro/shinryu retained",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "v311 attack exhaustion retained",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "v310 crows/synchro/putplay retained",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "v309 front taunt and coin spell retained",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "v304 semantic quota retained",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "v296 PvP hand redaction retained",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "explicit code evidence: しっぷう突き",
+      "ok": true,
+      "detail": "しっぷう突き"
+    },
+    {
+      "name": "explicit code evidence: 風の導き",
+      "ok": true,
+      "detail": "風の導き"
+    },
+    {
+      "name": "explicit code evidence: コインのたね",
+      "ok": true,
+      "detail": "コインのたね"
+    },
+    {
+      "name": "explicit code evidence: 乙女の気まぐれ",
+      "ok": true,
+      "detail": "乙女の気まぐれ"
+    },
+    {
+      "name": "explicit code evidence: 氷竜への祈り",
+      "ok": true,
+      "detail": "氷竜への祈り"
+    },
+    {
+      "name": "explicit code evidence: 痛みわけの杖",
+      "ok": true,
+      "detail": "痛みわけの杖"
+    },
+    {
+      "name": "explicit code evidence: 商人の交換所",
+      "ok": true,
+      "detail": "商人の交換所"
+    },
+    {
+      "name": "explicit code evidence: ギュメイ将軍",
+      "ok": true,
+      "detail": "ギュメイ将軍"
+    },
+    {
+      "name": "explicit code evidence: メラゾーマ",
+      "ok": true,
+      "detail": "メラゾーマ"
+    }
+  ]
+}

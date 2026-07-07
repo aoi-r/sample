@@ -1,0 +1,9 @@
+{
+  "version": "v314_four_deck_complete_route_manifest",
+  "nodeCheck": "OK",
+  "completeRouteAudit": "20 passed / 0 failed",
+  "totalFourDeckRows": 74,
+  "riskRows": 62,
+  "incompleteRiskRoutes": [],
+  "note": "4 prepared decks have explicit route manifest; real Firebase/browser exhaustive proof is still outside this sandbox."
+}

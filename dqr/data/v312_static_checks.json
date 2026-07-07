@@ -1,0 +1,64 @@
+{
+  "passed": 7,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "DATA_VERSION v312",
+      "ok": true
+    },
+    {
+      "name": "puchi lifetime ledger",
+      "ok": true
+    },
+    {
+      "name": "v166ApplyEndTurn wrapped",
+      "ok": true
+    },
+    {
+      "name": "synchro per-level ledger",
+      "ok": true
+    },
+    {
+      "name": "brabani clamp",
+      "ok": true
+    },
+    {
+      "name": "shinryu summon resolver",
+      "ok": true
+    },
+    {
+      "name": "test API v312",
+      "ok": true
+    }
+  ],
+  "manifest": {
+    "v312Targets": [
+      "ぷちメタル",
+      "ブラバニクイーン",
+      "しんりゅう"
+    ],
+    "cards": {
+      "ぷちメタル": {
+        "name": "ぷちメタル",
+        "text": "メタルボディ、BET:1ターンに1回のみ攻撃力+1と速攻を得る、自分のターン終了時GET(1)、この効果は一度しか発動しない",
+        "cost": 2,
+        "attack": 1,
+        "hp": 2
+      },
+      "ブラバニクイーン": {
+        "name": "ブラバニクイーン",
+        "text": "シンクロ：①貫通、②速攻、③攻撃力+1",
+        "cost": 4,
+        "attack": 4,
+        "hp": 2
+      },
+      "しんりゅう": {
+        "name": "しんりゅう",
+        "text": "召喚時:願い事を１つかなえてくれる。 味方リーダーが超必中モードの場合全ての願い事をかなえてくれる。",
+        "cost": 8,
+        "attack": 8,
+        "hp": 8
+      }
+    }
+  }
+}

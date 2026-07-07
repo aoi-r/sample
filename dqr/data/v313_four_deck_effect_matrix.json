@@ -1,0 +1,1173 @@
+{
+  "version": "v313_four_deck_full_effect_closeout_guard",
+  "deckCounts": {
+    "イレブンテリー": 20,
+    "ドラゴンタバサミネア": 18,
+    "イルルカドラゴンゼシカ": 16,
+    "デボラトルネコ": 20
+  },
+  "exclusiveCounts": {
+    "renkei": 11,
+    "fortune": 12,
+    "summon": 20,
+    "weapon": 2,
+    "lifetime": 3,
+    "synchro": 2,
+    "death": 4
+  },
+  "rows": [
+    {
+      "deck": "イレブンテリー",
+      "name": "しっぷう突き",
+      "found": true,
+      "type": "特技",
+      "cost": 1,
+      "risk": [
+        "damage"
+      ],
+      "routes": [
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "ユニット1体に1ダメージ。 そのユニットが既にダメージを受けている場合代わりに3ダメージ"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "とげぼうず",
+      "found": true,
+      "type": "ユニット",
+      "cost": 1,
+      "risk": [],
+      "routes": [
+        "v305-runtime-invariant"
+      ],
+      "text": "絶好調、このユニットが絶好調状態なら攻撃力+2を得る"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "勇者イレブン",
+      "found": true,
+      "type": "ヒーロー",
+      "cost": 1,
+      "risk": [],
+      "routes": [
+        "v305-runtime-invariant"
+      ],
+      "text": "勇者イレブンのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "アルゴリザード",
+      "found": true,
+      "type": "ユニット",
+      "cost": 2,
+      "risk": [
+        "renkei",
+        "damage"
+      ],
+      "routes": [
+        "renkei-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "速攻、れんけい：敵ユニット1体に2ダメージ"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "トンネラー",
+      "found": true,
+      "type": "ユニット",
+      "cost": 2,
+      "risk": [
+        "renkei"
+      ],
+      "routes": [
+        "renkei-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "におうだち、れんけい：+1/+1"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "かくれんぼう",
+      "found": true,
+      "type": "ユニット",
+      "cost": 2,
+      "risk": [
+        "renkei",
+        "draw_add"
+      ],
+      "routes": [
+        "renkei-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "ステルス、れんけい：カードを1枚引く"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "ナイトキング",
+      "found": true,
+      "type": "ユニット",
+      "cost": 3,
+      "risk": [
+        "renkei",
+        "heal"
+      ],
+      "routes": [
+        "renkei-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "におうだち、れんけい：味方リーダーのHPを4回復"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "わたぼう",
+      "found": true,
+      "type": "ユニット",
+      "cost": 2,
+      "risk": [
+        "draw_add"
+      ],
+      "routes": [
+        "lifetime-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "ターンを終了したプレイヤーはカードを1枚引く"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "ブラッドレディ",
+      "found": true,
+      "type": "ユニット",
+      "cost": 3,
+      "risk": [
+        "summon",
+        "damage"
+      ],
+      "routes": [
+        "summon-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "召喚時：ユニット1体に2ダメージ"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "シーゴーレム",
+      "found": true,
+      "type": "ユニット",
+      "cost": 3,
+      "risk": [
+        "summon"
+      ],
+      "routes": [
+        "summon-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "召喚時：味方ヒーローがいる場合HP+2とにおうだちを得る"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "ラプソーン",
+      "found": true,
+      "type": "ユニット",
+      "cost": 3,
+      "risk": [
+        "death"
+      ],
+      "routes": [
+        "death-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "死亡時：ランダムな敵ユニット1体に「死亡時：相手の場にラプソーン1体を出す」を付与する"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "最後の砦の英雄グレイグ",
+      "found": true,
+      "type": "ユニット",
+      "cost": 4,
+      "risk": [
+        "renkei",
+        "damage"
+      ],
+      "routes": [
+        "renkei-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "におうだち、れんけい：正面にいる全ての敵ユニットに2ダメージ。敵ユニットが死亡する度攻撃力+1"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "コンガオンガ",
+      "found": true,
+      "type": "ユニット",
+      "cost": 4,
+      "risk": [
+        "renkei",
+        "draw_add"
+      ],
+      "routes": [
+        "renkei-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "れんけい：攻撃力が6以上の敵ユニット1体を消滅させる。そのユニットと同じ使用コストのランダムなユニットカード1枚を相手の手札に加える。"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "フェイスボール",
+      "found": true,
+      "type": "ユニット",
+      "cost": 4,
+      "risk": [
+        "renkei",
+        "damage",
+        "turn"
+      ],
+      "routes": [
+        "renkei-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "ステルス、れんけい：次の相手のターン終了時まで味方リーダーが受けるダメージ-2"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "メルビン",
+      "found": true,
+      "type": "ユニット",
+      "cost": 3,
+      "risk": [
+        "death"
+      ],
+      "routes": [
+        "death-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "貫通、死亡時：ホットストーンに封じられ召喚者の山札の上から3番目にホットストーンが配置される"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "ギュメイ将軍",
+      "found": true,
+      "type": "ユニット",
+      "cost": 5,
+      "risk": [
+        "damage"
+      ],
+      "routes": [
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "貫通、このユニット以外の全ての敵味方は戦闘ダメージとデッキ切れによるダメージのみ受ける"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "シュプリンガー",
+      "found": true,
+      "type": "ユニット",
+      "cost": 5,
+      "risk": [
+        "renkei"
+      ],
+      "routes": [
+        "renkei-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "れんけい：このユニットに2回さくせんを出す。"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "グレイトマムー",
+      "found": true,
+      "type": "ユニット",
+      "cost": 6,
+      "risk": [
+        "renkei",
+        "damage"
+      ],
+      "routes": [
+        "renkei-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "れんけい：敵ユニット1体に5ダメージ"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "いなずまのけん",
+      "found": true,
+      "type": "武器",
+      "cost": 7,
+      "risk": [
+        "summon",
+        "damage"
+      ],
+      "routes": [
+        "weapon-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "召喚時&この武器が壊れた時：全ての敵ユニットに2ダメージ"
+    },
+    {
+      "deck": "イレブンテリー",
+      "name": "ウルノーガ&ウルナーガ",
+      "found": true,
+      "type": "ユニット",
+      "cost": 7,
+      "risk": [
+        "renkei"
+      ],
+      "routes": [
+        "renkei-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "れんけい：前列に召喚した場合、正面にいるランダムな敵ユニット1体を消滅させる。後列に召喚した場合、攻撃力6以上の他ユニット全てを死亡させる。"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "魂の写し身",
+      "found": true,
+      "type": "特技",
+      "cost": 1,
+      "risk": [],
+      "routes": [
+        "v305-runtime-invariant"
+      ],
+      "text": "ユニット1体を選ぶ。そのユニットと同じカード2枚を自分のデッキに混ぜる。"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "タバサ",
+      "found": true,
+      "type": "ヒーロー",
+      "cost": 1,
+      "risk": [],
+      "routes": [
+        "v305-runtime-invariant"
+      ],
+      "text": "タバサのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る。"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "風の導き",
+      "found": true,
+      "type": "特技",
+      "cost": 2,
+      "risk": [
+        "damage"
+      ],
+      "routes": [
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "ユニット1体に3ダメージ。デッキの一番上のカードを見てデッキの一番下に移動させることができる。"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "銀のタロット",
+      "found": true,
+      "type": "特技",
+      "cost": 2,
+      "risk": [
+        "fortune",
+        "draw_add"
+      ],
+      "routes": [
+        "fortune-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "運命の輪を手札に加える。味方リーダーは必中モードになる。既に必中モードの場合テンション+2。"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "クロウズ",
+      "found": true,
+      "type": "ユニット",
+      "cost": 2,
+      "risk": [
+        "summon",
+        "fortune"
+      ],
+      "routes": [
+        "fortune-dedicated",
+        "summon-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "召喚時:味方リーダーは必中モードになる。攻撃時:デッキの1番上のカードを見てデッキの一番下に移動させることができる。"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "バルーンコール",
+      "found": true,
+      "type": "特技",
+      "cost": 2,
+      "risk": [
+        "fortune"
+      ],
+      "routes": [
+        "fortune-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "占い：①におうだち、2/3のプヨンターゲットを出す。②速攻 1/1のバブリンを2体出す"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "かみかぜ",
+      "found": true,
+      "type": "特技",
+      "cost": 2,
+      "risk": [
+        "fortune",
+        "damage"
+      ],
+      "routes": [
+        "fortune-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "おうえん、占い:(1)合計3ダメージをランダムな敵ユニットに割り振る(2)ランダムなコスト2のユニットを1体出す"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "バルンバ",
+      "found": true,
+      "type": "ユニット",
+      "cost": 3,
+      "risk": [],
+      "routes": [
+        "v305-runtime-invariant"
+      ],
+      "text": "パワフルバッジ：ドラゴン系の味方ユニットはにおうだちを得る"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "太陽のタロット",
+      "found": true,
+      "type": "特技",
+      "cost": 4,
+      "risk": [
+        "fortune",
+        "damage",
+        "heal"
+      ],
+      "routes": [
+        "fortune-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "占い：(1)全ての敵ユニットに2ダメージ、(2)味方リーダーのHPを7回復"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "サイコロン",
+      "found": true,
+      "type": "ユニット",
+      "cost": 4,
+      "risk": [
+        "summon",
+        "damage"
+      ],
+      "routes": [
+        "summon-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "召喚時：味方ヒーローがいる場合合計5ダメージをこのユニット以外のランダムなユニットに割り振る"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "キースドラゴン",
+      "found": true,
+      "type": "ユニット",
+      "cost": 5,
+      "risk": [
+        "fortune",
+        "damage",
+        "heal"
+      ],
+      "routes": [
+        "fortune-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "占い：①味方リーダーのHPを5回復、②正面にいる全ての敵ユニットに2ダメージ"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "死神のタロット",
+      "found": true,
+      "type": "特技",
+      "cost": 5,
+      "risk": [
+        "fortune",
+        "damage"
+      ],
+      "routes": [
+        "fortune-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "占い：①全てのユニットに3ダメージ、②：2/2のナイトウィスプを3体出す"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "イブール",
+      "found": true,
+      "type": "ユニット",
+      "cost": 5,
+      "risk": [
+        "summon"
+      ],
+      "routes": [
+        "summon-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "相手プレイヤーの手札の特技カードのコスト+1、召喚時&攻撃時:相手のデッキの一番上にイブールの本が一枚置かれる"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "ゾディアックコード",
+      "found": true,
+      "type": "特技",
+      "cost": 6,
+      "risk": [
+        "fortune",
+        "draw_add"
+      ],
+      "routes": [
+        "fortune-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "必殺技：この対戦中超必中モードになる。自分のデッキから占いカードを1枚手札に加えてコスト-3する。無いなら代わりに審判のタロットを手札に加える。"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "逆転への兆し",
+      "found": true,
+      "type": "特技",
+      "cost": 6,
+      "risk": [
+        "fortune"
+      ],
+      "routes": [
+        "fortune-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "占い：(1)全てのユニットを1/1にする(2)ランダムなコスト3のユニットを2体出す"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "召竜の儀式",
+      "found": true,
+      "type": "特技",
+      "cost": 7,
+      "risk": [
+        "fortune"
+      ],
+      "routes": [
+        "fortune-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "占い:①7/7のダースドラゴンを出す ②3/3のいばらドラゴンを3体出す"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "しんりゅう",
+      "found": true,
+      "type": "ユニット",
+      "cost": 8,
+      "risk": [
+        "summon",
+        "fortune"
+      ],
+      "routes": [
+        "fortune-dedicated",
+        "summon-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "召喚時:願い事を１つかなえてくれる。 味方リーダーが超必中モードの場合全ての願い事をかなえてくれる。"
+    },
+    {
+      "deck": "ドラゴンタバサミネア",
+      "name": "タロットフォーチュン",
+      "found": true,
+      "type": "特技",
+      "cost": 13,
+      "risk": [
+        "fortune",
+        "damage"
+      ],
+      "routes": [
+        "fortune-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "敵ユニット1体に7ダメージ。7/7のダースドラゴンを出す。 対戦中に自分が使った占いカードの回数分コスト-1。"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "メラ",
+      "found": true,
+      "type": "特技",
+      "cost": 0,
+      "risk": [
+        "damage"
+      ],
+      "routes": [
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "敵1体に1ダメージを与える"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "パピラス",
+      "found": true,
+      "type": "ユニット",
+      "cost": 1,
+      "risk": [
+        "renkei",
+        "draw_add"
+      ],
+      "routes": [
+        "renkei-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "れんけい：ランダムなコスト1〜3の自分の職業の特技カードを1枚手札に加える。"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "イル＆ルカ",
+      "found": true,
+      "type": "ヒーロー",
+      "cost": 1,
+      "risk": [],
+      "routes": [
+        "v305-runtime-invariant"
+      ],
+      "text": "イル＆ルカのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る。"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "メラミ",
+      "found": true,
+      "type": "特技",
+      "cost": 2,
+      "risk": [
+        "damage"
+      ],
+      "routes": [
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "敵1体に3ダメージを与える"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "とさかヘビ",
+      "found": true,
+      "type": "ユニット",
+      "cost": 2,
+      "risk": [
+        "summon"
+      ],
+      "routes": [
+        "summon-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "召喚時：自分のデッキの上からカード4枚を見る。ドラゴン系のカードを1枚選びそれを引く。残りをデッキの下に戻す。"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "リザードキッズ",
+      "found": true,
+      "type": "ユニット",
+      "cost": 2,
+      "risk": [],
+      "routes": [
+        "v305-runtime-invariant"
+      ],
+      "text": "攻撃時：このターン中攻撃力-3。"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "デンタザウルス",
+      "found": true,
+      "type": "ユニット",
+      "cost": 3,
+      "risk": [
+        "summon"
+      ],
+      "routes": [
+        "summon-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "におうだち、召喚時：手札にコスト3以上の特技カードがあるならHP+2"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "乙女の気まぐれ",
+      "found": true,
+      "type": "特技",
+      "cost": 3,
+      "risk": [
+        "damage",
+        "draw_add"
+      ],
+      "routes": [
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "選択：ユニット1体に4ダメージ、・ユニット1体に2ダメージ、カードを1枚引く"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "氷竜への祈り",
+      "found": true,
+      "type": "特技",
+      "cost": 3,
+      "risk": [
+        "damage",
+        "draw_add"
+      ],
+      "routes": [
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "選択：・せつげんりゅう1枚を手札に加える ・全ての敵に1ダメージ"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "アルゴングレート",
+      "found": true,
+      "type": "ユニット",
+      "cost": 3,
+      "risk": [],
+      "routes": [
+        "v305-runtime-invariant"
+      ],
+      "text": "正面に敵ユニットがいる場合攻撃できない"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "サウルスロード",
+      "found": true,
+      "type": "ユニット",
+      "cost": 3,
+      "risk": [
+        "damage"
+      ],
+      "routes": [
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "選択：・特技ダメージ+1を得る ・武器ダメージ+1を得る"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "メラゾーマ",
+      "found": true,
+      "type": "特技",
+      "cost": 4,
+      "risk": [
+        "damage"
+      ],
+      "routes": [
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "敵1体に5ダメージを与える"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "ギガントドラゴン",
+      "found": true,
+      "type": "ユニット",
+      "cost": 4,
+      "risk": [
+        "summon",
+        "damage"
+      ],
+      "routes": [
+        "summon-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "召喚時：敵の前列か後列を選び、縦一列の全ての敵ユニットに1ダメージ。味方の場か手札に攻撃力4以上の自身を除いたドラゴン系ユニットがいるなら、代わりに2ダメージ。"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "ガメゴンロード",
+      "found": true,
+      "type": "ユニット",
+      "cost": 5,
+      "risk": [
+        "summon",
+        "draw_add"
+      ],
+      "routes": [
+        "summon-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "におうだち。召喚時：自分の場か手札に攻撃力4以上の他のドラゴン系がいるなら特技：メラミを1枚手札に加える。"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "竜将ドラゴンガイア",
+      "found": true,
+      "type": "ユニット",
+      "cost": 6,
+      "risk": [
+        "summon",
+        "damage",
+        "turn"
+      ],
+      "routes": [
+        "summon-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "召喚時：手札にコスト3以上の特技カードがあるなら縦一列にいる全ての敵ユニットに2ダメージ、それらのユニットを次のターン終了時まで攻撃不能にする"
+    },
+    {
+      "deck": "イルルカドラゴンゼシカ",
+      "name": "ドラゴンブッシュ",
+      "found": true,
+      "type": "ユニット",
+      "cost": 6,
+      "risk": [
+        "summon",
+        "damage"
+      ],
+      "routes": [
+        "summon-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "特技ダメージ+1。召喚時：自分の場か手札に攻撃力4以上の他のドラゴン系がいるなら特技ダメージ+1を得る。"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "商人の交換所",
+      "found": true,
+      "type": "特技",
+      "cost": 0,
+      "risk": [
+        "draw_add"
+      ],
+      "routes": [
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "手札のコインを消費して以下の景品と交換する。1枚:超ちからのたね、2枚:コスト2のバシルーラの杖、3枚:ブレッドハンド その後カードを1枚引く"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "コインのたね",
+      "found": true,
+      "type": "特技",
+      "cost": 1,
+      "risk": [
+        "get"
+      ],
+      "routes": [
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "ユニット1体の攻撃力+1、その後GET(1)"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "とげぼうず",
+      "found": true,
+      "type": "ユニット",
+      "cost": 1,
+      "risk": [],
+      "routes": [
+        "v305-runtime-invariant"
+      ],
+      "text": "絶好調、このユニットが絶好調状態なら攻撃力+2を得る"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "プチファイター",
+      "found": true,
+      "type": "ユニット",
+      "cost": 1,
+      "risk": [
+        "synchro"
+      ],
+      "routes": [
+        "synchro-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "シンクロ：①攻撃力+1、②HP+1、③速攻"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "ケダモン",
+      "found": true,
+      "type": "ユニット",
+      "cost": 2,
+      "risk": [
+        "summon"
+      ],
+      "routes": [
+        "summon-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "速攻、召喚時:このターン中味方リーダーが攻撃力+1を得る"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "ぷちメタル",
+      "found": true,
+      "type": "ユニット",
+      "cost": 2,
+      "risk": [
+        "bet",
+        "get",
+        "turn"
+      ],
+      "routes": [
+        "summon-dedicated",
+        "lifetime-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "メタルボディ、BET:1ターンに1回のみ攻撃力+1と速攻を得る、自分のターン終了時GET(1)、この効果は一度しか発動しない"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "くらやみハーピー",
+      "found": true,
+      "type": "ユニット",
+      "cost": 2,
+      "risk": [
+        "summon"
+      ],
+      "routes": [
+        "summon-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "召喚時：ユニット1体のHPを攻撃力と同じ値にする"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "ベホイミスライム",
+      "found": true,
+      "type": "ユニット",
+      "cost": 2,
+      "risk": [
+        "death",
+        "bet",
+        "get",
+        "heal"
+      ],
+      "routes": [
+        "death-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "死亡時：GET(1)、BET：1ターンに1回のみ味方リーダーのHPを2回復"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "天空の花嫁デボラ",
+      "found": true,
+      "type": "ヒーロー",
+      "cost": 2,
+      "risk": [],
+      "routes": [
+        "v305-runtime-invariant"
+      ],
+      "text": "天空の花嫁デボラのヒーロースキルが使えるようになる。このカードは最初の手札に必ず来る"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "ルドマン",
+      "found": true,
+      "type": "ユニット",
+      "cost": 3,
+      "risk": [
+        "summon",
+        "bet",
+        "get",
+        "draw_add"
+      ],
+      "routes": [
+        "summon-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "召喚時：GET(1)。BET：道具カードを1枚手札に加える。味方のBETが4回発動する度に、手札/山札からコスト3以下のユニット1体を場に出す。"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "怪獣プスゴン",
+      "found": true,
+      "type": "ユニット",
+      "cost": 3,
+      "risk": [
+        "summon",
+        "death"
+      ],
+      "routes": [
+        "summon-dedicated",
+        "death-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "召喚時：指定の敵の空きマスにイチゴ爆弾を1つ出す。死亡時：正面のランダムな敵の空きマスにイチゴ爆弾を1つ出す"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "ラプソーン",
+      "found": true,
+      "type": "ユニット",
+      "cost": 3,
+      "risk": [
+        "death"
+      ],
+      "routes": [
+        "death-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "死亡時：ランダムな敵ユニット1体に「死亡時：相手の場にラプソーン1体を出す」を付与する"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "黄金兵",
+      "found": true,
+      "type": "ユニット",
+      "cost": 3,
+      "risk": [],
+      "routes": [
+        "summon-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "におうだち、自分がコインを使う度このターン中手札にあるこのカードのコスト-2"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "痛みわけの杖",
+      "found": true,
+      "type": "特技",
+      "cost": 4,
+      "risk": [
+        "damage"
+      ],
+      "routes": [
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "お互いの全てのユニットに3ダメージ"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "ブラバニクイーン",
+      "found": true,
+      "type": "ユニット",
+      "cost": 4,
+      "risk": [
+        "synchro"
+      ],
+      "routes": [
+        "synchro-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "シンクロ：①貫通、②速攻、③攻撃力+1"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "福招きのそろばん",
+      "found": true,
+      "type": "武器",
+      "cost": 4,
+      "risk": [
+        "summon",
+        "bet",
+        "get",
+        "draw_add"
+      ],
+      "routes": [
+        "weapon-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "召喚時とこの武器が壊れた時にGET(1)。BET：耐久力-1してカードを1枚引く。"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "マデサゴーラ",
+      "found": true,
+      "type": "ユニット",
+      "cost": 4,
+      "risk": [
+        "bet",
+        "draw_add",
+        "turn"
+      ],
+      "routes": [
+        "lifetime-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "自分のターン終了時：スペシャルコイン1枚を手札に加える。BET:自分のデッキからBETを持つカードを1枚引く"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "ハンフリー",
+      "found": true,
+      "type": "ユニット",
+      "cost": 5,
+      "risk": [
+        "summon"
+      ],
+      "routes": [
+        "summon-dedicated",
+        "v305-runtime-invariant"
+      ],
+      "text": "召喚時:ユニット1体の攻撃力とHPを吸い取り自身の攻撃力とHPを同じ値にする。そのユニットを2/2にする"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "レッドプレデター",
+      "found": true,
+      "type": "ユニット",
+      "cost": 8,
+      "risk": [
+        "summon",
+        "damage"
+      ],
+      "routes": [
+        "summon-dedicated",
+        "v304-semantic-quota",
+        "v305-runtime-invariant"
+      ],
+      "text": "におうだち、この対戦中に自分が使った特技カードの枚数と同じだけ攻撃力を上げる。 召喚時：敵ユニット1体に自身の攻撃力と同じダメージを与える"
+    },
+    {
+      "deck": "デボラトルネコ",
+      "name": "ゴールデンタイタス",
+      "found": true,
+      "type": "ユニット",
+      "cost": 10,
+      "risk": [],
+      "routes": [
+        "v305-runtime-invariant"
+      ],
+      "text": "8/8。この対戦中にコインを自分の手札に加えた枚数分手札にあるこのカードのコスト-1"
+    }
+  ]
+}
