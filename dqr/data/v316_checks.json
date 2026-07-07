@@ -1,0 +1,9 @@
+{
+  "version": "v316_puchi_once_synchro_deterministic_fix",
+  "nodeCheck": "OK",
+  "staticChecks": "7 passed / 0 failed",
+  "fixes": [
+    "ぷちメタル一度のみターン終了GETが0回になる問題",
+    "プチファイター/ブラバニクイーン等のシンクロがrender/refreshで累積する問題"
+  ]
+}

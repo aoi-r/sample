@@ -63,8 +63,8 @@ function setPlayerIdentity(playerId, displayName){
 const $ = id => document.getElementById(id);
 const screens = ['start','user','menu','deckbuilder','battle'];
 const fallbackClasses = ['共通','戦士','魔法使い','武闘家','僧侶','商人','占い師','魔剣士','盗賊'];
-const DATA_VERSION = 'v315_random_putplay_static_aura_manifest';
-const BUILD_LABEL = 'v315 / ランダム場出し・常在効果監査';
+const DATA_VERSION = 'v316_puchi_once_synchro_deterministic_fix';
+const BUILD_LABEL = 'v316 / ぷちメタル一度のみ・シンクロ確定補正';
 
 // v107 compatibility shims for rolled-back bases
 function getCardText(card){
@@ -28082,5 +28082,249 @@ if(window.__DQR_TEST__ && typeof getSpellDamageBonus === 'function'){
 
   if(window.__DQR_TEST__){
     window.__DQR_TEST__.v315={version:V315, markPutIntoPlayV315, applyPrintedStaticEffectsV315, refreshAllContinuousV315, isEligibleRandomPutPlayUnitV315, classifyFourDeckPutPlayAndStaticV315, simulateRandomPutPlayStaticAuraV315};
+  }
+})();
+
+
+/* v316: Puchi Metal lifetime GET and deterministic Synchro correction.
+   Fixes two regressions found in PvP/manual validation:
+   1) v312's puchi-metal wrapper marked the old flag before checking it again, so GET(1) could be suppressed entirely.
+   2) Synchro refresh/render paths could re-apply level bonuses cumulatively, creating impossible stats like プチファイター 18/15.
+*/
+(function installPuchiOnceAndSynchroDeterministicV316(){
+  const V316='v316_puchi_once_synchro_deterministic_fix';
+  function g(){ return state?.battle?.game || null; }
+  function sideObj(side){ const game=g(); return side === 'enemy' ? game?.enemy : game?.player; }
+  function boardOf(side){ return sideObj(side)?.board || []; }
+  function cardOfUnit(unit){ return byId(unit?.cardId) || findCardByName(unit?.name || ''); }
+  function isPuchiMetal(unit){ return !!unit && unit.name === 'ぷちメタル'; }
+  function ensureUnitLifeId(unit, prefix='unit'){
+    if(!unit) return '';
+    if(!unit._v316LifeId) unit._v316LifeId = unit.id || unit.instanceId || `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    return unit._v316LifeId;
+  }
+  function puchiKey(unit, side, pos){ return `${side}:${ensureUnitLifeId(unit,'puchi')}:${unit?.cardId || ''}:${pos}`; }
+  function puchiLedger(){ const game=g(); if(!game) return null; game._v316PuchiMetalGetOnce ||= Object.create(null); return game._v316PuchiMetalGetOnce; }
+  function puchiUsed(unit, side='player', pos=-1){ const led=puchiLedger(); return !!(unit?._v316PuchiMetalEndGetDone || led?.[puchiKey(unit,side,pos)]); }
+  function markPuchiUsed(unit, side='player', pos=-1){
+    const led=puchiLedger(); if(led) led[puchiKey(unit,side,pos)] = true;
+    if(unit){ unit._v316PuchiMetalEndGetDone=true; unit._v312PuchiMetalEndGetDone=true; unit._puchiMetalEndGetDone=true; }
+  }
+  function grantPuchiGetOnceV316(unit, side='player', pos=-1, source='v316'){
+    const game=g(); if(!game || !unit || !isPuchiMetal(unit) || puchiUsed(unit, side, pos)) return false;
+    if(side === 'enemy'){
+      game.enemy.handCount = Number(game.enemy.handCount || 0) + 1;
+      battleLog('ぷちメタル：ターン終了時GET(1)。相手の手札枚数+1。このぷちメタルでは以後発動しません。');
+    }else{
+      addCardToHandByName('コイン');
+      battleLog('ぷちメタル：ターン終了時GET(1)。このぷちメタルでは以後発動しません。');
+    }
+    markPuchiUsed(unit, side, pos);
+    return true;
+  }
+
+  const oldEndTurnV316 = typeof v166ApplyEndTurn === 'function' ? v166ApplyEndTurn : null;
+  if(oldEndTurnV316 && !oldEndTurnV316.__v316PuchiOnceFix){
+    v166ApplyEndTurn = function(side='player'){
+      const game=g();
+      const tracked=[];
+      if(game){
+        const b=boardOf(side);
+        for(let pos=0; pos<b.length; pos++){
+          const u=b[pos];
+          if(isPuchiMetal(u)) tracked.push({unit:u, pos, wasUsed:puchiUsed(u, side, pos)});
+        }
+      }
+      const result = oldEndTurnV316.call(this, side);
+      if(game){
+        const b=boardOf(side);
+        for(const t of tracked){
+          const stillThere = b[t.pos] === t.unit || b.includes(t.unit);
+          if(!stillThere || !isPuchiMetal(t.unit) || t.wasUsed) continue;
+          // v312's old wrapper may have set _puchiMetalEndGetDone only to block legacy handling.
+          // v316 has its own lifetime ledger, so grant if v316 has not granted before.
+          if(!puchiUsed(t.unit, side, t.pos)) grantPuchiGetOnceV316(t.unit, side, t.pos, 'v166ApplyEndTurn');
+        }
+      }
+      return result;
+    };
+    v166ApplyEndTurn.__v316PuchiOnceFix=true;
+  }
+
+  function isSynchroCard(card){
+    if(!card) return false;
+    const text=String(card.text || getCardText?.(card) || '');
+    return text.includes('シンクロ') || text.includes('同調') || (typeof hasSynchro === 'function' && hasSynchro(card));
+  }
+  function unitBaseAttack(unit, card){ return Number(card?.attack ?? unit?._v316SynchroBaseAttack ?? unit?.baseAttack ?? unit?.attack ?? 0); }
+  function unitBaseHp(unit, card){ return Number(card?.hp ?? unit?._v316SynchroBaseMaxHp ?? unit?.baseHp ?? unit?.maxHp ?? unit?.hp ?? 0); }
+  function currentHeroLv(){
+    const game=g();
+    return Math.max(0, Number((typeof getHeroLevel === 'function' ? getHeroLevel() : 0) || game?.player?.heroSkill?.level || game?.player?.heroLevel || 0));
+  }
+  function normalizeSynchroText(card){
+    const raw=String(card?.text || getCardText?.(card) || '');
+    return raw.replace(/同調/g,'シンクロ');
+  }
+  function synchroSegments(card){
+    const text=normalizeSynchroText(card);
+    if(typeof parseLevelledEffectSegments === 'function') return parseLevelledEffectSegments(text, 'シンクロ');
+    const part=(typeof extractAfterKeyword === 'function' ? extractAfterKeyword(text,'シンクロ') : text) || text;
+    const circled=[...part.matchAll(/[①②③]/g)];
+    if(circled.length){
+      return circled.map((m,i)=>part.slice(m.index+m[0].length, i+1<circled.length?circled[i+1].index:part.length).trim()).filter(Boolean);
+    }
+    return [part];
+  }
+  function desiredSynchroV316(card, lv=currentHeroLv()){
+    const segments=synchroSegments(card);
+    const upto=Math.min(Math.max(0, Number(lv||0)), Math.max(segments.length, 1));
+    const out={attack:0, maxHp:0, keywords:Object.create(null), flags:Object.create(null), level:upto, segments:segments.slice(0,upto)};
+    for(let i=0;i<upto;i++){
+      const t=String(segments[i] || '');
+      for(const m of t.matchAll(/攻撃力\s*[+＋](\d+)/g)) out.attack += Number(m[1]||0);
+      for(const m of t.matchAll(/HP\s*[+＋](\d+)/g)) out.maxHp += Number(m[1]||0);
+      if(t.includes('速攻')) out.keywords.haste = true;
+      if(t.includes('貫通')) out.keywords.pierce = true;
+      if(t.includes('におうだち')) out.keywords.taunt = true;
+      if(t.includes('ステルス')) out.keywords.stealth = true;
+      if(t.includes('攻撃できない')) out.keywords.cantAttack = true;
+      if(t.includes('ヒーロースキル') && t.includes('2回まで')) out.flags.heroSkillMaxUses = 2;
+      if(t.includes('ヒーロースキル') && t.includes('コスト') && (t.includes('1下がる') || t.includes('１下がる') || t.includes('コストは1下がる'))) out.flags.heroSkillCostReduction = 1;
+    }
+    return out;
+  }
+  function initSynchroBaseV316(unit, card){
+    if(!unit || !card) return;
+    const expected=desiredSynchroV316(card, currentHeroLv());
+    const printedAtk=unitBaseAttack(unit, card);
+    const printedHp=unitBaseHp(unit, card);
+    const excessiveAtk = Number(unit.attack || 0) - printedAtk;
+    const excessiveHp = Number(unit.maxHp || unit.hp || 0) - printedHp;
+    // If the old cumulative bug has already inflated the unit absurdly, treat printed stats as the base.
+    if(unit._v316SynchroBaseAttack == null){
+      unit._v316SynchroBaseAttack = (excessiveAtk > Math.max(6, expected.attack + 3)) ? printedAtk : Number(unit.attack || printedAtk) - Number(unit._v316SynchroAttackBonus || 0);
+    }
+    if(unit._v316SynchroBaseMaxHp == null){
+      unit._v316SynchroBaseMaxHp = (excessiveHp > Math.max(6, expected.maxHp + 3)) ? printedHp : Number(unit.maxHp || unit.hp || printedHp) - Number(unit._v316SynchroMaxHpBonus || 0);
+    }
+    if(unit._v316SynchroBaseHp == null){
+      const hpNow=Number(unit.hp ?? unit.maxHp ?? printedHp);
+      unit._v316SynchroBaseHp = Math.min(hpNow, Number(unit._v316SynchroBaseMaxHp || printedHp));
+    }
+  }
+  function applySynchroDeterministicV316(card, unit, reason='sync'){
+    if(!unit || !card || !isSynchroCard(card)) return false;
+    initSynchroBaseV316(unit, card);
+    const desired=desiredSynchroV316(card, currentHeroLv());
+    const oldAtkBonus=Number(unit._v316SynchroAttackBonus || 0);
+    const oldHpBonus=Number(unit._v316SynchroMaxHpBonus || 0);
+    const deltaAtk=desired.attack - oldAtkBonus;
+    const deltaHp=desired.maxHp - oldHpBonus;
+    let changed=false;
+    if(deltaAtk){ unit.attack = Number(unit.attack || 0) + deltaAtk; changed=true; }
+    if(deltaHp){
+      unit.maxHp = Number(unit.maxHp || unit.hp || 0) + deltaHp;
+      if(deltaHp > 0) unit.hp = Number(unit.hp || 0) + deltaHp;
+      else unit.hp = Math.min(Number(unit.hp || 0), Number(unit.maxHp || 0));
+      changed=true;
+    }
+    unit._v316SynchroAttackBonus = desired.attack;
+    unit._v316SynchroMaxHpBonus = desired.maxHp;
+    unit._v310SynchroAppliedLevel = Math.max(Number(unit._v310SynchroAppliedLevel || 0), desired.level);
+    unit._v316SynchroAppliedLevel = desired.level;
+    unit._v312SynchroApplied ||= Object.create(null);
+    unit.keywords ||= {};
+    for(const [k,v] of Object.entries(desired.keywords)){
+      if(v && !unit.keywords[k]){ unit.keywords[k]=true; changed=true; }
+    }
+    if(desired.flags.heroSkillMaxUses){ unit.heroSkillMaxUses = Math.max(Number(unit.heroSkillMaxUses || 0), desired.flags.heroSkillMaxUses); }
+    if(desired.flags.heroSkillCostReduction){ unit.heroSkillCostReduction = Math.max(Number(unit.heroSkillCostReduction || 0), desired.flags.heroSkillCostReduction); }
+    // Clamp only obvious cumulative runaway for known synchro-only stats. This prevents screenshots like 18/15 on プチファイター.
+    const printedAtk=unitBaseAttack(unit, card), printedHp=unitBaseHp(unit, card);
+    const allowedAtk = printedAtk + desired.attack + Number(unit._v316ExternalAttackBuff || 0);
+    const allowedMaxHp = printedHp + desired.maxHp + Number(unit._v316ExternalHpBuff || 0);
+    if(Number(unit.attack||0) > allowedAtk + 6){ unit.attack = allowedAtk; changed=true; battleLog(`${card.name}：シンクロ攻撃力の重複分を補正しました。`); }
+    if(Number(unit.maxHp||unit.hp||0) > allowedMaxHp + 6){
+      const diff=Number(unit.maxHp||unit.hp||0) - allowedMaxHp;
+      unit.maxHp = allowedMaxHp;
+      unit.hp = Math.max(1, Math.min(Number(unit.hp||0) - diff, allowedMaxHp));
+      changed=true; battleLog(`${card.name}：シンクロHPの重複分を補正しました。`);
+    }
+    return changed;
+  }
+
+  const oldApplySynchroIfAnyV316 = typeof applySynchroIfAny === 'function' ? applySynchroIfAny : null;
+  if(oldApplySynchroIfAnyV316 && !oldApplySynchroIfAnyV316.__v316Deterministic){
+    applySynchroIfAny = function(card, targetUnit=null, ...rest){
+      if(targetUnit && isSynchroCard(card)){
+        const changed=applySynchroDeterministicV316(card, targetUnit, 'applySynchroIfAny');
+        battleLog(`シンクロ：ヒーローLv.${currentHeroLv()}までの効果を確認しました。`);
+        return changed;
+      }
+      return oldApplySynchroIfAnyV316.call(this, card, targetUnit, ...rest);
+    };
+    applySynchroIfAny.__v316Deterministic=true;
+  }
+  const oldApplyMissingSynchroV316 = typeof applyMissingSynchroV310 === 'function' ? applyMissingSynchroV310 : null;
+  if(oldApplyMissingSynchroV316 && !oldApplyMissingSynchroV316.__v316Deterministic){
+    applyMissingSynchroV310 = function(unit, reason='heroLvChange'){
+      const card=cardOfUnit(unit);
+      if(unit && isSynchroCard(card)) return applySynchroDeterministicV316(card, unit, reason);
+      return oldApplyMissingSynchroV316.call(this, unit, reason);
+    };
+    applyMissingSynchroV310.__v316Deterministic=true;
+  }
+  const oldApplySynchroEffectTextV316 = typeof applySynchroEffectText === 'function' ? applySynchroEffectText : null;
+  if(oldApplySynchroEffectTextV316 && !oldApplySynchroEffectTextV316.__v316NoCumulative){
+    applySynchroEffectText = function(effectText, targetUnit=null, source='シンクロ', times=1, ...rest){
+      const card=findCardByName(String(source || ''));
+      if(targetUnit && isSynchroCard(card)) return applySynchroDeterministicV316(card, targetUnit, 'applySynchroEffectText');
+      return oldApplySynchroEffectTextV316.call(this, effectText, targetUnit, source, times, ...rest);
+    };
+    applySynchroEffectText.__v316NoCumulative=true;
+  }
+  function normalizeAllSynchroBoardV316(reason='manual'){
+    const game=g(); if(!game) return 0;
+    let n=0;
+    for(const side of ['player','enemy']){
+      for(const u of boardOf(side)){
+        const c=cardOfUnit(u);
+        if(u && isSynchroCard(c) && applySynchroDeterministicV316(c,u,reason)) n++;
+      }
+    }
+    return n;
+  }
+
+  function simulatePuchiMetalEndGetV316(){
+    const T=window.__DQR_TEST__ || {}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g(); if(!game) return {ok:false, reason:'no-game'};
+    game.player.hand=[]; game._v316PuchiMetalGetOnce=Object.create(null);
+    game.player.board=Array(6).fill(null);
+    const card=findCardByName('ぷちメタル');
+    const unit=makeUnitFromCard(card); game.player.board[0]=unit;
+    const before=(game.player.hand||[]).length;
+    v166ApplyEndTurn('player');
+    const after1=(game.player.hand||[]).map(id=>byId(id)?.name || id);
+    v166ApplyEndTurn('player');
+    const after2=(game.player.hand||[]).map(id=>byId(id)?.name || id);
+    return {ok:after1.filter(x=>x==='コイン').length===1 && after2.filter(x=>x==='コイン').length===1, before, after1, after2, unitFlags:{v316:!!unit._v316PuchiMetalEndGetDone, old:!!unit._puchiMetalEndGetDone}};
+  }
+  function simulatePetitFighterSynchroV316(iterations=20, heroLv=3){
+    const T=window.__DQR_TEST__ || {}; if(T.setupPvpTest) T.setupPvpTest('P1', true);
+    const game=g(); if(!game) return {ok:false, reason:'no-game'};
+    game.player.heroSkill ||= {}; game.player.heroSkill.level=heroLv; game.player.heroLevel=heroLv;
+    const card=findCardByName('プチファイター'); const unit=makeUnitFromCard(card);
+    game.player.board=Array(6).fill(null); game.player.board[0]=unit;
+    for(let i=0;i<Number(iterations||1);i++){
+      applySynchroIfAny(card, unit);
+      applyMissingSynchroV310(unit, 'test');
+      normalizeAllSynchroBoardV316('test-loop');
+    }
+    return {ok:Number(unit.attack)===2 && Number(unit.maxHp)===2 && !!unit.keywords?.haste, attack:unit.attack, hp:unit.hp, maxHp:unit.maxHp, keywords:unit.keywords, bonuses:{attack:unit._v316SynchroAttackBonus, hp:unit._v316SynchroMaxHpBonus, level:unit._v316SynchroAppliedLevel}};
+  }
+
+  if(window.__DQR_TEST__){
+    window.__DQR_TEST__.v316={version:V316, grantPuchiGetOnceV316, simulatePuchiMetalEndGetV316, applySynchroDeterministicV316, normalizeAllSynchroBoardV316, simulatePetitFighterSynchroV316};
   }
 })();
